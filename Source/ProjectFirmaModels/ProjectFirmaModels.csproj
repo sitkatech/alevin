@@ -506,6 +506,14 @@
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\WorkBreakdownStructure.Binding.cs" />
+    <Compile Include="Models\Generated\WorkBreakdownStructure.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\WorkBreakdownStructureConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\WorkBreakdownStructurePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\WorkOrder.Binding.cs" />
+    <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
     <Compile Include="MergeListHelper.cs" />
     <Compile Include="Models\FieldDefinition.cs" />
     <Compile Include="Models\FundingType.cs" />

@@ -142,6 +142,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestUpdateConfiguration());
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
+            modelBuilder.Configurations.Add(new WorkBreakdownStructureConfiguration());
+            modelBuilder.Configurations.Add(new WorkOrderConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
         }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
@@ -344,6 +346,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<WorkBreakdownStructure> WorkBreakdownStructures { get; set; }
+        public virtual DbSet<WorkOrder> WorkOrders { get; set; }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
 
         public object LoadType(Type type, int primaryKey)
@@ -810,6 +814,12 @@ namespace ProjectFirmaModels.Models
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);
+
+                case "WorkBreakdownStructure":
+                    return WorkBreakdownStructures.GetWorkBreakdownStructure(primaryKey);
+
+                case "WorkOrder":
+                    return WorkOrders.GetWorkOrder(primaryKey);
                 default:
                     throw new NotImplementedException(string.Format("No loader for type \"{0}\"", type.FullName));
             }
