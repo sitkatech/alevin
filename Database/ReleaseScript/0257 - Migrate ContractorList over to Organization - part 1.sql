@@ -81,3 +81,6 @@ from Person as p
 inner join dbo.Organization as o on o.OrganizationID = p.OrganizationID
 where o.ReclamationContractorID is not null
 
+-- Assuming we are done here, drop original temp table
+drop table dbo.ContractorList
+GO

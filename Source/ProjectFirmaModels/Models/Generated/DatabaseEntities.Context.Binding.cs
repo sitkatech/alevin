@@ -47,7 +47,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new ClassificationSystemConfiguration());
-            modelBuilder.Configurations.Add(new ContractorListConfiguration());
             modelBuilder.Configurations.Add(new CostParameterSetConfiguration());
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
@@ -159,7 +158,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<Classification> Classifications { get { return AllClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ClassificationSystem> AllClassificationSystems { get; set; }
         public virtual IQueryable<ClassificationSystem> ClassificationSystems { get { return AllClassificationSystems.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ContractorList> ContractorLists { get; set; }
         public virtual DbSet<CostParameterSet> AllCostParameterSets { get; set; }
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
@@ -382,9 +380,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ClassificationSystem":
                     return ClassificationSystems.GetClassificationSystem(primaryKey);
-
-                case "ContractorList":
-                    return ContractorLists.GetContractorList(primaryKey);
 
                 case "CostParameterSet":
                     return CostParameterSets.GetCostParameterSet(primaryKey);
