@@ -35,7 +35,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID, int organizationTypeID, DbGeometry organizationBoundary) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceID, int organizationTypeID, DbGeometry organizationBoundary, string vendorNumber, int? reclamationContractorID, string organizationAddress1, string organizationAddress2, string organizationCity, string organizationState, string organizationZip) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -47,6 +47,13 @@ namespace ProjectFirmaModels.Models
             this.LogoFileResourceID = logoFileResourceID;
             this.OrganizationTypeID = organizationTypeID;
             this.OrganizationBoundary = organizationBoundary;
+            this.VendorNumber = vendorNumber;
+            this.ReclamationContractorID = reclamationContractorID;
+            this.OrganizationAddress1 = organizationAddress1;
+            this.OrganizationAddress2 = organizationAddress2;
+            this.OrganizationCity = organizationCity;
+            this.OrganizationState = organizationState;
+            this.OrganizationZip = organizationZip;
         }
 
         /// <summary>
@@ -164,6 +171,13 @@ namespace ProjectFirmaModels.Models
         public int? LogoFileResourceID { get; set; }
         public int OrganizationTypeID { get; set; }
         public DbGeometry OrganizationBoundary { get; set; }
+        public string VendorNumber { get; set; }
+        public int? ReclamationContractorID { get; set; }
+        public string OrganizationAddress1 { get; set; }
+        public string OrganizationAddress2 { get; set; }
+        public string OrganizationCity { get; set; }
+        public string OrganizationState { get; set; }
+        public string OrganizationZip { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
@@ -183,6 +197,12 @@ namespace ProjectFirmaModels.Models
             public const int OrganizationName = 200;
             public const int OrganizationShortName = 50;
             public const int OrganizationUrl = 200;
+            public const int VendorNumber = 12;
+            public const int OrganizationAddress1 = 500;
+            public const int OrganizationAddress2 = 500;
+            public const int OrganizationCity = 500;
+            public const int OrganizationState = 20;
+            public const int OrganizationZip = 20;
         }
     }
 }

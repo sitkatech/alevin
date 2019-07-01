@@ -14,6 +14,13 @@ CREATE TABLE [dbo].[Organization](
 	[LogoFileResourceID] [int] NULL,
 	[OrganizationTypeID] [int] NOT NULL,
 	[OrganizationBoundary] [geometry] NULL,
+	[VendorNumber] [varchar](12) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ReclamationContractorID] [int] NULL,
+	[OrganizationAddress1] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OrganizationAddress2] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OrganizationCity] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OrganizationState] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OrganizationZip] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
