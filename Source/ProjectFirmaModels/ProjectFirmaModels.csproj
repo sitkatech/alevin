@@ -75,6 +75,10 @@
     <Compile Include="Models\Generated\ContractTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthority.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthority.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CostAuthorityAgreement.Binding.cs" />
+    <Compile Include="Models\Generated\CostAuthorityAgreement.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CostAuthorityAgreementConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CostAuthorityAgreementPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthorityConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthorityPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostParameterSet.Binding.cs" />
