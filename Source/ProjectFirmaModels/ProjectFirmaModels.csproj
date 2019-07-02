@@ -154,6 +154,10 @@
     <Compile Include="Models\Generated\GeospatialAreaTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\GoogleChartType.Binding.cs" />
     <Compile Include="Models\Generated\GoogleChartTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\HabitatCategory.Binding.cs" />
+    <Compile Include="Models\Generated\HabitatCategory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\HabitatCategoryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\HabitatCategoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStaging.Binding.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStaging.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStagingConfiguration.Binding.cs" />

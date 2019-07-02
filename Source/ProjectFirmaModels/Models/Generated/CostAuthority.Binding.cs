@@ -30,15 +30,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthority, string accountStructureDescription, string basinNumber, string subbasin, string hCategory, string costCenter, string agencyProjectType, string projectNumber, string jobNumber, string authority, string wBSStatus, double? hCategoryLU, string wBSNoDot) : this()
+        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string basinNumber, string subbasin, string costCenter, string agencyProjectType, string projectNumber, string jobNumber, string authority, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID) : this()
         {
             this.CostAuthorityID = costAuthorityID;
             this.CostAuthorityWorkBreakdownStructure = costAuthorityWorkBreakdownStructure;
-            this.CostAuthority = costAuthority;
+            this.CostAuthorityNumber = costAuthorityNumber;
             this.AccountStructureDescription = accountStructureDescription;
             this.BasinNumber = basinNumber;
             this.Subbasin = subbasin;
-            this.HCategory = hCategory;
             this.CostCenter = costCenter;
             this.AgencyProjectType = agencyProjectType;
             this.ProjectNumber = projectNumber;
@@ -47,6 +46,7 @@ namespace ProjectFirmaModels.Models
             this.WBSStatus = wBSStatus;
             this.HCategoryLU = hCategoryLU;
             this.WBSNoDot = wBSNoDot;
+            this.HabitatCategoryID = habitatCategoryID;
         }
 
 
@@ -94,11 +94,10 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int CostAuthorityID { get; set; }
         public string CostAuthorityWorkBreakdownStructure { get; set; }
-        public string CostAuthority { get; set; }
+        public string CostAuthorityNumber { get; set; }
         public string AccountStructureDescription { get; set; }
         public string BasinNumber { get; set; }
         public string Subbasin { get; set; }
-        public string HCategory { get; set; }
         public string CostCenter { get; set; }
         public string AgencyProjectType { get; set; }
         public string ProjectNumber { get; set; }
@@ -107,19 +106,19 @@ namespace ProjectFirmaModels.Models
         public string WBSStatus { get; set; }
         public double? HCategoryLU { get; set; }
         public string WBSNoDot { get; set; }
+        public int? HabitatCategoryID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityID; } set { CostAuthorityID = value; } }
 
-
+        public virtual HabitatCategory HabitatCategory { get; set; }
 
         public static class FieldLengths
         {
             public const int CostAuthorityWorkBreakdownStructure = 255;
-            public const int CostAuthority = 255;
+            public const int CostAuthorityNumber = 255;
             public const int AccountStructureDescription = 255;
             public const int BasinNumber = 255;
             public const int Subbasin = 255;
-            public const int HCategory = 255;
             public const int CostCenter = 255;
             public const int AgencyProjectType = 255;
             public const int ProjectNumber = 255;

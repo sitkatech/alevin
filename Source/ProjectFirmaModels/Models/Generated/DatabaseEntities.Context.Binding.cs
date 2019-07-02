@@ -67,6 +67,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FundingTypeDataConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
+            modelBuilder.Configurations.Add(new HabitatCategoryConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
@@ -198,6 +199,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<HabitatCategory> HabitatCategories { get; set; }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
@@ -472,6 +474,9 @@ namespace ProjectFirmaModels.Models
                     var googleChartType = GoogleChartType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(googleChartType, "GoogleChartType", primaryKey);
                     return googleChartType;
+
+                case "HabitatCategory":
+                    return HabitatCategories.GetHabitatCategory(primaryKey);
 
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
