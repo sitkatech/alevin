@@ -19,8 +19,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CostAuthorityWorkBreakdownStructure).HasColumnName(@"CostAuthorityWorkBreakdownStructure").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.CostAuthorityNumber).HasColumnName(@"CostAuthorityNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.AccountStructureDescription).HasColumnName(@"AccountStructureDescription").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            Property(x => x.BasinNumber).HasColumnName(@"BasinNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            Property(x => x.Subbasin).HasColumnName(@"Subbasin").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.CostCenter).HasColumnName(@"CostCenter").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.AgencyProjectType).HasColumnName(@"AgencyProjectType").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.ProjectNumber).HasColumnName(@"ProjectNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
@@ -30,9 +28,13 @@ namespace ProjectFirmaModels.Models
             Property(x => x.HCategoryLU).HasColumnName(@"HCategoryLU").HasColumnType("float").IsOptional();
             Property(x => x.WBSNoDot).HasColumnName(@"WBSNoDot").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.HabitatCategoryID).HasColumnName(@"HabitatCategoryID").HasColumnType("int").IsOptional();
+            Property(x => x.BasinID).HasColumnName(@"BasinID").HasColumnType("int").IsOptional();
+            Property(x => x.SubbasinID).HasColumnName(@"SubbasinID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.HabitatCategory).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.HabitatCategoryID).WillCascadeOnDelete(false); // FK_CostAuthority_HabitatCategory_HabitatCategoryID
+            HasOptional(a => a.Basin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.BasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Basin_BasinID
+            HasOptional(a => a.Subbasin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.SubbasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Subbasin_SubbasinID
         }
     }
 }

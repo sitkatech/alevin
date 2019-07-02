@@ -45,6 +45,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AssessmentQuestionConfiguration());
             modelBuilder.Configurations.Add(new AssessmentSubGoalConfiguration());
             modelBuilder.Configurations.Add(new AuditLogConfiguration());
+            modelBuilder.Configurations.Add(new BasinConfiguration());
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new ClassificationSystemConfiguration());
@@ -137,6 +138,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
+            modelBuilder.Configurations.Add(new SubbasinConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
             modelBuilder.Configurations.Add(new TaxonomyBranchConfiguration());
@@ -161,6 +163,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<AssessmentSubGoal> AssessmentSubGoals { get { return AllAssessmentSubGoals.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AuditLog> AllAuditLogs { get; set; }
         public virtual IQueryable<AuditLog> AuditLogs { get { return AllAuditLogs.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Basin> Basins { get; set; }
         public virtual DbSet<ClassificationPerformanceMeasure> AllClassificationPerformanceMeasures { get; set; }
         public virtual IQueryable<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get { return AllClassificationPerformanceMeasures.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Classification> AllClassifications { get; set; }
@@ -336,6 +339,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Subbasin> Subbasins { get; set; }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
         public virtual IQueryable<SupportRequestLog> SupportRequestLogs { get { return AllSupportRequestLogs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Tag> AllTags { get; set; }
@@ -390,6 +394,9 @@ namespace ProjectFirmaModels.Models
 
                 case "AuditLog":
                     return AuditLogs.GetAuditLog(primaryKey);
+
+                case "Basin":
+                    return Basins.GetBasin(primaryKey);
 
                 case "ClassificationPerformanceMeasure":
                     return ClassificationPerformanceMeasures.GetClassificationPerformanceMeasure(primaryKey);
@@ -791,6 +798,9 @@ namespace ProjectFirmaModels.Models
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);
+
+                case "Subbasin":
+                    return Subbasins.GetSubbasin(primaryKey);
 
                 case "SupportRequestLog":
                     return SupportRequestLogs.GetSupportRequestLog(primaryKey);
