@@ -72,3 +72,8 @@ select * from dbo.CostAuthorityAgreement where AgreementID is null
 select * from dbo.Agreement where AgreementNumber like '%R14PD00437%'
 */
 
+--select * from CostAuthority
+--where Subbasin is not null
+
+--select * from CostAuthority
+--where BasinNumber is not null

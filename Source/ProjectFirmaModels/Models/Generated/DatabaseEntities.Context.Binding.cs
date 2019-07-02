@@ -77,6 +77,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new OrganizationBoundaryStagingConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeRelationshipTypeConfiguration());
+            modelBuilder.Configurations.Add(new PacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureActualConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureActualSubcategoryOptionConfiguration());
@@ -219,6 +220,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get { return AllOrganizationTypeRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationType> AllOrganizationTypes { get; set; }
         public virtual IQueryable<OrganizationType> OrganizationTypes { get { return AllOrganizationTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PacificNorthActivityList> PacificNorthActivityLists { get; set; }
         public virtual DbSet<Person> AllPeople { get; set; }
         public virtual IQueryable<Person> People { get { return AllPeople.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureActual> AllPerformanceMeasureActuals { get; set; }
@@ -520,6 +522,9 @@ namespace ProjectFirmaModels.Models
 
                 case "OrganizationType":
                     return OrganizationTypes.GetOrganizationType(primaryKey);
+
+                case "PacificNorthActivityList":
+                    return PacificNorthActivityLists.GetPacificNorthActivityList(primaryKey);
 
                 case "Person":
                     return People.GetPerson(primaryKey);
