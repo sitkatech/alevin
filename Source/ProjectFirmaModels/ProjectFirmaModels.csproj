@@ -69,6 +69,10 @@
     <Compile Include="Models\Generated\ClassificationSystem.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ClassificationSystemConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ClassificationSystemPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ContractType.Binding.cs" />
+    <Compile Include="Models\Generated\ContractType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ContractTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ContractTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostParameterSet.Binding.cs" />
     <Compile Include="Models\Generated\CostParameterSet.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CostParameterSetConfiguration.Binding.cs" />

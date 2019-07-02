@@ -30,13 +30,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Agreement(int agreementID, int? reclamationAgreementID, string agreementNumber, double? contractorLU, string contractType, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID) : this()
+        public Agreement(int agreementID, int? reclamationAgreementID, string agreementNumber, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
         {
             this.AgreementID = agreementID;
             this.ReclamationAgreementID = reclamationAgreementID;
             this.AgreementNumber = agreementNumber;
-            this.ContractorLU = contractorLU;
-            this.ContractType = contractType;
             this.IsContingent = isContingent;
             this.IsIncrementalFunding = isIncrementalFunding;
             this.OldAgreementNumber = oldAgreementNumber;
@@ -47,27 +45,42 @@ namespace ProjectFirmaModels.Models
             this.ExpirationDate = expirationDate;
             this.FinancialReporting = financialReporting;
             this.OrganizationID = organizationID;
+            this.ContractTypeID = contractTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Agreement(bool isContingent, bool isIncrementalFunding) : this()
+        public Agreement(bool isContingent, bool isIncrementalFunding, int contractTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.AgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.IsContingent = isContingent;
             this.IsIncrementalFunding = isIncrementalFunding;
+            this.ContractTypeID = contractTypeID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public Agreement(bool isContingent, bool isIncrementalFunding, ContractType contractType) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.AgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.IsContingent = isContingent;
+            this.IsIncrementalFunding = isIncrementalFunding;
+            this.ContractTypeID = contractType.ContractTypeID;
+            this.ContractType = contractType;
+            contractType.Agreements.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Agreement CreateNewBlank()
+        public static Agreement CreateNewBlank(ContractType contractType)
         {
-            return new Agreement(default(bool), default(bool));
+            return new Agreement(default(bool), default(bool), contractType);
         }
 
         /// <summary>
@@ -106,8 +119,6 @@ namespace ProjectFirmaModels.Models
         public int AgreementID { get; set; }
         public int? ReclamationAgreementID { get; set; }
         public string AgreementNumber { get; set; }
-        public double? ContractorLU { get; set; }
-        public string ContractType { get; set; }
         public bool IsContingent { get; set; }
         public bool IsIncrementalFunding { get; set; }
         public string OldAgreementNumber { get; set; }
@@ -118,15 +129,16 @@ namespace ProjectFirmaModels.Models
         public string ExpirationDate { get; set; }
         public string FinancialReporting { get; set; }
         public int? OrganizationID { get; set; }
+        public int ContractTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return AgreementID; } set { AgreementID = value; } }
 
         public virtual Organization Organization { get; set; }
+        public virtual ContractType ContractType { get; set; }
 
         public static class FieldLengths
         {
             public const int AgreementNumber = 255;
-            public const int ContractType = 255;
             public const int OldAgreementNumber = 255;
             public const int COR = 255;
             public const int BOC = 255;
