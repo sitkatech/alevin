@@ -25,3 +25,31 @@ GO
 
 alter table PacificNorthActivityList
 drop column PacificNorthActivityType
+
+
+
+create table dbo.PacificNorthActivityStatus (
+	PacificNorthActivityStatusID int identity(1,1) not null constraint PK_PacificNorthActivityStatus_PacificNorthActivityStatusID primary key,
+	PacificNorthActivityStatusName varchar(100)
+)
+
+
+alter table dbo.PacificNorthActivityList
+add PacificNorthActivityStatusID int null constraint FK_PacificNorthActivityList_PacificNorthActivityStatus_PacificNorthActivityStatusID foreign key references dbo.PacificNorthActivityStatus(PacificNorthActivityStatusID)
+go
+
+insert into PacificNorthActivityStatus(PacificNorthActivityStatusName)
+select distinct pnal.PacificNorthActivityStatus
+from dbo.PacificNorthActivityList as pnal
+where pnal.PacificNorthActivityStatus is not null
+
+
+update PacificNorthActivityList
+set PacificNorthActivityStatusID = pnat.PacificNorthActivityStatusID
+from PacificNorthActivityList
+inner join dbo.PacificNorthActivityStatus as pnat on pnat.PacificNorthActivityStatusName = PacificNorthActivityList.PacificNorthActivityStatus
+GO
+
+
+alter table PacificNorthActivityList
+drop column PacificNorthActivityStatus

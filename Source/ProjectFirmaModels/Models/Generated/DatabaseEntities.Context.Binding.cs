@@ -78,6 +78,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new OrganizationTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityListConfiguration());
+            modelBuilder.Configurations.Add(new PacificNorthActivityStatusConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityTypeConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureActualConfiguration());
@@ -222,6 +223,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<OrganizationType> AllOrganizationTypes { get; set; }
         public virtual IQueryable<OrganizationType> OrganizationTypes { get { return AllOrganizationTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PacificNorthActivityList> PacificNorthActivityLists { get; set; }
+        public virtual DbSet<PacificNorthActivityStatus> PacificNorthActivityStatuses { get; set; }
         public virtual DbSet<PacificNorthActivityType> PacificNorthActivityTypes { get; set; }
         public virtual DbSet<Person> AllPeople { get; set; }
         public virtual IQueryable<Person> People { get { return AllPeople.Where(x => x.TenantID == TenantID); } }
@@ -527,6 +529,9 @@ namespace ProjectFirmaModels.Models
 
                 case "PacificNorthActivityList":
                     return PacificNorthActivityLists.GetPacificNorthActivityList(primaryKey);
+
+                case "PacificNorthActivityStatus":
+                    return PacificNorthActivityStatuses.GetPacificNorthActivityStatus(primaryKey);
 
                 case "PacificNorthActivityType":
                     return PacificNorthActivityTypes.GetPacificNorthActivityType(primaryKey);

@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[PacificNorthActivityList]
+//  Source Table: [dbo].[PacificNorthActivityStatus]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,29 +15,25 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[PacificNorthActivityList] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[PacificNorthActivityList]")]
-    public partial class PacificNorthActivityList : IHavePrimaryKey, ICanDeleteFull
+    // Table [dbo].[PacificNorthActivityStatus] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[dbo].[PacificNorthActivityStatus]")]
+    public partial class PacificNorthActivityStatus : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected PacificNorthActivityList()
+        protected PacificNorthActivityStatus()
         {
-
+            this.PacificNorthActivityLists = new HashSet<PacificNorthActivityList>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PacificNorthActivityList(int pacificNorthActivityListID, int? activityID, string pacificNorthActivityName, int? sortOrder, int? pacificNorthActivityTypeID, int? pacificNorthActivityStatusID) : this()
+        public PacificNorthActivityStatus(int pacificNorthActivityStatusID, string pacificNorthActivityStatusName) : this()
         {
-            this.PacificNorthActivityListID = pacificNorthActivityListID;
-            this.ActivityID = activityID;
-            this.PacificNorthActivityName = pacificNorthActivityName;
-            this.SortOrder = sortOrder;
-            this.PacificNorthActivityTypeID = pacificNorthActivityTypeID;
             this.PacificNorthActivityStatusID = pacificNorthActivityStatusID;
+            this.PacificNorthActivityStatusName = pacificNorthActivityStatusName;
         }
 
 
@@ -45,9 +41,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static PacificNorthActivityList CreateNewBlank()
+        public static PacificNorthActivityStatus CreateNewBlank()
         {
-            return new PacificNorthActivityList();
+            return new PacificNorthActivityStatus();
         }
 
         /// <summary>
@@ -56,13 +52,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return PacificNorthActivityLists.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PacificNorthActivityList).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PacificNorthActivityStatus).Name, typeof(PacificNorthActivityList).Name};
 
 
         /// <summary>
@@ -70,7 +66,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.PacificNorthActivityLists.Remove(this);
+            dbContext.PacificNorthActivityStatuses.Remove(this);
         }
         
         /// <summary>
@@ -78,26 +74,32 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in PacificNorthActivityLists.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
-        public int PacificNorthActivityListID { get; set; }
-        public int? ActivityID { get; set; }
-        public string PacificNorthActivityName { get; set; }
-        public int? SortOrder { get; set; }
-        public int? PacificNorthActivityTypeID { get; set; }
-        public int? PacificNorthActivityStatusID { get; set; }
+        public int PacificNorthActivityStatusID { get; set; }
+        public string PacificNorthActivityStatusName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return PacificNorthActivityListID; } set { PacificNorthActivityListID = value; } }
+        public int PrimaryKey { get { return PacificNorthActivityStatusID; } set { PacificNorthActivityStatusID = value; } }
 
-        public virtual PacificNorthActivityType PacificNorthActivityType { get; set; }
-        public virtual PacificNorthActivityStatus PacificNorthActivityStatus { get; set; }
+        public virtual ICollection<PacificNorthActivityList> PacificNorthActivityLists { get; set; }
 
         public static class FieldLengths
         {
-            public const int PacificNorthActivityName = 255;
+            public const int PacificNorthActivityStatusName = 100;
         }
     }
 }

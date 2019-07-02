@@ -1,0 +1,25 @@
+//  IMPORTANT:
+//  This file is generated. Your changes will be lost.
+//  Use the corresponding partial class for customizations.
+//  Source Table: [dbo].[PacificNorthActivityStatus]
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity.ModelConfiguration;
+
+namespace ProjectFirmaModels.Models
+{
+    public class PacificNorthActivityStatusConfiguration : EntityTypeConfiguration<PacificNorthActivityStatus>
+    {
+        public PacificNorthActivityStatusConfiguration() : this("dbo"){}
+
+        public PacificNorthActivityStatusConfiguration(string schema)
+        {
+            ToTable("PacificNorthActivityStatus", schema);
+            HasKey(x => x.PacificNorthActivityStatusID);
+            Property(x => x.PacificNorthActivityStatusID).HasColumnName(@"PacificNorthActivityStatusID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.PacificNorthActivityStatusName).HasColumnName(@"PacificNorthActivityStatusName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
+
+            // Foreign keys
+
+        }
+    }
+}
