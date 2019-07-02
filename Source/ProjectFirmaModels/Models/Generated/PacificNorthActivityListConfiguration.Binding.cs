@@ -18,10 +18,12 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PacificNorthActivityListID).HasColumnName(@"PacificNorthActivityListID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.ActivityID).HasColumnName(@"ActivityID").HasColumnType("int").IsOptional();
             Property(x => x.PacificNorthActivityName).HasColumnName(@"PacificNorthActivityName").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            Property(x => x.PacificNorthActivityType).HasColumnName(@"PacificNorthActivityType").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.PacificNorthActivityStatus).HasColumnName(@"PacificNorthActivityStatus").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.SortOrder).HasColumnName(@"SortOrder").HasColumnType("int").IsOptional();
+            Property(x => x.PacificNorthActivityTypeID).HasColumnName(@"PacificNorthActivityTypeID").HasColumnType("int").IsOptional();
 
+            // Foreign keys
+            HasOptional(a => a.PacificNorthActivityType).WithMany(b => b.PacificNorthActivityLists).HasForeignKey(c => c.PacificNorthActivityTypeID).WillCascadeOnDelete(false); // FK_PacificNorthActivityList_PacificNorthActivityType_PacificNorthActivityTypeID
         }
     }
 }

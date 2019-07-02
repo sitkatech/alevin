@@ -202,6 +202,10 @@
     <Compile Include="Models\Generated\PacificNorthActivityList.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PacificNorthActivityListConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\PacificNorthActivityListPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\PacificNorthActivityType.Binding.cs" />
+    <Compile Include="Models\Generated\PacificNorthActivityType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\PacificNorthActivityTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\PacificNorthActivityTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.Binding.cs" />
     <Compile Include="Models\Generated\PerformanceMeasure.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\PerformanceMeasureActual.Binding.cs" />
