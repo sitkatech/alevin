@@ -30,15 +30,17 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthorityAgreement(int costAuthorityAgreementID, int? reclamationCostAuthorityAgreementID, string costAuthorityWorkBreakdownStructure, string costAuthority, string agreementNumber, int? pacificNorthActivityNumber, string pacificNorthActivityName) : this()
+        public CostAuthorityAgreement(int costAuthorityAgreementID, int? reclamationCostAuthorityAgreementID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string agreementNumber, int? pacificNorthActivityNumber, string pacificNorthActivityName, int? agreementID, int? costAuthorityID) : this()
         {
             this.CostAuthorityAgreementID = costAuthorityAgreementID;
             this.ReclamationCostAuthorityAgreementID = reclamationCostAuthorityAgreementID;
             this.CostAuthorityWorkBreakdownStructure = costAuthorityWorkBreakdownStructure;
-            this.CostAuthority = costAuthority;
+            this.CostAuthorityNumber = costAuthorityNumber;
             this.AgreementNumber = agreementNumber;
             this.PacificNorthActivityNumber = pacificNorthActivityNumber;
             this.PacificNorthActivityName = pacificNorthActivityName;
+            this.AgreementID = agreementID;
+            this.CostAuthorityID = costAuthorityID;
         }
 
 
@@ -87,19 +89,22 @@ namespace ProjectFirmaModels.Models
         public int CostAuthorityAgreementID { get; set; }
         public int? ReclamationCostAuthorityAgreementID { get; set; }
         public string CostAuthorityWorkBreakdownStructure { get; set; }
-        public string CostAuthority { get; set; }
+        public string CostAuthorityNumber { get; set; }
         public string AgreementNumber { get; set; }
         public int? PacificNorthActivityNumber { get; set; }
         public string PacificNorthActivityName { get; set; }
+        public int? AgreementID { get; set; }
+        public int? CostAuthorityID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityAgreementID; } set { CostAuthorityAgreementID = value; } }
 
-
+        public virtual Agreement Agreement { get; set; }
+        public virtual CostAuthority CostAuthority { get; set; }
 
         public static class FieldLengths
         {
             public const int CostAuthorityWorkBreakdownStructure = 255;
-            public const int CostAuthority = 255;
+            public const int CostAuthorityNumber = 255;
             public const int AgreementNumber = 255;
             public const int PacificNorthActivityName = 255;
         }

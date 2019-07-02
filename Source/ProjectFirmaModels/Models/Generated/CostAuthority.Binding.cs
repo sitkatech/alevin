@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected CostAuthority()
         {
-
+            this.CostAuthorityAgreements = new HashSet<CostAuthorityAgreement>();
         }
 
         /// <summary>
@@ -65,13 +65,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return CostAuthorityAgreements.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthority).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthority).Name, typeof(CostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -87,8 +87,19 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in CostAuthorityAgreements.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -110,6 +121,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityID; } set { CostAuthorityID = value; } }
 
+        public virtual ICollection<CostAuthorityAgreement> CostAuthorityAgreements { get; set; }
         public virtual HabitatCategory HabitatCategory { get; set; }
 
         public static class FieldLengths

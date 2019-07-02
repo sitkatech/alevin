@@ -18,11 +18,16 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CostAuthorityAgreementID).HasColumnName(@"CostAuthorityAgreementID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.ReclamationCostAuthorityAgreementID).HasColumnName(@"ReclamationCostAuthorityAgreementID").HasColumnType("int").IsOptional();
             Property(x => x.CostAuthorityWorkBreakdownStructure).HasColumnName(@"CostAuthorityWorkBreakdownStructure").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            Property(x => x.CostAuthority).HasColumnName(@"CostAuthority").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.CostAuthorityNumber).HasColumnName(@"CostAuthorityNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.AgreementNumber).HasColumnName(@"AgreementNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.PacificNorthActivityNumber).HasColumnName(@"PacificNorthActivityNumber").HasColumnType("int").IsOptional();
             Property(x => x.PacificNorthActivityName).HasColumnName(@"PacificNorthActivityName").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.AgreementID).HasColumnName(@"AgreementID").HasColumnType("int").IsOptional();
+            Property(x => x.CostAuthorityID).HasColumnName(@"CostAuthorityID").HasColumnType("int").IsOptional();
 
+            // Foreign keys
+            HasOptional(a => a.Agreement).WithMany(b => b.CostAuthorityAgreements).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_CostAuthorityAgreement_Agreement_AgreementID
+            HasOptional(a => a.CostAuthority).WithMany(b => b.CostAuthorityAgreements).HasForeignKey(c => c.CostAuthorityID).WillCascadeOnDelete(false); // FK_CostAuthorityAgreement_CostAuthority_CostAuthorityID
         }
     }
 }
