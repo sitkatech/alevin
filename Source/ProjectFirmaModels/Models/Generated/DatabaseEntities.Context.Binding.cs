@@ -52,6 +52,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ContractTypeConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityAgreementConfiguration());
+            modelBuilder.Configurations.Add(new CostAuthorityWorkBreakdownStructurePacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new CostParameterSetConfiguration());
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
@@ -178,6 +179,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ContractType> ContractTypes { get; set; }
         public virtual DbSet<CostAuthority> CostAuthorities { get; set; }
         public virtual DbSet<CostAuthorityAgreement> CostAuthorityAgreements { get; set; }
+        public virtual DbSet<CostAuthorityWorkBreakdownStructurePacificNorthActivityList> CostAuthorityWorkBreakdownStructurePacificNorthActivityLists { get; set; }
         public virtual DbSet<CostParameterSet> AllCostParameterSets { get; set; }
         public virtual IQueryable<CostParameterSet> CostParameterSets { get { return AllCostParameterSets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
@@ -425,6 +427,9 @@ namespace ProjectFirmaModels.Models
 
                 case "CostAuthorityAgreement":
                     return CostAuthorityAgreements.GetCostAuthorityAgreement(primaryKey);
+
+                case "CostAuthorityWorkBreakdownStructurePacificNorthActivityList":
+                    return CostAuthorityWorkBreakdownStructurePacificNorthActivityLists.GetCostAuthorityWorkBreakdownStructurePacificNorthActivityList(primaryKey);
 
                 case "CostParameterSet":
                     return CostParameterSets.GetCostParameterSet(primaryKey);

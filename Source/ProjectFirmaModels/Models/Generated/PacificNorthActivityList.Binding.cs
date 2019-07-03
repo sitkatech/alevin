@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected PacificNorthActivityList()
         {
-
+            this.CostAuthorityWorkBreakdownStructurePacificNorthActivityLists = new HashSet<CostAuthorityWorkBreakdownStructurePacificNorthActivityList>();
         }
 
         /// <summary>
@@ -56,13 +56,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return CostAuthorityWorkBreakdownStructurePacificNorthActivityLists.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PacificNorthActivityList).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PacificNorthActivityList).Name, typeof(CostAuthorityWorkBreakdownStructurePacificNorthActivityList).Name};
 
 
         /// <summary>
@@ -78,8 +78,19 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in CostAuthorityWorkBreakdownStructurePacificNorthActivityLists.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -92,6 +103,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return PacificNorthActivityListID; } set { PacificNorthActivityListID = value; } }
 
+        public virtual ICollection<CostAuthorityWorkBreakdownStructurePacificNorthActivityList> CostAuthorityWorkBreakdownStructurePacificNorthActivityLists { get; set; }
         public virtual PacificNorthActivityType PacificNorthActivityType { get; set; }
         public virtual PacificNorthActivityStatus PacificNorthActivityStatus { get; set; }
 
