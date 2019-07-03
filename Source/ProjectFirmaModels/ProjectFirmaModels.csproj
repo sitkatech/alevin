@@ -104,6 +104,10 @@
     <Compile Include="Models\Generated\CustomPageImagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CustomPagePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DatabaseEntities.Context.Binding.cs" />
+    <Compile Include="Models\Generated\Deliverable.Binding.cs" />
+    <Compile Include="Models\Generated\Deliverable.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\DeliverableConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\DeliverablePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FieldDefinitionConfiguration.Binding.cs" />

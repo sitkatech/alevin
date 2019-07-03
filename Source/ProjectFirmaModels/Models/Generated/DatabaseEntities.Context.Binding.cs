@@ -56,6 +56,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new DeliverableConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataImageConfiguration());
@@ -184,6 +185,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Deliverable> Deliverables { get; set; }
         public virtual DbSet<FieldDefinitionDataImage> AllFieldDefinitionDataImages { get; set; }
         public virtual IQueryable<FieldDefinitionDataImage> FieldDefinitionDataImages { get { return AllFieldDefinitionDataImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
@@ -438,6 +440,9 @@ namespace ProjectFirmaModels.Models
 
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
+
+                case "Deliverable":
+                    return Deliverables.GetDeliverable(primaryKey);
 
                 case "FieldDefinitionDataImage":
                     return FieldDefinitionDataImages.GetFieldDefinitionDataImage(primaryKey);
