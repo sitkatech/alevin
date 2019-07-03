@@ -15,12 +15,12 @@ GO
 --rollback tran
 
 SET IDENTITY_INSERT dbo.Basin ON
-insert into dbo.Basin (BasinID, BasinAbbreviation)
-values (1, 'GR'),
-       (2, 'JD'),
-       (3, 'UC'),
-       (4, 'US'),
-       (5, 'Undefined')
+insert into dbo.Basin (BasinID, BasinAbbreviation, BasinName)
+values (1, 'GR', 'Grande Ronde'),
+       (2, 'JD', 'John Day'),
+       (3, 'UC', 'Upper Columbia'),
+       (4, 'US', 'Upper Salmon'),
+       (5, 'Undefined', 'Undefined')
 SET IDENTITY_INSERT dbo.Basin OFF
 
 
