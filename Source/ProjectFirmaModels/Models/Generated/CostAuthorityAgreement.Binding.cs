@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected CostAuthorityAgreement()
         {
-
+            this.Deliverables = new HashSet<Deliverable>();
         }
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return Deliverables.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthorityAgreement).Name, typeof(Deliverable).Name};
 
 
         /// <summary>
@@ -81,8 +81,19 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in Deliverables.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -98,6 +109,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityAgreementID; } set { CostAuthorityAgreementID = value; } }
 
+        public virtual ICollection<Deliverable> Deliverables { get; set; }
         public virtual Agreement Agreement { get; set; }
         public virtual CostAuthority CostAuthority { get; set; }
 

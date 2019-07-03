@@ -108,6 +108,10 @@
     <Compile Include="Models\Generated\Deliverable.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\DeliverableConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\DeliverablePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\DeliverableType.Binding.cs" />
+    <Compile Include="Models\Generated\DeliverableType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\DeliverableTypeConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\DeliverableTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FieldDefinitionConfiguration.Binding.cs" />
