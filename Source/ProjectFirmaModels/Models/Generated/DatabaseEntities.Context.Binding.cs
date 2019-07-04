@@ -140,6 +140,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateHistoryConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
             modelBuilder.Configurations.Add(new ReclamationFundConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationPersonsTableConfiguration());
             modelBuilder.Configurations.Add(new RelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
@@ -344,6 +345,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ProjectUpdateSetting> AllProjectUpdateSettings { get; set; }
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReclamationFund> ReclamationFunds { get; set; }
+        public virtual DbSet<ReclamationPersonsTable> ReclamationPersonsTables { get; set; }
         public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
         public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReleaseNote> ReleaseNotes { get; set; }
@@ -811,6 +813,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationFund":
                     return ReclamationFunds.GetReclamationFund(primaryKey);
+
+                case "ReclamationPersonsTable":
+                    return ReclamationPersonsTables.GetReclamationPersonsTable(primaryKey);
 
                 case "RelationshipType":
                     return RelationshipTypes.GetRelationshipType(primaryKey);

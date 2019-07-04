@@ -486,6 +486,10 @@
     <Compile Include="Models\Generated\ReclamationFund.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationFundConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationFundPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationPersonsTable.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationPersonsTable.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReclamationPersonsTableConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationPersonsTablePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.Binding.cs" />
     <Compile Include="Models\Generated\RelationshipType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\RelationshipTypeConfiguration.Binding.cs" />
