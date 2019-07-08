@@ -140,6 +140,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReclamationPacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new ReclamationPacificNorthActivityStatusConfiguration());
             modelBuilder.Configurations.Add(new ReclamationPacificNorthActivityTypeConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingContractStatusConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingCostAuthorityAgreementConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingPersonsTableConfiguration());
@@ -347,6 +348,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ReclamationPacificNorthActivityList> ReclamationPacificNorthActivityLists { get; set; }
         public virtual DbSet<ReclamationPacificNorthActivityStatus> ReclamationPacificNorthActivityStatuses { get; set; }
         public virtual DbSet<ReclamationPacificNorthActivityType> ReclamationPacificNorthActivityTypes { get; set; }
+        public virtual DbSet<ReclamationStagingContractStatus> ReclamationStagingContractStatuses { get; set; }
         public virtual DbSet<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
         public virtual DbSet<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList> ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists { get; set; }
         public virtual DbSet<ReclamationStagingPersonsTable> ReclamationStagingPersonsTables { get; set; }
@@ -817,6 +819,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationPacificNorthActivityType":
                     return ReclamationPacificNorthActivityTypes.GetReclamationPacificNorthActivityType(primaryKey);
+
+                case "ReclamationStagingContractStatus":
+                    return ReclamationStagingContractStatuses.GetReclamationStagingContractStatus(primaryKey);
 
                 case "ReclamationStagingCostAuthorityAgreement":
                     return ReclamationStagingCostAuthorityAgreements.GetReclamationStagingCostAuthorityAgreement(primaryKey);
