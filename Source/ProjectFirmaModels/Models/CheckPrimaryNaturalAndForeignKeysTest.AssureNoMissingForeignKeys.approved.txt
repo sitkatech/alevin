@@ -1,7 +1,18 @@
 ﻿TableSchema	TableName	ColumnName	ParentTableName	ChildTableName	ConstraintName	ParentColumnName	ChildColumnName
 dbo	AuditLog	ProjectID					
 dbo	AuditLog	RecordID					
+dbo	Organization	ReclamationContractorID					
+dbo	Person	ReclamationStaffID					
 dbo	ProjectCustomAttributeType	IncludeInProjectGrid					
+dbo	ReclamationAgreement	Original_ReclamationAgreementID					
+dbo	ReclamationDeliverable	Original_ReclamationDeliverableID					
+dbo	ReclamationDeliverable	ReclamationAgreementStatusID					
+dbo	ReclamationDeliverable	ReclamationPersonsTableID					
+dbo	ReclamationPacificNorthActivityList	ActivityID					
+dbo	ReclamationStagingCostAuthorityAgreement	OriginalReclamationCostAuthorityAgreementID					
+dbo	ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList	ActivityID					
+dbo	ReclamationStagingPersonsTable	ReclamationStaffID					
+dbo	ReclamationWorkOrder	WorkBreakdownStructureID					
 HangFire	AggregatedCounter	Id					
 HangFire	Counter	Id					
 HangFire	Hash	Id					
