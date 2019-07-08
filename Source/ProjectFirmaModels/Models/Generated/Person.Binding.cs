@@ -59,7 +59,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken, string loginName) : this()
+        public Person(int personID, Guid personGuid, string firstName, string lastName, string email, string phone, string passwordPdfK2SaltHash, int roleID, DateTime createDate, DateTime? updateDate, DateTime? lastActivityDate, bool isActive, int organizationID, bool receiveSupportEmails, Guid? webServiceAccessToken, string loginName, int? reclamationStaffID, int? reclamationLocationID, int? reclamationDepartmentCodeID, string reclamationRTSContact) : this()
         {
             this.PersonID = personID;
             this.PersonGuid = personGuid;
@@ -77,6 +77,10 @@ namespace ProjectFirmaModels.Models
             this.ReceiveSupportEmails = receiveSupportEmails;
             this.WebServiceAccessToken = webServiceAccessToken;
             this.LoginName = loginName;
+            this.ReclamationStaffID = reclamationStaffID;
+            this.ReclamationLocationID = reclamationLocationID;
+            this.ReclamationDepartmentCodeID = reclamationDepartmentCodeID;
+            this.ReclamationRTSContact = reclamationRTSContact;
         }
 
         /// <summary>
@@ -334,6 +338,10 @@ namespace ProjectFirmaModels.Models
         public bool ReceiveSupportEmails { get; set; }
         public Guid? WebServiceAccessToken { get; set; }
         public string LoginName { get; set; }
+        public int? ReclamationStaffID { get; set; }
+        public int? ReclamationLocationID { get; set; }
+        public int? ReclamationDepartmentCodeID { get; set; }
+        public string ReclamationRTSContact { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PersonID; } set { PersonID = value; } }
 
@@ -370,6 +378,8 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public virtual Organization Organization { get; set; }
+        public virtual ReclamationLocation ReclamationLocation { get; set; }
+        public virtual ReclamationDepartmentCode ReclamationDepartmentCode { get; set; }
 
         public static class FieldLengths
         {
@@ -379,6 +389,7 @@ namespace ProjectFirmaModels.Models
             public const int Phone = 30;
             public const int PasswordPdfK2SaltHash = 1000;
             public const int LoginName = 128;
+            public const int ReclamationRTSContact = 255;
         }
     }
 }

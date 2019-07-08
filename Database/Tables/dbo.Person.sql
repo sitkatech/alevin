@@ -20,6 +20,10 @@ CREATE TABLE [dbo].[Person](
 	[ReceiveSupportEmails] [bit] NOT NULL,
 	[WebServiceAccessToken] [uniqueidentifier] NULL,
 	[LoginName] [varchar](128) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ReclamationStaffID] [int] NULL,
+	[ReclamationLocationID] [int] NULL,
+	[ReclamationDepartmentCodeID] [int] NULL,
+	[ReclamationRTSContact] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Person_PersonID] PRIMARY KEY CLUSTERED 
 (
 	[PersonID] ASC
@@ -51,6 +55,16 @@ ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Organization_O
 REFERENCES [dbo].[Organization] ([OrganizationID], [TenantID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Organization_OrganizationID_TenantID]
+GO
+ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_ReclamationDepartmentCode_ReclamationDepartmentCodeID] FOREIGN KEY([ReclamationDepartmentCodeID])
+REFERENCES [dbo].[ReclamationDepartmentCode] ([ReclamationDepartmentCodeID])
+GO
+ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_ReclamationDepartmentCode_ReclamationDepartmentCodeID]
+GO
+ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_ReclamationLocation_ReclamationLocationID] FOREIGN KEY([ReclamationLocationID])
+REFERENCES [dbo].[ReclamationLocation] ([ReclamationLocationID])
+GO
+ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_ReclamationLocation_ReclamationLocationID]
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Role_RoleID] FOREIGN KEY([RoleID])
 REFERENCES [dbo].[Role] ([RoleID])

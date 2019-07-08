@@ -32,9 +32,15 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReceiveSupportEmails).HasColumnName(@"ReceiveSupportEmails").HasColumnType("bit").IsRequired();
             Property(x => x.WebServiceAccessToken).HasColumnName(@"WebServiceAccessToken").HasColumnType("uniqueidentifier").IsOptional();
             Property(x => x.LoginName).HasColumnName(@"LoginName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(128);
+            Property(x => x.ReclamationStaffID).HasColumnName(@"ReclamationStaffID").HasColumnType("int").IsOptional();
+            Property(x => x.ReclamationLocationID).HasColumnName(@"ReclamationLocationID").HasColumnType("int").IsOptional();
+            Property(x => x.ReclamationDepartmentCodeID).HasColumnName(@"ReclamationDepartmentCodeID").HasColumnType("int").IsOptional();
+            Property(x => x.ReclamationRTSContact).HasColumnName(@"ReclamationRTSContact").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
 
             // Foreign keys
             HasRequired(a => a.Organization).WithMany(b => b.People).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_Person_Organization_OrganizationID
+            HasOptional(a => a.ReclamationLocation).WithMany(b => b.People).HasForeignKey(c => c.ReclamationLocationID).WillCascadeOnDelete(false); // FK_Person_ReclamationLocation_ReclamationLocationID
+            HasOptional(a => a.ReclamationDepartmentCode).WithMany(b => b.People).HasForeignKey(c => c.ReclamationDepartmentCodeID).WillCascadeOnDelete(false); // FK_Person_ReclamationDepartmentCode_ReclamationDepartmentCodeID
         }
     }
 }
