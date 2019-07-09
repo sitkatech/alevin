@@ -494,6 +494,10 @@
     <Compile Include="Models\Generated\ReclamationStagingContractStatus.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationStagingContractStatusConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingContractStatusPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingContractTrackingTable.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingContractTrackingTable.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingContractTrackingTableConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingContractTrackingTablePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingCostAuthorityAgreement.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingCostAuthorityAgreement.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationStagingCostAuthorityAgreementConfiguration.Binding.cs" />
