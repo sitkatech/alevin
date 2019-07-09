@@ -510,6 +510,10 @@
     <Compile Include="Models\Generated\ReclamationStagingPersonsTable.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationStagingPersonsTableConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingPersonsTablePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingPostedObligation.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingPostedObligation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingPostedObligationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingPostedObligationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationSubbasin.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationSubbasin.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationSubbasinConfiguration.Binding.cs" />

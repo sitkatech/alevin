@@ -146,6 +146,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReclamationStagingFutureFundingTableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingObligationsTableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingPersonsTableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingPostedObligationConfiguration());
             modelBuilder.Configurations.Add(new ReclamationSubbasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationWorkBreakdownStructureConfiguration());
             modelBuilder.Configurations.Add(new ReclamationWorkOrderConfiguration());
@@ -356,6 +357,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ReclamationStagingFutureFundingTable> ReclamationStagingFutureFundingTables { get; set; }
         public virtual DbSet<ReclamationStagingObligationsTable> ReclamationStagingObligationsTables { get; set; }
         public virtual DbSet<ReclamationStagingPersonsTable> ReclamationStagingPersonsTables { get; set; }
+        public virtual DbSet<ReclamationStagingPostedObligation> ReclamationStagingPostedObligations { get; set; }
         public virtual DbSet<ReclamationSubbasin> ReclamationSubbasins { get; set; }
         public virtual DbSet<ReclamationWorkBreakdownStructure> ReclamationWorkBreakdownStructures { get; set; }
         public virtual DbSet<ReclamationWorkOrder> ReclamationWorkOrders { get; set; }
@@ -841,6 +843,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationStagingPersonsTable":
                     return ReclamationStagingPersonsTables.GetReclamationStagingPersonsTable(primaryKey);
+
+                case "ReclamationStagingPostedObligation":
+                    return ReclamationStagingPostedObligations.GetReclamationStagingPostedObligation(primaryKey);
 
                 case "ReclamationSubbasin":
                     return ReclamationSubbasins.GetReclamationSubbasin(primaryKey);
