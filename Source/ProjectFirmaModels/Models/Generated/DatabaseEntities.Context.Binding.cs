@@ -144,6 +144,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReclamationStagingCostAuthorityAgreementConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingFutureFundingTableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingObligationsTableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingPersonsTableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationSubbasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationWorkBreakdownStructureConfiguration());
@@ -353,6 +354,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
         public virtual DbSet<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList> ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists { get; set; }
         public virtual DbSet<ReclamationStagingFutureFundingTable> ReclamationStagingFutureFundingTables { get; set; }
+        public virtual DbSet<ReclamationStagingObligationsTable> ReclamationStagingObligationsTables { get; set; }
         public virtual DbSet<ReclamationStagingPersonsTable> ReclamationStagingPersonsTables { get; set; }
         public virtual DbSet<ReclamationSubbasin> ReclamationSubbasins { get; set; }
         public virtual DbSet<ReclamationWorkBreakdownStructure> ReclamationWorkBreakdownStructures { get; set; }
@@ -833,6 +835,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationStagingFutureFundingTable":
                     return ReclamationStagingFutureFundingTables.GetReclamationStagingFutureFundingTable(primaryKey);
+
+                case "ReclamationStagingObligationsTable":
+                    return ReclamationStagingObligationsTables.GetReclamationStagingObligationsTable(primaryKey);
 
                 case "ReclamationStagingPersonsTable":
                     return ReclamationStagingPersonsTables.GetReclamationStagingPersonsTable(primaryKey);
