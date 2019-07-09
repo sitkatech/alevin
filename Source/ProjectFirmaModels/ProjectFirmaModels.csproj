@@ -498,6 +498,10 @@
     <Compile Include="Models\Generated\ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingFutureFundingTable.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingFutureFundingTable.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingFutureFundingTableConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingFutureFundingTablePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingPersonsTable.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingPersonsTable.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationStagingPersonsTableConfiguration.Binding.cs" />
