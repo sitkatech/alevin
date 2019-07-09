@@ -486,6 +486,10 @@
     <Compile Include="Models\Generated\ReclamationPacificNorthActivityType.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationPacificNorthActivityTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationPacificNorthActivityTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingAgreementStatusTable.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingAgreementStatusTable.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingAgreementStatusTableConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationStagingAgreementStatusTablePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingContractStatus.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationStagingContractStatus.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationStagingContractStatusConfiguration.Binding.cs" />

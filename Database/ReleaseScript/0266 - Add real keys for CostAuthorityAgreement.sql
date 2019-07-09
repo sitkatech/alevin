@@ -35,10 +35,10 @@ inner join dbo.CostAuthority as a on caa.CostAuthorityWorkBreakdownStructure = a
 --select * from dbo.CostAuthorityAgreement where CostAuthorityID is null
 
 -- These are rows that don't match quite right, and which we aren't certain about
---select caa.CostAuthority as CAA_CostAuthorityNumber,
+--select caa.CostAuthorityNumber as CAA_CostAuthorityNumber,
 --       ca.CostAuthorityNumber as CA_CostAuthorityNumber
---from dbo.CostAuthorityAgreement caa
---inner join CostAuthority as ca on caa.CostAuthorityID = ca.CostAuthorityID
+--from dbo.ReclamationStagingCostAuthorityAgreement caa
+--inner join ReclamationCostAuthority as ca on caa.CostAuthorityID = ca.ReclamationCostAuthorityID
 --where caa.CostAuthorityNumber != ca.CostAuthorityNumber
 
 
@@ -56,8 +56,8 @@ where CostAuthorityAgreementID in
 -- Is empty, so this is ok.
 --select caa.AgreementNumber as CAA_AgreementNumber,
 --       a.AgreementNumber as A_AgreementNumber
---from dbo.CostAuthorityAgreement caa
---inner join Agreement as a on caa.AgreementID = a.AgreementID
+--from dbo.ReclamationStagingCostAuthorityAgreement caa
+--inner join ReclamationAgreement as a on caa.AgreementID = a.ReclamationAgreementID
 --where caa.AgreementNumber != a.AgreementNumber
 
 -- We still have some problems with nulls, so we can't drop the original label columns, and we can't tighten up the new IDs. 
