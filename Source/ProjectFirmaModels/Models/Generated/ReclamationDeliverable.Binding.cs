@@ -30,19 +30,18 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationDeliverable(int reclamationDeliverableID, int? original_ReclamationDeliverableID, int? reclamationAgreementStatusID, int? deliverableTypeID, string description, DateTime? dueDate, DateTime? dateDelivered, bool isTaskCompleted, bool isTaskCanceled, int? reclamationPersonsTableID, int? costAuthorityAgreementID) : this()
+        public ReclamationDeliverable(int reclamationDeliverableID, int? deliverableTypeID, string description, DateTime? dueDate, DateTime? dateDelivered, bool isTaskCompleted, bool isTaskCanceled, int? costAuthorityAgreementID, int? reclamationStagingAgreementStatusTableID, int? personID) : this()
         {
             this.ReclamationDeliverableID = reclamationDeliverableID;
-            this.Original_ReclamationDeliverableID = original_ReclamationDeliverableID;
-            this.ReclamationAgreementStatusID = reclamationAgreementStatusID;
             this.DeliverableTypeID = deliverableTypeID;
             this.Description = description;
             this.DueDate = dueDate;
             this.DateDelivered = dateDelivered;
             this.IsTaskCompleted = isTaskCompleted;
             this.IsTaskCanceled = isTaskCanceled;
-            this.ReclamationPersonsTableID = reclamationPersonsTableID;
             this.CostAuthorityAgreementID = costAuthorityAgreementID;
+            this.ReclamationStagingAgreementStatusTableID = reclamationStagingAgreementStatusTableID;
+            this.PersonID = personID;
         }
 
         /// <summary>
@@ -100,21 +99,22 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int ReclamationDeliverableID { get; set; }
-        public int? Original_ReclamationDeliverableID { get; set; }
-        public int? ReclamationAgreementStatusID { get; set; }
         public int? DeliverableTypeID { get; set; }
         public string Description { get; set; }
         public DateTime? DueDate { get; set; }
         public DateTime? DateDelivered { get; set; }
         public bool IsTaskCompleted { get; set; }
         public bool IsTaskCanceled { get; set; }
-        public int? ReclamationPersonsTableID { get; set; }
         public int? CostAuthorityAgreementID { get; set; }
+        public int? ReclamationStagingAgreementStatusTableID { get; set; }
+        public int? PersonID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ReclamationDeliverableID; } set { ReclamationDeliverableID = value; } }
 
         public virtual ReclamationDeliverableType DeliverableType { get; set; }
         public virtual ReclamationStagingCostAuthorityAgreement CostAuthorityAgreement { get; set; }
+        public virtual ReclamationStagingAgreementStatusTable ReclamationStagingAgreementStatusTable { get; set; }
+        public virtual Person Person { get; set; }
 
         public static class FieldLengths
         {

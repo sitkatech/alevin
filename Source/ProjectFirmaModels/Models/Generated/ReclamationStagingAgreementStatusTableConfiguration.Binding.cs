@@ -29,6 +29,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Notes).HasColumnName(@"Notes").HasColumnType("nvarchar").IsOptional();
             Property(x => x.ModDeObligationOrClosed).HasColumnName(@"ModDeObligationOrClosed").HasColumnType("bit").IsRequired();
 
+            // Foreign keys
+
         }
     }
 }
