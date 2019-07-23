@@ -25,6 +25,11 @@ CREATE TABLE [dbo].[ReclamationAgreement](
 ) ON [PRIMARY]
 
 GO
+ALTER TABLE [dbo].[ReclamationAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
+REFERENCES [dbo].[Organization] ([OrganizationID])
+GO
+ALTER TABLE [dbo].[ReclamationAgreement] CHECK CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID]
+GO
 ALTER TABLE [dbo].[ReclamationAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
 REFERENCES [dbo].[ReclamationContractType] ([ReclamationContractTypeID])
 GO

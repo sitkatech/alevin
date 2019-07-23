@@ -147,6 +147,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationAgreementID; } set { ReclamationAgreementID = value; } }
 
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement { get; set; }
+        public virtual Organization Organization { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
 
         public static class FieldLengths

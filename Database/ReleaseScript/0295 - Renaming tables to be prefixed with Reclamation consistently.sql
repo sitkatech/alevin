@@ -89,8 +89,6 @@ exec sp_rename 'PK_Subbasin_SubbasinID', 'PK_ReclamationSubbasin_ReclamationSubb
 exec sp_rename 'PK_WorkBreakdownStructure_WorkBreakdownStructureID', 'PK_ReclamationWorkBreakdownStructure_ReclamationWorkBreakdownStructureID', 'OBJECT'
 exec sp_rename 'PK_WorkOrder_WorkOrderID', 'PK_ReclamationWorkOrder_ReclamationWorkOrderID', 'OBJECT'
 
-
---exec sp_rename 'FK_Agreement_Organization_OrganizationID', 'FK_ReclamationAgreement_Organization_OrganizationID', 'OBJECT'
 exec sp_rename 'FK_CostAuthorityAgreement_Agreement_AgreementID', 'FK_ReclamationStagingCostAuthorityAgreement_ReclamationAgreement_AgreementID_ReclamationAgreementID', 'OBJECT'
 exec sp_rename 'FK_CostAuthority_Basin_BasinID', 'FK_ReclamationCostAuthority_ReclamationBasin_BasinID_ReclamationBasinID', 'OBJECT'
 exec sp_rename 'FK_Agreement_ContractType_ContractTypeID', 'FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID', 'OBJECT'

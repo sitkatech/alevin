@@ -18,7 +18,7 @@ EXEC sp_rename 'dbo.Deliverable.ReclamationDeliverableTypeID', 'DeliverableTypeI
 go
 
 
-ALTER TABLE dbo.Deliverable     
+ALTER TABLE dbo.Deliverable
 ADD CONSTRAINT FK_Deliverable_DeliverableType_DeliverableTypeID FOREIGN KEY (DeliverableTypeID) REFERENCES dbo.DeliverableType(DeliverableTypeID)
 go
 
