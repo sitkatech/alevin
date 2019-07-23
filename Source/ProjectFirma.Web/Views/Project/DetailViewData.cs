@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
@@ -57,6 +56,7 @@ namespace ProjectFirma.Web.Views.Project
         public string EditReportedExpendituresUrl { get; }
         public string EditExternalLinksUrl { get; }
         public string EditExpectedFundingUrl { get; }
+        public string EditProjectCustomAttributesUrl { get; }
 
         public ProjectBasicsViewData ProjectBasicsViewData { get; }
         public ProjectLocationSummaryViewData ProjectLocationSummaryViewData { get; }
@@ -118,6 +118,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions,
             bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions,
             bool userHasPerformanceMeasureActualManagePermissions, string mapFormID,
+            string editProjectCustomAttributesUrl, 
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
             string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
@@ -127,7 +128,7 @@ namespace ProjectFirma.Web.Views.Project
             string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes, DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData)
             : base(currentPerson, project)
         {
-            PageTitle = project.GetDisplayName().ToEllipsifiedStringClean(110);
+            PageTitle = project.GetDisplayName();
             BreadCrumbTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Detail";
 
             ProjectStages = projectStages;
@@ -256,6 +257,8 @@ namespace ProjectFirma.Web.Views.Project
             ProjectBasicsViewData = projectBasicsViewData;
             ProjectBasicsTagsViewData = projectBasicsTagsViewData;
 
+            EditProjectCustomAttributesUrl = editProjectCustomAttributesUrl;
+
             ProjectLocationSummaryViewData = projectLocationSummaryViewData;
             MapFormID = mapFormID;
             EditSimpleProjectLocationUrl = editSimpleProjectLocationUrl;
@@ -276,8 +279,8 @@ namespace ProjectFirma.Web.Views.Project
             EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
             TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
             EditExpectedFundingUrl =
-                SitkaRoute<ProjectFundingSourceRequestController>.BuildUrlFromExpression(c =>
-                    c.EditProjectFundingSourceRequestsForProject(project));
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c =>
+                    c.EditProjectFundingSourceBudgetsForProject(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             EditReportedExpendituresUrl = editReportedExpendituresUrl;

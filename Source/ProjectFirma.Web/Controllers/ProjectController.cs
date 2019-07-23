@@ -87,11 +87,10 @@ namespace ProjectFirma.Web.Controllers
             var primaryContactPeople = HttpRequestStorage.DatabaseEntities.People.OrderBy(x => x.LastName).ThenBy(x => x.FirstName);
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
-            var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypes.ToList();
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
-                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), fundingTypes, organizations,
+                ProjectStage.All.Except(new[] {ProjectStage.Proposal}), organizations,
                 primaryContactPeople,
                 defaultPrimaryContact,
                 totalExpenditures,
@@ -130,6 +129,7 @@ namespace ProjectFirma.Web.Controllers
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentPerson, project).HasPermission;
 
+            var editProjectCustomAttributesUrl = SitkaRoute<ProjectCustomAttributesController>.BuildUrlFromExpression(c => c.EditProjectCustomAttributesForProject(project));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
             var editDetailedProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationDetailed(project));
             var editOrganizationsUrl = SitkaRoute<ProjectOrganizationController>.BuildUrlFromExpression(c => c.EditOrganizations(project));
@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
             var projectExpendituresSummaryViewData = BuildProjectExpendituresDetailViewData(project);
-            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, new List<IFundingSourceRequestAmount>(project.ProjectFundingSourceRequests));
+            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, project, false, new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets));
 
             var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(CurrentPerson);
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
@@ -207,6 +207,7 @@ namespace ProjectFirma.Web.Controllers
                 userHasProjectUpdatePermissions,
                 userHasPerformanceMeasureActualManagePermissions,
                 mapFormID,
+                editProjectCustomAttributesUrl,
                 editSimpleProjectLocationUrl,
                 editDetailedProjectLocationUrl,
                 editOrganizationsUrl,
@@ -378,11 +379,11 @@ namespace ProjectFirma.Web.Controllers
         [ProjectsViewFullListFeature]
         public GridJsonNetJObjectResult<Project> IndexGridJsonData()
         {
-            var fundingTypes = HttpRequestStorage.DatabaseEntities.FundingTypeDatas.ToDictionary(x => x.FundingTypeID);
+            var fundingTypes = FundingType.All.ToDictionary(x => x.FundingTypeID, x => x);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
             var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes, projectCustomAttributeTypes);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceRequests).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -501,7 +502,8 @@ namespace ProjectFirma.Web.Controllers
                 $"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", performanceMeasureActualExcelSpec, performanceMeasureActuals);
             workSheets.Add(wsPerformanceMeasureActuals);
 
-            var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec();
+            var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
+            var projectFundingSourceExpenditureSpec = new ProjectFundingSourceExpenditureExcelSpec(fundingSourceCustomAttributeTypes);
             var projectFundingSourceExpenditures = (projects.SelectMany(p => p.ProjectFundingSourceExpenditures)).ToList();
             var wsProjectFundingSourceExpenditures = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()}", projectFundingSourceExpenditureSpec, projectFundingSourceExpenditures);
             workSheets.Add(wsProjectFundingSourceExpenditures);

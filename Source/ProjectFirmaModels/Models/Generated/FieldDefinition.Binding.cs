@@ -155,7 +155,7 @@ namespace ProjectFirmaModels.Models
         ProjectStage = 36,
         ClassificationName = 39,
         EstimatedTotalCost = 40,
-        UnfundedNeed = 41,
+        NoFundingSourceIdentified = 41,
         Username = 42,
         Project = 44,
         Classification = 46,
@@ -195,8 +195,7 @@ namespace ProjectFirmaModels.Models
         TaxonomyLeafDisplayNameForProject = 244,
         ProjectRelationshipType = 245,
         ProjectSteward = 246,
-        ChartLastUpdatedDate = 247,
-        UnsecuredFunding = 248,
+        TargetedFunding = 248,
         ProjectStewardOrganizationDisplayName = 249,
         ClassificationSystem = 250,
         ClassificationSystemName = 251,
@@ -229,6 +228,10 @@ namespace ProjectFirmaModels.Models
         SignificantDigits = 278,
         TenantShortDisplayName = 279,
         ToolDisplayName = 280,
-        TenantSquareLogo = 281
+        TenantSquareLogo = 281,
+        FundingSourceCustomAttribute = 282,
+        FundingSourceCustomAttributeDataType = 283,
+        FundingSourceCustomAttributeTypeEditableBy = 284,
+        FundingSourceCustomAttributeTypeViewableBy = 285
     }
 }

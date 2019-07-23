@@ -30,11 +30,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreement(int reclamationAgreementID, int? original_ReclamationAgreementID, string agreementNumber, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
+        public ReclamationAgreement(int reclamationAgreementID, int? original_ReclamationAgreementID, string agreementNumber, double? contractorLU, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
         {
             this.ReclamationAgreementID = reclamationAgreementID;
             this.Original_ReclamationAgreementID = original_ReclamationAgreementID;
             this.AgreementNumber = agreementNumber;
+            this.ContractorLU = contractorLU;
             this.IsContingent = isContingent;
             this.IsIncrementalFunding = isIncrementalFunding;
             this.OldAgreementNumber = oldAgreementNumber;
@@ -130,6 +131,7 @@ namespace ProjectFirmaModels.Models
         public int ReclamationAgreementID { get; set; }
         public int? Original_ReclamationAgreementID { get; set; }
         public string AgreementNumber { get; set; }
+        public double? ContractorLU { get; set; }
         public bool IsContingent { get; set; }
         public bool IsIncrementalFunding { get; set; }
         public string OldAgreementNumber { get; set; }
@@ -145,7 +147,6 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationAgreementID; } set { ReclamationAgreementID = value; } }
 
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement { get; set; }
-        public virtual Organization Organization { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
 
         public static class FieldLengths

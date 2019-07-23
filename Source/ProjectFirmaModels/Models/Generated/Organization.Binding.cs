@@ -30,7 +30,6 @@ namespace ProjectFirmaModels.Models
             this.PersonStewardOrganizations = new HashSet<PersonStewardOrganization>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
-            this.ReclamationAgreements = new HashSet<ReclamationAgreement>();
         }
 
         /// <summary>
@@ -98,13 +97,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any() || ReclamationAgreements.Any();
+            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ReclamationAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
 
 
         /// <summary>
@@ -158,11 +157,6 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
-
-            foreach(var x in ReclamationAgreements.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
         }
 
         [Key]
@@ -193,7 +187,6 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PersonStewardOrganization> PersonStewardOrganizations { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get; set; }
-        public virtual ICollection<ReclamationAgreement> ReclamationAgreements { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }

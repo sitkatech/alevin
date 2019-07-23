@@ -18,6 +18,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReclamationAgreementID).HasColumnName(@"ReclamationAgreementID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Original_ReclamationAgreementID).HasColumnName(@"Original_ReclamationAgreementID").HasColumnType("int").IsOptional();
             Property(x => x.AgreementNumber).HasColumnName(@"AgreementNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.ContractorLU).HasColumnName(@"ContractorLU").HasColumnType("float").IsOptional();
             Property(x => x.IsContingent).HasColumnName(@"IsContingent").HasColumnType("bit").IsRequired();
             Property(x => x.IsIncrementalFunding).HasColumnName(@"IsIncrementalFunding").HasColumnType("bit").IsRequired();
             Property(x => x.OldAgreementNumber).HasColumnName(@"OldAgreementNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
@@ -31,7 +32,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ContractTypeID).HasColumnName(@"ContractTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasOptional(a => a.Organization).WithMany(b => b.ReclamationAgreements).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_ReclamationAgreement_Organization_OrganizationID
             HasRequired(a => a.ContractType).WithMany(b => b.ReclamationAgreementsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID
         }
     }

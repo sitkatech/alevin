@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using ProjectFirma.Web.Common;
@@ -65,10 +66,12 @@ namespace ProjectFirma.Web.Views.Project
                 AddColumn(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized(), x => string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayName())));
             }
             AddColumn(FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel(), x => x.ProjectDescription);
-            AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType.GetFundingTypeShortName());
+            AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType.FundingTypeName);
             AddColumn(FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(), x => x.EstimatedTotalCost);
+            AddColumn(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType().GetFieldDefinitionLabel(), x => x.EstimatedAnnualOperatingCost);
             AddColumn(FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(), x => x.GetSecuredFunding());
-            AddColumn(FieldDefinitionEnum.UnfundedNeed.ToType().GetFieldDefinitionLabel(), x => x.UnfundedNeed());
+            AddColumn(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), x => x.GetTargetedFunding());
+            AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
             AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
         }
@@ -84,7 +87,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectOrganizationRelationship>
+    public class ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec : ExcelWorksheetSpec<ProjectOrganizationRelationship>
     {
         public ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec()
         {
@@ -145,19 +148,24 @@ namespace ProjectFirma.Web.Views.Project
 
     public class ProjectFundingSourceExpenditureExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectFundingSourceExpenditure>
     {
-        public ProjectFundingSourceExpenditureExcelSpec()
+        public ProjectFundingSourceExpenditureExcelSpec(List<ProjectFirmaModels.Models.FundingSourceCustomAttributeType> fundingSourceCustomAttributeTypes)
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
             AddColumn($"{FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource.FundingSourceName);
             AddColumn($"Funding {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.FundingSource.Organization.OrganizationName);
             AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.FundingSource.Organization.OrganizationType?.OrganizationTypeName);
+            foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes)
+            {
+                AddColumn($"{fundingSourceCustomAttributeType.FundingSourceCustomAttributeTypeName}",
+                    a => a.GetFundingSourceCustomAttributesValue(fundingSourceCustomAttributeType));
+            }
             AddColumn("Calendar Year", x => x.CalendarYear);
             AddColumn("Expenditure Amount", x => x.ExpenditureAmount);
         }
     }
 
-    public class ProjectGeospatialAreaExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectGeospatialArea>
+    public class ProjectGeospatialAreaExcelSpec : ExcelWorksheetSpec<ProjectGeospatialArea>
     {
         public ProjectGeospatialAreaExcelSpec()
         {
@@ -170,7 +178,7 @@ namespace ProjectFirma.Web.Views.Project
         }
     }
 
-    public class ProjectClassificationExcelSpec : ExcelWorksheetSpec<ProjectFirmaModels.Models.ProjectClassification>
+    public class ProjectClassificationExcelSpec : ExcelWorksheetSpec<ProjectClassification>
     {
         public ProjectClassificationExcelSpec()
         {
