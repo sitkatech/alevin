@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
             this.ProjectAssessmentQuestions = new HashSet<ProjectAssessmentQuestion>();
             this.ProjectClassifications = new HashSet<ProjectClassification>();
+            this.ProjectContacts = new HashSet<ProjectContact>();
             this.ProjectCustomAttributes = new HashSet<ProjectCustomAttribute>();
             this.ProjectDocuments = new HashSet<ProjectDocument>();
             this.ProjectExemptReportingYears = new HashSet<ProjectExemptReportingYear>();
@@ -43,6 +44,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectLocationStagings = new HashSet<ProjectLocationStaging>();
             this.ProjectNotes = new HashSet<ProjectNote>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
+            this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
             this.ProjectTags = new HashSet<ProjectTag>();
             this.ProjectUpdateBatches = new HashSet<ProjectUpdateBatch>();
             this.SecondaryProjectTaxonomyLeafs = new HashSet<SecondaryProjectTaxonomyLeaf>();
@@ -52,7 +54,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCost, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCost, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string noExpendituresToReportExplanation) : this()
+        public Project(int projectID, int taxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string noExpendituresToReportExplanation, decimal? noFundingSourceIdentifiedYet) : this()
         {
             this.ProjectID = projectID;
             this.TaxonomyLeafID = taxonomyLeafID;
@@ -61,14 +63,14 @@ namespace ProjectFirmaModels.Models
             this.ProjectDescription = projectDescription;
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
-            this.EstimatedTotalCost = estimatedTotalCost;
+            this.EstimatedTotalCostDeprecated = estimatedTotalCostDeprecated;
             this.ProjectLocationPoint = projectLocationPoint;
             this.PerformanceMeasureActualYearsExemptionExplanation = performanceMeasureActualYearsExemptionExplanation;
             this.IsFeatured = isFeatured;
             this.ProjectLocationNotes = projectLocationNotes;
             this.PlanningDesignStartYear = planningDesignStartYear;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
-            this.EstimatedAnnualOperatingCost = estimatedAnnualOperatingCost;
+            this.EstimatedAnnualOperatingCostDeprecated = estimatedAnnualOperatingCostDeprecated;
             this.FundingTypeID = fundingTypeID;
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.ProjectApprovalStatusID = projectApprovalStatusID;
@@ -80,6 +82,7 @@ namespace ProjectFirmaModels.Models
             this.ReviewedByPersonID = reviewedByPersonID;
             this.DefaultBoundingBox = defaultBoundingBox;
             this.NoExpendituresToReportExplanation = noExpendituresToReportExplanation;
+            this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
         }
 
         /// <summary>
@@ -131,13 +134,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectClassifications.Any() || ProjectCustomAttributes.Any() || ProjectDocuments.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceExpenditures.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectImages.Any() || ProjectInternalNotes.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectOrganizations.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || SecondaryProjectTaxonomyLeafs.Any() || TechnicalAssistanceRequests.Any();
+            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectClassifications.Any() || ProjectContacts.Any() || ProjectCustomAttributes.Any() || ProjectDocuments.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceExpenditures.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectImages.Any() || ProjectInternalNotes.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNotes.Any() || ProjectOrganizations.Any() || ProjectRelevantCostTypes.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || SecondaryProjectTaxonomyLeafs.Any() || TechnicalAssistanceRequests.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectClassification).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectDocument).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectImage).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectOrganization).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TechnicalAssistanceRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectClassification).Name, typeof(ProjectContact).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectDocument).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectImage).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNote).Name, typeof(ProjectOrganization).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TechnicalAssistanceRequest).Name};
 
 
         /// <summary>
@@ -183,6 +186,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in ProjectClassifications.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectContacts.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -257,6 +265,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in ProjectRelevantCostTypes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ProjectTags.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -287,14 +300,14 @@ namespace ProjectFirmaModels.Models
         public string ProjectDescription { get; set; }
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
-        public decimal? EstimatedTotalCost { get; set; }
+        public decimal? EstimatedTotalCostDeprecated { get; set; }
         public DbGeometry ProjectLocationPoint { get; set; }
         public string PerformanceMeasureActualYearsExemptionExplanation { get; set; }
         public bool IsFeatured { get; set; }
         public string ProjectLocationNotes { get; set; }
         public int? PlanningDesignStartYear { get; set; }
         public int ProjectLocationSimpleTypeID { get; set; }
-        public decimal? EstimatedAnnualOperatingCost { get; set; }
+        public decimal? EstimatedAnnualOperatingCostDeprecated { get; set; }
         public int? FundingTypeID { get; set; }
         public int? PrimaryContactPersonID { get; set; }
         public int ProjectApprovalStatusID { get; set; }
@@ -306,6 +319,7 @@ namespace ProjectFirmaModels.Models
         public int? ReviewedByPersonID { get; set; }
         public DbGeometry DefaultBoundingBox { get; set; }
         public string NoExpendituresToReportExplanation { get; set; }
+        public decimal? NoFundingSourceIdentifiedYet { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
@@ -314,6 +328,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
         public virtual ICollection<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get; set; }
         public virtual ICollection<ProjectClassification> ProjectClassifications { get; set; }
+        public virtual ICollection<ProjectContact> ProjectContacts { get; set; }
         public virtual ICollection<ProjectCustomAttribute> ProjectCustomAttributes { get; set; }
         public virtual ICollection<ProjectDocument> ProjectDocuments { get; set; }
         public virtual ICollection<ProjectExemptReportingYear> ProjectExemptReportingYears { get; set; }
@@ -328,6 +343,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectLocationStaging> ProjectLocationStagings { get; set; }
         public virtual ICollection<ProjectNote> ProjectNotes { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
+        public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
         public virtual ICollection<ProjectTag> ProjectTags { get; set; }
         public virtual ICollection<ProjectUpdateBatch> ProjectUpdateBatches { get; set; }
         public virtual ICollection<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get; set; }

@@ -31,6 +31,20 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
+        public static List<ProjectRelevantCostTypeUpdate> GetExpendituresRelevantCostTypes(this ProjectUpdateBatch project)
+        {
+            return project.ProjectRelevantCostTypeUpdates
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
+                .OrderBy(x => x.CostType.CostTypeName).ToList();
+        }
+
+        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch project)
+        {
+            return project.ProjectRelevantCostTypeUpdates
+                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
+                .OrderBy(x => x.CostType.CostTypeName).ToList();
+        }
+
         public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, Person currentPerson)
         {
             
@@ -72,6 +86,10 @@ namespace ProjectFirma.Web.Models
             // expenditures
             ProjectFundingSourceExpenditureUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
+            // project expenditures relevant cost types
+            ProjectRelevantCostTypeUpdateModelExtensions.CreateExpendituresRelevantCostTypesFromProject(projectUpdateBatch);
+            ProjectRelevantCostTypeUpdateModelExtensions.CreateBudgetsRelevantCostTypesFromProject(projectUpdateBatch);
+
             // project expenditures exempt reporting years
             ProjectExemptReportingYearUpdateModelExtensions.CreateExpendituresExemptReportingYearsFromProject(projectUpdateBatch);
 
@@ -111,6 +129,9 @@ namespace ProjectFirma.Web.Models
 
             // organizations
             ProjectOrganizationUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
+            //Contacts
+            ProjectContactUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Documents
             ProjectDocumentUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -199,6 +220,14 @@ namespace ProjectFirma.Web.Models
             projectUpdateBatch.NoExpendituresToReportExplanation = null;
         }
 
+        public static void DeleteExpendituresProjectRelevantCostTypeUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            foreach (var projectRelevantCostTypeUpdate in projectUpdateBatch.GetExpendituresRelevantCostTypes())
+            {
+                projectRelevantCostTypeUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
         public static void DeleteProjectFundingSourceExpenditureUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
             var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
@@ -268,6 +297,14 @@ namespace ProjectFirma.Web.Models
             foreach (var projectOrganizationUpdate in projectOrganizationUpdates)
             {
                 projectOrganizationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+        public static void DeleteProjectContactUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectContactUpdates = projectUpdateBatch.ProjectContactUpdates.ToList();
+            foreach (var projectContactUpdate in projectContactUpdates)
+            {
+                projectContactUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
 
@@ -395,6 +432,17 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateOrganizations().IsValid;
         }
 
+        public static bool AreContactsValid(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.ValidateContacts().IsValid;
+        }
+
+        public static ContactsValidationResult ValidateContacts(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return new ContactsValidationResult(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactSimple(x))
+                .ToList());
+        }
+
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
         {           
             var incomplete = projectUpdateBatch.ProjectUpdate.ProjectLocationPoint == null &&
@@ -438,6 +486,7 @@ namespace ProjectFirma.Web.Models
         public static void Approve(
             this ProjectUpdateBatch projectUpdateBatch, Person currentPerson, DateTime transitionDate,
             IList<ProjectExemptReportingYear> projectExemptReportingYears,
+            IList<ProjectRelevantCostType> projectRelevantCostTypes,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
@@ -452,11 +501,12 @@ namespace ProjectFirma.Web.Models
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests
+            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
+            IList<ProjectContact> allProjectContacts
             )
         {
             Check.Require(projectUpdateBatch.IsSubmitted(), $"You cannot approve a {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} update that has not been submitted!");
-            projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears,
+            projectUpdateBatch.CommitChangesToProject(projectExemptReportingYears, projectRelevantCostTypes,
                 projectFundingSourceExpenditures,
                 performanceMeasureActuals,
                 performanceMeasureActualSubcategoryOptions,
@@ -473,7 +523,8 @@ namespace ProjectFirma.Web.Models
                 allProjectDocuments,
                 allProjectCustomAttributes,
                 allProjectCustomAttributeValues,
-                allTechnicalAssistanceRequests);
+                allTechnicalAssistanceRequests,
+                allProjectContacts);
             projectUpdateBatch.CreateNewTransitionRecord(ProjectUpdateState.Approved, currentPerson, transitionDate);
             projectUpdateBatch.PushTransitionRecordsToAuditLog();
         }
@@ -492,10 +543,9 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        private static void CommitChangesToProject( 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-//            IList<ProjectBudget> projectBudgets,
+        private static void CommitChangesToProject(
             this ProjectUpdateBatch projectUpdateBatch, IList<ProjectExemptReportingYear> projectExemptReportingYears,
+            IList<ProjectRelevantCostType> projectRelevantCostTypes,
             IList<ProjectFundingSourceExpenditure> projectFundingSourceExpenditures,
             IList<PerformanceMeasureActual> performanceMeasureActuals,
             IList<PerformanceMeasureActualSubcategoryOption> performanceMeasureActualSubcategoryOptions,
@@ -510,7 +560,8 @@ namespace ProjectFirma.Web.Models
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
             IList<ProjectCustomAttributeValue> allProjectCustomAttributeValues,
-            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests)
+            IList<TechnicalAssistanceRequest> allTechnicalAssistanceRequests,
+            IList<ProjectContact> allProjectContacts)
         {
             // basics
             projectUpdateBatch.ProjectUpdate.CommitChangesToProject(projectUpdateBatch.Project);
@@ -521,9 +572,12 @@ namespace ProjectFirma.Web.Models
             // expected funding
             ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceBudgets);
 
-            // TODO: Neutered per #1136; most likely will bring back when BOR project starts
-            //  project budgets
-            //ProjectBudgetUpdate.CommitChangesToProject(this, projectBudgets);
+            // project exempt reporting years
+            ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
+            projectUpdateBatch.Project.NoExpendituresToReportExplanation = projectUpdateBatch.NoExpendituresToReportExplanation;
+
+            // project relevant cost types
+            ProjectRelevantCostTypeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectRelevantCostTypes);
 
             // only relevant for stages past planning/design
             if (!projectUpdateBatch.NewStageIsPlanningDesign())
@@ -531,9 +585,6 @@ namespace ProjectFirma.Web.Models
                 // reported performance measures
                 PerformanceMeasureActualUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, performanceMeasureActuals,
                     performanceMeasureActualSubcategoryOptions);
-
-                // project exempt reporting years
-                ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
 
                 // project exempt reporting years reason
                 projectUpdateBatch.Project.PerformanceMeasureActualYearsExemptionExplanation = projectUpdateBatch.PerformanceMeasureActualYearsExemptionExplanation;
@@ -567,13 +618,16 @@ namespace ProjectFirma.Web.Models
             // Organizations
             ProjectOrganizationUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectOrganizations);
 
+            //  Contacts
+            ProjectContactUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectContacts);
+
             // Documents
             ProjectDocumentUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectDocuments);
 
             // Project Custom Attributes
             ProjectCustomAttributeUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allProjectCustomAttributes, allProjectCustomAttributeValues);
 
-            // Techincal Assistance Requests - for Idaho
+            // Technical Assistance Requests - for Idaho
             TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, allTechnicalAssistanceRequests);
         }
 

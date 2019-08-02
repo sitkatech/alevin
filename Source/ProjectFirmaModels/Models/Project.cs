@@ -35,7 +35,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetPrimaryContactOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
 
         public FileResource GetPrimaryContactOrganizationLogo()
@@ -56,17 +56,15 @@ namespace ProjectFirmaModels.Models
             return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
         }
 
-        public decimal? GetNoFundingSourceIdentifiedAmount()
+        public decimal? GetNoFundingSourceIdentifiedAmount() => NoFundingSourceIdentifiedYet;
+
+        public decimal? GetEstimatedTotalCost()
         {
             var securedFunding = GetSecuredFunding();
             var targetedFunding = GetTargetedFunding();
-            var totalCost = EstimatedTotalCost ?? EstimatedAnnualOperatingCost;
-            var noFundingSourceIdentifiedAmount = (totalCost ?? 0) - (securedFunding + targetedFunding ?? 0);
-            if (noFundingSourceIdentifiedAmount >= 0)
-            {
-                return noFundingSourceIdentifiedAmount;
-            }
-            return null;
+            return NoFundingSourceIdentifiedYet != null
+                ? NoFundingSourceIdentifiedYet + (securedFunding ?? 0) + (targetedFunding ?? 0)
+                : null;
         }
 
         public decimal GetNoFundingSourceIdentifiedAmountOrZero()
@@ -154,7 +152,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetCanStewardProjectsOrganization()
         {
-            return ProjectOrganizations.SingleOrDefault(x => x.RelationshipType.CanStewardProjects)?.Organization;
+            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.CanStewardProjects)?.Organization;
         }
 
         public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()

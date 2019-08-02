@@ -47,6 +47,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new ClassificationSystemConfiguration());
+            modelBuilder.Configurations.Add(new ContactRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new CostTypeConfiguration());
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
@@ -71,8 +72,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new OrganizationBoundaryStagingConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeConfiguration());
-            modelBuilder.Configurations.Add(new OrganizationTypeRelationshipTypeConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationTypeOrganizationRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureActualConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureActualSubcategoryOptionConfiguration());
@@ -93,6 +95,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectConfiguration());
             modelBuilder.Configurations.Add(new ProjectAssessmentQuestionConfiguration());
             modelBuilder.Configurations.Add(new ProjectClassificationConfiguration());
+            modelBuilder.Configurations.Add(new ProjectContactConfiguration());
+            modelBuilder.Configurations.Add(new ProjectContactUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeTypeRoleConfiguration());
@@ -124,6 +128,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectNoteUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectRelevantCostTypeConfiguration());
+            modelBuilder.Configurations.Add(new ProjectRelevantCostTypeUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateBatchConfiguration());
@@ -154,7 +160,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReclamationSubbasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationWorkBreakdownStructureConfiguration());
             modelBuilder.Configurations.Add(new ReclamationWorkOrderConfiguration());
-            modelBuilder.Configurations.Add(new RelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
@@ -185,6 +190,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<Classification> Classifications { get { return AllClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ClassificationSystem> AllClassificationSystems { get; set; }
         public virtual IQueryable<ClassificationSystem> ClassificationSystems { get { return AllClassificationSystems.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ContactRelationshipType> AllContactRelationshipTypes { get; set; }
+        public virtual IQueryable<ContactRelationshipType> ContactRelationshipTypes { get { return AllContactRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CostType> AllCostTypes { get; set; }
         public virtual IQueryable<CostType> CostTypes { get { return AllCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<County> AllCounties { get; set; }
@@ -229,10 +236,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
         public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<OrganizationRelationshipType> AllOrganizationRelationshipTypes { get; set; }
+        public virtual IQueryable<OrganizationRelationshipType> OrganizationRelationshipTypes { get { return AllOrganizationRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
         public virtual IQueryable<Organization> Organizations { get { return AllOrganizations.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<OrganizationTypeRelationshipType> AllOrganizationTypeRelationshipTypes { get; set; }
-        public virtual IQueryable<OrganizationTypeRelationshipType> OrganizationTypeRelationshipTypes { get { return AllOrganizationTypeRelationshipTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<OrganizationTypeOrganizationRelationshipType> AllOrganizationTypeOrganizationRelationshipTypes { get; set; }
+        public virtual IQueryable<OrganizationTypeOrganizationRelationshipType> OrganizationTypeOrganizationRelationshipTypes { get { return AllOrganizationTypeOrganizationRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationType> AllOrganizationTypes { get; set; }
         public virtual IQueryable<OrganizationType> OrganizationTypes { get { return AllOrganizationTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Person> AllPeople { get; set; }
@@ -273,6 +282,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get { return AllProjectAssessmentQuestions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectClassification> AllProjectClassifications { get; set; }
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectContact> AllProjectContacts { get; set; }
+        public virtual IQueryable<ProjectContact> ProjectContacts { get { return AllProjectContacts.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectContactUpdate> AllProjectContactUpdates { get; set; }
+        public virtual IQueryable<ProjectContactUpdate> ProjectContactUpdates { get { return AllProjectContactUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttribute> AllProjectCustomAttributes { get; set; }
         public virtual IQueryable<ProjectCustomAttribute> ProjectCustomAttributes { get { return AllProjectCustomAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeTypeRole> AllProjectCustomAttributeTypeRoles { get; set; }
@@ -335,6 +348,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectOrganizationUpdate> AllProjectOrganizationUpdates { get; set; }
         public virtual IQueryable<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get { return AllProjectOrganizationUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectRelevantCostType> AllProjectRelevantCostTypes { get; set; }
+        public virtual IQueryable<ProjectRelevantCostType> ProjectRelevantCostTypes { get { return AllProjectRelevantCostTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectRelevantCostTypeUpdate> AllProjectRelevantCostTypeUpdates { get; set; }
+        public virtual IQueryable<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get { return AllProjectRelevantCostTypeUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
@@ -372,8 +389,6 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ReclamationSubbasin> ReclamationSubbasins { get; set; }
         public virtual DbSet<ReclamationWorkBreakdownStructure> ReclamationWorkBreakdownStructures { get; set; }
         public virtual DbSet<ReclamationWorkOrder> ReclamationWorkOrders { get; set; }
-        public virtual DbSet<RelationshipType> AllRelationshipTypes { get; set; }
-        public virtual IQueryable<RelationshipType> RelationshipTypes { get { return AllRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReleaseNote> ReleaseNotes { get; set; }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
@@ -442,6 +457,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ClassificationSystem":
                     return ClassificationSystems.GetClassificationSystem(primaryKey);
+
+                case "ContactRelationshipType":
+                    return ContactRelationshipTypes.GetContactRelationshipType(primaryKey);
 
                 case "CostType":
                     return CostTypes.GetCostType(primaryKey);
@@ -557,11 +575,14 @@ namespace ProjectFirmaModels.Models
                 case "OrganizationBoundaryStaging":
                     return OrganizationBoundaryStagings.GetOrganizationBoundaryStaging(primaryKey);
 
+                case "OrganizationRelationshipType":
+                    return OrganizationRelationshipTypes.GetOrganizationRelationshipType(primaryKey);
+
                 case "Organization":
                     return Organizations.GetOrganization(primaryKey);
 
-                case "OrganizationTypeRelationshipType":
-                    return OrganizationTypeRelationshipTypes.GetOrganizationTypeRelationshipType(primaryKey);
+                case "OrganizationTypeOrganizationRelationshipType":
+                    return OrganizationTypeOrganizationRelationshipTypes.GetOrganizationTypeOrganizationRelationshipType(primaryKey);
 
                 case "OrganizationType":
                     return OrganizationTypes.GetOrganizationType(primaryKey);
@@ -648,10 +669,11 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(projectColorByType, "ProjectColorByType", primaryKey);
                     return projectColorByType;
 
-                case "ProjectCostType":
-                    var projectCostType = ProjectCostType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(projectCostType, "ProjectCostType", primaryKey);
-                    return projectCostType;
+                case "ProjectContact":
+                    return ProjectContacts.GetProjectContact(primaryKey);
+
+                case "ProjectContactUpdate":
+                    return ProjectContactUpdates.GetProjectContactUpdate(primaryKey);
 
                 case "ProjectCreateSection":
                     var projectCreateSection = ProjectCreateSection.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -781,6 +803,17 @@ namespace ProjectFirmaModels.Models
                 case "ProjectOrganizationUpdate":
                     return ProjectOrganizationUpdates.GetProjectOrganizationUpdate(primaryKey);
 
+                case "ProjectRelevantCostTypeGroup":
+                    var projectRelevantCostTypeGroup = ProjectRelevantCostTypeGroup.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectRelevantCostTypeGroup, "ProjectRelevantCostTypeGroup", primaryKey);
+                    return projectRelevantCostTypeGroup;
+
+                case "ProjectRelevantCostType":
+                    return ProjectRelevantCostTypes.GetProjectRelevantCostType(primaryKey);
+
+                case "ProjectRelevantCostTypeUpdate":
+                    return ProjectRelevantCostTypeUpdates.GetProjectRelevantCostTypeUpdate(primaryKey);
+
                 case "Project":
                     return Projects.GetProject(primaryKey);
 
@@ -898,9 +931,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationWorkOrder":
                     return ReclamationWorkOrders.GetReclamationWorkOrder(primaryKey);
-
-                case "RelationshipType":
-                    return RelationshipTypes.GetRelationshipType(primaryKey);
 
                 case "ReleaseNote":
                     return ReleaseNotes.GetReleaseNote(primaryKey);
