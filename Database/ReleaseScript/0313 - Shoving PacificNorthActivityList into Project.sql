@@ -1,19 +1,5 @@
 
-
---select * from dbo.TaxonomyLeaf
---where TenantID = 12
-
---select * from dbo.Tenant
---select * from dbo.ProjectLocationSimpleType
---select * from dbo.ProjectApprovalStatus
-
---select * from ProjectStage
-
-
-
-
-
-
+--begin tran
 
 
 insert into dbo.Project
@@ -46,3 +32,195 @@ select
 from dbo.ReclamationPacificNorthActivityList as pna
 
 -- Clean up embedded double spaces in ProjectNames??
+
+--select * from dbo.ProjectStage
+--select * from dbo.ReclamationPacificNorthActivityStatus
+
+--select * from dbo.Project
+--where TenantID = 12
+
+--select * from dbo.ReclamationPacificNorthActivityList
+
+
+-- Linking Table
+-----------------
+
+-- Linking table for ReclamationAgreement <=> PacificNorthActivity
+CREATE TABLE [dbo].ReclamationAgreementPacificNorthActivity
+(
+    ReclamationAgreementPacificNorthActivityID [int] IDENTITY(1,1) NOT NULL,
+    ReclamationAgreementID int not null,
+    ReclamationPacificNorthActivityListID int not null
+)
+
+-- Primary Key for Linking Table
+ALTER TABLE [dbo].ReclamationAgreementPacificNorthActivity ADD  CONSTRAINT [PK_ReclamationAgreementPacificNorthActivity_ReclamationAgreementPacificNorthActivityID] PRIMARY KEY CLUSTERED 
+(
+    ReclamationAgreementPacificNorthActivityID ASC
+) ON [PRIMARY]
+GO
+
+-- FK ReclamationAgreement for linking table
+ALTER TABLE [dbo].ReclamationAgreementPacificNorthActivity  WITH CHECK ADD CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationAgreementID_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY(ReclamationAgreementID)
+REFERENCES [dbo].ReclamationAgreement (ReclamationAgreementID)
+GO
+
+-- FK ReclamationPacificNorthActivityListID for linking table
+ALTER TABLE [dbo].ReclamationAgreementPacificNorthActivity  WITH CHECK ADD CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationPacificNorthActivityListID_ReclamationPacificNorthActivityListID] FOREIGN KEY(ReclamationPacificNorthActivityListID)
+REFERENCES [dbo].ReclamationPacificNorthActivityList (ReclamationPacificNorthActivityListID)
+GO
+
+
+
+insert into dbo.ReclamationAgreementPacificNorthActivity(ReclamationAgreementID, ReclamationPacificNorthActivityListID)
+-- This mostly works, but there are some dropouts. What are we losing?
+select --rsca.AgreementNumber,
+       ra.ReclamationAgreementID,
+       --rsca.PacificNorthActivityNumber,
+       rpna.ReclamationPacificNorthActivityListID
+from [dbo].[ReclamationStagingCostAuthorityAgreement] as rsca
+inner join dbo.ReclamationAgreement as ra on rsca.AgreementNumber = ra.AgreementNumber
+inner join dbo.ReclamationPacificNorthActivityList as rpna on rsca.PacificNorthActivityName = rpna.PacificNorthActivityName
+
+--select * from dbo.ReclamationAgreementPacificNorthActivity
+
+-- Parallel linking table
+---------------------------
+
+
+-- Linking table for ReclamationAgreement <=> Project
+CREATE TABLE [dbo].ReclamationAgreementProject
+(
+    ReclamationAgreementProjectID [int] IDENTITY(1,1) NOT NULL,
+    ReclamationAgreementID int not null,
+    ProjectID int not null
+)
+
+-- Primary Key for Linking Table
+ALTER TABLE [dbo].ReclamationAgreementProject ADD  CONSTRAINT [PK_ReclamationAgreementProject_ReclamationAgreementProjectID] PRIMARY KEY CLUSTERED 
+(
+    ReclamationAgreementProjectID ASC
+) ON [PRIMARY]
+GO
+
+-- FK ReclamationAgreement for parallel linking table
+ALTER TABLE [dbo].ReclamationAgreementProject  WITH CHECK ADD CONSTRAINT [FK_ReclamationAgreementProject_ReclamationAgreementID_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY(ReclamationAgreementID)
+REFERENCES [dbo].ReclamationAgreement (ReclamationAgreementID)
+GO
+
+-- FK ProjectID for parallel linking table
+ALTER TABLE [dbo].ReclamationAgreementProject  WITH CHECK ADD CONSTRAINT [FK_ReclamationAgreementProject_ProjectID_ProjectID] FOREIGN KEY(ProjectID)
+REFERENCES [dbo].Project (ProjectID)
+GO
+
+
+
+insert into dbo.ReclamationAgreementProject(ReclamationAgreementID, ProjectID)
+-- This mostly works, but there are some dropouts. What are we losing?
+select --rsca.AgreementNumber,
+       ra.ReclamationAgreementID,
+       --rsca.PacificNorthActivityNumber,
+       p.ProjectID
+from [dbo].[ReclamationStagingCostAuthorityAgreement] as rsca
+inner join dbo.ReclamationAgreement as ra on rsca.AgreementNumber = ra.AgreementNumber
+-- We just made this work above when we loaded the PNA name into Project as ProjectName.
+inner join dbo.Project as p on rsca.PacificNorthActivityName = p.ProjectName
+
+/*
+select * from dbo.ReclamationAgreementProject
+
+select * from dbo.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList
+
+select * from dbo.ReclamationStagingCostAuthorityAgreement
+
+-- This is the real table
+select * from ReclamationCostAuthority
+
+*/
+
+-- Linking table for ReclamationAgreement <=> ReclamationCostAuthority
+CREATE TABLE [dbo].ReclamationAgreementReclamationCostAuthority
+(
+    ReclamationAgreementReclamationCostAuthorityID [int] IDENTITY(1,1) NOT NULL,
+    ReclamationAgreementID int not null,
+    ReclamationCostAuthorityID int not null
+)
+
+-- Primary Key for Linking Table
+ALTER TABLE [dbo].ReclamationAgreementReclamationCostAuthority ADD  CONSTRAINT [PK_ReclamationAgreementReclamationCostAuthority_ReclamationAgreementReclamationCostAuthorityID] PRIMARY KEY CLUSTERED 
+(
+    ReclamationAgreementReclamationCostAuthorityID ASC
+) ON [PRIMARY]
+GO
+
+-- FK ReclamationAgreement 
+ALTER TABLE [dbo].ReclamationAgreementReclamationCostAuthority  WITH CHECK ADD CONSTRAINT [FK_ReclamationAgreementReclamationCostAuthority_ReclamationAgreementID_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY(ReclamationAgreementID)
+REFERENCES [dbo].ReclamationAgreement (ReclamationAgreementID)
+GO
+
+-- FK ReclamationCostAuthorityID
+ALTER TABLE [dbo].ReclamationAgreementReclamationCostAuthority  WITH CHECK ADD CONSTRAINT [FK_ReclamationAgreementReclamationCostAuthority_ReclamationCostAuthorityID_ReclamationCostAuthorityID] FOREIGN KEY(ReclamationCostAuthorityID)
+REFERENCES [dbo].ReclamationCostAuthority (ReclamationCostAuthorityID)
+GO
+
+
+-- Fill up the linking table
+insert into dbo.ReclamationAgreementReclamationCostAuthority(ReclamationAgreementID, ReclamationCostAuthorityID)
+select x.ReclamationAgreementID, x.ReclamationCostAuthorityID
+from
+(
+    -- There's some extra stuff here for diagnostics, but we don't use it above. 
+    select
+        p.ProjectID,
+        p.ProjectName,
+        ra.ReclamationAgreementID,
+        rca.ReclamationCostAuthorityID,
+        rca.CostAuthorityWorkBreakdownStructure
+    from dbo.ReclamationAgreement as ra
+    inner join dbo.ReclamationAgreementProject as rap on ra.ReclamationAgreementID = rap.ReclamationAgreementID
+    inner join dbo.Project as p on rap.ProjectID = p.ProjectID
+    inner join dbo.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList as rcawsb on rcawsb.PacificNorthActivityName = p.ProjectName
+    inner join dbo.ReclamationCostAuthority as rca on rcawsb.CostAuthorityWorkBreakdownStructure = rca.CostAuthorityWorkBreakdownStructure
+)
+as x
+
+--rollback tran
+
+
+--
+--select * from dbo.ReclamationAgreementReclamationCostAuthority
+
+/*
+-- So, how does the day-to-day join look now?
+-- Not too bad!
+-- ===========================================
+
+select 
+    p.ProjectID,
+    p.ProjectName,
+    ra.ReclamationAgreementID,
+    ra.AgreementNumber,
+    rca.ReclamationCostAuthorityID,
+    rca.CostAuthorityWorkBreakdownStructure
+from dbo.Project as p
+inner join dbo.ReclamationAgreementProject as rap on p.ProjectID = rap.ProjectID
+inner join dbo.ReclamationAgreement as ra on rap.ReclamationAgreementID = ra.ReclamationAgreementID
+inner join dbo.ReclamationAgreementReclamationCostAuthority as rapca on ra.ReclamationAgreementID = rapca.ReclamationAgreementID
+inner join dbo.ReclamationCostAuthority as rca on rapca.ReclamationCostAuthorityID = rca.ReclamationCostAuthorityID
+order by ProjectName, AgreementNumber, CostAuthorityWorkBreakdownStructure
+*/
+
+
+--select
+--       ra.ReclamationAgreementID,
+--       p.ProjectID
+--from [dbo].[ReclamationStagingCostAuthorityAgreement] as rsca
+--inner join dbo.ReclamationAgreement as ra on rsca.AgreementNumber = ra.AgreementNumber
+---- We just made this work above when we loaded the PNA name into Project as ProjectName.
+--inner join dbo.Project as p on rsca.PacificNorthActivityName = p.ProjectName
+
+--select * from dbo.ReclamationCostAuthority
+
+--select * from dbo.ReclamationAgreementProject
+--select * from dbo.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList
+-- 

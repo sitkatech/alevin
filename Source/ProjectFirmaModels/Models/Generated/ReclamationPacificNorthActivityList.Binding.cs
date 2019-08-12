@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ReclamationPacificNorthActivityList()
         {
+            this.ReclamationAgreementPacificNorthActivities = new HashSet<ReclamationAgreementPacificNorthActivity>();
             this.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList = new HashSet<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList>();
         }
 
@@ -56,13 +57,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList.Any();
+            return ReclamationAgreementPacificNorthActivities.Any() || ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationPacificNorthActivityList).Name, typeof(ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationPacificNorthActivityList).Name, typeof(ReclamationAgreementPacificNorthActivity).Name, typeof(ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList).Name};
 
 
         /// <summary>
@@ -87,6 +88,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in ReclamationAgreementPacificNorthActivities.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -103,6 +109,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationPacificNorthActivityListID; } set { ReclamationPacificNorthActivityListID = value; } }
 
+        public virtual ICollection<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList> ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList { get; set; }
         public virtual ReclamationPacificNorthActivityType PacificNorthActivityType { get; set; }
         public virtual ReclamationPacificNorthActivityStatus PacificNorthActivityStatus { get; set; }

@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ReclamationCostAuthority()
         {
+            this.ReclamationAgreementReclamationCostAuthorities = new HashSet<ReclamationAgreementReclamationCostAuthority>();
             this.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority = new HashSet<ReclamationStagingCostAuthorityAgreement>();
         }
 
@@ -65,13 +66,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
+            return ReclamationAgreementReclamationCostAuthorities.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationCostAuthority).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationCostAuthority).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -95,6 +96,11 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteChildren(DatabaseEntities dbContext)
         {
+
+            foreach(var x in ReclamationAgreementReclamationCostAuthorities.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
 
             foreach(var x in ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.ToList())
             {
@@ -121,6 +127,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationCostAuthorityID; } set { ReclamationCostAuthorityID = value; } }
 
+        public virtual ICollection<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority { get; set; }
         public virtual ReclamationHCategory HabitatCategory { get; set; }
         public virtual ReclamationBasin Basin { get; set; }
