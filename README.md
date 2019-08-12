@@ -1,16 +1,8 @@
-# projectfirma
-ProjectFirma is Sitka Technology Group's service which builds on the Tahoe Regional Planning Agency's (TRPA) EIP Project Tracker.
+# Alevin
+Alevin is Sitka Technology Group's service which is based on Project Firma.
 
-ProjectFirma tracks conservation and natural resource project performance and expenditures, and helps managers visualize results at the program level. It is used to track project lifecycles from planning through design to final reporting. The platform is uniquely suited to track and share high-level details of a suite of conservation projects, including:
+U.S. Bureau of Reclamation is a contemporary water management agency with a strategic plan covering numerous programs, initiatives, and activities that support the Western States, Native American Tribes, and others to address water needs — such as hydropower electricity and irrigation — while balancing the multitude of competing water uses.
 
-- Stormwater management
-- Habitat restoration
-- Bike/pedestrian trail improvements
-- Transportation coordination 
+To fulfill water delivery obligations, water conservation, and water recycling and reuse, they must find new ways to bring together the various interests while addressing the competing needs of our limited water supply. This case study focuses on the Columbia and Snake River Salmon Recovery Office (CSRO), a Bureau sub-program that works to improve and restore salmonid habitat impacted by the operation and maintenance of Federal dam facilities as part of the Columbia River Federal Hydropower System (FCRPS) Endangered Species Act (ESA) consultation with NOAA Fisheries. These efforts include the design of specific habitat features for various life stages of salmonids in various Columbia Basin tributary streams and rivers.
 
-Leading organizations, like Tahoe Regional Planning Agency, rely on the platform to share information about all current and completed projects, simplify performance tracking, and build and maintain trust with legislators, partner agencies, and the general public.
-
-
-ProjectFirma is a service provided by Sitka Technology Group, which builds on the Tahoe Regional Planning Agency's EIP Project Tracker (https://eip.laketahoeinfo.org). This program is free software; you can redistribute it and/or modify it under the terms of the GNU Affero General Public License as published by the Free Software Foundation. 
-
-Copyright (C) Tahoe Regional Planning Agency and Sitka Technology Group
+Copyright (C) Sitka Technology Group
