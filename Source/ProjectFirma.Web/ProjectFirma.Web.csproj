@@ -133,6 +133,7 @@
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
+    <Compile Include="Models\ReclamationAgreementModelExtensions.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteUpdateModelExtensions.cs" />
