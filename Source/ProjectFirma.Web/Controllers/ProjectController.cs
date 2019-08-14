@@ -127,6 +127,10 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentPerson, project).HasPermission;
             var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
+
+            // NEW permission for Project Agreement association editing
+            var userHasProjectAgreementEditPermissions = new ProjectAgreementEditFeature().HasPermission(CurrentPerson, project).HasPermission;
+
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentPerson, project).HasPermission;
 
@@ -163,6 +167,9 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresByCostTypeSummaryViewData = reportExpendituresByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
 
             var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, project, false, new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets));
+
+            // NEW view data
+            var projectAgreementDetailViewData = new ProjectAgreementDetailViewData(CurrentPerson, project, false);
 
             var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(CurrentPerson);
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
@@ -206,6 +213,7 @@ namespace ProjectFirma.Web.Controllers
                 projectBasicsViewData,
                 projectLocationSummaryViewData,
                 projectFundingDetailViewData,
+                projectAgreementDetailViewData,
                 technicalAssistanceRequestViewData,
                 performanceMeasureExpectedsSummaryViewData,
                 performanceMeasureReportedValuesGroupedViewData,
@@ -218,6 +226,7 @@ namespace ProjectFirma.Web.Controllers
                 projectBasicsTagsViewData,
                 userHasProjectAdminPermissions,
                 userHasEditProjectPermissions,
+                userHasProjectAgreementEditPermissions,
                 userHasProjectUpdatePermissions,
                 userHasPerformanceMeasureActualManagePermissions,
                 mapFormID,

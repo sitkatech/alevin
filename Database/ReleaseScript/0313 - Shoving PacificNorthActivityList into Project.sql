@@ -71,10 +71,22 @@ REFERENCES [dbo].ReclamationPacificNorthActivityList (ReclamationPacificNorthAct
 GO
 
 
+-- AK for uniqueness
+ALTER TABLE [dbo].ReclamationAgreementPacificNorthActivity ADD  CONSTRAINT [AK_ReclamationAgreementPacificNorthActivity_ReclamationAgreementID_ReclamationPacificNorthActivityListID] UNIQUE NONCLUSTERED 
+(
+    ReclamationAgreementID ASC,
+    ReclamationPacificNorthActivityListID ASC
+) ON [PRIMARY]
+GO
+
+
+
+
 
 insert into dbo.ReclamationAgreementPacificNorthActivity(ReclamationAgreementID, ReclamationPacificNorthActivityListID)
 -- This mostly works, but there are some dropouts. What are we losing?
-select --rsca.AgreementNumber,
+select distinct
+    --rsca.AgreementNumber,
        ra.ReclamationAgreementID,
        --rsca.PacificNorthActivityNumber,
        rpna.ReclamationPacificNorthActivityListID
@@ -113,11 +125,22 @@ ALTER TABLE [dbo].ReclamationAgreementProject  WITH CHECK ADD CONSTRAINT [FK_Rec
 REFERENCES [dbo].Project (ProjectID)
 GO
 
+-- AK for uniqueness
+ALTER TABLE [dbo].ReclamationAgreementProject ADD  CONSTRAINT [AK_ReclamationAgreementProject_ReclamationAgreementID_ProjectID] UNIQUE NONCLUSTERED 
+(
+    ReclamationAgreementID ASC,
+    ProjectID ASC
+) ON [PRIMARY]
+GO
+
+
+
 
 
 insert into dbo.ReclamationAgreementProject(ReclamationAgreementID, ProjectID)
 -- This mostly works, but there are some dropouts. What are we losing?
-select --rsca.AgreementNumber,
+select distinct
+       --rsca.AgreementNumber,
        ra.ReclamationAgreementID,
        --rsca.PacificNorthActivityNumber,
        p.ProjectID
@@ -163,10 +186,19 @@ ALTER TABLE [dbo].ReclamationAgreementReclamationCostAuthority  WITH CHECK ADD C
 REFERENCES [dbo].ReclamationCostAuthority (ReclamationCostAuthorityID)
 GO
 
+-- AK for uniqueness
+ALTER TABLE [dbo].ReclamationAgreementReclamationCostAuthority ADD  CONSTRAINT [AK_ReclamationAgreementReclamationCostAuthority_ReclamationAgreementID_ReclamationCostAuthorityID] UNIQUE NONCLUSTERED 
+(
+    ReclamationAgreementID ASC,
+    ReclamationCostAuthorityID ASC
+) ON [PRIMARY]
+GO
+
+
 
 -- Fill up the linking table
 insert into dbo.ReclamationAgreementReclamationCostAuthority(ReclamationAgreementID, ReclamationCostAuthorityID)
-select x.ReclamationAgreementID, x.ReclamationCostAuthorityID
+select distinct x.ReclamationAgreementID, x.ReclamationCostAuthorityID
 from
 (
     -- There's some extra stuff here for diagnostics, but we don't use it above. 

@@ -31,6 +31,7 @@
 @using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectAgreement
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @using ProjectFirma.Web.Views.Shared.ProjectContact
@@ -196,7 +197,7 @@
                                 else
                                 {
                                     <h3>Location</h3>
-                                        }
+                                }
                             </div>
                             <div class="panel-body">
                                 @{ ProjectLocationSummary.RenderPartialView(Html, ViewDataTyped.ProjectLocationSummaryViewData); }
@@ -303,6 +304,22 @@
                         }
                     </div>
                 </div>
+                
+                [Start of new block]
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3>
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectAgreementUrl, "Edit Agreements", 1000, ViewDataTyped.UserHasEditProjectAgreementPermissions)
+                            Agreements
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @{
+                            ProjectAgreementDetail.RenderPartialView(Html, ViewDataTyped.ProjectAgreementDetailViewData);
+                        }
+                    </div>
+                </div>
+                [End of new block]
 
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">

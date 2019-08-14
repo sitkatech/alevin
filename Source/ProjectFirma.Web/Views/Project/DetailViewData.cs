@@ -44,6 +44,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public bool UserHasProjectAdminPermissions { get; }
         public bool UserHasEditProjectPermissions { get; }
+        public bool UserHasEditProjectAgreementPermissions { get; }
         public bool UserHasPerformanceMeasureActualManagePermissions { get; }
 
         public string EditProjectUrl { get; }
@@ -57,6 +58,7 @@ namespace ProjectFirma.Web.Views.Project
         public string EditReportedExpendituresUrl { get; }
         public string EditExternalLinksUrl { get; }
         public string EditExpectedFundingUrl { get; }
+        public string EditProjectAgreementUrl { get; }
         public string EditProjectCustomAttributesUrl { get; }
 
         public ProjectBasicsViewData ProjectBasicsViewData { get; }
@@ -94,6 +96,7 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectStewardCannotEditUrl { get; }
         public string ProjectStewardCannotEditPendingApprovalUrl { get; }
         public ProjectFundingDetailViewData ProjectFundingDetailViewData { get; }
+        public ProjectAgreementDetailViewData ProjectAgreementDetailViewData { get; }
         public string EditTechnicalAssistanceRequestsUrl { get; }
         public TechnicalAssistanceRequestsDetailViewData TechnicalAssistanceRequestDetailViewData { get; }
 
@@ -115,6 +118,7 @@ namespace ProjectFirma.Web.Views.Project
         public DetailViewData(Person currentPerson, ProjectFirmaModels.Models.Project project, List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
             ProjectFundingDetailViewData projectFundingDetailViewData,
+            ProjectAgreementDetailViewData projectAgreementDetailViewData,
             TechnicalAssistanceRequestsDetailViewData technicalAssistanceRequestDetailViewData,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
@@ -123,7 +127,9 @@ namespace ProjectFirma.Web.Views.Project
             ImageGalleryViewData imageGalleryViewData, EntityNotesViewData projectNotesViewData, EntityNotesViewData internalNotesViewData,
             EntityExternalLinksViewData entityExternalLinksViewData,
             ProjectBasicsTagsViewData projectBasicsTagsViewData, bool userHasProjectAdminPermissions,
-            bool userHasEditProjectPermissions, bool userHasProjectUpdatePermissions,
+            bool userHasEditProjectPermissions, 
+            bool userHasEditProjectAgreementPermissions,
+            bool userHasProjectUpdatePermissions,
             bool userHasPerformanceMeasureActualManagePermissions, string mapFormID,
             string editProjectCustomAttributesUrl, 
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
@@ -145,6 +151,7 @@ namespace ProjectFirma.Web.Views.Project
             EditProjectUrl = project.GetEditUrl();
             UserHasProjectAdminPermissions = userHasProjectAdminPermissions;
             UserHasEditProjectPermissions = userHasEditProjectPermissions;
+            UserHasEditProjectAgreementPermissions = userHasEditProjectAgreementPermissions;
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
 
             var projectAlerts = new List<string>();
@@ -285,11 +292,13 @@ namespace ProjectFirma.Web.Views.Project
             EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
 
             ProjectFundingDetailViewData = projectFundingDetailViewData;
+            ProjectAgreementDetailViewData = projectAgreementDetailViewData;
             EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
             TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
-            EditExpectedFundingUrl =
-                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c =>
-                    c.EditProjectFundingSourceBudgetsForProject(project));
+            EditExpectedFundingUrl = SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c =>c.EditProjectFundingSourceBudgetsForProject(project));
+
+            // TODO: Set to something real
+            EditProjectAgreementUrl = SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             ProjectExpendituresByCostTypeDetailViewData = projectExpendituresByCostTypeDetailViewData;

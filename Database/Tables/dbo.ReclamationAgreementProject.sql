@@ -9,16 +9,21 @@ CREATE TABLE [dbo].[ReclamationAgreementProject](
  CONSTRAINT [PK_ReclamationAgreementProject_ReclamationAgreementProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationAgreementProjectID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_ReclamationAgreementProject_ReclamationAgreementID_ProjectID] UNIQUE NONCLUSTERED 
+(
+	[ReclamationAgreementID] ASC,
+	[ProjectID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[ReclamationAgreementProject]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementProject_ProjectID_ProjectID] FOREIGN KEY([ProjectID])
+ALTER TABLE [dbo].[ReclamationAgreementProject]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementProject_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
-ALTER TABLE [dbo].[ReclamationAgreementProject] CHECK CONSTRAINT [FK_ReclamationAgreementProject_ProjectID_ProjectID]
+ALTER TABLE [dbo].[ReclamationAgreementProject] CHECK CONSTRAINT [FK_ReclamationAgreementProject_Project_ProjectID]
 GO
-ALTER TABLE [dbo].[ReclamationAgreementProject]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementProject_ReclamationAgreementID_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY([ReclamationAgreementID])
+ALTER TABLE [dbo].[ReclamationAgreementProject]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementProject_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY([ReclamationAgreementID])
 REFERENCES [dbo].[ReclamationAgreement] ([ReclamationAgreementID])
 GO
-ALTER TABLE [dbo].[ReclamationAgreementProject] CHECK CONSTRAINT [FK_ReclamationAgreementProject_ReclamationAgreementID_ReclamationAgreement_ReclamationAgreementID]
+ALTER TABLE [dbo].[ReclamationAgreementProject] CHECK CONSTRAINT [FK_ReclamationAgreementProject_ReclamationAgreement_ReclamationAgreementID]

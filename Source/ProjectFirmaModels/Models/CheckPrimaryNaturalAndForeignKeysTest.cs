@@ -324,7 +324,7 @@ join sys.foreign_key_columns fkc	on fkc.constraint_object_id = fk.object_id
 join sys.columns			 rc		on rc.object_id = fkc.referenced_object_id and rc.column_id = fkc.referenced_column_id
 join sys.columns			 pc		on pc.object_id = fkc.parent_object_id and pc.column_id = fkc.parent_column_id--
 join
-(	
+(
     -- Only do this for single-column foreign keys
     select constraint_object_id
     from sys.foreign_key_columns
