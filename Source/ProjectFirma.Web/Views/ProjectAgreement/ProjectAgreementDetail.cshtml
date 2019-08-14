@@ -27,7 +27,6 @@
 @inherits ProjectFirma.Web.Views.ProjectAgreement.ProjectAgreementDetail
 <div class="table-responsive" style="overflow-x: hidden">
 
-
     <div class="pull-right">
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Agreement", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNewAgreementUrl, "Add New Agreement", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserHasProjectAgreementManagePermissions)
     </div>
@@ -36,77 +35,33 @@
     {
         <p class="systemText">No Agreements associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
     }
-
-    <div class="pull-right">
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Agreement", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNewAgreementUrl, "Add New Agreement", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserHasProjectAgreementManagePermissions)
-    </div>
-
-
-    <table class="summaryLayout table table-condensed table-striped">
-        <tr>
-            <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
-            <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
-        </tr>
-
-        @foreach (var reclamationAgreement in ViewDataTyped.ReclamationAgreements)
-        {
+    else
+    {
+        <table class="summaryLayout table table-condensed table-striped">
             <tr>
-                <td>@reclamationAgreement.AgreementNumber</td>
-                <td>
-                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                        @foreach (var costAuthority in reclamationAgreement.GetReclamationCostAuthorities())
-                        {
-                            <li>
-                                @*<span class="@costAuthority.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>*@
-                                @*TODO: Make into URL*@
-                                <span>@costAuthority.CostAuthorityWorkBreakdownStructure</span>
-                            </li>
-                        }
-                    </ul>
-
-                </td>
-
+                <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
+                <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
             </tr>
 
-            @*<span>@reclamationAgreement.AgreementNumber</span>
-                <span>@reclamationAgreement.GetReclamationWorkBreakdownStructuresAsCommaDelimitedString()</span>*@
-
-        }
-
-    </table>
-
-    @*
-
-        @foreach (var relationshipTypeName in ViewDataTyped.SetRelationshipTypes.OrderBy(x => x))
-        {
-            var projectOrganizations = ViewDataTyped.AllProjectOrganizations.Where(x => x.OrganizationRelationshipTypeName == relationshipTypeName).OrderBy(x => x.Organization.OrganizationName).ToList();
-            <tr>
-                @if (projectOrganizations.Count > 1)
-                {
-                    <td>@(relationshipTypeName + "s")</td>
-                }
-                else
-                {
-                    <td>@relationshipTypeName</td>
-                }
-                <td>
-                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                        @foreach (var x in projectOrganizations)
-                        {
-                            <li>
-                                <span class="@x.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>
-                            </li>
-                        }
-                    </ul>
-                </td>
-
-            </tr>
-        }
-
-    *@
-
-
-
-
+            @foreach (var reclamationAgreement in ViewDataTyped.ReclamationAgreements)
+            {
+                <tr>
+                    <td>@reclamationAgreement.AgreementNumber</td>
+                    <td>
+                        <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                            @foreach (var costAuthority in reclamationAgreement.GetReclamationCostAuthorities())
+                            {
+                                <li>
+                                    @*<span class="@costAuthority.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>*@
+                                    @*TODO: Make into URL*@
+                                    <span>@costAuthority.CostAuthorityWorkBreakdownStructure</span>
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
 
 </div>
