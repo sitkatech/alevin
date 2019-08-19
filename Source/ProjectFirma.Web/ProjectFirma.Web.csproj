@@ -178,6 +178,7 @@
     <Compile Include="Security\ProjectAgreementEditFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />
@@ -401,6 +402,7 @@
     <Content Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cshtml" />
     <Content Include="Views\AttachmentRelationshipType\Index.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
+    <Content Include="Views\Agreement\AgreementIndex.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

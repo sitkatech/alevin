@@ -97,6 +97,7 @@ namespace ProjectFirma.Web.Views
             {
                 BuildAboutMenu(currentPerson),
                 BuildProjectsMenu(currentPerson),
+                BuildAgreementsMenu(currentPerson),
                 BuildProgramInfoMenu(currentPerson)
             };
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
@@ -261,7 +262,7 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildAgreementsMenu(Person currentPerson)
         {
             var projectsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()}");
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementController>(c => c.Index()), currentPerson, $"Full {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementController>(c => c.AgreementIndex()), currentPerson, $"Full {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} List", "Group2"));
             return projectsMenu;
         }
 

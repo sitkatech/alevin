@@ -40,5 +40,10 @@ namespace ProjectFirma.Web.Views.Shared.SortOrder
         {
             return sortableList.OrderBy(x => x.GetSortOrder()).ThenBy(x => x.GetDisplayName(), StringComparer.InvariantCultureIgnoreCase);
         }
+
+        public static IOrderedEnumerable<T> SortByDisplayName<T>(this IEnumerable<T> sortableList) where T : IHaveASortOrder
+        {
+            return sortableList.OrderBy(x => x.GetDisplayName(), StringComparer.InvariantCultureIgnoreCase);
+        }
     }
 }

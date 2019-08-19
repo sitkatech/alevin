@@ -4,8 +4,8 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.PerformanceMeasure;
-using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
 
@@ -20,26 +20,40 @@ namespace ProjectFirma.Web.Controllers
         //}
 
         [AgreementViewFeature]
-        public ViewResult Index()
+        public ViewResult AgreementIndex()
         {
-            return IndexImpl();
+            return AgreementIndexImpl();
         }
 
-        private ViewResult IndexImpl()
+        private ViewResult AgreementIndexImpl()
         {
             var firmaPage = FirmaPageTypeEnum.AgreementList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage);
-            return RazorView<Index, IndexViewData>(viewData);
+            var viewData = new AgreementIndexViewData(CurrentPerson, firmaPage);
+            return RazorView<AgreementIndex, AgreementIndexViewData>(viewData);
         }
 
         [AgreementViewFeature]
-        public GridJsonNetJObjectResult<PerformanceMeasure> PerformanceMeasureGridJsonData()
+        public GridJsonNetJObjectResult<ReclamationAgreement> AgreementGridJsonData()
         {
-            var gridSpec = new PerformanceMeasureGridSpec(CurrentPerson);
-            var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PerformanceMeasure>(performanceMeasures, gridSpec);
+            var gridSpec = new AgreementGridSpec(CurrentPerson);
+            var agreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationAgreement>(agreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        //[ProjectsViewFullListFeature]
+        //public GridJsonNetJObjectResult<Project> IndexGridJsonData()
+        //{
+        //    var fundingTypes = FundingType.All.ToDictionary(x => x.FundingTypeID, x => x);
+        //    var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+        //    var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
+        //    var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes, projectCustomAttributeTypes);
+        //    var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
+        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
+        //    return gridJsonNetJObjectResult;
+        //}
+
+
 
         [AgreementViewFeature]
         public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
