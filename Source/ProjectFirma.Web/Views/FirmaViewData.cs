@@ -219,7 +219,7 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentPerson, "Internal Setup Notes", "Group4"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.StyleGuide()), currentPerson, "Style Guide", "Group4"));
 
-            // Group 5 - Project Firma Configuation stuff
+            // Group 5 - Project Firma Configuration stuff
             if (HttpRequestStorage.Tenant == ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup)
             {
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.DemoScript()), currentPerson, "Demo Script", "Group5")); // TODO: poor man's hack until we do tenant specific menu and features
@@ -246,6 +246,19 @@ namespace ProjectFirma.Web.Views
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Pending()), currentPerson, $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             return projectsMenu;
         }
+
+        /// <summary>
+        /// I'm giving Agreements their own menu, but I'm not wedded to this. Move these around if you have a good reason. -- SLG
+        /// </summary>
+        /// <param name="currentPerson"></param>
+        /// <returns></returns>
+        private static LtInfoMenuItem BuildAgreementsMenu(Person currentPerson)
+        {
+            var projectsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()}");
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementController>(c => c.Index()), currentPerson, $"Full {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+            return projectsMenu;
+        }
+
 
         public string IsActiveUrl(string currentUrlPathAndQuery, string urlToCompare)
         {

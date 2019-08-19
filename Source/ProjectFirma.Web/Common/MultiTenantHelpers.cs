@@ -80,6 +80,20 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttribute().ToolDisplayName;
         }
 
+        #region Reclamation
+
+        public static string GetAgreementName()
+        {
+            return FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel();
+        }
+
+        public static string GetAgreementNamePluralized()
+        {
+            return PluralizationService.Pluralize(GetAgreementName());
+        }
+
+        #endregion Reclamation
+
         public static string GetTenantSquareLogoUrl()
         {
             return GetTenantAttribute().TenantSquareLogoFileResource != null

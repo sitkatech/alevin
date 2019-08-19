@@ -56,6 +56,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\AgreementController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
@@ -159,6 +160,8 @@
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
+    <Compile Include="Security\AgreementManageFeature.cs" />
+    <Compile Include="Security\AgreementViewFeature.cs" />
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
@@ -184,6 +187,8 @@
     <Compile Include="Views\Help\RequestSupport.cs" />
     <Compile Include="Views\Help\RequestSupportViewData.cs" />
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
+    <Compile Include="Views\Agreement\AgreementGridSpec.cs" />
+    <Compile Include="Views\Agreement\AgreementIndexViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostTypeViewModel.cs" />

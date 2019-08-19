@@ -17,6 +17,7 @@ namespace ProjectFirma.Web.Models
         {
             return ToType((int) fieldDefinitionEnum);
         }
+
         public static FieldDefinition ToType(int fieldDefinitionID)
         {
             return HttpRequestStorage.DatabaseEntities.FieldDefinitions.SingleOrDefault(x =>

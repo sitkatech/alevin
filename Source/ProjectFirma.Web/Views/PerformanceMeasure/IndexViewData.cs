@@ -27,7 +27,7 @@ using ProjectFirma.Web.Models;
 namespace ProjectFirma.Web.Views.PerformanceMeasure
 {
     public class IndexViewData : FirmaViewData
-    {        
+    {
         public PerformanceMeasureGridSpec PerformanceMeasureGridSpec{ get; }
         public string PerformanceMeasureGridName{ get; }
         public string PerformanceMeasureGridDataUrl{ get; }
@@ -57,3 +57,4 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         }
     }
 }
+
