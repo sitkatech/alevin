@@ -57,6 +57,7 @@
         .col-xs-5.contactIdSelectGroup div.bootstrap-select.btn-group {
             width: 100%;
         }
+        #EditContactsAngularApp{ min-height: 400px;}
     </style>
     <div class="validationError">
         @Html.ValidationSummary()
@@ -64,7 +65,7 @@
     <div id="EditContactsAngularApp" ng-controller="ProjectContactController">
         <div class="row">
             <div class="col-md-12">
-                <p>Select the Contacts that are associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). Some association types have a single contact(e.g. Primary Contact); these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other relationship types can apply to any number of contacts and are not required.</p>
+                <p>Select the Contacts that are associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). Some association types have a single contact(e.g. @(FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel())); these are marked with a required symbol (<sup>@Html.Raw(BootstrapHtmlHelpers.RequiredIcon)</sup>). Other relationship types can apply to any number of contacts and are not required.</p>
             </div>
         </div>
         <hr />
@@ -80,8 +81,8 @@
                     @*Selectpicker*@
                     <div class="col-md-12">
                         <div class="input-group" style="width: 100%;">
-                            <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="8">
-                                <option value="" disabled ng-selected="isPersonSelected(null)">Select One</option>
+                            <select class="selectpicker" ng-model="PrimaryContactPersonID" ng-change="primaryContactPersonChange(PrimaryContactPersonID)" data-width="100%" data-live-search="true" data-size="6">
+                                <option value="" ng-selected="isPersonSelected(null)">Select One</option>
                                 <option ng-repeat="person in getContactsForPrimaryContactDropdown()"
                                         ng-bind="person.FullNameWithOrgShortName"
                                         ng-value="person.PersonID"

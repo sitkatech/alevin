@@ -28,11 +28,11 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.ProjectContact;
 using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
@@ -46,7 +46,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using ProjectFirma.Web.Views.Shared.ProjectContact;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -140,12 +139,15 @@ namespace ProjectFirma.Web.Controllers
             var editOrganizationsUrl = SitkaRoute<ProjectOrganizationController>.BuildUrlFromExpression(c => c.EditOrganizations(project));
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(project));
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
-            // Use a different editor for Reported Expenditures if the Tenant's selected BudgetType is Budget by Year and Cost Type
+            // Use a different editor for Budget and Reported Expenditures if the Tenant's selected BudgetType is Budget by Year and Cost Type
             var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
-            var reportExpendituresByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
-            var editReportedExpendituresUrl = reportExpendituresByCostType ?
+            var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
+            var editReportedExpendituresUrl = reportFinancialsByCostType ?
                 SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostTypeForProject(project)) :
                 SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresForProject(project));
+            var editExpectedFundingUrl = reportFinancialsByCostType ?
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetByCostTypeForProject(project)) :
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
@@ -162,11 +164,14 @@ namespace ProjectFirma.Web.Controllers
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList()));
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(project);
-            // Populate Expenditures ViewData based on BudgetType
-            var projectExpendituresSummaryViewData = !reportExpendituresByCostType ? BuildProjectExpendituresDetailViewData(project) : null;
-            var projectExpendituresByCostTypeSummaryViewData = reportExpendituresByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
+            // Budget - conditional based on BudgetType
+            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentPerson, project);
+            var projectBudgetsAnnualViewData = !reportFinancialsByCostType ? new ProjectBudgetsAnnualViewData(CurrentPerson, project) : null;
+            var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentPerson, project) : null;
 
-            var projectFundingDetailViewData = new ProjectFundingDetailViewData(CurrentPerson, project, false, new List<IFundingSourceBudgetAmount>(project.ProjectFundingSourceBudgets));
+            // Expenditures - conditional based on BudgetType
+            var projectExpendituresSummaryViewData = !reportFinancialsByCostType ? BuildProjectExpendituresDetailViewData(project) : null;
+            var projectExpendituresByCostTypeSummaryViewData = reportFinancialsByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
 
             // NEW view data
             var projectAgreementDetailViewData = new ProjectAgreementDetailViewData(CurrentPerson, project, false);
@@ -212,7 +217,9 @@ namespace ProjectFirma.Web.Controllers
                 activeProjectStages,
                 projectBasicsViewData,
                 projectLocationSummaryViewData,
-                projectFundingDetailViewData,
+                projectBudgetSummaryViewData,
+                projectBudgetsAnnualViewData,
+                projectBudgetsAnnualByCostTypeViewData,
                 projectAgreementDetailViewData,
                 technicalAssistanceRequestViewData,
                 performanceMeasureExpectedsSummaryViewData,
@@ -237,7 +244,7 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureExpectedsUrl,
                 editPerformanceMeasureActualsUrl,
                 editReportedExpendituresUrl,
-                reportExpendituresByCostType,
+                reportFinancialsByCostType,
                 auditLogsGridSpec,
                 auditLogsGridDataUrl,
                 editExternalLinksUrl,
@@ -251,19 +258,23 @@ namespace ProjectFirma.Web.Controllers
                 geospatialAreaTypes, 
                 projectCustomAttributeTypesViewData,
                 projectContactsDetailViewData,
-                editContactsUrl);
+                editContactsUrl, editExpectedFundingUrl);
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(Person currentPerson, Project project)
+        {
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgets);
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentPerson, project, projectFundingSourceCostTypeAmounts, project.ExpectedFundingUpdateNote);
+            return projectBudgetsAnnualByCostTypeViewData;
         }
 
         private static ProjectExpendituresByCostTypeDetailViewData BuildProjectExpendituresByCostTypeDetailViewData(Project project)
         {
             var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-            var calendarYearsForFundingSourceExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
-            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(
-                projectFundingSourceExpenditures,
-                calendarYearsForFundingSourceExpenditures,
-                FirmaHelpers.CalculateYearRanges(project.GetExpendituresExemptReportingYears().Select(x => x.CalendarYear)),
-                project.NoExpendituresToReportExplanation);
+            var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
+            var projectExpendituresByCostTypeDetailViewData = new ProjectExpendituresByCostTypeDetailViewData(project.NoExpendituresToReportExplanation, projectFundingSourceCostTypeExpenditureAmounts);
             return projectExpendituresByCostTypeDetailViewData;
         }
 

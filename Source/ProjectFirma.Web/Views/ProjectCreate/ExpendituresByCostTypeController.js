@@ -41,12 +41,6 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
             .flatten();
     };
 
-    $scope.getAllUsedCalendarYears = function () { return $scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray().map("CalendarYear").flatten().union().sortBy().value(); };
-
-    $scope.getCalendarYearRange = function() {
-         return _.sortBy(_.union($scope.getAllUsedCalendarYears(), angularModelAndViewData.AngularViewData.CalendarYearRange));
-    };
-
     $scope.getAllUsedFundingSourceIds = function () { return _.uniq(_.map($scope.AngularModel.ProjectFundingSourceExpenditures, function (p) { return p.FundingSourceID; })); };
 
     $scope.filteredFundingSources = function () {
@@ -70,7 +64,10 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
     $scope.getFundingSource = function (fundingSourceId) { return _.find($scope.AngularViewData.AllFundingSources, function (f) { return fundingSourceId == f.FundingSourceID; }); };
 
     $scope.getRelevantCostTypes = function () {
-        var relevantCostTypes = _.sortBy(_.filter($scope.AngularModel.ProjectRelevantCostTypes, function (f) { return f.IsRelevant === true; }), ["CostTypeName"]);
+        var relevantCostTypes = _.sortBy(_.filter($scope.AngularModel.ProjectRelevantCostTypes, function (f) { return f.IsRelevant === true; }),
+            function (c) {
+                return c.CostTypeName;
+            });
         return relevantCostTypes;
     };
 
@@ -79,8 +76,15 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
     };
 
     $scope.getRelevantProjectFundingSourceExpenditures = function () {
+        if (!$scope.AngularModel.HasExpenditures) {
+            return [];
+        }
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         return _.filter($scope.AngularModel.ProjectFundingSourceExpenditures, function (f) { return _.includes(relevantCostTypeIDs, f.CostTypeID); });
+    };
+
+    $scope.getRelevantCalendarYearExpenditures = function (projectFundingSourceExpenditure) {
+        return _.filter(projectFundingSourceExpenditure.CalendarYearExpenditures, function (f) { return f.IsRelevant; });
     };
 
     $scope.getCostTypeName = function (projectFundingSourceExpenditure) {
@@ -116,7 +120,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
                     pfse.FundingSourceID == fundingSourceId &&
                     _.includes(relevantCostTypeIDs, pfse.CostTypeID);
             }).map("CalendarYearExpenditures").flatten().value();
-        return $scope.calculateExpenditureTotal(calendarYearExpendituresAsFlattenedArray);
+        return $scope.calculateExpenditureTotal(_.filter(calendarYearExpendituresAsFlattenedArray, function (f) { return f.IsRelevant; }));
     };
 
     $scope.getExpenditureTotalForRow = function (projectFundingSourceExpenditure) {
@@ -127,7 +131,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
                     pfse.CostTypeID ==
                     projectFundingSourceExpenditure.CostTypeID;
             }).map("CalendarYearExpenditures").flatten().value();
-        return $scope.calculateExpenditureTotal(calendarYearExpendituresAsFlattenedArray);
+        return $scope.calculateExpenditureTotal(_.filter(calendarYearExpendituresAsFlattenedArray, function (f) { return f.IsRelevant; }));
     };
 
     $scope.calculateExpenditureTotal = function (expenditures) {
@@ -140,15 +144,18 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         if (Sitka.Methods.isUndefinedNullOrEmpty(calendarYear)) {
             return;
         }
-        _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) { $scope.addCalendarYearExpenditureRow($scope.AngularViewData.ProjectID, fundingSourceId, calendarYear); });
+        _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) { $scope.addCalendarYearExpenditureRow(fundingSourceId, calendarYear); });
+        $scope.calendarYearRange.splice(_.sortedIndex($scope.calendarYearRange, calendarYear), 0, calendarYear);
     };
 
     $scope.getProjectFundingSourceExpenditureRowsForFundingSource = function (fundingSourceId) {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
-        return _.filter($scope.AngularModel.ProjectFundingSourceExpenditures,
+        return _.sortBy(_.filter($scope.AngularModel.ProjectFundingSourceExpenditures,
             function (pfse) {
                 return pfse.ProjectID == $scope.AngularViewData.ProjectID && pfse.FundingSourceID == fundingSourceId && _.includes(relevantCostTypeIDs, pfse.CostTypeID);
-            });
+            }), function(f) {
+                    return $scope.getCostTypeName(f);
+                });
     };
 
     $scope.addRow = function () {
@@ -157,7 +164,7 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         }
         for (var i = 0; i < $scope.AngularModel.ProjectRelevantCostTypes.length; ++i) {
             var projectRelevantCostTypes = $scope.AngularModel.ProjectRelevantCostTypes[i];
-            var newProjectFundingSourceExpenditure = $scope.createNewRow($scope.AngularViewData.ProjectID, parseInt($scope.fundingSourceIDToAdd), projectRelevantCostTypes.CostTypeID, $scope.getCalendarYearRange(), projectRelevantCostTypes.IsRelevant);
+            var newProjectFundingSourceExpenditure = $scope.createNewRow($scope.AngularViewData.ProjectID, parseInt($scope.fundingSourceIDToAdd), projectRelevantCostTypes.CostTypeID, $scope.calendarYearRange, projectRelevantCostTypes.IsRelevant);
             $scope.AngularModel.ProjectFundingSourceExpenditures.push(newProjectFundingSourceExpenditure);
         }
         $scope.resetfundingSourceIDToAdd();
@@ -174,11 +181,20 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         return newProjectFundingSourceExpenditure;
     };
 
-    $scope.addCalendarYearExpenditureRow = function (projectId, fundingSourceId, calendarYear) {
+    $scope.addCalendarYearExpenditureRow = function (fundingSourceId, calendarYear) {
         var projectFundingSourceExpenditureRowsForFundingSource = $scope.getProjectFundingSourceExpenditureRowsForFundingSource(fundingSourceId);
         if (projectFundingSourceExpenditureRowsForFundingSource.length > 0) {
             for (var i = 0; i < projectFundingSourceExpenditureRowsForFundingSource.length; ++i) {
-                projectFundingSourceExpenditureRowsForFundingSource[i].CalendarYearExpenditures.push($scope.createNewCalendarYearExpenditureRow(calendarYear));
+                var existingCalendarYearExpenditure = _.find(projectFundingSourceExpenditureRowsForFundingSource[i].CalendarYearExpenditures,
+                    function(cye) {
+                        return cye.CalendarYear == calendarYear;
+                    });
+                if (Sitka.Methods.isUndefinedNullOrEmpty(existingCalendarYearExpenditure)) {
+                    projectFundingSourceExpenditureRowsForFundingSource[i].CalendarYearExpenditures.push(
+                        $scope.createNewCalendarYearExpenditureRow(calendarYear));
+                } else {
+                    existingCalendarYearExpenditure.IsRelevant = true;
+                }
             }
         }
     };
@@ -186,15 +202,9 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
     $scope.createNewCalendarYearExpenditureRow = function (calendarYear) {
         return {
             CalendarYear: calendarYear,
-            ExpenditureAmount: null
+            MonetaryAmount: 0,
+            IsRelevant: true
         };
-    };
-
-    $scope.selectAllYears = function (isChecked) {
-        _.each($scope.AngularModel.ProjectExemptReportingYears,
-            function (f) {
-                f.IsExempt = isChecked;
-            });
     };
 
     $scope.deleteFundingSourceRow = function (fundingSourceId) {
@@ -209,7 +219,37 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
         }
     };
 
+    $scope.deleteCalendarYear = function (calendarYear) {
+        _.each($scope.AngularModel.ProjectFundingSourceExpenditures, function (pfse) {
+            var calendarYearExpenditures = _.filter(pfse.CalendarYearExpenditures, function (cye) { return cye.CalendarYear == calendarYear });
+            _.each(calendarYearExpenditures, function(cye) { cye.IsRelevant = false; });
+        });
+        _.pull($scope.calendarYearRange, calendarYear);
+    };
+
     $scope.addRemoveCostTypeFromExpenditures = function () {
+        
+        // when adding cost types, we need to populate CalendarYearExpenditures with any missing years
+        var calendarYearsToAdd = $scope.calendarYearRange;
+        if (calendarYearsToAdd.length > 0) {
+            var projectFundingSourceExpendituresToUpdate = $scope.getRelevantProjectFundingSourceExpenditures();
+            _.each(projectFundingSourceExpendituresToUpdate,
+                function (pfse) {
+                    if (Sitka.Methods.isUndefinedNullOrEmpty(pfse.CalendarYearExpenditures)) {
+                        pfse.CalendarYearExpenditures = [];
+                    }
+                    _.each(calendarYearsToAdd,
+                        function (calendarYear) {
+                            var existingCalendarYearExpenditure = _.find(pfse.CalendarYearExpenditures,
+                                function (cye) {
+                                    return cye.CalendarYear == calendarYear;
+                                });
+                            if (existingCalendarYearExpenditure == null) {
+                                pfse.CalendarYearExpenditures.push($scope.createNewCalendarYearExpenditureRow(calendarYear));
+                            }
+                        });
+                });
+        }
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         _.each($scope.AngularModel.ProjectFundingSourceExpenditures,
             function (f) {
@@ -217,5 +257,15 @@ angular.module("ProjectFirmaApp").controller("ExpendituresByCostTypeController",
             });
     };
 
+    $scope.canDeleteCalendarYear = function (calendarYear) {
+        return $scope.calendarYearRange.length > 1 &&
+            !_.includes($scope.AngularViewData.RequiredCalendarYearRange, calendarYear);
+    };
+
+    $scope.onTextFocus = function($event) {
+        $event.target.select();
+    };
+
+    $scope.calendarYearRange = _.sortBy(_.union($scope.getAllCalendarYearExpendituresAsFlattenedLoDashArray().map("CalendarYear").flatten().union().value(), $scope.AngularViewData.RequiredCalendarYearRange));
     $scope.resetfundingSourceIDToAdd();
 });

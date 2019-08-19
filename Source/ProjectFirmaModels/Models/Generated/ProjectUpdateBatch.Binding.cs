@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         {
             this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
             this.PerformanceMeasureExpectedUpdates = new HashSet<PerformanceMeasureExpectedUpdate>();
+            this.ProjectAttachmentUpdates = new HashSet<ProjectAttachmentUpdate>();
             this.ProjectContactUpdates = new HashSet<ProjectContactUpdate>();
             this.ProjectCustomAttributeUpdates = new HashSet<ProjectCustomAttributeUpdate>();
             this.ProjectDocumentUpdates = new HashSet<ProjectDocumentUpdate>();
@@ -38,6 +39,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectImageUpdates = new HashSet<ProjectImageUpdate>();
             this.ProjectLocationStagingUpdates = new HashSet<ProjectLocationStagingUpdate>();
             this.ProjectLocationUpdates = new HashSet<ProjectLocationUpdate>();
+            this.ProjectNoFundingSourceIdentifiedUpdates = new HashSet<ProjectNoFundingSourceIdentifiedUpdate>();
             this.ProjectNoteUpdates = new HashSet<ProjectNoteUpdate>();
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
             this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
@@ -49,7 +51,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string geospatialAreaComment, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string noExpendituresToReportExplanation, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment) : this()
+        public ProjectUpdateBatch(int projectUpdateBatchID, int projectID, DateTime lastUpdateDate, string performanceMeasureActualYearsExemptionExplanation, int lastUpdatePersonID, string basicsComment, string expendituresComment, string reportedPerformanceMeasuresComment, string locationSimpleComment, string locationDetailedComment, string budgetsComment, int projectUpdateStateID, bool isPhotosUpdated, string basicsDiffLog, string performanceMeasureDiffLog, string expendituresDiffLog, string budgetsDiffLog, string externalLinksDiffLog, string notesDiffLog, string geospatialAreaComment, string expectedFundingComment, string expectedFundingDiffLog, string organizationsComment, string organizationsDiffLog, string noExpendituresToReportExplanation, string expectedPerformanceMeasuresComment, string technicalAssistanceRequestsComment, string contactsComment, string expectedFundingUpdateNote) : this()
         {
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.ProjectID = projectID;
@@ -79,6 +81,7 @@ namespace ProjectFirmaModels.Models
             this.ExpectedPerformanceMeasuresComment = expectedPerformanceMeasuresComment;
             this.TechnicalAssistanceRequestsComment = technicalAssistanceRequestsComment;
             this.ContactsComment = contactsComment;
+            this.ExpectedFundingUpdateNote = expectedFundingUpdateNote;
         }
 
         /// <summary>
@@ -128,13 +131,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || ProjectContactUpdates.Any() || ProjectCustomAttributeUpdates.Any() || ProjectDocumentUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any() || ProjectGeospatialAreaUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoteUpdates.Any() || ProjectOrganizationUpdates.Any() || ProjectRelevantCostTypeUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateHistories.Any() || TechnicalAssistanceRequestUpdates.Any();
+            return PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || ProjectAttachmentUpdates.Any() || ProjectContactUpdates.Any() || ProjectCustomAttributeUpdates.Any() || ProjectDocumentUpdates.Any() || ProjectExemptReportingYearUpdates.Any() || ProjectExternalLinkUpdates.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any() || ProjectGeospatialAreaUpdates.Any() || ProjectImageUpdates.Any() || ProjectLocationStagingUpdates.Any() || ProjectLocationUpdates.Any() || ProjectNoFundingSourceIdentifiedUpdates.Any() || ProjectNoteUpdates.Any() || ProjectOrganizationUpdates.Any() || ProjectRelevantCostTypeUpdates.Any() || (ProjectUpdate != null) || ProjectUpdateHistories.Any() || TechnicalAssistanceRequestUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectCustomAttributeUpdate).Name, typeof(ProjectDocumentUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name, typeof(TechnicalAssistanceRequestUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectUpdateBatch).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(ProjectAttachmentUpdate).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectCustomAttributeUpdate).Name, typeof(ProjectDocumentUpdate).Name, typeof(ProjectExemptReportingYearUpdate).Name, typeof(ProjectExternalLinkUpdate).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(ProjectImageUpdate).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectLocationUpdate).Name, typeof(ProjectNoFundingSourceIdentifiedUpdate).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateHistory).Name, typeof(TechnicalAssistanceRequestUpdate).Name};
 
 
         /// <summary>
@@ -165,6 +168,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in PerformanceMeasureExpectedUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectAttachmentUpdates.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -225,6 +233,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in ProjectLocationUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectNoFundingSourceIdentifiedUpdates.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -326,11 +339,13 @@ namespace ProjectFirmaModels.Models
         public string ExpectedPerformanceMeasuresComment { get; set; }
         public string TechnicalAssistanceRequestsComment { get; set; }
         public string ContactsComment { get; set; }
+        public string ExpectedFundingUpdateNote { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateBatchID; } set { ProjectUpdateBatchID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedUpdate> PerformanceMeasureExpectedUpdates { get; set; }
+        public virtual ICollection<ProjectAttachmentUpdate> ProjectAttachmentUpdates { get; set; }
         public virtual ICollection<ProjectContactUpdate> ProjectContactUpdates { get; set; }
         public virtual ICollection<ProjectCustomAttributeUpdate> ProjectCustomAttributeUpdates { get; set; }
         public virtual ICollection<ProjectDocumentUpdate> ProjectDocumentUpdates { get; set; }
@@ -343,6 +358,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectImageUpdate> ProjectImageUpdates { get; set; }
         public virtual ICollection<ProjectLocationStagingUpdate> ProjectLocationStagingUpdates { get; set; }
         public virtual ICollection<ProjectLocationUpdate> ProjectLocationUpdates { get; set; }
+        public virtual ICollection<ProjectNoFundingSourceIdentifiedUpdate> ProjectNoFundingSourceIdentifiedUpdates { get; set; }
         public virtual ICollection<ProjectNoteUpdate> ProjectNoteUpdates { get; set; }
         public virtual ICollection<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get; set; }
         public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
@@ -372,6 +388,7 @@ namespace ProjectFirmaModels.Models
             public const int ExpectedPerformanceMeasuresComment = 1000;
             public const int TechnicalAssistanceRequestsComment = 1000;
             public const int ContactsComment = 1000;
+            public const int ExpectedFundingUpdateNote = 500;
         }
     }
 }

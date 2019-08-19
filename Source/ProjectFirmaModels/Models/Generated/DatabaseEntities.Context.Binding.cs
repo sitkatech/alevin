@@ -43,6 +43,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AssessmentGoalConfiguration());
             modelBuilder.Configurations.Add(new AssessmentQuestionConfiguration());
             modelBuilder.Configurations.Add(new AssessmentSubGoalConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeFileResourceMimeTypeConfiguration());
+            modelBuilder.Configurations.Add(new AttachmentRelationshipTypeTaxonomyTrunkConfiguration());
             modelBuilder.Configurations.Add(new AuditLogConfiguration());
             modelBuilder.Configurations.Add(new ClassificationConfiguration());
             modelBuilder.Configurations.Add(new ClassificationPerformanceMeasureConfiguration());
@@ -66,6 +69,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaImageConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
@@ -94,6 +98,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PersonStewardTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new ProjectConfiguration());
             modelBuilder.Configurations.Add(new ProjectAssessmentQuestionConfiguration());
+            modelBuilder.Configurations.Add(new ProjectAttachmentConfiguration());
+            modelBuilder.Configurations.Add(new ProjectAttachmentUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectClassificationConfiguration());
             modelBuilder.Configurations.Add(new ProjectContactConfiguration());
             modelBuilder.Configurations.Add(new ProjectContactUpdateConfiguration());
@@ -124,6 +130,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectLocationStagingConfiguration());
             modelBuilder.Configurations.Add(new ProjectLocationStagingUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectLocationUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectNoFundingSourceIdentifiedConfiguration());
+            modelBuilder.Configurations.Add(new ProjectNoFundingSourceIdentifiedUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectNoteConfiguration());
             modelBuilder.Configurations.Add(new ProjectNoteUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationConfiguration());
@@ -185,6 +193,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<AssessmentQuestion> AssessmentQuestions { get { return AllAssessmentQuestions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentSubGoal> AllAssessmentSubGoals { get; set; }
         public virtual IQueryable<AssessmentSubGoal> AssessmentSubGoals { get { return AllAssessmentSubGoals.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentRelationshipTypeFileResourceMimeType> AllAttachmentRelationshipTypeFileResourceMimeTypes { get; set; }
+        public virtual IQueryable<AttachmentRelationshipTypeFileResourceMimeType> AttachmentRelationshipTypeFileResourceMimeTypes { get { return AllAttachmentRelationshipTypeFileResourceMimeTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentRelationshipType> AllAttachmentRelationshipTypes { get; set; }
+        public virtual IQueryable<AttachmentRelationshipType> AttachmentRelationshipTypes { get { return AllAttachmentRelationshipTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AttachmentRelationshipTypeTaxonomyTrunk> AllAttachmentRelationshipTypeTaxonomyTrunks { get; set; }
+        public virtual IQueryable<AttachmentRelationshipTypeTaxonomyTrunk> AttachmentRelationshipTypeTaxonomyTrunks { get { return AllAttachmentRelationshipTypeTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AuditLog> AllAuditLogs { get; set; }
         public virtual IQueryable<AuditLog> AuditLogs { get { return AllAuditLogs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ClassificationPerformanceMeasure> AllClassificationPerformanceMeasures { get; set; }
@@ -227,6 +241,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FundingSourceCustomAttributeValue> FundingSourceCustomAttributeValues { get { return AllFundingSourceCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSource> AllFundingSources { get; set; }
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaImage> AllGeospatialAreaImages { get; set; }
+        public virtual IQueryable<GeospatialAreaImage> GeospatialAreaImages { get { return AllGeospatialAreaImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
@@ -283,6 +299,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PersonStewardTaxonomyBranch> PersonStewardTaxonomyBranches { get { return AllPersonStewardTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectAssessmentQuestion> AllProjectAssessmentQuestions { get; set; }
         public virtual IQueryable<ProjectAssessmentQuestion> ProjectAssessmentQuestions { get { return AllProjectAssessmentQuestions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectAttachment> AllProjectAttachments { get; set; }
+        public virtual IQueryable<ProjectAttachment> ProjectAttachments { get { return AllProjectAttachments.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectAttachmentUpdate> AllProjectAttachmentUpdates { get; set; }
+        public virtual IQueryable<ProjectAttachmentUpdate> ProjectAttachmentUpdates { get { return AllProjectAttachmentUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectClassification> AllProjectClassifications { get; set; }
         public virtual IQueryable<ProjectClassification> ProjectClassifications { get { return AllProjectClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectContact> AllProjectContacts { get; set; }
@@ -343,6 +363,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectLocationStagingUpdate> ProjectLocationStagingUpdates { get { return AllProjectLocationStagingUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectLocationUpdate> AllProjectLocationUpdates { get; set; }
         public virtual IQueryable<ProjectLocationUpdate> ProjectLocationUpdates { get { return AllProjectLocationUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectNoFundingSourceIdentified> AllProjectNoFundingSourceIdentifieds { get; set; }
+        public virtual IQueryable<ProjectNoFundingSourceIdentified> ProjectNoFundingSourceIdentifieds { get { return AllProjectNoFundingSourceIdentifieds.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectNoFundingSourceIdentifiedUpdate> AllProjectNoFundingSourceIdentifiedUpdates { get; set; }
+        public virtual IQueryable<ProjectNoFundingSourceIdentifiedUpdate> ProjectNoFundingSourceIdentifiedUpdates { get { return AllProjectNoFundingSourceIdentifiedUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectNote> AllProjectNotes { get; set; }
         public virtual IQueryable<ProjectNote> ProjectNotes { get { return AllProjectNotes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectNoteUpdate> AllProjectNoteUpdates { get; set; }
@@ -441,6 +465,15 @@ namespace ProjectFirmaModels.Models
 
                 case "AssessmentSubGoal":
                     return AssessmentSubGoals.GetAssessmentSubGoal(primaryKey);
+
+                case "AttachmentRelationshipTypeFileResourceMimeType":
+                    return AttachmentRelationshipTypeFileResourceMimeTypes.GetAttachmentRelationshipTypeFileResourceMimeType(primaryKey);
+
+                case "AttachmentRelationshipType":
+                    return AttachmentRelationshipTypes.GetAttachmentRelationshipType(primaryKey);
+
+                case "AttachmentRelationshipTypeTaxonomyTrunk":
+                    return AttachmentRelationshipTypeTaxonomyTrunks.GetAttachmentRelationshipTypeTaxonomyTrunk(primaryKey);
 
                 case "AuditLogEventType":
                     var auditLogEventType = AuditLogEventType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -547,6 +580,9 @@ namespace ProjectFirmaModels.Models
                     var fundingType = FundingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
                     return fundingType;
+
+                case "GeospatialAreaImage":
+                    return GeospatialAreaImages.GetGeospatialAreaImage(primaryKey);
 
                 case "GeospatialArea":
                     return GeospatialAreas.GetGeospatialArea(primaryKey);
@@ -666,6 +702,12 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectAssessmentQuestion":
                     return ProjectAssessmentQuestions.GetProjectAssessmentQuestion(primaryKey);
+
+                case "ProjectAttachment":
+                    return ProjectAttachments.GetProjectAttachment(primaryKey);
+
+                case "ProjectAttachmentUpdate":
+                    return ProjectAttachmentUpdates.GetProjectAttachmentUpdate(primaryKey);
 
                 case "ProjectClassification":
                     return ProjectClassifications.GetProjectClassification(primaryKey);
@@ -796,6 +838,12 @@ namespace ProjectFirmaModels.Models
 
                 case "ProjectLocationUpdate":
                     return ProjectLocationUpdates.GetProjectLocationUpdate(primaryKey);
+
+                case "ProjectNoFundingSourceIdentified":
+                    return ProjectNoFundingSourceIdentifieds.GetProjectNoFundingSourceIdentified(primaryKey);
+
+                case "ProjectNoFundingSourceIdentifiedUpdate":
+                    return ProjectNoFundingSourceIdentifiedUpdates.GetProjectNoFundingSourceIdentifiedUpdate(primaryKey);
 
                 case "ProjectNote":
                     return ProjectNotes.GetProjectNote(primaryKey);

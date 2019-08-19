@@ -238,8 +238,10 @@ namespace ProjectFirmaModels.Models
         IsDefaultContactType = 288,
         ProjectContactRelationshipType = 289,
         CostType = 290,
-        Agreement = 291,
-        AgreementNumber = 292,
-        CostAuthorityWorkBreakdownStructure = 293
+        ProjectAttachmentRelationshipType = 291,
+        Agreement = 292,
+        AgreementNumber = 293,
+        CostAuthorityWorkBreakdownStructure = 294,
+        ContractType = 295
     }
 }

@@ -38,9 +38,9 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
 
-        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch project)
+        public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return project.ProjectRelevantCostTypeUpdates
+            return projectUpdateBatch.ProjectRelevantCostTypeUpdates
                 .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
         }
@@ -98,6 +98,11 @@ namespace ProjectFirma.Web.Models
 
             // Expected Funding
             ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
+            if (project.FundingType == FundingType.BudgetVariesByYear)
+            {
+                ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            }
 
             // expected performance measures
             PerformanceMeasureExpectedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -246,6 +251,15 @@ namespace ProjectFirma.Web.Models
                 }
         }
 
+        public static void DeleteProjectNoFundingSourceIdentifiedUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectNoFundingSourceIdentifiedUpdates = projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.ToList();
+            foreach (var projectNoFundingSourceIdentifiedUpdate in projectNoFundingSourceIdentifiedUpdates)
+            {
+                projectNoFundingSourceIdentifiedUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
         public static void DeletePerformanceMeasureActualUpdates(this ProjectUpdateBatch projectUpdateBatch)
         {
             var performanceMeasureActualUpdates = projectUpdateBatch.PerformanceMeasureActualUpdates.ToList();
@@ -390,6 +404,10 @@ namespace ProjectFirma.Web.Models
 
         public static List<string> ValidateExpendituresAndForceValidation(this ProjectUpdateBatch projectUpdateBatch)
         {
+            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            {
+                return projectUpdateBatch.ValidateExpendituresByCostType();
+            }
             return projectUpdateBatch.ValidateExpenditures();
         }
 
@@ -415,9 +433,78 @@ namespace ProjectFirma.Web.Models
             }
             return new List<string>();
         }
+        public static List<string> ValidateExpendituresByCostType(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            if (!projectUpdateBatch.AreProjectBasicsValid())
+            {
+                return new List<string> {FirmaValidationMessages.UpdateSectionIsDependentUponBasicsSection};
+            }
+
+            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresReportedExpenditures() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
+            {
+                // validation 1: ensure that we have expenditure values from ProjectUpdate start year to min(endyear, currentyear)
+                var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdatePlanningDesignStartToCompletionYearRange();
+                List<IFundingSourceExpenditure> projectFundingSourceExpenditures = new List<IFundingSourceExpenditure>(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates);
+                var errors = new List<string>();
+                // Need to get FundingSources by IDs because we may have unsaved projectFundingSourceExpenditures that won't have a reference to the entity
+                var fundingSourcesIDs = projectFundingSourceExpenditures.Select(x => x.FundingSourceID).Distinct().ToList();
+                var fundingSources =
+                    HttpRequestStorage.DatabaseEntities.FundingSources.Where(x => fundingSourcesIDs.Contains(x.FundingSourceID));
+
+                if (!projectFundingSourceExpenditures.Any())
+                {
+                    if (string.IsNullOrWhiteSpace(projectUpdateBatch.NoExpendituresToReportExplanation))
+                    {
+                        errors.Add(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+                    }
+                }
+                else
+                {
+                    if (!fundingSources.Any())
+                    {
+                        var yearsForErrorDisplay = string.Join(", ", FirmaHelpers.CalculateYearRanges(yearsExpected));
+                        errors.Add($"Missing Expenditures for {string.Join(", ", yearsForErrorDisplay)}");
+                    }
+                    else
+                    {
+                        var missingFundingSourceYears =
+                            new Dictionary<ProjectFirmaModels.Models.FundingSource, IEnumerable<int>>();
+                        foreach (var fundingSource in fundingSources)
+                        {
+                            var currentFundingSource = fundingSource;
+                            var missingYears =
+                                yearsExpected
+                                    .GetMissingYears(projectFundingSourceExpenditures
+                                        .Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID)
+                                        .Select(x => x.CalendarYear)).ToList();
+
+                            if (missingYears.Any())
+                            {
+                                missingFundingSourceYears.Add(currentFundingSource, missingYears);
+                            }
+                        }
+
+                        foreach (var fundingSource in missingFundingSourceYears)
+                        {
+                            var yearsForErrorDisplay =
+                                string.Join(", ", FirmaHelpers.CalculateYearRanges(fundingSource.Value));
+                            errors.Add(
+                                $"Missing Expenditures for {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()} '{fundingSource.Key.GetDisplayName()}' for the following years: {string.Join(", ", yearsForErrorDisplay)}");
+                        }
+                    }
+                }
+
+                return errors;
+            }
+            return new List<string>();
+        }
 
         public static bool AreExpendituresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
+            if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+            {
+                return projectUpdateBatch.ValidateExpendituresByCostType().Count == 0;
+            }
             return projectUpdateBatch.ValidateExpenditures().Count == 0;
         }
 
@@ -497,6 +584,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectGeospatialArea> projectGeospatialAreas, 
             IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes, 
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
+            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -519,6 +607,7 @@ namespace ProjectFirma.Web.Models
                 projectGeospatialAreas,
                 projectGeospatialAreaTypeNotes,
                 projectFundingSourceBudgets,
+                projectNoFundingSourceIdentifieds,
                 allProjectOrganizations,
                 allProjectDocuments,
                 allProjectCustomAttributes,
@@ -556,6 +645,7 @@ namespace ProjectFirma.Web.Models
             IList<ProjectGeospatialArea> projectGeospatialAreas,
             IList<ProjectGeospatialAreaTypeNote> projectGeospatialAreaTypeNotes,
             IList<ProjectFundingSourceBudget> projectFundingSourceBudgets,
+            IList<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds,
             IList<ProjectOrganization> allProjectOrganizations,
             IList<ProjectDocument> allProjectDocuments,
             IList<ProjectCustomAttribute> allProjectCustomAttributes,
@@ -571,6 +661,8 @@ namespace ProjectFirma.Web.Models
 
             // expected funding
             ProjectFundingSourceBudgetUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectFundingSourceBudgets);
+
+            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectNoFundingSourceIdentifieds);
 
             // project exempt reporting years
             ProjectExemptReportingYearUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, projectExemptReportingYears);
