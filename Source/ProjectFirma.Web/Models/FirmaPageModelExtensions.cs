@@ -18,7 +18,16 @@ namespace ProjectFirma.Web.Models
 
         public static FirmaPage GetFirmaPage(this FirmaPageType firmaPageType)
         {
-            return firmaPageType.FirmaPages.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
+            var firmaPage = firmaPageType.FirmaPages.SingleOrDefault(x => x.TenantID == HttpRequestStorage.Tenant.TenantID);
+            if (firmaPage == null)
+            {
+                firmaPage = new FirmaPage(firmaPageType.FirmaPageTypeID);
+                firmaPage.FirmaPageType = HttpRequestStorage.DatabaseEntities.FirmaPageTypes.GetFirmaPageType(firmaPageType.FirmaPageTypeID);
+                firmaPage.FirmaPageContent = $"[No FirmaPage defined yet for FirmaPageType {firmaPageType.FirmaPageTypeDisplayName} for Tenant {HttpRequestStorage.Tenant.TenantName} (TenantID: {HttpRequestStorage.Tenant.TenantID})]";
+                // Can we get this without crashing?
+                var blah = firmaPage.FirmaPageType.FirmaPageTypeDisplayName;
+            }
+            return firmaPage;
         }
 
         public static FirmaPage GetFirmaPage(this FirmaPageTypeEnum firmaPageTypeEnum)

@@ -19,6 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
@@ -33,37 +36,25 @@ namespace ProjectFirma.Web.Views.Agreement
     {
         public AgreementGridSpec(Person currentPerson)
         {
-            //var hasDeletePermission = new AgreementManageFeature().HasPermissionByPerson(currentPerson);
-            //if (hasDeletePermission)
-            //{
-            //    //Add(string.Empty, x => x.AgreementDataSourceType.IsCustomCalculation ? new HtmlString("") : DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
-            //}
-
-            /*
-            Add(FieldDefinitionEnum.Agreement.ToType().ToGridHeaderString(MultiTenantHelpers.GetAgreementName()),
-                a => UrlTemplate.MakeHrefString(a.GetSummaryUrl(), a.AgreementDisplayName),
-                300,
-                DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.MeasurementUnit.ToType().ToGridHeaderString("Unit"), a => a.MeasurementUnitType.LegendDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.AgreementType.ToType().ToGridHeaderString("Type"), a => a.AgreementType.AgreementTypeDisplayName, 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Description", a => a.AgreementDefinition, 400, DhtmlxGridColumnFilterType.Html);
-            Add($"# of {FieldDefinitionEnum.AgreementSubcategory.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
-            */
-
             // AgreementNumber
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => a.AgreementNumber, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => a.AgreementNumber, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
+            // Projects
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300);
             // Organization info
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization.GetDetailUrl(), a.Organization.GetDisplayName()), 300);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             // Contract Type
             Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
+            Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReclamationAgreementReclamationCostAuthorities.Count, 80);
+        }
 
-            Add($"# of {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReclamationAgreementReclamationCostAuthorities.Count, 80);
-            
-
-            
-
+        private static HtmlString GetProjectHrefsString(ReclamationAgreement reclamationAgreement)
+        {
+            List<HtmlString> hrefStrings = reclamationAgreement.ReclamationAgreementProjects.Select(rap => UrlTemplate.MakeHrefString(rap.Project.GetDetailUrl(), rap.Project.GetDisplayName())).ToList();
+            var commaDelimitedHrefStrings =  new HtmlString(string.Join(", ", hrefStrings));
+            return commaDelimitedHrefStrings;
         }
     }
 }

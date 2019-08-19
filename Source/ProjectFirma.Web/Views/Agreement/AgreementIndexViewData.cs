@@ -1,12 +1,14 @@
 ﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Agreement
 {
     public class AgreementIndexViewData : FirmaViewData
     {
+        public ViewPageContentViewData AgrementIndexViewPageContentViewData { get; }
         public AgreementGridSpec AgreementGridSpec { get; }
         public string AgreementGridName { get; }
         public string AgreementGridDataUrl { get; }
@@ -36,6 +38,7 @@ namespace ProjectFirma.Web.Views.Agreement
             AgreementGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementGridJsonData());
             // Is this needed??
             //EditSortOrderUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(x => x.EditSortOrder());
+            AgrementIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
         }
     }
 }
