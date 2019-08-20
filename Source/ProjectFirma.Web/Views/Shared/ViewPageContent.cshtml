@@ -8,7 +8,7 @@
     <div class="firmaPageContent" style="position: relative; min-height: 30px;">
         <div class="hoverEditButton">
             <div style="margin-top: 10px">
-                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPageDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)                
+                @ModalDialogFormHelper.ModalDialogFormLink("Edit", ViewDataTyped.EditPageContentUrl, string.Format("Edit Content for {0}", ViewDataTyped.FirmaPageDisplayName), 900, "Save", "Cancel", new List<string> { "btn-firma btn-xs" }, null, null)
             </div>
         </div>
         @if (ViewDataTyped.HasPageContent)
@@ -18,7 +18,7 @@
         else
         {
             <div class="hoverEmptySpace"></div>
-        }        
+        }
     </div>
 }
 else
