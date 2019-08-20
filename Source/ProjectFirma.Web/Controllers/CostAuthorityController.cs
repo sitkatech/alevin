@@ -4,16 +4,14 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Agreement;
-using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.CostAuthority;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
-using Detail = ProjectFirma.Web.Views.PerformanceMeasure.Detail;
-using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
-    public class AgreementController : FirmaBaseController
+    public class CostAuthorityController : FirmaBaseController
     {
         //[PerformanceMeasureManageFeature]
         //public ViewResult Manage()
@@ -21,76 +19,54 @@ namespace ProjectFirma.Web.Controllers
         //    return IndexImpl();
         //}
 
-        [AgreementViewFeature]
-        public ViewResult AgreementIndex()
+        [CostAuthorityViewFeature]
+        public ViewResult CostAuthorityIndex()
         {
-            return AgreementIndexImpl();
+            return CostAuthorityIndexImpl();
         }
 
-        private ViewResult AgreementIndexImpl()
+        private ViewResult CostAuthorityIndexImpl()
         {
-            var firmaPage = FirmaPageTypeEnum.AgreementList.GetFirmaPage();
-            var viewData = new AgreementIndexViewData(CurrentPerson, firmaPage);
-            return RazorView<AgreementIndex, AgreementIndexViewData>(viewData);
+            var firmaPage = FirmaPageTypeEnum.CostAuthorityList.GetFirmaPage();
+            var viewData = new CostAuthorityIndexViewData(CurrentPerson, firmaPage);
+            return RazorView<CostAuthorityIndex, CostAuthorityIndexViewData>(viewData);
         }
 
-        [AgreementViewFeature]
-        public GridJsonNetJObjectResult<ReclamationAgreement> AgreementGridJsonData()
+        [CostAuthorityViewFeature]
+        public GridJsonNetJObjectResult<ReclamationCostAuthority> CostAuthorityGridJsonData()
         {
-            var gridSpec = new AgreementGridSpec(CurrentPerson);
-            var agreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationAgreement>(agreements, gridSpec);
+            var gridSpec = new CostAuthorityGridSpec(CurrentPerson);
+            var CostAuthorities = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorities.ToList().OrderBy(x => x.CostAuthorityNumber).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthority>(CostAuthorities, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        //[ProjectsViewFullListFeature]
-        //public GridJsonNetJObjectResult<Project> IndexGridJsonData()
-        //{
-        //    var fundingTypes = FundingType.All.ToDictionary(x => x.FundingTypeID, x => x);
-        //    var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-        //    var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-        //    var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes, projectCustomAttributeTypes);
-        //    var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
-        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
-        //    return gridJsonNetJObjectResult;
-        //}
-
-
-
-        [AgreementViewFeature]
-        //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
-        // Can we / should we use the AgreementNumber as the primary key string?
-        public ViewResult AgreementDetail(ReclamationAgreementPrimaryKey agreementPrimaryKey)
+        [CostAuthorityViewFeature]
+        public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
-            var agreement = agreementPrimaryKey.EntityObject;
-            var viewData = new AgreementDetailViewData(CurrentPerson, agreement);
-            return RazorView<AgreementDetail, AgreementDetailViewData>(viewData);
+            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+            var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
+            var isAdmin = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+
+            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentPerson, false, canManagePerformanceMeasure, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
+
+            // Avoid scrolling the legend if it can be displayed on two lines
+            performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
+            {
+                if (x.GoogleChartConfiguration.Legend != null && x.GoogleChartConfiguration.Legend.MaxLines == null)
+                {
+                    x.GoogleChartConfiguration.Legend.MaxLines = 2;
+                }
+            });
+
+            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(performanceMeasure.PerformanceMeasureNotes),
+                SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
+                performanceMeasure.PerformanceMeasureDisplayName,
+                canManagePerformanceMeasure);
+
+            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure, isAdmin);
+            return RazorView<Detail, DetailViewData>(viewData);
         }
-
-        [AgreementViewFeature]
-        public GridJsonNetJObjectResult<Project> AgreementProjectsGridJsonData(ReclamationAgreementPrimaryKey reclamationAgreementPrimaryKey)
-        {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            //var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var projectReclamationAgreements = reclamationAgreementPrimaryKey.EntityObject.GetAssociatedProjects();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationAgreements, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-
-        /*
-         *
-        [TaxonomyBranchViewFeature]
-        public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey)
-        {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyBranches, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-         */
-
-
 
 
         /*
@@ -245,7 +221,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
-        [AgreementViewFeature]
+        [CostAuthorityViewFeature]
         public PartialViewResult DefinitionAndGuidance(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
@@ -253,7 +229,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<DefinitionAndGuidance, DefinitionAndGuidanceViewData>(viewData);
         }
 
-        [AgreementViewFeature]
+        [CostAuthorityViewFeature]
         public GridJsonNetJObjectResult<PerformanceMeasureReportedValue> PerformanceMeasureReportedValuesGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasureActuals = GetPerformanceMeasureReportedValuesAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject, CurrentPerson);
@@ -267,7 +243,7 @@ namespace ProjectFirma.Web.Controllers
             return performanceMeasure.GetReportedPerformanceMeasureValues(currentPerson);
         }
 
-        [AgreementViewFeature]
+        [CostAuthorityViewFeature]
         public GridJsonNetJObjectResult<PerformanceMeasureExpected> PerformanceMeasureExpectedsGridJsonData(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         {
             var performanceMeasureExpecteds = GetPerformanceMeasureExpectedsAndGridSpec(out var gridSpec, performanceMeasurePrimaryKey.EntityObject);
@@ -380,7 +356,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        [AgreementViewFeature]
+        [CostAuthorityViewFeature]
         public ExcelResult IndexExcelDownload()
         {
             var performanceMeasures = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.ToList().SortByOrderThenName().ToList();
