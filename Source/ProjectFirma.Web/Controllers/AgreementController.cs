@@ -5,9 +5,11 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
-using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
+using Detail = ProjectFirma.Web.Views.PerformanceMeasure.Detail;
+using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -56,31 +58,39 @@ namespace ProjectFirma.Web.Controllers
 
 
         [AgreementViewFeature]
-        public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        // Can we / should we use the AgreementNumber as the primary key string?
+        public ViewResult AgreementDetail(ReclamationAgreementPrimaryKey agreementPrimaryKey)
         {
-            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
-            var isAdmin = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
-
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentPerson, false, canManagePerformanceMeasure, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
-
-            // Avoid scrolling the legend if it can be displayed on two lines
-            performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
-            {
-                if (x.GoogleChartConfiguration.Legend != null && x.GoogleChartConfiguration.Legend.MaxLines == null)
-                {
-                    x.GoogleChartConfiguration.Legend.MaxLines = 2;
-                }
-            });
-
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(performanceMeasure.PerformanceMeasureNotes),
-                SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
-                performanceMeasure.PerformanceMeasureDisplayName,
-                canManagePerformanceMeasure);
-
-            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure, isAdmin);
-            return RazorView<Detail, DetailViewData>(viewData);
+            var agreement = agreementPrimaryKey.EntityObject;
+            var viewData = new AgreementDetailViewData(CurrentPerson, agreement);
+            return RazorView<AgreementDetail, AgreementDetailViewData>(viewData);
         }
+
+        [AgreementViewFeature]
+        public GridJsonNetJObjectResult<Project> AgreementProjectsGridJsonData(ReclamationAgreementPrimaryKey reclamationAgreementPrimaryKey)
+        {
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            //var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
+            var projectReclamationAgreements = reclamationAgreementPrimaryKey.EntityObject.GetAssociatedProjects();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationAgreements, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+
+        /*
+         *
+        [TaxonomyBranchViewFeature]
+        public GridJsonNetJObjectResult<Project> ProjectsGridJsonData(TaxonomyBranchPrimaryKey taxonomyBranchPrimaryKey)
+        {
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectTaxonomyBranches, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+         */
+
+
 
 
         /*

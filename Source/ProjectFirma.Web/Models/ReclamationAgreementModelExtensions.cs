@@ -22,5 +22,17 @@ namespace ProjectFirma.Web.Models
             var costAuthorities = reclamationAgreement.GetReclamationCostAuthorities();
             return string.Join(", ", costAuthorities.Select(ca => ca.CostAuthorityWorkBreakdownStructure));
         }
+
+        /// <summary>
+        /// Get the Projects associated with this Agreement
+        /// </summary>
+        /// <param name="reclamationAgreement"></param>
+        /// <returns></returns>
+        public static List<Project> GetAssociatedProjects(this ReclamationAgreement reclamationAgreement)
+        {
+            return reclamationAgreement.ReclamationAgreementProjects.Select(rap => rap.Project).ToList();
+        }
+
+
     }
 }

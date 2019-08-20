@@ -41,7 +41,6 @@ namespace ProjectFirma.Web.Models
             return taxonomyBranch.TaxonomyLeafs.SelectMany(y => y.Projects).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
-
         public static FancyTreeNode ToFancyTreeNode(this TaxonomyBranch taxonomyBranch, Person currentPerson)
         {
             var fancyTreeNode = new FancyTreeNode($"{UrlTemplate.MakeHrefString(taxonomyBranch.GetDetailUrl(), taxonomyBranch.GetDisplayName())}", taxonomyBranch.TaxonomyBranchID.ToString(), false)
