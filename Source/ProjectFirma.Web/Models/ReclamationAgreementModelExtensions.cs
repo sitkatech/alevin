@@ -9,6 +9,12 @@ namespace ProjectFirma.Web.Models
 {
     public static class ReclamationAgreementModelExtensions
     {
+
+        public static string GetDisplayName(this ReclamationAgreement reclamationAgreement)
+        {
+            return $"{reclamationAgreement.AgreementNumber}";
+        }
+
         /// <summary>
         /// Convenience accessor for Reclamation Cost Authorities.
         /// </summary>

@@ -37,8 +37,7 @@ namespace ProjectFirma.Web.Views.Agreement
         public AgreementGridSpec(Person currentPerson)
         {
             // AgreementNumber
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => a.AgreementNumber, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             // Projects
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300);
             // Organization info
