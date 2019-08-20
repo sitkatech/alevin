@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -22,5 +25,12 @@ namespace ProjectFirma.Web.Models
             var costAuthorities = reclamationAgreement.GetReclamationCostAuthorities();
             return string.Join(", ", costAuthorities.Select(ca => ca.CostAuthorityWorkBreakdownStructure));
         }
+
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<AgreementController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static string GetDetailUrl(this ReclamationAgreement agreement)
+        {
+            return DetailUrlTemplate.ParameterReplace(agreement.PrimaryKey);
+        }
+
     }
 }
