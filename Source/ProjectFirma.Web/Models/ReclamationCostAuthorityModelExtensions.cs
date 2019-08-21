@@ -30,7 +30,6 @@ namespace ProjectFirma.Web.Models
             return DetailUrlTemplate.ParameterReplace(costAuthority.PrimaryKey);
         }
 
-
         public static string GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(this ReclamationCostAuthority reclamationCostAuthority)
         {
             return SitkaRoute<CostAuthorityController>.BuildLinkFromExpression(cac => cac.CostAuthorityDetail(reclamationCostAuthority), reclamationCostAuthority.CostAuthorityWorkBreakdownStructure);
