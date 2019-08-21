@@ -121,10 +121,7 @@
     </div>*@
 
 
-@* Projects (V2) *@
 
-@*<div class="row">*@
-@*<div class="col-md-12">*@
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
@@ -135,8 +132,19 @@
         @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoProjectGridName, ViewDataTyped.BasicProjectInfoProjectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
-@*</div>*@
-@*</div>*@
+
+@* Agreements *@
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>
+            <a href="@ViewDataTyped.FullProjectListUrl">@FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()</a>
+        </h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.AgreementGridSpec, ViewDataTyped.AgreementGridName, ViewDataTyped.AgreementGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
+
 
 
 

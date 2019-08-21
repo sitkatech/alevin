@@ -60,6 +60,13 @@ namespace ProjectFirma.Web.Views.Agreement
         public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
         public string BasicProjectInfoProjectGridDataUrl { get; }
 
+        public string AgreementGridName { get;  }
+        public AgreementGridSpec AgreementGridSpec { get; }
+        public string AgreementGridDataUrl { get; }
+
+
+
+
         //public string PerformanceMeasureExpectedsGridName { get; }
         //public string PerformanceMeasureExpectedsGridDataUrl { get; }
 
@@ -125,29 +132,34 @@ namespace ProjectFirma.Web.Views.Agreement
             BasicProjectInfoProjectGridName = "costAuthorityProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with Agreement Number {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with Agreement Number {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
                 SaveFiltersInCookie = true
             };
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityProjectsGridJsonData(reclamationCostAuthority));
 
-
-
-
+            AgreementGridName = "costAuthorityAgreementListGrid";
+            AgreementGridSpec = new AgreementGridSpec(CurrentPerson)
+            {
+                ObjectNameSingular = $"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
+                SaveFiltersInCookie = true
+            };
+            AgreementGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementGridJsonData(reclamationCostAuthority));
 
             //GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingType>(), geospatialAreaTypes, projectCustomAttributeTypes) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
 
-        //if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
-        //{
-        //    GridSpec<>.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
-        //}
-        //else if (currentPerson.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
-        //{
-        //    GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
-        //}
+            //if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
+            //{
+            //    GridSpec<>.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
+            //}
+            //else if (currentPerson.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
+            //{
+            //    GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
+            //}
 
-        //GridName = "projectsGrid";
-        //GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
+            //GridName = "projectsGrid";
+            //GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
 
 
 
