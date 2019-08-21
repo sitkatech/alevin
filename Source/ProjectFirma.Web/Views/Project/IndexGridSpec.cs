@@ -82,6 +82,11 @@ namespace ProjectFirma.Web.Views.Project
                 Add(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayNameAsUrl().ToString()))), 300, DhtmlxGridColumnFilterType.Html);
             }
 
+            // Agreements for this project
+            Add(FieldDefinitionEnum.Agreement.ToType().ToGridHeaderStringPlural(), x => GetAgreementHrefsString(x), 100, DhtmlxGridColumnFilterType.Text);
+
+            // TODO: add links to Cost Authorities
+
             Add($"Number Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => x.PerformanceMeasureActuals.Count, 100);
             Add($"Number Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
             Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingTypeID.HasValue ? fundingTypes[x.FundingTypeID.Value].FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -110,5 +115,15 @@ namespace ProjectFirma.Web.Views.Project
             Add("# of Photos", x => x.ProjectImages.Count, 60);            
 
         }
+
+        private static HtmlString GetAgreementHrefsString(ProjectFirmaModels.Models.Project project)
+        {
+            List<ReclamationAgreement> agreements = project.ReclamationAgreementProjects.Select(rap => rap.ReclamationAgreement).ToList();
+            List<HtmlString> agreementHtmlStrings = agreements.Select(ra => UrlTemplate.MakeHrefString(ra.GetDetailUrl(), ra.GetDisplayName())).ToList();
+
+            var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", agreementHtmlStrings));
+            return commaDelimitedHrefStrings;
+        }
+
     }
 }
