@@ -53,6 +53,5 @@ namespace ProjectFirma.Web.Models
             return reclamationAgreement.ReclamationAgreementProjects.Select(rap => rap.Project).ToList();
         }
 
-
     }
 }

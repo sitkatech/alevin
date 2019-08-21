@@ -54,7 +54,7 @@
                                 <li>
                                     @*<span class="@costAuthority.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>*@
                                     @*TODO: Make into URL*@
-                                    <span>@costAuthority.CostAuthorityWorkBreakdownStructure</span>
+                                    <span>@Html.Raw(costAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</span>
                                 </li>
                             }
                         </ul>

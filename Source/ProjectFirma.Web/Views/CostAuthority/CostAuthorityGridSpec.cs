@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="PerformanceMeasureGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="CostAuthorityGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.CostAuthority
         public CostAuthorityGridSpec(Person currentPerson)
         {
             // Cost Authority Work Breakdown Structure
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => a.CostAuthorityWorkBreakdownStructure, 125, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => new HtmlString(a.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()), 125, DhtmlxGridColumnFilterType.Text);
             // Cost Authority Number
             Add("Cost Authority Number", a => a.CostAuthorityNumber, 125, DhtmlxGridColumnFilterType.Text);
             // Projects

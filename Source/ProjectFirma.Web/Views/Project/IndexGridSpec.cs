@@ -86,6 +86,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.Agreement.ToType().ToGridHeaderStringPlural(), x => GetAgreementHrefsString(x), 100, DhtmlxGridColumnFilterType.Text);
 
             // TODO: add links to Cost Authorities
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), x => GetCostAuthorityHrefsString(x), 100, DhtmlxGridColumnFilterType.Text);
 
             Add($"Number Of Reported {MultiTenantHelpers.GetPerformanceMeasureName()} Records", x => x.PerformanceMeasureActuals.Count, 100);
             Add($"Number Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => x.ProjectFundingSourceExpenditures.Count, 100);
@@ -122,6 +123,16 @@ namespace ProjectFirma.Web.Views.Project
             List<HtmlString> agreementHtmlStrings = agreements.Select(ra => UrlTemplate.MakeHrefString(ra.GetDetailUrl(), ra.GetDisplayName())).ToList();
 
             var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", agreementHtmlStrings));
+            return commaDelimitedHrefStrings;
+        }
+
+        private static HtmlString GetCostAuthorityHrefsString(ProjectFirmaModels.Models.Project project)
+        {
+            List<ReclamationAgreement> agreements = project.ReclamationAgreementProjects.Select(rap => rap.ReclamationAgreement).ToList();
+            List<ReclamationCostAuthority> costAuthorities = agreements.SelectMany(a => a.GetReclamationCostAuthorities()).ToList();
+            List<HtmlString> costAuthorityHtmlStrings = costAuthorities.Select(ca => UrlTemplate.MakeHrefString(ca.GetDetailUrl(), ca.GetDisplayName())).ToList();
+
+            var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", costAuthorityHtmlStrings));
             return commaDelimitedHrefStrings;
         }
 

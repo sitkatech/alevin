@@ -4,8 +4,10 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.CostAuthority;
 using ProjectFirma.Web.Views.PerformanceMeasure;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
 
@@ -13,12 +15,6 @@ namespace ProjectFirma.Web.Controllers
 {
     public class CostAuthorityController : FirmaBaseController
     {
-        //[PerformanceMeasureManageFeature]
-        //public ViewResult Manage()
-        //{
-        //    return IndexImpl();
-        //}
-
         [CostAuthorityViewFeature]
         public ViewResult CostAuthorityIndex()
         {
@@ -42,31 +38,50 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [CostAuthorityViewFeature]
-        public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        // Can we / should we use the AgreementNumber as the primary key string?
+        public ViewResult CostAuthorityDetail(ReclamationCostAuthorityPrimaryKey costAuthorityPrimaryKey)
         {
-            var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
-            var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
-            var isAdmin = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
-
-            var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentPerson, false, canManagePerformanceMeasure, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
-
-            // Avoid scrolling the legend if it can be displayed on two lines
-            performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
-            {
-                if (x.GoogleChartConfiguration.Legend != null && x.GoogleChartConfiguration.Legend.MaxLines == null)
-                {
-                    x.GoogleChartConfiguration.Legend.MaxLines = 2;
-                }
-            });
-
-            var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(performanceMeasure.PerformanceMeasureNotes),
-                SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
-                performanceMeasure.PerformanceMeasureDisplayName,
-                canManagePerformanceMeasure);
-
-            var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure, isAdmin);
-            return RazorView<Detail, DetailViewData>(viewData);
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            var viewData = new CostAuthorityDetailViewData(CurrentPerson, costAuthority);
+            return RazorView<CostAuthorityDetail, CostAuthorityDetailViewData>(viewData);
         }
+
+        [CostAuthorityViewFeature]
+        public GridJsonNetJObjectResult<Project> CostAuthorityProjectsGridJsonData(ReclamationCostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
+        {
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
+            var projectReclamationAgreements = reclamationCostAuthorityPrimaryKey.EntityObject.GetAssociatedProjects();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationAgreements, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        //[CostAuthorityViewFeature]
+        //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
+        //{
+        //    var performanceMeasure = performanceMeasurePrimaryKey.EntityObject;
+        //    var canManagePerformanceMeasure = new PerformanceMeasureManageFeature().HasPermissionByPerson(CurrentPerson) && performanceMeasure.PerformanceMeasureDataSourceType != PerformanceMeasureDataSourceType.TechnicalAssistanceValue;
+        //    var isAdmin = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
+
+        //    var performanceMeasureChartViewData = new PerformanceMeasureChartViewData(performanceMeasure, CurrentPerson, false, canManagePerformanceMeasure, performanceMeasure.GetAssociatedProjectsWithReportedValues(CurrentPerson));
+
+        //    // Avoid scrolling the legend if it can be displayed on two lines
+        //    performanceMeasureChartViewData.ViewGoogleChartViewData.GoogleChartJsons.ForEach(x =>
+        //    {
+        //        if (x.GoogleChartConfiguration.Legend != null && x.GoogleChartConfiguration.Legend.MaxLines == null)
+        //        {
+        //            x.GoogleChartConfiguration.Legend.MaxLines = 2;
+        //        }
+        //    });
+
+        //    var entityNotesViewData = new EntityNotesViewData(EntityNote.CreateFromEntityNote(performanceMeasure.PerformanceMeasureNotes),
+        //        SitkaRoute<PerformanceMeasureNoteController>.BuildUrlFromExpression(c => c.New(performanceMeasure.PrimaryKey)),
+        //        performanceMeasure.PerformanceMeasureDisplayName,
+        //        canManagePerformanceMeasure);
+
+        //    var viewData = new DetailViewData(CurrentPerson, performanceMeasure, performanceMeasureChartViewData, entityNotesViewData, canManagePerformanceMeasure, isAdmin);
+        //    return RazorView<Detail, DetailViewData>(viewData);
+        //}
 
 
         /*
