@@ -5,6 +5,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
+using ProjectFirma.Web.Views.CostAuthority;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
@@ -77,6 +78,14 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [AgreementViewFeature]
+        public GridJsonNetJObjectResult<ReclamationCostAuthority> AgreementCostAuthorityGridJsonData(ReclamationAgreementPrimaryKey reclamationAgreementPrimaryKey)
+        {
+            var gridSpec = new BasicCostAuthorityGridSpec(CurrentPerson);
+            var projectReclamationAgreements = reclamationAgreementPrimaryKey.EntityObject.GetReclamationCostAuthorities();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthority>(projectReclamationAgreements, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
 
         /*
          *
@@ -89,8 +98,6 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
          */
-
-
 
 
         /*

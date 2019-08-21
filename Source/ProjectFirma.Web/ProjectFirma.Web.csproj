@@ -193,6 +193,7 @@
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
     <Compile Include="Views\CostAuthority\CostAuthorityDetail.cs" />
     <Compile Include="Views\CostAuthority\CostAuthorityDetailViewData.cs" />
+    <Compile Include="Views\CostAuthority\BasicCostAuthorityGridSpec.cs" />
     <Compile Include="Views\CostAuthority\CostAuthorityGridSpec.cs" />
     <Compile Include="Views\CostAuthority\CostAuthorityIndex.cs" />
     <Compile Include="Views\CostAuthority\CostAuthorityIndexViewData.cs" />

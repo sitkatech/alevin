@@ -118,22 +118,7 @@
     </div>
 </div>
 
-
-@* Projects *@
-@*<div class="panel panelFirma">
-        <div class="panel-heading panelTitle">
-            <h2>@ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized()</h2>
-        </div>
-        <div class="panel-body">
-            @Html.DhtmlxGrid(ViewDataTyped.ProjectIndexGridSpec, ViewDataTyped.ProjectIndexGridName, ViewDataTyped.PerformanceMeasureExpectedsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-        </div>
-    </div>*@
-
-
 @* Projects (V2) *@
-
-@*<div class="row">*@
-@*<div class="col-md-12">*@
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2>
@@ -144,20 +129,28 @@
         @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoProjectGridName, ViewDataTyped.BasicProjectInfoProjectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
-@*</div>*@
-@*</div>*@
 
-
+@* Cost Authorities *@
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2>
+            <a href="@ViewDataTyped.CostAuthorityIndexUrl">@FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()</a>
+        </h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.BasicCostAuthorityGridSpec, ViewDataTyped.BasicCostAuthorityGridName, ViewDataTyped.BasicCostAuthorityGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    </div>
+</div>
 
 
 @*<div class="panel panelFirma">
-    <div class="panel-heading panelTitle">
-        <h2>Reported @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
-    </div>
-    <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-    </div>
-</div>*@
+        <div class="panel-heading panelTitle">
+            <h2>Reported @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
+        </div>
+        <div class="panel-body">
+            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        </div>
+    </div>*@
 
 @*
         @if (ViewDataTyped.IsAdmin)
