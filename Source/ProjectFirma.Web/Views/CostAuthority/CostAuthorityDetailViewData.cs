@@ -42,6 +42,7 @@ namespace ProjectFirma.Web.Views.Agreement
         //public string EditProjectReportingUrl { get; }
 
         public string IndexUrl { get; }
+        public string AgreementIndexUrl { get; }
 
         //public string EditTaxonomyTiersUrl { get; }
         //public bool UserHasTaxonomyTierPerformanceMeasureManagePermissions { get; }
@@ -111,6 +112,7 @@ namespace ProjectFirma.Web.Views.Agreement
             */
 
             IndexUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(ca => ca.CostAuthorityIndex());
+            AgreementIndexUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(ac => ac.AgreementIndex());
 
         //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForAgreement { get; }
         //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
