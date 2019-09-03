@@ -105,13 +105,15 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+
+
         [HttpGet]
         [UserEditFeature]
         public PartialViewResult EditRoles(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
             var viewModel = new EditRolesViewModel(person);
-            return ViewEdit(viewModel);
+            return ViewEditRoles(viewModel);
         }
 
         [HttpPost]
@@ -122,14 +124,14 @@ namespace ProjectFirma.Web.Controllers
             var person = personPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel);
+                return ViewEditRoles(viewModel);
             }
 
             viewModel.UpdateModel(person, CurrentPerson);
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEdit(EditRolesViewModel viewModel)
+        private PartialViewResult ViewEditRoles(EditRolesViewModel viewModel)
         {
             var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
             var rolesAsSelectListItems =
@@ -411,9 +413,9 @@ namespace ProjectFirma.Web.Controllers
                 SiteName = toolDisplayName,
                 Subject = $"Invitation to {toolDisplayName}",
                 WelcomeText =
-                    $"You have been invited by a colleague, {CurrentPerson.GetFullNameFirstLast()}, to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
+                    $"You have been invited by {CurrentPerson.GetFullNameFirstLast()} at {CurrentPerson.Organization.OrganizationName} ({CurrentPerson.Email}), to create an account in <a href=\"{homeUrl}\">{toolDisplayName}</a>.",
                 RedirectURL = homeUrl,
-                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a>",
+                SupportBlock = $"If you have any questions, please visit our <a href=\"{supportUrl}\">support page</a> or contact {MultiTenantHelpers.GetTenantAttribute().PrimaryContactPerson.GetFullNameFirstLast()} at {MultiTenantHelpers.GetTenantAttribute().PrimaryContactPerson.Organization.OrganizationName} ({MultiTenantHelpers.GetTenantAttribute().PrimaryContactPerson.Email})",
                 OrganizationGuid = viewModel.OrganizationGuid,
                 SignatureBlock = $"The {toolDisplayName} team"
             };

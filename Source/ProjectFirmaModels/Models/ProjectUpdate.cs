@@ -44,14 +44,23 @@ namespace ProjectFirmaModels.Models
                 : 0;
         }
 
-        public decimal? GetEstimatedTotalCost()
+        public decimal? GetNoFundingSourceIdentifiedAmount()
+        {
+            if (FundingType == FundingType.BudgetVariesByYear)
+            {
+                return ProjectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
+            }
+            return NoFundingSourceIdentifiedYet;
+        }
+
+        public decimal? GetEstimatedTotalRegardlessOfFundingType()
         {
             var securedFunding = GetSecuredFunding();
             var targetedFunding = GetTargetedFunding();
-            return NoFundingSourceIdentifiedYet != null
-                ? NoFundingSourceIdentifiedYet + securedFunding + targetedFunding
-                : null;
+            var noFundingSourceIdentified = GetNoFundingSourceIdentifiedAmount();
+            return (noFundingSourceIdentified ?? 0) + securedFunding + targetedFunding;
         }
+
 
         public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch) : this(projectUpdateBatch, projectUpdateBatch.Project.ProjectStage, projectUpdateBatch.Project.ProjectDescription, projectUpdateBatch.Project.ProjectLocationSimpleType)
         {
@@ -125,7 +134,7 @@ namespace ProjectFirmaModels.Models
 
         public Organization GetPrimaryContactOrganization()
         {
-            return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.RelationshipType.IsPrimaryContact)?.Organization;
+            return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
     }
 }
