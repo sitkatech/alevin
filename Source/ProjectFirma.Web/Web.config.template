@@ -112,7 +112,7 @@
   </system.webServer>
   <log4net>
     <appender name="FileAppender" type="log4net.Appender.RollingFileAppender">
-      <param name="File" value="C:\Sitka\ProjectFirma\Logs\WEB.log"/>
+      <param name="File" value="C:\Sitka\Alevin\Logs\WEB.log"/>
       <param name="AppendToFile" value="true"/>
       <rollingStyle value="Date"/>
       <datePattern value="yyyyMMdd"/>
@@ -130,7 +130,7 @@
     <appender name="SmtpAppender" type="LtInfo.Common.SmtpAppenderWithPathAndExceptionTypeInSubject, LtInfo.Common">
       <to value="AppAlerts-LT@sitkatech.com"/>
       <from value="Application Alerts LT Info &lt;AppAlerts-LT@sitkatech.com&gt;"/>
-      <subject value="ProjectFirma Alert: ${environment} application error"/>
+      <subject value="Alevin Alert: ${environment} application error"/>
       <smtpHost value="${smtp-server}"/>
       <bufferSize value="1"/>
       <threshold value="ERROR"/>
