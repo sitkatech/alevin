@@ -69,6 +69,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeRoleConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaImageConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
@@ -108,8 +109,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeUpdateValueConfiguration());
             modelBuilder.Configurations.Add(new ProjectCustomAttributeValueConfiguration());
-            modelBuilder.Configurations.Add(new ProjectDocumentConfiguration());
-            modelBuilder.Configurations.Add(new ProjectDocumentUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectCustomGridConfigurationConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearConfiguration());
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
@@ -212,6 +212,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FundingSourceCustomAttributeValue> FundingSourceCustomAttributeValues { get { return AllFundingSourceCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSource> AllFundingSources { get; set; }
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaImage> AllGeospatialAreaImages { get; set; }
+        public virtual IQueryable<GeospatialAreaImage> GeospatialAreaImages { get { return AllGeospatialAreaImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
@@ -290,10 +292,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectCustomAttributeUpdateValue> ProjectCustomAttributeUpdateValues { get { return AllProjectCustomAttributeUpdateValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectCustomAttributeValue> AllProjectCustomAttributeValues { get; set; }
         public virtual IQueryable<ProjectCustomAttributeValue> ProjectCustomAttributeValues { get { return AllProjectCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectDocument> AllProjectDocuments { get; set; }
-        public virtual IQueryable<ProjectDocument> ProjectDocuments { get { return AllProjectDocuments.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ProjectDocumentUpdate> AllProjectDocumentUpdates { get; set; }
-        public virtual IQueryable<ProjectDocumentUpdate> ProjectDocumentUpdates { get { return AllProjectDocumentUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectCustomGridConfiguration> AllProjectCustomGridConfigurations { get; set; }
+        public virtual IQueryable<ProjectCustomGridConfiguration> ProjectCustomGridConfigurations { get { return AllProjectCustomGridConfigurations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYear> AllProjectExemptReportingYears { get; set; }
         public virtual IQueryable<ProjectExemptReportingYear> ProjectExemptReportingYears { get { return AllProjectExemptReportingYears.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectExemptReportingYearUpdate> AllProjectExemptReportingYearUpdates { get; set; }
@@ -522,6 +522,9 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
                     return fundingType;
 
+                case "GeospatialAreaImage":
+                    return GeospatialAreaImages.GetGeospatialAreaImage(primaryKey);
+
                 case "GeospatialArea":
                     return GeospatialAreas.GetGeospatialArea(primaryKey);
 
@@ -694,11 +697,18 @@ namespace ProjectFirmaModels.Models
                 case "ProjectCustomAttributeValue":
                     return ProjectCustomAttributeValues.GetProjectCustomAttributeValue(primaryKey);
 
-                case "ProjectDocument":
-                    return ProjectDocuments.GetProjectDocument(primaryKey);
+                case "ProjectCustomGridColumn":
+                    var projectCustomGridColumn = ProjectCustomGridColumn.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomGridColumn, "ProjectCustomGridColumn", primaryKey);
+                    return projectCustomGridColumn;
 
-                case "ProjectDocumentUpdate":
-                    return ProjectDocumentUpdates.GetProjectDocumentUpdate(primaryKey);
+                case "ProjectCustomGridConfiguration":
+                    return ProjectCustomGridConfigurations.GetProjectCustomGridConfiguration(primaryKey);
+
+                case "ProjectCustomGridType":
+                    var projectCustomGridType = ProjectCustomGridType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(projectCustomGridType, "ProjectCustomGridType", primaryKey);
+                    return projectCustomGridType;
 
                 case "ProjectExemptReportingType":
                     var projectExemptReportingType = ProjectExemptReportingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

@@ -38,10 +38,10 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.GroupBy(x => x.FundingSourceName).OrderBy(x => x.Key))
+                @foreach (var groupedByFundingSource in ViewDataTyped.ProjectFundingSourceCostTypeExpenditureAmountAmounts.GroupBy(x => x.FundingSource).OrderBy(x => x.Key))
                 {
                     <tr class="info">
-                        <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSourceDisplayName)</td>
+                        <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count + 3)">@Html.Raw(groupedByFundingSource.First().FundingSource.GetDisplayNameAsUrl())</td>
                     </tr>
                     foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => x.Key.CostTypeName))
                     {
@@ -57,22 +57,7 @@
                                 <span>@groupedByCostType.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                             </td>
                         </tr>
-                    }
-                    if (groupedByFundingSource.GroupBy(x => x.CostType).Count() > 1)
-                    {
-                         <tr>
-                             <th style="text-align: left; padding-left: 20px;">All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()</th>
-                             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
-                             {
-                                 <th style="text-align: right">
-                                     <span>@groupedByFundingSource.Where(x => x.CalendarYear == calendarYear).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                                 </th>
-                             }
-                             <th style="text-align: right">
-                                 <span>@groupedByFundingSource.Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
-                             </th>
-                         </tr>
-                    }
+                    }                    
                 }
                 <tr>
                     <th style="text-align:left">Grand Total</th>
