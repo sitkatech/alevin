@@ -1,7 +1,0 @@
-
-
-
-
-USE [ProjectFirma]
-GO
-

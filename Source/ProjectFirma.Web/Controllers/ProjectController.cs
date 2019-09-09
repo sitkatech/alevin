@@ -42,7 +42,6 @@ using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -50,7 +49,6 @@ using ProjectFirma.Web.Views.ProjectFunding;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
-using IndexGridSpec = ProjectFirma.Web.Views.Project.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Project.IndexViewData;
 
 namespace ProjectFirma.Web.Controllers
@@ -200,7 +198,7 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships();
+            var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
             var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
@@ -422,22 +420,9 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Index()
         {
             var firmaPage = FirmaPageTypeEnum.FullProjectList.GetFirmaPage();
-            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var viewData = new IndexViewData(CurrentPerson, firmaPage, geospatialAreaTypes, projectCustomAttributeTypes);
+            var projectCustomFullGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var viewData = new IndexViewData(CurrentPerson, firmaPage, projectCustomFullGridConfigurations);
             return RazorView<Index, IndexViewData>(viewData);
-        }
-
-        [ProjectsViewFullListFeature]
-        public GridJsonNetJObjectResult<Project> IndexGridJsonData()
-        {
-            var fundingTypes = FundingType.All.ToDictionary(x => x.FundingTypeID, x => x);
-            var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-            var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes, projectCustomAttributeTypes);
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
-            return gridJsonNetJObjectResult;
         }
 
 
@@ -682,17 +667,9 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult FeaturedList()
         {
             var firmaPage = FirmaPageTypeEnum.FeaturedProjectList.GetFirmaPage();
-            var viewData = new FeaturedListViewData(CurrentPerson, firmaPage);
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
+            var viewData = new FeaturedListViewData(CurrentPerson, firmaPage, projectCustomDefaultGridConfigurations);
             return RazorView<FeaturedList, FeaturedListViewData>(viewData);
-        }
-
-        [ProjectManageFeaturedFeature]
-        public GridJsonNetJObjectResult<Project> FeaturedListGridJsonData()
-        {
-            var gridSpec = new FeaturesListProjectGridSpec(CurrentPerson);
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranches, gridSpec);
-            return gridJsonNetJObjectResult;
         }
 
         [HttpGet]
@@ -840,19 +817,10 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         public ViewResult MyOrganizationsProjects()
         {
             var firmaPage = FirmaPageTypeEnum.MyOrganizationsProjects.GetFirmaPage();
-            var viewData = new MyOrganizationsProjectsViewData(CurrentPerson, firmaPage);
-            return RazorView<MyOrganizationsProjects, MyOrganizationsProjectsViewData>(viewData);
-        }
+            var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
-        public GridJsonNetJObjectResult<Project> MyOrganizationsProjectsGridJsonData()
-        {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true);
-            var organization = CurrentPerson.Organization;
-            var taxonomyBranches = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => organization.IsLeadImplementingOrganizationForProject(p) ||
-                                                                                                                        organization.IsProjectStewardOrganizationForProject(p)).OrderBy(x => x.GetDisplayName()).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(taxonomyBranches, gridSpec);
-            return gridJsonNetJObjectResult;
+            var viewData = new MyOrganizationsProjectsViewData(CurrentPerson, firmaPage, projectCustomDefaultGridConfigurations);
+            return RazorView<MyOrganizationsProjects, MyOrganizationsProjectsViewData>(viewData);
         }
 
         [ProjectsInProposalStageViewListFeature]

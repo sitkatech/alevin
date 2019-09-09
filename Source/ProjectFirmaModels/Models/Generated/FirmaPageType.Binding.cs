@@ -175,7 +175,10 @@ namespace ProjectFirmaModels.Models
         InviteUser = 59,
         ManageFundingSourceCustomAttributeTypeInstructions = 60,
         ManageFundingSourceCustomAttributeTypesList = 61,
-        AgreementList = 62,
-        CostAuthorityList = 63
+        FundingStatusHeader = 62,
+        FundingStatusFooter = 63,
+        ManageProjectCustomGrids = 64,
+        AgreementList = 65,
+        CostAuthorityList = 66
     }
 }

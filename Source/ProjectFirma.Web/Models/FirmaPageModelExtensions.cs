@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Models
 
         public static FirmaPage GetFirmaPage(this FirmaPageTypeEnum firmaPageTypeEnum)
         {
-            return  GetFirmaPage(firmaPageTypeEnum.ToType());
+            return GetFirmaPage(firmaPageTypeEnum.ToType());
         }
     }
 }

@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views
                 BuildAgreementsMenu(currentPerson),
                 BuildProgramInfoMenu(currentPerson)
             };
-            if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentPerson))
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentPerson));
             }
@@ -140,9 +140,12 @@ namespace ProjectFirma.Web.Views
         private static LtInfoMenuItem BuildResultsMenu(Person currentPerson)
         {
             var resultsMenu = new LtInfoMenuItem("Results");
-
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), currentPerson, "Accomplishments Dashboard"));
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
+            {
+                resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), currentPerson, "Accomplishments Dashboard"));
+            }
             MultiTenantHelpers.AddTechnicalAssistanceReportMenuItem(resultsMenu, currentPerson);
+            MultiTenantHelpers.AddFundingStatusMenuItem(resultsMenu, currentPerson);
 
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
@@ -159,7 +162,7 @@ namespace ProjectFirma.Web.Views
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.ClassificationSystem(x.ClassificationSystemID)), currentPerson, ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(x), "Group1"));
             });            
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Index()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
-
+            
             foreach (var geospatialAreaType in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList())
             {
                 programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<GeospatialAreaController>(c => c.Index(geospatialAreaType)), currentPerson, $"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", "Group2"));
@@ -195,7 +198,7 @@ namespace ProjectFirma.Web.Views
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ClassificationController>(c => c.Index(x.ClassificationSystemID)), currentPerson, ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(x), "Group1"));
             });
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentPerson, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
-
+            
             MultiTenantHelpers.AddTechnicalAssistanceParametersMenuItem(manageMenu, currentPerson, "Group1");
 
             // Group 2 - System Config stuff
@@ -204,12 +207,14 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentPerson, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Tags", "Group2"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentPerson, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates", "Group2"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.ManageHomePageImages()), currentPerson, "Homepage Configuration", "Group2"));
-            if (FirmaWebConfiguration.FeatureAttachmentRelationshipTypes)
-            {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
-                    new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentPerson,
-                    "Attachment Relationship Type Configuration", "Group2"));
-            }
+            
+
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
+                new SitkaRoute<AttachmentRelationshipTypeController>(c => c.Index()), currentPerson,
+                "Attachment Relationship Type Configuration", "Group2"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(
+                new SitkaRoute<ProjectAttachmentController>(c => c.ProjectAttachmentIndex()), currentPerson,
+                "Full Attachments List", "Group2"));
 
             // Group 3 - Content Editing stuff
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentPerson, "Custom Labels & Definitions", "Group3"));
@@ -221,6 +226,8 @@ namespace ProjectFirma.Web.Views
                     $"{FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FundingSourceCustomAttributeTypeController>(c => c.Manage()), currentPerson, $"{FieldDefinitionEnum.FundingSourceCustomAttribute.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             }
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectCustomGridController>(c => c.ManageProjectCustomGrids()), currentPerson, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Grids", "Group3"));
+
 
             // Group 4 - Other
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.InternalSetupNotes()), currentPerson, "Internal Setup Notes", "Group4"));

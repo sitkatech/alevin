@@ -371,7 +371,7 @@ left join
 ) ttdk on pts.name = ttdk.ChildTableSchemaName and pt.name = ttdk.ChildTableName and pc.name = ttdk.ChildKeyColumnName
 
 where rt.name != 'Tenant' and ttdk.KeyName is null
-order by pt.Name, rt.name";
+order by pt.Name, rt.name, rc.name, pc.Name";
             Approvals.Verify(ExecAdHocSql(sql).TableToHumanReadableString());
         }
 

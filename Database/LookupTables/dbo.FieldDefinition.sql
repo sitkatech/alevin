@@ -114,8 +114,8 @@ VALUES
 (289, N'ProjectContactRelationshipType', N'Project Contact Relationship Type', N'<p>A categorization of a relationship between a contact and a project, e.g. Technical Lead, Project Manager, Landowner.</p>'),
 (290, N'CostType', 'Cost Type', N'Cost types are dimensions of financials that are used to report Budgets and Expenditures at a more granular level.'),
 (291, N'ProjectAttachmentRelationshipType', N'Project Attachment Relationship Type', N'<p>A categorization of a relationship between an attachment and a project, e.g. Documents, Permits, Leases.</p>'),
-(292, N'Agreement', 'Agreement', N'[Agreement described here].'),
-(293, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
+(292, N'ProjectID', N'ProjectID', N'<p>The unique identifier for a project.</p>'),(293, N'Agreement', 'Agreement', N'[Agreement described here].'),
+(294, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
 -- Unsure if this is the very best name for this. 
-(294, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
-(295, N'ContractType', 'Contract Type', N'[Contract Type described here].')
+(295, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
+(296, N'ContractType', 'Contract Type', N'[Contract Type described here].')
