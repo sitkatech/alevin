@@ -38,7 +38,6 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
-
 namespace ProjectFirma.Web.Views.Project
 {
     public class DetailViewData : ProjectViewData
