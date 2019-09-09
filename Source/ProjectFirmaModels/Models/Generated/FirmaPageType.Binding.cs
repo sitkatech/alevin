@@ -177,6 +177,8 @@ namespace ProjectFirmaModels.Models
         ManageFundingSourceCustomAttributeTypesList = 61,
         FundingStatusHeader = 62,
         FundingStatusFooter = 63,
-        ManageProjectCustomGrids = 64
+        ManageProjectCustomGrids = 64,
+        AgreementList = 65,
+        CostAuthorityList = 66
     }
 }

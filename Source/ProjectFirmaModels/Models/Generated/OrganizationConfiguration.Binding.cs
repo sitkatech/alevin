@@ -26,6 +26,13 @@ namespace ProjectFirmaModels.Models
             Property(x => x.LogoFileResourceID).HasColumnName(@"LogoFileResourceID").HasColumnType("int").IsOptional();
             Property(x => x.OrganizationTypeID).HasColumnName(@"OrganizationTypeID").HasColumnType("int").IsRequired();
             Property(x => x.OrganizationBoundary).HasColumnName(@"OrganizationBoundary").HasColumnType("geometry").IsOptional();
+            Property(x => x.VendorNumber).HasColumnName(@"VendorNumber").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(12);
+            Property(x => x.ReclamationContractorID).HasColumnName(@"ReclamationContractorID").HasColumnType("int").IsOptional();
+            Property(x => x.OrganizationAddress1).HasColumnName(@"OrganizationAddress1").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.OrganizationAddress2).HasColumnName(@"OrganizationAddress2").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.OrganizationCity).HasColumnName(@"OrganizationCity").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.OrganizationState).HasColumnName(@"OrganizationState").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(20);
+            Property(x => x.OrganizationZip).HasColumnName(@"OrganizationZip").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(20);
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.OrganizationsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Organization_Person_PrimaryContactPersonID_PersonID

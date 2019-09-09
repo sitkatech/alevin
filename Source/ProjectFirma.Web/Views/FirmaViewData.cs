@@ -99,6 +99,7 @@ namespace ProjectFirma.Web.Views
             {
                 BuildAboutMenu(currentPerson),
                 BuildProjectsMenu(currentPerson),
+                BuildAgreementsMenu(currentPerson),
                 BuildProgramInfoMenu(currentPerson)
             };
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentPerson))
@@ -261,6 +262,21 @@ namespace ProjectFirma.Web.Views
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Pending()), currentPerson, $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             return projectsMenu;
         }
+
+        /// <summary>
+        /// I'm giving Agreements their own menu, but I'm not wedded to this. Move these around if you have a good reason. -- SLG
+        /// </summary>
+        /// <param name="currentPerson"></param>
+        /// <returns></returns>
+        private static LtInfoMenuItem BuildAgreementsMenu(Person currentPerson)
+        {
+            var projectsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()}");
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementController>(c => c.AgreementIndex()), currentPerson, $"Full {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+            // Adding the Cost Authorities to the Agreements menu for now.
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostAuthorityController>(c => c.CostAuthorityIndex()), currentPerson, $"Full {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+            return projectsMenu;
+        }
+
 
         public string IsActiveUrl(string currentUrlPathAndQuery, string urlToCompare)
         {

@@ -45,6 +45,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using ProjectFirma.Web.Views.ProjectFunding;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -124,6 +125,10 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectAdminPermissions = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
             var userHasEditProjectPermissions = new ProjectEditAsAdminFeature().HasPermission(CurrentPerson, project).HasPermission;
             var userHasProjectUpdatePermissions = new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentPerson, project).HasPermission;
+
+            // NEW permission for Project Agreement association editing
+            var userHasProjectAgreementEditPermissions = new ProjectAgreementEditFeature().HasPermission(CurrentPerson, project).HasPermission;
+
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentPerson, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentPerson, project).HasPermission;
 
@@ -167,6 +172,8 @@ namespace ProjectFirma.Web.Controllers
             var projectExpendituresSummaryViewData = !reportFinancialsByCostType ? BuildProjectExpendituresDetailViewData(project) : null;
             var projectExpendituresByCostTypeSummaryViewData = reportFinancialsByCostType ? BuildProjectExpendituresByCostTypeDetailViewData(project) : null;
 
+            // NEW view data
+            var projectAgreementDetailViewData = new ProjectAgreementDetailViewData(CurrentPerson, project, false);
 
             var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByPerson(CurrentPerson);
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
@@ -212,6 +219,7 @@ namespace ProjectFirma.Web.Controllers
                 projectBudgetSummaryViewData,
                 projectBudgetsAnnualViewData,
                 projectBudgetsAnnualByCostTypeViewData,
+                projectAgreementDetailViewData,
                 technicalAssistanceRequestViewData,
                 performanceMeasureExpectedsSummaryViewData,
                 performanceMeasureReportedValuesGroupedViewData,
@@ -224,6 +232,7 @@ namespace ProjectFirma.Web.Controllers
                 projectBasicsTagsViewData,
                 userHasProjectAdminPermissions,
                 userHasEditProjectPermissions,
+                userHasProjectAgreementEditPermissions,
                 userHasProjectUpdatePermissions,
                 userHasPerformanceMeasureActualManagePermissions,
                 mapFormID,

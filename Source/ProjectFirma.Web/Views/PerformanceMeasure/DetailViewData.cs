@@ -58,10 +58,11 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public string TaxonomyTierDisplayNamePluralized { get; }
 
         public DetailViewData(Person currentPerson,
-            ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
-            PerformanceMeasureChartViewData performanceMeasureChartViewData,
-            EntityNotesViewData entityNotesViewData,
-            bool userHasPerformanceMeasureManagePermissions, bool isAdmin) : base(currentPerson)
+                              ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
+                              PerformanceMeasureChartViewData performanceMeasureChartViewData,
+                              EntityNotesViewData entityNotesViewData,
+                              bool userHasPerformanceMeasureManagePermissions, 
+                              bool isAdmin) : base(currentPerson)
         {
             PageTitle = performanceMeasure.PerformanceMeasureDisplayName;
             EntityName = "PerformanceMeasure Detail";

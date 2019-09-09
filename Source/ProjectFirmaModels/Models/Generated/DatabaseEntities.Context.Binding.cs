@@ -142,6 +142,34 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateBatchConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateHistoryConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationAgreementConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationAgreementPacificNorthActivityConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationAgreementProjectConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationAgreementReclamationCostAuthorityConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationBasinConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationContractTypeConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationCostAuthorityConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationDeliverableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationDeliverableTypeConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationDepartmentCodeConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationFundConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationHCategoryConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationLocationConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationPacificNorthActivityListConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationPacificNorthActivityStatusConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationPacificNorthActivityTypeConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingAgreementStatusTableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingContractStatusConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingContractTrackingTableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingCostAuthorityAgreementConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingFutureFundingTableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingObligationsTableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingPersonsTableConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationStagingPostedObligationConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationSubbasinConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationWorkBreakdownStructureConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationWorkOrderConfiguration());
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
@@ -360,6 +388,34 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectUpdate> ProjectUpdates { get { return AllProjectUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateSetting> AllProjectUpdateSettings { get; set; }
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
+        public virtual DbSet<ReclamationAgreementProject> ReclamationAgreementProjects { get; set; }
+        public virtual DbSet<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
+        public virtual DbSet<ReclamationAgreement> ReclamationAgreements { get; set; }
+        public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
+        public virtual DbSet<ReclamationContractType> ReclamationContractTypes { get; set; }
+        public virtual DbSet<ReclamationCostAuthority> ReclamationCostAuthorities { get; set; }
+        public virtual DbSet<ReclamationDeliverable> ReclamationDeliverables { get; set; }
+        public virtual DbSet<ReclamationDeliverableType> ReclamationDeliverableTypes { get; set; }
+        public virtual DbSet<ReclamationDepartmentCode> ReclamationDepartmentCodes { get; set; }
+        public virtual DbSet<ReclamationFund> ReclamationFunds { get; set; }
+        public virtual DbSet<ReclamationHCategory> ReclamationHCategories { get; set; }
+        public virtual DbSet<ReclamationLocation> ReclamationLocations { get; set; }
+        public virtual DbSet<ReclamationPacificNorthActivityList> ReclamationPacificNorthActivityLists { get; set; }
+        public virtual DbSet<ReclamationPacificNorthActivityStatus> ReclamationPacificNorthActivityStatuses { get; set; }
+        public virtual DbSet<ReclamationPacificNorthActivityType> ReclamationPacificNorthActivityTypes { get; set; }
+        public virtual DbSet<ReclamationStagingAgreementStatusTable> ReclamationStagingAgreementStatusTables { get; set; }
+        public virtual DbSet<ReclamationStagingContractStatus> ReclamationStagingContractStatuses { get; set; }
+        public virtual DbSet<ReclamationStagingContractTrackingTable> ReclamationStagingContractTrackingTables { get; set; }
+        public virtual DbSet<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
+        public virtual DbSet<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList> ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists { get; set; }
+        public virtual DbSet<ReclamationStagingFutureFundingTable> ReclamationStagingFutureFundingTables { get; set; }
+        public virtual DbSet<ReclamationStagingObligationsTable> ReclamationStagingObligationsTables { get; set; }
+        public virtual DbSet<ReclamationStagingPersonsTable> ReclamationStagingPersonsTables { get; set; }
+        public virtual DbSet<ReclamationStagingPostedObligation> ReclamationStagingPostedObligations { get; set; }
+        public virtual DbSet<ReclamationSubbasin> ReclamationSubbasins { get; set; }
+        public virtual DbSet<ReclamationWorkBreakdownStructure> ReclamationWorkBreakdownStructures { get; set; }
+        public virtual DbSet<ReclamationWorkOrder> ReclamationWorkOrders { get; set; }
         public virtual DbSet<ReleaseNote> ReleaseNotes { get; set; }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
@@ -858,6 +914,90 @@ namespace ProjectFirmaModels.Models
                     var projectWorkflowSectionGrouping = ProjectWorkflowSectionGrouping.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
                     return projectWorkflowSectionGrouping;
+
+                case "ReclamationAgreementPacificNorthActivity":
+                    return ReclamationAgreementPacificNorthActivities.GetReclamationAgreementPacificNorthActivity(primaryKey);
+
+                case "ReclamationAgreementProject":
+                    return ReclamationAgreementProjects.GetReclamationAgreementProject(primaryKey);
+
+                case "ReclamationAgreementReclamationCostAuthority":
+                    return ReclamationAgreementReclamationCostAuthorities.GetReclamationAgreementReclamationCostAuthority(primaryKey);
+
+                case "ReclamationAgreement":
+                    return ReclamationAgreements.GetReclamationAgreement(primaryKey);
+
+                case "ReclamationBasin":
+                    return ReclamationBasins.GetReclamationBasin(primaryKey);
+
+                case "ReclamationContractType":
+                    return ReclamationContractTypes.GetReclamationContractType(primaryKey);
+
+                case "ReclamationCostAuthority":
+                    return ReclamationCostAuthorities.GetReclamationCostAuthority(primaryKey);
+
+                case "ReclamationDeliverable":
+                    return ReclamationDeliverables.GetReclamationDeliverable(primaryKey);
+
+                case "ReclamationDeliverableType":
+                    return ReclamationDeliverableTypes.GetReclamationDeliverableType(primaryKey);
+
+                case "ReclamationDepartmentCode":
+                    return ReclamationDepartmentCodes.GetReclamationDepartmentCode(primaryKey);
+
+                case "ReclamationFund":
+                    return ReclamationFunds.GetReclamationFund(primaryKey);
+
+                case "ReclamationHCategory":
+                    return ReclamationHCategories.GetReclamationHCategory(primaryKey);
+
+                case "ReclamationLocation":
+                    return ReclamationLocations.GetReclamationLocation(primaryKey);
+
+                case "ReclamationPacificNorthActivityList":
+                    return ReclamationPacificNorthActivityLists.GetReclamationPacificNorthActivityList(primaryKey);
+
+                case "ReclamationPacificNorthActivityStatus":
+                    return ReclamationPacificNorthActivityStatuses.GetReclamationPacificNorthActivityStatus(primaryKey);
+
+                case "ReclamationPacificNorthActivityType":
+                    return ReclamationPacificNorthActivityTypes.GetReclamationPacificNorthActivityType(primaryKey);
+
+                case "ReclamationStagingAgreementStatusTable":
+                    return ReclamationStagingAgreementStatusTables.GetReclamationStagingAgreementStatusTable(primaryKey);
+
+                case "ReclamationStagingContractStatus":
+                    return ReclamationStagingContractStatuses.GetReclamationStagingContractStatus(primaryKey);
+
+                case "ReclamationStagingContractTrackingTable":
+                    return ReclamationStagingContractTrackingTables.GetReclamationStagingContractTrackingTable(primaryKey);
+
+                case "ReclamationStagingCostAuthorityAgreement":
+                    return ReclamationStagingCostAuthorityAgreements.GetReclamationStagingCostAuthorityAgreement(primaryKey);
+
+                case "ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList":
+                    return ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists.GetReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList(primaryKey);
+
+                case "ReclamationStagingFutureFundingTable":
+                    return ReclamationStagingFutureFundingTables.GetReclamationStagingFutureFundingTable(primaryKey);
+
+                case "ReclamationStagingObligationsTable":
+                    return ReclamationStagingObligationsTables.GetReclamationStagingObligationsTable(primaryKey);
+
+                case "ReclamationStagingPersonsTable":
+                    return ReclamationStagingPersonsTables.GetReclamationStagingPersonsTable(primaryKey);
+
+                case "ReclamationStagingPostedObligation":
+                    return ReclamationStagingPostedObligations.GetReclamationStagingPostedObligation(primaryKey);
+
+                case "ReclamationSubbasin":
+                    return ReclamationSubbasins.GetReclamationSubbasin(primaryKey);
+
+                case "ReclamationWorkBreakdownStructure":
+                    return ReclamationWorkBreakdownStructures.GetReclamationWorkBreakdownStructure(primaryKey);
+
+                case "ReclamationWorkOrder":
+                    return ReclamationWorkOrders.GetReclamationWorkOrder(primaryKey);
 
                 case "ReleaseNote":
                     return ReleaseNotes.GetReleaseNote(primaryKey);

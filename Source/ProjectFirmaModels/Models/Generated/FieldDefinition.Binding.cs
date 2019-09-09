@@ -239,6 +239,10 @@ namespace ProjectFirmaModels.Models
         ProjectContactRelationshipType = 289,
         CostType = 290,
         ProjectAttachmentRelationshipType = 291,
-        ProjectID = 292
+        ProjectID = 292,
+        Agreement = 293,
+        AgreementNumber = 294,
+        CostAuthorityWorkBreakdownStructure = 295,
+        ContractType = 296
     }
 }

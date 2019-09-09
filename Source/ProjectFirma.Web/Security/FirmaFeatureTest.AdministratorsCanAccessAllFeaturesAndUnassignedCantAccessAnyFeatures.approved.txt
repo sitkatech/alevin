@@ -1,5 +1,7 @@
 ﻿
 
+Feature ProjectFirma.Web.Security.ContactRelationshipTypeManageFeature is not available to Administrators
+Feature ProjectFirma.Web.Security.ContactRelationshipTypeViewFeature is not available to Administrators
 Feature ProjectFirma.Web.Security.CustomPageViewFeature is available to the Unassigned role
 Feature ProjectFirma.Web.Security.LoggedInUnclassifiedFeature is available to the Unassigned role
 Feature ProjectFirma.Web.Security.WebServiceDocumentationViewFeature is available to the Unassigned role
