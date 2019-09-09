@@ -48,7 +48,7 @@ end -- end of if statement
 set @branchID += 1
 end -- end of while loop
 
-
+/*
 select tt.TaxonomyTrunkID
 ,tt.TaxonomyTrunkName
 ,tb.TaxonomyBranchID
@@ -59,7 +59,7 @@ from ProjectFirma.dbo.TaxonomyTrunk tt
 join TaxonomyBranch tb on tb.TaxonomyTrunkID = tt.TaxonomyTrunkID
 join TaxonomyLeaf tl on tb.TaxonomyBranchID = tl.TaxonomyBranchID
 where tt.TaxonomyTrunkID = 36
-
+*/
 
 
 
