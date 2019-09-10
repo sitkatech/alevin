@@ -240,9 +240,10 @@ namespace ProjectFirmaModels.Models
         CostType = 290,
         ProjectAttachmentRelationshipType = 291,
         ProjectID = 292,
-        Agreement = 293,
-        AgreementNumber = 294,
-        CostAuthorityWorkBreakdownStructure = 295,
-        ContractType = 296
+        ExcludeTargetedFundingOrganizations = 293,
+        Agreement = 294,
+        AgreementNumber = 295,
+        CostAuthorityWorkBreakdownStructure = 296,
+        ContractType = 297
     }
 }
