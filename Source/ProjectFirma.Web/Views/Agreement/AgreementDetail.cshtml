@@ -20,15 +20,25 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
-@using ProjectFirma.Web.Views.PerformanceMeasure
 @using ProjectFirma.Web.Views.Shared
-@using ProjectFirma.Web.Views.Shared.TextControls
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
-@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Agreement.AgreementDetail
+
+@functions 
+{
+    private string GetOrganizationDisplayName()
+    {
+        // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
+        if (ViewDataTyped.ReclamationAgreement.Organization == null)
+        {
+            return string.Empty;
+        }
+        return ViewDataTyped.ReclamationAgreement.Organization.GetDisplayName();
+    }
+}
 
 @section JavascriptAndStylesContent
 {
@@ -98,7 +108,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.Organization.GetDisplayName()</div>
+                    <div class="col-xs-7">@GetOrganizationDisplayName()</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@FieldDefinitionEnum.ContractType.ToType().GetFieldDefinitionLabel()</div>
