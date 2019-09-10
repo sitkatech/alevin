@@ -513,16 +513,16 @@ nav#tableOfContents ul.nav li ul.nav {
   overflow: hidden;
 }
 nav#tableOfContents ul.nav li.active ul.nav {
-  max-height: 200px;
+  max-height: 230px;
 }
 nav#tableOfContents ul.nav li.active a {
-  color: #fff;
-  border-left: 4px solid #fff;
+  color: #244A9F;
+  border-left: 4px solid #244A9F;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
-  color: #fff;
-  border-left: 2px solid #fff;
+  color: #244A9F;
+  border-left: 2px solid #244A9F;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
@@ -532,12 +532,12 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   color: #333;
 }
 nav#tableOfContents ul.nav li a:hover {
-  color: #fff;
+  color: #244A9F;
   cursor: pointer;
   text-decoration: none;
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover {
-  color: #fff;
+  color: #244A9F;
   cursor: pointer;
   text-decoration: none;
 }
