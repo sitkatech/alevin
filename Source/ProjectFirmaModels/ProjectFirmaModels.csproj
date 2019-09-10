@@ -751,6 +751,7 @@
     <Compile Include="Models\ProjectRelevantCostType.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdate.cs" />
     <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
+    <Compile Include="Models\ReclamationAgreementProject.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\ReclamationAgreement.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />
