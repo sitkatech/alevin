@@ -1,3 +1,5 @@
+--begin tran
+
 Declare @branchID int
 Declare @Admin varchar(50)
 Declare @Nepa varchar(50)
@@ -16,11 +18,16 @@ Set @Screens = '300 Screens'
 Set @Barriers = '400 Barriers'
 Set @Complexity = '500 Complexity'
 
+
+-- Move this off to prevent failure below
+update Project 
+set TaxonomyLeafID = 2348
+where ProjectID = 13615
+
 delete from TaxonomyLeafPerformanceMeasure where TaxonomyLeafID = 2336
 delete from TaxonomyLeafPerformanceMeasure where TaxonomyLeafID = 2337
 delete from TaxonomyLeaf where TaxonomyLeafID = 2336
 delete from TaxonomyLeaf where TaxonomyLeafID = 2337
-
 
 while @branchID <=137
 begin
@@ -74,3 +81,5 @@ where tt.TaxonomyTrunkID = 36
 --join TaxonomyBranch tb on tb.TaxonomyTrunkID = tt.TaxonomyTrunkID
 --join TaxonomyLeaf tl on tb.TaxonomyBranchID = tl.TaxonomyBranchID
 --where tt.TaxonomyTrunkID = 36
+
+--rollback tran
