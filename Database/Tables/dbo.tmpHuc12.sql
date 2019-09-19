@@ -25,5 +25,10 @@ CREATE TABLE [dbo].[tmpHuc12](
 	[Shape_Leng] [float] NULL,
 	[Shape_Length] [float] NULL,
 	[Shape_Area] [float] NULL,
-	[GEOM] [geometry] NULL
+	[GEOM] [geometry] NULL,
+	[tmpHuc12ID] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_tmpHuc12_tmpHuc12ID] PRIMARY KEY CLUSTERED 
+(
+	[tmpHuc12ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]

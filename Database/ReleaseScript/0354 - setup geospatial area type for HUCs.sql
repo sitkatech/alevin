@@ -13,6 +13,8 @@
 drop table dbo.tmpHydrologic_Project
 go
 
+alter table dbo.tmpHuc12 add tmpHuc12ID int not null identity(1,1) constraint PK_tmpHuc12_tmpHuc12ID primary key
+
 insert into dbo.GeospatialAreaType(TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, GeospatialAreaTypeDefinition, MapServiceUrl, GeospatialAreaLayerName)
 values (12, 'Watershed', 'Watersheds', '<p>Below are all the HUC (12 digit) watersheds</p>', null, 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:Watershed')
 

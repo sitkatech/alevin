@@ -22,6 +22,8 @@ dbo	ReclamationStagingPostedObligation	OriginalAgreementStatusID
 dbo	ReclamationStagingPostedObligation	OriginalPostedObligationsID					
 dbo	ReclamationStagingPostedObligation	OriginalReclamationCostAuthorityAgreementID					
 dbo	ReclamationWorkOrder	WorkBreakdownStructureID					
+dbo	tmpHuc12	GNIS_ID					
+dbo	tmpHuc12	TNMID					
 HangFire	AggregatedCounter	Id					
 HangFire	Counter	Id					
 HangFire	Hash	Id					
