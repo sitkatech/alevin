@@ -48,4 +48,6 @@ values
 (63, 'FundingStatusFooter', 'Funding Status Footer', 1),
 (64, 'ManageProjectCustomGrids', 'Manage Project Custom Grids', 1),
 (65, 'AgreementList', 'Agreement List', 1),
-(66, 'CostAuthorityList', 'Cost Authority List', 1)
+(66, 'CostAuthorityList', 'Cost Authority List', 1),
+(67, 'ManageProjectCustomAttributeGroupInstructions', 'Manage Project Custom Attribute Group Instructions', 2),
+(68, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2)

@@ -179,6 +179,8 @@ namespace ProjectFirmaModels.Models
         FundingStatusFooter = 63,
         ManageProjectCustomGrids = 64,
         AgreementList = 65,
-        CostAuthorityList = 66
+        CostAuthorityList = 66,
+        ManageProjectCustomAttributeGroupInstructions = 67,
+        ManageProjectCustomAttributeGroupsList = 68
     }
 }
