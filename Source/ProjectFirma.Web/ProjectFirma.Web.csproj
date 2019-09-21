@@ -61,6 +61,7 @@
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\AgreementController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="Models\ProjectContactUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectCreateSectionModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributes.cs" />
+    <Compile Include="Models\ProjectCustomAttributeGroupModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
@@ -252,6 +254,12 @@
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesValidationResult.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\Edit.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\EditViewData.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\EditViewModel.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\Manage.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\ManageViewData.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\ProjectCustomAttributeGroupGridSpec.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewData.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewModel.cs" />
@@ -589,6 +597,8 @@
     <Content Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cshtml" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cshtml" />
     <Content Include="Views\ProjectUpdate\ProjectCustomAttributes.cshtml" />
+    <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
+    <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
     <Content Include="Views\ProjectAgreement\ProjectAgreementDetail.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />

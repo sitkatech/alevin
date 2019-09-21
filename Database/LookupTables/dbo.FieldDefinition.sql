@@ -116,8 +116,10 @@ VALUES
 (291, N'ProjectAttachmentRelationshipType', N'Project Attachment Relationship Type', N'<p>A categorization of a relationship between an attachment and a project, e.g. Documents, Permits, Leases.</p>'),
 (292, N'ProjectID', N'ProjectID', N'<p>The unique identifier for a project.</p>'),
 (293, N'ExcludeTargetedFundingOrganizations', N'Exclude Targeted Funding Organizations from List of Funders?', N'<p>When this option is set to Yes, the "Funders" field will not display the targeted funders on the forward looking fact sheet and project detail page (under Organizations). When set to No, both the secured and targeted funders will display in the "Funders" field</p>'),
-(294, N'Agreement', 'Agreement', N'[Agreement described here].'),
-(295, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
+(294, N'ProjectCustomAttributeGroup', N'Project Custom Attribute Group', N'<p>The group that is assigned to a project custom attribute type.</p>'),
+
+(295, N'Agreement', 'Agreement', N'[Agreement described here].'),
+(296, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
 -- Unsure if this is the very best name for this. 
-(296, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
-(297, N'ContractType', 'Contract Type', N'[Contract Type described here].')
+(297, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
+(298, N'ContractType', 'Contract Type', N'[Contract Type described here].')
