@@ -20,13 +20,21 @@ values (12, 'Watershed', 'Watersheds', '<p>Below are all the HUC (12 digit) wate
 
 GO
 
+ALTER TABLE dbo.GeospatialArea ALTER COLUMN GeospatialAreaName VARCHAR (150) NOT NULL
+go
+
 INSERT INTO dbo.GeospatialArea (TenantID, GeospatialAreaName, GeospatialAreaFeature, GeospatialAreaTypeID)  
     SELECT 
 			12 as TenantID,
-			concat(huc.[Name], ' - ', huc.HUC12) as GeospatialAreaName,
-			huc.GEOM as GeospatialAreaFeature,
+			GeospatialAreaName = 
+			CASE
+			  WHEN huc12.[Name] = huc12.HUC12 THEN concat(huc8.[Name], ' - ', huc12.HUC12)
+			  ELSE concat(huc8.[Name], ' - ', huc12.[Name], ' - ', huc12.HUC12)
+			END,
+			huc12.GEOM as GeospatialAreaFeature,
 			(select GeospatialAreaTypeID from dbo.GeospatialAreaType where TenantID = 12 and GeospatialAreaTypeName = 'Watershed') as GeospatialAreaTypeID
     FROM 
-		dbo.tmpHuc12 as huc
+		dbo.tmpHuc12 as huc12
+		join dbo.tmpHUC08_Proj as huc8 on huc8.HUC8 = SUBSTRING(huc12.HUC12, 1, 8)
 
-	
+
