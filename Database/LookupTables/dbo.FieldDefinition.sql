@@ -122,4 +122,5 @@ VALUES
 (296, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
 -- Unsure if this is the very best name for this. 
 (297, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
-(298, N'ContractType', 'Contract Type', N'[Contract Type described here].')
+(298, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
+(299, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.')

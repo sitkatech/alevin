@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[GeospatialArea](
 	[GeospatialAreaID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[GeospatialAreaName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[GeospatialAreaName] [varchar](150) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[GeospatialAreaFeature] [geometry] NULL,
 	[GeospatialAreaTypeID] [int] NOT NULL,
 	[GeospatialAreaDescriptionContent] [dbo].[html] NULL,

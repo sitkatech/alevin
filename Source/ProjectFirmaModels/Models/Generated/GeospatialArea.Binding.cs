@@ -158,7 +158,7 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-            public const int GeospatialAreaName = 100;
+            public const int GeospatialAreaName = 150;
         }
     }
 }
