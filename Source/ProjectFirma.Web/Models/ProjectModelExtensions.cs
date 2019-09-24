@@ -324,17 +324,22 @@ namespace ProjectFirma.Web.Models
             return HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(project).Max(x => x.AuditLogDate);
         }
 
-        public static string GetPlanningDesignStartYear(Project project)
+        public static string GetApprovalDate(this Project project)
+        {
+            return project.ApprovalDate?.ToShortDateString();
+        }
+
+        public static string GetPlanningDesignStartYear(this Project project)
         {
             return project.PlanningDesignStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(project.PlanningDesignStartYear.Value) : null;
         }
 
-        public static string GetCompletionYear(Project project)
+        public static string GetCompletionYear(this Project project)
         {
             return project.CompletionYear.HasValue ? MultiTenantHelpers.FormatReportingYear(project.CompletionYear.Value) : null;
         }
 
-        public static string GetImplementationStartYear(Project project)
+        public static string GetImplementationStartYear(this Project project)
         {
             return project.ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(project.ImplementationStartYear.Value) : null;
         }

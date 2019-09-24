@@ -245,6 +245,7 @@ namespace ProjectFirmaModels.Models
         Agreement = 295,
         AgreementNumber = 296,
         CostAuthorityWorkBreakdownStructure = 297,
-        ContractType = 298
+        ContractType = 298,
+        ProjectApprovalDate = 299
     }
 }

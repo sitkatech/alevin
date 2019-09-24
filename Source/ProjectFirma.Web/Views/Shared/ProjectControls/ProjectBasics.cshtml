@@ -96,14 +96,21 @@ Source code is available upon request via <support@sitkatech.com>.
         </div>
     </div>
 
-     <hr />
-
+    <hr />
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectApprovalDate.ToType())
+        </div>
+        <div class="col-xs-6">
+            @ViewDataTyped.Project.GetApprovalDate()
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-6">
             @Html.LabelWithSugarFor(FieldDefinitionEnum.PlanningDesignStartYear.ToType())
         </div>
         <div class="col-xs-6">
-            @ProjectModelExtensions.GetPlanningDesignStartYear(ViewDataTyped.Project)
+            @ViewDataTyped.Project.GetPlanningDesignStartYear()
         </div>
     </div>
     <div class="row">
@@ -111,7 +118,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.LabelWithSugarFor(FieldDefinitionEnum.ImplementationStartYear.ToType())
         </div>
         <div class="col-xs-6">
-            @ProjectModelExtensions.GetImplementationStartYear(ViewDataTyped.Project)
+            @ViewDataTyped.Project.GetImplementationStartYear()
         </div>
     </div>
     <div class="row">
@@ -119,7 +126,7 @@ Source code is available upon request via <support@sitkatech.com>.
             @Html.LabelWithSugarFor(FieldDefinitionEnum.CompletionYear.ToType())
         </div>
         <div class="col-xs-6">
-            @ProjectModelExtensions.GetCompletionYear(ViewDataTyped.Project)
+            @ViewDataTyped.Project.GetCompletionYear()
         </div>
     </div>
 </div>
