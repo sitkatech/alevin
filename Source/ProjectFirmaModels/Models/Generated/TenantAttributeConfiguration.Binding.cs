@@ -25,8 +25,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TenantStyleSheetFileResourceID).HasColumnName(@"TenantStyleSheetFileResourceID").HasColumnType("int").IsOptional();
             Property(x => x.TenantShortDisplayName).HasColumnName(@"TenantShortDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.ToolDisplayName).HasColumnName(@"ToolDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
-            Property(x => x.RecaptchaPublicKey).HasColumnName(@"RecaptchaPublicKey").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
-            Property(x => x.RecaptchaPrivateKey).HasColumnName(@"RecaptchaPrivateKey").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
             Property(x => x.ShowProposalsToThePublic).HasColumnName(@"ShowProposalsToThePublic").HasColumnType("bit").IsRequired();
             Property(x => x.TaxonomyLevelID).HasColumnName(@"TaxonomyLevelID").HasColumnType("int").IsRequired();
             Property(x => x.AssociatePerfomanceMeasureTaxonomyLevelID).HasColumnName(@"AssociatePerfomanceMeasureTaxonomyLevelID").HasColumnType("int").IsRequired();
@@ -46,6 +44,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.BudgetTypeID).HasColumnName(@"BudgetTypeID").HasColumnType("int").IsRequired();
             Property(x => x.CanManageCustomAttributes).HasColumnName(@"CanManageCustomAttributes").HasColumnType("bit").IsRequired();
             Property(x => x.ExcludeTargetedFundingOrganizations).HasColumnName(@"ExcludeTargetedFundingOrganizations").HasColumnType("bit").IsRequired();
+            Property(x => x.GoogleAnalyticsTrackingCode).HasColumnName(@"GoogleAnalyticsTrackingCode").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.TenantAttributesWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_TenantAttribute_Person_PrimaryContactPersonID_PersonID

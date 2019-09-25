@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantShortDisplayName, string toolDisplayName, string recaptchaPublicKey, string recaptchaPrivateKey, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations) : this()
+        public TenantAttribute(int tenantAttributeID, DbGeometry defaultBoundingBox, int minimumYear, int? primaryContactPersonID, int? tenantSquareLogoFileResourceID, int? tenantBannerLogoFileResourceID, int? tenantStyleSheetFileResourceID, string tenantShortDisplayName, string toolDisplayName, bool showProposalsToThePublic, int taxonomyLevelID, int associatePerfomanceMeasureTaxonomyLevelID, bool isActive, bool projectExternalDataSourceEnabled, int accomplishmentsDashboardFundingDisplayTypeID, string accomplishmentsDashboardAccomplishmentsButtonText, string accomplishmentsDashboardExpendituresButtonText, string accomplishmentsDashboardOrganizationsButtonText, bool accomplishmentsDashboardIncludeReportingOrganizationType, bool showLeadImplementerLogoOnFactSheet, bool enableAccomplishmentsDashboard, int? projectStewardshipAreaTypeID, bool enableSecondaryProjectTaxonomyLeaf, string keystoneOpenIDClientIdentifier, string keystoneOpenIDClientSecret, int budgetTypeID, bool canManageCustomAttributes, bool excludeTargetedFundingOrganizations, string googleAnalyticsTrackingCode) : this()
         {
             this.TenantAttributeID = tenantAttributeID;
             this.DefaultBoundingBox = defaultBoundingBox;
@@ -41,8 +41,6 @@ namespace ProjectFirmaModels.Models
             this.TenantStyleSheetFileResourceID = tenantStyleSheetFileResourceID;
             this.TenantShortDisplayName = tenantShortDisplayName;
             this.ToolDisplayName = toolDisplayName;
-            this.RecaptchaPublicKey = recaptchaPublicKey;
-            this.RecaptchaPrivateKey = recaptchaPrivateKey;
             this.ShowProposalsToThePublic = showProposalsToThePublic;
             this.TaxonomyLevelID = taxonomyLevelID;
             this.AssociatePerfomanceMeasureTaxonomyLevelID = associatePerfomanceMeasureTaxonomyLevelID;
@@ -62,6 +60,7 @@ namespace ProjectFirmaModels.Models
             this.BudgetTypeID = budgetTypeID;
             this.CanManageCustomAttributes = canManageCustomAttributes;
             this.ExcludeTargetedFundingOrganizations = excludeTargetedFundingOrganizations;
+            this.GoogleAnalyticsTrackingCode = googleAnalyticsTrackingCode;
         }
 
         /// <summary>
@@ -172,8 +171,6 @@ namespace ProjectFirmaModels.Models
         public int? TenantStyleSheetFileResourceID { get; set; }
         public string TenantShortDisplayName { get; set; }
         public string ToolDisplayName { get; set; }
-        public string RecaptchaPublicKey { get; set; }
-        public string RecaptchaPrivateKey { get; set; }
         public bool ShowProposalsToThePublic { get; set; }
         public int TaxonomyLevelID { get; set; }
         public int AssociatePerfomanceMeasureTaxonomyLevelID { get; set; }
@@ -211,6 +208,7 @@ namespace ProjectFirmaModels.Models
         public int BudgetTypeID { get; set; }
         public bool CanManageCustomAttributes { get; set; }
         public bool ExcludeTargetedFundingOrganizations { get; set; }
+        public string GoogleAnalyticsTrackingCode { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TenantAttributeID; } set { TenantAttributeID = value; } }
 
@@ -229,10 +227,9 @@ namespace ProjectFirmaModels.Models
         {
             public const int TenantShortDisplayName = 100;
             public const int ToolDisplayName = 100;
-            public const int RecaptchaPublicKey = 100;
-            public const int RecaptchaPrivateKey = 100;
             public const int KeystoneOpenIDClientIdentifier = 256;
             public const int KeystoneOpenIDClientSecret = 256;
+            public const int GoogleAnalyticsTrackingCode = 100;
         }
     }
 }
