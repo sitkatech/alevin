@@ -242,10 +242,11 @@ namespace ProjectFirmaModels.Models
         ProjectID = 292,
         ExcludeTargetedFundingOrganizations = 293,
         ProjectCustomAttributeGroup = 294,
-        Agreement = 295,
-        AgreementNumber = 296,
-        CostAuthorityWorkBreakdownStructure = 297,
-        ContractType = 298,
-        ProjectApprovalDate = 299
+        ProjectLastUpdated = 295,
+        Agreement = 296,
+        AgreementNumber = 297,
+        CostAuthorityWorkBreakdownStructure = 298,
+        ContractType = 299,
+        ProjectApprovalDate = 300
     }
 }
