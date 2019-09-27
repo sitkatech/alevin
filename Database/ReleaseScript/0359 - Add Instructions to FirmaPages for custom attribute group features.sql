@@ -27,19 +27,19 @@ GO
 -- 66 is the custom attributes group page
 Update dbo.FirmaPage
 set FirmaPageContent = '<p>Custom attribute groups defined and listed here are a way to separate certain custom attributes from other custom attributes, typically by theme or concern. This allows for greater flexibility and clarity when displaying and editing your project&#39;s custom attributes in all steps of the workflow. For further customization you can edit the display order of the custom attribute groups.</p>'
-where FirmaPageTypeID = 66
+where FirmaPageTypeID = 68
 
 GO
 
 Update dbo.FirmaPage
 set FirmaPageContent = '<p>Custom attribute groups defined and listed here are a way to separate certain custom attributes from other custom attributes, typically by theme or concern. This allows for greater flexibility and clarity when displaying and editing your activity&#39;s custom attributes in all steps of the workflow. For further customization you can edit the display order of the custom attribute groups.</p>'
-where FirmaPageTypeID = 66 and TenantID = 11
+where FirmaPageTypeID = 68 and TenantID = 11
 
 GO
 
 -- 65 is the custom attribute groups adding instructions
 Update dbo.FirmaPage
 set FirmaPageContent = '<p>Enter a new custom attribute group name below. The custom attribute group will be automatically be placed last in the sort order but you can change this after the group is added. By default, one custom attribute group must always exist.</p>'
-where FirmaPageTypeID = 65
+where FirmaPageTypeID = 67
 
 GO
