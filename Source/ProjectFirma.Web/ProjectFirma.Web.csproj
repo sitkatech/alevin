@@ -100,6 +100,7 @@
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
+    <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
@@ -167,6 +168,7 @@
     <Compile Include="Models\ProjectWorkflowSectionGroupingModelExtensions.cs" />
     <Compile Include="Models\OrganizationRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
+    <Compile Include="Common\SqlHelpers.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
     <Compile Include="Models\TagModelExtensions.cs" />
