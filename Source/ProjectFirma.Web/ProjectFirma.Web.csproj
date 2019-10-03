@@ -100,6 +100,7 @@
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
+    <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />

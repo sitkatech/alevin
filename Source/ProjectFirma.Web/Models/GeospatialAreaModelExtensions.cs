@@ -20,9 +20,12 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
+using log4net;
 using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
@@ -39,7 +42,8 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
 
-        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
+        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(
+            this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
         {
             return project?.ProjectLocationPoint == null
                 ? new List<GeospatialArea>()
@@ -52,31 +56,44 @@ namespace ProjectFirma.Web.Models
             return UrlTemplate.MakeHrefString(geospatialArea.GetDetailUrl(), geospatialArea.GetDisplayName());
         }
 
-        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(
+            SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
 
         public static string GetDetailUrl(this GeospatialArea geospatialArea)
         {
-            return DetailUrlTemplate.ParameterReplace(geospatialArea.GeospatialAreaID);
+            return GetDetailUrl(geospatialArea.GeospatialAreaID);
         }
 
-        public static readonly UrlTemplate<int> MapTooltipUrlTemplate = new UrlTemplate<int>(SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(t => t.MapTooltip(UrlTemplate.Parameter1Int)));
+        public static string GetDetailUrl(int geospatialAreaID)
+        {
+            return DetailUrlTemplate.ParameterReplace(geospatialAreaID);
+        }
+
+        public static readonly UrlTemplate<int> MapTooltipUrlTemplate =
+            new UrlTemplate<int>(
+                SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(
+                    t => t.MapTooltip(UrlTemplate.Parameter1Int)));
 
         public static LayerGeoJson GetGeospatialAreaWmsLayerGeoJson(this GeospatialAreaType geospatialAreaType,
             string layerColor, decimal layerOpacity,
             LayerInitialVisibility layerInitialVisibility)
         {
-            return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized, geospatialAreaType.MapServiceUrl,
-                geospatialAreaType.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor, layerOpacity,
+            return new LayerGeoJson(geospatialAreaType.GeospatialAreaTypeNamePluralized,
+                geospatialAreaType.MapServiceUrl,
+                geospatialAreaType.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor,
+                layerOpacity,
                 layerInitialVisibility);
         }
 
-        public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(this GeospatialArea geospatialArea, List<Project> projects)
+        public static List<LayerGeoJson> GetGeospatialAreaAndAssociatedProjectLayers(this GeospatialArea geospatialArea,
+            List<Project> projects)
         {
-            var projectLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
+            var projectLayerGeoJson = new LayerGeoJson(
+                $"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} - Simple",
                 projects.MappedPointsToGeoJsonFeatureCollection(true, false),
                 "#ffff00", 1, LayerInitialVisibility.Show);
             var geospatialAreaLayerGeoJson = new LayerGeoJson(geospatialArea.GetDisplayName(),
-                new List<GeospatialArea> { geospatialArea }.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
+                new List<GeospatialArea> {geospatialArea}.ToGeoJsonFeatureCollection(), "#2dc3a1", 1,
                 LayerInitialVisibility.Show);
 
             var layerGeoJsons = new List<LayerGeoJson>
@@ -90,7 +107,8 @@ namespace ProjectFirma.Web.Models
             return layerGeoJsons;
         }
 
-        public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(this GeospatialArea geospatialArea,
+        public static PerformanceMeasureChartViewData GetPerformanceMeasureChartViewData(
+            this GeospatialArea geospatialArea,
             PerformanceMeasure performanceMeasure, Person currentPerson)
         {
             var projects = geospatialArea.GetAssociatedProjects(currentPerson);
@@ -99,15 +117,36 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, Person person)
         {
-            return geospatialArea.ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList().GetActiveProjectsAndProposals(person.CanViewProposals());
+            return geospatialArea.ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList()
+                .GetActiveProjectsAndProposals(person.CanViewProposals());
         }
 
         public static Feature MakeFeatureWithRelevantProperties(this GeospatialArea geospatialArea)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(geospatialArea.GeospatialAreaFeature);
-            feature.Properties.Add(geospatialArea.GeospatialAreaType.GeospatialAreaTypeName, geospatialArea.GetDisplayNameAsUrl().ToString());
+            feature.Properties.Add(geospatialArea.GeospatialAreaType.GeospatialAreaTypeName,
+                geospatialArea.GetDisplayNameAsUrl().ToString());
             return feature;
         }
 
+        public static List<GeospatialAreaIndexGridSimple> GetGeospatialAreaIndexGridSimples(GeospatialAreaType geospatialAreaType, List<Project> projectListViewableByUser)
+        {
+            var results = from geospatialArea in HttpRequestStorage.DatabaseEntities.GeospatialAreas
+                join projectGeospatialArea in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas
+                    on geospatialArea.GeospatialAreaID equals projectGeospatialArea.GeospatialAreaID
+                    into x
+                from x2 in x.DefaultIfEmpty()
+                group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaName } into grouped
+                select new GeospatialAreaIndexGridSimple()
+                {
+                    GeospatialAreaID = grouped.Key.GeospatialAreaID,
+                    GeospatialAreaName = grouped.Key.GeospatialAreaName,
+                    ProjectViewableByUserCount = grouped.Count(t => t.ProjectGeospatialAreaID > 0)
+                };
+
+            var geospatialAreaIndexGridSimplesNew = results.ToList();
+            return geospatialAreaIndexGridSimplesNew;
+        }
     }
 }
+
