@@ -29,7 +29,9 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 using System.Web;
+using Microsoft.Ajax.Utilities;
 
 namespace ProjectFirma.Web.Views.Tenant
 {
@@ -105,6 +107,13 @@ namespace ProjectFirma.Web.Views.Tenant
 
         [DisplayName("Can Manage Custom Attributes")]
         public bool CanManageCustomAttributes { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ExcludeTargetedFundingOrganizations)]
+        public bool ExcludeTargetedFundingOrganizations { get; set; }
+
+        [DisplayName("Google Analytics Tracking Code")]
+        public string GoogleAnalyticsTrackingCode { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -128,6 +137,8 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
             EnableSecondaryProjectTaxonomyLeaf = tenantAttribute.EnableSecondaryProjectTaxonomyLeaf;
             CanManageCustomAttributes = tenantAttribute.CanManageCustomAttributes;
+            ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
+            GoogleAnalyticsTrackingCode = tenantAttribute.GoogleAnalyticsTrackingCode;
         }
 
         public void UpdateModel(TenantAttribute attribute, Person currentPerson)
@@ -139,6 +150,8 @@ namespace ProjectFirma.Web.Views.Tenant
             attribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
             attribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
             attribute.CanManageCustomAttributes = CanManageCustomAttributes;
+            attribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;
+            attribute.GoogleAnalyticsTrackingCode = GoogleAnalyticsTrackingCode;
 
             Person primaryContactPerson = null;
             if (PrimaryContactPersonID != null)
@@ -187,6 +200,16 @@ namespace ProjectFirma.Web.Views.Tenant
             if (BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID && CostTypes == null)
             {
                 errors.Add(new SitkaValidationResult<EditBasicsViewModel, int>($"One or more Cost Types must exist when selecting '{BudgetType.AnnualBudgetByCostType.BudgetTypeDisplayName}'", m => m.BudgetTypeID));
+            }
+
+            // Ensure that the Google Analytics code is a valid format since this is being displayed raw in the header of the website
+            if (!GoogleAnalyticsTrackingCode.IsNullOrWhiteSpace())
+            {
+                Regex regexPattern = new Regex(@"^(?i)ua(?-i)-\d{4,9}-\d{1,4}$");
+                if (!regexPattern.IsMatch(GoogleAnalyticsTrackingCode))
+                {
+                    errors.Add(new SitkaValidationResult<EditBasicsViewModel, string>($"The Google Analytics tracking code provided is invalid.", m => m.GoogleAnalyticsTrackingCode));
+                }
             }
 
             return errors;

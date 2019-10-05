@@ -38,6 +38,13 @@ namespace ProjectFirma.Web.Common
     {
         private static readonly EnglishPluralizationService PluralizationService = new EnglishPluralizationService();
 
+        public static Tenant GetTenantFromHostUrl(Uri urlHost)
+        {
+            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Host.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
+            Check.RequireNotNull(tenant, $"[GetTenantFromHostUrl] Could not determine tenant from host \"{urlHost}\"");
+            return tenant;
+        }
+
         public static TenantAttribute GetTenantAttribute()
         {
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault();
@@ -126,16 +133,6 @@ namespace ProjectFirma.Web.Common
         public static int GetMinimumYear()
         {
             return GetTenantAttribute().MinimumYear;
-        }
-
-        public static string GetTenantRecaptchaPrivateKey()
-        {
-            return GetTenantAttribute().RecaptchaPrivateKey;
-        }
-
-        public static string GetTenantRecaptchaPublicKey()
-        {
-            return GetTenantAttribute().RecaptchaPublicKey;
         }
 
         public static List<TaxonomyTier> GetTopLevelTaxonomyTiers()
@@ -316,5 +313,11 @@ namespace ProjectFirma.Web.Common
         {
             return GetTenantAttribute().ProjectStewardshipAreaType;
         }
+
+        public static string GetTenantGoogleAnalyticsTrackingCode()
+        {
+            return GetTenantAttribute().GoogleAnalyticsTrackingCode;
+        }
+
     }
 }

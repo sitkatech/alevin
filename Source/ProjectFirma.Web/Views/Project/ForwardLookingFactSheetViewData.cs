@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -57,6 +58,8 @@ namespace ProjectFirma.Web.Views.Project
         public string FundingBudget { get; }
         public int CalculatedChartHeight { get; }
         public string FactSheetPdfUrl { get; }
+        public string FactSheetWithCustomAttributesPdfUrl { get; }
+        public bool WithCustomAttributes { get; }
 
         public string TaxonomyColor { get; }
         public string TaxonomyLeafDisplayName { get; }
@@ -65,7 +68,9 @@ namespace ProjectFirma.Web.Views.Project
         public ViewPageContentViewData CustomFactSheetTextViewData { get; }
         public List<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get; }
         public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
-
+        public List<ProjectCustomAttribute> ViewableProjectCustomAttributes { get; }
+        public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
+        public DateTime LastUpdated { get; }
 
         public ForwardLookingFactSheetViewData(Person currentPerson,
             ProjectFirmaModels.Models.Project project,
@@ -73,7 +78,8 @@ namespace ProjectFirma.Web.Views.Project
             GoogleChartJson googleChartJson,
             List<GooglePieChartSlice> fundingSourceRequestAmountGooglePieChartSlices, 
             ProjectFirmaModels.Models.FirmaPage firmaPageFactSheetCustomText,
-            List<TechnicalAssistanceParameter> technicalAssistanceParameters) : base(currentPerson, project)
+            List<TechnicalAssistanceParameter> technicalAssistanceParameters,
+            bool withCustomAttributes) : base(currentPerson, project)
         {
             PageTitle = project.GetDisplayName();
             BreadCrumbTitle = "Fact Sheet";
@@ -99,6 +105,7 @@ namespace ProjectFirma.Web.Views.Project
                                         ? FundingSourceRequestAmountGooglePieChartSlices.Count * 52
                                         : FundingSourceRequestAmountGooglePieChartSlices.Count * 18);
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
+            FactSheetWithCustomAttributesPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetWithCustomAttributesPdf(project));
 
             if (project.TaxonomyLeaf == null)
             {
@@ -139,6 +146,12 @@ namespace ProjectFirma.Web.Views.Project
             CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
+
+            ViewableProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(currentPerson) && x.IsViewableOnFactSheet).ToList();
+            ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentPerson) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();
+            
+            WithCustomAttributes = withCustomAttributes;
+            LastUpdated = project.LastUpdatedDate;
         }
 
         public HtmlString LegendHtml

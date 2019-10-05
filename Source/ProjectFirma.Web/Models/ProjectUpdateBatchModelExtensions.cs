@@ -321,6 +321,15 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static void DeleteProjectCustomAttributeUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectCustomAttributeUpdates = projectUpdateBatch.ProjectCustomAttributeUpdates.ToList();
+            foreach (var projectCustomAttributeUpdate in projectCustomAttributeUpdates)
+            {
+                projectCustomAttributeUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
         public static BasicsValidationResult ValidateProjectBasics(this ProjectUpdateBatch projectUpdateBatch)
         {
             return new BasicsValidationResult(projectUpdateBatch.ProjectUpdate);
@@ -329,6 +338,16 @@ namespace ProjectFirma.Web.Models
         public static bool AreProjectBasicsValid(this ProjectUpdateBatch projectUpdateBatch)
         {
             return projectUpdateBatch.ValidateProjectBasics().IsValid;
+        }
+
+        public static ProjectCustomAttributesValidationResult ValidateProjectCustomAttributes(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return new ProjectCustomAttributesValidationResult(projectUpdateBatch.ProjectUpdate);
+        }
+
+        public static bool AreProjectCustomAttributesValid(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.ValidateProjectCustomAttributes().IsValid;
         }
 
         public static PerformanceMeasuresValidationResult ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)

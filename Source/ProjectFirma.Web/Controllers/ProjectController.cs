@@ -191,7 +191,7 @@ namespace ProjectFirma.Web.Controllers
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
-            var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships();
+            var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
             var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
@@ -199,11 +199,13 @@ namespace ProjectFirma.Web.Controllers
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
 
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson));
-
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(CurrentPerson)).OrderBy(x => x.SortOrder).ToList();
+            var projectCustomAttributeGroups = projectCustomAttributeTypes.Select(x => x.ProjectCustomAttributeGroup).Distinct().OrderBy(x => x.SortOrder).ToList();
+            
             var projectCustomAttributeTypesViewData = new DisplayProjectCustomAttributesViewData(
-                projectCustomAttributeTypes.ToList(),
-                new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()));
+                projectCustomAttributeTypes,
+                new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList()),
+                projectCustomAttributeGroups);
             var viewData = new DetailViewData(CurrentPerson,
                 project,
                 activeProjectStages,
@@ -341,9 +343,18 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.");
-            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project) : ViewForwardLookingFactSheet(project);
+            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, false) : ViewForwardLookingFactSheet(project, false);
         }
-        private ViewResult ViewBackwardLookingFactSheet(Project project)
+
+        [ProjectsViewFullListFeature]
+        public ViewResult FactSheetWithCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            Check.Assert(project.ProjectStage != ProjectStage.Terminated, $"There is no Fact Sheet available for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} because it has been terminated.");
+            return project.IsBackwardLookingFactSheetRelevant() ? ViewBackwardLookingFactSheet(project, true) : ViewForwardLookingFactSheet(project, true);
+        }
+
+        private ViewResult ViewBackwardLookingFactSheet(Project project, bool withCustomAttributes)
         {
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
@@ -362,11 +373,11 @@ namespace ProjectFirma.Web.Controllers
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
             var viewData = new BackwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
-                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, technicalAssistanceParameters);
+                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
         }
 
-        private ViewResult ViewForwardLookingFactSheet(Project project)
+        private ViewResult ViewForwardLookingFactSheet(Project project, bool withCustomAttributes)
         {
             new ProjectViewFeature().DemandPermission(CurrentPerson, project);
             var mapDivID = $"project_{project.ProjectID}_Map";
@@ -387,7 +398,7 @@ namespace ProjectFirma.Web.Controllers
             var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
 
             var viewData = new ForwardLookingFactSheetViewData(CurrentPerson, project, projectLocationDetailMapInitJson,
-                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters);
+                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes);
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
 
@@ -888,6 +899,29 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
                 var pdfConversionSettings = new PDFUtility.PdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName)) { Zoom = 0.9 };
                 PDFUtility.ConvertURLToPDF(
                     new Uri(new SitkaRoute<ProjectController>(c => c.FactSheet(project)).BuildAbsoluteUrlHttpsFromExpression()),
+                    outputFile.FileInfo,
+                    pdfConversionSettings);
+
+                var fileContents = FileUtility.FileToString(outputFile.FileInfo);
+                Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
+                Check.Assert(fileContents.Contains("wkhtmltopdf") || fileContents.Contains("\0w\0k\0h\0t\0m\0l\0t\0o\0p\0d\0f"), "Should be a PDF file produced by wkhtmltopdf.");
+
+                var fileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
+                var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
+                return File(content, "application/pdf", fileName);
+            }
+        }
+
+        [ProjectsViewFullListFeature]
+        public FileContentResult FactSheetWithCustomAttributesPdf(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            using (var outputFile = new DisposableTempFile())
+            {
+                var pfCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
+                var pdfConversionSettings = new PDFUtility.PdfConversionSettings(CookieHelper.GetAllAuthenticationCookies(Request.Cookies, pfCookieName)) { Zoom = 0.9 };
+                PDFUtility.ConvertURLToPDF(
+                    new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributes(project)).BuildAbsoluteUrlHttpsFromExpression()),
                     outputFile.FileInfo,
                     pdfConversionSettings);
 

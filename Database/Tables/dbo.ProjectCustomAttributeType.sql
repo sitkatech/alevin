@@ -11,6 +11,9 @@ CREATE TABLE [dbo].[ProjectCustomAttributeType](
 	[IsRequired] [bit] NOT NULL,
 	[ProjectCustomAttributeTypeDescription] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectCustomAttributeTypeOptionsSchema] [varchar](max) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[IsViewableOnFactSheet] [bit] NOT NULL,
+	[ProjectCustomAttributeGroupID] [int] NOT NULL,
+	[SortOrder] [int] NULL,
  CONSTRAINT [PK_ProjectCustomAttributeType_ProjectCustomAttributeTypeID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectCustomAttributeTypeID] ASC
@@ -36,6 +39,16 @@ ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_P
 REFERENCES [dbo].[ProjectCustomAttributeDataType] ([ProjectCustomAttributeDataTypeID])
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeDataType_ProjectCustomAttributeDataTypeID]
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID] FOREIGN KEY([ProjectCustomAttributeGroupID])
+REFERENCES [dbo].[ProjectCustomAttributeGroup] ([ProjectCustomAttributeGroupID])
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID]
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID_TenantID] FOREIGN KEY([ProjectCustomAttributeGroupID], [TenantID])
+REFERENCES [dbo].[ProjectCustomAttributeGroup] ([ProjectCustomAttributeGroupID], [TenantID])
+GO
+ALTER TABLE [dbo].[ProjectCustomAttributeType] CHECK CONSTRAINT [FK_ProjectCustomAttributeType_ProjectCustomAttributeGroup_ProjectCustomAttributeGroupID_TenantID]
 GO
 ALTER TABLE [dbo].[ProjectCustomAttributeType]  WITH CHECK ADD  CONSTRAINT [FK_ProjectCustomAttributeType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

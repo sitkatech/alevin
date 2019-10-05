@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IHaveSqlGeometry.cs" company="Sitka Technology Group">
-Copyright (c) Sitka Technology Group. All rights reserved.
+<copyright file="ProjectCustomAttributesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
 
@@ -18,15 +18,23 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Data.Entity.Spatial;
-using Microsoft.SqlServer.Types;
 
-namespace LtInfo.Common.DbSpatial
+using ProjectFirma.Web.Views.Shared.ProjectControls;
+
+namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public interface IHaveSqlGeometry
+    public class ProjectCustomAttributesViewModel : EditProjectCustomAttributesViewModel
     {
-        void SetDbGeometry(DbGeometry value);
-        DbGeometry GetDbGeometry();
-        SqlGeometry GetSqlGeometry();
-    }
+        /// <summary>
+        /// Needed by the ModelBinder
+        /// </summary>
+        public ProjectCustomAttributesViewModel()
+        {
+        }
+
+        public ProjectCustomAttributesViewModel(ProjectFirmaModels.Models.Project project) : base(project)
+        {
+            Project = project;
+        }
+    }    
 }

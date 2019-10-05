@@ -49,6 +49,7 @@ using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.Shared.ProjectContact;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls;
 using ProjectFirma.Web.Views.Shared.SortOrder;
@@ -79,6 +80,7 @@ using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectCreate.Perfor
 using Photos = ProjectFirma.Web.Views.ProjectCreate.Photos;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
+using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributes;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -217,16 +219,20 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult CreateAndEditBasicsPostImpl(BasicsViewModel viewModel)
         {
+            // To keep a 100% consistent time, we snapshot it so it doesn't change between calls
+            var now = DateTime.Now;
+
             var project = new Project(viewModel.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
-                ProjectApprovalStatus.Draft.ProjectApprovalStatusID)
+                ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
+                now)
             {
                 ProposingPerson = CurrentPerson,
-                ProposingDate = DateTime.Now
+                ProposingDate = now
             };
 
             return SaveProjectAndCreateAuditEntry(project, viewModel);
@@ -238,12 +244,11 @@ namespace ProjectFirma.Web.Controllers
             var instructionsPageUrl = newProjectIsHistoric
                 ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsEnterHistoric(null))
                 : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.InstructionsProposal(null));
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
 
             var fundingTypes = FundingType.All.ToList();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewData = new BasicsViewData(CurrentPerson, fundingTypes, taxonomyLeafs, newProjectIsHistoric,
-                instructionsPageUrl, projectCustomAttributeTypes, tenantAttribute);
+                instructionsPageUrl, tenantAttribute);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -272,11 +277,10 @@ namespace ProjectFirma.Web.Controllers
             proposalSectionsStatus.IsBasicsSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsBasicsSectionComplete;
             
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs;
-            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
             var fundingTypes =FundingType.All.ToList();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
             var viewData = new BasicsViewData(CurrentPerson, project, proposalSectionsStatus, taxonomyLeafs,
-                fundingTypes, projectCustomAttributeTypes, tenantAttribute);
+                fundingTypes, tenantAttribute);
 
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
@@ -987,7 +991,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewApproveGisUpload(project, viewModel);
             }
             SaveDetailedLocations(viewModel, project);
-            DbSpatialHelper.Reduce(new List<IHaveSqlGeometry>(project.ProjectLocations.ToList()));
+            DbSpatialHelper.Reduce(new List<IHaveDbGeometry>(project.ProjectLocations.ToList()));
             return new ModalDialogFormJsonResult();
         }
 
@@ -1721,5 +1725,54 @@ namespace ProjectFirma.Web.Controllers
             
             return Content(JsonConvert.SerializeObject(simple, Formatting.Indented));
         }
+
+        #region "ProjectCustomAttributes"
+
+        [HttpGet]
+        [ProjectCreateFeature]
+        public ViewResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ProjectCustomAttributesViewModel(project);
+            return ViewProjectCustomAttributes(project, viewModel);
+        }
+
+        private ViewResult ViewProjectCustomAttributes(Project project, ProjectCustomAttributesViewModel viewModel)
+        {
+            var customAttributesValidationResult = project.ValidateCustomAttributes();
+
+            var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentPerson));
+
+            var editCustomAttributesViewData = new EditProjectCustomAttributesViewData(projectCustomAttributeTypes.ToList(), new List<IProjectCustomAttribute>(project.ProjectCustomAttributes.ToList())); 
+
+            var proposalSectionsStatus = GetProposalSectionsStatus(project);
+            proposalSectionsStatus.IsProjectCustomAttributesSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsProjectCustomAttributesSectionComplete;
+            var viewData = new ProjectCustomAttributesViewData(CurrentPerson, project, proposalSectionsStatus, editCustomAttributesViewData, customAttributesValidationResult);
+
+            return RazorView<ProjectCustomAttributes, ProjectCustomAttributesViewData, ProjectCustomAttributesViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ProjectCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ProjectCustomAttributes(ProjectPrimaryKey projectPrimaryKey, ProjectCustomAttributesViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewProjectCustomAttributes(project, viewModel);
+            }
+
+            HttpRequestStorage.DatabaseEntities.ProjectCustomAttributes.Load();
+
+            viewModel.UpdateModel(project, CurrentPerson);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Custom Attributes successfully saved.");
+            return GoToNextSection(viewModel, project, ProjectCreateSection.CustomAttributes.ProjectCreateSectionDisplayName);
+        }
+
+        #endregion "ProjectCustomAttributes"
+
     }
 }

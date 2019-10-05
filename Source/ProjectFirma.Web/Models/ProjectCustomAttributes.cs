@@ -162,26 +162,34 @@ namespace ProjectFirmaModels.Models
                 .Where(x => customAttributeTypeIDs.Contains(x.ProjectCustomAttributeTypeID))
                 .ToList();
 
-            var projectCustomAttributeSimples = Attributes
-                .Where(x => x.ProjectCustomAttributeValues != null && x.ProjectCustomAttributeValues.Any());
+            var projectCustomAttributeSimples = Attributes;
 
-            foreach (var attributeSimple in projectCustomAttributeSimples)
+            for (int i = 0; i < projectCustomAttributeSimples.Count; i++)
             {
-                var type = customAttributeTypes.Single(x => x.ProjectCustomAttributeTypeID == attributeSimple.ProjectCustomAttributeTypeID);
-                foreach (var value in attributeSimple.ProjectCustomAttributeValues)
+                var type = customAttributeTypes.Single(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeSimples[i].ProjectCustomAttributeTypeID);
+                if (projectCustomAttributeSimples[i].ProjectCustomAttributeValues.Any())
                 {
-                    if (!string.IsNullOrWhiteSpace(value) && !type.ProjectCustomAttributeDataType.ValueIsCorrectDataType(value))
+                    foreach (var value in projectCustomAttributeSimples[i].ProjectCustomAttributeValues)
                     {
-                        yield return new ValidationResult($"Entered value \"{value}\" for {type.ProjectCustomAttributeTypeName} does not match expected type " +
-                                                          $"({type.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName}).");
+                        if (!string.IsNullOrWhiteSpace(value) && !type.ProjectCustomAttributeDataType.ValueIsCorrectDataType(value))
+                        {
+                            yield return new ValidationResult($"Entered value \"{value}\" for {type.ProjectCustomAttributeTypeName} does not match expected type " +
+                                                              $"({type.ProjectCustomAttributeDataType.ProjectCustomAttributeDataTypeDisplayName}).");
+                        }
+                        if (!string.IsNullOrWhiteSpace(value) && value.Length > ProjectCustomAttributeValue.FieldLengths.AttributeValue)
+                        {
+                            yield return new ValidationResult($"The value entered for {type.ProjectCustomAttributeTypeName} exceeds the maximum character length allowed of " +
+                                                              $"({ProjectCustomAttributeValue.FieldLengths.AttributeValue}).");
+                        }
                     }
                 }
 
-                if (type.IsRequired && attributeSimple.ProjectCustomAttributeValues.All(string.IsNullOrWhiteSpace))
+                if (type.IsRequired && projectCustomAttributeSimples[i].ProjectCustomAttributeValues.All(string.IsNullOrWhiteSpace))
                 {
                     yield return new ValidationResult($"Value is required for {type.ProjectCustomAttributeTypeName}.");
                 }
             }
+
         }
     }
 }

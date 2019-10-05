@@ -53,11 +53,13 @@
     <Compile Include="Common\KeystoneService.cs" />
     <Compile Include="Common\LabelForExtensions.cs" />
     <Compile Include="Common\LabelForExtensionsTest.cs" />
+    <Compile Include="Common\MultiTenantHelpersTest.cs" />
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributeTypeController.cs" />
@@ -67,8 +69,11 @@
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
+    <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
+    <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
+    <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
@@ -93,6 +98,7 @@
     <Compile Include="Controllers\ProjectInternalNoteController.cs" />
     <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
+    <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
@@ -122,6 +128,7 @@
     <Compile Include="Models\ProjectContactUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectCreateSectionModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributes.cs" />
+    <Compile Include="Models\ProjectCustomAttributeGroupModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectCustomAttributeUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExemptReportingYearSimple.cs" />
@@ -212,6 +219,9 @@
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributes.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewModel.cs" />
@@ -227,6 +237,13 @@
     <Compile Include="Views\ProjectCreate\Contacts.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectCreate\ContactsViewModel.cs" />
+    <Compile Include="Views\ProjectCreate\ProjectCustomAttributesValidationResult.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\Edit.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\EditViewData.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\EditViewModel.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\Manage.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\ManageViewData.cs" />
+    <Compile Include="Views\ProjectCustomAttributeGroup\ProjectCustomAttributeGroupGridSpec.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewData.cs" />
     <Compile Include="Views\ProjectCustomGrid\EditProjectCustomGridViewModel.cs" />
@@ -241,6 +258,10 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributes.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesValidationResult.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\Results\FundingStatus.cs" />
     <Compile Include="Views\Results\FundingStatusViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
@@ -295,6 +316,10 @@
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsByCostTypeSummaryViewData.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroup.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
+    <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
+    <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -317,6 +342,10 @@
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Content\angular\directives\input-type-file.js" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.css" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.js" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.css" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js" />
     <Content Include="Content\Bootstrap\firma\actionagenda.theme.css">
       <DependentUpon>actionagenda.theme.less</DependentUpon>
     </Content>
@@ -328,6 +357,7 @@
       <DependentUpon>bor.theme.less</DependentUpon>
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
+    <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>
@@ -401,6 +431,7 @@
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
+    <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
@@ -428,6 +459,7 @@
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
+    <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -552,6 +584,9 @@
     <Content Include="Views\ProjectUpdate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectCustomGrid\ManageProjectCustomGrids.cshtml" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGrid.cshtml" />
+    <Content Include="Views\ProjectUpdate\ProjectCustomAttributes.cshtml" />
+    <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
+    <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -1529,6 +1564,8 @@
     <Content Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\FundingSourceCustomAttributes.cshtml" />
     <Content Include="Views\Results\FundingStatus.cshtml" />
+    <Content Include="Views\Shared\SortOrder\EditSortOrderInGroup.cshtml" />
+    <Content Include="Views\SiteMonitor\SiteMonitorNagios.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1617,7 +1654,6 @@
     <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.Security.OpenIdConnect.3.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>

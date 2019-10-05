@@ -36,6 +36,8 @@
 
 @section JavascriptAndStylesContent
 {
+    <link href="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.css")" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="@Url.Content("~/Content/bootstrap-toggle/bootstrap-toggle.min.js")"></script>
 
     <link href="@Url.Content("~/Content/css/ProjectFirmaPrint.css")" rel="stylesheet" type="text/css" media="print" />
     <style>
@@ -67,13 +69,43 @@
             chartWrapper.draw();
         }
     </script>
+    <script type="text/javascript">
+        /**
+         * Toggle to control custom attributes visibility, I didn't think it was necessary to use angular for something so simple
+         * and seeing as how we're already using jQuery on this page, I felt it was most efficient to do it like this.
+         * If anyone at all has any comments or suggestions, feel free to contact me! - SMG <stewart.gordon@sitkatech.com>
+         */
+        jQuery(document).ready(function () {
+            var factSheetPdfUrl = '@ViewDataTyped.FactSheetPdfUrl';
+            var factSheetWithCustomAttributesPdfUrl = '@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl';
+
+            var factSheetCustomAttributeInput = jQuery('#FactSheetContainsCustomAttributes');
+            var customAttributesRow = jQuery('#CustomAttributesRow');
+            var printFactSheetLink = jQuery('#PrintFactSheetLink');
+
+            if (factSheetCustomAttributeInput.length > 0) {
+                factSheetCustomAttributeInput.on('change', function () {
+                    var isChecked = jQuery(this).is(':checked');
+                    customAttributesRow.toggle();
+                    var correctUrl = isChecked ? factSheetWithCustomAttributesPdfUrl : factSheetPdfUrl;
+                    printFactSheetLink.attr('href', correctUrl);
+                });
+            }
+        });
+    </script>
 }
 
 <div class="container noPrint">
     <div style="margin: 15px 0;">
+        @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
+        {
+        <div class="pull-left">
+            <label><input type="checkbox" data-toggle="toggle" name="FactSheetComplexity" id="FactSheetContainsCustomAttributes" /></label> Extra Details
+        </div>
+        }
         <div class="pull-right">
             <a class="btn btn-firma" href="@ViewDataTyped.Project.GetDetailUrl()">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</a>
-            <a class="btn btn-firma" href="@ViewDataTyped.FactSheetPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
+            <a class="btn btn-firma" id="PrintFactSheetLink" href="@ViewDataTyped.FactSheetWithCustomAttributesPdfUrl"><span class="glyphicon glyphicon-print"></span> Print to PDF</a>
         </div>
     </div>
 </div>
@@ -140,7 +172,6 @@
                     </div>
                 </div>
             }
-
             @{
                 var projectOtherOrganizationNamesForFactSheet = ViewDataTyped.Project.GetProjectOrganizationNamesForFactSheet();
             }
@@ -214,6 +245,44 @@
                     @ViewDataTyped.TargetedFunding
                 </div>
             </div>
+            @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
+            {
+                @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
+                foreach (var projectCustomAttributeType in ViewDataTyped.ViewableProjectCustomAttributeTypes)
+                {
+                    var projectCustomAttribute = ViewDataTyped.ViewableProjectCustomAttributes.SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID);
+                    if (projectCustomAttribute != null)
+                    {
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-3">
+                                <strong>
+                                    @projectCustomAttributeType.ProjectCustomAttributeTypeName
+                                </strong>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-9">
+                                @if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                                {
+                                    @projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue.ToStringDate()
+                                }
+                                else if (projectCustomAttributeType.MeasurementUnitType == MeasurementUnitType.Dollars)
+                                {
+                                    @StringFormats.ParseNullableDecimalFromCurrencyString(projectCustomAttribute.GetCustomAttributeValues().Single().AttributeValue).ToStringCurrency()
+                                }
+                                else if (projectCustomAttributeType.MeasurementUnitTypeID != null)
+                                {
+                                    <span>@projectCustomAttribute.ProjectCustomAttributeValues.Single().AttributeValue</span>
+                                    <span>@(projectCustomAttributeType.MeasurementUnitType.LegendDisplayName)</span>
+                                }
+                                else
+                                {
+                                    @(string.Join(", ", projectCustomAttribute.GetCustomAttributeValues().Select(x => x.AttributeValue)))
+                                }
+                            </div>
+                        </div>
+                    }
+                }
+                @Html.Raw("</div>")
+            }
         </div>
     </div>
 
@@ -331,11 +400,11 @@
                 <h4>Location</h4>
                 <div id="@ViewDataTyped.ProjectLocationSummaryMapInitJson.MapDivID" class="locationPanel"></div>
                 <script type="text/javascript">
-                jQuery(document).ready(function()
-                {
-                    var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
-                    var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
-                });
+                    jQuery(document).ready(function()
+                    {
+                        var projectLocationSummaryMapInitJson = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectLocationSummaryMapInitJson).ToString(Formatting.None));
+                        var firmaMap = new ProjectFirmaMaps.ProjectLocationSummary(projectLocationSummaryMapInitJson);
+                    });
                 </script>
             </div>
         </div>
@@ -394,13 +463,13 @@
             </div>
         }
     </div>
-    
+
     <div class="row section">
         <div class="col-md-12">
             @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.CustomFactSheetTextViewData); }
         </div>
     </div>
 
-    <div class="pull-right onlyOnPrint"><hr />@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Fact Sheet Data as of @DateTime.Today.ToStringDate()</div>
+    <div class="pull-right"><hr />@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() last updated @ViewDataTyped.LastUpdated.ToShortDateString()</div>
 </div>
 

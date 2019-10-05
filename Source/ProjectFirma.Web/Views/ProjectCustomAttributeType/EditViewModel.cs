@@ -21,6 +21,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [DisplayName("Name of Attribute")]
         public string ProjectCustomAttributeTypeName { get; set; }
 
+        [Required]
+        [DisplayName("Custom Attribute Group")]
+        public int ProjectCustomAttributeGroupID { get; set; }
+
         [Required(ErrorMessage = "Specify data type for this custom attribute")]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCustomAttributeDataType)]
         public int? ProjectCustomAttributeDataTypeID { get; set; }
@@ -34,6 +38,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
         [Required(ErrorMessage = "Specify whether the attribute is required or optional")]
         [DisplayName("Required?")]
         public bool? IsRequired { get; set; }
+
+        [Required(ErrorMessage = "Please specify whether the attribute is viewable on fact sheets")]
+        [DisplayName("Viewable on fact sheets?")]
+        public bool? IsViewableOnFactSheet { get; set; }
 
         [DisplayName("Description")]
         [StringLength(ProjectFirmaModels.Models.ProjectCustomAttributeType.FieldLengths.ProjectCustomAttributeTypeDescription)]
@@ -73,7 +81,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             ViewableByUnassigned = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Unassigned.RoleID);
             ViewableByNormal = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.Normal.RoleID);
             ViewableByProjectSteward = projectCustomAttributeType.ProjectCustomAttributeTypeRoles.Any(x => x.ProjectCustomAttributeTypeRolePermissionType == ProjectCustomAttributeTypeRolePermissionType.View && x.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID);
-
+            IsViewableOnFactSheet = projectCustomAttributeType.IsViewableOnFactSheet;
+            ProjectCustomAttributeGroupID = projectCustomAttributeType.ProjectCustomAttributeGroupID;
         }
 
 
@@ -84,6 +93,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomAttributeType
             projectCustomAttributeType.MeasurementUnitTypeID = MeasurementUnitTypeID;
             projectCustomAttributeType.IsRequired = IsRequired.GetValueOrDefault();
             projectCustomAttributeType.ProjectCustomAttributeTypeDescription = ProjectCustomAttributeTypeDesription;
+            projectCustomAttributeType.IsViewableOnFactSheet = IsViewableOnFactSheet.GetValueOrDefault();
+            projectCustomAttributeType.ProjectCustomAttributeGroupID = ProjectCustomAttributeGroupID;
 
             var projectCustomAttributeDataType = ProjectCustomAttributeDataTypeID != null
                 ? ProjectCustomAttributeDataType.AllLookupDictionary[ProjectCustomAttributeDataTypeID.Value]

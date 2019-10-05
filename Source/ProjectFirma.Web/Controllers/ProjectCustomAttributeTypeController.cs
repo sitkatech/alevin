@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.Models;
@@ -10,6 +11,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.ProjectCustomAttributeType;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -57,7 +59,9 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, null);
             }
 
-            var projectCustomAttributeType = new ProjectCustomAttributeType(String.Empty, ProjectCustomAttributeDataType.String, false);
+            ProjectCustomAttributeGroupPrimaryKey projectCustomAttributeGroupPrimaryKey = viewModel.ProjectCustomAttributeGroupID;
+            var projectCustomAttributeGroup = projectCustomAttributeGroupPrimaryKey.EntityObject;
+            var projectCustomAttributeType = new ProjectCustomAttributeType(String.Empty, ProjectCustomAttributeDataType.String, false, false, projectCustomAttributeGroup);
             viewModel.UpdateModel(projectCustomAttributeType, CurrentPerson);
             HttpRequestStorage.DatabaseEntities.AllProjectCustomAttributeTypes.Add(projectCustomAttributeType);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -96,8 +100,10 @@ namespace ProjectFirma.Web.Controllers
             var submitUrl = ModelObjectHelpers.IsRealPrimaryKeyValue(viewModel.ProjectCustomAttributeTypeID)
                 ? SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.Edit(viewModel.ProjectCustomAttributeTypeID))
                 : SitkaRoute<ProjectCustomAttributeTypeController>.BuildUrlFromExpression(x => x.New());
+            var allProjectCustomAttributeGroups =
+                HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups.ToList();
             var viewData = new EditViewData(CurrentPerson, MeasurementUnitType.All, ProjectCustomAttributeDataType.All, Role.All, 
-                submitUrl, instructionsFirmaPage, projectCustomAttributeType);
+                submitUrl, instructionsFirmaPage, projectCustomAttributeType, allProjectCustomAttributeGroups);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -141,5 +147,40 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
         }
+
+
+
+        [FirmaAdminFeature]
+        public PartialViewResult EditSortOrder()
+        {
+            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
+            EditSortOrderInGroupViewModel viewModel = new EditSortOrderInGroupViewModel();
+            return ViewEditSortOrder(projectCustomAttributeGroups, viewModel);
+        }
+
+        private PartialViewResult ViewEditSortOrder(IQueryable<ProjectCustomAttributeGroup> projectCustomAttributeGroups, EditSortOrderInGroupViewModel viewModel)
+        {
+            EditSortOrderInGroupViewData viewData = new EditSortOrderInGroupViewData(new List<ISortingGroup>(projectCustomAttributeGroups), FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabelPluralized());
+            return RazorPartialView<EditSortOrderInGroup, EditSortOrderInGroupViewData, EditSortOrderInGroupViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditSortOrder(EditSortOrderInGroupViewModel viewModel)
+        {
+            var projectCustomAttributeGroups = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeGroups;
+
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditSortOrder(projectCustomAttributeGroups, viewModel);
+            }
+
+            viewModel.UpdateModel(new List<ISortingGroup>(projectCustomAttributeGroups));
+            SetMessageForDisplay($"Successfully Updated {FieldDefinitionEnum.ProjectCustomAttribute.ToType().GetFieldDefinitionLabel()} Sort Order");
+            return new ModalDialogFormJsonResult();
+        }
+
     }
 }
