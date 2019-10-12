@@ -47,8 +47,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             DictionaryGeoNotes = dictionaryGeoNotes;
             GeospatialAreaTypes = geospatialAreaTypes;
-            var test = geospatialAreas.Select(x => x.GeospatialAreaID);
-            var subbasinLiasonIDs = HttpRequestStorage.DatabaseEntities.SubbasinLiasons.Where(x => test.Contains(x.GeospatialAreaID)).Select(x => x.PersonID);
+            var geospatialAreaIDs = geospatialAreas.Select(x => x.GeospatialAreaID);
+            var subbasinLiasonIDs = HttpRequestStorage.DatabaseEntities.SubbasinLiasons.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).Select(x => x.PersonID);
             SubbasinLiasons = HttpRequestStorage.DatabaseEntities.People.Where(x => subbasinLiasonIDs.Contains(x.PersonID)).ToList();
         }
 
