@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
 
@@ -34,6 +35,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly bool HasLocationNotes;
         public readonly bool HasLocationInformation;
         public Dictionary<int, string> DictionaryGeoNotes { get; }
+        public List<Person> SubbasinLiasons { get; }
 
 
         public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas)
@@ -45,6 +47,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             DictionaryGeoNotes = dictionaryGeoNotes;
             GeospatialAreaTypes = geospatialAreaTypes;
+            var test = geospatialAreas.Select(x => x.GeospatialAreaID);
+            var subbasinLiasonIDs = HttpRequestStorage.DatabaseEntities.SubbasinLiasons.Where(x => test.Contains(x.GeospatialAreaID)).Select(x => x.PersonID);
+            SubbasinLiasons = HttpRequestStorage.DatabaseEntities.People.Where(x => subbasinLiasonIDs.Contains(x.PersonID)).ToList();
         }
 
         public List<GeospatialAreaType> GeospatialAreaTypes { get; }

@@ -636,6 +636,10 @@
     <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StateProvinceConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\StateProvincePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\SubbasinLiason.Binding.cs" />
+    <Compile Include="Models\Generated\SubbasinLiason.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SubbasinLiasonConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\SubbasinLiasonPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SupportRequestLog.Binding.cs" />
     <Compile Include="Models\Generated\SupportRequestLog.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SupportRequestLogConfiguration.Binding.cs" />
