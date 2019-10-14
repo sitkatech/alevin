@@ -27,6 +27,14 @@ ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiaso
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
 
+ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiason_GeospatialArea_GeospatialAreaID] FOREIGN KEY([GeospatialAreaID])
+REFERENCES [dbo].[GeospatialArea] ([GeospatialAreaID])
+GO
+
+ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiason_Person_PersonID] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+
 ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiason_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
