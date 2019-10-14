@@ -21,7 +21,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-
+            HasRequired(a => a.GeospatialArea).WithMany(b => b.SubbasinLiasons).HasForeignKey(c => c.GeospatialAreaID).WillCascadeOnDelete(false); // FK_SubbasinLiason_GeospatialArea_GeospatialAreaID
+            HasRequired(a => a.Person).WithMany(b => b.SubbasinLiasons).HasForeignKey(c => c.PersonID).WillCascadeOnDelete(false); // FK_SubbasinLiason_Person_PersonID
         }
     }
 }

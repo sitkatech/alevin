@@ -49,13 +49,27 @@ namespace ProjectFirmaModels.Models
             this.PersonID = personID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public SubbasinLiason(GeospatialArea geospatialArea, Person person) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.SubbasinLiasonID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.GeospatialAreaID = geospatialArea.GeospatialAreaID;
+            this.GeospatialArea = geospatialArea;
+            geospatialArea.SubbasinLiasons.Add(this);
+            this.PersonID = person.PersonID;
+            this.Person = person;
+            person.SubbasinLiasons.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static SubbasinLiason CreateNewBlank()
+        public static SubbasinLiason CreateNewBlank(GeospatialArea geospatialArea, Person person)
         {
-            return new SubbasinLiason(default(int), default(int));
+            return new SubbasinLiason(geospatialArea, person);
         }
 
         /// <summary>
@@ -99,6 +113,8 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return SubbasinLiasonID; } set { SubbasinLiasonID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual GeospatialArea GeospatialArea { get; set; }
+        public virtual Person Person { get; set; }
 
         public static class FieldLengths
         {

@@ -19,10 +19,20 @@ CREATE TABLE [dbo].[SubbasinLiason](
 ) ON [PRIMARY]
 
 GO
+ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiason_GeospatialArea_GeospatialAreaID] FOREIGN KEY([GeospatialAreaID])
+REFERENCES [dbo].[GeospatialArea] ([GeospatialAreaID])
+GO
+ALTER TABLE [dbo].[SubbasinLiason] CHECK CONSTRAINT [FK_SubbasinLiason_GeospatialArea_GeospatialAreaID]
+GO
 ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiason_GeospatialArea_GeospatialAreaID_TenantID] FOREIGN KEY([GeospatialAreaID], [TenantID])
 REFERENCES [dbo].[GeospatialArea] ([GeospatialAreaID], [TenantID])
 GO
 ALTER TABLE [dbo].[SubbasinLiason] CHECK CONSTRAINT [FK_SubbasinLiason_GeospatialArea_GeospatialAreaID_TenantID]
+GO
+ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiason_Person_PersonID] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [dbo].[SubbasinLiason] CHECK CONSTRAINT [FK_SubbasinLiason_Person_PersonID]
 GO
 ALTER TABLE [dbo].[SubbasinLiason]  WITH CHECK ADD  CONSTRAINT [FK_SubbasinLiason_Person_PersonID_TenantID] FOREIGN KEY([PersonID], [TenantID])
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
