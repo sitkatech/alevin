@@ -20,10 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -38,7 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public List<Person> SubbasinLiasons { get; }
 
 
-        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas)
+        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, List<Person> subbasinLiasons)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
@@ -47,9 +45,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             DictionaryGeoNotes = dictionaryGeoNotes;
             GeospatialAreaTypes = geospatialAreaTypes;
-            var geospatialAreaIDs = geospatialAreas.Select(x => x.GeospatialAreaID);
-            var subbasinLiasonIDs = HttpRequestStorage.DatabaseEntities.SubbasinLiasons.Where(x => geospatialAreaIDs.Contains(x.GeospatialAreaID)).Select(x => x.PersonID);
-            SubbasinLiasons = HttpRequestStorage.DatabaseEntities.People.Where(x => subbasinLiasonIDs.Contains(x.PersonID)).ToList();
+            SubbasinLiasons = subbasinLiasons;
         }
 
         public List<GeospatialAreaType> GeospatialAreaTypes { get; }

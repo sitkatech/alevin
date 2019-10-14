@@ -1088,7 +1088,7 @@ namespace ProjectFirma.Web.Controllers
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();            
             var editProjectLocationViewData = new ProjectLocationSimpleViewData(CurrentPerson, mapInitJsonForEdit, geospatialAreaTypes, null, mapPostUrl, mapFormID);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, new Dictionary<int, string>(), new List<GeospatialAreaType>(), new List<GeospatialArea>());
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, new Dictionary<int, string>(), new List<GeospatialAreaType>(), new List<GeospatialArea>(), new List<Person>());
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new LocationSimpleViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, locationSimpleValidationResult, updateStatus);
             return RazorView<LocationSimple, LocationSimpleViewData, LocationSimpleViewModel>(viewData, viewModel);
@@ -1428,7 +1428,7 @@ namespace ProjectFirma.Web.Controllers
             var dictionaryGeoNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates
                 .Where(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)
                 .ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
-            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, dictionaryGeoNotes, new List<GeospatialAreaType> {geospatialAreaType}, geospatialAreas);
+            var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(projectUpdate, projectLocationSummaryMapInitJson, dictionaryGeoNotes, new List<GeospatialAreaType> {geospatialAreaType}, geospatialAreas, geospatialAreas.GetSubbasinLiasonList());
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var viewData = new GeospatialAreaViewData(CurrentPerson, projectUpdate, editProjectLocationViewData, projectLocationSummaryViewData, geospatialAreaValidationResult, updateStatus, geospatialAreaType);
             return RazorView<Views.ProjectUpdate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);

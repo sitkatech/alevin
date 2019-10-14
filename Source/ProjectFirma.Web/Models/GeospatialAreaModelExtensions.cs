@@ -148,6 +148,33 @@ namespace ProjectFirma.Web.Models
             var geospatialAreaIndexGridSimplesNew = results.ToList();
             return geospatialAreaIndexGridSimplesNew;
         }
+
+        /// <summary>
+        /// Get the Subbasin Liason for a single geospatial area
+        /// </summary>
+        /// <param name="geospatialArea"></param>
+        /// <returns></returns>
+        public static Person GetSubbasinLiason(this GeospatialArea geospatialArea)
+        {
+            var subbasinLiason = HttpRequestStorage.DatabaseEntities.SubbasinLiasons.Single(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+            return HttpRequestStorage.DatabaseEntities.People.Single(x => x.PersonID == subbasinLiason.PersonID);
+        }
+
+        /// <summary>
+        /// Get a list of distinct Subbasin Liasons for a list of Geospatial Areas.
+        /// </summary>
+        /// <param name="geospatialAreaList"></param>
+        /// <returns></returns>
+        public static List<Person> GetSubbasinLiasonList(this IEnumerable<GeospatialArea> geospatialAreaList)
+        {
+            List<Person> subbasinLiasons = new List<Person>();
+            foreach (var geospatialArea in geospatialAreaList)
+            {
+                subbasinLiasons.Add(geospatialArea.GetSubbasinLiason());
+            }
+
+            return subbasinLiasons.Distinct().ToList();
+        }
     }
 }
 
