@@ -688,6 +688,14 @@
     <Compile Include="Models\Generated\TenantAttributeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\TenantAttributePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TenantPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\tmpFishProject1.Binding.cs" />
+    <Compile Include="Models\Generated\tmpFishProject1.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\tmpFishProject1Configuration.Binding.cs" />
+    <Compile Include="Models\Generated\tmpFishProject1PrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\tmpFishProject2Dissolve.Binding.cs" />
+    <Compile Include="Models\Generated\tmpFishProject2Dissolve.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\tmpFishProject2DissolveConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\tmpFishProject2DissolvePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\TrainingVideo.Binding.cs" />
     <Compile Include="Models\Generated\TrainingVideo.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TrainingVideoConfiguration.Binding.cs" />

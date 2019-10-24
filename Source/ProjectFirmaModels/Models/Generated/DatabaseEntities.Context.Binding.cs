@@ -185,6 +185,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestConfiguration());
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestUpdateConfiguration());
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
+            modelBuilder.Configurations.Add(new tmpFishProject1Configuration());
+            modelBuilder.Configurations.Add(new tmpFishProject2DissolveConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
         }
@@ -447,6 +449,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get { return AllTechnicalAssistanceRequestUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<tmpFishProject1> tmpFishProject1s { get; set; }
+        public virtual DbSet<tmpFishProject2Dissolve> tmpFishProject2Dissolves { get; set; }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
@@ -1074,6 +1078,12 @@ namespace ProjectFirmaModels.Models
                     var tenant = Tenant.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(tenant, "Tenant", primaryKey);
                     return tenant;
+
+                case "tmpFishProject1":
+                    return tmpFishProject1s.GettmpFishProject1(primaryKey);
+
+                case "tmpFishProject2Dissolve":
+                    return tmpFishProject2Dissolves.GettmpFishProject2Dissolve(primaryKey);
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);
