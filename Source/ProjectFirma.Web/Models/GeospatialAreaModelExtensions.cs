@@ -129,12 +129,13 @@ namespace ProjectFirma.Web.Models
             return feature;
         }
 
-        public static List<GeospatialAreaIndexGridSimple> GetGeospatialAreaIndexGridSimples(GeospatialAreaType geospatialAreaType, List<Project> projectListViewableByUser)
+        public static List<GeospatialAreaIndexGridSimple> GetGeospatialAreaIndexGridSimples(GeospatialAreaType geospatialAreaType, List<int> projectIDsViewableByUser)
         {
             var results = from geospatialArea in HttpRequestStorage.DatabaseEntities.GeospatialAreas
-                join projectGeospatialArea in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas
+                join projectGeospatialArea in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas.Where(x => projectIDsViewableByUser.Contains(x.ProjectID))
                     on geospatialArea.GeospatialAreaID equals projectGeospatialArea.GeospatialAreaID
                     into x
+                where geospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID
                 from x2 in x.DefaultIfEmpty()
                 group x2 by new { geospatialArea.GeospatialAreaID, geospatialArea.GeospatialAreaName } into grouped
                 select new GeospatialAreaIndexGridSimple()
@@ -146,6 +147,23 @@ namespace ProjectFirma.Web.Models
 
             var geospatialAreaIndexGridSimplesNew = results.ToList();
             return geospatialAreaIndexGridSimplesNew;
+        }
+
+
+        /// <summary>
+        /// Get a list of distinct Subbasin Liasons for a list of Geospatial Areas.
+        /// </summary>
+        /// <param name="geospatialAreaList"></param>
+        /// <returns></returns>
+        public static List<Person> GetSubbasinLiasonList(this IEnumerable<GeospatialArea> geospatialAreaList)
+        {
+            List<Person> subbasinLiasons = new List<Person>();
+            foreach (var geospatialArea in geospatialAreaList)
+            {
+                subbasinLiasons.AddRange(geospatialArea.SubbasinLiasons.Select(x => x.Person));
+            }
+
+            return subbasinLiasons.Distinct().ToList();
         }
     }
 }

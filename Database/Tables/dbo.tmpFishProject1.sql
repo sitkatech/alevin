@@ -1,0 +1,55 @@
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[tmpFishProject1](
+	[OBJECTID] [int] NULL,
+	[hydrologic_OBJECTID] [int] NULL,
+	[hydrologic_HU_Area_SqKm] [float] NULL,
+	[hydrologic_HU_States] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_HU_LoadDate] [datetime2](7) NULL,
+	[hydrologic_HUC_12] [varchar](12) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_HU_12_Name] [varchar](120) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_HU_12_Type] [varchar](254) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_HU_12_Mod] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_C_GNIS_NAME] [varchar](80) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_C_FWA_ID] [varchar](143) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_C_LOCAL_ID] [varchar](143) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_C_AREA_HA] [float] NULL,
+	[hydrologic_HU_SPLIT] [varchar](5) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[hydrologic_FEATURE_ID] [int] NULL,
+	[hydrologic_FEATURE_NOTES] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[link_OBJECTID] [int] NULL,
+	[link_FEATURE_ID] [int] NULL,
+	[link_WCR_POP_ID] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[link_FEATURE_ACCESS] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[link_POP_NOTES] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[link_DPS_ID] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[link_DPS_NOTES] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OBJECTID_1] [int] NULL,
+	[DPS] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[DPS_ID] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[FRN] [varchar](40) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LISTING_DESCRIPTION] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LISTING_STATUS] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SPECIES] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TRT] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[OBJECTID_12] [int] NULL,
+	[WCR_POP_ID] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TRT_POP_ID] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[NWFSC_POP_ID] [int] NULL,
+	[POPULATION] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[TYPE] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[STATUS] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[RUN_TIMING] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[EXTINCTION_RISK] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MIDLEVEL_GROUP] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[SHAPE_Length] [float] NULL,
+	[SHAPE_Area] [float] NULL,
+	[GEOM] [geometry] NULL,
+	[tmpFishProject1ID] [int] IDENTITY(1,1) NOT NULL,
+ CONSTRAINT [PK_tmpFishProject1_OBJECTID] PRIMARY KEY CLUSTERED 
+(
+	[tmpFishProject1ID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]

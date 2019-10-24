@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
             this.PersonStewardGeospatialAreas = new HashSet<PersonStewardGeospatialArea>();
             this.ProjectGeospatialAreas = new HashSet<ProjectGeospatialArea>();
             this.ProjectGeospatialAreaUpdates = new HashSet<ProjectGeospatialAreaUpdate>();
+            this.SubbasinLiasons = new HashSet<SubbasinLiason>();
         }
 
         /// <summary>
@@ -81,13 +82,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return GeospatialAreaImages.Any() || PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any();
+            return GeospatialAreaImages.Any() || PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any() || SubbasinLiasons.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(SubbasinLiason).Name};
 
 
         /// <summary>
@@ -131,6 +132,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in SubbasinLiasons.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -153,6 +159,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialArea> ProjectGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialAreaUpdate> ProjectGeospatialAreaUpdates { get; set; }
+        public virtual ICollection<SubbasinLiason> SubbasinLiasons { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual GeospatialAreaType GeospatialAreaType { get; set; }
 
