@@ -187,6 +187,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
             modelBuilder.Configurations.Add(new tmpFishProject1Configuration());
             modelBuilder.Configurations.Add(new tmpFishProject2DissolveConfiguration());
+            modelBuilder.Configurations.Add(new tmpFishProject2PopulationDissolveConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
         }
@@ -451,6 +452,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<tmpFishProject1> tmpFishProject1s { get; set; }
         public virtual DbSet<tmpFishProject2Dissolve> tmpFishProject2Dissolves { get; set; }
+        public virtual DbSet<tmpFishProject2PopulationDissolve> tmpFishProject2PopulationDissolves { get; set; }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
@@ -1084,6 +1086,9 @@ namespace ProjectFirmaModels.Models
 
                 case "tmpFishProject2Dissolve":
                     return tmpFishProject2Dissolves.GettmpFishProject2Dissolve(primaryKey);
+
+                case "tmpFishProject2PopulationDissolve":
+                    return tmpFishProject2PopulationDissolves.GettmpFishProject2PopulationDissolve(primaryKey);
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);
