@@ -27,7 +27,6 @@ using System.Reflection;
 using System.Text;
 using System.Web;
 using log4net;
-using log4net.Repository.Hierarchy;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -41,6 +40,12 @@ namespace ProjectFirma.Web.Models
     {
         private static ILog Logger = LogManager.GetLogger(typeof(IRoleExtensions));
         
+        /// <summary>
+        ///  (description goes here)
+        /// </summary>
+        /// <param name="role"></param>
+        /// <param name="baseFeatureType"></param>
+        /// <returns></returns>
         public static List<FeaturePermission> GetFeaturePermissions(this IRole role, Type baseFeatureType)
         {
             var featurePermissions = new List<FeaturePermission>();
@@ -79,7 +84,7 @@ namespace ProjectFirma.Web.Models
                     sb.AppendLine();
                 }
                 string errorMessage = sb.ToString();
-                Logger.Info($"Reflection error message: {errorMessage}");
+                Logger.Error($"Reflection error message: {errorMessage}");
                 //Display or log the error based on your application.
             }
             return featurePermissions;
