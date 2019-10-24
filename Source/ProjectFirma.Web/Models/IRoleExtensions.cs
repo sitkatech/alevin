@@ -85,7 +85,9 @@ namespace ProjectFirma.Web.Models
                 }
                 string errorMessage = sb.ToString();
                 Logger.Error($"Reflection error message: {errorMessage}");
-                //Display or log the error based on your application.
+
+                // re-throw; this detour is just to try to fish out the extra logging info
+                throw ex;
             }
             return featurePermissions;
         }
