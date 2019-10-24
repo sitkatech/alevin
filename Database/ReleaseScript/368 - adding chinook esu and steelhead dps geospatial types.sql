@@ -28,7 +28,7 @@ add tmpFishProject2DissolveID int not null identity(1,1) constraint PK_tmpFishPr
 
 */
 
- 
+exec sp_rename 'PK_tmpFishProject1_OBJECTID', 'PK_tmpFishProject1_tmpFishProject1ID', 'OBJECT'
 
 insert into dbo.GeospatialAreaType (TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, MapServiceUrl, GeospatialAreaLayerName)
 values (12, 'Chinook, Salmon ESU', 'Chinook, Salmon ESUs', '<p>Below are the evolutionarily significant units(ESUs) for Chinook salmon.</p>', 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:ChinookESU');
