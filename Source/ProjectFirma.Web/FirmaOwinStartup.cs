@@ -1,6 +1,5 @@
 ﻿using Keystone.Common.OpenID;
 using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Email;
 using Microsoft.IdentityModel.Protocols;
 using Microsoft.Owin;
@@ -19,7 +18,6 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens;
-using System.Linq;
 using System.Net.Mail;
 using System.Security.Claims;
 using System.Security.Principal;
