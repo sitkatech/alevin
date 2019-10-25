@@ -31,7 +31,7 @@ add tmpFishProject2DissolveID int not null identity(1,1) constraint PK_tmpFishPr
 exec sp_rename 'PK_tmpFishProject1_OBJECTID', 'PK_tmpFishProject1_tmpFishProject1ID', 'OBJECT'
 
 insert into dbo.GeospatialAreaType (TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, MapServiceUrl, GeospatialAreaLayerName)
-values (12, 'Chinook, Salmon ESU', 'Chinook, Salmon ESUs', '<p>Below are the evolutionarily significant units(ESUs) for Chinook salmon.</p>', 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:ChinookESU');
+values (12, 'Chinook, Salmon ESU', 'Chinook, Salmon ESU', '<p>Below are the evolutionarily significant units(ESU) for Chinook salmon.</p>', 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:ChinookESU');
 
 
 insert into dbo.GeospatialArea (TenantID, GeospatialAreaTypeID, GeospatialAreaName, GeospatialAreaFeature)
@@ -49,7 +49,7 @@ where
 
 
 insert into dbo.GeospatialAreaType (TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, MapServiceUrl, GeospatialAreaLayerName)
-values (12, 'Steelhead DPS', 'Steelhead DPSs', '<p>Below are the distinct population segments(DPSs) for Steelhead.</p>', 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:SteelheadDPS');
+values (12, 'Steelhead DPS', 'Steelhead DPS', '<p>Below are the distinct population segments(DPS) for Steelhead.</p>', 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:SteelheadDPS');
 
 
 insert into dbo.GeospatialArea (TenantID, GeospatialAreaTypeID, GeospatialAreaName, GeospatialAreaFeature)
