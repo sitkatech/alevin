@@ -38,7 +38,7 @@ insert into dbo.GeospatialArea (TenantID, GeospatialAreaTypeID, GeospatialAreaNa
 select
 	12 as TenantID,
 	(select GeospatialAreaTypeID from dbo.GeospatialAreaType where GeospatialAreaLayerName = 'Reclamation:ChinookESU') as GeospatialAreaTypeID,
-	fp.DPS as GeospatialAreaName,
+	SUBSTRING(fp.DPS, CHARINDEX('(', fp.DPS) + 1, CHARINDEX(')', fp.DPS) - CHARINDEX('(', fp.DPS) - 1) as GeospatialAreaName,
 	fp.GEOM as GeospatialAreaFeature
 from
 	dbo.tmpFishProject2Dissolve as fp
@@ -56,7 +56,7 @@ insert into dbo.GeospatialArea (TenantID, GeospatialAreaTypeID, GeospatialAreaNa
 select
 	12 as TenantID,
 	(select GeospatialAreaTypeID from dbo.GeospatialAreaType where GeospatialAreaLayerName = 'Reclamation:SteelheadDPS') as GeospatialAreaTypeID,
-	fp.DPS as GeospatialAreaName,
+	SUBSTRING(fp.DPS, CHARINDEX('(', fp.DPS) + 1, CHARINDEX(')', fp.DPS) - CHARINDEX('(', fp.DPS) - 1) as GeospatialAreaName,
 	fp.GEOM as GeospatialAreaFeature
 from
 	dbo.tmpFishProject2Dissolve as fp
