@@ -5,7 +5,13 @@
 
 
 insert into dbo.GeospatialAreaType (TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, MapServiceUrl, GeospatialAreaLayerName)
-values (12, 'Chinook, Salmon Population', 'Chinook, Salmon Populations', '<p>Below are the population spatial areas for Chinook salmon.</p>', 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:ChinookPopulation');
+values (12, 'Chinook, Salmon Population', 'Chinook, Salmon Populations', '<p>Below are the population spatial areas for Chinook salmon.</p>', 
+	CASE @@SERVERNAME  
+		WHEN 'kettle' THEN 'https://bor-qa-mapserver.projectfirma.com/geoserver/Reclamation/wms'
+		WHEN 'deschutes' THEN 'https://bor-mapserver.projectfirma.com/geoserver/Reclamation/wms'  
+		ELSE 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms'  
+	END
+	, 'Reclamation:ChinookPopulation');
 
 
 insert into dbo.GeospatialArea (TenantID, GeospatialAreaTypeID, GeospatialAreaName, GeospatialAreaFeature)
@@ -33,7 +39,13 @@ where
 
 
 insert into dbo.GeospatialAreaType (TenantID, GeospatialAreaTypeName, GeospatialAreaTypeNamePluralized, GeospatialAreaIntroContent, MapServiceUrl, GeospatialAreaLayerName)
-values (12, 'Steelhead Population', 'Steelhead Populations', '<p>Below are the population spatial areas for Steelhead.</p>', 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms', 'Reclamation:SteelheadPopulation');
+values (12, 'Steelhead Population', 'Steelhead Populations', '<p>Below are the population spatial areas for Steelhead.</p>', 
+	CASE @@SERVERNAME  
+		WHEN 'kettle' THEN 'https://bor-qa-mapserver.projectfirma.com/geoserver/Reclamation/wms'
+		WHEN 'deschutes' THEN 'https://bor-mapserver.projectfirma.com/geoserver/Reclamation/wms'  
+		ELSE 'https://bor-localhost-mapserver.projectfirma.com/geoserver/Reclamation/wms'  
+	END
+	, 'Reclamation:SteelheadPopulation');
 
 
 insert into dbo.GeospatialArea (TenantID, GeospatialAreaTypeID, GeospatialAreaName, GeospatialAreaFeature)
