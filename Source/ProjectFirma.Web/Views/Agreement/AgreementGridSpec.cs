@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Views.Agreement
         public AgreementGridSpec(Person currentPerson)
         {
             // AgreementNumber
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
             // Projects
-            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300);
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300, DhtmlxGridColumnFilterType.Html);
             // Organization info
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization?.GetDetailUrl(), a.Organization?.GetDisplayName()), 300);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization?.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
