@@ -22,6 +22,16 @@ dbo	ReclamationStagingPostedObligation	OriginalAgreementStatusID
 dbo	ReclamationStagingPostedObligation	OriginalPostedObligationsID					
 dbo	ReclamationStagingPostedObligation	OriginalReclamationCostAuthorityAgreementID					
 dbo	ReclamationWorkOrder	WorkBreakdownStructureID					
+dbo	tmpFishProject1	DPS_ID					
+dbo	tmpFishProject1	hydrologic_C_FWA_ID					
+dbo	tmpFishProject1	hydrologic_C_LOCAL_ID					
+dbo	tmpFishProject1	hydrologic_FEATURE_ID					
+dbo	tmpFishProject1	link_DPS_ID					
+dbo	tmpFishProject1	link_FEATURE_ID					
+dbo	tmpFishProject1	link_WCR_POP_ID					
+dbo	tmpFishProject1	NWFSC_POP_ID					
+dbo	tmpFishProject1	TRT_POP_ID					
+dbo	tmpFishProject1	WCR_POP_ID					
 dbo	tmpHUC08_Proj	GNIS_ID					
 dbo	tmpHUC08_Proj	TNMID					
 dbo	tmpHuc12	GNIS_ID					

@@ -149,16 +149,6 @@ namespace ProjectFirma.Web.Models
             return geospatialAreaIndexGridSimplesNew;
         }
 
-        /// <summary>
-        /// Get the Subbasin Liason for a single geospatial area
-        /// </summary>
-        /// <param name="geospatialArea"></param>
-        /// <returns></returns>
-        public static Person GetSubbasinLiason(this GeospatialArea geospatialArea)
-        {
-            var subbasinLiason = HttpRequestStorage.DatabaseEntities.SubbasinLiasons.Single(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
-            return HttpRequestStorage.DatabaseEntities.People.Single(x => x.PersonID == subbasinLiason.PersonID);
-        }
 
         /// <summary>
         /// Get a list of distinct Subbasin Liasons for a list of Geospatial Areas.
@@ -170,7 +160,7 @@ namespace ProjectFirma.Web.Models
             List<Person> subbasinLiasons = new List<Person>();
             foreach (var geospatialArea in geospatialAreaList)
             {
-                subbasinLiasons.Add(geospatialArea.GetSubbasinLiason());
+                subbasinLiasons.AddRange(geospatialArea.SubbasinLiasons.Select(x => x.Person));
             }
 
             return subbasinLiasons.Distinct().ToList();
