@@ -24,6 +24,19 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.AssociateProjectAgreement.AddAssociatedAgreementToProject
+    <style>
+        .selected-cost-authorities {
+            margin-top: 15px;
+        }
+        .selected-cost-authorities ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .selected-cost-authorities ul li + li {
+            margin-top: 5px;
+        }
+    </style>
     <script type="text/javascript" src="@Url.Content("~/Views/AssociateProjectAgreement/AddAssociatedAgreementToProjectController.js")"></script>
     <script type="text/javascript">
     // <![CDATA[
@@ -74,11 +87,11 @@
                         @*Selectpicker*@
                         <div class="col-md-12">
                             <div class="input-group" style="width: 100%;">
-                                <select class="selectpicker" name="@Html.NameFor(x => x.SelectedReclamationCostAuthorityID)" ng-model="selectedCostAuthorityID" data-width="100%" data-container="body" data-live-search="true" data-size="6" ng-disabled="selectedAgreementID == null" id="SelectedReclamationCostAuthorityID">
+                                <select class="selectpicker" multiple name="@Html.NameFor(x => x.SelectedReclamationCostAuthorityIDs)" ng-model="selectedCostAuthorityIDs" data-width="100%" data-container=".modal-content" data-live-search="true" data-size="6" id="SelectedReclamationCostAuthorityIDs" data-selected-text-format="count" data-dropup-auto="false">
                                     <option value="0" disabled>Select a @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel())</option>
                                     <option ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDisplayName}} ({{costAuthority.CountOfRelatedAgreements}})</option>
                                 </select>
-                                @Html.ValidationMessageFor(m => m.SelectedReclamationCostAuthorityID)
+                                @Html.ValidationMessageFor(m => m.SelectedReclamationCostAuthorityIDs)
                             </div>
                         </div>
                     </div>
@@ -87,25 +100,30 @@
 
 
 
-            <div class="row" ng-show="SelectedCostAuthority != null">
+            <div class="row selected-cost-authorities" ng-show="SelectedCostAuthorities.length > 0">
                 <div class="col-md-12">
-                    <h4>Selecting this @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel() will connect the following to this project.</h4>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <div class="panel-title">Your selection will connect the following to this project.</div>
+                        </div>
+                        <div class="panel-body">
+                            <table class="summaryLayout table table-condensed table-striped">
+                                <tr>
+                                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
+                                </tr>
+                                <tr ng-repeat="selectedCostAuthority in SelectedCostAuthorities">
+                                    <td>{{selectedCostAuthority.ReclamationCostAuthorityDisplayName}}</td>
+                                    <td>
+                                        <ul>
+                                            <li ng-repeat="agreement in selectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList">{{agreement.ReclamationAgreementDisplayName}}</li>
+                                        </ul>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
                     
-                    <table class="summaryLayout table table-condensed table-striped">
-                        <tr>
-                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
-                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
-                        </tr>
-                        <tr>
-                            <td>{{SelectedCostAuthority.ReclamationCostAuthorityDisplayName}}</td>
-                            <td>
-                                <ul>
-                                    <li ng-repeat="agreement in SelectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList">{{agreement.ReclamationAgreementDisplayName}}</li>
-                                </ul>
-                            </td>
-                        </tr>
-
-                    </table>
                 </div>
             </div>
 

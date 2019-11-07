@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
         public int SelectedReclamationAgreementID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
-        public int SelectedReclamationCostAuthorityID { get; set; }
+        public List<int> SelectedReclamationCostAuthorityIDs { get; set; }
 
 
         /// <summary>

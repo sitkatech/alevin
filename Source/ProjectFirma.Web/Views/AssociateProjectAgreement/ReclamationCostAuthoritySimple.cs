@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
         {
             ReclamationCostAuthorityID = reclamationCostAuthority.ReclamationCostAuthorityID;
             ReclamationCostAuthorityAgreementSimplesList = reclamationCostAuthority.ReclamationAgreementReclamationCostAuthorities.Select(x => new ReclamationAgreementSimple(x.ReclamationAgreement)).ToList();
-            ReclamationCostAuthorityDisplayName = $"{reclamationCostAuthority.CostAuthorityNumber} - {reclamationCostAuthority.AccountStructureDescription}";
+            ReclamationCostAuthorityDisplayName = $"{reclamationCostAuthority.CostAuthorityWorkBreakdownStructure} - {reclamationCostAuthority.AccountStructureDescription}";
             CountOfRelatedAgreements = ReclamationCostAuthorityAgreementSimplesList.Count;
         }
     }
