@@ -34,10 +34,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewAddAssociatedAgreementToProjectEditor(viewModel, project);
             }
 
-            //HttpRequestStorage.DatabaseEntities.ProjectContacts.Load();
-            //var projectContacts = HttpRequestStorage.DatabaseEntities.AllProjectContacts.Local;
-
-            //viewModel.UpdateModel(project, projectContacts);
+            viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorityProjects, CurrentPerson);
             //HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             return new ModalDialogFormJsonResult();
@@ -48,7 +45,6 @@ namespace ProjectFirma.Web.Controllers
 
             var allReclamationAgreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList();
             var allReclamationCostAuthorities = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorities.ToList();
-
 
             var viewData = new AddAssociatedAgreementToProjectViewData(allReclamationAgreements, allReclamationCostAuthorities);
             return RazorPartialView<AddAssociatedAgreementToProject, AddAssociatedAgreementToProjectViewData, AddAssociatedAgreementToProjectViewModel>(viewData, viewModel);

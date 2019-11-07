@@ -21,9 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.AttachmentRelationshipType;
@@ -37,9 +39,6 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
 
         
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.Agreement)]
-        public int SelectedReclamationAgreementID { get; set; }
-
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
         public List<int> SelectedReclamationCostAuthorityIDs { get; set; }
 
@@ -56,9 +55,19 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
             
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Project project, ICollection<ProjectFirmaModels.Models.ProjectContact> allProjectContacts)
+        public void UpdateModel(ProjectFirmaModels.Models.Project project,
+            DbSet<ReclamationCostAuthorityProject> allProjectReclamationCostAuthoritiesInDatabase, Person currentPerson)
         {
-           
+            var projectReclamationCostAuthoritiesUpdated =
+                SelectedReclamationCostAuthorityIDs.Select(x =>
+                    new ReclamationCostAuthorityProject(x, project.ProjectID)).ToList();
+
+            project.ReclamationCostAuthorityProjects.Merge(
+                projectReclamationCostAuthoritiesUpdated,
+                allProjectReclamationCostAuthoritiesInDatabase.Local,  
+                (x, y) => x.ProjectID == y.ProjectID && x.ReclamationCostAuthorityID == y.ReclamationCostAuthorityID, 
+                HttpRequestStorage.DatabaseEntities);
+            
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -71,9 +80,9 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
             var errors = new List<ValidationResult>();
 
             // the value 0 is reserved for the default disabled option. If it is submitted, return an error.
-            if (SelectedReclamationAgreementID == 0)
+            if (!SelectedReclamationCostAuthorityIDs.Any())
             {
-                var error = new SitkaValidationResult<AddAssociatedAgreementToProjectViewModel, int>($"Must submit a value for {FieldDefinitionEnum.Agreement.ToType().FieldDefinitionDisplayName}", x => x.SelectedReclamationAgreementID);
+                var error = new SitkaValidationResult<AddAssociatedAgreementToProjectViewModel, List<int>>($"Must submit at least one value for {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", x => x.SelectedReclamationCostAuthorityIDs);
                 errors.Add(error);
             }
 
