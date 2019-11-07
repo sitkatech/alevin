@@ -150,6 +150,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReclamationBasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationContractTypeConfiguration());
             modelBuilder.Configurations.Add(new ReclamationCostAuthorityConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationCostAuthorityProjectConfiguration());
             modelBuilder.Configurations.Add(new ReclamationDeliverableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationDeliverableTypeConfiguration());
             modelBuilder.Configurations.Add(new ReclamationDepartmentCodeConfiguration());
@@ -402,6 +403,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
         public virtual DbSet<ReclamationContractType> ReclamationContractTypes { get; set; }
         public virtual DbSet<ReclamationCostAuthority> ReclamationCostAuthorities { get; set; }
+        public virtual DbSet<ReclamationCostAuthorityProject> ReclamationCostAuthorityProjects { get; set; }
         public virtual DbSet<ReclamationDeliverable> ReclamationDeliverables { get; set; }
         public virtual DbSet<ReclamationDeliverableType> ReclamationDeliverableTypes { get; set; }
         public virtual DbSet<ReclamationDepartmentCode> ReclamationDepartmentCodes { get; set; }
@@ -950,6 +952,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationCostAuthority":
                     return ReclamationCostAuthorities.GetReclamationCostAuthority(primaryKey);
+
+                case "ReclamationCostAuthorityProject":
+                    return ReclamationCostAuthorityProjects.GetReclamationCostAuthorityProject(primaryKey);
 
                 case "ReclamationDeliverable":
                     return ReclamationDeliverables.GetReclamationDeliverable(primaryKey);
