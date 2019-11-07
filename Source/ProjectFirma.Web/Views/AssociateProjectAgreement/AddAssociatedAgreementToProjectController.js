@@ -29,11 +29,10 @@ angular.module("ProjectFirmaApp").controller("AddAssociatedAgreementToProjectCon
         jQuery("form").trigger("input");
     });
 
-    $scope.$watch('selectedAgreementID',
+    $scope.$watch('selectedCostAuthorityID',
         function (newValue, oldValue, scope) {
             if (newValue != oldValue) {
-                scope.ReclamationCostAuthorityOptions = scope.getOptionsForCostAuthoritiesDropdown();
-                scope.selectedCostAuthorityID = 0;
+                scope.SelectedCostAuthority = scope.getSelectedCostAuthority();
             }
         });
 
@@ -41,38 +40,51 @@ angular.module("ProjectFirmaApp").controller("AddAssociatedAgreementToProjectCon
     $scope.selectedAgreementID = 0;
     $scope.selectedCostAuthorityID = 0;
 
+    $scope.SelectedCostAuthority = null;
+
     $scope.ReclamationAgreementOptions = $scope.AngularViewData.AllReclamationAgreements;
-    $scope.ReclamationCostAuthorityOptions = [];
+    $scope.ReclamationCostAuthorityOptions = $scope.AngularViewData.AllReclamationCostAuthorities;
 
-    
-
-
-
-    $scope.getOptionsForCostAuthoritiesDropdown = function () {
-
-        var costAuthorities = $scope.AngularViewData.AllReclamationCostAuthorities.slice(0);
-        var agreements = $scope.AngularViewData.AllReclamationAgreements.slice(0);
-
-
-        var selectedAgreement = _.find(agreements,
-            function(agreement) {
-                return agreement.ReclamationAgreementID == $scope.selectedAgreementID;
-            });
-
-        if (!selectedAgreement) {
-            return [];
+    $scope.getSelectedCostAuthority = function () {
+        debugger;
+        if ($scope.selectedCostAuthorityID == 0) {
+            return null;
         }
 
+        var selectedCostAuthority = _.find($scope.AngularViewData.AllReclamationCostAuthorities,
+            function(costAuthority) {
+                return costAuthority.ReclamationCostAuthorityID == $scope.selectedCostAuthorityID;
+            });
 
-        var costAuthoritiesInAgreement = _.filter(costAuthorities, function (costAuthority) {
-
-            var costAuthorityIdList = selectedAgreement.ReclamationCostAuthorityIDList;
-
-            return costAuthorityIdList.includes(costAuthority.ReclamationCostAuthorityID);
-        });
-
-        return costAuthoritiesInAgreement;
+        return selectedCostAuthority;
     }
+
+
+    //$scope.getOptionsForCostAuthoritiesDropdown = function () {
+
+    //    var costAuthorities = $scope.AngularViewData.AllReclamationCostAuthorities.slice(0);
+    //    var agreements = $scope.AngularViewData.AllReclamationAgreements.slice(0);
+
+
+    //    var selectedAgreement = _.find(agreements,
+    //        function(agreement) {
+    //            return agreement.ReclamationAgreementID == $scope.selectedAgreementID;
+    //        });
+
+    //    if (!selectedAgreement) {
+    //        return [];
+    //    }
+
+
+    //    var costAuthoritiesInAgreement = _.filter(costAuthorities, function (costAuthority) {
+
+    //        var costAuthorityIdList = selectedAgreement.ReclamationCostAuthorityIDList;
+
+    //        return costAuthorityIdList.includes(costAuthority.ReclamationCostAuthorityID);
+    //    });
+
+    //    return costAuthoritiesInAgreement;
+    //}
 
 
     $scope.addProjectContactSimple = function(contactID, relationshipTypeID) {

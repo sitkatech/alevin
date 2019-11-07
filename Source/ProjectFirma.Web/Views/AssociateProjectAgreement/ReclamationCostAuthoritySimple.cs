@@ -1,4 +1,6 @@
-﻿using ProjectFirmaModels.Models;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.AssociateProjectAgreement
 {
@@ -7,6 +9,8 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
 
         public int ReclamationCostAuthorityID { get; set; }
         public string ReclamationCostAuthorityDisplayName { get; set; }
+        public List<ReclamationAgreementSimple> ReclamationCostAuthorityAgreementSimplesList { get; set; }
+        public int CountOfRelatedAgreements { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
@@ -22,7 +26,9 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
             : this()
         {
             ReclamationCostAuthorityID = reclamationCostAuthority.ReclamationCostAuthorityID;
+            ReclamationCostAuthorityAgreementSimplesList = reclamationCostAuthority.ReclamationAgreementReclamationCostAuthorities.Select(x => new ReclamationAgreementSimple(x.ReclamationAgreement)).ToList();
             ReclamationCostAuthorityDisplayName = $"{reclamationCostAuthority.CostAuthorityNumber} - {reclamationCostAuthority.AccountStructureDescription}";
+            CountOfRelatedAgreements = ReclamationCostAuthorityAgreementSimplesList.Count;
         }
     }
 }

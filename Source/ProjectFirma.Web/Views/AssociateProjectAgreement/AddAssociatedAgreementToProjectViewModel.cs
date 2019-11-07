@@ -22,9 +22,11 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.AttachmentRelationshipType;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -67,6 +69,13 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
+
+            // the value 0 is reserved for the default disabled option. If it is submitted, return an error.
+            if (SelectedReclamationAgreementID == 0)
+            {
+                var error = new SitkaValidationResult<AddAssociatedAgreementToProjectViewModel, int>($"Must submit a value for {FieldDefinitionEnum.Agreement.ToType().FieldDefinitionDisplayName}", x => x.SelectedReclamationAgreementID);
+                errors.Add(error);
+            }
 
             return errors;
         }

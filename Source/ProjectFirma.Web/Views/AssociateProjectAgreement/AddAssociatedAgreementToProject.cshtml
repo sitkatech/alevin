@@ -37,7 +37,6 @@
     jQuery(document).ready(function ()
     {
         angular.bootstrap(jQuery("#AddAssociatedAgreementToProjectApp"), ["ProjectFirmaApp"]);
-
         jQuery(".selectpicker").selectpicker();
         jQuery(".modal").on("hidden.bs.modal",
             function() {
@@ -53,39 +52,20 @@
         @Html.ValidationSummary()
     </div>
     <div id="AddAssociatedAgreementToProjectApp" ng-controller="AddAssociatedAgreementToProjectController">
-        <div class="row">
-            <div class="col-md-12">
-                <p>Select an Agreement to add that will be associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-            </div>
-        </div>
-        <hr />
-        <div class="row">
-            <div class="col-md-12">@Html.LabelWithSugarFor(x => x.SelectedReclamationAgreementID, FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel(), true)</div>
-            <div class="col-md-12">
-                <div class="smallExplanationText">@FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionDescription()</div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    @*Selectpicker*@
-                    <div class="col-md-12">
-                        <div class="input-group" style="width: 100%;">
-                            <select class="selectpicker" ng-model="selectedAgreementID" data-width="100%" data-container="body" data-live-search="true" data-size="6">
-                                <option value="0" disabled>Select an @(FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel())</option>
-                                <option ng-repeat="agreement in ReclamationAgreementOptions" value="{{agreement.ReclamationAgreementID}}">{{agreement.ReclamationAgreementDisplayName}}</option>
-                            </select>
-                        </div>
-                    </div>
+        @using (Html.BeginForm())
+        {
+            <div class="row">
+                <div class="col-md-12">
+                    <p>Select a @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel() that will be associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
                 </div>
             </div>
-        </div>
-        <hr />
-        <div ng-show="ReclamationCostAuthorityOptions.length > 0">
+            <hr />
+
+
             <div class="row">
-                <div class="col-md-12">@Html.LabelWithSugarFor( FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</div>
+                <div class="col-md-12">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</div>
                 <div class="col-md-12">
-                    <div class="smallExplanationText">@FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionDescription()</div>
+                    <p class="smallExplanationText">@FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionDescription()</p>
                 </div>
             </div>
             <div class="row">
@@ -94,19 +74,74 @@
                         @*Selectpicker*@
                         <div class="col-md-12">
                             <div class="input-group" style="width: 100%;">
-                                <select class="selectpicker" ng-model="selectedCostAuthorityID" data-width="100%" data-container="body" data-live-search="true" data-size="6" ng-disabled="selectedAgreementID == null">
+                                <select class="selectpicker" name="@Html.NameFor(x => x.SelectedReclamationCostAuthorityID)" ng-model="selectedCostAuthorityID" data-width="100%" data-container="body" data-live-search="true" data-size="6" ng-disabled="selectedAgreementID == null" id="SelectedReclamationCostAuthorityID">
                                     <option value="0" disabled>Select a @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel())</option>
-                                    <option ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDisplayName}}</option>
+                                    <option ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDisplayName}} ({{costAuthority.CountOfRelatedAgreements}})</option>
                                 </select>
+                                @Html.ValidationMessageFor(m => m.SelectedReclamationCostAuthorityID)
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-        @using (Html.BeginForm())
-        {
-            <input type="hidden" name="@Html.NameFor(x => x.SelectedReclamationAgreementID)" value="{{selectedAgreementID}}" />
-            <input type="hidden" name="@Html.NameFor(x => x.SelectedReclamationCostAuthorityID)" value="{{selectedCostAuthorityID}}" />
+
+
+
+            <div class="row" ng-show="SelectedCostAuthority != null">
+                <div class="col-md-12">
+                    <h4>Selecting this @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel() will connect the following to this project.</h4>
+                    
+                    <table class="summaryLayout table table-condensed table-striped">
+                        <tr>
+                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
+                        </tr>
+                        <tr>
+                            <td>{{SelectedCostAuthority.ReclamationCostAuthorityDisplayName}}</td>
+                            <td>
+                                <ul>
+                                    <li ng-repeat="agreement in SelectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList">{{agreement.ReclamationAgreementDisplayName}}</li>
+                                </ul>
+                            </td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+
+
+            /*
+
+            <div class="row">
+                <div class="col-md-12">@Html.LabelWithSugarFor(x => x.SelectedReclamationAgreementID, FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel(), true)</div>
+                <div class="col-md-12">
+                    <p class="smallExplanationText">@FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionDescription()</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="row">
+                        @*Selectpicker*@
+                        <div class="col-md-12">
+                            <div class="input-group" style="width: 100%;">
+                                <select class="selectpicker" name="@Html.NameFor(x => x.SelectedReclamationAgreementID)" ng-model="selectedAgreementID" data-width="100%" data-container="body" data-live-search="true" data-size="6" id="SelectedReclamationAgreementID">
+                                    <option value="0" disabled>Select an @(FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel())</option>
+                                    <option ng-repeat="agreement in ReclamationAgreementOptions" value="{{agreement.ReclamationAgreementID}}">{{agreement.ReclamationAgreementDisplayName}}</option>
+                                </select>
+                                @Html.ValidationMessageFor(m => m.SelectedReclamationAgreementID)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr />
+
+                */ 
+
+
+
+
+
         }
     </div>
