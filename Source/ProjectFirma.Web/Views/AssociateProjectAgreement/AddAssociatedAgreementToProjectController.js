@@ -23,32 +23,10 @@ angular.module("ProjectFirmaApp").controller("AddAssociatedAgreementToProjectCon
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
-    $scope.$watch(function () {
-        jQuery('.selectpicker').selectpicker('refresh');
-        // so that unsavedChanges.js knows to check if the form has changed.
-        jQuery("form").trigger("input");
-    });
-
-    $scope.$watch('selectedCostAuthorityIDs',
-        function (newValue, oldValue, scope) {
-            if (newValue != oldValue) {
-                scope.SelectedCostAuthorities = scope.getSelectedCostAuthorities();
-            }
-        });
-
-
-    $scope.selectedAgreementID = 0;
-    $scope.selectedCostAuthorityIDs = [];
-
-    $scope.SelectedCostAuthorities = [];
-
-    $scope.ReclamationAgreementOptions = $scope.AngularViewData.AllReclamationAgreements;
-    $scope.ReclamationCostAuthorityOptions = $scope.AngularViewData.AllReclamationCostAuthorities;
 
     $scope.getSelectedCostAuthorities = function () {
-        
         if ($scope.selectedCostAuthorityIDs.length == 0) {
-            return null;
+            return [];
         }
 
         var selectedCostAuthorities = _.filter($scope.AngularViewData.AllReclamationCostAuthorities,
@@ -59,47 +37,40 @@ angular.module("ProjectFirmaApp").controller("AddAssociatedAgreementToProjectCon
     }
 
 
-    //$scope.getOptionsForCostAuthoritiesDropdown = function () {
+    $scope.selectedCostAuthorityIDs = $scope.AngularModel.SelectedReclamationCostAuthorityIDs.map(String);
+    $scope.SelectedCostAuthorities = $scope.getSelectedCostAuthorities();
 
-    //    var costAuthorities = $scope.AngularViewData.AllReclamationCostAuthorities.slice(0);
-    //    var agreements = $scope.AngularViewData.AllReclamationAgreements.slice(0);
+    $scope.$watch(function () {
+        jQuery('.selectpicker').selectpicker('refresh');
+        // so that unsavedChanges.js knows to check if the form has changed.
+        jQuery("form").trigger("input");
+    });
 
-
-    //    var selectedAgreement = _.find(agreements,
-    //        function(agreement) {
-    //            return agreement.ReclamationAgreementID == $scope.selectedAgreementID;
-    //        });
-
-    //    if (!selectedAgreement) {
-    //        return [];
-    //    }
-
-
-    //    var costAuthoritiesInAgreement = _.filter(costAuthorities, function (costAuthority) {
-
-    //        var costAuthorityIdList = selectedAgreement.ReclamationCostAuthorityIDList;
-
-    //        return costAuthorityIdList.includes(costAuthority.ReclamationCostAuthorityID);
-    //    });
-
-    //    return costAuthoritiesInAgreement;
-    //}
-
-
-    $scope.addProjectContactSimple = function(contactID, relationshipTypeID) {
-        $scope.AngularModel.ProjectContactSimples.push({
-            ContactID: Number(contactID),
-            ContactRelationshipTypeID: relationshipTypeID
+    $scope.$watch('selectedCostAuthorityIDs',
+        function (newValue, oldValue, scope) {
+           
+            if (newValue != oldValue) {
+                scope.SelectedCostAuthorities = scope.getSelectedCostAuthorities();
+            }
         });
-        $scope.resetSelectedContactID(relationshipTypeID);
-    };
 
-    $scope.removeProjectContactSimple = function (contactID, relationshipTypeID) {
-        _.remove($scope.AngularModel.ProjectContactSimples,
-            function(pos) {
-                return pos.ContactID == contactID && pos.ContactRelationshipTypeID == relationshipTypeID;
-            });
-    };
+    $scope.isSelected = function (id) {
+        var isSelected = $scope.selectedCostAuthorityIDs.includes(id.toString());
+        return isSelected;
+    }
+
+    $scope.ReclamationCostAuthorityOptions = $scope.AngularViewData.AllReclamationCostAuthorities;
+
+    $scope.removeCostAuthority = function (id) {
+        var costAuthorityID = id.toString();
+        var indexOfCostAuthorityID = $scope.selectedCostAuthorityIDs.indexOf(costAuthorityID);
+        if (indexOfCostAuthorityID > -1) {
+            $scope.selectedCostAuthorityIDs.splice(indexOfCostAuthorityID, 1);
+        }
+        $scope.SelectedCostAuthorities = $scope.getSelectedCostAuthorities();
+    }
+
+
 
    
 

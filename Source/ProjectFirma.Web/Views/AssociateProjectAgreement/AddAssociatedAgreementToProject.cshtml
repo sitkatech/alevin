@@ -55,6 +55,7 @@
             function() {
                 jQuery(".bootstrap-select.open").removeClass("open");
             });
+
     });
     // ]]>
     </script>
@@ -89,7 +90,7 @@
                             <div class="input-group" style="width: 100%;">
                                 <select class="selectpicker" multiple name="@Html.NameFor(x => x.SelectedReclamationCostAuthorityIDs)" ng-model="selectedCostAuthorityIDs" data-width="100%" data-container=".modal-content" data-live-search="true" data-size="6" id="SelectedReclamationCostAuthorityIDs" data-selected-text-format="count" data-dropup-auto="false">
                                     <option value="0" disabled>Select a @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel())</option>
-                                    <option ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDisplayName}} ({{costAuthority.CountOfRelatedAgreements}})</option>
+                                    <option ng-selected="isSelected(costAuthority.ReclamationCostAuthorityID)" ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDisplayName}} ({{costAuthority.CountOfRelatedAgreements}})</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.SelectedReclamationCostAuthorityIDs)
                             </div>
@@ -109,8 +110,9 @@
                         <div class="panel-body">
                             <table class="summaryLayout table table-condensed table-striped">
                                 <tr>
-                                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
-                                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</th>
+                                    <th class="col-sm-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                                    <th class="col-sm-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</th>
+                                    <th class="col-sm-2"></th>
                                 </tr>
                                 <tr ng-repeat="selectedCostAuthority in SelectedCostAuthorities">
                                     <td>{{selectedCostAuthority.ReclamationCostAuthorityDisplayName}}</td>
@@ -119,6 +121,9 @@
                                             <li ng-if="selectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList.length == 0">(none)</li>
                                             <li ng-repeat="agreement in selectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList">{{agreement.ReclamationAgreementDisplayName}}</li>
                                         </ul>
+                                    </td>
+                                    <td>
+                                        <button type="button" ng-click="removeCostAuthority(selectedCostAuthority.ReclamationCostAuthorityID)" class="btn btn-xs btn-firma"><span class="glyphicon glyphicon-trash white"></span></button>
                                     </td>
                                 </tr>
                             </table>

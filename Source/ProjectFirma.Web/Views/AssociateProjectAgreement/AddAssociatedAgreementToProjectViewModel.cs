@@ -52,7 +52,8 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
 
         public AddAssociatedAgreementToProjectViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
-            
+            SelectedReclamationCostAuthorityIDs = project.ReclamationCostAuthorityProjects
+                .Select(x => x.ReclamationCostAuthorityID).ToList();
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
