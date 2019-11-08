@@ -31,16 +31,17 @@
         @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Agreement", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNewAgreementUrl, "Add New Agreement", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserHasProjectAgreementManagePermissions)
     </div>
 
-    @if (!ViewDataTyped.ReclamationAgreements.Any())
+    @if (!ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures.Any())
     {
-        <p class="systemText">No Agreements associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+    <p class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
     }
     else
     {
 <table class="summaryLayout table table-condensed table-striped">
     <tr>
-        <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
-        <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+        <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+        <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
+
     </tr>
 
 
@@ -62,29 +63,6 @@
         </tr>
     }
 
-
-
-
-
-
-    @foreach (var reclamationAgreement in ViewDataTyped.ReclamationAgreements)
-    {
-        <tr>
-            <td>@Html.Raw(reclamationAgreement.GetDetailLinkUsingAgreementNumber())</td>
-            <td>
-                <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                    @foreach (var costAuthority in reclamationAgreement.GetReclamationCostAuthorities())
-                    {
-                        <li>
-                            @*<span class="@costAuthority.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>*@
-                            @*TODO: Make into URL*@
-                            <span>@Html.Raw(costAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</span>
-                        </li>
-                    }
-                </ul>
-            </td>
-        </tr>
-    }
 </table>
     }
 
