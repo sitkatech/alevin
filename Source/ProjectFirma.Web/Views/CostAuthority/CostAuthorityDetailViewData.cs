@@ -86,12 +86,12 @@ namespace ProjectFirma.Web.Views.Agreement
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostAuthorityWorkBreakdownStructure { get; }
         
 
-        public CostAuthorityDetailViewData(Person currentPerson,
+        public CostAuthorityDetailViewData(FirmaSession currentFirmaSession,
                                        ProjectFirmaModels.Models.ReclamationCostAuthority reclamationCostAuthority
                                        //PerformanceMeasureChartViewData performanceMeasureChartViewData,
                                        //EntityNotesViewData entityNotesViewData,
                                        //bool userHasAgreementManagePermissions, 
-                                       /*bool isAdmin*/) : base(currentPerson)
+                                       /*bool isAdmin*/) : base(currentFirmaSession)
         {
             ReclamationCostAuthority = reclamationCostAuthority;
 
@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Views.Agreement
 
 
             BasicProjectInfoProjectGridName = "costAuthorityProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
+            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
@@ -141,7 +141,7 @@ namespace ProjectFirma.Web.Views.Agreement
             BasicProjectInfoProjectGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityProjectsGridJsonData(reclamationCostAuthority));
 
             AgreementGridName = "costAuthorityAgreementListGrid";
-            AgreementGridSpec = new AgreementGridSpec(CurrentPerson)
+            AgreementGridSpec = new AgreementGridSpec(CurrentFirmaSession)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",

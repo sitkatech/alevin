@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.CostAuthority
 {
     public class CostAuthorityGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationCostAuthority>
     {
-        public CostAuthorityGridSpec(Person currentPerson)
+        public CostAuthorityGridSpec(FirmaSession currentFirmaSession)
         {
             // Cost Authority Work Breakdown Structure
             Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => new HtmlString(a.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()), 125, DhtmlxGridColumnFilterType.Text);

@@ -34,10 +34,10 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         //public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
         //public List<IFundingSourceBudgetAmount> FundingSourceRequestAmounts { get; }
 
-        public ProjectAgreementDetailViewData(Person currentPerson, 
+        public ProjectAgreementDetailViewData(FirmaSession currentFirmaSession, 
                                               ProjectFirmaModels.Models.Project project,
                                               bool userHasProjectAgreementManagePermissions
-                                              /*, List<IFundingSourceBudgetAmount> fundingSourceRequestAmounts*/) : base(currentPerson)
+                                              /*, List<IFundingSourceBudgetAmount> fundingSourceRequestAmounts*/) : base(currentFirmaSession)
         {
             Project = project;
             UserHasProjectAgreementManagePermissions = userHasProjectAgreementManagePermissions;

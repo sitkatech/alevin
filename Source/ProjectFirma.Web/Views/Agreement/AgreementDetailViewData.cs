@@ -19,19 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Linq.Expressions;
-using LtInfo.Common.DhtmlWrappers;
-using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.CostAuthority;
-using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Project;
 
 //using ProjectFirma.Web.Views.Project;
@@ -89,17 +82,14 @@ namespace ProjectFirma.Web.Views.Agreement
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForAgreement { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostAuthorityWorkBreakdownStructure { get; }
-        
 
-        public AgreementDetailViewData(Person currentPerson,
+        public AgreementDetailViewData(FirmaSession currentFirmaSession,
                                        ProjectFirmaModels.Models.ReclamationAgreement reclamationAgreement
                                        //PerformanceMeasureChartViewData performanceMeasureChartViewData,
                                        //EntityNotesViewData entityNotesViewData,
                                        //bool userHasAgreementManagePermissions, 
-                                       /*bool isAdmin*/) : base(currentPerson)
+                                       /*bool isAdmin*/) : base(currentFirmaSession)
         {
-            
-
             PageTitle = $"Agreement Number: {reclamationAgreement.AgreementNumber}";
             EntityName = "Agreement Detail";
 
@@ -120,26 +110,14 @@ namespace ProjectFirma.Web.Views.Agreement
             IndexUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementIndex());
             CostAuthorityIndexUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityIndex());
 
-        //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForAgreement { get; }
-        //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
-        //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostAuthorityWorkBreakdownStructure { get; }
-
-        FieldDefinitionForAgreement = FieldDefinitionEnum.Agreement.ToType();
-        FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
-        FieldDefinitionForCostAuthorityWorkBreakdownStructure = FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType();
-
-            /*
-        public Project.IndexGridSpec ProjectIndexGridSpec { get; }
-        public string ProjectIndexGridName { get;}
-        public string ProjectIndexGridDataUrl { get; }
-               
-             *
-             */
+            FieldDefinitionForAgreement = FieldDefinitionEnum.Agreement.ToType();
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForCostAuthorityWorkBreakdownStructure = FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType();
 
 
             /* Basic Project Info */
             BasicProjectInfoProjectGridName = "agreementProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentPerson, true)
+            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession, true)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with Agreement Number {reclamationAgreement.AgreementNumber}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with Agreement Number {reclamationAgreement.AgreementNumber}",
