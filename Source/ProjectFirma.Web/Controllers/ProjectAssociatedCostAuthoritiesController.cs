@@ -32,14 +32,12 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorityProjects, CurrentPerson);
-            //HttpRequestStorage.DatabaseEntities.SaveChanges();
 
             return new ModalDialogFormJsonResult();
         }
 
         private PartialViewResult ViewProjectAssociatedCostAuthoritiesEditor(EditProjectAssociatedCostAuthoritiesViewModel viewModel, Project project)
         {
-
             var allReclamationAgreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList();
             var allReclamationCostAuthorities = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorities.ToList();
 
