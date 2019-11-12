@@ -36,6 +36,9 @@
         .selected-cost-authorities ul li + li {
             margin-top: 5px;
         }
+        .selected-cost-authorities .remove-cost-authority span.glyphicon {
+            color: #fff;
+        }
     </style>
     <script type="text/javascript" src="@Url.Content("~/Views/ProjectAssociatedCostAuthorities/EditProjectAssociatedCostAuthoritiesController.js")"></script>
     <script type="text/javascript">
@@ -71,11 +74,10 @@
             <div class="row">
                 <div class="col-md-12">
                     <p>Select a @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel() that will be associated with your @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()). The @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel() will be used to associate @FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized().</p>
+                    <p>The dropdown below allows you to select multiple @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized() at once.</p>
                 </div>
             </div>
             <hr />
-
-
             <div class="row">
                 <div class="col-md-12">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</div>
                 <div class="col-md-12">
@@ -104,23 +106,24 @@
                         <div class="panel-heading">
                             <div class="panel-title">Your selection will connect the following to this project.</div>
                         </div>
-                        <div class="panel-body">
-                            <table class="summaryLayout table table-condensed table-striped">
+                        <div class="panel-body panel-body-table">
+                            <table class="table table-condensed table-striped">
                                 <tr>
-                                    <th class="col-sm-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
-                                    <th class="col-sm-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</th>
-                                    <th class="col-sm-2"></th>
+                                    <th></th>
+                                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                                    <th>@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</th>
+
                                 </tr>
                                 <tr ng-repeat="selectedCostAuthority in SelectedCostAuthorities">
+                                    <td>
+                                        <button type="button" title="Remove row" alt="Remove row" ng-click="removeCostAuthority(selectedCostAuthority.ReclamationCostAuthorityID)" class="btn btn-xs btn-firma remove-cost-authority"><span class="glyphicon glyphicon-trash white"></span></button>
+                                    </td>
                                     <td>{{selectedCostAuthority.ReclamationCostAuthorityDisplayName}}</td>
                                     <td>
                                         <ul>
                                             <li ng-if="selectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList.length == 0">(none)</li>
                                             <li ng-repeat="agreement in selectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList">{{agreement.ReclamationAgreementDisplayName}}</li>
                                         </ul>
-                                    </td>
-                                    <td>
-                                        <button type="button" ng-click="removeCostAuthority(selectedCostAuthority.ReclamationCostAuthorityID)" class="btn btn-xs btn-firma"><span class="glyphicon glyphicon-trash white"></span></button>
                                     </td>
                                 </tr>
                             </table>

@@ -612,6 +612,32 @@ table.summaryLayout td {
     border: none;
 }
 
+// bootstrap panel with table in body
+.panel-body.panel-body-table {
+    padding: 0;
+
+    table {
+        // margin so the table background doesn't cut the corner off of the panel
+        margin-bottom: 2px;
+
+        td:first-child {
+            padding-left: 15px;
+        }
+
+        th:first-child {
+            padding-left: 15px;
+        }
+
+        td:last-child {
+            padding-right: 15px;
+        }
+
+        th:last-child {
+            padding-right: 15px;
+        }
+    }
+}
+
 // Breadcrumb
 .mainPageHeader {
     margin-top: 20px;
