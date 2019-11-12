@@ -32,9 +32,9 @@ using ProjectFirma.Web.Views.AttachmentRelationshipType;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.AssociateProjectAgreement
+namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
 {
-    public class AddAssociatedAgreementToProjectViewModel : FormViewModel, IValidatableObject
+    public class EditProjectAssociatedCostAuthoritiesViewModel : FormViewModel, IValidatableObject
     {
 
         
@@ -46,11 +46,11 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
         /// <summary>
         /// Needed by Model Binder
         /// </summary>
-        public AddAssociatedAgreementToProjectViewModel()
+        public EditProjectAssociatedCostAuthoritiesViewModel()
         {
         }
 
-        public AddAssociatedAgreementToProjectViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
+        public EditProjectAssociatedCostAuthoritiesViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             SelectedReclamationCostAuthorityIDs = project.ReclamationCostAuthorityProjects
                 .Select(x => x.ReclamationCostAuthorityID).ToList();
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.AssociateProjectAgreement
             // the value 0 is reserved for the default disabled option. If it is submitted, return an error.
             if (!SelectedReclamationCostAuthorityIDs.Any())
             {
-                var error = new SitkaValidationResult<AddAssociatedAgreementToProjectViewModel, List<int>>($"Must submit at least one value for {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", x => x.SelectedReclamationCostAuthorityIDs);
+                var error = new SitkaValidationResult<EditProjectAssociatedCostAuthoritiesViewModel, List<int>>($"Must submit at least one value for {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", x => x.SelectedReclamationCostAuthorityIDs);
                 errors.Add(error);
             }
 

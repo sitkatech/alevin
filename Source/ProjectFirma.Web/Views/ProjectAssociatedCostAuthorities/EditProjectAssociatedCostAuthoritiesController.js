@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-angular.module("ProjectFirmaApp").controller("AddAssociatedAgreementToProjectController", function($scope,
+angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoritiesController", function($scope,
     angularModelAndViewData) {
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;

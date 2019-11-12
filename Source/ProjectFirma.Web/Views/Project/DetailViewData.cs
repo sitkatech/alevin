@@ -304,7 +304,7 @@ namespace ProjectFirma.Web.Views.Project
             EditExpectedFundingUrl = editExpectedFundingUrl;
 
             // TODO: Set to something real
-            AssociateProjectAgreementUrl = SitkaRoute<AssociateProjectAgreementController>.BuildUrlFromExpression(c => c.AddAssociatedAgreementToProjectEditor(project));
+            AssociateProjectAgreementUrl = SitkaRoute<ProjectAssociatedCostAuthoritiesController>.BuildUrlFromExpression(c => c.EditProjectAssociatedCostAuthorities(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             ProjectExpendituresByCostTypeDetailViewData = projectExpendituresByCostTypeDetailViewData;

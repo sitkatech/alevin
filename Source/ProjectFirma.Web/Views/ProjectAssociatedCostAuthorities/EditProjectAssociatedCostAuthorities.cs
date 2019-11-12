@@ -19,9 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.AssociateProjectAgreement
+namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
 {
-    public abstract class AddAssociatedAgreementToProject : LtInfo.Common.Mvc.TypedWebPartialViewPage<AddAssociatedAgreementToProjectViewData, AddAssociatedAgreementToProjectViewModel>
+    public abstract class EditProjectAssociatedCostAuthorities : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditProjectAssociatedCostAuthoritiesViewData, EditProjectAssociatedCostAuthoritiesViewModel>
     {
     }
 }

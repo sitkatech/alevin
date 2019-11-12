@@ -23,7 +23,7 @@
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@inherits ProjectFirma.Web.Views.AssociateProjectAgreement.AddAssociatedAgreementToProject
+@inherits ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities.EditProjectAssociatedCostAuthorities
     <style>
         .selected-cost-authorities {
             margin-top: 15px;
@@ -37,7 +37,7 @@
             margin-top: 5px;
         }
     </style>
-    <script type="text/javascript" src="@Url.Content("~/Views/AssociateProjectAgreement/AddAssociatedAgreementToProjectController.js")"></script>
+    <script type="text/javascript" src="@Url.Content("~/Views/ProjectAssociatedCostAuthorities/EditProjectAssociatedCostAuthoritiesController.js")"></script>
     <script type="text/javascript">
     // <![CDATA[
     angular.module("ProjectFirmaApp").factory("angularModelAndViewData", function ()
@@ -49,7 +49,7 @@
     });
     jQuery(document).ready(function ()
     {
-        angular.bootstrap(jQuery("#AddAssociatedAgreementToProjectApp"), ["ProjectFirmaApp"]);
+        angular.bootstrap(jQuery("#EditProjectAssociatedCostAuthoritiesApp"), ["ProjectFirmaApp"]);
         jQuery(".selectpicker").selectpicker();
         jQuery(".modal").on("hidden.bs.modal",
             function() {
@@ -65,7 +65,7 @@
     <div class="validationError">
         @Html.ValidationSummary()
     </div>
-    <div id="AddAssociatedAgreementToProjectApp" ng-controller="AddAssociatedAgreementToProjectController">
+    <div id="EditProjectAssociatedCostAuthoritiesApp" ng-controller="EditProjectAssociatedCostAuthoritiesController">
         @using (Html.BeginForm())
         {
             <div class="row">
