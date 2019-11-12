@@ -8,7 +8,6 @@ namespace ProjectFirmaModels.Models
 
         public int ReclamationAgreementID { get; set; }
         public string ReclamationAgreementDisplayName { get; set; }
-        public List<int> ReclamationCostAuthorityIDList { get; set; }
         public string AgreementNumber { get; set; }
 
         /// <summary>
@@ -26,7 +25,6 @@ namespace ProjectFirmaModels.Models
         {
             ReclamationAgreementID = reclamationAgreement.ReclamationAgreementID;
             ReclamationAgreementDisplayName = $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
-            ReclamationCostAuthorityIDList = reclamationAgreement.ReclamationAgreementReclamationCostAuthorities.Select(x => x.ReclamationCostAuthorityID).ToList();
             AgreementNumber = reclamationAgreement.AgreementNumber;
         }
 
