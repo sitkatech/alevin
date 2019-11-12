@@ -202,7 +202,7 @@
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewData.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewModel.cs" />
-    <Compile Include="Views\ProjectAssociatedCostAuthorities\ReclamationCostAuthoritySimple.cs" />
+    <Compile Include="Models\ReclamationCostAuthoritySimple.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />

@@ -2,7 +2,7 @@
 using System.Linq;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
+namespace ProjectFirma.Web.Models
 {
     public class ReclamationCostAuthoritySimple
     {

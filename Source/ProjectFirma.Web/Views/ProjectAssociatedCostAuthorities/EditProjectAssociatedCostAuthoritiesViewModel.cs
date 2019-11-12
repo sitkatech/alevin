@@ -25,10 +25,8 @@ using System.Data.Entity;
 using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.Models;
-using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.AttachmentRelationshipType;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -37,11 +35,9 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
     public class EditProjectAssociatedCostAuthoritiesViewModel : FormViewModel, IValidatableObject
     {
 
-        
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
         public List<int> SelectedReclamationCostAuthorityIDs { get; set; }
-
 
         /// <summary>
         /// Needed by Model Binder
@@ -80,7 +76,6 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         {
             var errors = new List<ValidationResult>();
 
-            // the value 0 is reserved for the default disabled option. If it is submitted, return an error.
             if (!SelectedReclamationCostAuthorityIDs.Any())
             {
                 var error = new SitkaValidationResult<EditProjectAssociatedCostAuthoritiesViewModel, List<int>>($"Must submit at least one value for {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", x => x.SelectedReclamationCostAuthorityIDs);

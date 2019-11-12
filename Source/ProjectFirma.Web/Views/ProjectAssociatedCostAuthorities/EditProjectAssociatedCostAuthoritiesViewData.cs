@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
@@ -34,12 +35,9 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
 
         public EditProjectAssociatedCostAuthoritiesViewData(IEnumerable<ReclamationAgreement> allReclamationAgreements, IEnumerable<ReclamationCostAuthority> allReclamationCostAuthorities)
         {
-
             AllReclamationAgreements = allReclamationAgreements.Select(x => new ReclamationAgreementSimple(x)).ToList();
             AllReclamationCostAuthorities = allReclamationCostAuthorities
                 .Select(x => new ReclamationCostAuthoritySimple(x)).ToList();
-
-
         }
     }
 }
