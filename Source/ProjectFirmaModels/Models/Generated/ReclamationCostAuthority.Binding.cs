@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected ReclamationCostAuthority()
         {
             this.ReclamationAgreementReclamationCostAuthorities = new HashSet<ReclamationAgreementReclamationCostAuthority>();
+            this.ReclamationCostAuthorityProjects = new HashSet<ReclamationCostAuthorityProject>();
             this.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority = new HashSet<ReclamationStagingCostAuthorityAgreement>();
         }
 
@@ -66,13 +67,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationAgreementReclamationCostAuthorities.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
+            return ReclamationAgreementReclamationCostAuthorities.Any() || ReclamationCostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationCostAuthority).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationCostAuthority).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationCostAuthorityProject).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -98,6 +99,11 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in ReclamationAgreementReclamationCostAuthorities.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ReclamationCostAuthorityProjects.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -128,6 +134,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationCostAuthorityID; } set { ReclamationCostAuthorityID = value; } }
 
         public virtual ICollection<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
+        public virtual ICollection<ReclamationCostAuthorityProject> ReclamationCostAuthorityProjects { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority { get; set; }
         public virtual ReclamationHCategory HabitatCategory { get; set; }
         public virtual ReclamationBasin Basin { get; set; }

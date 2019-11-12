@@ -108,7 +108,7 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</div>
-                    <div class="col-xs-7">@GetOrganizationDisplayName()</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.GetOrganizationDisplayName()</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@FieldDefinitionEnum.ContractType.ToType().GetFieldDefinitionLabel()</div>

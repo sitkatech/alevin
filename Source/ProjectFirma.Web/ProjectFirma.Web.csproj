@@ -57,6 +57,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\AgreementController.cs" />
@@ -200,6 +201,10 @@
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
+    <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cs" />
+    <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewData.cs" />
+    <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewModel.cs" />
+    <Compile Include="Models\ReclamationCostAuthoritySimple.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />
@@ -460,6 +465,7 @@
     <Content Include="Scripts\modernizr-2.8.3.min.js">
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
+    <Content Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesController.js" />
     <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
@@ -497,6 +503,7 @@
     <Content Include="Views\CostAuthority\CostAuthorityIndex.cshtml" />
     <Content Include="Views\Agreement\AgreementDetail.cshtml" />
     <Content Include="Views\CostAuthority\CostAuthorityDetail.cshtml" />
+    <Content Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />

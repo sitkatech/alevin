@@ -321,15 +321,15 @@
                     </div>
                 </div>
                 
-                @* Reclamation Agreements *@ 
+                @* Reclamation Agreements and Reclamation Cost Authority Work Breakdown Structures *@ 
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditProjectAgreementUrl, "Edit Agreements", 1000, ViewDataTyped.UserHasEditProjectAgreementPermissions)
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.AssociateProjectAgreementUrl, string.Format("Edit {0} and {1}", FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectAgreementPermissions)
                         <h3 class="project-detail-heading">
-                            Agreements
+                            Agreements and Cost Authority Work Breakdown Structures
                         </h3>
                     </div>
-                    <div class="panel-body">
+                    <div class="panel-body panel-body-table">
                         @{
                             ProjectAgreementDetail.RenderPartialView(Html, ViewDataTyped.ProjectAgreementDetailViewData);
                         }

@@ -31,6 +31,8 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         public bool UserHasProjectAgreementManagePermissions { get; }
         public string AddNewAgreementUrl { get; }
         public List<ReclamationAgreement> ReclamationAgreements { get; }
+
+        public List<ReclamationCostAuthority> ReclamationCostAuthorityWorkBreakdownStructures { get; }
         //public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
         //public List<IFundingSourceBudgetAmount> FundingSourceRequestAmounts { get; }
 
@@ -43,6 +45,8 @@ namespace ProjectFirma.Web.Views.ProjectFunding
             UserHasProjectAgreementManagePermissions = userHasProjectAgreementManagePermissions;
             AddNewAgreementUrl = "NO_URL_YET";
             ReclamationAgreements = project.ReclamationAgreementProjects.Select(rap => rap.ReclamationAgreement).ToList();
+            ReclamationCostAuthorityWorkBreakdownStructures = project.ReclamationCostAuthorityProjects
+                .Select(rcap => rcap.ReclamationCostAuthority).ToList();
 
             //FundingSourceRequestAmounts = fundingSourceRequestAmounts;
             //ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);

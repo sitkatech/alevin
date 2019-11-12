@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -542,6 +542,10 @@
     <Compile Include="Models\Generated\ReclamationCostAuthority.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationCostAuthorityConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationCostAuthorityPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationCostAuthorityProject.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationCostAuthorityProject.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ReclamationCostAuthorityProjectConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ReclamationCostAuthorityProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationDeliverable.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationDeliverable.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationDeliverableConfiguration.Binding.cs" />
@@ -779,7 +783,10 @@
     <Compile Include="Models\ProjectRelevantCostType.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdate.cs" />
     <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
+    <Compile Include="Models\ReclamationCostAuthority.cs" />
+    <Compile Include="Models\ReclamationCostAuthorityProject.cs" />
     <Compile Include="Models\ReclamationAgreementProject.cs" />
+    <Compile Include="Models\ReclamationAgreementSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\ReclamationAgreement.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />

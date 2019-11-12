@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.Project
         public string EditReportedExpendituresUrl { get; }
         public string EditExternalLinksUrl { get; }
         public string EditExpectedFundingUrl { get; }
-        public string EditProjectAgreementUrl { get; }
+        public string AssociateProjectAgreementUrl { get; }
         public string EditProjectCustomAttributesUrl { get; }
 
         public ProjectBasicsViewData ProjectBasicsViewData { get; }
@@ -306,7 +306,7 @@ namespace ProjectFirma.Web.Views.Project
             EditExpectedFundingUrl = editExpectedFundingUrl;
 
             // TODO: Set to something real
-            EditProjectAgreementUrl = SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
+            AssociateProjectAgreementUrl = SitkaRoute<ProjectAssociatedCostAuthoritiesController>.BuildUrlFromExpression(c => c.EditProjectAssociatedCostAuthorities(project));
 
             ProjectExpendituresDetailViewData = projectExpendituresDetailViewData;
             ProjectExpendituresByCostTypeDetailViewData = projectExpendituresByCostTypeDetailViewData;

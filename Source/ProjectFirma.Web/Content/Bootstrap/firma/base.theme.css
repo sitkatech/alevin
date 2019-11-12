@@ -512,6 +512,24 @@ table.summaryLayout td {
 .table-borderless > thead > tr > th {
   border: none;
 }
+.panel-body.panel-body-table {
+  padding: 0;
+}
+.panel-body.panel-body-table table {
+  margin-bottom: 2px;
+}
+.panel-body.panel-body-table table td:first-child {
+  padding-left: 15px;
+}
+.panel-body.panel-body-table table th:first-child {
+  padding-left: 15px;
+}
+.panel-body.panel-body-table table td:last-child {
+  padding-right: 15px;
+}
+.panel-body.panel-body-table table th:last-child {
+  padding-right: 15px;
+}
 .mainPageHeader {
   margin-top: 20px;
   margin-bottom: 20px;
