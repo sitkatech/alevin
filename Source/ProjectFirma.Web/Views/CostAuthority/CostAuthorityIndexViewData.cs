@@ -37,12 +37,12 @@ namespace ProjectFirma.Web.Views.CostAuthority
         public bool HasCostAuthorityManagePermissions { get; }
         public string NewUrl { get; }
 
-        public CostAuthorityIndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public CostAuthorityIndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetCostAuthorityNamePluralized();
 
-            HasCostAuthorityManagePermissions = new CostAuthorityManageFeature().HasPermissionByPerson(currentPerson);
-            CostAuthorityGridSpec = new CostAuthorityGridSpec(currentPerson)
+            HasCostAuthorityManagePermissions = new CostAuthorityManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            CostAuthorityGridSpec = new CostAuthorityGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = MultiTenantHelpers.GetCostAuthorityName(),
                 ObjectNamePlural = MultiTenantHelpers.GetCostAuthorityNamePluralized(),

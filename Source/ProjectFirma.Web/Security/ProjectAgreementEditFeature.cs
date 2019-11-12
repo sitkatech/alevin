@@ -16,14 +16,8 @@ namespace ProjectFirma.Web.Security
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public void DemandPermission(Person person, Project contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            _firmaFeatureWithContextImpl.DemandPermission(person, contextModelObject);
-        }
-
-        public PermissionCheckResult HasPermission(Person person, Project contextModelObject)
-        {
-
             // These permissions are lifted from ProjectUpdateCreateEditSubmitFeature, and may well be wrong for this purpose
             /*
             var hasPermissionByPerson = HasPermissionByPerson(person);
@@ -50,14 +44,19 @@ namespace ProjectFirma.Web.Security
             */
 
             // Start with just a person check for the moment
-            var hasPermissionByPerson = HasPermissionByPerson(person);
-            if (!hasPermissionByPerson)
+            var hasPermissionByFirmaSession = HasPermissionByFirmaSession(firmaSession);
+            if (!hasPermissionByFirmaSession)
             {
                 return new PermissionCheckResult($"You don't have permission to Edit {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
             }
 
             // Success / Valid
             return new PermissionCheckResult();
+        }
+
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
+        {
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
     }
 }

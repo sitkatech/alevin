@@ -16,12 +16,12 @@ namespace ProjectFirma.Web.Views.Agreement
         public bool HasAgreementManagePermissions { get; }
         public string NewUrl { get; }
 
-        public AgreementIndexViewData(Person currentPerson, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentPerson, firmaPage)
+        public AgreementIndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetAgreementNamePluralized();
 
-            HasAgreementManagePermissions = new AgreementManageFeature().HasPermissionByPerson(currentPerson);
-            AgreementGridSpec = new AgreementGridSpec(currentPerson)
+            HasAgreementManagePermissions = new AgreementManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            AgreementGridSpec = new AgreementGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = MultiTenantHelpers.GetAgreementName(),
                 ObjectNamePlural = MultiTenantHelpers.GetAgreementNamePluralized(),

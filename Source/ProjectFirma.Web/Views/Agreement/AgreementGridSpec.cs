@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.Agreement
 {
     public class AgreementGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationAgreement>
     {
-        public AgreementGridSpec(Person currentPerson)
+        public AgreementGridSpec(FirmaSession currentFirmaSession)
         {
             // AgreementNumber
             Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
