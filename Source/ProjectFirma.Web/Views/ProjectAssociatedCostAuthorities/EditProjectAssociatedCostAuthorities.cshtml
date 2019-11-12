@@ -90,7 +90,7 @@
                             <div class="input-group" style="width: 100%;">
                                 <select class="selectpicker" multiple name="@Html.NameFor(x => x.SelectedReclamationCostAuthorityIDs)" ng-model="selectedCostAuthorityIDs" data-width="100%" data-container=".modal-content" data-live-search="true" data-size="6" id="SelectedReclamationCostAuthorityIDs" data-selected-text-format="count" data-dropup-auto="false">
                                     <option value="0" disabled>Select a @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel())</option>
-                                    <option ng-selected="isSelected(costAuthority.ReclamationCostAuthorityID)" ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDisplayName}} ({{costAuthority.CountOfRelatedAgreements}})</option>
+                                    <option ng-selected="isSelected(costAuthority.ReclamationCostAuthorityID)" ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDisplayName}}</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.SelectedReclamationCostAuthorityIDs)
                             </div>
