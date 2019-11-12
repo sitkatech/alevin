@@ -9,6 +9,7 @@ namespace ProjectFirma.Web.Models
 
         public int ReclamationCostAuthorityID { get; set; }
         public string ReclamationCostAuthorityDisplayName { get; set; }
+        public string ReclamationCostAuthorityDropdownDisplayName { get; set; }
         public List<ReclamationAgreementSimple> ReclamationCostAuthorityAgreementSimplesList { get; set; }
         public int CountOfRelatedAgreements { get; set; }
 
@@ -29,6 +30,17 @@ namespace ProjectFirma.Web.Models
             ReclamationCostAuthorityAgreementSimplesList = reclamationCostAuthority.ReclamationAgreementReclamationCostAuthorities.Select(x => new ReclamationAgreementSimple(x.ReclamationAgreement)).ToList();
             ReclamationCostAuthorityDisplayName = $"{reclamationCostAuthority.CostAuthorityWorkBreakdownStructure} - {reclamationCostAuthority.AccountStructureDescription}";
             CountOfRelatedAgreements = ReclamationCostAuthorityAgreementSimplesList.Count;
+            ReclamationCostAuthorityDropdownDisplayName =
+                $"{reclamationCostAuthority.CostAuthorityWorkBreakdownStructure} - {reclamationCostAuthority.AccountStructureDescription}{(ReclamationCostAuthorityAgreementSimplesList.Any() ? GetRelatedAgreementIDsAsCommaDelimitedString() : "")}";
         }
+
+        private string GetRelatedAgreementIDsAsCommaDelimitedString()
+        {
+            var agreementNumbersList = ReclamationCostAuthorityAgreementSimplesList
+                .Select(x => x.AgreementNumber.ToString()).ToList();
+
+            return $" (Agreement Numbers: {string.Join(", ", agreementNumbersList)})";
+        }
+
     }
 }
