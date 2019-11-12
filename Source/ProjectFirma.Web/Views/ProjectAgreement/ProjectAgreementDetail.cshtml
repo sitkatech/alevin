@@ -26,44 +26,38 @@
 @using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.ProjectAgreement.ProjectAgreementDetail
 <div class="table-responsive" style="overflow-x: hidden">
-
-    <div class="pull-right">
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Agreement", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNewAgreementUrl, "Add New Agreement", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserHasProjectAgreementManagePermissions)
-    </div>
-
-    @if (!ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures.Any())
-    {
-    <p class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-    }
-    else
-    {
-<table class="summaryLayout table table-condensed table-striped">
-    <tr>
-        <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
-        <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
-
-    </tr>
-
-
-    @*This is the new way its going to be with a model that focuses more on the CAWBS *@
-    @foreach (var reclamationCostAuthorityWorkBreakdownStructure in ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures)
-    {
-        <tr>
-            <td>@Html.Raw(reclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
-            <td>
-                <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                    @foreach (var reclamationAgreement in reclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
-                    {
-                        <li>
-                            <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingAgreementNumber())</span>
-                        </li>
-                    }
-                </ul>
-            </td>
-        </tr>
-    }
-
-</table>
-    }
-
+    <table class="summaryLayout table table-condensed table-striped">
+        @if (!ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures.Any())
+        {
+            <tr>
+                <td class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</td>
+            </tr>
+        }
+        else
+        {
+            <thead>
+                <tr>
+                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
+                </tr>
+            </thead>
+            @*This is the new way its going to be with a model that focuses more on the CAWBS *@
+            foreach (var reclamationCostAuthorityWorkBreakdownStructure in ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures)
+            {
+                <tr>
+                    <td>@Html.Raw(reclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
+                    <td>
+                        <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                            @foreach (var reclamationAgreement in reclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
+                            {
+                                <li>
+                                    <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingAgreementNumber())</span>
+                                </li>
+                            }
+                        </ul>
+                    </td>
+                </tr>
+            }
+        }
+    </table>
 </div>
