@@ -51,7 +51,12 @@ namespace ProjectFirma.Web.Views.Agreement
 
         private static HtmlString GetProjectHrefsString(ReclamationAgreement reclamationAgreement)
         {
-            List<HtmlString> hrefStrings = reclamationAgreement.ReclamationAgreementProjects.Select(rap => UrlTemplate.MakeHrefString(rap.Project.GetDetailUrl(), rap.Project.GetDisplayName())).ToList();
+            var costAuthorities = reclamationAgreement.ReclamationAgreementReclamationCostAuthorities
+                .Select(rarca => rarca.ReclamationCostAuthority).ToList();
+            var projects =
+                costAuthorities.SelectMany(ca => ca.ReclamationCostAuthorityProjects.Select(rcap => rcap.Project)).ToList();
+
+            List<HtmlString> hrefStrings = projects.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.GetDisplayName())).ToList();
             var commaDelimitedHrefStrings =  new HtmlString(string.Join(", ", hrefStrings));
             return commaDelimitedHrefStrings;
         }

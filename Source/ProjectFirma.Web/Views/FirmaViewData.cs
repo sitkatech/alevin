@@ -106,6 +106,8 @@ namespace ProjectFirma.Web.Views
             {
                 BuildAboutMenu(currentFirmaSession),
                 BuildProjectsMenu(currentFirmaSession),
+                // WARNING: This has been deleted multiple times. We are manually re-adding it. If a conflict occurs here, lets talk - SMG & SLG
+                BuildAgreementsMenu(currentFirmaSession),
                 BuildProgramInfoMenu(currentFirmaSession)
             };
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentFirmaSession.Person))
