@@ -522,10 +522,6 @@
     <Compile Include="Models\Generated\ReclamationAgreementPacificNorthActivityConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationAgreementPacificNorthActivityPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationAgreementPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\ReclamationAgreementProject.Binding.cs" />
-    <Compile Include="Models\Generated\ReclamationAgreementProject.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\ReclamationAgreementProjectConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\ReclamationAgreementProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationAgreementReclamationCostAuthority.Binding.cs" />
     <Compile Include="Models\Generated\ReclamationAgreementReclamationCostAuthority.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ReclamationAgreementReclamationCostAuthorityConfiguration.Binding.cs" />
@@ -785,7 +781,6 @@
     <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
     <Compile Include="Models\ReclamationCostAuthority.cs" />
     <Compile Include="Models\ReclamationCostAuthorityProject.cs" />
-    <Compile Include="Models\ReclamationAgreementProject.cs" />
     <Compile Include="Models\ReclamationAgreementSimple.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\ReclamationAgreement.cs" />

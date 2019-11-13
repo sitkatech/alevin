@@ -33,8 +33,6 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         public List<ReclamationAgreement> ReclamationAgreements { get; }
 
         public List<ReclamationCostAuthority> ReclamationCostAuthorityWorkBreakdownStructures { get; }
-        //public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
-        //public List<IFundingSourceBudgetAmount> FundingSourceRequestAmounts { get; }
 
         public ProjectAgreementDetailViewData(FirmaSession currentFirmaSession, 
                                               ProjectFirmaModels.Models.Project project,
@@ -44,12 +42,16 @@ namespace ProjectFirma.Web.Views.ProjectFunding
             Project = project;
             UserHasProjectAgreementManagePermissions = userHasProjectAgreementManagePermissions;
             AddNewAgreementUrl = "NO_URL_YET";
-            ReclamationAgreements = project.ReclamationAgreementProjects.Select(rap => rap.ReclamationAgreement).ToList();
+
+            var costAuthorities = project.ReclamationCostAuthorityProjects.Select(x => x.ReclamationCostAuthority)
+                .ToList();
+
+            ReclamationAgreements = costAuthorities.SelectMany(ca =>
+                ca.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement)).ToList();
+
             ReclamationCostAuthorityWorkBreakdownStructures = project.ReclamationCostAuthorityProjects
                 .Select(rcap => rcap.ReclamationCostAuthority).ToList();
 
-            //FundingSourceRequestAmounts = fundingSourceRequestAmounts;
-            //ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);
         }
     }
 

@@ -146,7 +146,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementPacificNorthActivityConfiguration());
-            modelBuilder.Configurations.Add(new ReclamationAgreementProjectConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementReclamationCostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new ReclamationBasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationContractTypeConfiguration());
@@ -400,7 +399,6 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ProjectUpdateSetting> AllProjectUpdateSettings { get; set; }
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
-        public virtual DbSet<ReclamationAgreementProject> ReclamationAgreementProjects { get; set; }
         public virtual DbSet<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
         public virtual DbSet<ReclamationAgreement> ReclamationAgreements { get; set; }
         public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
@@ -940,9 +938,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationAgreementPacificNorthActivity":
                     return ReclamationAgreementPacificNorthActivities.GetReclamationAgreementPacificNorthActivity(primaryKey);
-
-                case "ReclamationAgreementProject":
-                    return ReclamationAgreementProjects.GetReclamationAgreementProject(primaryKey);
 
                 case "ReclamationAgreementReclamationCostAuthority":
                     return ReclamationAgreementReclamationCostAuthorities.GetReclamationAgreementReclamationCostAuthority(primaryKey);
