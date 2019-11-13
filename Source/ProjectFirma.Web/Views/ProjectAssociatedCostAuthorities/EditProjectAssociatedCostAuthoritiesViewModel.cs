@@ -23,10 +23,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
-using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -35,7 +33,6 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
     public class EditProjectAssociatedCostAuthoritiesViewModel : FormViewModel, IValidatableObject
     {
 
-        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
         public List<int> SelectedReclamationCostAuthorityIDs { get; set; }
 
@@ -55,16 +52,19 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
             DbSet<ReclamationCostAuthorityProject> allProjectReclamationCostAuthoritiesInDatabase, Person currentPerson)
         {
-            var projectReclamationCostAuthoritiesUpdated =
-                SelectedReclamationCostAuthorityIDs.Select(x =>
-                    new ReclamationCostAuthorityProject(x, project.ProjectID)).ToList();
+            var projectReclamationCostAuthoritiesUpdated = new List<ReclamationCostAuthorityProject>();
+
+            if (SelectedReclamationCostAuthorityIDs != null)
+            {
+                projectReclamationCostAuthoritiesUpdated.AddRange(SelectedReclamationCostAuthorityIDs.Select(x =>
+                    new ReclamationCostAuthorityProject(x, project.ProjectID)).ToList()); 
+            }
 
             project.ReclamationCostAuthorityProjects.Merge(
                 projectReclamationCostAuthoritiesUpdated,
                 allProjectReclamationCostAuthoritiesInDatabase.Local,  
                 (x, y) => x.ProjectID == y.ProjectID && x.ReclamationCostAuthorityID == y.ReclamationCostAuthorityID, 
                 HttpRequestStorage.DatabaseEntities);
-            
         }
 
         public virtual IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -75,13 +75,7 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
-
-            if (!SelectedReclamationCostAuthorityIDs.Any())
-            {
-                var error = new SitkaValidationResult<EditProjectAssociatedCostAuthoritiesViewModel, List<int>>($"Must submit at least one value for {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", x => x.SelectedReclamationCostAuthorityIDs);
-                errors.Add(error);
-            }
-
+            
             return errors;
         }
     }
