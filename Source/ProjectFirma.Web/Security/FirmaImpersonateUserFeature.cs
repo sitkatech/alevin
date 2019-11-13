@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
@@ -10,7 +9,8 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<Person> _firmaFeatureWithContextImpl;
 
         public FirmaImpersonateUserFeature()
-            : base(new List<Role> {Role.SitkaAdmin})
+              // On Reclamation, we allow plain Admins to impersonate on QA. 
+            : base(new List<Role> {Role.SitkaAdmin, Role.Admin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Person>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
