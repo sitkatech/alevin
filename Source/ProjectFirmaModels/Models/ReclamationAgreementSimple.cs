@@ -1,11 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-
-namespace ProjectFirmaModels.Models
+﻿namespace ProjectFirmaModels.Models
 {
     public class ReclamationAgreementSimple
     {
-
         public int ReclamationAgreementID { get; set; }
         public string ReclamationAgreementDisplayName { get; set; }
         public string AgreementNumber { get; set; }
@@ -27,6 +23,5 @@ namespace ProjectFirmaModels.Models
             ReclamationAgreementDisplayName = $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
             AgreementNumber = reclamationAgreement.AgreementNumber;
         }
-
     }
 }
