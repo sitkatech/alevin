@@ -135,7 +135,7 @@
     </appender>
     <appender name="SmtpAppender" type="LtInfo.Common.SmtpAppenderWithPathAndExceptionTypeInSubject, LtInfo.Common">
       <to value="appalerts-alevin@sitkatech.com"/>
-      <from value="Application Alerts Project Firma &lt;AppAlerts-PF@sitkatech.com&gt;"/>
+      <from value="Application Alerts Alevin &lt;appalerts-alevin@sitkatech.com&gt;"/>
       <subject value="Alevin Alert: ${environment} application error"/>
       <smtpHost value="${smtp-server}"/>
       <bufferSize value="1"/>
