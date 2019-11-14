@@ -31,8 +31,9 @@ namespace ProjectFirma.Web.HealthMonitor
         {
             resultMessage = "Successfully called Sql Server Spatial DLL";
 
-            SqlGeometry geom1 = new SqlGeometry();
-            SqlGeometry geom2 = new SqlGeometry();
+            // Fully specified here for clarity. It's easy to get confused about which types are which. -- SLG
+            Microsoft.SqlServer.Types.SqlGeometry geom1 = new SqlGeometry();
+            Microsoft.SqlServer.Types.SqlGeometry geom2 = new SqlGeometry();
 
             try
             {
