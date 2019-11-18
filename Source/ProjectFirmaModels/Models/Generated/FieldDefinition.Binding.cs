@@ -252,6 +252,7 @@ namespace ProjectFirmaModels.Models
         AgreementNumber = 302,
         CostAuthorityWorkBreakdownStructure = 303,
         ContractType = 304,
-        ProjectApprovalDate = 305
+        ProjectApprovalDate = 305,
+        PerformanceMeasureCanBeChartedCumulatively = 306
     }
 }

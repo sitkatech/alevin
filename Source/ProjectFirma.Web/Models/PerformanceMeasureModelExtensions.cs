@@ -80,8 +80,7 @@ namespace ProjectFirma.Web.Models
             return $"PerformanceMeasure{performanceMeasure.PerformanceMeasureID}";
         }
 
-        public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(
-            PerformanceMeasure performanceMeasure)
+        public static GoogleChartConfiguration GetDefaultPerformanceMeasureChartConfigurationJson(this PerformanceMeasure performanceMeasure)
         {
             if (performanceMeasure.PerformanceMeasureReportingPeriods.Any(x => x.TargetValue.HasValue))
             {
@@ -97,8 +96,7 @@ namespace ProjectFirma.Web.Models
             return defaultSubcategoryChartConfigurationJson;
         }
 
-        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(
-            PerformanceMeasure performanceMeasure)
+        public static GoogleChartConfiguration GetTargetsPerformanceMeasureChartConfigurationJson(PerformanceMeasure performanceMeasure)
         {
             var googleChartType = GoogleChartType.ColumnChart;
             var googleChartAxisHorizontal =
@@ -158,7 +156,7 @@ namespace ProjectFirma.Web.Models
         public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, List<Project> projects, string chartUniqueName)
         {
             var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects);
-            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues, chartUniqueName);
+            return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, reportedValues);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)

@@ -128,4 +128,5 @@ VALUES
 -- Unsure if this is the very best name for this. 
 (303, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
 (304, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
-(305, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.')
+(305, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.'),
+(306, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.')
