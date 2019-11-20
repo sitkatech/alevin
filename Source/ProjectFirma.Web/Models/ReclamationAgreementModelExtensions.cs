@@ -15,6 +15,12 @@ namespace ProjectFirma.Web.Models
             return $"{reclamationAgreement.AgreementNumber}";
         }
 
+        public static string GetFullDisplayName(this ReclamationAgreement reclamationAgreement)
+        {
+            return
+                $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
+        }
+
         /// <summary>
         /// Convenience accessor for Reclamation Cost Authorities.
         /// </summary>
@@ -41,6 +47,11 @@ namespace ProjectFirma.Web.Models
         public static string GetDetailLinkUsingAgreementNumber(this ReclamationAgreement reclamationAgreement)
         {
             return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(reclamationAgreement), reclamationAgreement.AgreementNumber);
+        }
+
+        public static string GetDetailLinkUsingFullDisplayName(this ReclamationAgreement reclamationAgreement)
+        {
+            return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(reclamationAgreement), reclamationAgreement.GetFullDisplayName());
         }
 
         /// <summary>
