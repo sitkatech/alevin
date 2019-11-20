@@ -248,11 +248,14 @@ namespace ProjectFirmaModels.Models
         NumberOfProjectsWithSecuredFunds = 298,
         TotalProjectSecuredFunds = 299,
         TotalProjectTargetedFunds = 300,
-        Agreement = 301,
-        AgreementNumber = 302,
-        CostAuthorityWorkBreakdownStructure = 303,
-        ContractType = 304,
-        ProjectApprovalDate = 305,
-        PerformanceMeasureCanBeChartedCumulatively = 306
+        PerformanceMeasureCanBeChartedCumulatively = 301,
+        ProjectStatus = 302,
+        ProjectStatusUpdate = 303
+        Agreement = 304,
+        AgreementNumber = 305,
+        CostAuthorityWorkBreakdownStructure = 306,
+        ContractType = 307,
+        ProjectApprovalDate = 308,
+        PerformanceMeasureCanBeChartedCumulatively = 309
     }
 }
