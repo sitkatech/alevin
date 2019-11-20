@@ -250,12 +250,11 @@ namespace ProjectFirmaModels.Models
         TotalProjectTargetedFunds = 300,
         PerformanceMeasureCanBeChartedCumulatively = 301,
         ProjectStatus = 302,
-        ProjectStatusUpdate = 303
+        ProjectStatusUpdate = 303,
         Agreement = 304,
         AgreementNumber = 305,
         CostAuthorityWorkBreakdownStructure = 306,
         ContractType = 307,
-        ProjectApprovalDate = 308,
-        PerformanceMeasureCanBeChartedCumulatively = 309
+        ProjectApprovalDate = 308
     }
 }

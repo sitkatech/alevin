@@ -125,10 +125,10 @@ VALUES
 (300, N'TotalProjectTargetedFunds', N'Total Project Targeted Funds', N'Total amount provided by this funding source as "Targeted" for all projects.'),
 (301, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.'),
 (302, N'ProjectStatus', N'Status', N'<p>The Status of a Project</p>'),
-(303, N'ProjectStatusUpdate', N'Project Status Update', N'<p>An update to the status of a project</p>')(304, N'Agreement', 'Agreement', N'[Agreement described here].'),
+(303, N'ProjectStatusUpdate', N'Project Status Update', N'<p>An update to the status of a project</p>'),
+(304, N'Agreement', 'Agreement', N'[Agreement described here].'),
 (305, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
 -- Unsure if this is the very best name for this. 
 (306, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
 (307, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
-(308, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.'),
-(309, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.')
+(308, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.')
