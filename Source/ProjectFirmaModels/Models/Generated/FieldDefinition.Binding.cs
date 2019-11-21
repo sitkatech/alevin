@@ -250,6 +250,7 @@ namespace ProjectFirmaModels.Models
         TotalProjectTargetedFunds = 300,
         PerformanceMeasureCanBeChartedCumulatively = 301,
         ProjectStatus = 302,
+        ProjectStatusUpdate = 303,
         ProjectStatusHistory = 304,
         ProjectUpdateHistory = 305,
         Agreement = 306,
