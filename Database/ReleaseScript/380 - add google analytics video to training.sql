@@ -1,4 +1,10 @@
 insert into dbo.TrainingVideo (TenantID, VideoName, VideoDescription, VideoUploadDate, VideoURL)
+select 12, VideoName, VideoDescription, VideoUploadDate, VideoURL from dbo.TrainingVideo
+where TrainingVideoID in (1,2,3)
+
+go
+
+insert into dbo.TrainingVideo (TenantID, VideoName, VideoDescription, VideoUploadDate, VideoURL)
 select 
     TenantID, 
     'ProjectFirma Google Analytics', 
@@ -7,3 +13,4 @@ select
     'https://www.youtube.com/embed/J4Cp_7sizAo' 
     from Tenant
 go
+
