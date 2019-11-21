@@ -126,9 +126,11 @@ VALUES
 (301, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?', 'Indicates whether the values for this Performance Measure can be charted cumulatively.'),
 (302, N'ProjectStatus', N'Status', N'<p>The Status of a Project</p>'),
 (303, N'ProjectStatusUpdate', N'Project Status Update', N'<p>An update to the status of a project</p>'),
-(304, N'Agreement', 'Agreement', N'[Agreement described here].'),
-(305, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
+(304, N'ProjectStatusHistory', N'Project Status History', N'<p>The history of this project''s status over the lifetime of the project. These are manually added status updates to the project.</p>'),
+(305, N'ProjectUpdateHistory', N'Project Update History', N'<p>The history of major events over the lifetime of the project. The updates on this side of the timeline get added automatically as the project goes through the workflow.</p>'),
+(306, N'Agreement', 'Agreement', N'[Agreement described here].'),
+(307, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
 -- Unsure if this is the very best name for this. 
-(306, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
-(307, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
-(308, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.')
+(308, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
+(309, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
+(310, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.')
