@@ -52,5 +52,6 @@ values
 (67, 'ManageProjectCustomAttributeGroupInstructions', 'Manage Project Custom Attribute Group Instructions', 2),
 (68, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2),
 (69, 'ProjectStatusFromTimelineDialog', 'Project Status Timeline Dialog', 2),
-(70, 'ProjectStatusFromGridDialog', 'Project Status Grid Dialog', 2)
+(70, 'ProjectStatusFromGridDialog', 'Project Status Grid Dialog', 2),
+(71, 'ProjectStatusListEditor', 'Project Status List Editor', 2)
 
