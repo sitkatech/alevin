@@ -28,7 +28,7 @@ ALTER TABLE [dbo].[ProjectStatus] ADD  CONSTRAINT [AK_ProjectStatus_ProjectStatu
 	[ProjectStatusID] ASC,
     [TenantID] ASC
 
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 GO
 
 INSERT INTO dbo.ProjectStatus (TenantID, ProjectStatusName, ProjectStatusDisplayName, ProjectStatusDescription, ProjectStatusSortOrder, ProjectStatusColor)
@@ -50,7 +50,7 @@ values
 GO
 
 insert into dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
-select TenantID, 67, '<p>Adding a status update will add a new status history event with the date chosen to the project timeline. The status update with the most recent date will be displayed as the current status of the project. You can edit the details of status events from the project timeline on the project detail page.</p>' from Tenant t
+select TenantID, 69, '<p>Adding a status update will add a new status history event with the date chosen to the project timeline. The status update with the most recent date will be displayed as the current status of the project. You can edit the details of status events from the project timeline on the project detail page.</p>' from Tenant t
 GO
 
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
@@ -59,7 +59,7 @@ values
 GO
 
 insert into dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
-select TenantID, 69, '<p>Adding a status update will add a new status history event with the date chosen to the project timeline. The status update with the most recent date will be displayed as the current status of the project. You can edit the details of status events from the project timeline on the project detail page.</p>' from Tenant t
+select TenantID, 70, '<p>Adding a status update will add a new status history event with the current date to the project timeline. This status because it is the most recent will be displayed as the current status of the project. You can edit the details of status events from the project timeline on the project detail page.</p>' from Tenant t
 GO
 
 /* Project Status list editor */
@@ -69,5 +69,5 @@ values
 GO
 
 insert into dbo.FirmaPage (TenantID, FirmaPageTypeID, FirmaPageContent)
-select TenantID, 70, '<p>Adding a status update will add a new status history event with the current date to the project timeline. This status because it is the most recent will be displayed as the current status of the project. You can edit the details of status events from the project timeline on the project detail page.</p>' from Tenant t
+select TenantID, 71, '<p>Add or edit project statuses that can be applied to project''s from the Project Grid or within the Project Timeline on a project detail page. WARNING: Deleting a project status on this page will delete all of the status entries for projects that have the deleted status.</p>' from Tenant t
 GO

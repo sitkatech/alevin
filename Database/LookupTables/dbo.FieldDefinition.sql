@@ -133,6 +133,5 @@ VALUES
 -- Unsure if this is the very best name for this. 
 (308, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
 (309, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
-(310, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.')
-(311, N'ProjectUpdateHistory', N'Project Update History', N'<p>The history of major events over the lifetime of the project. The updates on this side of the timeline get added automatically as the project goes through the workflow.</p>'),
-(312, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>')
+(310, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.'),
+(311, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>')
