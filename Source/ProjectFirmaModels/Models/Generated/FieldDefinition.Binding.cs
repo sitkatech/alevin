@@ -258,6 +258,9 @@ namespace ProjectFirmaModels.Models
         CostAuthorityWorkBreakdownStructure = 308,
         ContractType = 309,
         ProjectApprovalDate = 310,
-        ProjectStatusLegend = 311
+        ProjectStatusLegend = 311,
+        ProjectStatusUpdateCreatedBy = 312,
+        ProjectStatusUpdateDate = 313,
+        ProjectStatusComments = 314
     }
 }

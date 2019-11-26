@@ -133,5 +133,7 @@ VALUES
 -- Unsure if this is the very best name for this. 
 (308, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
 (309, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
-(310, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.'),
-(311, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>')
+(310, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.'),(311, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>'),
+(312, N'ProjectStatusUpdateCreatedBy', N'Project Status Update Created By', N'<p>The person attributed to creating this update status.</p>'),
+(313, N'ProjectStatusUpdateDate', N'Project Status Update Date', N'<p>The date that will be displayed for this status update.</p>'),
+(314, N'ProjectStatusComments', N'Project Status Comments', N'<p>Comments that are associated with this status update.</p>')
