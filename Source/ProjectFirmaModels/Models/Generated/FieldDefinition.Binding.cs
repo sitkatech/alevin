@@ -253,14 +253,15 @@ namespace ProjectFirmaModels.Models
         ProjectStatusUpdate = 303,
         ProjectStatusHistory = 304,
         ProjectUpdateHistory = 305,
-        Agreement = 306,
-        AgreementNumber = 307,
-        CostAuthorityWorkBreakdownStructure = 308,
-        ContractType = 309,
-        ProjectApprovalDate = 310,
-        ProjectStatusLegend = 311,
-        ProjectStatusUpdateCreatedBy = 312,
-        ProjectStatusUpdateDate = 313,
-        ProjectStatusComments = 314
+        ProjectStatusLegend = 306,
+        ProjectStatusUpdateCreatedBy = 307,
+        ProjectStatusUpdateDate = 308,
+        ProjectStatusComments = 309,
+        GeospatialArea = 310,
+        Agreement = 311,
+        AgreementNumber = 312,
+        CostAuthorityWorkBreakdownStructure = 313,
+        ContractType = 314,
+        ProjectApprovalDate = 315
     }
 }

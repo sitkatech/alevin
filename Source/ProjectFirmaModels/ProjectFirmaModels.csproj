@@ -767,6 +767,9 @@
     <Compile Include="Models\FileResourceOrientation.cs" />
     <Compile Include="Models\FirmaPage.cs" />
     <Compile Include="Models\FundingSource.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureNoTarget.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureOverallTarget.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
     <Compile Include="Models\IProjectContact.cs" />
@@ -774,8 +777,10 @@
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
+    <Compile Include="Models\PerformanceMeasureOverallTarget.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategory.cs" />
+    <Compile Include="Models\PerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\PersonStewardshipAreaSimple.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />

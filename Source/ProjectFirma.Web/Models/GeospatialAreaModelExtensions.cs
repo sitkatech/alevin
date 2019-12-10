@@ -19,14 +19,14 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Linq;
 using System.Web;
 using GeoJSON.Net.Feature;
-using log4net;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -42,8 +42,7 @@ namespace ProjectFirma.Web.Models
             return new FeatureCollection(geospatialAreas.Select(x => x.MakeFeatureWithRelevantProperties()).ToList());
         }
 
-        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(
-            this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
+        public static List<GeospatialArea> GetGeospatialAreasContainingProjectLocation(this IEnumerable<GeospatialArea> geospatialAreas, IProject project)
         {
             return project?.ProjectLocationPoint == null
                 ? new List<GeospatialArea>()
@@ -113,7 +112,7 @@ namespace ProjectFirma.Web.Models
             FirmaSession currentFirmaSession)
         {
             var projects = geospatialArea.GetAssociatedProjects(currentFirmaSession);
-            return new PerformanceMeasureChartViewData(performanceMeasure, currentFirmaSession, false, projects);
+            return new PerformanceMeasureChartViewData(geospatialArea, performanceMeasure, currentFirmaSession, false, projects);
         }
 
         public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, FirmaSession currentFirmaSession)
@@ -166,6 +165,67 @@ namespace ProjectFirma.Web.Models
 
             return subbasinLiasons.Distinct().ToList();
         }
+
+        public static string GetDeleteGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
+        {
+            return SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Delete(geospatialArea.GeospatialAreaID, performanceMeasure.PerformanceMeasureID));
+        }
+
+        public static string GetEditGeospatialAreaPerformanceMeasureTargetUrl(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
+        {
+            return SitkaRoute<GeospatialAreaPerformanceMeasureTargetController>.BuildUrlFromExpression(t => t.Edit(geospatialArea.GeospatialAreaID, performanceMeasure.PerformanceMeasureID));
+        }
+
+        /*
+        public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
+        {
+            if (!performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Any(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue))
+            {
+                return "No Target Set";
+            }
+
+            if (performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).Select(x => $"{x.GeospatialAreaPerformanceMeasureTargetValue}{x.GeospatialAreaPerformanceMeasureTargetValueLabel}").Distinct().Count() == 1)
+            {
+                //we know all targetValues are the same so just get the first geospatial target
+                var geospatialAreaPerformanceMeasureTarget = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID).First(x => x.GeospatialAreaPerformanceMeasureTargetValue.HasValue);
+                Check.EnsureNotNull(geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue, "geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue != null");
+                var targetValue = geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue.Value.ToString();
+                var performanceMeasureMeasurementUnitType = geospatialAreaPerformanceMeasureTarget.PerformanceMeasure.MeasurementUnitType;
+                var measurementUnit = performanceMeasureMeasurementUnitType == MeasurementUnitType.Number ? "" : performanceMeasureMeasurementUnitType.LegendDisplayName;
+                return $"{targetValue} {measurementUnit}";
+            }
+            return "Target by Year";
+        }
+        */
+
+        public static string GetTargetValueDisplayForGrid(this GeospatialArea geospatialArea, PerformanceMeasure performanceMeasure)
+        {
+            PerformanceMeasureTargetValueTypeEnum performanceMeasureTargetValueTypeEnum = performanceMeasure.GetPerformanceMeasureTargetValueTypeForGeospatialArea(geospatialArea);
+
+            switch (performanceMeasureTargetValueTypeEnum)
+            {
+                case PerformanceMeasureTargetValueTypeEnum.NoTarget:
+                    return "No Target";
+                case PerformanceMeasureTargetValueTypeEnum.OverallTarget:
+                    var geospatialAreaPerformanceMeasureOverallTarget =
+                        performanceMeasure.GeospatialAreaPerformanceMeasureOverallTargets.SingleOrDefault(x =>
+                            x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
+                    Check.EnsureNotNull(geospatialAreaPerformanceMeasureOverallTarget);
+                    Check.EnsureNotNull(geospatialAreaPerformanceMeasureOverallTarget.GeospatialAreaPerformanceMeasureTargetValue, "geospatialAreaPerformanceMeasureTarget.GeospatialAreaPerformanceMeasureTargetValue != null");
+                    var targetValue = geospatialAreaPerformanceMeasureOverallTarget.GeospatialAreaPerformanceMeasureTargetValue.ToString();
+                    var performanceMeasureMeasurementUnitType = geospatialAreaPerformanceMeasureOverallTarget.PerformanceMeasure.MeasurementUnitType;
+                    var measurementUnit = performanceMeasureMeasurementUnitType == MeasurementUnitType.Number ? "" : performanceMeasureMeasurementUnitType.LegendDisplayName;
+                    return $"{targetValue} {measurementUnit}";
+                case PerformanceMeasureTargetValueTypeEnum.TargetPerYear:
+                    return "Target By Year";
+                default:
+                    throw new NotImplementedException("There should never be a valid target value type here");
+            }
+
+        }
+
+
+
     }
 }
 

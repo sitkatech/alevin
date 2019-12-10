@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Views
                 BuildAgreementsMenu(currentFirmaSession),
                 BuildProgramInfoMenu(currentFirmaSession)
             };
-            if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentFirmaSession.Person))
+            if (MultiTenantHelpers.DisplayAccomplishmentDashboard() || MultiTenantHelpers.UsesCustomResultsPages(currentFirmaSession))
             {
                 TopLevelLtInfoMenuItems.Add(BuildResultsMenu(currentFirmaSession));
             }

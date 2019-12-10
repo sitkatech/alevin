@@ -128,12 +128,14 @@ VALUES
 (303, N'ProjectStatusUpdate', N'Project Status Update', N'<p>An update to the status of a project</p>'),
 (304, N'ProjectStatusHistory', N'Project Status History', N'<p>The history of this project''s status over the lifetime of the project. These are manually added status updates to the project.</p>'),
 (305, N'ProjectUpdateHistory', N'Project Update History', N'<p>The history of major events over the lifetime of the project. The updates on this side of the timeline get added automatically as the project goes through the workflow.</p>'),
-(306, N'Agreement', 'Agreement', N'[Agreement described here].'),
-(307, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
+(306, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>'),
+(307, N'ProjectStatusUpdateCreatedBy', N'Project Status Update Created By', N'<p>The person attributed to creating this update status.</p>'),
+(308, N'ProjectStatusUpdateDate', N'Project Status Update Date', N'<p>The date that will be displayed for this status update.</p>'),
+(309, N'ProjectStatusComments', N'Project Status Comments', N'<p>Comments that are associated with this status update.</p>'),
+(310, N'GeospatialArea', 'Geospatial Area', 'The term "geospatial data" refers to data or information that identifies the geographic location of features and boundaries on Earth. In simple terms, it is data that can be mapped.'),
+(311, N'Agreement', 'Agreement', N'[Agreement described here].'),
+(312, N'AgreementNumber', 'Agreement Number', N'[Agreement Number described here].'),
 -- Unsure if this is the very best name for this. 
-(308, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
-(309, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
-(310, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.'),(311, N'ProjectStatusLegend', N'Project Status Legend', N'<p>This legend defines the status types and their associated colors that are displayed on the right half of the project timeline.</p>'),
-(312, N'ProjectStatusUpdateCreatedBy', N'Project Status Update Created By', N'<p>The person attributed to creating this update status.</p>'),
-(313, N'ProjectStatusUpdateDate', N'Project Status Update Date', N'<p>The date that will be displayed for this status update.</p>'),
-(314, N'ProjectStatusComments', N'Project Status Comments', N'<p>Comments that are associated with this status update.</p>')
+(313, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure', N'[Cost Authority Work Breakdown Structure described here].'),
+(314, N'ContractType', 'Contract Type', N'[Contract Type described here].'),
+(315, N'ProjectApprovalDate', 'Project Approval Date', N'The date a proposal is approved and becomes a project.')

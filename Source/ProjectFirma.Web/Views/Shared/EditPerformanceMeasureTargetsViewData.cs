@@ -24,20 +24,29 @@ using System.Linq;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasure
+namespace ProjectFirma.Web.Views.Shared
 {
     public class EditPerformanceMeasureTargetsViewData
-    {        
+    {
         public ProjectFirmaModels.Models.PerformanceMeasure PerformanceMeasure { get; }
         public EditPerformanceMeasureTargetsViewDataForAngular ViewDataForAngular { get; }
         public ProjectFirmaModels.Models.FieldDefinition PerformanceMeasureFieldDefinition { get; }
+        public bool ShowGeoSpatialAreaInstructions { get;}
 
-        public EditPerformanceMeasureTargetsViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, EditPerformanceMeasureTargetsViewDataForAngular viewDataForAngular)
+        public enum PerformanceMeasureTargetType
+        {
+            TargetByYear,
+            TargetByGeospatialArea
+        }
+
+        public EditPerformanceMeasureTargetsViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
+                                                     EditPerformanceMeasureTargetsViewDataForAngular viewDataForAngular,
+                                                     PerformanceMeasureTargetType performanceMeasureTargetType)
         {
             PerformanceMeasure = performanceMeasure;
             ViewDataForAngular = viewDataForAngular;
             PerformanceMeasureFieldDefinition = FieldDefinitionEnum.PerformanceMeasure.ToType();
-            
+            ShowGeoSpatialAreaInstructions = performanceMeasureTargetType == PerformanceMeasureTargetType.TargetByGeospatialArea;
         }
     }
 
@@ -52,7 +61,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         {
             PerformanceMeasureTargetValueTypes = performanceMeasureTargetValueTypes;
             DefaultReportingPeriodYear = defaultReportingPeriodYear;
-            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureReportingPeriods.Where(x => x.PerformanceMeasureActuals.Any()).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
+            ReportingPeriodsWithActuals = performanceMeasure.PerformanceMeasureActuals.Select(x => x.PerformanceMeasureReportingPeriod).Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
         }
     }
 }
