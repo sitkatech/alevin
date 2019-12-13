@@ -258,10 +258,12 @@ namespace ProjectFirmaModels.Models
         ProjectStatusUpdateDate = 308,
         ProjectStatusComments = 309,
         GeospatialArea = 310,
-        Agreement = 311,
-        AgreementNumber = 312,
-        CostAuthorityWorkBreakdownStructure = 313,
-        ContractType = 314,
-        ProjectApprovalDate = 315
+        ArcGISFileGeodatabase = 311,
+        KMLFile = 312,
+        Agreement = 10001,
+        AgreementNumber = 10002,
+        CostAuthorityWorkBreakdownStructure = 10003,
+        ContractType = 10004,
+        ProjectApprovalDate = 10005
     }
 }
