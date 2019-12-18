@@ -95,13 +95,6 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
         return !hasActuals;
     };
 
-    $scope.showTargetType = function (targetType) {
-        if ($scope.AngularViewData.ReportingPeriodsWithActuals.length < 1 && targetType.PerformanceMeasureTargetValueTypeID === $scope.OverallTargetID) {
-            return false;//don't show the overall option for performance measures without project data
-        }
-        return true;
-    };
-
     $scope.getBulkOrder = function (bulk) { return new Date(bulk.PerformanceMeasureReportingPeriodCalendarYear); }
 
     $scope.isPerformanceMeasureTargetValueTypeNoTarget = function () {
@@ -174,13 +167,10 @@ angular.module("ProjectFirmaApp").controller("EditPerformanceMeasureTargetsContr
     }
 
     if (!$scope.AngularModel.OverallTargetValueLabel) {
-        $scope.AngularModel.OverallTargetValueLabel = "Target";
+        $scope.AngularModel.OverallTargetValueLabel = $scope.AngularViewData.DefaultTargetLabel;
     }
 
-    if ($scope.isPerformanceMeasureTargetValueTypeOverallTarget()) {
-        $scope.populateSimpleTargets();
-    }
-
+    $scope.populateSimpleTargets();
     $scope.showAndHideDependingOnTargetValueType();
     $scope.resetReportingPeriodToAdd();
     $scope.CheckForYearInUse();

@@ -260,10 +260,8 @@ namespace ProjectFirmaModels.Models
         GeospatialArea = 310,
         ArcGISFileGeodatabase = 311,
         KMLFile = 312,
-        Agreement = 10001,
-        AgreementNumber = 10002,
-        CostAuthorityWorkBreakdownStructure = 10003,
-        ContractType = 10004,
-        ProjectApprovalDate = 10005
+        ExternalMapLayer = 313,
+        DisplayOnAllMaps = 314,
+        IsATiledMapService = 315
     }
 }
