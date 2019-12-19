@@ -184,6 +184,8 @@ namespace ProjectFirmaModels.Models
         ProjectStatusFromGridDialog = 68,
         ProjectStatusListEditor = 69,
         ExternalMapLayers = 70,
+        WebServicesIndex = 71,
+        WebServicesList = 72,
         AgreementList = 10000,
         CostAuthorityList = 10001
     }
