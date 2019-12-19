@@ -262,6 +262,11 @@ namespace ProjectFirmaModels.Models
         KMLFile = 312,
         ExternalMapLayer = 313,
         DisplayOnAllMaps = 314,
-        IsATiledMapService = 315
+        IsATiledMapService = 315,
+        Agreement = 10001,
+        AgreementNumber = 10002,
+        CostAuthorityWorkBreakdownStructure = 10003,
+        ContractType = 10004,
+        ProjectApprovalDate = 10005
     }
 }

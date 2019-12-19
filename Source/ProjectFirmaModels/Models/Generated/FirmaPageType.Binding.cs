@@ -183,6 +183,8 @@ namespace ProjectFirmaModels.Models
         ProjectStatusFromTimelineDialog = 67,
         ProjectStatusFromGridDialog = 68,
         ProjectStatusListEditor = 69,
-        ExternalMapLayers = 70
+        ExternalMapLayers = 70,
+        AgreementList = 10000,
+        CostAuthorityList = 10001
     }
 }
