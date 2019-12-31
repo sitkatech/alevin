@@ -43,6 +43,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public string ApproveUrl { get; }
         public string ReturnUrl { get; }
         public string ProvideFeedbackUrl { get; }
+        public string TrainingUrl { get; }
 
         public bool IsEditable { get; }
         public bool IsReadyToApprove { get; }
@@ -57,11 +58,11 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public bool IsInstructionsPage { get;  }
         public string InstructionsPageUrl { get; }
 
-        public ProjectUpdateViewData(Person currentPerson, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, List<string> validationWarnings, string currentSectionDisplayName) : base(currentPerson, null)
+        public ProjectUpdateViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ProjectUpdateStatus projectUpdateStatus, List<string> validationWarnings, string currentSectionDisplayName) : base(currentFirmaSession, null)
         {
             IsInstructionsPage = currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase);
             InstructionsPageUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Instructions(projectUpdateBatch.Project));
-            ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();                
+            ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
             ProjectUpdateBatch = projectUpdateBatch;
             Project = projectUpdateBatch.Project;
             PrimaryContactPerson = projectUpdateBatch.Project.GetPrimaryContact();
@@ -74,14 +75,15 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ApproveUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Approve(Project));
             ReturnUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Return(Project));
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.UpdateFeedback());
-            var isApprover = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(CurrentPerson, Project).HasPermission;
+            TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
+            var isApprover = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession, Project).HasPermission;
             ShowApproveAndReturnButton = projectUpdateBatch.IsSubmitted() && isApprover;
             IsEditable = projectUpdateBatch.InEditableState() || ShowApproveAndReturnButton;
             IsReadyToApprove = projectUpdateBatch.IsReadyToApprove();
             AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid();
 
             //Neuter UpdateStatus for non-approver users until we go live with "Show Changes" for all users.
-            ProjectUpdateStatus = CurrentPerson.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);
+            ProjectUpdateStatus = currentFirmaSession.Person.IsApprover() ? projectUpdateStatus : new ProjectUpdateStatus(false, false, false, false, false, false, false, false, false, false, false, false, false, false);
             HasUpdateStarted = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
 
             ValidationWarnings = validationWarnings;

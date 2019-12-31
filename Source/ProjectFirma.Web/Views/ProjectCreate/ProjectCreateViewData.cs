@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Models;
@@ -48,6 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public string ReturnUrl { get; }
         public string WithdrawUrl { get; }
         public string RejectUrl { get; }
+        public string TrainingUrl { get; }
         public bool CurrentPersonIsSubmitter { get; }
         public bool CurrentPersonIsApprover { get; }
         public ProposalSectionsStatus ProposalSectionsStatus { get; }
@@ -59,17 +61,17 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public List<ProjectWorkflowSectionGrouping> ProjectWorkflowSectionGroupings { get; }
         public ProjectStage ProjectStage { get; set; }
 
-        protected ProjectCreateViewData(Person currentPerson,
+        protected ProjectCreateViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             string currentSectionDisplayName,
-            ProposalSectionsStatus proposalSectionsStatus) : this(project, currentPerson, currentSectionDisplayName)
+            ProposalSectionsStatus proposalSectionsStatus) : this(currentFirmaSession, project, currentSectionDisplayName, false)
         {
             Check.Assert(project != null, "Project should be created in database by this point so it cannot be null.");
             Check.Assert(currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase) || currentSectionDisplayName.Equals("Basics", StringComparison.InvariantCultureIgnoreCase) ||
                          proposalSectionsStatus.IsBasicsSectionComplete,
                 $"Can't access this section of the Proposal - You must complete the basics first ({project.GetEditUrl()})");
 
-            CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentPerson, project).HasPermission;
+            CurrentPersonCanWithdraw = new ProjectCreateFeature().HasPermission(currentFirmaSession, project).HasPermission;
 
             Project = project;
             ProposalSectionsStatus = proposalSectionsStatus;
@@ -100,13 +102,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ReturnUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Return(project));
             WithdrawUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Withdraw(project));
             RejectUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Reject(project));
+            TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
 
             ProjectStage = project.ProjectStage;
         }
 
         //New (not yet created) Projects use this constructor. Valid only for Instructions and Basics page.
 
-        protected ProjectCreateViewData(Person currentPerson, string currentSectionDisplayName, string proposalInstructionsUrl) : this(null, currentPerson, currentSectionDisplayName)
+        protected ProjectCreateViewData(FirmaSession currentFirmaSession, string currentSectionDisplayName, string proposalInstructionsUrl) : this(currentFirmaSession, null, currentSectionDisplayName, false)
         {
             Check.Assert(currentSectionDisplayName.Equals("Instructions", StringComparison.InvariantCultureIgnoreCase) || currentSectionDisplayName.Equals("Basics", StringComparison.InvariantCultureIgnoreCase));
 
@@ -115,7 +118,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             ProposalInstructionsUrl = proposalInstructionsUrl;
             ProposalBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(true));
-            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));            
+            HistoricProjectBasicsUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.CreateAndEditBasics(false));
 
             CurrentPersonCanWithdraw = false;
 
@@ -124,18 +127,24 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ReturnUrl = string.Empty;
             WithdrawUrl = string.Empty;
             RejectUrl = string.Empty;
-
+            TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
         }
 
-        private ProjectCreateViewData(ProjectFirmaModels.Models.Project project, Person currentPerson, string currentSectionDisplayName) : base(currentPerson)
+        private ProjectCreateViewData(FirmaSession currentFirmaSession,
+                                      ProjectFirmaModels.Models.Project project,
+                                      string currentSectionDisplayName,
+                                      // This just here to distinguish this signature uniquely. This is a hack, and deserves fixing.
+                                      bool bogusParm) :
+                                      base(currentFirmaSession)
         {
             EntityName = $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()}";
             ProposalListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Proposed());
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.ProposalFeedback());
-            CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson);
-            CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentPerson, project).HasPermission;
+            CurrentPersonIsSubmitter = new ProjectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            CurrentPersonIsApprover = project != null && new ProjectApproveFeature().HasPermission(currentFirmaSession, project).HasPermission;
             ProjectWorkflowSectionGroupings = ProjectWorkflowSectionGrouping.All.OrderBy(x => x.SortOrder).ToList();
             CurrentSectionDisplayName = currentSectionDisplayName;
+            TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
         }
     }
 }

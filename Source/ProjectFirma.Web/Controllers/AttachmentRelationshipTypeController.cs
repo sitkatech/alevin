@@ -28,14 +28,14 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult IndexImpl()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [AttachmentRelationshipTypeViewFeature]
         public GridJsonNetJObjectResult<AttachmentRelationshipType> AttachmentRelationshipTypeGridJsonData()
         {
-            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByPerson(CurrentPerson);
+            var hasManagePermissions = new AttachmentRelationshipTypeManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var gridSpec = new AttachmentRelationshipTypeGridSpec(hasManagePermissions);
             var attachmentRelationshipTypes = HttpRequestStorage.DatabaseEntities.AttachmentRelationshipTypes.ToList().OrderBy(x => x.AttachmentRelationshipTypeName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AttachmentRelationshipType>(attachmentRelationshipTypes, gridSpec);
@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(relationshipType, relationshipTypeFileResourceMimeTypes, relationshipTypeTaxonomyTrunks);
             
             SetMessageForDisplay(
-                $"New {FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} {relationshipType.AttachmentRelationshipTypeName} successfully created!");
+                $"New {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} {relationshipType.AttachmentRelationshipTypeName} successfully created!");
             return new ModalDialogFormJsonResult();
         }
 
@@ -137,8 +137,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = attachmentRelationshipType.CanDelete();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel()} '{attachmentRelationshipType.AttachmentRelationshipTypeName}'?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.ProjectAttachmentRelationshipType.ToType().GetFieldDefinitionLabel(), SitkaRoute<AttachmentRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
+                ? $"Are you sure you want to delete this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()} '{attachmentRelationshipType.AttachmentRelationshipTypeName}'?"
+                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage(FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel(), SitkaRoute<AttachmentRelationshipTypeController>.BuildLinkFromExpression(x => x.Index(), "here"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);

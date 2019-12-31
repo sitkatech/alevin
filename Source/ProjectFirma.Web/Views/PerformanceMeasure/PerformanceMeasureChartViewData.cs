@@ -45,23 +45,24 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         public readonly ViewGoogleChartViewData ViewGoogleChartViewData;
 
         public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
-            int height,
-            Person currentPerson,
-            bool showLastUpdatedDate,
-            bool fromPerformanceMeasureDetailPage,
-            List<ProjectFirmaModels.Models.Project> projects,
-            string chartUniqueName)
+                                               int height,
+                                               FirmaSession currentFirmaSession,
+                                               bool showLastUpdatedDate,
+                                               bool fromPerformanceMeasureDetailPage,
+                                               List<ProjectFirmaModels.Models.Project> projects,
+                                               string chartUniqueName,
+                                               ProjectFirmaModels.Models.GeospatialArea geospatialArea)
         {
             PerformanceMeasure = performanceMeasure;
             HyperlinkPerformanceMeasureName = !fromPerformanceMeasureDetailPage;
 
-            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(projects, chartUniqueName);
+            GoogleChartJsons = performanceMeasure.GetGoogleChartJsonDictionary(geospatialArea, projects, chartUniqueName);
 
             var performanceMeasureActuals = PerformanceMeasure.PerformanceMeasureActuals.Where(x => projects.Contains(x.Project)).ToList();
             ChartTotal = performanceMeasureActuals.Any() ? performanceMeasureActuals.Sum(x => x.ActualValue) : (double?) null;
             ChartTotalFormatted = PerformanceMeasure.MeasurementUnitType.DisplayValue(ChartTotal);
-            
-            var currentPersonHasManagePermission = new FirmaAdminFeature().HasPermissionByPerson(currentPerson);
+
+            var currentPersonHasManagePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             CanManagePerformanceMeasures = currentPersonHasManagePermission && fromPerformanceMeasureDetailPage;
 
             ShowLastUpdatedDate = showLastUpdatedDate;
@@ -79,39 +80,57 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
                 HyperlinkPerformanceMeasureName);
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
-            currentPerson,
+            currentFirmaSession,
             showLastUpdatedDate,
             false, 
             projects,
-            performanceMeasure.GetJavascriptSafeChartUniqueName())
+            performanceMeasure.GetJavascriptSafeChartUniqueName(),
+            null)
         {
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
-            Person currentPerson, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects,
-            string chartUniqueName) : this(
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.GeospatialArea geospatialArea, ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects) : this(
             performanceMeasure,
             DefaultHeight,
-            currentPerson,
+            currentFirmaSession,
             showLastUpdatedDate,
             false,
             projects,
-            chartUniqueName)
+            performanceMeasure.GetJavascriptSafeChartUniqueName(),
+            geospatialArea)
         {
         }
 
-        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, Person currentPerson, bool showLastUpdatedDate, bool showConfigureOption, List<ProjectFirmaModels.Models.Project> projects) : this(
+
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure,
+            FirmaSession currentFirmaSession, bool showLastUpdatedDate, List<ProjectFirmaModels.Models.Project> projects,
+            string chartUniqueName) : this(
             performanceMeasure,
             DefaultHeight,
-            currentPerson,
+            currentFirmaSession,
+            showLastUpdatedDate,
+            false,
+            projects,
+            chartUniqueName,
+            null)
+        {
+        }
+
+        public PerformanceMeasureChartViewData(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession, bool showLastUpdatedDate, bool showConfigureOption, List<ProjectFirmaModels.Models.Project> projects) : this(
+            performanceMeasure,
+            DefaultHeight,
+            currentFirmaSession,
             showLastUpdatedDate,
             showConfigureOption, 
             projects,
-            performanceMeasure.GetJavascriptSafeChartUniqueName())
+            performanceMeasure.GetJavascriptSafeChartUniqueName(),
+            null)
         {
         }
+
+
     }
 }

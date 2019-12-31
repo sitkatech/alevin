@@ -31,21 +31,27 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         public bool UserHasProjectAgreementManagePermissions { get; }
         public string AddNewAgreementUrl { get; }
         public List<ReclamationAgreement> ReclamationAgreements { get; }
-        //public ProjectFundingCalculatedCosts ProjectFundingCalculatedCosts { get; }
-        //public List<IFundingSourceBudgetAmount> FundingSourceRequestAmounts { get; }
 
-        public ProjectAgreementDetailViewData(Person currentPerson, 
+        public List<ReclamationCostAuthority> ReclamationCostAuthorityWorkBreakdownStructures { get; }
+
+        public ProjectAgreementDetailViewData(FirmaSession currentFirmaSession, 
                                               ProjectFirmaModels.Models.Project project,
                                               bool userHasProjectAgreementManagePermissions
-                                              /*, List<IFundingSourceBudgetAmount> fundingSourceRequestAmounts*/) : base(currentPerson)
+                                              /*, List<IFundingSourceBudgetAmount> fundingSourceRequestAmounts*/) : base(currentFirmaSession)
         {
             Project = project;
             UserHasProjectAgreementManagePermissions = userHasProjectAgreementManagePermissions;
             AddNewAgreementUrl = "NO_URL_YET";
-            ReclamationAgreements = project.ReclamationAgreementProjects.Select(rap => rap.ReclamationAgreement).ToList();
 
-            //FundingSourceRequestAmounts = fundingSourceRequestAmounts;
-            //ProjectFundingCalculatedCosts = new ProjectFundingCalculatedCosts(project);
+            var costAuthorities = project.ReclamationCostAuthorityProjects.Select(x => x.ReclamationCostAuthority)
+                .ToList();
+
+            ReclamationAgreements = costAuthorities.SelectMany(ca =>
+                ca.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement)).ToList();
+
+            ReclamationCostAuthorityWorkBreakdownStructures = project.ReclamationCostAuthorityProjects
+                .Select(rcap => rcap.ReclamationCostAuthority).ToList();
+
         }
     }
 

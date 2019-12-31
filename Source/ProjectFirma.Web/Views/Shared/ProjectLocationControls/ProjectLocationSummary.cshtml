@@ -119,6 +119,20 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         }
     }
+    @if (ViewDataTyped.SubbasinLiasons.Any())
+    {
+        <label>
+            Subbasin Liason
+        </label>
+        <ul class="noListStyle">
+            @foreach (var subbasinLiason in ViewDataTyped.SubbasinLiasons)
+            {
+                <li>
+                    <a href="@subbasinLiason.GetDetailUrl()">@subbasinLiason.GetFullNameFirstLast()</a>
+                </li>
+            }
+        </ul>
+    }
 </div>
 
 <script type="text/javascript">

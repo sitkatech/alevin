@@ -19,49 +19,42 @@
     </license>
     -----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
-@using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.ProjectAgreement.ProjectAgreementDetail
 <div class="table-responsive" style="overflow-x: hidden">
-
-    <div class="pull-right">
-        @ModalDialogFormHelper.ModalDialogFormLink(string.Format("{0} Add Agreement", FirmaDhtmlxGridHtmlHelpers.PlusIcon), ViewDataTyped.AddNewAgreementUrl, "Add New Agreement", new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserHasProjectAgreementManagePermissions)
-    </div>
-
-    @if (!ViewDataTyped.ReclamationAgreements.Any())
-    {
-        <p class="systemText">No Agreements associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-    }
-    else
-    {
-        <table class="summaryLayout table table-condensed table-striped">
+    <table class="summaryLayout table table-condensed table-striped">
+        @if (!ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures.Any())
+        {
             <tr>
-                <th class="col-sm-3">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
-                <th class="col-sm-9">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                <td class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</td>
             </tr>
-
-            @foreach (var reclamationAgreement in ViewDataTyped.ReclamationAgreements)
+        }
+        else
+        {
+            <thead>
+                <tr>
+                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
+                </tr>
+            </thead>
+            @*This is the new way its going to be with a model that focuses more on the CAWBS *@
+            foreach (var reclamationCostAuthorityWorkBreakdownStructure in ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures)
             {
                 <tr>
-                    <td>@Html.Raw(reclamationAgreement.GetDetailLinkUsingAgreementNumber())</td>
+                    <td>@Html.Raw(reclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
                     <td>
                         <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                            @foreach (var costAuthority in reclamationAgreement.GetReclamationCostAuthorities())
+                            @foreach (var reclamationAgreement in reclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
                             {
                                 <li>
-                                    @*<span class="@costAuthority.DisplayCssClass">@x.Organization.GetDisplayNameWithoutAbbreviationAsUrl()</span>*@
-                                    @*TODO: Make into URL*@
-                                    <span>@Html.Raw(costAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</span>
+                                    <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingFullDisplayName())</span>
                                 </li>
                             }
                         </ul>
                     </td>
                 </tr>
             }
-        </table>
-    }
-
+        }
+    </table>
 </div>

@@ -87,8 +87,8 @@ namespace ProjectFirmaModels.Models
             get { return ProjectFundingSourceExpenditures.Any() ? ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount) : (decimal?)null; }
         }
 
-        public bool HasProjectLocationPoint() => ProjectLocationPoint != null;
-        public bool HasProjectLocationDetail() => ProjectLocations.Any();
+        public bool HasProjectLocationPoint => ProjectLocationPoint != null;
+        public bool HasProjectLocationDetail => ProjectLocations.Any();
 
         private bool _hasCheckedProjectUpdateHistories;
         private List<ProjectUpdateHistory> _projectUpdateHistories;
@@ -173,6 +173,11 @@ namespace ProjectFirmaModels.Models
         public List<GeospatialArea> GetCanStewardProjectsGeospatialAreas()
         {
             return ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList();
+        }
+
+        public ProjectStatus GetCurrentProjectStatus()
+        {
+            return ProjectProjectStatuses.OrderBy(x => x.ProjectProjectStatusUpdateDate).ThenBy(x => x.ProjectProjectStatusID).LastOrDefault()?.ProjectStatus;
         }
 
     }

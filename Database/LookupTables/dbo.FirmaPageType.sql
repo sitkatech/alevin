@@ -47,7 +47,19 @@ values
 (62, 'FundingStatusHeader', 'Funding Status Header', 1),
 (63, 'FundingStatusFooter', 'Funding Status Footer', 1),
 (64, 'ManageProjectCustomGrids', 'Manage Project Custom Grids', 1),
-(65, 'AgreementList', 'Agreement List', 1),
-(66, 'CostAuthorityList', 'Cost Authority List', 1),
-(67, 'ManageProjectCustomAttributeGroupInstructions', 'Manage Project Custom Attribute Group Instructions', 2),
-(68, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2)
+(65, 'ManageProjectCustomAttributeGroupInstructions', 'Manage Project Custom Attribute Group Instructions', 2),
+(66, 'ManageProjectCustomAttributeGroupsList', 'Manage Project Custom Attribute Groups List', 2),
+(67, 'ProjectStatusFromTimelineDialog', 'Project Status Timeline Dialog', 2),
+(68, 'ProjectStatusFromGridDialog', 'Project Status Grid Dialog', 2),
+(69, 'ProjectStatusListEditor', 'Project Status List Editor', 2),
+(70, 'ExternalMapLayers', 'External Map Layers', 1),
+(71, 'WebServicesIndex', 'Web Services Index' , 1), 
+(72, 'WebServicesList', 'Web Services List' , 1),
+
+
+
+
+-- Alevin only page types always start after ProjectFirma page types and begin at 10000
+(10000, 'AgreementList', 'Agreement List', 1),
+(10001, 'CostAuthorityList', 'Cost Authority List', 1)
+

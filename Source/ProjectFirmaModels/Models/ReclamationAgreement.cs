@@ -9,5 +9,14 @@ namespace ProjectFirmaModels.Models
         {
             return $"ReclamationAgreement: {this.ReclamationAgreementID} - {this.AgreementNumber}";
         }
+
+        public string GetOrganizationDisplayName()
+        {
+            if (Organization == null)
+            {
+                return string.Empty;
+            }
+            return Organization.GetDisplayName();
+        }
     }
 }

@@ -25,6 +25,9 @@ namespace ProjectFirmaModels.Models
         protected PerformanceMeasure()
         {
             this.ClassificationPerformanceMeasures = new HashSet<ClassificationPerformanceMeasure>();
+            this.GeospatialAreaPerformanceMeasureFixedTargets = new HashSet<GeospatialAreaPerformanceMeasureFixedTarget>();
+            this.GeospatialAreaPerformanceMeasureNoTargets = new HashSet<GeospatialAreaPerformanceMeasureNoTarget>();
+            this.GeospatialAreaPerformanceMeasureReportingPeriodTargets = new HashSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
             this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
@@ -33,8 +36,10 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
             this.PerformanceMeasureExpectedSubcategoryOptionUpdates = new HashSet<PerformanceMeasureExpectedSubcategoryOptionUpdate>();
             this.PerformanceMeasureExpectedUpdates = new HashSet<PerformanceMeasureExpectedUpdate>();
+            this.PerformanceMeasureFixedTargets = new HashSet<PerformanceMeasureFixedTarget>();
             this.PerformanceMeasureImages = new HashSet<PerformanceMeasureImage>();
             this.PerformanceMeasureNotes = new HashSet<PerformanceMeasureNote>();
+            this.PerformanceMeasureReportingPeriodTargets = new HashSet<PerformanceMeasureReportingPeriodTarget>();
             this.PerformanceMeasureSubcategories = new HashSet<PerformanceMeasureSubcategory>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
         }
@@ -42,7 +47,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, bool swapChartAxes, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation, bool canBeChartedCumulatively) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -54,18 +59,18 @@ namespace ProjectFirmaModels.Models
             this.DataSourceText = dataSourceText;
             this.ExternalDataSourceUrl = externalDataSourceUrl;
             this.ChartCaption = chartCaption;
-            this.SwapChartAxes = swapChartAxes;
             this.PerformanceMeasureSortOrder = performanceMeasureSortOrder;
             this.IsSummable = isSummable;
             this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceTypeID;
             this.Importance = importance;
             this.AdditionalInformation = additionalInformation;
+            this.CanBeChartedCumulatively = canBeChartedCumulatively;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, bool swapChartAxes, bool isSummable, int performanceMeasureDataSourceTypeID) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, bool isSummable, int performanceMeasureDataSourceTypeID, bool canBeChartedCumulatively) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -73,24 +78,24 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureTypeID;
-            this.SwapChartAxes = swapChartAxes;
             this.IsSummable = isSummable;
             this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceTypeID;
+            this.CanBeChartedCumulatively = canBeChartedCumulatively;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public PerformanceMeasure(string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, bool swapChartAxes, bool isSummable, PerformanceMeasureDataSourceType performanceMeasureDataSourceType) : this()
+        public PerformanceMeasure(string performanceMeasureDisplayName, MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, bool isSummable, PerformanceMeasureDataSourceType performanceMeasureDataSourceType, bool canBeChartedCumulatively) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.PerformanceMeasureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.PerformanceMeasureDisplayName = performanceMeasureDisplayName;
             this.MeasurementUnitTypeID = measurementUnitType.MeasurementUnitTypeID;
             this.PerformanceMeasureTypeID = performanceMeasureType.PerformanceMeasureTypeID;
-            this.SwapChartAxes = swapChartAxes;
             this.IsSummable = isSummable;
             this.PerformanceMeasureDataSourceTypeID = performanceMeasureDataSourceType.PerformanceMeasureDataSourceTypeID;
+            this.CanBeChartedCumulatively = canBeChartedCumulatively;
         }
 
         /// <summary>
@@ -98,7 +103,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static PerformanceMeasure CreateNewBlank(MeasurementUnitType measurementUnitType, PerformanceMeasureType performanceMeasureType, PerformanceMeasureDataSourceType performanceMeasureDataSourceType)
         {
-            return new PerformanceMeasure(default(string), measurementUnitType, performanceMeasureType, default(bool), default(bool), performanceMeasureDataSourceType);
+            return new PerformanceMeasure(default(string), measurementUnitType, performanceMeasureType, default(bool), performanceMeasureDataSourceType, default(bool));
         }
 
         /// <summary>
@@ -107,13 +112,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationPerformanceMeasures.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || PerformanceMeasureImages.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureSubcategories.Any() || TaxonomyLeafPerformanceMeasures.Any();
+            return ClassificationPerformanceMeasures.Any() || GeospatialAreaPerformanceMeasureFixedTargets.Any() || GeospatialAreaPerformanceMeasureNoTargets.Any() || GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || PerformanceMeasureFixedTargets.Any() || PerformanceMeasureImages.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureSubcategories.Any() || TaxonomyLeafPerformanceMeasures.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(PerformanceMeasureImage).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name, typeof(GeospatialAreaPerformanceMeasureNoTarget).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(PerformanceMeasureFixedTarget).Name, typeof(PerformanceMeasureImage).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
 
 
         /// <summary>
@@ -139,6 +144,21 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in ClassificationPerformanceMeasures.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in GeospatialAreaPerformanceMeasureFixedTargets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in GeospatialAreaPerformanceMeasureNoTargets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -183,12 +203,22 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in PerformanceMeasureFixedTargets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in PerformanceMeasureImages.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
             foreach(var x in PerformanceMeasureNotes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in PerformanceMeasureReportingPeriodTargets.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -228,7 +258,6 @@ namespace ProjectFirmaModels.Models
         public string DataSourceText { get; set; }
         public string ExternalDataSourceUrl { get; set; }
         public string ChartCaption { get; set; }
-        public bool SwapChartAxes { get; set; }
         public int? PerformanceMeasureSortOrder { get; set; }
         public bool IsSummable { get; set; }
         public int PerformanceMeasureDataSourceTypeID { get; set; }
@@ -246,10 +275,14 @@ namespace ProjectFirmaModels.Models
             get { return AdditionalInformation == null ? null : new HtmlString(AdditionalInformation); }
             set { AdditionalInformation = value?.ToString(); }
         }
+        public bool CanBeChartedCumulatively { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
         public virtual ICollection<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get; set; }
+        public virtual ICollection<GeospatialAreaPerformanceMeasureFixedTarget> GeospatialAreaPerformanceMeasureFixedTargets { get; set; }
+        public virtual ICollection<GeospatialAreaPerformanceMeasureNoTarget> GeospatialAreaPerformanceMeasureNoTargets { get; set; }
+        public virtual ICollection<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
         public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
@@ -258,8 +291,10 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOptionUpdate> PerformanceMeasureExpectedSubcategoryOptionUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedUpdate> PerformanceMeasureExpectedUpdates { get; set; }
+        public virtual ICollection<PerformanceMeasureFixedTarget> PerformanceMeasureFixedTargets { get; set; }
         public virtual ICollection<PerformanceMeasureImage> PerformanceMeasureImages { get; set; }
         public virtual ICollection<PerformanceMeasureNote> PerformanceMeasureNotes { get; set; }
+        public virtual ICollection<PerformanceMeasureReportingPeriodTarget> PerformanceMeasureReportingPeriodTargets { get; set; }
         public virtual ICollection<PerformanceMeasureSubcategory> PerformanceMeasureSubcategories { get; set; }
         public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

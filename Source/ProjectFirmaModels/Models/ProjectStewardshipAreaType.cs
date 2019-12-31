@@ -23,13 +23,23 @@ namespace ProjectFirmaModels.Models
 
         public override bool CanStewardProject(Person person, Project project)
         {
+            if (person == null)
+            {
+                // Can happen if we are evaluating an anonymous user
+                return false;
+            }
             var canStewardProjectsOrganizationForProject = project.GetCanStewardProjectsOrganization();
             return canStewardProjectsOrganizationForProject != null && GetPersonStewardOrganizations(person).Any(x => x.OrganizationID == canStewardProjectsOrganizationForProject.OrganizationID);
         }
 
         private List<PersonStewardOrganization> GetPersonStewardOrganizations(Person person)
         {
-            return person.PersonStewardOrganizations.OrderBy(x => x.Organization.GetDisplayName()).ToList();
+            List<PersonStewardOrganization> personStewartOrganizationsToReturn = new List<PersonStewardOrganization>();
+            if (person?.PersonStewardOrganizations != null)
+            {
+                personStewartOrganizationsToReturn.AddRange(person.PersonStewardOrganizations.OrderBy(x => x.Organization.GetDisplayName()).ToList());
+            }
+            return personStewartOrganizationsToReturn;
         }
     }
 
@@ -56,17 +66,30 @@ namespace ProjectFirmaModels.Models
     {
         public override List<PersonStewardshipAreaSimple> GetPersonStewardshipAreaSimples(Person person)
         {
+            if (person == null)
+            {
+                return new List<PersonStewardshipAreaSimple>();
+            }
             return GetPersonStewardGeospatialAreas(person).Select(x => new PersonStewardshipAreaSimple(x)).ToList();
         }
 
         public override bool CanStewardProject(Person person, Project project)
         {
+            if (person == null)
+            {
+                // Anonymous persons can't Steward projects
+                return false;
+            }
             var canStewardProjectsGeospatialAreasForProject = project.GetCanStewardProjectsGeospatialAreas().Select(x => x.GeospatialAreaID).ToList();
             return GetPersonStewardGeospatialAreas(person).Any(x => canStewardProjectsGeospatialAreasForProject.Contains(x.GeospatialAreaID));
         }
 
         private List<PersonStewardGeospatialArea> GetPersonStewardGeospatialAreas(Person person)
         {
+            if (person == null)
+            {
+                return new List<PersonStewardGeospatialArea>();
+            }
             return person.PersonStewardGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).ToList();
         }
     }

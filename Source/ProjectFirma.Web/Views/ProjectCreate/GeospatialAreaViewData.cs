@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="LocationSimpleViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="GeospatialAreaViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -28,11 +28,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public readonly EditProjectGeospatialAreasViewData EditProjectGeospatialAreasViewData;
 
-        public GeospatialAreaViewData(Person currentPerson,
+        public GeospatialAreaViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             GeospatialAreaType geospatialAreaType,
             ProposalSectionsStatus proposalSectionsStatus,
-            EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentPerson, project, geospatialAreaType.GeospatialAreaTypeNamePluralized, proposalSectionsStatus)
+            EditProjectGeospatialAreasViewData editProjectGeospatialAreasViewData) : base(currentFirmaSession, project, geospatialAreaType.GeospatialAreaTypeNamePluralized, proposalSectionsStatus)
         {
             EditProjectGeospatialAreasViewData = editProjectGeospatialAreasViewData;
         }

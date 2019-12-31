@@ -55,14 +55,17 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
+            modelBuilder.Configurations.Add(new ExternalMapLayerConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDataImageConfiguration());
+            modelBuilder.Configurations.Add(new FieldDefinitionDefaultConfiguration());
             modelBuilder.Configurations.Add(new FileResourceConfiguration());
             modelBuilder.Configurations.Add(new FirmaHomePageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageTypeConfiguration());
+            modelBuilder.Configurations.Add(new FirmaSessionConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeConfiguration());
@@ -70,6 +73,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaImageConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureFixedTargetConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureNoTargetConfiguration());
+            modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
@@ -88,8 +94,11 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedSubcategoryOptionUpdateConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureExpectedUpdateConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureFixedTargetConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureImageConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureNoteConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodConfiguration());
+            modelBuilder.Configurations.Add(new PerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryConfiguration());
             modelBuilder.Configurations.Add(new PerformanceMeasureSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new PersonConfiguration());
@@ -136,8 +145,10 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectNoteUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationConfiguration());
             modelBuilder.Configurations.Add(new ProjectOrganizationUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeConfiguration());
             modelBuilder.Configurations.Add(new ProjectRelevantCostTypeUpdateConfiguration());
+            modelBuilder.Configurations.Add(new ProjectStatusConfiguration());
             modelBuilder.Configurations.Add(new ProjectTagConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectUpdateBatchConfiguration());
@@ -145,11 +156,11 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectUpdateSettingConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementPacificNorthActivityConfiguration());
-            modelBuilder.Configurations.Add(new ReclamationAgreementProjectConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementReclamationCostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new ReclamationBasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationContractTypeConfiguration());
             modelBuilder.Configurations.Add(new ReclamationCostAuthorityConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationCostAuthorityProjectConfiguration());
             modelBuilder.Configurations.Add(new ReclamationDeliverableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationDeliverableTypeConfiguration());
             modelBuilder.Configurations.Add(new ReclamationDepartmentCodeConfiguration());
@@ -174,6 +185,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
+            modelBuilder.Configurations.Add(new SubbasinLiasonConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
             modelBuilder.Configurations.Add(new TaxonomyBranchConfiguration());
@@ -184,8 +196,13 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestConfiguration());
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestUpdateConfiguration());
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
+            modelBuilder.Configurations.Add(new tmpFishProject1Configuration());
+            modelBuilder.Configurations.Add(new tmpFishProject2DissolveConfiguration());
+            modelBuilder.Configurations.Add(new tmpFishProject2PopulationDissolveConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
+            modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
+            modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
         }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
@@ -217,10 +234,13 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<CustomPageImage> CustomPageImages { get { return AllCustomPageImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<CustomPage> AllCustomPages { get; set; }
         public virtual IQueryable<CustomPage> CustomPages { get { return AllCustomPages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ExternalMapLayer> AllExternalMapLayers { get; set; }
+        public virtual IQueryable<ExternalMapLayer> ExternalMapLayers { get { return AllExternalMapLayers.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionDataImage> AllFieldDefinitionDataImages { get; set; }
         public virtual IQueryable<FieldDefinitionDataImage> FieldDefinitionDataImages { get { return AllFieldDefinitionDataImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionData> AllFieldDefinitionDatas { get; set; }
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FieldDefinitionDefault> FieldDefinitionDefaults { get; set; }
         public virtual DbSet<FieldDefinition> FieldDefinitions { get; set; }
         public virtual DbSet<FileResource> AllFileResources { get; set; }
         public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == TenantID); } }
@@ -231,6 +251,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<FirmaPage> AllFirmaPages { get; set; }
         public virtual IQueryable<FirmaPage> FirmaPages { get { return AllFirmaPages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaPageType> FirmaPageTypes { get; set; }
+        public virtual DbSet<FirmaSession> AllFirmaSessions { get; set; }
+        public virtual IQueryable<FirmaSession> FirmaSessions { get { return AllFirmaSessions.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSourceCustomAttribute> AllFundingSourceCustomAttributes { get; set; }
         public virtual IQueryable<FundingSourceCustomAttribute> FundingSourceCustomAttributes { get { return AllFundingSourceCustomAttributes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSourceCustomAttributeTypeRole> AllFundingSourceCustomAttributeTypeRoles { get; set; }
@@ -243,6 +265,12 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaImage> AllGeospatialAreaImages { get; set; }
         public virtual IQueryable<GeospatialAreaImage> GeospatialAreaImages { get { return AllGeospatialAreaImages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaPerformanceMeasureFixedTarget> AllGeospatialAreaPerformanceMeasureFixedTargets { get; set; }
+        public virtual IQueryable<GeospatialAreaPerformanceMeasureFixedTarget> GeospatialAreaPerformanceMeasureFixedTargets { get { return AllGeospatialAreaPerformanceMeasureFixedTargets.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaPerformanceMeasureNoTarget> AllGeospatialAreaPerformanceMeasureNoTargets { get; set; }
+        public virtual IQueryable<GeospatialAreaPerformanceMeasureNoTarget> GeospatialAreaPerformanceMeasureNoTargets { get { return AllGeospatialAreaPerformanceMeasureNoTargets.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget> AllGeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
+        public virtual IQueryable<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get { return AllGeospatialAreaPerformanceMeasureReportingPeriodTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialArea> AllGeospatialAreas { get; set; }
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
@@ -281,10 +309,16 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<PerformanceMeasureExpectedSubcategoryOptionUpdate> PerformanceMeasureExpectedSubcategoryOptionUpdates { get { return AllPerformanceMeasureExpectedSubcategoryOptionUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureExpectedUpdate> AllPerformanceMeasureExpectedUpdates { get; set; }
         public virtual IQueryable<PerformanceMeasureExpectedUpdate> PerformanceMeasureExpectedUpdates { get { return AllPerformanceMeasureExpectedUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureFixedTarget> AllPerformanceMeasureFixedTargets { get; set; }
+        public virtual IQueryable<PerformanceMeasureFixedTarget> PerformanceMeasureFixedTargets { get { return AllPerformanceMeasureFixedTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureImage> AllPerformanceMeasureImages { get; set; }
         public virtual IQueryable<PerformanceMeasureImage> PerformanceMeasureImages { get { return AllPerformanceMeasureImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureNote> AllPerformanceMeasureNotes { get; set; }
         public virtual IQueryable<PerformanceMeasureNote> PerformanceMeasureNotes { get { return AllPerformanceMeasureNotes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureReportingPeriod> AllPerformanceMeasureReportingPeriods { get; set; }
+        public virtual IQueryable<PerformanceMeasureReportingPeriod> PerformanceMeasureReportingPeriods { get { return AllPerformanceMeasureReportingPeriods.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<PerformanceMeasureReportingPeriodTarget> AllPerformanceMeasureReportingPeriodTargets { get; set; }
+        public virtual IQueryable<PerformanceMeasureReportingPeriodTarget> PerformanceMeasureReportingPeriodTargets { get { return AllPerformanceMeasureReportingPeriodTargets.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasure> AllPerformanceMeasures { get; set; }
         public virtual IQueryable<PerformanceMeasure> PerformanceMeasures { get { return AllPerformanceMeasures.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<PerformanceMeasureSubcategory> AllPerformanceMeasureSubcategories { get; set; }
@@ -375,12 +409,16 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectOrganization> ProjectOrganizations { get { return AllProjectOrganizations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectOrganizationUpdate> AllProjectOrganizationUpdates { get; set; }
         public virtual IQueryable<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get { return AllProjectOrganizationUpdates.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectProjectStatus> AllProjectProjectStatuses { get; set; }
+        public virtual IQueryable<ProjectProjectStatus> ProjectProjectStatuses { get { return AllProjectProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectRelevantCostType> AllProjectRelevantCostTypes { get; set; }
         public virtual IQueryable<ProjectRelevantCostType> ProjectRelevantCostTypes { get { return AllProjectRelevantCostTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectRelevantCostTypeUpdate> AllProjectRelevantCostTypeUpdates { get; set; }
         public virtual IQueryable<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get { return AllProjectRelevantCostTypeUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Project> AllProjects { get; set; }
         public virtual IQueryable<Project> Projects { get { return AllProjects.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ProjectStatus> AllProjectStatuses { get; set; }
+        public virtual IQueryable<ProjectStatus> ProjectStatuses { get { return AllProjectStatuses.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectTag> AllProjectTags { get; set; }
         public virtual IQueryable<ProjectTag> ProjectTags { get { return AllProjectTags.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateBatch> AllProjectUpdateBatches { get; set; }
@@ -392,12 +430,12 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ProjectUpdateSetting> AllProjectUpdateSettings { get; set; }
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
-        public virtual DbSet<ReclamationAgreementProject> ReclamationAgreementProjects { get; set; }
         public virtual DbSet<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
         public virtual DbSet<ReclamationAgreement> ReclamationAgreements { get; set; }
         public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
         public virtual DbSet<ReclamationContractType> ReclamationContractTypes { get; set; }
         public virtual DbSet<ReclamationCostAuthority> ReclamationCostAuthorities { get; set; }
+        public virtual DbSet<ReclamationCostAuthorityProject> ReclamationCostAuthorityProjects { get; set; }
         public virtual DbSet<ReclamationDeliverable> ReclamationDeliverables { get; set; }
         public virtual DbSet<ReclamationDeliverableType> ReclamationDeliverableTypes { get; set; }
         public virtual DbSet<ReclamationDepartmentCode> ReclamationDepartmentCodes { get; set; }
@@ -424,6 +462,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<SubbasinLiason> AllSubbasinLiasons { get; set; }
+        public virtual IQueryable<SubbasinLiason> SubbasinLiasons { get { return AllSubbasinLiasons.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
         public virtual IQueryable<SupportRequestLog> SupportRequestLogs { get { return AllSupportRequestLogs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Tag> AllTags { get; set; }
@@ -444,9 +484,14 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get { return AllTechnicalAssistanceRequestUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<tmpFishProject1> tmpFishProject1s { get; set; }
+        public virtual DbSet<tmpFishProject2Dissolve> tmpFishProject2Dissolves { get; set; }
+        public virtual DbSet<tmpFishProject2PopulationDissolve> tmpFishProject2PopulationDissolves { get; set; }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
+        public virtual DbSet<vGeoServerProjectDetailedLocations> vGeoServerProjectDetailedLocations { get; set; }
+        public virtual DbSet<vGeoServerProjectSimpleLocations> vGeoServerProjectSimpleLocations { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {
@@ -517,11 +562,17 @@ namespace ProjectFirmaModels.Models
                 case "CustomPage":
                     return CustomPages.GetCustomPage(primaryKey);
 
+                case "ExternalMapLayer":
+                    return ExternalMapLayers.GetExternalMapLayer(primaryKey);
+
                 case "FieldDefinitionDataImage":
                     return FieldDefinitionDataImages.GetFieldDefinitionDataImage(primaryKey);
 
                 case "FieldDefinitionData":
                     return FieldDefinitionDatas.GetFieldDefinitionData(primaryKey);
+
+                case "FieldDefinitionDefault":
+                    return FieldDefinitionDefaults.GetFieldDefinitionDefault(primaryKey);
 
                 case "FieldDefinition":
                     return FieldDefinitions.GetFieldDefinition(primaryKey);
@@ -550,6 +601,9 @@ namespace ProjectFirmaModels.Models
 
                 case "FirmaPageType":
                     return FirmaPageTypes.GetFirmaPageType(primaryKey);
+
+                case "FirmaSession":
+                    return FirmaSessions.GetFirmaSession(primaryKey);
 
                 case "FundingSourceCustomAttributeDataType":
                     var fundingSourceCustomAttributeDataType = FundingSourceCustomAttributeDataType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -583,6 +637,15 @@ namespace ProjectFirmaModels.Models
 
                 case "GeospatialAreaImage":
                     return GeospatialAreaImages.GetGeospatialAreaImage(primaryKey);
+
+                case "GeospatialAreaPerformanceMeasureFixedTarget":
+                    return GeospatialAreaPerformanceMeasureFixedTargets.GetGeospatialAreaPerformanceMeasureFixedTarget(primaryKey);
+
+                case "GeospatialAreaPerformanceMeasureNoTarget":
+                    return GeospatialAreaPerformanceMeasureNoTargets.GetGeospatialAreaPerformanceMeasureNoTarget(primaryKey);
+
+                case "GeospatialAreaPerformanceMeasureReportingPeriodTarget":
+                    return GeospatialAreaPerformanceMeasureReportingPeriodTargets.GetGeospatialAreaPerformanceMeasureReportingPeriodTarget(primaryKey);
 
                 case "GeospatialArea":
                     return GeospatialAreas.GetGeospatialArea(primaryKey);
@@ -661,11 +724,20 @@ namespace ProjectFirmaModels.Models
                 case "PerformanceMeasureExpectedUpdate":
                     return PerformanceMeasureExpectedUpdates.GetPerformanceMeasureExpectedUpdate(primaryKey);
 
+                case "PerformanceMeasureFixedTarget":
+                    return PerformanceMeasureFixedTargets.GetPerformanceMeasureFixedTarget(primaryKey);
+
                 case "PerformanceMeasureImage":
                     return PerformanceMeasureImages.GetPerformanceMeasureImage(primaryKey);
 
                 case "PerformanceMeasureNote":
                     return PerformanceMeasureNotes.GetPerformanceMeasureNote(primaryKey);
+
+                case "PerformanceMeasureReportingPeriod":
+                    return PerformanceMeasureReportingPeriods.GetPerformanceMeasureReportingPeriod(primaryKey);
+
+                case "PerformanceMeasureReportingPeriodTarget":
+                    return PerformanceMeasureReportingPeriodTargets.GetPerformanceMeasureReportingPeriodTarget(primaryKey);
 
                 case "PerformanceMeasure":
                     return PerformanceMeasures.GetPerformanceMeasure(primaryKey);
@@ -867,6 +939,9 @@ namespace ProjectFirmaModels.Models
                 case "ProjectOrganizationUpdate":
                     return ProjectOrganizationUpdates.GetProjectOrganizationUpdate(primaryKey);
 
+                case "ProjectProjectStatus":
+                    return ProjectProjectStatuses.GetProjectProjectStatus(primaryKey);
+
                 case "ProjectRelevantCostTypeGroup":
                     var projectRelevantCostTypeGroup = ProjectRelevantCostTypeGroup.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectRelevantCostTypeGroup, "ProjectRelevantCostTypeGroup", primaryKey);
@@ -885,6 +960,9 @@ namespace ProjectFirmaModels.Models
                     var projectStage = ProjectStage.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectStage, "ProjectStage", primaryKey);
                     return projectStage;
+
+                case "ProjectStatus":
+                    return ProjectStatuses.GetProjectStatus(primaryKey);
 
                 case "ProjectStewardshipAreaType":
                     var projectStewardshipAreaType = ProjectStewardshipAreaType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -924,9 +1002,6 @@ namespace ProjectFirmaModels.Models
                 case "ReclamationAgreementPacificNorthActivity":
                     return ReclamationAgreementPacificNorthActivities.GetReclamationAgreementPacificNorthActivity(primaryKey);
 
-                case "ReclamationAgreementProject":
-                    return ReclamationAgreementProjects.GetReclamationAgreementProject(primaryKey);
-
                 case "ReclamationAgreementReclamationCostAuthority":
                     return ReclamationAgreementReclamationCostAuthorities.GetReclamationAgreementReclamationCostAuthority(primaryKey);
 
@@ -941,6 +1016,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationCostAuthority":
                     return ReclamationCostAuthorities.GetReclamationCostAuthority(primaryKey);
+
+                case "ReclamationCostAuthorityProject":
+                    return ReclamationCostAuthorityProjects.GetReclamationCostAuthorityProject(primaryKey);
 
                 case "ReclamationDeliverable":
                     return ReclamationDeliverables.GetReclamationDeliverable(primaryKey);
@@ -1019,6 +1097,9 @@ namespace ProjectFirmaModels.Models
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);
 
+                case "SubbasinLiason":
+                    return SubbasinLiasons.GetSubbasinLiason(primaryKey);
+
                 case "SupportRequestLog":
                     return SupportRequestLogs.GetSupportRequestLog(primaryKey);
 
@@ -1068,6 +1149,15 @@ namespace ProjectFirmaModels.Models
                     var tenant = Tenant.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(tenant, "Tenant", primaryKey);
                     return tenant;
+
+                case "tmpFishProject1":
+                    return tmpFishProject1s.GettmpFishProject1(primaryKey);
+
+                case "tmpFishProject2Dissolve":
+                    return tmpFishProject2Dissolves.GettmpFishProject2Dissolve(primaryKey);
+
+                case "tmpFishProject2PopulationDissolve":
+                    return tmpFishProject2PopulationDissolves.GettmpFishProject2PopulationDissolve(primaryKey);
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);

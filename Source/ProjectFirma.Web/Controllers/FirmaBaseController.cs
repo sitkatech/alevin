@@ -42,11 +42,19 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!IsCurrentUserAnonymous())
             {
-                if (DateTime.Now - (CurrentPerson.LastActivityDate ?? new DateTime()) > new TimeSpan(0, 3, 0))
+                var currentDateTime = DateTime.Now;
+
+                // Log Last Activity times to both FirmaSession and Person if enough time has passed since last activity
+                // (RL tells me this is truly needed, and that performance will suffer without it. --SLG)
+                var minimumTimeSpanForActivityLogging = new TimeSpan(0, 3, 0);
+                if (currentDateTime - (CurrentFirmaSession.LastActivityDate ?? new DateTime()) > minimumTimeSpanForActivityLogging)
                 {
-                    CurrentPerson.LastActivityDate = DateTime.Now;
+                    // It's arguably better to have activity logged only on the FirmaSession, but we'll keep it in 
+                    // both places for the moment. -- SLG
+                    CurrentFirmaSession.LastActivityDate = currentDateTime;
+                    CurrentFirmaSession.Person.LastActivityDate = currentDateTime;
                     HttpRequestStorage.DatabaseEntities.ChangeTracker.DetectChanges();
-                    HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentPerson.TenantID);
+                    HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(CurrentFirmaSession.TenantID);
                 }
             }
             base.OnActionExecuting(filterContext);
@@ -54,19 +62,20 @@ namespace ProjectFirma.Web.Controllers
 
         protected override void OnAuthentication(AuthenticationContext filterContext)
         {
-            var personFromClaimsIdentity = ClaimsIdentityHelper.PersonFromClaimsIdentity(HttpContext.GetOwinContext().Authentication);
-            HttpRequestStorage.Person = personFromClaimsIdentity;
-            HttpRequestStorage.DatabaseEntities.Person = personFromClaimsIdentity; // we need to set this so that the save will now who the Person is
+            var firmaSessionFromClaimsIdentity = ClaimsIdentityHelper.FirmaSessionFromClaimsIdentity(HttpContext.GetOwinContext().Authentication, CurrentTenant);
+
+            HttpRequestStorage.FirmaSession = firmaSessionFromClaimsIdentity;
+            // we need to set this so that the save will know who the Person is
+            HttpRequestStorage.DatabaseEntities.Person = firmaSessionFromClaimsIdentity.Person;
+
             base.OnAuthentication(filterContext);
         }
-
-
 
         protected override void OnAuthorization(AuthorizationContext filterContext)
         {
             if (!IsCurrentUserAnonymous())
             {
-                HttpRequestStorage.DatabaseEntities.Person = CurrentPerson;
+                HttpRequestStorage.DatabaseEntities.Person = CurrentFirmaSession.Person;
             }
             base.OnAuthorization(filterContext);
         }
@@ -74,7 +83,9 @@ namespace ProjectFirma.Web.Controllers
         protected FirmaBaseController()
         {
             if (ControllerContextStatic == null)
+            {
                 ControllerContextStatic = ControllerContext;
+            }
         }
 
         public static ReadOnlyCollection<MethodInfo> AllControllerActionMethods => AllControllerActionMethodsProtected;
@@ -86,15 +97,17 @@ namespace ProjectFirma.Web.Controllers
 
         protected override bool IsCurrentUserAnonymous()
         {
-            return CurrentPerson == null || CurrentPerson.IsAnonymousUser();
+            return CurrentFirmaSession == null || CurrentFirmaSession.IsAnonymousUser();
         }
 
         protected override string LoginUrl => FirmaHelpers.GenerateLogInUrl();
 
         protected override ISitkaDbContext SitkaDbContext => HttpRequestStorage.DatabaseEntities;
 
-        protected Person CurrentPerson => HttpRequestStorage.Person;
+        public FirmaSession CurrentFirmaSession => HttpRequestStorage.FirmaSession;
 
-        protected Tenant CurrentTenant => HttpRequestStorage.Tenant;
+        public Person CurrentPerson => CurrentFirmaSession.Person;
+
+        public Tenant CurrentTenant => HttpRequestStorage.Tenant;
     }
 }

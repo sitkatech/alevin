@@ -57,10 +57,13 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
     <Compile Include="Controllers\AgreementController.cs" />
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
+    <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\ExternalMapLayerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
     <Compile Include="Controllers\ProjectCustomGridController.cs" />
     <Compile Include="Controllers\FundingSourceCustomAttributesController.cs" />
@@ -71,11 +74,13 @@
     <Compile Include="Controllers\ProjectCustomAttributesController.cs" />
     <Compile Include="Controllers\ProjectAttachmentController.cs" />
     <Compile Include="Controllers\ProjectAttachmentUpdateController.cs" />
+    <Compile Include="Controllers\ProjectNoteController.cs" />
+    <Compile Include="Controllers\ProjectStatusController.cs" />
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
-    <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
+    <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
@@ -102,11 +107,15 @@
     <Compile Include="Models\CostTypeSimple.cs" />
     <Compile Include="Models\FundingSourceSimple.cs" />
     <Compile Include="Models\GeospatialAreaIndexGridSimple.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureFixedTargetModelExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaPerformanceMeasureNoTargetModelExtensions.cs" />
     <Compile Include="Models\GeospatialAreaTypeModelExtensions.cs" />
+    <Compile Include="Models\GeospatialAreaTypeSimple.cs" />
     <Compile Include="Models\IRoleExtensions.cs" />
     <Compile Include="Models\NotificationModelExtensions.cs" />
     <Compile Include="Models\NotificationProjectModelExtensions.cs" />
     <Compile Include="Models\NotificationTypeModelExtensions.cs" />
+    <Compile Include="Models\ExternalMapLayerModelExtensions.cs" />
     <Compile Include="Models\OrganizationSimple.cs" />
     <Compile Include="Models\OrganizationTypeModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureActualSimple.cs" />
@@ -118,12 +127,16 @@
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdateModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureNoteModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureFixedTargetModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValueModelExtensions.cs" />
+    <Compile Include="Models\PerformanceMeasureReportingPeriodModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategoryOptionSimple.cs" />
     <Compile Include="Models\PerformanceMeasureSubcategorySimple.cs" />
+    <Compile Include="Models\PerformanceMeasureTargetModelExtensions.cs" />
     <Compile Include="Models\PerformanceMeasureValueSubcategoryOption.cs" />
+    <Compile Include="Models\FirmaSessionModelExtensions.cs" />
     <Compile Include="Models\PersonSimple.cs" />
     <Compile Include="Models\ProjectAttachmentModelExtensions.cs" />
     <Compile Include="Models\ProjectAttachmentUpdateModelExtensions.cs" />
@@ -152,8 +165,11 @@
     <Compile Include="Models\ProjectLocationFilterTypeModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectProjectStatusExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
+    <Compile Include="Models\ProjectStatusModelExtensions.cs" />
+    <Compile Include="Models\ProjectTimeline.cs" />
     <Compile Include="Models\ReclamationAgreementModelExtensions.cs" />
     <Compile Include="Models\ReclamationCostAuthorityModelExtensions.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
@@ -168,6 +184,8 @@
     <Compile Include="Models\ProjectWizardComponents.cs" />
     <Compile Include="Models\ProjectWorkflowSectionGroupingModelExtensions.cs" />
     <Compile Include="Models\OrganizationRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\ReportedValueForDisplay.cs" />
+    <Compile Include="Models\ReportingCategoryForDisplay.cs" />
     <Compile Include="Models\RoleModelExtensions.cs" />
     <Compile Include="Models\SupportRequestLogModelExtensions.cs" />
     <Compile Include="Models\SupportRequestTypeModelExtensions.cs" />
@@ -181,8 +199,10 @@
     <Compile Include="Models\TechnicalAssistanceRequestModelExtensions.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
+    <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
     <Compile Include="Security\AgreementManageFeature.cs" />
     <Compile Include="Security\AgreementViewFeature.cs" />
     <Compile Include="Security\CostAuthorityManageFeature.cs" />
@@ -190,21 +210,42 @@
     <Compile Include="Security\FundingSourceDeleteFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
+    <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateEditFeature.cs" />
     <Compile Include="Security\ProjectAttachmentUpdateNewFeature.cs" />
+    <Compile Include="Security\ProjectStatusUpdateFeature.cs" />
+    <Compile Include="Security\ProjectTimelineFeature.cs" />
     <Compile Include="Security\ProjectAgreementEditFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
+    <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cs" />
+    <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewData.cs" />
+    <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewModel.cs" />
+    <Compile Include="Models\ReclamationCostAuthoritySimple.cs" />
     <Compile Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeGridSpec.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipType.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewData.cs" />
     <Compile Include="Views\AttachmentRelationshipType\EditAttachmentRelationshipTypeViewModel.cs" />
     <Compile Include="Views\AttachmentRelationshipType\Index.cs" />
     <Compile Include="Views\AttachmentRelationshipType\IndexViewData.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewData.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureViewModel.cs" />
+    <Compile Include="Views\GeospatialAreaPerformanceMeasureTarget\GeospatialAreaPerformanceMeasureTargetGridSpec.cs" />
+    <Compile Include="Views\ExternalMapLayer\Edit.cs" />
+    <Compile Include="Views\ExternalMapLayer\EditViewData.cs" />
+    <Compile Include="Views\ExternalMapLayer\EditViewModel.cs" />
+    <Compile Include="Views\ExternalMapLayer\Index.cs" />
+    <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
+    <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
+    <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
+    <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndex.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentIndexViewData.cs" />
     <Compile Include="Views\ProjectAttachment\ProjectAttachmentGridSpec.cs" />
@@ -238,6 +279,7 @@
     <Compile Include="Views\Help\RequestSupportViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectCreate\BulkSetSpatialInformationViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributes.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewModel.cs" />
@@ -279,14 +321,29 @@
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostTypeViewModel.cs" />
+    <Compile Include="Views\ProjectProjectStatus\ProjectProjectStatusDetails.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatus.cs" />
+    <Compile Include="Views\ProjectProjectStatus\ProjectProjectStatusDetailsViewData.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewData.cs" />
+    <Compile Include="Views\ProjectProjectStatus\EditProjectProjectStatusViewModel.cs" />
+    <Compile Include="Views\ProjectStatus\Edit.cs" />
+    <Compile Include="Views\ProjectStatus\EditViewData.cs" />
+    <Compile Include="Views\ProjectStatus\EditViewModel.cs" />
+    <Compile Include="Views\ProjectStatus\Manage.cs" />
+    <Compile Include="Views\ProjectStatus\ManageViewData.cs" />
+    <Compile Include="Views\ProjectStatus\ProjectStatusGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotes.cs" />
     <Compile Include="Views\ProjectUpdate\AttachmentsAndNotesViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformation.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformationViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\BulkSetSpatialInformationViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributes.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesValidationResult.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\Results\FundingStatus.cs" />
     <Compile Include="Views\Results\FundingStatusViewData.cs" />
+    <Compile Include="Views\Shared\EditPerformanceMeasureTargets.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostTypeViewData.cs" />
     <Compile Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cs" />
@@ -333,6 +390,15 @@
     <Compile Include="Views\Shared\ProjectAttachment\NewProjectAttachmentViewModel.cs" />
     <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetail.cs" />
     <Compile Include="Views\Shared\ProjectAttachment\ProjectAttachmentsDetailViewData.cs" />
+    <Compile Include="Views\ProjectCreate\BulkSetSpatialInformation.cs" />
+    <Compile Include="Views\ProjectCreate\BulkSetSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
+    <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
+    <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummary.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\PerformanceMeasureExpectedValuesSummaryViewData.cs" />
     <Compile Include="Views\Shared\ProjectUpdateDiffControls\ProjectExpendituresByCostTypeSummary.cs" />
@@ -381,6 +447,11 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js" />
+    <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
+    <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
+    <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\Bootstrap\firma\bor.theme.min.css">
       <DependentUpon>bor.theme.css</DependentUpon>
@@ -450,16 +521,20 @@
     <Content Include="Scripts\modernizr-2.8.3.min.js">
       <DependentUpon>modernizr-2.8.3.js</DependentUpon>
     </Content>
+    <Content Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesController.js" />
     <Content Include="Views\AttachmentRelationshipType\AttachmentRelationshipTypeController.js" />
     <Content Include="Views\FundingSourceCustomAttributeType\EditFundingSourceCustomAttributeTypeController.js" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasureController.js" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaTypeIntroText.cshtml" />
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
+    <Content Include="Views\Shared\EditPerformanceMeasureTargetsController.js" />
     <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />
     <Content Include="Views\ProjectFundingSourceExpenditure\ProjectFundingSourceExpenditureByCostTypeController.js" />
+    <Content Include="Views\ProjectStatus\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasuresController.js" />
     <Content Include="Views\ProjectUpdate\ExpendituresByCostTypeController.js" />
@@ -483,10 +558,15 @@
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />
     <Content Include="Views\ProjectCreate\ProjectCustomAttributes.cshtml" />
+    <Content Include="Views\Shared\EditPerformanceMeasureTargets.cshtml" />
+    <Content Include="Views\GeospatialAreaPerformanceMeasureTarget\AddGeospatialAreaToPerformanceMeasure.cshtml" />
+    <Content Include="Views\ExternalMapLayer\Edit.cshtml" />
+    <Content Include="Views\ExternalMapLayer\Index.cshtml" />
     <Content Include="Views\Agreement\AgreementIndex.cshtml" />
     <Content Include="Views\CostAuthority\CostAuthorityIndex.cshtml" />
     <Content Include="Views\Agreement\AgreementDetail.cshtml" />
     <Content Include="Views\CostAuthority\CostAuthorityDetail.cshtml" />
+    <Content Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -615,6 +695,11 @@
     <Content Include="Views\ProjectCustomAttributeGroup\Edit.cshtml" />
     <Content Include="Views\ProjectCustomAttributeGroup\Manage.cshtml" />
     <Content Include="Views\ProjectAgreement\ProjectAgreementDetail.cshtml" />
+    <Content Include="Views\ProjectUpdate\BulkSetSpatialInformation.cshtml" />
+    <Content Include="Views\ProjectProjectStatus\EditProjectProjectStatus.cshtml" />
+    <Content Include="Views\ProjectProjectStatus\ProjectProjectStatusDetails.cshtml" />
+    <Content Include="Views\ProjectStatus\Edit.cshtml" />
+    <Content Include="Views\ProjectStatus\Manage.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />
@@ -988,6 +1073,7 @@
     <Content Include="Views\ProjectCustomAttributeType\EditProjectCustomAttributeTypeController.js" />
     <Content Include="Views\Shared\ProjectAttachment\NewProjectAttachmentController.js" />
     <Content Include="Views\Shared\ProjectContact\ProjectContactController.js" />
+    <Content Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationController.js" />
     <Content Include="Views\Shared\SortOrder\EditSortOrder.cshtml" />
     <Content Include="Views\Home\TrainingVideo.cshtml" />
     <None Include="Views\PerformanceMeasure\EditSubcategoriesAndOptions.cshtml" />
@@ -1034,7 +1120,7 @@
     <Compile Include="Controllers\ProjectImageController.cs" />
     <Compile Include="Controllers\ProjectImageUpdateController.cs" />
     <Compile Include="Controllers\ProjectLocationController.cs" />
-    <Compile Include="Controllers\ProjectNoteController.cs" />
+    <Compile Include="Controllers\ProjectProjectStatusController.cs" />
     <Compile Include="Controllers\ProjectNoteUpdateController.cs" />
     <Compile Include="Controllers\ProjectOrganizationController.cs" />
     <Compile Include="Controllers\ProjectClassificationController.cs" />
@@ -1467,6 +1553,9 @@
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
+    <Compile Include="Views\User\ImpersonateUserButton.ascx.cs">
+      <DependentUpon>ImpersonateUserButton.cshtml</DependentUpon>
+    </Compile>
     <Compile Include="Views\User\Invite.cs" />
     <Compile Include="Views\User\InviteViewData.cs" />
     <Compile Include="Views\User\InviteViewModel.cs" />
@@ -1579,6 +1668,9 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetail.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequests.cshtml" />
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
+    <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
+    <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
+    <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
     <Content Include="Views\Shared\ProjectContact\EditContacts.cshtml" />
@@ -1594,6 +1686,8 @@
     <Content Include="Views\Results\FundingStatus.cshtml" />
     <Content Include="Views\Shared\SortOrder\EditSortOrderInGroup.cshtml" />
     <Content Include="Views\SiteMonitor\SiteMonitorNagios.cshtml" />
+    <Content Include="Views\ProjectCreate\BulkSetSpatialInformation.cshtml" />
+    <Content Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cshtml" />
     <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
     </Reference>
@@ -1683,6 +1777,7 @@
     <Reference Include="Microsoft.Owin.Security.OpenIdConnect, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.Security.OpenIdConnect.3.1.0\lib\net45\Microsoft.Owin.Security.OpenIdConnect.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
     </Reference>

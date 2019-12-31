@@ -20,9 +20,8 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Views.Map;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -34,9 +33,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public readonly bool HasLocationNotes;
         public readonly bool HasLocationInformation;
         public Dictionary<int, string> DictionaryGeoNotes { get; }
+        public List<Person> SubbasinLiasons { get; }
 
 
-        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas)
+        public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, List<Person> subbasinLiasons)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
             ProjectLocationSummaryMapInitJson = projectLocationSummaryMapInitJson;
@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             HasLocationInformation = project.ProjectLocationSimpleType != ProjectLocationSimpleType.None;
             DictionaryGeoNotes = dictionaryGeoNotes;
             GeospatialAreaTypes = geospatialAreaTypes;
+            SubbasinLiasons = subbasinLiasons;
         }
 
         public List<GeospatialAreaType> GeospatialAreaTypes { get; }

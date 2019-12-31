@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
@@ -29,7 +30,7 @@ namespace ProjectFirma.Web.Models
                     performanceMeasureActualUpdates.AddRange(
                         currentPerformanceMeasureActuals.Select<PerformanceMeasureActual, PerformanceMeasureActualUpdate>(
                             performanceMeasureActual => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureActual,
-                                performanceMeasureActual.CalendarYear, performanceMeasureActual.ActualValue)));
+                                performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear, performanceMeasureActual.ActualValue)));
                 }
                 // use expected values if any only if we are not in Planning/Design
                 else if (currentStage != ProjectStage.PlanningDesign)
@@ -66,7 +67,7 @@ namespace ProjectFirma.Web.Models
             {
                 // when pre-filling, we intentionally set the reported value to null to prompt the user to fill that in
                 performanceMeasureActualUpdates.AddRange(
-                    performanceMeasureValuesToClone.Select(performanceMeasureActual => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureActual, year, null)));
+                    performanceMeasureValuesToClone.Select(performanceMeasureValue => ClonePerformanceMeasureValue(projectUpdateBatch, performanceMeasureValue, year, null)));
             }
             return performanceMeasureActualUpdates;
         }
@@ -79,7 +80,9 @@ namespace ProjectFirma.Web.Models
             int newCalendarYear,
             double? actualValue)
         {
-            var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasureValueToClone.PerformanceMeasure, newCalendarYear)
+            var performanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.GetOrCreatePerformanceMeasureReportingPeriod(newCalendarYear);
+            Check.EnsureNotNull(performanceMeasureReportingPeriod, "We need to have a performance measure reporting period here");
+            var performanceMeasureActualUpdate = new PerformanceMeasureActualUpdate(projectUpdateBatch, performanceMeasureValueToClone.PerformanceMeasure, performanceMeasureReportingPeriod)
             {
                 ActualValue = actualValue
             };
@@ -111,7 +114,7 @@ namespace ProjectFirma.Web.Models
                 // Completely rebuild the list
                 projectUpdateBatch.PerformanceMeasureActualUpdates.ToList().ForEach(x =>
                 {
-                    var performanceMeasureActual = new PerformanceMeasureActual(project, x.PerformanceMeasure, x.CalendarYear, x.ActualValue ?? 0);
+                    var performanceMeasureActual = new PerformanceMeasureActual(project, x.PerformanceMeasure, x.ActualValue ?? 0, x.PerformanceMeasureReportingPeriod);
                     allPerformanceMeasureActuals.Add(performanceMeasureActual);
                     var performanceMeasureActualSubcategoryOptionUpdates = x.PerformanceMeasureActualSubcategoryOptionUpdates.ToList();
                     if (performanceMeasureActualSubcategoryOptionUpdates.Any())

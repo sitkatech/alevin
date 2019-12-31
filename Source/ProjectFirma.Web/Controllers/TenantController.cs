@@ -63,13 +63,14 @@ namespace ProjectFirma.Web.Controllers
             var mapInitJson = new MapInitJson("TenantDetailBoundingBoxMap",
                 10,
                 layers,
+                MapInitJson.GetExternalMapLayers(),
                 BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var gridSpec = new DetailGridSpec { ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true };
             var gridName = "Tenants";
             var gridDataUrl = new SitkaRoute<TenantController>(c => c.DetailGridJsonData()).BuildUrlFromExpression();
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Count > 0 ? string.Join(", ", HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList()) : null;
 
-            var viewData = new DetailViewData(CurrentPerson,
+            var viewData = new DetailViewData(CurrentFirmaSession,
                 tenant,
                 tenantAttribute,
                 editBasicsUrl,
@@ -82,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
                 gridSpec,
                 gridName,
                 gridDataUrl, 
-                editClassificationSystemsUrl,
+                editClassificationSystemsUrl,   
                 editStylesheetUrl,
                 editTenantLogoUrl,
                 costTypes);
@@ -120,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
             var oldTenantAttributeTaxonomyLevel = tenantAttribute.TaxonomyLevel;
             var oldTenantAttributeAssociatePerformanceMeasureTaxonomyLevel = tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevel;
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson);
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
             if (viewModel.BudgetTypeID == BudgetType.AnnualBudgetByCostType.BudgetTypeID)
             {
                 var existingCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
@@ -201,7 +202,7 @@ namespace ProjectFirma.Web.Controllers
             var budgetTypes = BudgetType.All.ToDictionary(x => x.BudgetTypeID, x => x.BudgetTypeDisplayName);
             var disabledBudgetTypeValues = new List<int>() { BudgetType.NoBudget.BudgetTypeID, BudgetType.AnnualBudget.BudgetTypeID };
             var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.Select(x => x.CostTypeName).ToList();
-            var viewData = new EditBasicsViewData(CurrentPerson, tenantPeople, taxonomyLevels, budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes);
+            var viewData = new EditBasicsViewData(CurrentFirmaSession, tenantPeople, taxonomyLevels, budgetTypeID, budgetTypes, disabledBudgetTypeValues, costTypes);
             return RazorPartialView<EditBasics, EditBasicsViewData, EditBasicsViewModel>(viewData, viewModel);
         }
 
@@ -223,14 +224,14 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditStylesheet(viewModel);
             }
 
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();           
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson);            
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession);
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
         private PartialViewResult ViewEditStylesheet(EditStylesheetViewModel viewModel)
         {
-            var viewData = new EditStylesheetViewData(CurrentPerson);
+            var viewData = new EditStylesheetViewData(CurrentFirmaSession);
             return RazorPartialView<EditStylesheet, EditStylesheetViewData, EditStylesheetViewModel>(viewData, viewModel);
         }
 
@@ -256,14 +257,14 @@ namespace ProjectFirma.Web.Controllers
 
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.AllTenantAttributes.Single(a => a.TenantID == viewModel.TenantID);
 
-            viewModel.UpdateModel(tenantAttribute, CurrentPerson, HttpRequestStorage.DatabaseEntities);
+            viewModel.UpdateModel(tenantAttribute, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
 
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
         private PartialViewResult ViewEditTenantLogo(EditTenantLogoViewModel viewModel)
         {
-            var viewData = new EditTenantLogoViewData(CurrentPerson);
+            var viewData = new EditTenantLogoViewData(CurrentFirmaSession);
             return RazorPartialView<EditTenantLogo, EditTenantLogoViewData, EditTenantLogoViewModel>(viewData, viewModel);
         }
 
@@ -302,7 +303,7 @@ namespace ProjectFirma.Web.Controllers
                 FirmaHelpers.DefaultColorRange[0],
                 0.8m,
                 LayerInitialVisibility.Show);
-            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+            var mapInitJson = new MapInitJson("TenantEditBoundingBoxMap", 10, MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Hide), MapInitJson.GetExternalMapLayers(), BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var editBoundingBoxUrl = new SitkaRoute<TenantController>(c => c.EditBoundingBox()).BuildUrlFromExpression();
 
             var viewData = new EditBoundingBoxViewData(mapInitJson, editBoundingBoxUrl, EditBoundingBoxFormID);
@@ -331,13 +332,13 @@ namespace ProjectFirma.Web.Controllers
             var currentClassificationSystems= MultiTenantHelpers.GetClassificationSystems();
             var allClassificationSystems = HttpRequestStorage.DatabaseEntities.AllClassificationSystems.Local;
 
-            viewModel.UpdateModel(CurrentPerson, currentClassificationSystems, allClassificationSystems);
+            viewModel.UpdateModel(CurrentFirmaSession, currentClassificationSystems, allClassificationSystems);
             return new ModalDialogFormJsonResult(new SitkaRoute<TenantController>(c => c.Detail()).BuildUrlFromExpression());
         }
 
         private PartialViewResult ViewEditClassificationSystems(EditClassificationSystemsViewModel viewModel)
         {
-            var viewData = new EditClassificationSystemsViewData(CurrentPerson);
+            var viewData = new EditClassificationSystemsViewData(CurrentFirmaSession);
             return RazorPartialView<EditClassificationSystems, EditClassificationSystemsViewData, EditClassificationSystemsViewModel>(viewData, viewModel);
         }
 

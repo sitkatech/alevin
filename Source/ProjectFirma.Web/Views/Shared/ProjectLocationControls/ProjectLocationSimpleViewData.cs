@@ -33,8 +33,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public string MapFormID { get; }
         public string MapPostUrl { get; }
 
-        public ProjectLocationSimpleViewData(Person currentPerson, MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature, string mapPostUrl, string mapFormID)
-            : base(currentPerson)
+        public ProjectLocationSimpleViewData(FirmaSession currentFirmaSession, MapInitJson mapInitJson, List<GeospatialAreaType> geospatialAreaTypes, Feature currentFeature, string mapPostUrl, string mapFormID)
+            : base(currentFirmaSession)
         {
             ViewDataForAngular = new ProjectLocationSimpleViewDataForAngular(mapInitJson, geospatialAreaTypes, currentFeature);
             MapPostUrl = mapPostUrl;
@@ -51,8 +51,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
     {
         public MapInitJson MapInitJson { get; }
         public string TypeAheadInputId { get; }
-        public string ProjectLocationFieldDefinitionLabel { get; }
-        public List<string> GeospatialAreaMapSericeLayerNames { get; }
+        public List<string> GeospatialAreaMapServiceLayerNames { get; }
         public string MapServiceUrl { get; }
         public Feature CurrentFeature { get; }
 
@@ -60,9 +59,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         {
             MapInitJson = mapInitJson;
             TypeAheadInputId = "projectLocationSearch";
-            ProjectLocationFieldDefinitionLabel = FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel();
-            GeospatialAreaMapSericeLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
-            MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl;
+            GeospatialAreaMapServiceLayerNames = geospatialAreaTypes.Select(x => x.GeospatialAreaLayerName).ToList();
+            MapServiceUrl = geospatialAreaTypes.FirstOrDefault()?.MapServiceUrl();
             CurrentFeature = currentFeature;
         }
     }

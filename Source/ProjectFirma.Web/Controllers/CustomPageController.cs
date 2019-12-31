@@ -19,21 +19,20 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.Mvc;
+using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.CustomPage;
+using ProjectFirma.Web.Views.Shared;
+using ProjectFirmaModels.Models;
 using System;
 using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.WebPages;
-using LtInfo.Common;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.CustomPage;
-using LtInfo.Common.Mvc;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.Security.Shared;
-using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -44,30 +43,30 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult About(string vanityUrl)
         {
             var customPage = MultiTenantHelpers.GetCustomPages()
-                .SingleOrDefault(x => x.CustomPageVanityUrl == vanityUrl);
+                .SingleOrDefault(x => string.Equals(x.CustomPageVanityUrl, vanityUrl, StringComparison.OrdinalIgnoreCase));
             if (vanityUrl.IsEmpty() || customPage == null)
             {
                 throw new ArgumentException($"Bad vanity url for /About: \"{vanityUrl}\"");
             }
-            new CustomPageViewFeature().DemandPermission(CurrentPerson, customPage);
-            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentPerson, customPage).HasPermission;
-            var viewData = new DisplayPageContentViewData(CurrentPerson, customPage, hasPermission);
+            new CustomPageViewFeature().DemandPermission(CurrentFirmaSession, customPage);
+            var hasPermission = new CustomPageManageFeature().HasPermission(CurrentFirmaSession, customPage).HasPermission;
+            var viewData = new DisplayPageContentViewData(CurrentFirmaSession, customPage, hasPermission);
             return RazorView<DisplayPageContent, DisplayPageContentViewData>(viewData);
         }
 
         [FirmaPageViewListFeature]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
         [FirmaPageViewListFeature]
         public GridJsonNetJObjectResult<CustomPage> IndexGridJsonData()
         {
-            var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByPerson(CurrentPerson));
+            var gridSpec = new CustomPageGridSpec(new FirmaPageViewListFeature().HasPermissionByFirmaSession(CurrentFirmaSession));
             var customPages = HttpRequestStorage.DatabaseEntities.CustomPages.ToList()
-                .Where(x => new CustomPageManageFeature().HasPermission(CurrentPerson, x).HasPermission)
+                .Where(x => new CustomPageManageFeature().HasPermission(CurrentFirmaSession, x).HasPermission)
                 .OrderBy(x => x.CustomPageDisplayName)
                 .ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CustomPage>(customPages, gridSpec);
@@ -138,7 +137,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var customPage = new CustomPage(string.Empty, string.Empty, CustomPageDisplayType.Disabled);
-            viewModel.UpdateModel(customPage, CurrentPerson);
+            viewModel.UpdateModel(customPage, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllCustomPages.Add(customPage);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"Custom About Page '{customPage.CustomPageDisplayName}' successfully created.");
@@ -165,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel);
             }
-            viewModel.UpdateModel(customPage, CurrentPerson);
+            viewModel.UpdateModel(customPage, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();
         }
 

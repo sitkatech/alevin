@@ -178,9 +178,15 @@ namespace ProjectFirmaModels.Models
         FundingStatusHeader = 62,
         FundingStatusFooter = 63,
         ManageProjectCustomGrids = 64,
-        AgreementList = 65,
-        CostAuthorityList = 66,
-        ManageProjectCustomAttributeGroupInstructions = 67,
-        ManageProjectCustomAttributeGroupsList = 68
+        ManageProjectCustomAttributeGroupInstructions = 65,
+        ManageProjectCustomAttributeGroupsList = 66,
+        ProjectStatusFromTimelineDialog = 67,
+        ProjectStatusFromGridDialog = 68,
+        ProjectStatusListEditor = 69,
+        ExternalMapLayers = 70,
+        WebServicesIndex = 71,
+        WebServicesList = 72,
+        AgreementList = 10000,
+        CostAuthorityList = 10001
     }
 }

@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         public ViewResult Index()
         {
-            var viewData = new IndexViewData(CurrentPerson);
+            var viewData = new IndexViewData(CurrentFirmaSession);
             return RazorView<Index, IndexViewData>(viewData);
         }
 
@@ -47,16 +47,16 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         public GridJsonNetJObjectResult<FieldDefinition> IndexGridJsonData()
         {
-            var actions = GetFieldDefinitionsAndGridSpec(out var gridSpec, CurrentPerson);
+            var actions = GetFieldDefinitionsAndGridSpec(out var gridSpec, CurrentFirmaSession);
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FieldDefinition>(actions, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static List<FieldDefinition> GetFieldDefinitionsAndGridSpec(out FieldDefinitionGridSpec gridSpec, Person currentPerson)
+        private static List<FieldDefinition> GetFieldDefinitionsAndGridSpec(out FieldDefinitionGridSpec gridSpec, FirmaSession currentFirmaSession)
         {
-            gridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByPerson(currentPerson));
+            gridSpec = new FieldDefinitionGridSpec(new FieldDefinitionViewListFeature().HasPermissionByFirmaSession(currentFirmaSession));
             return HttpRequestStorage.DatabaseEntities.FieldDefinitions.ToList()
-                .Where(x => new FieldDefinitionManageFeature().HasPermission(currentPerson, x).HasPermission)
+                .Where(x => new FieldDefinitionManageFeature().HasPermission(currentFirmaSession, x).HasPermission)
                 .OrderBy(x => x.GetFieldDefinitionLabel()).ToList();
         }
 
@@ -65,8 +65,10 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         public ViewResult Edit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey)
         {
-            var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(fieldDefinitionPrimaryKey);            
-            var viewModel = new EditViewModel(fieldDefinitionData);
+            var fieldDefinitionData = HttpRequestStorage.DatabaseEntities.FieldDefinitionDatas.GetFieldDefinitionDataByFieldDefinition(fieldDefinitionPrimaryKey);
+//            var fieldDefinitionDefault = fieldDefinitionData.FieldDefinition.FieldDefinitionDefault;
+            var fieldDefinitionDefault = HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.GetFieldDefinitionDefaultByFieldDefinition(fieldDefinitionPrimaryKey);            
+            var viewModel = new EditViewModel(fieldDefinitionData, fieldDefinitionDefault);
             return ViewEdit(fieldDefinitionPrimaryKey, viewModel);
         }
 
@@ -87,14 +89,16 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.AllFieldDefinitionDatas.Add(fieldDefinitionData);
             }
 
-            viewModel.UpdateModel(fieldDefinitionData);
+            var fieldDefinitionDefault = CurrentFirmaSession.IsSitkaAdministrator() ? HttpRequestStorage.DatabaseEntities.FieldDefinitionDefaults.GetFieldDefinitionDefaultByFieldDefinition(fieldDefinitionPrimaryKey) : null;
+
+            viewModel.UpdateModel(fieldDefinitionData, fieldDefinitionDefault);
             SetMessageForDisplay("Field Definition successfully saved.");
             return RedirectToAction(new SitkaRoute<FieldDefinitionController>(x => x.Edit(fieldDefinitionData.FieldDefinition)));
         }
 
         private ViewResult ViewEdit(FieldDefinitionPrimaryKey fieldDefinitionPrimaryKey, EditViewModel viewModel)
         {
-            var viewData = new EditViewData(CurrentPerson, fieldDefinitionPrimaryKey.EntityObject);
+            var viewData = new EditViewData(CurrentFirmaSession, fieldDefinitionPrimaryKey.EntityObject);
             return RazorView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -105,9 +109,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var fieldDefinition = fieldDefinitionPrimaryKey.EntityObject;
             var fieldDefinitionData = fieldDefinition.GetFieldDefinitionData();
-            var showEditLink = new FieldDefinitionManageFeature().HasPermission(CurrentPerson, fieldDefinition).HasPermission;
+            var showEditLink = new FieldDefinitionManageFeature().HasPermission(CurrentFirmaSession, fieldDefinition).HasPermission;
             var editUrl = SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(t => t.Edit(fieldDefinition));
-            var viewData = new FieldDefinitionDetailsViewData(fieldDefinitionData, showEditLink, editUrl, fieldDefinition.DefaultDefinitionHtmlString, fieldDefinition.GetFieldDefinitionLabel());
+            var viewData = new FieldDefinitionDetailsViewData(fieldDefinitionData, showEditLink, editUrl, fieldDefinition.FieldDefinitionDefault.DefaultDefinitionHtmlString, fieldDefinition.GetFieldDefinitionLabel());
             return RazorPartialView<FieldDefinitionDetails, FieldDefinitionDetailsViewData>(viewData);
         }
 

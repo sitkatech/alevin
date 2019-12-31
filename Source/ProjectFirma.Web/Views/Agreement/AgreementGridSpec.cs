@@ -34,12 +34,12 @@ namespace ProjectFirma.Web.Views.Agreement
 {
     public class AgreementGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationAgreement>
     {
-        public AgreementGridSpec(Person currentPerson)
+        public AgreementGridSpec(FirmaSession currentFirmaSession)
         {
             // AgreementNumber
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
             // Projects
-            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300);
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300, DhtmlxGridColumnFilterType.Html);
             // Organization info
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization?.GetDetailUrl(), a.Organization?.GetDisplayName()), 300);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization?.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -51,7 +51,12 @@ namespace ProjectFirma.Web.Views.Agreement
 
         private static HtmlString GetProjectHrefsString(ReclamationAgreement reclamationAgreement)
         {
-            List<HtmlString> hrefStrings = reclamationAgreement.ReclamationAgreementProjects.Select(rap => UrlTemplate.MakeHrefString(rap.Project.GetDetailUrl(), rap.Project.GetDisplayName())).ToList();
+            var costAuthorities = reclamationAgreement.ReclamationAgreementReclamationCostAuthorities
+                .Select(rarca => rarca.ReclamationCostAuthority).ToList();
+            var projects =
+                costAuthorities.SelectMany(ca => ca.ReclamationCostAuthorityProjects.Select(rcap => rcap.Project)).ToList();
+
+            List<HtmlString> hrefStrings = projects.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.GetDisplayName())).ToList();
             var commaDelimitedHrefStrings =  new HtmlString(string.Join(", ", hrefStrings));
             return commaDelimitedHrefStrings;
         }

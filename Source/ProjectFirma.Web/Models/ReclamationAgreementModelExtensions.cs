@@ -15,6 +15,12 @@ namespace ProjectFirma.Web.Models
             return $"{reclamationAgreement.AgreementNumber}";
         }
 
+        public static string GetFullDisplayName(this ReclamationAgreement reclamationAgreement)
+        {
+            return
+                $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
+        }
+
         /// <summary>
         /// Convenience accessor for Reclamation Cost Authorities.
         /// </summary>
@@ -43,6 +49,11 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(reclamationAgreement), reclamationAgreement.AgreementNumber);
         }
 
+        public static string GetDetailLinkUsingFullDisplayName(this ReclamationAgreement reclamationAgreement)
+        {
+            return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(reclamationAgreement), reclamationAgreement.GetFullDisplayName());
+        }
+
         /// <summary>
         /// Get the Projects associated with this Agreement
         /// </summary>
@@ -50,7 +61,9 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static List<Project> GetAssociatedProjects(this ReclamationAgreement reclamationAgreement)
         {
-            return reclamationAgreement.ReclamationAgreementProjects.Select(rap => rap.Project).ToList();
+            var costAuthorities = reclamationAgreement.GetReclamationCostAuthorities();
+            var projects = costAuthorities.SelectMany(x => x.GetAssociatedProjects()).ToList();
+            return projects;
         }
 
     }
