@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected ReclamationContractType()
         {
             this.ReclamationAgreementsWhereYouAreTheContractType = new HashSet<ReclamationAgreement>();
+            this.ReclamationAgreementRequestsWhereYouAreTheContractType = new HashSet<ReclamationAgreementRequest>();
         }
 
         /// <summary>
@@ -53,13 +54,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationAgreementsWhereYouAreTheContractType.Any();
+            return ReclamationAgreementsWhereYouAreTheContractType.Any() || ReclamationAgreementRequestsWhereYouAreTheContractType.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationContractType).Name, typeof(ReclamationAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationContractType).Name, typeof(ReclamationAgreement).Name, typeof(ReclamationAgreementRequest).Name};
 
 
         /// <summary>
@@ -88,6 +89,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ReclamationAgreementRequestsWhereYouAreTheContractType.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -98,6 +104,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationContractTypeID; } set { ReclamationContractTypeID = value; } }
 
         public virtual ICollection<ReclamationAgreement> ReclamationAgreementsWhereYouAreTheContractType { get; set; }
+        public virtual ICollection<ReclamationAgreementRequest> ReclamationAgreementRequestsWhereYouAreTheContractType { get; set; }
 
         public static class FieldLengths
         {

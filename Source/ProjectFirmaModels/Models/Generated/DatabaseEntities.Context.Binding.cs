@@ -157,6 +157,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReclamationAgreementConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementPacificNorthActivityConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementReclamationCostAuthorityConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationAgreementRequestConfiguration());
             modelBuilder.Configurations.Add(new ReclamationBasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationContractTypeConfiguration());
             modelBuilder.Configurations.Add(new ReclamationCostAuthorityConfiguration());
@@ -431,6 +432,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
         public virtual DbSet<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
+        public virtual DbSet<ReclamationAgreementRequest> ReclamationAgreementRequests { get; set; }
         public virtual DbSet<ReclamationAgreement> ReclamationAgreements { get; set; }
         public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
         public virtual DbSet<ReclamationContractType> ReclamationContractTypes { get; set; }
@@ -1004,6 +1006,19 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationAgreementReclamationCostAuthority":
                     return ReclamationAgreementReclamationCostAuthorities.GetReclamationAgreementReclamationCostAuthority(primaryKey);
+
+                case "ReclamationAgreementRequestFundingPriority":
+                    var reclamationAgreementRequestFundingPriority = ReclamationAgreementRequestFundingPriority.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(reclamationAgreementRequestFundingPriority, "ReclamationAgreementRequestFundingPriority", primaryKey);
+                    return reclamationAgreementRequestFundingPriority;
+
+                case "ReclamationAgreementRequest":
+                    return ReclamationAgreementRequests.GetReclamationAgreementRequest(primaryKey);
+
+                case "ReclamationAgreementRequestStatus":
+                    var reclamationAgreementRequestStatus = ReclamationAgreementRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(reclamationAgreementRequestStatus, "ReclamationAgreementRequestStatus", primaryKey);
+                    return reclamationAgreementRequestStatus;
 
                 case "ReclamationAgreement":
                     return ReclamationAgreements.GetReclamationAgreement(primaryKey);

@@ -31,6 +31,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
             this.ReclamationAgreements = new HashSet<ReclamationAgreement>();
+            this.ReclamationAgreementRequestsWhereYouAreTheRecipientOrganization = new HashSet<ReclamationAgreementRequest>();
         }
 
         /// <summary>
@@ -98,13 +99,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any() || ReclamationAgreements.Any();
+            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any() || ReclamationAgreements.Any() || ReclamationAgreementRequestsWhereYouAreTheRecipientOrganization.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ReclamationAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name, typeof(ReclamationAgreement).Name, typeof(ReclamationAgreementRequest).Name};
 
 
         /// <summary>
@@ -163,6 +164,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ReclamationAgreementRequestsWhereYouAreTheRecipientOrganization.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -194,6 +200,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get; set; }
         public virtual ICollection<ReclamationAgreement> ReclamationAgreements { get; set; }
+        public virtual ICollection<ReclamationAgreementRequest> ReclamationAgreementRequestsWhereYouAreTheRecipientOrganization { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }

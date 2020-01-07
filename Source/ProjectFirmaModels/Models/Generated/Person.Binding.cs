@@ -54,6 +54,9 @@ namespace ProjectFirmaModels.Models
             this.ProjectUpdatesWhereYouAreThePrimaryContactPerson = new HashSet<ProjectUpdate>();
             this.ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson = new HashSet<ProjectUpdateBatch>();
             this.ProjectUpdateHistoriesWhereYouAreTheUpdatePerson = new HashSet<ProjectUpdateHistory>();
+            this.ReclamationAgreementRequestsWhereYouAreTheCreatePerson = new HashSet<ReclamationAgreementRequest>();
+            this.ReclamationAgreementRequestsWhereYouAreTheTechnicalRepresentativePerson = new HashSet<ReclamationAgreementRequest>();
+            this.ReclamationAgreementRequestsWhereYouAreTheUpdatePerson = new HashSet<ReclamationAgreementRequest>();
             this.ReclamationDeliverables = new HashSet<ReclamationDeliverable>();
             this.ReleaseNotesWhereYouAreTheCreatePerson = new HashSet<ReleaseNote>();
             this.ReleaseNotesWhereYouAreTheUpdatePerson = new HashSet<ReleaseNote>();
@@ -146,13 +149,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AuditLogs.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReclamationDeliverables.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SubbasinLiasons.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
+            return AuditLogs.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReclamationAgreementRequestsWhereYouAreTheCreatePerson.Any() || ReclamationAgreementRequestsWhereYouAreTheTechnicalRepresentativePerson.Any() || ReclamationAgreementRequestsWhereYouAreTheUpdatePerson.Any() || ReclamationDeliverables.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SubbasinLiasons.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(FileResource).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReclamationDeliverable).Name, typeof(ReleaseNote).Name, typeof(SubbasinLiason).Name, typeof(SupportRequestLog).Name, typeof(TechnicalAssistanceRequest).Name, typeof(TechnicalAssistanceRequestUpdate).Name, typeof(TenantAttribute).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(AuditLog).Name, typeof(FileResource).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReclamationAgreementRequest).Name, typeof(ReclamationDeliverable).Name, typeof(ReleaseNote).Name, typeof(SubbasinLiason).Name, typeof(SupportRequestLog).Name, typeof(TechnicalAssistanceRequest).Name, typeof(TechnicalAssistanceRequestUpdate).Name, typeof(TenantAttribute).Name};
 
 
         /// <summary>
@@ -327,6 +330,21 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in ReclamationAgreementRequestsWhereYouAreTheCreatePerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ReclamationAgreementRequestsWhereYouAreTheTechnicalRepresentativePerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ReclamationAgreementRequestsWhereYouAreTheUpdatePerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ReclamationDeliverables.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -423,6 +441,9 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectUpdate> ProjectUpdatesWhereYouAreThePrimaryContactPerson { get; set; }
         public virtual ICollection<ProjectUpdateBatch> ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson { get; set; }
         public virtual ICollection<ProjectUpdateHistory> ProjectUpdateHistoriesWhereYouAreTheUpdatePerson { get; set; }
+        public virtual ICollection<ReclamationAgreementRequest> ReclamationAgreementRequestsWhereYouAreTheCreatePerson { get; set; }
+        public virtual ICollection<ReclamationAgreementRequest> ReclamationAgreementRequestsWhereYouAreTheTechnicalRepresentativePerson { get; set; }
+        public virtual ICollection<ReclamationAgreementRequest> ReclamationAgreementRequestsWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<ReclamationDeliverable> ReclamationDeliverables { get; set; }
         public virtual ICollection<ReleaseNote> ReleaseNotesWhereYouAreTheCreatePerson { get; set; }
         public virtual ICollection<ReleaseNote> ReleaseNotesWhereYouAreTheUpdatePerson { get; set; }
