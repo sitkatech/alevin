@@ -144,9 +144,22 @@ VALUES
 (319, N'ExternalMapLayerLayerIsOnByDefault', 'Layer is on by default?'),
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
-(322, N'FinalStatusReportStatus', N'Final Status Report'),
-(323,N'IsFinalStatusReport', N'Is Final Status Report'),
-(324,N'ProjectStatusLessonsLearned', N'Lessons Learned')
+(322, N'FinalStatusUpdateStatus', N'Final Status Update'),
+(323,N'IsFinalStatusUpdate', N'Is Final Status Update'),
+(324,N'ProjectStatusLessonsLearned', N'Lessons Learned'),
+(325, N'Evaluation', 'Evaluation'),
+(326, N'EvaluationCriterion', 'Evaluation Criterion'),
+(327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
+(328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
+(329, N'ProjectEvaluation', 'Project Evaluation'),
+(330, N'EvaluationName', 'Evaluation Name'),
+(331, N'EvaluationDefinition', 'Evaluation Definition'),
+(332, N'EvaluationStatus', 'Evaluation Status'),
+(333, N'EvaluationStartDate', 'Evaluation Start Date'),
+(334, N'EvaluationEndDate', 'Evaluation End Date'),
+(335, N'EvaluationVisibility', 'Evaluation Visibility'),
+(336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
+(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition')
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
