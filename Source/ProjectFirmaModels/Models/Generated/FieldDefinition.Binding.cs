@@ -276,6 +276,11 @@ namespace ProjectFirmaModels.Models
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
         ContractType = 10004,
-        ProjectApprovalDate = 10005
+        ProjectApprovalDate = 10005,
+        AgreementRequest = 10006,
+        IsModification = 10007,
+        RequestStatus = 10008,
+        DescriptionOfNeed = 10009,
+        FundingPriority = 10010
     }
 }

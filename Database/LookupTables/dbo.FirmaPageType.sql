@@ -61,5 +61,7 @@ values
 
 -- Alevin only page types always start after ProjectFirma page types and begin at 10000
 (10000, 'AgreementList', 'Agreement List', 1),
-(10001, 'CostAuthorityList', 'Cost Authority List', 1)
+(10001, 'CostAuthorityList', 'Cost Authority List', 1),
+(10002, 'AgreementRequestList', 'Agreement Request List', 1),
+(10003, 'AgreementRequestFromGridDialog', 'Agreement Request Grid Dialog', 2)
 

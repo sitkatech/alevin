@@ -155,4 +155,9 @@ VALUES
 -- Unsure if this is the very best name for this. 
 (10003, N'CostAuthorityWorkBreakdownStructure', 'Cost Authority Work Breakdown Structure'),
 (10004, N'ContractType', 'Contract Type'),
-(10005, N'ProjectApprovalDate', 'Project Approval Date')
+(10005, N'ProjectApprovalDate', 'Project Approval Date'),
+(10006, N'AgreementRequest', 'Agreement Request'),
+(10007,N'IsModification', N'Is this request a modification to an existing Agreement'),
+(10008,N'RequestStatus', N'Request Status'),
+(10009,N'DescriptionOfNeed', N'Description of Need'),
+(10010,N'FundingPriority', N'Funding Priority')

@@ -1,0 +1,153 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.AgreementRequest.EditAgreementRequest
+
+
+<style>
+
+    .deleteProjectProjectStatusRow .btn-firma .glyphicon {
+        color: white;
+    }
+
+    .deleteProjectProjectStatusRow .btn-firma {
+        margin-left: 15px;
+    }
+</style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ProjectStatusFirmaPage); }
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group" id="isModificationUpdateSection">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(x => x.IsModification)
+                    </div>
+                    <div class="col-sm-8">
+                        <div class="col-xs-12 col-sm-9">
+                            <div class="radio-inline">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.IsModification, true) Yes
+                                </label>
+                            </div>
+                            <div class="radio-inline">
+                                <label>
+                                    @Html.RadioButtonFor(m => m.IsModification, false) No
+                                </label>
+                            </div>
+                        </div>
+                        @Html.ValidationMessageFor(m => m.IsModification)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.DescriptionOfNeed)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.DescriptionOfNeed, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.DescriptionOfNeed)
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(x => x.TargetSubmittalDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.TargetSubmittalDate, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.TargetSubmittalDate)
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.AgreementRequestStatusID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AgreementRequestStatusID, ViewDataTyped.AgreementRequestStatuses, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.AgreementRequestStatusID)
+                    </div>
+                </div>
+
+               
+            </div>
+        </div>
+    </div>
+
+}
+
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        var agreementRequestJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.AgreementRequestStatusJsonList.AgreementRequestJsons).ToString(Formatting.None));
+        @*var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
+        var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");*@
+
+
+        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]').change(function () {
+            var value = false;
+
+            if (this.value == 'True') {
+                value = true;
+            }
+
+            if (value) {
+                jQuery('#lessonsLearnedDiv').show();
+            } else {
+                jQuery('#lessonsLearnedDiv').hide();
+            }
+
+        });
+
+
+        var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]');
+        console.log(radio);
+        var value = false;
+        radio.each(function () {
+            var textVal = jQuery(this).val();
+            if ( textVal== 'True' && jQuery(this).prop('checked')) {
+                value = true;
+            }
+        });
+       
+        if (value) {
+            jQuery('#lessonsLearnedDiv').show();
+        } else {
+            jQuery('#lessonsLearnedDiv').hide();
+        }
+    });
+
+
+    </script>
+

@@ -187,6 +187,8 @@ namespace ProjectFirmaModels.Models
         WebServicesIndex = 71,
         WebServicesList = 72,
         AgreementList = 10000,
-        CostAuthorityList = 10001
+        CostAuthorityList = 10001,
+        AgreementRequestList = 10002,
+        AgreementRequestFromGridDialog = 10003
     }
 }

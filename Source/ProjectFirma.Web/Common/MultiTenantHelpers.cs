@@ -99,6 +99,16 @@ namespace ProjectFirma.Web.Common
             return PluralizationService.Pluralize(GetAgreementName());
         }
 
+        public static string GetAgreementRequestNamePluralized()
+        {
+            return PluralizationService.Pluralize(GetAgreementRequestName());
+        }
+
+        public static string GetAgreementRequestName()
+        {
+            return FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel();
+        }
+
         public static string GetCostAuthorityName()
         {
             return FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel();

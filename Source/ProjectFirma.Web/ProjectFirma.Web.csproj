@@ -57,6 +57,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\AgreementRequestController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
@@ -200,6 +201,8 @@
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
+    <Compile Include="Security\AgreementRequestManageFeature.cs" />
+    <Compile Include="Security\AgreementRequestViewFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FirmaImpersonateUserFeature.cs" />
@@ -220,6 +223,14 @@
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\AgreementRequest\AgreementRequestDetail.cs" />
+    <Compile Include="Views\AgreementRequest\AgreementRequestDetailViewData.cs" />
+    <Compile Include="Views\AgreementRequest\AgreementRequestGridSpec.cs" />
+    <Compile Include="Views\AgreementRequest\AgreementRequestIndex.cs" />
+    <Compile Include="Views\AgreementRequest\AgreementRequestIndexViewData.cs" />
+    <Compile Include="Views\AgreementRequest\EditAgreementRequest.cs" />
+    <Compile Include="Views\AgreementRequest\EditAgreementRequestViewData.cs" />
+    <Compile Include="Views\AgreementRequest\EditAgreementRequestViewModel.cs" />
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
@@ -567,6 +578,9 @@
     <Content Include="Views\Agreement\AgreementDetail.cshtml" />
     <Content Include="Views\CostAuthority\CostAuthorityDetail.cshtml" />
     <Content Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cshtml" />
+    <Content Include="Views\AgreementRequest\AgreementDetail.cshtml" />
+    <Content Include="Views\AgreementRequest\AgreementRequestIndex.cshtml" />
+    <Content Include="Views\AgreementRequest\EditAgreementRequest.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -1758,7 +1772,7 @@
     <Reference Include="Microsoft.Owin, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.3.1.0\lib\net45\Microsoft.Owin.dll</HintPath>
     </Reference>
-    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />	
+    <Reference Include="Microsoft.SqlServer.Types, Version=11.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91" />
     <Reference Include="Microsoft.Owin.Host.SystemWeb, Version=3.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.Owin.Host.SystemWeb.3.1.0\lib\net45\Microsoft.Owin.Host.SystemWeb.dll</HintPath>
     </Reference>

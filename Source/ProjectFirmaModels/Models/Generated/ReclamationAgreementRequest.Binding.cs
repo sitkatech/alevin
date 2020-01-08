@@ -30,9 +30,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreementRequest(int reclamationAgreementRequestID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID) : this()
+        public ReclamationAgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID) : this()
         {
             this.ReclamationAgreementRequestID = reclamationAgreementRequestID;
+            this.IsModification = isModification;
+            this.AgreementID = agreementID;
             this.ContractTypeID = contractTypeID;
             this.AgreementRequestStatusID = agreementRequestStatusID;
             this.DescriptionOfNeed = descriptionOfNeed;
@@ -51,11 +53,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreementRequest(int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, DateTime createDate, int createPersonID) : this()
+        public ReclamationAgreementRequest(bool isModification, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, DateTime createDate, int createPersonID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
+            this.IsModification = isModification;
             this.ContractTypeID = contractTypeID;
             this.AgreementRequestStatusID = agreementRequestStatusID;
             this.DescriptionOfNeed = descriptionOfNeed;
@@ -66,10 +69,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReclamationAgreementRequest(ReclamationContractType contractType, ReclamationAgreementRequestStatus agreementRequestStatus, string descriptionOfNeed, DateTime createDate, Person createPerson) : this()
+        public ReclamationAgreementRequest(bool isModification, ReclamationContractType contractType, ReclamationAgreementRequestStatus agreementRequestStatus, string descriptionOfNeed, DateTime createDate, Person createPerson) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.IsModification = isModification;
             this.ContractTypeID = contractType.ReclamationContractTypeID;
             this.ContractType = contractType;
             contractType.ReclamationAgreementRequestsWhereYouAreTheContractType.Add(this);
@@ -86,7 +90,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ReclamationAgreementRequest CreateNewBlank(ReclamationContractType contractType, ReclamationAgreementRequestStatus agreementRequestStatus, Person createPerson)
         {
-            return new ReclamationAgreementRequest(contractType, agreementRequestStatus, default(string), default(DateTime), createPerson);
+            return new ReclamationAgreementRequest(default(bool), contractType, agreementRequestStatus, default(string), default(DateTime), createPerson);
         }
 
         /// <summary>
@@ -123,6 +127,8 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int ReclamationAgreementRequestID { get; set; }
+        public bool IsModification { get; set; }
+        public int? AgreementID { get; set; }
         public int ContractTypeID { get; set; }
         public int AgreementRequestStatusID { get; set; }
         public string DescriptionOfNeed { get; set; }
@@ -139,6 +145,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationAgreementRequestID; } set { ReclamationAgreementRequestID = value; } }
 
+        public virtual ReclamationAgreement Agreement { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
         public ReclamationAgreementRequestStatus AgreementRequestStatus { get { return ReclamationAgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }
         public ReclamationAgreementRequestFundingPriority ReclamationAgreementRequestFundingPriority { get { return ReclamationAgreementRequestFundingPriorityID.HasValue ? ReclamationAgreementRequestFundingPriority.AllLookupDictionary[ReclamationAgreementRequestFundingPriorityID.Value] : null; } }
