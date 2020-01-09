@@ -1,6 +1,8 @@
 
 CREATE TABLE [dbo].[ReclamationAgreementRequest](
 	[ReclamationAgreementRequestID] [int] IDENTITY(1,1) NOT NULL,
+    [IsModification] bit NOT NULL,
+    [AgreementID] int null,
 	[ContractTypeID] [int] NOT NULL,
 	[AgreementRequestStatusID] [int] NOT NULL,
 	[DescriptionOfNeed] [nvarchar](250) NOT NULL,
@@ -21,6 +23,15 @@ CREATE TABLE [dbo].[ReclamationAgreementRequest](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+--contract type
+
+ALTER TABLE [dbo].ReclamationAgreementRequest  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID] FOREIGN KEY([AgreementID])
+REFERENCES [dbo].[ReclamationAgreement] ([ReclamationAgreementID])
+GO
+
+ALTER TABLE [dbo].ReclamationAgreementRequest CHECK CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID]
+GO
+
 
 --contract type
 

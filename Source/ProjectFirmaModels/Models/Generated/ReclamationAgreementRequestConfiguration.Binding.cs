@@ -16,6 +16,8 @@ namespace ProjectFirmaModels.Models
             ToTable("ReclamationAgreementRequest", schema);
             HasKey(x => x.ReclamationAgreementRequestID);
             Property(x => x.ReclamationAgreementRequestID).HasColumnName(@"ReclamationAgreementRequestID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.IsModification).HasColumnName(@"IsModification").HasColumnType("bit").IsRequired();
+            Property(x => x.AgreementID).HasColumnName(@"AgreementID").HasColumnType("int").IsOptional();
             Property(x => x.ContractTypeID).HasColumnName(@"ContractTypeID").HasColumnType("int").IsRequired();
             Property(x => x.AgreementRequestStatusID).HasColumnName(@"AgreementRequestStatusID").HasColumnType("int").IsRequired();
             Property(x => x.DescriptionOfNeed).HasColumnName(@"DescriptionOfNeed").HasColumnType("nvarchar").IsRequired().HasMaxLength(250);
@@ -31,6 +33,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.UpdatePersonID).HasColumnName(@"UpdatePersonID").HasColumnType("int").IsOptional();
 
             // Foreign keys
+            HasOptional(a => a.Agreement).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheAgreement).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID
             HasRequired(a => a.ContractType).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_ReclamationContractType_ContractTypeID_ReclamationContractTypeID
             HasOptional(a => a.RecipientOrganization).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheRecipientOrganization).HasForeignKey(c => c.RecipientOrganizationID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_Organization_RecipientOrganizationID_OrganizationID
             HasOptional(a => a.TechnicalRepresentativePerson).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheTechnicalRepresentativePerson).HasForeignKey(c => c.TechnicalRepresentativePersonID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_Person_TechnicalRepresentativePersonID_PersonID

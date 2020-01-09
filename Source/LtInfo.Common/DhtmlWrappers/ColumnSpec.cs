@@ -440,7 +440,7 @@ namespace LtInfo.Common.DhtmlWrappers
                     return boolValue.HasValue ? boolValue.ToYesNo() : string.Empty;
                 case FuncType.HtmlString:
                     var htmlStringValue = _htmlStringValueFunc(dataObject);
-                    var calculateStringValue = htmlStringValue.ToString();
+                    var calculateStringValue = htmlStringValue != null ? htmlStringValue.ToString() : null;
                     // ReSharper disable once ConditionIsAlwaysTrueOrFalse RL 1/11/19 Not true!
                     return calculateStringValue ?? string.Empty;
                 case FuncType.Short:

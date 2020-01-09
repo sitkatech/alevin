@@ -318,6 +318,11 @@ namespace ProjectFirma.Web.Views
         {
             var projectsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()}");
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementController>(c => c.AgreementIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+            if (new AgreementRequestIndexViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementRequestController>(c => c.AgreementRequestIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+
+            }
             // Adding the Cost Authorities to the Agreements menu for now.
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostAuthorityController>(c => c.CostAuthorityIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} List", "Group2"));
             return projectsMenu;

@@ -4,6 +4,8 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ReclamationAgreementRequest](
 	[ReclamationAgreementRequestID] [int] IDENTITY(1,1) NOT NULL,
+	[IsModification] [bit] NOT NULL,
+	[AgreementID] [int] NULL,
 	[ContractTypeID] [int] NOT NULL,
 	[AgreementRequestStatusID] [int] NOT NULL,
 	[DescriptionOfNeed] [nvarchar](250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -43,6 +45,11 @@ ALTER TABLE [dbo].[ReclamationAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ReclamationAgreementRequest] CHECK CONSTRAINT [FK_ReclamationAgreementRequest_Person_UpdatePersonID_PersonID]
+GO
+ALTER TABLE [dbo].[ReclamationAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID] FOREIGN KEY([AgreementID])
+REFERENCES [dbo].[ReclamationAgreement] ([ReclamationAgreementID])
+GO
+ALTER TABLE [dbo].[ReclamationAgreementRequest] CHECK CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID]
 GO
 ALTER TABLE [dbo].[ReclamationAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreementRequestFundingPriority_ReclamationAgreementRequestFundingPriorityID] FOREIGN KEY([ReclamationAgreementRequestFundingPriorityID])
 REFERENCES [dbo].[ReclamationAgreementRequestFundingPriority] ([ReclamationAgreementRequestFundingPriorityID])
