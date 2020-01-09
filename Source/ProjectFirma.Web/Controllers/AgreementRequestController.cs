@@ -50,12 +50,13 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditAgreementRequestViewModel viewModel, FirmaPage firmaPage)
         {
             var projectStatusFirmaPage = firmaPage;
+            var allAgreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList();
             var allContractTypes = HttpRequestStorage.DatabaseEntities.ReclamationContractTypes.ToList();
             var allRequestStatuses = ReclamationAgreementRequestStatus.All;
             var allFundingPriorities = ReclamationAgreementRequestFundingPriority.All;
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList();
-            var viewData = new EditAgreementRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allContractTypes, allRequestStatuses, allFundingPriorities, allOrganizations, allPeople );
+            var viewData = new EditAgreementRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allAgreements,allContractTypes, allRequestStatuses, allFundingPriorities, allOrganizations, allPeople );
             return RazorPartialView<EditAgreementRequest, EditAgreementRequestViewData, EditAgreementRequestViewModel>(viewData, viewModel);
         }
 

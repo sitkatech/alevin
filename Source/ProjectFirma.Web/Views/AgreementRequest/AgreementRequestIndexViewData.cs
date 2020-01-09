@@ -21,8 +21,9 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public AgreementRequestIndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetAgreementRequestNamePluralized();
-
+            NewUrl = "NO_URL_FOR_THIS_PROBABLY_WILL_NEVER_BE_ONE";
             HasAgreementManagePermissions = new AgreementRequestManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
             AgreementRequestGridSpec = new AgreementRequestGridSpec(currentFirmaSession)
             {
                 ObjectNameSingular = MultiTenantHelpers.GetAgreementRequestName(),
@@ -30,11 +31,11 @@ namespace ProjectFirma.Web.Views.AgreementRequest
                 SaveFiltersInCookie = true
             };
 
-            NewUrl = "NO_URL_FOR_THIS_PROBABLY_WILL_NEVER_BE_ONE";
-
             AgreementRequestGridName = $"AgreementRequestsGrid";
             AgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestGridJsonData());
+
             AgrementRequestIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
+
             DisplayActionButtons = true;
         }
     }

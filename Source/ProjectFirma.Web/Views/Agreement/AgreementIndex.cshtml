@@ -23,6 +23,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.AgreementRequest
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Agreement.AgreementIndex
@@ -48,3 +49,23 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 </div>
 
+@if (ViewDataTyped.DisplayAgreementRequestGrid)
+{
+    <br/>
+    <br/>
+    <hr/>
+    <div class="row">
+        <h2>AGREEMENT REQUESTS</h2>
+    </div>
+    <div class="row">
+       
+        <div class="rightFloatingInfo">
+            @AgreementRequestHelper.AddAgreementRequestButton()
+        </div>
+        <div class="col-xs-12">
+            @Html.DhtmlxGrid(ViewDataTyped.AgreementRequestGridSpec, ViewDataTyped.AgreementRequestGridName, ViewDataTyped.AgreementRequestGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        </div>
+    </div>
+}
+
+        

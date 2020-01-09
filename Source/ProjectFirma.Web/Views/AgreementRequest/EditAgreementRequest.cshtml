@@ -32,12 +32,9 @@
 
 <style>
 
-    .deleteProjectProjectStatusRow .btn-firma .glyphicon {
-        color: white;
-    }
-
-    .deleteProjectProjectStatusRow .btn-firma {
-        margin-left: 15px;
+    form .form-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 </style>
 
@@ -72,6 +69,16 @@
                     </div>
                 </div>
 
+                <div class="form-group" id="agreementIDEditorDiv">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.AgreementID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.AgreementID, ViewDataTyped.Agreements, new { @class = "form-control selectpicker agreement-class" })
+                        @Html.ValidationMessageFor(m => m.AgreementID)
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(m => m.ContractTypeID)
@@ -96,11 +103,11 @@
                 <div class="form-group">
                     <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.DescriptionOfNeed)</div>
                     <div class="col-sm-8">
-                        @Html.TextAreaWithMaxLengthFor(m => m.DescriptionOfNeed, new TextAreaForExtensions.TextAreaDimensions(null, 5), null, new List<string> { "form-control" })
+                        @Html.TextAreaWithMaxLengthFor(m => m.DescriptionOfNeed, new TextAreaForExtensions.TextAreaDimensions(null, 3), null, new List<string> { "form-control" })
                         @Html.ValidationMessageFor(m => m.DescriptionOfNeed)
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(m => m.ReclamationAgreementRequestFundingPriorityID)
@@ -110,27 +117,27 @@
                         @Html.ValidationMessageFor(m => m.ReclamationAgreementRequestFundingPriorityID)
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(m => m.RecipientOrganizationID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class" })
                         @Html.ValidationMessageFor(m => m.RecipientOrganizationID)
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control" })
+                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class" })
                         @Html.ValidationMessageFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(x => x.TargetAwardDate)
@@ -140,7 +147,7 @@
                         @Html.ValidationMessageFor(m => m.TargetAwardDate)
                     </div>
                 </div>
-                
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(x => x.Palt)
@@ -173,29 +180,55 @@
 
     <script type="text/javascript">
     jQuery(document).ready(function() {
-        var agreementRequestJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.AgreementRequestStatusJsonList.AgreementRequestJsons).ToString(Formatting.None));
+        var agreementRequestJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.AgreementJsonList.AgreementJsons).ToString(Formatting.None));
         @*var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
         var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");*@
-
+        jQuery(".selectpicker").selectpicker();
 
         jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]').change(function () {
             var value = false;
-
             if (this.value == 'True') {
                 value = true;
             }
-
             if (value) {
-                jQuery('#lessonsLearnedDiv').show();
+                jQuery('#agreementIDEditorDiv').show();
             } else {
-                jQuery('#lessonsLearnedDiv').hide();
+                jQuery('#agreementIDEditorDiv').hide();
+                jQuery("#@Html.IdFor(m => m.AgreementID)").val("");
+                jQuery("select[name=@Html.NameFor(m => m.AgreementID)] option[value='']").text();
             }
 
         });
 
+        jQuery("#@Html.IdFor(m => m.AgreementID)").change(function () {
+            var selectedAgreementID = jQuery(this).val();
+            var recipientOrganization = jQuery("#@Html.IdFor(m => m.RecipientOrganizationID)");
+            var technicalRepresentative = jQuery("#@Html.IdFor(m => m.TechnicalRepresentativePersonID)");
+            if (selectedAgreementID != "") {
+                var agreementOrganization = agreementRequestJsons[selectedAgreementID].OrganizationID;
+                if (agreementOrganization != "" && agreementOrganization != null)
+                {
+                    var orgtext = jQuery("select[name=@Html.NameFor(m => m.RecipientOrganizationID)] option[value='" + agreementOrganization + "']").text();
+                    jQuery('.recipient-organization-class .filter-option').text(orgtext);
+                    jQuery('.recipient-organization-class .filter-option').css("color", "#333");
+                    recipientOrganization.val(agreementOrganization);
+                }
+
+                var agreementTechnicalRepresentative = agreementRequestJsons[selectedAgreementID].TechnicalRepresentativeID;
+                console.log(agreementTechnicalRepresentative);
+                if (agreementTechnicalRepresentative != "" && agreementTechnicalRepresentative != null)
+                {
+                    var repText = jQuery("select[name=@Html.NameFor(m => m.TechnicalRepresentativePersonID)] option[value='" + agreementTechnicalRepresentative + "']").text();
+                    if (repText != null && repText != "") {
+                        jQuery('.technical-representative-class .filter-option').text(repText);
+                        jQuery('.technical-representative-class .filter-option').css("color", "#333");
+                        technicalRepresentative.val(agreementTechnicalRepresentative);
+                    }
+                }
+            }
+        });
 
         var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]');
-        console.log(radio);
         var value = false;
         radio.each(function () {
             var textVal = jQuery(this).val();
@@ -205,9 +238,9 @@
         });
        
         if (value) {
-            jQuery('#lessonsLearnedDiv').show();
+            jQuery('#agreementIDEditorDiv').show();
         } else {
-            jQuery('#lessonsLearnedDiv').hide();
+            jQuery('#agreementIDEditorDiv').hide();
         }
     });
 
