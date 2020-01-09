@@ -32,33 +32,53 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.AgreementRequest
 {
-    public class AgreementRequestGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationAgreement>
+    public class AgreementRequestGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationAgreementRequest>
     {
         public AgreementRequestGridSpec(FirmaSession currentFirmaSession)
         {
-            // AgreementNumber
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
-            // Projects
-            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300, DhtmlxGridColumnFilterType.Html);
-            // Organization info
-            Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization?.GetDetailUrl(), a.Organization?.GetDisplayName()), 300);
-            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization?.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            // Contract Type
+            // AgreementRequestID
+            Add(FieldDefinitionEnum.AgreementRequestID.ToType().ToGridHeaderString()
+                , a => a.ReclamationAgreementRequestID.ToString()
+                //, a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName())
+                , 100
+                , DhtmlxGridColumnFilterType.Html);
+
+            //IsMod
+            Add(FieldDefinitionEnum.IsModification.ToType().ToGridHeaderString("Is Modification?"), a => a.IsModification.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
+            // ContractType
             Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
-            Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReclamationAgreementReclamationCostAuthorities.Count, 80);
-        }
+            // AgreementNumber
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => a.AgreementID.HasValue ? UrlTemplate.MakeHrefString(a.Agreement.GetDetailUrl(), a.Agreement.GetDisplayName()) : null, 100, DhtmlxGridColumnFilterType.Html);
 
-        private static HtmlString GetProjectHrefsString(ReclamationAgreement reclamationAgreement)
-        {
-            var costAuthorities = reclamationAgreement.ReclamationAgreementReclamationCostAuthorities
-                .Select(rarca => rarca.ReclamationCostAuthority).ToList();
-            var projects =
-                costAuthorities.SelectMany(ca => ca.ReclamationCostAuthorityProjects.Select(rcap => rcap.Project)).ToList();
+            // Description of Need
+            Add(FieldDefinitionEnum.DescriptionOfNeed.ToType().ToGridHeaderString(), a => a.DescriptionOfNeed, 100, DhtmlxGridColumnFilterType.Text);
 
-            List<HtmlString> hrefStrings = projects.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.GetDisplayName())).ToList();
-            var commaDelimitedHrefStrings =  new HtmlString(string.Join(", ", hrefStrings));
-            return commaDelimitedHrefStrings;
+            // Funding Priority
+            Add(FieldDefinitionEnum.FundingPriority.ToType().ToGridHeaderString(), a => a.ReclamationAgreementRequestFundingPriority?.AgreementRequestFundingPriorityDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
+            // Projected Obligation
+            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), a => a.ProjectedObligation, 100, DhtmlxGridColumnFormatType.Currency);
+
+            // Recipient Organization
+            Add(FieldDefinitionEnum.RecipientOrganization.ToType().ToGridHeaderString(), a => a.RecipientOrganization?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
+
+            // Technical Representative
+            Add(FieldDefinitionEnum.TechnicalRepresentative.ToType().ToGridHeaderString(), a => a.TechnicalRepresentativePerson?.GetFullNameFirstLast(), 120, DhtmlxGridColumnFilterType.Text);
+
+            // Target Award Date
+            Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetAwardDate, 120);
+
+            // Palt
+            Add(FieldDefinitionEnum.PALT.ToType().ToGridHeaderString(), a => a.PALT?.ToString(), 120, DhtmlxGridColumnFilterType.Numeric);
+
+            // Target Submittal Date
+            Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetSubmittalDate, 120);
+          
         }
     }
 }
+
+
+

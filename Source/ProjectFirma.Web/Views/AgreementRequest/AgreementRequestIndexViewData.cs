@@ -16,6 +16,8 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public bool HasAgreementManagePermissions { get; }
         public string NewUrl { get; }
 
+        public bool DisplayActionButtons { get; }
+
         public AgreementRequestIndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetAgreementRequestNamePluralized();
@@ -31,8 +33,9 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             NewUrl = "NO_URL_FOR_THIS_PROBABLY_WILL_NEVER_BE_ONE";
 
             AgreementRequestGridName = $"AgreementRequestsGrid";
-            AgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementGridJsonData());
+            AgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestGridJsonData());
             AgrementRequestIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
+            DisplayActionButtons = true;
         }
     }
 }

@@ -207,6 +207,8 @@
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
+    <Compile Include="Security\AgreementRequestCreateFeature.cs" />
+    <Compile Include="Security\AgreementRequestIndexViewFeature.cs" />
     <Compile Include="Security\AgreementRequestManageFeature.cs" />
     <Compile Include="Security\AgreementRequestViewFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
@@ -241,6 +243,7 @@
     <Compile Include="Views\AgreementRequest\EditAgreementRequest.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewData.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewModel.cs" />
+    <Compile Include="Views\AgreementRequest\AgreementRequestHelper.cs" />
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />

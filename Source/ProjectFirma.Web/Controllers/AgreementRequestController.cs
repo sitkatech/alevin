@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -14,7 +15,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class AgreementRequestController : FirmaBaseController
     {
-        [AgreementRequestViewFeature]
+        [AgreementRequestIndexViewFeature]
         public ViewResult AgreementRequestIndex()
         {
             return AgreementRequestIndexImpl();
@@ -27,18 +28,18 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<AgreementRequestIndex, AgreementRequestIndexViewData>(viewData);
         }
 
-        [AgreementRequestViewFeature]
-        public GridJsonNetJObjectResult<ReclamationAgreement> AgreementGridJsonData()
+        [AgreementRequestIndexViewFeature]
+        public GridJsonNetJObjectResult<ReclamationAgreementRequest> AgreementRequestGridJsonData()
         {
-            var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
-            var agreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationAgreement>(agreements, gridSpec);
+            var gridSpec = new AgreementRequestGridSpec(CurrentFirmaSession);
+            var agreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreementRequests.ToList().OrderBy(x => x.ReclamationAgreementRequestID).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationAgreementRequest>(agreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
 
         [HttpGet]
-        [ProjectEditAsAdminFeature]
+        [AgreementRequestCreateFeature]
         public PartialViewResult New()
         {
             var viewModel = new EditAgreementRequestViewModel();
@@ -49,11 +50,37 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditAgreementRequestViewModel viewModel, FirmaPage firmaPage)
         {
             var projectStatusFirmaPage = firmaPage;
-            var allAgreementRequests = ReclamationAgreementRequestStatus.All;
-            var viewData = new EditAgreementRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allAgreementRequests);
+            var allContractTypes = HttpRequestStorage.DatabaseEntities.ReclamationContractTypes.ToList();
+            var allRequestStatuses = ReclamationAgreementRequestStatus.All;
+            var allFundingPriorities = ReclamationAgreementRequestFundingPriority.All;
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList();
+            var viewData = new EditAgreementRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allContractTypes, allRequestStatuses, allFundingPriorities, allOrganizations, allPeople );
             return RazorPartialView<EditAgreementRequest, EditAgreementRequestViewData, EditAgreementRequestViewModel>(viewData, viewModel);
         }
 
+        [HttpPost]
+        [AgreementRequestCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(EditAgreementRequestViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var firmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
+                return ViewEdit(viewModel, firmaPage);
+            }
+            return MakeTheNewAgreementRequest(viewModel);
+        }
+
+        private ActionResult MakeTheNewAgreementRequest(EditAgreementRequestViewModel viewModel)
+        {
+            var contractType = HttpRequestStorage.DatabaseEntities.ReclamationContractTypes.Single(x => x.ReclamationContractTypeID == viewModel.ContractTypeID);
+            var requestStatus = ReclamationAgreementRequestStatus.AllLookupDictionary[viewModel.AgreementRequestStatusID];
+            var agreementRequestFromViewModel = new ReclamationAgreementRequest(viewModel.IsModification, contractType, requestStatus, viewModel.DescriptionOfNeed,DateTime.Now, CurrentFirmaSession.Person);
+            viewModel.UpdateModel(agreementRequestFromViewModel, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            return new ModalDialogFormJsonResult();
+        }
 
     }
 }

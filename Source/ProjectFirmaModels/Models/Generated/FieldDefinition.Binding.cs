@@ -294,6 +294,13 @@ namespace ProjectFirmaModels.Models
         IsModification = 10007,
         RequestStatus = 10008,
         DescriptionOfNeed = 10009,
-        FundingPriority = 10010
+        FundingPriority = 10010,
+        RecipientOrganization = 10011,
+        TechnicalRepresentative = 10012,
+        TargetAwardDate = 10013,
+        PALT = 10014,
+        TargetSubmittalDate = 10015,
+        AgreementRequestID = 10016,
+        ProjectedObligation = 10017
     }
 }

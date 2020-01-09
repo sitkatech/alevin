@@ -55,15 +55,19 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingPriority)]
         public int? ReclamationAgreementRequestFundingPriorityID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.Organization)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.RecipientOrganization)]
         public int? RecipientOrganizationID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TechnicalRepresentative)]
         public int? TechnicalRepresentativePersonID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TargetAwardDate)]
         public DateTime? TargetAwardDate { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PALT)]
         public int? Palt { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TargetSubmittalDate)]
         public DateTime? TargetSubmittalDate { get; set; }
 
        
@@ -94,30 +98,19 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             TargetSubmittalDate = agreementRequest.TargetSubmittalDate;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest, FirmaSession currentFirmaSession)
         {
-            //projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
-            //if (IsFinalStatusReport)
-            //{
-            //    projectProjectStatus.LessonsLearned = LessonsLearned;
-            //}
-            //else
-            //{
-            //    projectProjectStatus.LessonsLearned = null;
-            //}
-            //projectProjectStatus.ProjectStatusID = ProjectStatusID;
-            //projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
-            //projectProjectStatus.IsFinalStatusUpdate = IsFinalStatusReport;
-            //if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
-            //{
-            //    projectProjectStatus.ProjectProjectStatusCreateDate = DateTime.Now;
-            //    projectProjectStatus.ProjectProjectStatusCreatePerson = currentFirmaSession.Person;
-            //}
-            //else
-            //{
-            //    projectProjectStatus.ProjectProjectStatusLastEditedDate = DateTime.Now;
-            //    projectProjectStatus.ProjectProjectStatusLastEditedPerson = currentFirmaSession.Person;
-            //}
+            agreementRequest.IsModification = IsModification;
+            agreementRequest.AgreementID = AgreementID;
+            agreementRequest.ContractTypeID = ContractTypeID;
+            agreementRequest.AgreementRequestStatusID = AgreementRequestStatusID;
+            agreementRequest.DescriptionOfNeed = DescriptionOfNeed;
+            agreementRequest.ReclamationAgreementRequestFundingPriorityID = ReclamationAgreementRequestFundingPriorityID;
+            agreementRequest.RecipientOrganizationID = RecipientOrganizationID;
+            agreementRequest.TechnicalRepresentativePersonID = TechnicalRepresentativePersonID;
+            agreementRequest.TargetAwardDate = TargetAwardDate;
+            agreementRequest.PALT = Palt;
+            agreementRequest.TargetSubmittalDate = TargetSubmittalDate;
         }
 
 
