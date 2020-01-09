@@ -1,6 +1,7 @@
 ﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.AgreementRequest;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
@@ -16,6 +17,10 @@ namespace ProjectFirma.Web.Views.Agreement
         public bool HasAgreementManagePermissions { get; }
         public string NewUrl { get; }
 
+        public AgreementRequestGridSpec AgreementRequestGridSpec { get; }
+        public string AgreementRequestGridName { get; }
+        public string AgreementRequestGridDataUrl { get; }
+        public bool DisplayAgreementRequestGrid { get; }
         public AgreementIndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = MultiTenantHelpers.GetAgreementNamePluralized();
@@ -39,6 +44,17 @@ namespace ProjectFirma.Web.Views.Agreement
             // Is this needed??
             //EditSortOrderUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(x => x.EditSortOrder());
             AgrementIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
+
+            AgreementRequestGridSpec = new AgreementRequestGridSpec(currentFirmaSession)
+            {
+                ObjectNameSingular = MultiTenantHelpers.GetAgreementRequestName(),
+                ObjectNamePlural = MultiTenantHelpers.GetAgreementRequestNamePluralized(),
+                SaveFiltersInCookie = true
+            };
+
+            AgreementRequestGridName = $"AgreementRequestsGrid";
+            AgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestGridJsonData());
+            DisplayAgreementRequestGrid = new AgreementRequestIndexViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
     }
 }

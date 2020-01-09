@@ -117,13 +117,13 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
-            
 
-            //// Expenditures note is required if no expenditures to enter is selected
-            //if (string.IsNullOrEmpty(LessonsLearned) && IsFinalStatusReport)
-            //{
-            //    errors.Add(new ValidationResult($"Lessons Learned must be entered for Final Status Reports."));
-            //}
+
+            // Agreement is required if is mod
+            if (IsModification && !AgreementID.HasValue)
+            {
+                errors.Add(new ValidationResult($"An Agreement must be selected if the Agreement Request is a modification to an existing Agreement."));
+            }
 
             return errors;
         }

@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     public class AgreementRequestIndexViewFeature : FirmaFeature
     {
         public AgreementRequestIndexViewFeature()
-            : base(new List<Role> { Role.SitkaAdmin})
+            : base(new List<Role> { Role.SitkaAdmin, Role.Admin})
         {
         }
     }
