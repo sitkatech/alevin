@@ -178,6 +178,7 @@
     <Compile Include="Models\ProjectStatusModelExtensions.cs" />
     <Compile Include="Models\ProjectTimeline.cs" />
     <Compile Include="Models\ReclamationAgreementModelExtensions.cs" />
+    <Compile Include="Models\ReclamationAgreementRequestModelExtensions.cs" />
     <Compile Include="Models\ReclamationCostAuthorityModelExtensions.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
@@ -612,7 +613,7 @@
     <Content Include="Views\Agreement\AgreementDetail.cshtml" />
     <Content Include="Views\CostAuthority\CostAuthorityDetail.cshtml" />
     <Content Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cshtml" />
-    <Content Include="Views\AgreementRequest\AgreementDetail.cshtml" />
+    <Content Include="Views\AgreementRequest\AgreementRequestDetail.cshtml" />
     <Content Include="Views\AgreementRequest\AgreementRequestIndex.cshtml" />
     <Content Include="Views\AgreementRequest\EditAgreementRequest.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />

@@ -238,6 +238,16 @@ namespace LtInfo.Common.ModalDialog
             return MakeEditIconLink(dialogUrl, dialogTitle, DefaultDialogWidth, hasPermission);
         }
 
+        public static HtmlString MakeDeleteIconLink(string dialogUrl, string dialogTitle, bool hasPermission)
+        {
+            return MakeDeleteIconLink(dialogUrl, dialogTitle, DefaultDialogWidth, hasPermission);
+        }
+
+        public static HtmlString MakeDeleteIconLink(string dialogUrl, string dialogTitle, int width, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-trash blue", dialogTitle).ToString(), dialogUrl, dialogTitle, width, SaveButtonID, "Delete", "Cancel", new List<string>(), null, null, null) : new HtmlString(string.Empty);
+        }
+
         public static HtmlString MakeEditIconLink(string dialogUrl, string dialogTitle, int width, bool hasPermission)
         {
             return hasPermission ? ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-edit blue", dialogTitle).ToString(), dialogUrl, dialogTitle, width, SaveButtonID, "Save", "Cancel", new List<string>(), null, null, null) : new HtmlString(string.Empty);
