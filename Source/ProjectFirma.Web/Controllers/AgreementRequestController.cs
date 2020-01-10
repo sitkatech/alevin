@@ -8,6 +8,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.AgreementRequest;
 using ProjectFirma.Web.Views.ProjectProjectStatus;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirmaModels.Models;
 
@@ -83,5 +84,76 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        [AgreementRequestIndexViewFeature]
+        public ViewResult AgreementRequestDetail(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey)
+        {
+            var agreementRequest = agreementRequestPrimaryKey.EntityObject;
+            var viewData = new AgreementRequestDetailViewData(CurrentFirmaSession, agreementRequest);
+            return RazorView<AgreementRequestDetail, AgreementRequestDetailViewData>(viewData);
+        }
+
+
+        [HttpGet]
+        [AgreementRequestCreateFeature]
+        public PartialViewResult Edit(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey)
+        {
+            var agreementRequest = agreementRequestPrimaryKey.EntityObject;
+            var viewModel = new EditAgreementRequestViewModel(agreementRequest);
+            var projectStatusFirmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
+            return ViewEdit(viewModel, projectStatusFirmaPage);
+        }
+
+
+        [HttpPost]
+        [AgreementRequestCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey, EditAgreementRequestViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var firmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
+                return ViewEdit(viewModel, firmaPage);
+            }
+            viewModel.UpdateModel(agreementRequestPrimaryKey.EntityObject, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            return new ModalDialogFormJsonResult();
+        }
+
+
+        [HttpGet]
+        [AgreementRequestCreateFeature]
+        public PartialViewResult Delete(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey)
+        {
+            var reclamationAgreementRequest = agreementRequestPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(reclamationAgreementRequest.ReclamationAgreementRequestID);
+            return ViewDelete(reclamationAgreementRequest, viewModel);
+        }
+
+        [HttpPost]
+        [AgreementRequestCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Delete(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey,
+            ConfirmDialogFormViewModel viewModel)
+        {
+            var reclamationAgreementRequest = agreementRequestPrimaryKey.EntityObject;
+            var displayName = $"Agreement Request: {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}";
+            if (!ModelState.IsValid)
+            {
+                return ViewDelete(reclamationAgreementRequest, viewModel);
+            }
+
+            reclamationAgreementRequest.DeleteFull(HttpRequestStorage.DatabaseEntities);
+
+            SetMessageForDisplay($"Successfully deleted \"{displayName}\".");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewDelete(ReclamationAgreementRequest reclamationAgreementRequest, ConfirmDialogFormViewModel viewModel)
+        {
+            var displayName = $"Agreement Request: {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}";
+            var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete \"{displayName}\"?", true);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
     }
 }

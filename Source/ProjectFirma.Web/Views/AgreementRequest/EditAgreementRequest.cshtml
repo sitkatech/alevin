@@ -153,7 +153,7 @@
                         @Html.LabelWithSugarFor(x => x.Palt)
                     </div>
                     <div class="col-sm-8">
-                        @Html.EditorFor(m => m.Palt, new { @class = "form-control" })
+                        @Html.EditorFor(m => m.Palt, new { @class = "form-control"})
                         @Html.ValidationMessageFor(m => m.Palt)
                     </div>
                 </div>
@@ -184,6 +184,61 @@
         @*var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
         var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");*@
         jQuery(".selectpicker").selectpicker();
+
+        jQuery("#@Html.IdFor(m => m.Palt)").prop("min", "1");
+        jQuery("#@Html.IdFor(m => m.Palt)").prop("max", "365");
+
+        function adjustTargetSubmittalDateIfNeeded(){
+            var palt = jQuery("#@Html.IdFor(m => m.Palt)");
+            if (palt.val() != "" && palt.val() != null) {
+                var awardDate = jQuery("#@Html.IdFor(m => m.TargetAwardDate)");
+                if (awardDate.val() != "" && awardDate.val() != null) {
+                    var date = awardDate.val();
+                    var daysToAdd = parseInt(palt.val());
+                    var result = new Date(date);
+                    result.setDate(result.getDate() + daysToAdd);
+                    var formattedDate = result.toLocaleDateString("en-US");
+                    jQuery("#@Html.IdFor(m => m.TargetSubmittalDate)").val(formattedDate);
+                    formatSubmittalDate();
+                }
+            }
+        }
+
+        function formatAwardDate() {
+            var value = jQuery("#@Html.IdFor(m => m.TargetAwardDate)").val();
+            if (value != "" && value != null) {
+                var result = new Date(value);
+                var formattedDate = result.toLocaleDateString("en-US");
+                jQuery("#@Html.IdFor(m => m.TargetAwardDate)").val(formattedDate);
+            }
+        }
+
+        function formatSubmittalDate() {
+            var value = jQuery("#@Html.IdFor(m => m.TargetSubmittalDate)").val();
+            if (value != "" && value != null) {
+                var result = new Date(value);
+                var formattedDate = result.toLocaleDateString("en-US");
+                jQuery("#@Html.IdFor(m => m.TargetSubmittalDate)").val(formattedDate);
+            }
+        }
+
+        formatAwardDate();
+        formatSubmittalDate();
+
+        jQuery("#@Html.IdFor(m => m.Palt)").change(function() {
+            adjustTargetSubmittalDateIfNeeded();
+        });
+
+        jQuery("#@Html.IdFor(m => m.TargetAwardDate)").change(function() {
+            adjustTargetSubmittalDateIfNeeded();
+            formatAwardDate();
+        });
+
+        jQuery("#@Html.IdFor(m => m.TargetSubmittalDate)").change(function() {
+            formatSubmittalDate();
+        });
+
+       
 
         jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]').change(function () {
             var value = false;

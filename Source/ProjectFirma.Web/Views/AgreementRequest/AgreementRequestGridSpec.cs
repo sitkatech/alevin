@@ -24,6 +24,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -36,10 +37,12 @@ namespace ProjectFirma.Web.Views.AgreementRequest
     {
         public AgreementRequestGridSpec(FirmaSession currentFirmaSession)
         {
+            Add(string.Empty, x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditUrl(), "Edit Agreement Request", true), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete Agreement Request", true), 30, DhtmlxGridColumnFilterType.None);
+
             // AgreementRequestID
             Add(FieldDefinitionEnum.AgreementRequestID.ToType().ToGridHeaderString()
-                , a => a.ReclamationAgreementRequestID.ToString()
-                //, a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName())
+                , a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.ReclamationAgreementRequestID.ToString("D4"))
                 , 100
                 , DhtmlxGridColumnFilterType.Html);
 

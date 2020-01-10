@@ -22,6 +22,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
@@ -100,8 +102,16 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
         public void UpdateModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest, FirmaSession currentFirmaSession)
         {
+
+            if (IsModification)
+            {
+                agreementRequest.AgreementID = AgreementID;
+            }
+            else
+            {
+                agreementRequest.AgreementID = null;
+            }
             agreementRequest.IsModification = IsModification;
-            agreementRequest.AgreementID = AgreementID;
             agreementRequest.ContractTypeID = ContractTypeID;
             agreementRequest.AgreementRequestStatusID = AgreementRequestStatusID;
             agreementRequest.DescriptionOfNeed = DescriptionOfNeed;
@@ -123,6 +133,11 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             if (IsModification && !AgreementID.HasValue)
             {
                 errors.Add(new ValidationResult($"An Agreement must be selected if the Agreement Request is a modification to an existing Agreement."));
+            }
+
+            if (Palt.HasValue && (Palt > 365 || Palt < 1))
+            {
+                errors.Add(new SitkaValidationResult<EditAgreementRequestViewModel, int?>("The PALT value must be between 1 and 365", x => x.Palt));
             }
 
             return errors;
