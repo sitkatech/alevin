@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public EditRequisitionInformationViewModel(ReclamationAgreementRequest agreementRequest)
         {
             AgreementID = agreementRequest.AgreementID;
-            RequisitionNumber = agreementRequest.RequsitionNumber;
+            RequisitionNumber = agreementRequest.RequisitionNumber;
             RequisitionDate = agreementRequest.RequisitionDate;
             ContractSpecialist = agreementRequest.ContractSpecialist;
             AssignedDate = agreementRequest.AssignedDate;
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public void UpdateModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest, FirmaSession currentFirmaSession)
         {
             agreementRequest.AgreementID = AgreementID;
-            agreementRequest.RequsitionNumber = RequisitionNumber;
+            agreementRequest.RequisitionNumber = RequisitionNumber;
             agreementRequest.RequisitionDate = RequisitionDate;
             agreementRequest.ContractSpecialist = ContractSpecialist;
             agreementRequest.AssignedDate = AssignedDate;
