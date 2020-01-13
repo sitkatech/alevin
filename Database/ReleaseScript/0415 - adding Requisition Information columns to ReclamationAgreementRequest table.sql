@@ -21,7 +21,11 @@ values
     (10022,N'DateSentForDeptReview', N'Date Sent for Dept. Review'),
     (10023,N'DCApprovalDate', N'DC Approval Date'),
     (10024,N'ActualAwardDate', N'Actual Award Date'),
-    (10025,N'RequisitionInformation', N'Requisition Information')
+    (10025,N'RequisitionInformation', N'Requisition Information'),
+    (10026,N'RequisitionAge', N'Age'),
+    (10027,N'RequisitionDeptReviewDays', N'Dept Review Days'),
+    (10028,N'RequisitionDaysToAssign', N'Days to Assign'),
+    (10029,N'RequisitionDaysToAward', N'Days to Award')
 
 insert into dbo.FieldDefinitionDefault(FieldDefinitionID, DefaultDefinition)
 values 
@@ -32,6 +36,10 @@ values
     (10022, N'<p>Date Sent for Dept. Review</p>'),
     (10023, N'<p>DC Approval Date</p>'),
     (10024, N'<p>Actual Award Date</p>'),
-    (10025, N'<p>Requisition Information</p>')
+    (10025, N'<p>Requisition Information</p>'),
+    (10026, N'<p>Age</p>'),
+    (10027, N'<p>Dept Review Days</p>'),
+    (10028, N'<p>Days to Assign</p>'),
+    (10029, N'<p>Days to Award</p>')
 
 --rollback tran

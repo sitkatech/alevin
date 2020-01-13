@@ -309,6 +309,10 @@ namespace ProjectFirmaModels.Models
         DateSentForDeptReview = 10022,
         DCApprovalDate = 10023,
         ActualAwardDate = 10024,
-        RequisitionInformation = 10025
+        RequisitionInformation = 10025,
+        RequisitionAge = 10026,
+        RequisitionDeptReviewDays = 10027,
+        RequisitionDaysToAssign = 10028,
+        RequisitionDaysToAward = 10029
     }
 }

@@ -188,4 +188,8 @@ VALUES
 (10022,N'DateSentForDeptReview', N'Date Sent for Dept. Review'),
 (10023,N'DCApprovalDate', N'DC Approval Date'),
 (10024,N'ActualAwardDate', N'Actual Award Date'),
-(10025,N'RequisitionInformation', N'Requisition Information')
+(10025,N'RequisitionInformation', N'Requisition Information'),
+(10026,N'RequisitionAge', N'Age'),
+(10027,N'RequisitionDeptReviewDays', N'Dept Review Days'),
+(10028,N'RequisitionDaysToAssign', N'Days to Assign'),
+(10029,N'RequisitionDaysToAward', N'Days to Award')
