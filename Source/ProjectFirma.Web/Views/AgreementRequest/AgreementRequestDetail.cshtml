@@ -24,11 +24,12 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.AgreementRequest.AgreementRequestDetail
 
-@functions 
+@functions
 {
     private string GetOrganizationDisplayName()
     {
@@ -42,7 +43,7 @@
 
     private string GetTechnicalRepresentativeDisplayName()
     {
-    // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
+        // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
         if (ViewDataTyped.ReclamationAgreementRequest.TechnicalRepresentativePerson == null)
         {
             return string.Empty;
@@ -104,6 +105,78 @@
             <div class="panel-heading panelTitle">
                 <h2>
                     Basics
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.IsModification.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.IsModification.ToYesNo()</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</div>
+                    <div class="col-xs-7">
+                        @(ViewDataTyped.ReclamationAgreementRequest.Agreement != null ? UrlTemplate.MakeHrefString(ViewDataTyped.ReclamationAgreementRequest.Agreement.GetDetailUrl(), ViewDataTyped.ReclamationAgreementRequest.Agreement.GetDisplayName()) : new HtmlString(string.Empty))
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ContractType.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.ContractType.ContractTypeDisplayName</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequestStatus.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.AgreementRequestStatus.AgreementRequestStatusDisplayName</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.DescriptionOfNeed.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.DescriptionOfNeed</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingPriority.ToType())</div>
+                    <div class="col-xs-7">@(ViewDataTyped.ReclamationAgreementRequest.ReclamationAgreementRequestFundingPriority != null ? ViewDataTyped.ReclamationAgreementRequest.ReclamationAgreementRequestFundingPriority.AgreementRequestFundingPriorityDisplayName : string.Empty)</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RecipientOrganization.ToType())</div>
+                    <div class="col-xs-7">@GetOrganizationDisplayName()</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TechnicalRepresentative.ToType())</div>
+                    <div class="col-xs-7">@GetTechnicalRepresentativeDisplayName()</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetSubmittalDate.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.TargetSubmittalDate</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PALT.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.PALT</div>
+                </div>
+
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetAwardDate.ToType())</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.TargetAwardDate</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditRequisitionInformationUrl, string.Format("Edit {0}", FieldDefinitionEnum.RequisitionInformation.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanEditRequisitionInformation)
+                <h2 class="project-detail-heading">
+                    Requisition Information
                 </h2>
             </div>
             <div class="panel-body">
