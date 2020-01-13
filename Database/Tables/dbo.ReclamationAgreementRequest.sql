@@ -19,7 +19,7 @@ CREATE TABLE [dbo].[ReclamationAgreementRequest](
 	[CreatePersonID] [int] NOT NULL,
 	[UpdateDate] [datetime] NULL,
 	[UpdatePersonID] [int] NULL,
-	[RequsitionNumber] [int] NULL,
+	[RequisitionNumber] [int] NULL,
 	[RequisitionDate] [datetime] NULL,
 	[ContractSpecialist] [nvarchar](250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[AssignedDate] [datetime] NULL,

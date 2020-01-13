@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, int? requsitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
+        public ReclamationAgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, int? requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
         {
             this.ReclamationAgreementRequestID = reclamationAgreementRequestID;
             this.IsModification = isModification;
@@ -48,7 +48,7 @@ namespace ProjectFirmaModels.Models
             this.CreatePersonID = createPersonID;
             this.UpdateDate = updateDate;
             this.UpdatePersonID = updatePersonID;
-            this.RequsitionNumber = requsitionNumber;
+            this.RequisitionNumber = requisitionNumber;
             this.RequisitionDate = requisitionDate;
             this.ContractSpecialist = contractSpecialist;
             this.AssignedDate = assignedDate;
@@ -149,7 +149,7 @@ namespace ProjectFirmaModels.Models
         public int CreatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int? UpdatePersonID { get; set; }
-        public int? RequsitionNumber { get; set; }
+        public int? RequisitionNumber { get; set; }
         public DateTime? RequisitionDate { get; set; }
         public string ContractSpecialist { get; set; }
         public DateTime? AssignedDate { get; set; }

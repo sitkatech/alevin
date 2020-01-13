@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CreatePersonID).HasColumnName(@"CreatePersonID").HasColumnType("int").IsRequired();
             Property(x => x.UpdateDate).HasColumnName(@"UpdateDate").HasColumnType("datetime").IsOptional();
             Property(x => x.UpdatePersonID).HasColumnName(@"UpdatePersonID").HasColumnType("int").IsOptional();
-            Property(x => x.RequsitionNumber).HasColumnName(@"RequsitionNumber").HasColumnType("int").IsOptional();
+            Property(x => x.RequisitionNumber).HasColumnName(@"RequisitionNumber").HasColumnType("int").IsOptional();
             Property(x => x.RequisitionDate).HasColumnName(@"RequisitionDate").HasColumnType("datetime").IsOptional();
             Property(x => x.ContractSpecialist).HasColumnName(@"ContractSpecialist").HasColumnType("nvarchar").IsOptional().HasMaxLength(250);
             Property(x => x.AssignedDate).HasColumnName(@"AssignedDate").HasColumnType("datetime").IsOptional();
