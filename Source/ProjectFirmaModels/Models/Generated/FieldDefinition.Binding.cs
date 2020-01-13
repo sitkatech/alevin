@@ -301,6 +301,14 @@ namespace ProjectFirmaModels.Models
         PALT = 10014,
         TargetSubmittalDate = 10015,
         AgreementRequestID = 10016,
-        ProjectedObligation = 10017
+        ProjectedObligation = 10017,
+        RequisitionNumber = 10018,
+        RequisitionDate = 10019,
+        ContractSpecialist = 10020,
+        AssignedDate = 10021,
+        DateSentForDeptReview = 10022,
+        DCApprovalDate = 10023,
+        ActualAwardDate = 10024,
+        RequisitionInformation = 10025
     }
 }

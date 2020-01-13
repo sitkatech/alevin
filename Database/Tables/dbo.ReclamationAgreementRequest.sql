@@ -19,6 +19,13 @@ CREATE TABLE [dbo].[ReclamationAgreementRequest](
 	[CreatePersonID] [int] NOT NULL,
 	[UpdateDate] [datetime] NULL,
 	[UpdatePersonID] [int] NULL,
+	[RequsitionNumber] [int] NULL,
+	[RequisitionDate] [datetime] NULL,
+	[ContractSpecialist] [nvarchar](250) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[AssignedDate] [datetime] NULL,
+	[DateSentForDeptReview] [datetime] NULL,
+	[DCApprovalDate] [datetime] NULL,
+	[ActualAwardDate] [datetime] NULL,
  CONSTRAINT [PK_ReclamationAgreementRequest_ReclamationAgreementRequestID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationAgreementRequestID] ASC

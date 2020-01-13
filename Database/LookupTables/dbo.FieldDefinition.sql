@@ -180,4 +180,12 @@ VALUES
 (10014,N'PALT', N'PALT'),
 (10015,N'TargetSubmittalDate', N'Target Submittal Date'),
 (10016,N'AgreementRequestID', N'Agreement Request ID'),
-(10017,N'ProjectedObligation', N'Projected Obligation')
+(10017,N'ProjectedObligation', N'Projected Obligation'),
+(10018,N'RequisitionNumber', N'Requisition Number'),
+(10019,N'RequisitionDate', N'Requisition Date'),
+(10020,N'ContractSpecialist', N'Contract Specialist'),
+(10021,N'AssignedDate', N'Assigned Date'),
+(10022,N'DateSentForDeptReview', N'Date Sent for Dept. Review'),
+(10023,N'DCApprovalDate', N'DC Approval Date'),
+(10024,N'ActualAwardDate', N'Actual Award Date'),
+(10025,N'RequisitionInformation', N'Requisition Information')
