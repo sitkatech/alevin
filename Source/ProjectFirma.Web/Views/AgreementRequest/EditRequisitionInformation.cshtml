@@ -1,0 +1,126 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.AgreementRequest.EditRequisitionInformation
+
+
+<style>
+
+    form .form-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                @Html.HiddenFor(m => m.AgreementID)
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.RequisitionNumber)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.RequisitionNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.RequisitionNumber)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.RequisitionDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.RequisitionDate)
+                        @Html.ValidationMessageFor(m => m.RequisitionDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ContractSpecialist)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.ContractSpecialist, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ContractSpecialist)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.AssignedDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.AssignedDate)
+                        @Html.ValidationMessageFor(m => m.AssignedDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.DateSentForDeptReview)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.DateSentForDeptReview)
+                        @Html.ValidationMessageFor(m => m.DateSentForDeptReview)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.DCApprovalDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.DCApprovalDate)
+                        @Html.ValidationMessageFor(m => m.DCApprovalDate)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ActualAwardDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.ActualAwardDate)
+                        @Html.ValidationMessageFor(m => m.ActualAwardDate)
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+}

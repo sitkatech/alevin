@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public ProjectFirmaModels.Models.ReclamationAgreementRequest ReclamationAgreementRequest { get; }
 
         public string IndexUrl { get; }
+        public string EditRequisitionInformationUrl { get; }
+        public bool UserCanEditRequisitionInformation { get; }
 
         public AgreementRequestDetailViewData(FirmaSession currentFirmaSession,
                                        ProjectFirmaModels.Models.ReclamationAgreementRequest reclamationAgreementRequest
@@ -45,6 +47,8 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             EntityName = "Agreement Request Detail";
             ReclamationAgreementRequest = reclamationAgreementRequest;
             IndexUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementIndex());
+            EditRequisitionInformationUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.EditRequisitionInformation(reclamationAgreementRequest));
+            UserCanEditRequisitionInformation = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }
 
 
