@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             PageTitle = $"Agreement Request: {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}";
             EntityName = "Agreement Request Detail";
             ReclamationAgreementRequest = reclamationAgreementRequest;
-            IndexUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementIndex());
+            IndexUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestIndex());
             EditRequisitionInformationUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.EditRequisitionInformation(reclamationAgreementRequest));
             UserCanEditRequisitionInformation = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
         }

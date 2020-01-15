@@ -71,10 +71,10 @@
 
                 <div class="form-group" id="agreementIDEditorDiv">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(m => m.AgreementID)
+                        @Html.LabelWithSugarFor(m => m.AgreementID, true)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.AgreementID, ViewDataTyped.Agreements, new { @class = "form-control selectpicker agreement-class" })
+                        @Html.DropDownListFor(m => m.AgreementID, ViewDataTyped.Agreements, new { @class = "form-control selectpicker agreement-class", @data_container = ".modal-content", @data_live_search = "true" })
                         @Html.ValidationMessageFor(m => m.AgreementID)
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                         @Html.LabelWithSugarFor(m => m.RecipientOrganizationID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class" })
+                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class", @data_container = ".modal-content", @data_live_search = "true" })
                         @Html.ValidationMessageFor(m => m.RecipientOrganizationID)
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                         @Html.LabelWithSugarFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class" })
+                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class", @data_container = ".modal-content", @data_live_search = "true" })
                         @Html.ValidationMessageFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                 </div>
@@ -194,9 +194,9 @@
                 var awardDate = jQuery("#@Html.IdFor(m => m.TargetAwardDate)");
                 if (awardDate.val() != "" && awardDate.val() != null) {
                     var date = awardDate.val();
-                    var daysToAdd = parseInt(palt.val());
+                    var daysToSubtract = parseInt(palt.val());
                     var result = new Date(date);
-                    result.setDate(result.getDate() + daysToAdd);
+                    result.setDate(result.getDate() - daysToSubtract);
                     var formattedDate = result.toLocaleDateString("en-US");
                     jQuery("#@Html.IdFor(m => m.TargetSubmittalDate)").val(formattedDate);
                     formatSubmittalDate();
