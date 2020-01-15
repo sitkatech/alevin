@@ -71,7 +71,7 @@
 
                 <div class="form-group" id="agreementIDEditorDiv">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(m => m.AgreementID)
+                        @Html.LabelWithSugarFor(m => m.AgreementID, true)
                     </div>
                     <div class="col-sm-8">
                         @Html.DropDownListFor(m => m.AgreementID, ViewDataTyped.Agreements, new { @class = "form-control selectpicker agreement-class" })
