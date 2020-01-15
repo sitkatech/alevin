@@ -47,6 +47,7 @@ namespace ProjectFirma.Web.Views.Project
         public bool UserHasEditProjectAgreementPermissions { get; }
         public bool UserHasPerformanceMeasureActualManagePermissions { get; }
         public bool UserHasProjectTimelinePermissions { get; }
+        public bool UserHasProjectEvaluationPermission { get; set; }
 
         public string EditProjectUrl { get; }
         public string EditProjectOrganizationsUrl { get; }
@@ -118,6 +119,8 @@ namespace ProjectFirma.Web.Views.Project
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
         public ProjectTimelineDisplayViewData ProjectTimelineDisplayViewData { get; }
 
+        public List<ProjectEvaluation> ProjectEvaluations { get; }
+
         public string UpdateStatusUrl { get; set; }
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
@@ -152,7 +155,8 @@ namespace ProjectFirma.Web.Views.Project
             DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
             ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl,
             string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
-            bool userHasProjectTimelinePermissions)
+            bool userHasProjectTimelinePermissions,
+            bool userHasProjectEvaluationPermission, List<ProjectEvaluation> projectEvaluations)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -373,6 +377,9 @@ namespace ProjectFirma.Web.Views.Project
                 currentFirmaSession);
 
             ProjectTimelineDisplayViewData = projectTimelineDisplayViewData;
+
+            UserHasProjectEvaluationPermission = userHasProjectEvaluationPermission;
+            ProjectEvaluations = projectEvaluations;
         }
     }
 }
