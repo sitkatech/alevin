@@ -74,7 +74,7 @@
                         @Html.LabelWithSugarFor(m => m.AgreementID, true)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.AgreementID, ViewDataTyped.Agreements, new { @class = "form-control selectpicker agreement-class" })
+                        @Html.DropDownListFor(m => m.AgreementID, ViewDataTyped.Agreements, new { @class = "form-control selectpicker agreement-class", @data_container = ".modal-content", @data_live_search = "true" })
                         @Html.ValidationMessageFor(m => m.AgreementID)
                     </div>
                 </div>
@@ -123,7 +123,7 @@
                         @Html.LabelWithSugarFor(m => m.RecipientOrganizationID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class", @data_container = ".modal-content" })
+                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class", @data_container = ".modal-content", @data_live_search = "true" })
                         @Html.ValidationMessageFor(m => m.RecipientOrganizationID)
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                         @Html.LabelWithSugarFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class", @data_container = ".modal-content" })
+                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class", @data_container = ".modal-content", @data_live_search = "true" })
                         @Html.ValidationMessageFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                 </div>
