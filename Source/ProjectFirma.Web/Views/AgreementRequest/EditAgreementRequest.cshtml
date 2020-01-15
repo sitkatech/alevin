@@ -194,9 +194,9 @@
                 var awardDate = jQuery("#@Html.IdFor(m => m.TargetAwardDate)");
                 if (awardDate.val() != "" && awardDate.val() != null) {
                     var date = awardDate.val();
-                    var daysToAdd = parseInt(palt.val());
+                    var daysToSubtract = parseInt(palt.val());
                     var result = new Date(date);
-                    result.setDate(result.getDate() + daysToAdd);
+                    result.setDate(result.getDate() - daysToSubtract);
                     var formattedDate = result.toLocaleDateString("en-US");
                     jQuery("#@Html.IdFor(m => m.TargetSubmittalDate)").val(formattedDate);
                     formatSubmittalDate();
