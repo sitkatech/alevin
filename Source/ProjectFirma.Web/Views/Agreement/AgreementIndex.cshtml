@@ -48,24 +48,3 @@ Source code is available upon request via <support@sitkatech.com>.
         @Html.DhtmlxGrid(ViewDataTyped.AgreementGridSpec, ViewDataTyped.AgreementGridName, ViewDataTyped.AgreementGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>
-
-@if (ViewDataTyped.DisplayAgreementRequestGrid)
-{
-    <br/>
-    <br/>
-    <hr/>
-    <div class="row">
-        <h2>AGREEMENT REQUESTS</h2>
-    </div>
-    <div class="row">
-       
-        <div class="rightFloatingInfo">
-            @AgreementRequestHelper.AddAgreementRequestButton()
-        </div>
-        <div class="col-xs-12">
-            @Html.DhtmlxGrid(ViewDataTyped.AgreementRequestGridSpec, ViewDataTyped.AgreementRequestGridName, ViewDataTyped.AgreementRequestGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-        </div>
-    </div>
-}
-
-        
