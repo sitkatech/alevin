@@ -123,7 +123,7 @@
                         @Html.LabelWithSugarFor(m => m.RecipientOrganizationID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class" })
+                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class", @data_container = ".modal-content" })
                         @Html.ValidationMessageFor(m => m.RecipientOrganizationID)
                     </div>
                 </div>
@@ -133,7 +133,7 @@
                         @Html.LabelWithSugarFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                     <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class" })
+                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class", @data_container = ".modal-content" })
                         @Html.ValidationMessageFor(m => m.TechnicalRepresentativePersonID)
                     </div>
                 </div>
