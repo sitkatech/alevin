@@ -155,5 +155,37 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ConfirmDialogFormViewData($"Are you sure you want to delete \"{displayName}\"?", true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
+
+        [HttpGet]
+        [AgreementRequestCreateFeature]
+        public PartialViewResult EditRequisitionInformation(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey)
+        {
+            var agreementRequest = agreementRequestPrimaryKey.EntityObject;
+            var viewModel = new EditRequisitionInformationViewModel(agreementRequest);
+            return ViewEditRequisitionInformation(viewModel);
+        }
+
+        [HttpPost]
+        [AgreementRequestCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditRequisitionInformation(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey, EditRequisitionInformationViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEditRequisitionInformation(viewModel);
+            }
+            viewModel.UpdateModel(agreementRequestPrimaryKey.EntityObject, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditRequisitionInformation(EditRequisitionInformationViewModel viewModel)
+        {
+            var viewData = new EditRequisitionInformationViewData(CurrentFirmaSession);
+            return RazorPartialView<EditRequisitionInformation, EditRequisitionInformationViewData, EditRequisitionInformationViewModel>(viewData, viewModel);
+        }
+
+
+
     }
 }

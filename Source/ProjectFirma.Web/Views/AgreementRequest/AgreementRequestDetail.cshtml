@@ -20,15 +20,14 @@
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using ProjectFirmaModels.Models
-@using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.AgreementRequest.AgreementRequestDetail
 
-@functions 
+@functions
 {
     private string GetOrganizationDisplayName()
     {
@@ -42,7 +41,7 @@
 
     private string GetTechnicalRepresentativeDisplayName()
     {
-    // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
+        // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
         if (ViewDataTyped.ReclamationAgreementRequest.TechnicalRepresentativePerson == null)
         {
             return string.Empty;
@@ -151,7 +150,7 @@
 
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetSubmittalDate.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.TargetSubmittalDate</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.TargetSubmittalDate.ToStringDate()</div>
                 </div>
 
                 <div class="row">
@@ -161,7 +160,82 @@
 
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetAwardDate.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.TargetAwardDate</div>
+                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreementRequest.TargetAwardDate.ToStringDate()</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditRequisitionInformationUrl, string.Format("Edit {0}", FieldDefinitionEnum.RequisitionInformation.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanEditRequisitionInformation)
+                <h2 class="project-detail-heading">
+                    Requisition Information
+                </h2>
+            </div>
+            <div class="panel-body">
+                
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequisitionNumber.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.RequisitionNumber</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequisitionDate.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.RequisitionDate.ToStringDate()</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ContractSpecialist.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.ContractSpecialist</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.AssignedDate.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.AssignedDate.ToStringDate()</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.DateSentForDeptReview.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.DateSentForDeptReview.ToStringDate()</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.DCApprovalDate.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.DCApprovalDate.ToStringDate()</div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ActualAwardDate.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.ActualAwardDate.ToStringDate()</div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequisitionAge.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.GetRequisitionAge()</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequisitionDeptReviewDays.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.GetRequisitionDeptReviewDays()</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequisitionDaysToAssign.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.GetRequisitionDaysToAssign()</div>
+                        </div>
+                        <div class="row">
+                            <div class="col-xs-6 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequisitionDaysToAward.ToType())</div>
+                            <div class="col-xs-6">@ViewDataTyped.ReclamationAgreementRequest.GetRequisitionDaysToAward()</div>
+                        </div>
+                    </div>
                 </div>
 
             </div>

@@ -55,11 +55,17 @@ values
 (70, 'ExternalMapLayers', 'External Map Layers', 1),
 (71, 'WebServicesIndex', 'Web Services Index' , 1), 
 (72, 'WebServicesList', 'Web Services List' , 1),
+(73, 'EvaluationList', 'Evaluation List' , 1),
+(74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
+(75, 'CreateEvaluationCriterionInstructions', 'Create Evaluation Criterion Instructions' , 2),
+(76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2)
 
 
 
 
 -- Alevin only page types always start after ProjectFirma page types and begin at 10000
+insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
+values
 (10000, 'AgreementList', 'Agreement List', 1),
 (10001, 'CostAuthorityList', 'Cost Authority List', 1),
 (10002, 'AgreementRequestList', 'Agreement Request List', 1),

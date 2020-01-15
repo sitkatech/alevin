@@ -245,6 +245,9 @@
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewData.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewModel.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestHelper.cs" />
+    <Compile Include="Views\AgreementRequest\EditRequisitionInformation.cs" />
+    <Compile Include="Views\AgreementRequest\EditRequisitionInformationViewModel.cs" />
+    <Compile Include="Views\AgreementRequest\EditRequisitionInformationViewData.cs" />
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
@@ -616,6 +619,7 @@
     <Content Include="Views\AgreementRequest\AgreementRequestDetail.cshtml" />
     <Content Include="Views\AgreementRequest\AgreementRequestIndex.cshtml" />
     <Content Include="Views\AgreementRequest\EditAgreementRequest.cshtml" />
+    <Content Include="Views\AgreementRequest\EditRequisitionInformation.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
