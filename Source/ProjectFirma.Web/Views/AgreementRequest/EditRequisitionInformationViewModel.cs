@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public int? AgreementID { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.RequisitionNumber)]
-        public int? RequisitionNumber { get; set; }
+        public string RequisitionNumber { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.RequisitionDate)]
         public DateTime? RequisitionDate { get; set; }
