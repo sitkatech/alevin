@@ -163,6 +163,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReclamationAgreementPacificNorthActivityConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementReclamationCostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementRequestConfiguration());
+            modelBuilder.Configurations.Add(new ReclamationAgreementRequestSubmissionNoteConfiguration());
             modelBuilder.Configurations.Add(new ReclamationBasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationContractTypeConfiguration());
             modelBuilder.Configurations.Add(new ReclamationCostAuthorityConfiguration());
@@ -448,6 +449,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
         public virtual DbSet<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
         public virtual DbSet<ReclamationAgreementRequest> ReclamationAgreementRequests { get; set; }
+        public virtual DbSet<ReclamationAgreementRequestSubmissionNote> ReclamationAgreementRequestSubmissionNotes { get; set; }
         public virtual DbSet<ReclamationAgreement> ReclamationAgreements { get; set; }
         public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
         public virtual DbSet<ReclamationContractType> ReclamationContractTypes { get; set; }
@@ -1059,6 +1061,9 @@ namespace ProjectFirmaModels.Models
                     var reclamationAgreementRequestStatus = ReclamationAgreementRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(reclamationAgreementRequestStatus, "ReclamationAgreementRequestStatus", primaryKey);
                     return reclamationAgreementRequestStatus;
+
+                case "ReclamationAgreementRequestSubmissionNote":
+                    return ReclamationAgreementRequestSubmissionNotes.GetReclamationAgreementRequestSubmissionNote(primaryKey);
 
                 case "ReclamationAgreement":
                     return ReclamationAgreements.GetReclamationAgreement(primaryKey);

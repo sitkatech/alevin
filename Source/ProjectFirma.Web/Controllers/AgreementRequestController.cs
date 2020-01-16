@@ -10,6 +10,7 @@ using ProjectFirma.Web.Views.AgreementRequest;
 using ProjectFirma.Web.Views.ProjectProjectStatus;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
+using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
@@ -88,7 +89,16 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult AgreementRequestDetail(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey)
         {
             var agreementRequest = agreementRequestPrimaryKey.EntityObject;
-            var viewData = new AgreementRequestDetailViewData(CurrentFirmaSession, agreementRequest);
+
+            var userCanInteractWithSubmissionNotes = new AgreementRequestSubmissionNoteFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+
+            var agreementRequestNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(agreementRequest.ReclamationAgreementRequestSubmissionNotes),
+                SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(x => x.New(agreementRequest)),
+                FieldDefinitionEnum.AgreementRequest.ToType().FieldDefinitionDisplayName,
+                userCanInteractWithSubmissionNotes);
+
+            var viewData = new AgreementRequestDetailViewData(CurrentFirmaSession, agreementRequest, userCanInteractWithSubmissionNotes, agreementRequestNotesViewData);
             return RazorView<AgreementRequestDetail, AgreementRequestDetailViewData>(viewData);
         }
 
