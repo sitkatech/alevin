@@ -313,6 +313,7 @@ namespace ProjectFirmaModels.Models
         RequisitionAge = 10026,
         RequisitionDeptReviewDays = 10027,
         RequisitionDaysToAssign = 10028,
-        RequisitionDaysToAward = 10029
+        RequisitionDaysToAward = 10029,
+        AgreementRequestSubmissionNote = 10030
     }
 }

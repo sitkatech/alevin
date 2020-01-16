@@ -58,6 +58,7 @@
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\AgreementRequestController.cs" />
+    <Compile Include="Controllers\AgreementRequestSubmissionNotesController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
     <Compile Include="Controllers\AttachmentRelationshipTypeController.cs" />
@@ -179,6 +180,7 @@
     <Compile Include="Models\ProjectTimeline.cs" />
     <Compile Include="Models\ReclamationAgreementModelExtensions.cs" />
     <Compile Include="Models\ReclamationAgreementRequestModelExtensions.cs" />
+    <Compile Include="Models\ReclamationAgreementRequestSubmissionNoteModelExtensions.cs" />
     <Compile Include="Models\ReclamationCostAuthorityModelExtensions.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
@@ -211,6 +213,7 @@
     <Compile Include="Security\AgreementRequestCreateFeature.cs" />
     <Compile Include="Security\AgreementRequestIndexViewFeature.cs" />
     <Compile Include="Security\AgreementRequestManageFeature.cs" />
+    <Compile Include="Security\AgreementRequestSubmissionNoteFeature.cs" />
     <Compile Include="Security\AgreementRequestViewFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\AttachmentRelationshipTypeViewFeature.cs" />

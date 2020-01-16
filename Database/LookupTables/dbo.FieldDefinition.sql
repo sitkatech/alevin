@@ -192,4 +192,5 @@ VALUES
 (10026,N'RequisitionAge', N'Age'),
 (10027,N'RequisitionDeptReviewDays', N'Dept Review Days'),
 (10028,N'RequisitionDaysToAssign', N'Days to Assign'),
-(10029,N'RequisitionDaysToAward', N'Days to Award')
+(10029,N'RequisitionDaysToAward', N'Days to Award'),
+(10030,N'AgreementRequestSubmissionNote', N'Submission Note')
