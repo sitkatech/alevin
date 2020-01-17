@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, int? requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
+        public ReclamationAgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
         {
             this.ReclamationAgreementRequestID = reclamationAgreementRequestID;
             this.IsModification = isModification;
@@ -166,7 +166,7 @@ namespace ProjectFirmaModels.Models
         public int CreatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int? UpdatePersonID { get; set; }
-        public int? RequisitionNumber { get; set; }
+        public string RequisitionNumber { get; set; }
         public DateTime? RequisitionDate { get; set; }
         public string ContractSpecialist { get; set; }
         public DateTime? AssignedDate { get; set; }
@@ -190,6 +190,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int DescriptionOfNeed = 250;
+            public const int RequisitionNumber = 50;
             public const int ContractSpecialist = 250;
         }
     }
