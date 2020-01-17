@@ -69,13 +69,22 @@ namespace ProjectFirma.Web.Models
             return "";
         }
 
-        public static int? GetRequisitionDaysToAssign(this ReclamationAgreementRequest agreementRequest)
+        public static string GetRequisitionDaysToAssign(this ReclamationAgreementRequest agreementRequest)
         {
+            if (agreementRequest.RequisitionDate != null && agreementRequest.AssignedDate == null &&
+                agreementRequest.ActualAwardDate == null)
+            {
+                return "Unassigned";
+            }
+
             if (agreementRequest.RequisitionDate != null && agreementRequest.AssignedDate != null)
             {
-                return -((DateTime)agreementRequest.RequisitionDate - (DateTime)agreementRequest.AssignedDate).Days;
+                var dateDifference =
+                    -((DateTime) agreementRequest.RequisitionDate - (DateTime) agreementRequest.AssignedDate).Days;
+                return dateDifference.ToString();
             }
-            return null;
+
+            return "";
         }
 
         public static int? GetRequisitionDaysToAward(this ReclamationAgreementRequest agreementRequest)
