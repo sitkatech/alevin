@@ -41,7 +41,9 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public string CostAuthorityAgreementRequestGridDataUrl { get; }
 
         public string IndexUrl { get; }
+        public string EditAgreementRequestBasicsUrl { get; }
         public string EditRequisitionInformationUrl { get; }
+        public bool UserCanEditAgreementRequest { get; }
         public bool UserCanEditRequisitionInformation { get; }
         public bool UserCanInteractWithSubmissionNotes { get; }
         public EntityNotesViewData AgreementRequestNotesViewData { get; }
@@ -54,7 +56,9 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             EntityName = "Agreement Request Detail";
             ReclamationAgreementRequest = reclamationAgreementRequest;
             IndexUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestIndex());
+            EditAgreementRequestBasicsUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.Edit(reclamationAgreementRequest));
             EditRequisitionInformationUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.EditRequisitionInformation(reclamationAgreementRequest));
+            UserCanEditAgreementRequest = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             UserCanEditRequisitionInformation = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             UserCanInteractWithSubmissionNotes = userCanInteractWithSubmissionNotes;
             AgreementRequestNotesViewData = agreementRequestNotesViewData;
