@@ -36,13 +36,20 @@ namespace ProjectFirma.Web.Models
             return DeleteUrlTemplate.ParameterReplace(agreementRequest.PrimaryKey);
         }
 
-        public static int? GetRequisitionAge(this ReclamationAgreementRequest agreementRequest)
+        public static string GetRequisitionAge(this ReclamationAgreementRequest agreementRequest)
         {
-            if (agreementRequest.RequisitionDate != null)
+            if (agreementRequest.RequisitionDate != null && agreementRequest.ActualAwardDate != null)
             {
-                return -((DateTime)agreementRequest.RequisitionDate - DateTime.Now).Days;
+                return "Awarded";
             }
-            return null;
+
+            if (agreementRequest.RequisitionDate != null && agreementRequest.ActualAwardDate == null)
+            {
+                var dateDifference = -((DateTime) agreementRequest.RequisitionDate - DateTime.Now).Days;
+                return dateDifference.ToString();
+            }
+
+            return "";
         }
 
         public static int? GetRequisitionDeptReviewDays(this ReclamationAgreementRequest agreementRequest)
