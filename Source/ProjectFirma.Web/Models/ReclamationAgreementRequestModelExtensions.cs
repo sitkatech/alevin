@@ -52,13 +52,21 @@ namespace ProjectFirma.Web.Models
             return "";
         }
 
-        public static int? GetRequisitionDeptReviewDays(this ReclamationAgreementRequest agreementRequest)
+        public static string GetRequisitionDeptReviewDays(this ReclamationAgreementRequest agreementRequest)
         {
-            if (agreementRequest.DateSentForDeptReview != null)
+            if (agreementRequest.DateSentForDeptReview != null && agreementRequest.ActualAwardDate != null)
             {
-                return -((DateTime)agreementRequest.DateSentForDeptReview - DateTime.Now).Days;
+                var dateDifference = -((DateTime)agreementRequest.DateSentForDeptReview - (DateTime)agreementRequest.ActualAwardDate).Days;
+                return dateDifference.ToString();
             }
-            return null;
+
+            if (agreementRequest.DateSentForDeptReview != null && agreementRequest.ActualAwardDate == null)
+            {
+                var deptReviewDays = -((DateTime) agreementRequest.DateSentForDeptReview - DateTime.Now).Days;
+                return deptReviewDays.ToString();
+            }
+            
+            return "";
         }
 
         public static int? GetRequisitionDaysToAssign(this ReclamationAgreementRequest agreementRequest)
