@@ -35,6 +35,10 @@ namespace ProjectFirma.Web.Views.AgreementRequest
     {
         public ProjectFirmaModels.Models.ReclamationAgreementRequest ReclamationAgreementRequest { get; }
 
+        public string CostAuthorityAgreementRequestGridName { get; }
+        public CostAuthorityAgreementRequestGridSpec CostAuthorityAgreementRequestGridSpec { get; }
+        public string CostAuthorityAgreementRequestGridDataUrl { get; }
+
         public string IndexUrl { get; }
         public string EditRequisitionInformationUrl { get; }
         public bool UserCanEditRequisitionInformation { get; }
@@ -49,6 +53,15 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             IndexUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestIndex());
             EditRequisitionInformationUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.EditRequisitionInformation(reclamationAgreementRequest));
             UserCanEditRequisitionInformation = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
+            CostAuthorityAgreementRequestGridName = "costAuthorityAgreementRequestGrid";
+            CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession)
+            {
+                ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
+                SaveFiltersInCookie = true
+            };
+            CostAuthorityAgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementRequestsJsonData(reclamationAgreementRequest));
         }
 
 

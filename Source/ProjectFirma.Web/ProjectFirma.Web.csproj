@@ -241,6 +241,7 @@
     <Compile Include="Views\AgreementRequest\AgreementRequestGridSpec.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestIndex.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestIndexViewData.cs" />
+    <Compile Include="Views\AgreementRequest\CostAuthorityAgreementRequestGridSpec.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequest.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewData.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewModel.cs" />
