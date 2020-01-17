@@ -38,12 +38,12 @@ GO
 
  insert into dbo.FieldDefinition([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName])
 
- values (10030,N'AgreementRequestSubmissionNote', N'Submission Note')
+ values (10033,N'AgreementRequestSubmissionNote', N'Submission Note')
 
  go
 
  insert into dbo.FieldDefinitionDefault(FieldDefinitionID, DefaultDefinition)
- values(10030,N'Agreement Request Submission Note')
+ values(10033,N'Agreement Request Submission Note')
 
  go
 

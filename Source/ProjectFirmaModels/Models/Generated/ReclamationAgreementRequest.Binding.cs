@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         protected ReclamationAgreementRequest()
         {
             this.ReclamationAgreementRequestSubmissionNotes = new HashSet<ReclamationAgreementRequestSubmissionNote>();
+            this.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest = new HashSet<ReclamationCostAuthorityAgreementRequest>();
         }
 
         /// <summary>
@@ -106,13 +107,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationAgreementRequestSubmissionNotes.Any();
+            return ReclamationAgreementRequestSubmissionNotes.Any() || ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationAgreementRequest).Name, typeof(ReclamationAgreementRequestSubmissionNote).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationAgreementRequest).Name, typeof(ReclamationAgreementRequestSubmissionNote).Name, typeof(ReclamationCostAuthorityAgreementRequest).Name};
 
 
         /// <summary>
@@ -138,6 +139,11 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in ReclamationAgreementRequestSubmissionNotes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -171,6 +177,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationAgreementRequestID; } set { ReclamationAgreementRequestID = value; } }
 
         public virtual ICollection<ReclamationAgreementRequestSubmissionNote> ReclamationAgreementRequestSubmissionNotes { get; set; }
+        public virtual ICollection<ReclamationCostAuthorityAgreementRequest> ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest { get; set; }
         public virtual ReclamationAgreement Agreement { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
         public ReclamationAgreementRequestStatus AgreementRequestStatus { get { return ReclamationAgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }

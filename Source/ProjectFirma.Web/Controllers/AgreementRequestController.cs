@@ -196,6 +196,16 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
+        [AgreementRequestIndexViewFeature]
+        public GridJsonNetJObjectResult<ReclamationCostAuthorityAgreementRequest> CostAuthorityAgreementRequestsJsonData(ReclamationAgreementRequestPrimaryKey reclamationAgreementRequestPrimaryKey)
+        {
+            var gridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession);
+            var reclamationCostAuthorityAgreementRequests = reclamationAgreementRequestPrimaryKey.EntityObject
+                .ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthorityAgreementRequest>(reclamationCostAuthorityAgreementRequests, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
 
     }
 }

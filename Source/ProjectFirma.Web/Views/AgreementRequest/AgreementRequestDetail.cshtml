@@ -22,9 +22,11 @@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared.TextControls
 @inherits ProjectFirma.Web.Views.AgreementRequest.AgreementRequestDetail
 
@@ -166,6 +168,16 @@
 
             </div>
         </div>
+    </div>
+</div>
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h2 class="project-detail-heading">
+            PROJECT OBLIGATIONS
+        </h2>
+    </div>
+    <div class="panel-body">
+        @Html.DhtmlxGrid(ViewDataTyped.CostAuthorityAgreementRequestGridSpec, ViewDataTyped.CostAuthorityAgreementRequestGridName, ViewDataTyped.CostAuthorityAgreementRequestGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 
