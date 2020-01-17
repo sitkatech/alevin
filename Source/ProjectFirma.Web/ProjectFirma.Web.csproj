@@ -245,8 +245,11 @@
     <Compile Include="Views\AgreementRequest\AgreementRequestIndex.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestIndexViewData.cs" />
     <Compile Include="Views\AgreementRequest\CostAuthorityAgreementRequestGridSpec.cs" />
+    <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequests.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequest.cs" />
+    <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequestsViewData.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewData.cs" />
+    <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequestsViewModel.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequestViewModel.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestHelper.cs" />
     <Compile Include="Views\AgreementRequest\EditRequisitionInformation.cs" />
@@ -624,6 +627,7 @@
     <Content Include="Views\AgreementRequest\AgreementRequestIndex.cshtml" />
     <Content Include="Views\AgreementRequest\EditAgreementRequest.cshtml" />
     <Content Include="Views\AgreementRequest\EditRequisitionInformation.cshtml" />
+    <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequests.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />

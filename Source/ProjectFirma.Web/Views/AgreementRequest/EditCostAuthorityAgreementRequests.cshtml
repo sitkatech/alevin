@@ -1,0 +1,177 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.AgreementRequest.EditCostAuthorityAgreementRequests
+
+
+<style>
+
+    form .form-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="input-group">
+                                <div class="col-xs-offset-1 col-xs-12" style="margin: 10px;">
+                                    Add one or many CAWBS and their projected obligations to this Agreement Request.
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-12">
+                                <div class="input-group" style="width: 100%;">
+                                    
+                                    <div class="row">
+                                        @Html.LabelWithSugarFor(m => m.CostAuthorityID, "Identify Related Projects/activities by CAWBS", true)
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-11" style="padding-right: 0px;">
+                                            @Html.DropDownListFor(m => m.CostAuthorityID, ViewDataTyped.CostAuthorities, new {@class = "form-control selectpicker", @data_container = ".modal-content", @data_live_search = "true"})
+                                        </div>
+                                        <div class="col-xs-1" style="padding-left: 0px;">
+                                            <a class="btn-firma btn" id="addCostAuthorityButton">
+                                                <span class="glyphicon glyphicon-plus">Add</span>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="input-group" >
+                                    <div class="row" id="selectedCostAuthorityIDs" style="display: none" >
+                                        
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row selected-cost-authorities">
+        <div class="col-md-12">
+            <div class="panel panel-primary">
+                <div class="panel-body panel-body-table">
+                    <table class="table table-condensed table-striped" id="tableForAdding">
+                        <tr>
+                            <th></th>
+                            <th class="col-md-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                            <th class="col-md-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.AccountStructureDescription.ToType())</th>
+                            <th class="col-md-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectedObligation.ToType())</th>
+                            <th class="col-md-5">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityAgreementRequestNote.ToType(), "Note")</th>
+                        </tr>
+                        <tr style="display: none" id="trForCloning">
+                            <td>
+                                <button type="button" title="Remove row" alt="Remove row" class="btn btn-xs btn-firma remove-cost-authority"><span class="glyphicon glyphicon-trash white"></span></button>
+                            </td>
+                            <td class="CostAuthorityWorkBreakdownStructure"></td>
+                            <td class="AccountStructureDescription"></td>
+                            <td class="ProjectedObligation"></td>
+                            <td class="CostAuthorityAgreementRequestNote"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var costAuthorityJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.CostAuthorityJsonList.CostAuthorityJsons).ToString(Formatting.None));
+
+        var currentlySelectedReclamationCostAuthorityIDs = new Array();
+
+        jQuery("#addCostAuthorityButton").click(function() {
+            var costAuthoritySelection = jQuery("#@Html.IdFor(m => m.CostAuthorityID)");
+            var costAuthorityVal = costAuthoritySelection.val();
+            console.log(costAuthorityVal);
+            if (costAuthorityVal != null && costAuthorityVal != '') {
+                var thiscostAuthorityID = parseInt(costAuthorityVal);
+                var costAuthority = costAuthorityJsons[thiscostAuthorityID];
+                if (currentlySelectedReclamationCostAuthorityIDs.indexOf(thiscostAuthorityID) == -1) {
+                    currentlySelectedReclamationCostAuthorityIDs.push(thiscostAuthorityID);
+                    console.log(costAuthority);
+                    var tr = jQuery("#trForCloning").clone();
+                    tr.prop("id", "");
+                    tr.children(".CostAuthorityWorkBreakdownStructure").text(costAuthority.CostAuthorityWorkBreakdownStructure);
+                    tr.children(".AccountStructureDescription").text(costAuthority.AccountStructureDescription);
+                    tr.css("display", "");
+                    jQuery("#tableForAdding").append(tr);
+                }
+            }
+            jQuery("#@Html.IdFor(m => m.CostAuthorityID)").val('default');
+            jQuery("#@Html.IdFor(m => m.CostAuthorityID)").selectpicker("refresh");
+
+
+            jQuery("#selectedCostAuthorityIDs").html("");
+            for (var i = 0; i < currentlySelectedReclamationCostAuthorityIDs.length; i++) {
+                var input = jQuery("<input>");
+                var makeID = "@(Html.IdFor(m => m.SelectedReclamationCostAuthorityIDs))_" + i.toString() + "_";
+                input.prop("name", "@(Html.NameFor(m => m.SelectedReclamationCostAuthorityIDs))[" + i.toString() + "]");
+                var currentID = currentlySelectedReclamationCostAuthorityIDs[i].toString();
+                console.log(currentID);
+                input.prop("type", "text");
+                input.prop("value", currentID);
+                input.prop("id", makeID);
+                jQuery("#selectedCostAuthorityIDs").append(input);
+                console.log(jQuery("#" + makeID));
+                console.log(jQuery("#"+makeID).val());
+            }
+          
+        });
+
+
+
+
+        jQuery(".selectpicker").selectpicker();
+
+
+    });
+
+
+</script>
+

@@ -27,6 +27,7 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.AgreementRequest
 @using ProjectFirma.Web.Views.Shared.TextControls
 @inherits ProjectFirma.Web.Views.AgreementRequest.AgreementRequestDetail
 
@@ -176,6 +177,12 @@
             PROJECT OBLIGATIONS
         </h2>
     </div>
+    <div class="rightFloatingInfo" style="margin-right: 20px;">
+        @ViewDataTyped.ReclamationAgreementRequest.EditCostAuthorityAgreementRequestsButton()
+    </div>
+    <br/>
+    <br/>
+    <br/>
     <div class="panel-body">
         @Html.DhtmlxGrid(ViewDataTyped.CostAuthorityAgreementRequestGridSpec, ViewDataTyped.CostAuthorityAgreementRequestGridName, ViewDataTyped.CostAuthorityAgreementRequestGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>

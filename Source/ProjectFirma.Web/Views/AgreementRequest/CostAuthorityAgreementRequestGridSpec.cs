@@ -52,10 +52,10 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             //    Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
             //        DhtmlxGridColumnFilterType.Html);
             //}
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 300, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.AccountStructureDescription.ToType().ToGridHeaderString(), x => x.CostAuthority.AccountStructureDescription, 300, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.CostAuthorityAgreementRequestNote.ToType().ToGridHeaderString("Notes"), x => x.ReclamationCostAuthorityAgreementRequestNote, 150, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 300, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.CostAuthorityAgreementRequestNote.ToType().ToGridHeaderString("Notes"), x => x.ReclamationCostAuthorityAgreementRequestNote, 300, DhtmlxGridColumnFilterType.Text);
             
         }
     }
