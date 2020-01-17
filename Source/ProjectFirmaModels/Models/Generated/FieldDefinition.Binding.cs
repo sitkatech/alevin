@@ -316,6 +316,7 @@ namespace ProjectFirmaModels.Models
         RequisitionDaysToAward = 10029,
         CostAuthorityNumber = 10030,
         AccountStructureDescription = 10031,
-        CostAuthorityAgreementRequestNote = 10032
+        CostAuthorityAgreementRequestNote = 10032,
+        AgreementRequestSubmissionNote = 10033
     }
 }

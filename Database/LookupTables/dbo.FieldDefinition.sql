@@ -195,4 +195,5 @@ VALUES
 (10029,N'RequisitionDaysToAward', N'Days to Award'),
 (10030,N'CostAuthorityNumber', N'Cost Authority Number'),
 (10031,N'AccountStructureDescription', N'Account Structure Description'),
-(10032,N'CostAuthorityAgreementRequestNote', N'Note on projected obligation from a CAWBS to an Agreement')
+(10032,N'CostAuthorityAgreementRequestNote', N'Note on projected obligation from a CAWBS to an Agreement'),
+(10033,N'AgreementRequestSubmissionNote', N'Submission Note')

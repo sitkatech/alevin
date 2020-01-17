@@ -26,6 +26,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.CostAuthority;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Shared.TextControls;
 
 //using ProjectFirma.Web.Views.Project;
 
@@ -42,10 +43,12 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public string IndexUrl { get; }
         public string EditRequisitionInformationUrl { get; }
         public bool UserCanEditRequisitionInformation { get; }
+        public bool UserCanInteractWithSubmissionNotes { get; }
+        public EntityNotesViewData AgreementRequestNotesViewData { get; }
 
         public AgreementRequestDetailViewData(FirmaSession currentFirmaSession,
-                                       ProjectFirmaModels.Models.ReclamationAgreementRequest reclamationAgreementRequest
-                                       ) : base(currentFirmaSession)
+            ReclamationAgreementRequest reclamationAgreementRequest, bool userCanInteractWithSubmissionNotes,
+            EntityNotesViewData agreementRequestNotesViewData) : base(currentFirmaSession)
         {
             PageTitle = $"Agreement Request: {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}";
             EntityName = "Agreement Request Detail";
@@ -53,7 +56,8 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             IndexUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestIndex());
             EditRequisitionInformationUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.EditRequisitionInformation(reclamationAgreementRequest));
             UserCanEditRequisitionInformation = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
-
+            UserCanInteractWithSubmissionNotes = userCanInteractWithSubmissionNotes;
+            AgreementRequestNotesViewData = agreementRequestNotesViewData;
             CostAuthorityAgreementRequestGridName = "costAuthorityAgreementRequestGrid";
             CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession)
             {
@@ -61,9 +65,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
                 ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
                 SaveFiltersInCookie = true
             };
-            CostAuthorityAgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementRequestsJsonData(reclamationAgreementRequest));
-        }
-
+            CostAuthorityAgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementRequestsJsonData(reclamationAgreementRequest));        }
 
     }
 }
