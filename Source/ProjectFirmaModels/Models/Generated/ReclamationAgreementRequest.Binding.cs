@@ -25,12 +25,13 @@ namespace ProjectFirmaModels.Models
         protected ReclamationAgreementRequest()
         {
             this.ReclamationAgreementRequestSubmissionNotes = new HashSet<ReclamationAgreementRequestSubmissionNote>();
+            this.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest = new HashSet<ReclamationCostAuthorityAgreementRequest>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, int? requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
+        public ReclamationAgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
         {
             this.ReclamationAgreementRequestID = reclamationAgreementRequestID;
             this.IsModification = isModification;
@@ -106,13 +107,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationAgreementRequestSubmissionNotes.Any();
+            return ReclamationAgreementRequestSubmissionNotes.Any() || ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationAgreementRequest).Name, typeof(ReclamationAgreementRequestSubmissionNote).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationAgreementRequest).Name, typeof(ReclamationAgreementRequestSubmissionNote).Name, typeof(ReclamationCostAuthorityAgreementRequest).Name};
 
 
         /// <summary>
@@ -141,6 +142,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -160,7 +166,7 @@ namespace ProjectFirmaModels.Models
         public int CreatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
         public int? UpdatePersonID { get; set; }
-        public int? RequisitionNumber { get; set; }
+        public string RequisitionNumber { get; set; }
         public DateTime? RequisitionDate { get; set; }
         public string ContractSpecialist { get; set; }
         public DateTime? AssignedDate { get; set; }
@@ -171,6 +177,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationAgreementRequestID; } set { ReclamationAgreementRequestID = value; } }
 
         public virtual ICollection<ReclamationAgreementRequestSubmissionNote> ReclamationAgreementRequestSubmissionNotes { get; set; }
+        public virtual ICollection<ReclamationCostAuthorityAgreementRequest> ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest { get; set; }
         public virtual ReclamationAgreement Agreement { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
         public ReclamationAgreementRequestStatus AgreementRequestStatus { get { return ReclamationAgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }
@@ -183,6 +190,7 @@ namespace ProjectFirmaModels.Models
         public static class FieldLengths
         {
             public const int DescriptionOfNeed = 250;
+            public const int RequisitionNumber = 50;
             public const int ContractSpecialist = 250;
         }
     }

@@ -2,7 +2,7 @@
 
 ALTER TABLE dbo.ReclamationAgreementRequest
 ADD 
-RequisitionNumber int null,
+RequisitionNumber nvarchar(50) null,
 RequisitionDate datetime null,
 ContractSpecialist nvarchar(250) null,
 AssignedDate datetime null,

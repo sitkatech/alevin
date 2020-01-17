@@ -5,11 +5,8 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.AgreementRequest;
-using ProjectFirma.Web.Views.ProjectProjectStatus;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
 
@@ -195,6 +192,16 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditRequisitionInformation, EditRequisitionInformationViewData, EditRequisitionInformationViewModel>(viewData, viewModel);
         }
 
+
+        [AgreementRequestIndexViewFeature]
+        public GridJsonNetJObjectResult<ReclamationCostAuthorityAgreementRequest> CostAuthorityAgreementRequestsJsonData(ReclamationAgreementRequestPrimaryKey reclamationAgreementRequestPrimaryKey)
+        {
+            var gridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession);
+            var reclamationCostAuthorityAgreementRequests = reclamationAgreementRequestPrimaryKey.EntityObject
+                .ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthorityAgreementRequest>(reclamationCostAuthorityAgreementRequests, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
 
 
     }
