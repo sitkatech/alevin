@@ -1,0 +1,79 @@
+
+--begin tran
+
+CREATE TABLE [dbo].[ActionItem](
+	[ActionItemID] [int] IDENTITY(1,1) NOT NULL,
+    [ActionItemStateID] int not null,
+    [ActionItemText] varchar(5000) null,
+    [AssignedToPersonID] int not null,
+    [AssignedOnDate] datetime not null,
+    [DueByDate] datetime not null,
+    [CompletedOnDate] datetime null,
+    [ProjectStatusID] int null,
+    [ProjectID] int not null
+ CONSTRAINT [PK_ActionItem_ActionItemID] PRIMARY KEY CLUSTERED 
+(
+	[ActionItemID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+
+-- project
+ALTER TABLE [dbo].ActionItem  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Project_ProjectID] FOREIGN KEY([ProjectID])
+REFERENCES [dbo].[Project] ([ProjectID])
+GO
+
+ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_Project_ProjectID]
+GO
+
+-- Assigned to person
+ALTER TABLE [dbo].ActionItem  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_PersonID] FOREIGN KEY([AssignedToPersonID])
+REFERENCES [dbo].Person ([PersonID])
+GO
+
+ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_PersonID]
+GO
+
+-- Status Update
+ALTER TABLE [dbo].ActionItem  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ProjectStatus_ProjectStatusID] FOREIGN KEY([ProjectStatusID])
+REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
+GO
+
+ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_ProjectStatus_ProjectStatusID]
+GO
+
+
+
+
+
+-- Action Item State to go here
+CREATE TABLE [dbo].[ActionItemState](
+	ActionItemStateID [int] NOT NULL,
+    ActionItemStateName varchar(100) not null,
+    ActionItemStateDisplayName varchar(100) not null,
+    SortOrder int not null,
+ CONSTRAINT [PK_ActionItemState_ActionItemStateID] PRIMARY KEY CLUSTERED 
+(
+	[ActionItemStateID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+insert dbo.ActionItemState (ActionItemStateID, ActionItemStateName, ActionItemStateDisplayName, SortOrder) values 
+(1, 'Incomplete', 'Incomplete', 10),
+(2, 'Complete', 'Complete', 20)
+
+
+-- action item state key to action item
+ALTER TABLE [dbo].ActionItem  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ActionItemState_ActionItemStateID] FOREIGN KEY([ActionItemStateID])
+REFERENCES [dbo].[ActionItemState] ([ActionItemStateID])
+GO
+
+ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_ActionItemState_ActionItemStateID]
+GO
+
+
+
+
+--rollback tran

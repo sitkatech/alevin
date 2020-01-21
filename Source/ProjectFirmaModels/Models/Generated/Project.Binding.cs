@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Project()
         {
+            this.ActionItems = new HashSet<ActionItem>();
             this.NotificationProjects = new HashSet<NotificationProject>();
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
             this.PerformanceMeasureExpecteds = new HashSet<PerformanceMeasureExpected>();
@@ -142,13 +143,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectAttachments.Any() || ProjectClassifications.Any() || ProjectContacts.Any() || ProjectCustomAttributes.Any() || ProjectEvaluations.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceExpenditures.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectImages.Any() || ProjectInternalNotes.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNoFundingSourceIdentifieds.Any() || ProjectNotes.Any() || ProjectOrganizations.Any() || ProjectProjectStatuses.Any() || ProjectRelevantCostTypes.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || ReclamationCostAuthorityProjects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TechnicalAssistanceRequests.Any();
+            return ActionItems.Any() || NotificationProjects.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureExpecteds.Any() || ProjectAssessmentQuestions.Any() || ProjectAttachments.Any() || ProjectClassifications.Any() || ProjectContacts.Any() || ProjectCustomAttributes.Any() || ProjectEvaluations.Any() || ProjectExemptReportingYears.Any() || ProjectExternalLinks.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceExpenditures.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectImages.Any() || ProjectInternalNotes.Any() || ProjectLocations.Any() || ProjectLocationStagings.Any() || ProjectNoFundingSourceIdentifieds.Any() || ProjectNotes.Any() || ProjectOrganizations.Any() || ProjectProjectStatuses.Any() || ProjectRelevantCostTypes.Any() || ProjectTags.Any() || ProjectUpdateBatches.Any() || ReclamationCostAuthorityProjects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TechnicalAssistanceRequests.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectAttachment).Name, typeof(ProjectClassification).Name, typeof(ProjectContact).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectEvaluation).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectImage).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNoFundingSourceIdentified).Name, typeof(ProjectNote).Name, typeof(ProjectOrganization).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(ReclamationCostAuthorityProject).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TechnicalAssistanceRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Project).Name, typeof(ActionItem).Name, typeof(NotificationProject).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureExpected).Name, typeof(ProjectAssessmentQuestion).Name, typeof(ProjectAttachment).Name, typeof(ProjectClassification).Name, typeof(ProjectContact).Name, typeof(ProjectCustomAttribute).Name, typeof(ProjectEvaluation).Name, typeof(ProjectExemptReportingYear).Name, typeof(ProjectExternalLink).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectImage).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocation).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectNoFundingSourceIdentified).Name, typeof(ProjectNote).Name, typeof(ProjectOrganization).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectTag).Name, typeof(ProjectUpdateBatch).Name, typeof(ReclamationCostAuthorityProject).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TechnicalAssistanceRequest).Name};
 
 
         /// <summary>
@@ -172,6 +173,11 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteChildren(DatabaseEntities dbContext)
         {
+
+            foreach(var x in ActionItems.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
 
             foreach(var x in NotificationProjects.ToList())
             {
@@ -353,6 +359,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
+        public virtual ICollection<ActionItem> ActionItems { get; set; }
         public virtual ICollection<NotificationProject> NotificationProjects { get; set; }
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureExpected> PerformanceMeasureExpecteds { get; set; }
