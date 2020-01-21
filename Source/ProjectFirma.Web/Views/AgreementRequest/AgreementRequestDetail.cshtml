@@ -105,7 +105,8 @@
     <div class="col-lg-6 col-md-5">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
-                <h2>
+                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAgreementRequestBasicsUrl, string.Format("Edit {0}", FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanEditAgreementRequest)
+                <h2 class="project-detail-heading">
                     Basics
                 </h2>
             </div>

@@ -159,7 +159,9 @@ VALUES
 (334, N'EvaluationEndDate', 'Evaluation End Date'),
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
 (336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
-(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition')
+(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition'),
+(338, N'EnableProjectEvaluations', 'Enable Project Evaluations')
+
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 

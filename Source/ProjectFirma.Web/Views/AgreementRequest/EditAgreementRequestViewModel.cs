@@ -128,11 +128,10 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         {
             var errors = new List<ValidationResult>();
 
-
             // Agreement is required if is mod
             if (IsModification && !AgreementID.HasValue)
             {
-                errors.Add(new ValidationResult($"An Agreement must be selected if the Agreement Request is a modification to an existing Agreement."));
+                errors.Add(new SitkaValidationResult<EditAgreementRequestViewModel, int?>($"An Agreement must be selected if the Agreement Request is a modification to an existing Agreement.", x => x.AgreementID));
             }
 
             if (Palt.HasValue && (Palt > 365 || Palt < 1))
