@@ -75,5 +75,18 @@ GO
 
 
 
+-- Field Definitions
+INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
+VALUES 
+(10034,N'ActionItem', N'Action Item'),
+(10035,N'ActionItemState', N'Action Item State'),
+(10036,N'ActionItemAssignedToPerson', N'Assigned To'),
+(10037,N'ActionItemAssignedOnDate', N'Assigned On'),
+(10038,N'ActionItemDueByDate', N'Due By'),
+(10039,N'ActionItemCompletedOnDate', N'Completed On'),
+(10040,N'ActionItemProjectStatus', N'Related Project Status'),
+(10041,N'ActionItemText', N'Action Item Text')
+
+
 
 --rollback tran

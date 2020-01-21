@@ -318,6 +318,14 @@ namespace ProjectFirmaModels.Models
         CostAuthorityNumber = 10030,
         AccountStructureDescription = 10031,
         CostAuthorityAgreementRequestNote = 10032,
-        AgreementRequestSubmissionNote = 10033
+        AgreementRequestSubmissionNote = 10033,
+        ActionItem = 10034,
+        ActionItemState = 10035,
+        ActionItemAssignedToPerson = 10036,
+        ActionItemAssignedOnDate = 10037,
+        ActionItemDueByDate = 10038,
+        ActionItemCompletedOnDate = 10039,
+        ActionItemProjectStatus = 10040,
+        ActionItemText = 10041
     }
 }
