@@ -285,6 +285,8 @@ namespace ProjectFirmaModels.Models
         EvaluationVisibility = 335,
         EvaluationCriterionName = 336,
         EvaluationCriterionDefinition = 337,
+        EnableProjectEvaluations = 338
+
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
