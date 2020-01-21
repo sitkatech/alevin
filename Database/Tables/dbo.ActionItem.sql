@@ -4,6 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[ActionItem](
 	[ActionItemID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
 	[ActionItemStateID] [int] NOT NULL,
 	[ActionItemText] [varchar](5000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[AssignedToPersonID] [int] NOT NULL,
@@ -38,3 +39,8 @@ ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Projec
 REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
 GO
 ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_ProjectStatus_ProjectStatusID]
+GO
+ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Tenant_TenantID]

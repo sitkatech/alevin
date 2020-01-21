@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[ActionItem]
 using System.Collections.Generic;
 using System.Linq;
-using Z.EntityFramework.Plus;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
@@ -20,33 +19,5 @@ namespace ProjectFirmaModels.Models
             return actionItem;
         }
 
-        // Delete using an IDList (Firma style)
-        public static void DeleteActionItem(this IQueryable<ActionItem> actionItems, List<int> actionItemIDList)
-        {
-            if(actionItemIDList.Any())
-            {
-                actionItems.Where(x => actionItemIDList.Contains(x.ActionItemID)).Delete();
-            }
-        }
-
-        // Delete using an object list (Firma style)
-        public static void DeleteActionItem(this IQueryable<ActionItem> actionItems, ICollection<ActionItem> actionItemsToDelete)
-        {
-            if(actionItemsToDelete.Any())
-            {
-                var actionItemIDList = actionItemsToDelete.Select(x => x.ActionItemID).ToList();
-                actionItems.Where(x => actionItemIDList.Contains(x.ActionItemID)).Delete();
-            }
-        }
-
-        public static void DeleteActionItem(this IQueryable<ActionItem> actionItems, int actionItemID)
-        {
-            DeleteActionItem(actionItems, new List<int> { actionItemID });
-        }
-
-        public static void DeleteActionItem(this IQueryable<ActionItem> actionItems, ActionItem actionItemToDelete)
-        {
-            DeleteActionItem(actionItems, new List<ActionItem> { actionItemToDelete });
-        }
     }
 }

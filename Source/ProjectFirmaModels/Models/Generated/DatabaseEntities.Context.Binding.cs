@@ -213,7 +213,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
         }
-        public virtual DbSet<ActionItem> ActionItems { get; set; }
+        public virtual DbSet<ActionItem> AllActionItems { get; set; }
+        public virtual IQueryable<ActionItem> ActionItems { get { return AllActionItems.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentQuestion> AllAssessmentQuestions { get; set; }

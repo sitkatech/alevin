@@ -15,9 +15,9 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ActionItem] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    // Table [dbo].[ActionItem] is multi-tenant, so is attributed as IHaveATenantID
     [Table("[dbo].[ActionItem]")]
-    public partial class ActionItem : IHavePrimaryKey, ICanDeleteFull
+    public partial class ActionItem : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
         /// Default Constructor; only used by EF
@@ -104,7 +104,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.ActionItems.Remove(this);
+            dbContext.AllActionItems.Remove(this);
         }
         
         /// <summary>
@@ -118,6 +118,7 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int ActionItemID { get; set; }
+        public int TenantID { get; set; }
         public int ActionItemStateID { get; set; }
         public string ActionItemText { get; set; }
         public int AssignedToPersonID { get; set; }
@@ -129,6 +130,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ActionItemID; } set { ActionItemID = value; } }
 
+        public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public ActionItemState ActionItemState { get { return ActionItemState.AllLookupDictionary[ActionItemStateID]; } }
         public virtual Person AssignedToPerson { get; set; }
         public virtual ProjectStatus ProjectStatus { get; set; }

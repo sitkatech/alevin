@@ -16,6 +16,7 @@ namespace ProjectFirmaModels.Models
             ToTable("ActionItem", schema);
             HasKey(x => x.ActionItemID);
             Property(x => x.ActionItemID).HasColumnName(@"ActionItemID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ActionItemStateID).HasColumnName(@"ActionItemStateID").HasColumnType("int").IsRequired();
             Property(x => x.ActionItemText).HasColumnName(@"ActionItemText").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(5000);
             Property(x => x.AssignedToPersonID).HasColumnName(@"AssignedToPersonID").HasColumnType("int").IsRequired();

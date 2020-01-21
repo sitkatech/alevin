@@ -69,5 +69,6 @@ values
 (10000, 'AgreementList', 'Agreement List', 1),
 (10001, 'CostAuthorityList', 'Cost Authority List', 1),
 (10002, 'AgreementRequestList', 'Agreement Request List', 1),
-(10003, 'AgreementRequestFromGridDialog', 'Agreement Request Grid Dialog', 2)
+(10003, 'AgreementRequestFromGridDialog', 'Agreement Request Grid Dialog', 2),
+(10004, 'ActionItemEditDialog', 'Action Item Edit Dialog', 2)
 

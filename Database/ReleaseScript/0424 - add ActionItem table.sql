@@ -3,6 +3,7 @@
 
 CREATE TABLE [dbo].[ActionItem](
 	[ActionItemID] [int] IDENTITY(1,1) NOT NULL,
+    [TenantID] [int] not null,
     [ActionItemStateID] int not null,
     [ActionItemText] varchar(5000) null,
     [AssignedToPersonID] int not null,
@@ -16,6 +17,14 @@ CREATE TABLE [dbo].[ActionItem](
 	[ActionItemID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+GO
+
+-- tenant
+ALTER TABLE [dbo].ActionItem  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+
+ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_Tenant_TenantID]
 GO
 
 
@@ -87,6 +96,18 @@ VALUES
 (10040,N'ActionItemProjectStatus', N'Related Project Status'),
 (10041,N'ActionItemText', N'Action Item Text')
 
+
+go
+
+-- Firma Page
+insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
+values
+(10004, 'ActionItemEditDialog', 'Action Item Edit Dialog', 2)
+
+go
+insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
+select TenantID, 10004, '<p>Action Item Edit Dialog</p>' 
+from dbo.Tenant
 
 
 --rollback tran
