@@ -47,6 +47,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
@@ -241,6 +242,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
+            var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
@@ -292,7 +294,8 @@ namespace ProjectFirma.Web.Controllers
                 editExpectedFundingUrl,
                 projectTimelineViewData,
                 userHasProjectTimelinePermissions,
-                projectEvaluationsUserHasAccessTo);
+                projectEvaluationsUserHasAccessTo,
+                actionItemsDisplayViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -377,6 +380,20 @@ namespace ProjectFirma.Web.Controllers
                 x => x.CaptionOnFullView,
                 "Photo");
             return imageGalleryViewData;
+        }
+
+        private static ActionItemsDisplayViewData BuildActionItemsDisplayViewData(Project project, FirmaSession currentFirmaSession)
+        {
+            var actionItemsGridSpec = new ActionItemsGridSpec();
+            const string actionItemsGridName = "actionItems";
+            var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsGridJsonData(project));
+            var userCanViewActionItems = new ActionItemEditFeature().HasPermission(currentFirmaSession, project);
+            var userCanEditActionItems = new ActionItemEditFeature().HasPermission(currentFirmaSession, project);
+            var addNewActionItemUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.New(project));
+
+            var actionItemsDisplayViewData = new ActionItemsDisplayViewData(project, actionItemsGridSpec,
+                actionItemsGridName, actionItemsGridDataUrl, userCanViewActionItems, userCanEditActionItems, addNewActionItemUrl);
+            return actionItemsDisplayViewData;
         }
 
         private static List<ProjectStage> GetActiveProjectStages(Project project)

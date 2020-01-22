@@ -1,0 +1,41 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectContactsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@inherits ProjectFirma.Web.Views.ActionItem.ActionItemsDisplay
+
+<div>
+    @if (ViewDataTyped.UserCanEditActionItems.HasPermission)
+    {
+        <div class="text-right" style="margin-bottom: 15px;">
+            <span>
+                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<button class='btn btn-firma'><span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}</button>", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), ViewDataTyped.AddNewActionItemUrl, string.Format("Add New {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), 700, "Add", "Cancel", new List<string> {  }, null, null)
+            </span>
+        </div>
+    }
+
+    @Html.DhtmlxGrid(ViewDataTyped.ActionItemsGridSpec, ViewDataTyped.ActionItemsGridName, ViewDataTyped.ActionItemsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+</div>
+
+
