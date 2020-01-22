@@ -22,6 +22,8 @@
 @using ProjectFirma.Web.Views.Shared
 @using ProjectFirma.Web.Views
 @using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ActionItem.Edit
 
 
@@ -33,16 +35,76 @@
 
 @using (Html.BeginForm())
 {
-    <div class="form-horizontal">
+    
+<div class="form-horizontal">
+    @Html.HiddenFor(m => m.ProjectID)
+    @* todo: Assigned to person *@
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.AssignedToPersonID)
+        </div>
+        <div class="col-sm-9">
+            @Html.SearchableDropDownListFor(m => m.AssignedToPersonID, ViewDataTyped.PeopleSelectListItems)
+            @Html.ValidationMessageFor(m => m.AssignedToPersonID)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.ActionItemStateEnum)
+        </div>
+        <div class="col-sm-9">
+            @Html.EnumDropDownListFor(m => m.ActionItemStateEnum, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ActionItemStateEnum)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.AssignedOnDate)
+        </div>
+        <div class="col-sm-9">
+            @Html.EditorFor(m => m.AssignedOnDate, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.AssignedOnDate)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.DueByDate)
+        </div>
+        <div class="col-sm-9">
+            @Html.EditorFor(m => m.DueByDate, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.DueByDate)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.CompletedOnDate)
+        </div>
+        <div class="col-sm-9">
+            @Html.EditorFor(m => m.CompletedOnDate, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CompletedOnDate)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.ActionItemText)
+        </div>
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.ActionItemText, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ActionItemText)
+        </div>
+    </div>
+    @if (ViewDataTyped.ProjectProjectStatusSelectListItems.Any())
+    {
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.ActionItemText)
+                @Html.LabelWithSugarFor(m => m.ProjectStatusID)
             </div>
             <div class="col-sm-9">
-                @Html.TextBoxFor(m => m.ActionItemText, new { style = "width:100%", @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.ActionItemText)
+                @Html.SearchableDropDownListFor(m => m.ProjectStatusID, ViewDataTyped.ProjectProjectStatusSelectListItems)
+                @Html.ValidationMessageFor(m => m.ProjectStatusID)
             </div>
         </div>
-
-    </div>
+    }
+</div>
 }
+

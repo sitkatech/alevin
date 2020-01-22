@@ -56,6 +56,7 @@ namespace ProjectFirma.Web.Views.ActionItem
         [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemAssignedOnDate)]
         public DateTime AssignedOnDate { get; set; }
 
+        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemDueByDate)]
         public DateTime DueByDate { get; set; }
 
@@ -101,6 +102,10 @@ namespace ProjectFirma.Web.Views.ActionItem
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
+
+            // todo: Due by date cant be before the assigned date
+
+            // todo: Completed date can't be before the assigned date
 
             return validationResults;
         }

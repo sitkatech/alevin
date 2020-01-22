@@ -1,5 +1,7 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -29,7 +31,9 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new EditViewModel()
             {
                 ActionItemStateEnum = ActionItemStateEnum.Incomplete,
-                ProjectID = project.ProjectID
+                ProjectID = project.ProjectID,
+                AssignedOnDate =  DateTime.Now,
+                DueByDate = DateTime.Now
             };
             
             return ViewEdit(viewModel);
@@ -47,7 +51,12 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
             var firmaPage = FirmaPageTypeEnum.ActionItemEditDialog.GetFirmaPage();
-            var viewData = new EditViewData(CurrentFirmaSession, firmaPage);
+            var peopleSelectListItems = HttpRequestStorage.DatabaseEntities.People.AsEnumerable()
+                .ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLastAndOrg());
+            var projectProjectStatusesSelectListItems = HttpRequestStorage.DatabaseEntities.ProjectProjectStatuses
+                .Where(pps => pps.ProjectID == viewModel.ProjectID).AsEnumerable()
+                .ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.GetDropdownDisplayName());
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 

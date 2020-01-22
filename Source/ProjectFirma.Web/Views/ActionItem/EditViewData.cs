@@ -29,11 +29,14 @@ namespace ProjectFirma.Web.Views.ActionItem
     public class EditViewData : FirmaViewData
     {
         public ViewPageContentViewData PageContentViewData { get; }
+        public IEnumerable<SelectListItem> ProjectProjectStatusSelectListItems { get; }
+        public IEnumerable<SelectListItem> PeopleSelectListItems { get; }
 
-        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<SelectListItem> peopleSelectListItems, IEnumerable<SelectListItem> projectProjectStatusSelectListItems) : base(currentFirmaSession, firmaPage)
         {
             PageContentViewData = new ViewPageContentViewData(firmaPage, true);
-
+            ProjectProjectStatusSelectListItems = projectProjectStatusSelectListItems;
+            PeopleSelectListItems = peopleSelectListItems;
         }
 
     }
