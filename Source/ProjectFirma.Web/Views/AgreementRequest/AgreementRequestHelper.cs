@@ -30,7 +30,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.AgreementRequest
 {
-    public class AgreementRequestHelper
+    public static class AgreementRequestHelper
     {
         private static readonly string NewAgreementRequestUrl =
             SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(x => x.New());
@@ -42,8 +42,29 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public static HtmlString AddAgreementRequestButton()
         {
             return ModalDialogFormHelper.ModalDialogFormLink(GetAddNewAgreementRequestText(), NewAgreementRequestUrl,
-                $"Add a {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()}", 900, "Save", "Cancel",
+                $"Add a {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()}", 900, "Save",
+                "Cancel",
                 new List<string> {"btn", "btn-firma"}, null, null);
         }
+
+
+        private static string EditCostAuthorityAgreementRequestsUrl(this ReclamationAgreementRequest reclamationAgreementRequest)
+        {
+            return SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(x => x.EditCostAuthorityAgreementRequests(reclamationAgreementRequest.PrimaryKey));
+        }
+
+        private static string MakeProjectNewObligationsText() =>
+            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Project new Obligations";
+
+        public static HtmlString EditCostAuthorityAgreementRequestsButton(this ReclamationAgreementRequest reclamationAgreementRequest)
+        {
+            return ModalDialogFormHelper.ModalDialogFormLink(MakeProjectNewObligationsText(), EditCostAuthorityAgreementRequestsUrl(reclamationAgreementRequest),
+                $"Project new Obligations by CAWBS", 900, "Save",
+                "Cancel",
+                new List<string> { "btn", "btn-firma" }, null, null);
+        }
+
+
     }
+
 }

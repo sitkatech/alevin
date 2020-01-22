@@ -27,6 +27,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 {
     public class CostAuthorityAgreementRequestGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationCostAuthorityAgreementRequest>
     {
-        public CostAuthorityAgreementRequestGridSpec(FirmaSession currentFirmaSession)
+        public CostAuthorityAgreementRequestGridSpec(FirmaSession currentFirmaSession, bool isInDraft, List<int> costAuthorityIDListOnAgreement)
         {
             //var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             //if (userHasTagManagePermissions && allowTaggingFunctionality)
@@ -52,10 +53,16 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             //    Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
             //        DhtmlxGridColumnFilterType.Html);
             //}
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Html);
+            Add(string.Empty
+                , x => !isInDraft ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is in draft'><span class='sr-only'>You cannot delete this because it is in draft</span></span>")  
+                    : costAuthorityIDListOnAgreement.Contains(x.CostAuthorityID) ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is on the Agreement'><span class='sr-only'>You cannot delete this because it is on the Agreement</span></span>")
+                    : ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete This Projected Obligation", true)
+                , 30
+                , DhtmlxGridColumnFilterType.None);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 300, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.AccountStructureDescription.ToType().ToGridHeaderString(), x => x.CostAuthority.AccountStructureDescription, 300, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 150, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.CostAuthorityAgreementRequestNote.ToType().ToGridHeaderString("Notes"), x => x.ReclamationCostAuthorityAgreementRequestNote, 150, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 300, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.CostAuthorityAgreementRequestNote.ToType().ToGridHeaderString("Notes"), x => x.ReclamationCostAuthorityAgreementRequestNote, 300, DhtmlxGridColumnFilterType.Text);
             
         }
     }
