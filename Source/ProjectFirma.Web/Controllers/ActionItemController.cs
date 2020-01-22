@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -39,6 +40,25 @@ namespace ProjectFirma.Web.Controllers
             return ViewEdit(viewModel);
         }
 
+        [HttpPost]
+        [ActionItemEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditViewModel viewModel)
+        {
+            
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+            
+            var actionItem = new ActionItem(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
+
+            viewModel.UpdateModel(actionItem, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.AllActionItems.Add(actionItem);
+            SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
+            return new ModalDialogFormJsonResult();
+        }
+
         [HttpGet]
         [ActionItemEditFeature]
         public PartialViewResult Edit(ActionItemPrimaryKey actionItemPrimaryKey)
@@ -72,7 +92,7 @@ namespace ProjectFirma.Web.Controllers
             }
             
             viewModel.UpdateModel(actionItem, CurrentFirmaSession);
-            SetMessageForDisplay("Action Item successfully updated.");
+            SetMessageForDisplay($"Successfully edited {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
         }
 
