@@ -11,7 +11,7 @@ CREATE TABLE [dbo].[ActionItem](
 	[AssignedOnDate] [datetime] NOT NULL,
 	[DueByDate] [datetime] NOT NULL,
 	[CompletedOnDate] [datetime] NULL,
-	[ProjectStatusID] [int] NULL,
+	[ProjectProjectStatusID] [int] NULL,
 	[ProjectID] [int] NOT NULL,
  CONSTRAINT [PK_ActionItem_ActionItemID] PRIMARY KEY CLUSTERED 
 (
@@ -35,10 +35,10 @@ REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Project_ProjectID]
 GO
-ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ProjectStatus_ProjectStatusID] FOREIGN KEY([ProjectStatusID])
-REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
+ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID] FOREIGN KEY([ProjectProjectStatusID])
+REFERENCES [dbo].[ProjectProjectStatus] ([ProjectProjectStatusID])
 GO
-ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_ProjectStatus_ProjectStatusID]
+ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID]
 GO
 ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

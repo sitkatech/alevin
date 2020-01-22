@@ -10,7 +10,7 @@ CREATE TABLE [dbo].[ActionItem](
     [AssignedOnDate] datetime not null,
     [DueByDate] datetime not null,
     [CompletedOnDate] datetime null,
-    [ProjectStatusID] int null,
+    [ProjectProjectStatusID] int null,
     [ProjectID] int not null
  CONSTRAINT [PK_ActionItem_ActionItemID] PRIMARY KEY CLUSTERED 
 (
@@ -45,11 +45,11 @@ ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_Person_AssignedToPe
 GO
 
 -- Status Update
-ALTER TABLE [dbo].ActionItem  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ProjectStatus_ProjectStatusID] FOREIGN KEY([ProjectStatusID])
-REFERENCES [dbo].[ProjectStatus] ([ProjectStatusID])
+ALTER TABLE [dbo].ActionItem  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID] FOREIGN KEY([ProjectProjectStatusID])
+REFERENCES [dbo].[ProjectProjectStatus] ([ProjectProjectStatusID])
 GO
 
-ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_ProjectStatus_ProjectStatusID]
+ALTER TABLE [dbo].ActionItem CHECK CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID]
 GO
 
 

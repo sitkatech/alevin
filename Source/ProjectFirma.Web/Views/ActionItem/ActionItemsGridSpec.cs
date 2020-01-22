@@ -33,12 +33,13 @@ namespace ProjectFirma.Web.Views.ActionItem
         {
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, DhtmlxGridColumnFilterType.None);
+            Add($"{FieldDefinitionEnum.ActionItemText.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemText, 200, DhtmlxGridColumnFilterType.Text);
+            Add($"{FieldDefinitionEnum.ActionItemAssignedToPerson.ToType().GetFieldDefinitionLabel()}", x => x.AssignedToPerson.GetFullNameFirstLast(), 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{FieldDefinitionEnum.ActionItemState.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemState.ActionItemStateDisplayName, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add($"{FieldDefinitionEnum.ActionItemAssignedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.AssignedOnDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemDueByDate.ToType().GetFieldDefinitionLabel()}", x => x.DueByDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemCompletedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.CompletedOnDate, 120);
-            Add($"{FieldDefinitionEnum.ActionItemState.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemState.ActionItemStateDisplayName, 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add($"{FieldDefinitionEnum.ActionItemAssignedToPerson.ToType().GetFieldDefinitionLabel()}", x => x.AssignedToPerson.GetFullNameFirstLast(), 170, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add($"{FieldDefinitionEnum.ActionItemText.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemText, 170, DhtmlxGridColumnFilterType.Text);
+            Add($"Related {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()}", x => x.ProjectProjectStatus?.GetDropdownDisplayName() ?? "", 200, DhtmlxGridColumnFilterType.Text);
         }
     }
 }

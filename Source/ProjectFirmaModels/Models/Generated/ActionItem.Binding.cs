@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ActionItem(int actionItemID, int actionItemStateID, string actionItemText, int assignedToPersonID, DateTime assignedOnDate, DateTime dueByDate, DateTime? completedOnDate, int? projectStatusID, int projectID) : this()
+        public ActionItem(int actionItemID, int actionItemStateID, string actionItemText, int assignedToPersonID, DateTime assignedOnDate, DateTime dueByDate, DateTime? completedOnDate, int? projectProjectStatusID, int projectID) : this()
         {
             this.ActionItemID = actionItemID;
             this.ActionItemStateID = actionItemStateID;
@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
             this.AssignedOnDate = assignedOnDate;
             this.DueByDate = dueByDate;
             this.CompletedOnDate = completedOnDate;
-            this.ProjectStatusID = projectStatusID;
+            this.ProjectProjectStatusID = projectProjectStatusID;
             this.ProjectID = projectID;
         }
 
@@ -125,7 +125,7 @@ namespace ProjectFirmaModels.Models
         public DateTime AssignedOnDate { get; set; }
         public DateTime DueByDate { get; set; }
         public DateTime? CompletedOnDate { get; set; }
-        public int? ProjectStatusID { get; set; }
+        public int? ProjectProjectStatusID { get; set; }
         public int ProjectID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ActionItemID; } set { ActionItemID = value; } }
@@ -133,7 +133,7 @@ namespace ProjectFirmaModels.Models
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public ActionItemState ActionItemState { get { return ActionItemState.AllLookupDictionary[ActionItemStateID]; } }
         public virtual Person AssignedToPerson { get; set; }
-        public virtual ProjectStatus ProjectStatus { get; set; }
+        public virtual ProjectProjectStatus ProjectProjectStatus { get; set; }
         public virtual Project Project { get; set; }
 
         public static class FieldLengths

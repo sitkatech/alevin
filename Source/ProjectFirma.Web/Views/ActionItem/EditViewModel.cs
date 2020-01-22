@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.ActionItem
         public DateTime? CompletedOnDate { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemProjectStatus)]
-        public int? ProjectStatusID { get; set; }
+        public int? ProjectProjectStatusID { get; set; }
         
         /// <summary>
         /// Needed by the ModelBinder
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.ActionItem
             AssignedOnDate = actionItem.AssignedOnDate;
             DueByDate = actionItem.DueByDate;
             CompletedOnDate = actionItem.CompletedOnDate;
-            ProjectStatusID = actionItem.ProjectStatusID;
+            ProjectProjectStatusID = actionItem.ProjectProjectStatusID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ActionItem actionItem, FirmaSession currentFirmaSession)
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views.ActionItem
             actionItem.AssignedOnDate = AssignedOnDate;
             actionItem.DueByDate = DueByDate;
             actionItem.CompletedOnDate = CompletedOnDate;
-            actionItem.ProjectStatusID = ProjectStatusID;
+            actionItem.ProjectProjectStatusID = ProjectProjectStatusID;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.Models;
@@ -73,9 +75,12 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.ActionItemEditDialog.GetFirmaPage();
             var peopleSelectListItems = HttpRequestStorage.DatabaseEntities.People.AsEnumerable()
                 .ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLastAndOrg());
-            var projectProjectStatusesSelectListItems = HttpRequestStorage.DatabaseEntities.ProjectProjectStatuses
-                .Where(pps => pps.ProjectID == viewModel.ProjectID).AsEnumerable()
-                .ToSelectListWithEmptyFirstRow(x => x.ProjectStatusID.ToString(), x => x.GetDropdownDisplayName());
+
+            var projectProjectStatuses = HttpRequestStorage.DatabaseEntities.ProjectProjectStatuses.Where(pps => pps.ProjectID == viewModel.ProjectID);
+            var projectProjectStatusesSelectListItems = projectProjectStatuses.Any() 
+                ? projectProjectStatuses.AsEnumerable().ToSelectListWithEmptyFirstRow(x => x.ProjectProjectStatusID.ToString(), x => x.GetDropdownDisplayName()) 
+                : new List<SelectListItem>().AsEnumerable();
+
             var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
