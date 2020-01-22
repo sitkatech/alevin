@@ -88,7 +88,6 @@ namespace ProjectFirma.Web.Views.ActionItem
 
         public void UpdateModel(ProjectFirmaModels.Models.ActionItem actionItem, FirmaSession currentFirmaSession)
         {
-            actionItem.ActionItemID = ActionItemID;
             actionItem.ProjectID = ProjectID;
             actionItem.ActionItemText = ActionItemText;
             actionItem.ActionItemStateID = (int) ActionItemStateEnum;

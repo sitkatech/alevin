@@ -8,13 +8,14 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ActionItem;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class ActionItemController : FirmaBaseController
     {
-        [ActionItemEditFeature]
+        [ActionItemViewFeature]
         public GridJsonNetJObjectResult<ActionItem> ActionItemsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -25,7 +26,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ActionItemEditFeature]
+        [ActionItemCreateFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -41,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ActionItemEditFeature]
+        [ActionItemCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditViewModel viewModel)
         {
@@ -95,6 +96,39 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        [HttpGet]
+        [ActionItemEditFeature]
+        public PartialViewResult Delete(ActionItemPrimaryKey actionItemPrimaryKey)
+        {
+            var actionItem = actionItemPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(actionItem.ActionItemID);
+            return ViewDelete(actionItem, viewModel);
+        }
+
+        private PartialViewResult ViewDelete(ActionItem actionItem, ConfirmDialogFormViewModel viewModel)
+        {
+            var confirmMessage =
+                $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} assigned to \"{actionItem.AssignedToPerson.GetFullNameFirstLastAndOrg()}\"?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [ActionItemEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Delete(ActionItemPrimaryKey actionItemPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var actionItem = actionItemPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDelete(actionItem, viewModel);
+            }
+
+            var message = $"{FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()} successfully deleted.";
+            actionItem.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay(message);
+            return new ModalDialogFormJsonResult();
+        }
 
     }
 }

@@ -387,12 +387,12 @@ namespace ProjectFirma.Web.Controllers
             var actionItemsGridSpec = new ActionItemsGridSpec();
             const string actionItemsGridName = "actionItems";
             var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsGridJsonData(project));
-            var userCanViewActionItems = new ActionItemEditFeature().HasPermission(currentFirmaSession, project);
-            var userCanEditActionItems = new ActionItemEditFeature().HasPermission(currentFirmaSession, project);
+            var userCanViewActionItems = new ActionItemViewFeature().HasPermission(currentFirmaSession, project);
+            var userCanCreateActionItems = new ActionItemCreateFeature().HasPermission(currentFirmaSession, project);
             var addNewActionItemUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.New(project));
 
             var actionItemsDisplayViewData = new ActionItemsDisplayViewData(project, actionItemsGridSpec,
-                actionItemsGridName, actionItemsGridDataUrl, userCanViewActionItems, userCanEditActionItems, addNewActionItemUrl);
+                actionItemsGridName, actionItemsGridDataUrl, userCanViewActionItems, userCanCreateActionItems, addNewActionItemUrl);
             return actionItemsDisplayViewData;
         }
 
