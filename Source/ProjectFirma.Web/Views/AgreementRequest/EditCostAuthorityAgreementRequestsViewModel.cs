@@ -33,11 +33,13 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 {
     public class EditCostAuthorityAgreementRequestsViewModel : FormViewModel, IValidatableObject
     {
-        [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
-        public List<int> SelectedReclamationCostAuthorityIDs { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
         public int? CostAuthorityID { get; set; }
+
+        public List<CostAuthorityJson> CostAuthorityJsonList { get; set; }
+
+        public bool HasCostAuthorityJsonListWithoutFakeRow { get; set; }
 
 
 
@@ -52,9 +54,29 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
         public EditCostAuthorityAgreementRequestsViewModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest)
         {
-            SelectedReclamationCostAuthorityIDs = agreementRequest
-                .ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Select(x => x.CostAuthorityID)
-                .ToList();
+            var agreementRequestReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest = agreementRequest
+                .ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest;
+            HasCostAuthorityJsonListWithoutFakeRow =
+                agreementRequestReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Any();
+            if (HasCostAuthorityJsonListWithoutFakeRow)
+            {
+                CostAuthorityJsonList = agreementRequestReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
+                    .Select(x => new CostAuthorityJson(x)).ToList();
+
+                var agreement = agreementRequest.Agreement;
+                if (agreement != null)
+                {
+                    var costAuthoritiesOnAgreeent =
+                        agreementRequest.Agreement.ReclamationAgreementReclamationCostAuthorities.Select(x =>
+                            x.ReclamationCostAuthorityID);
+                    CostAuthorityJsonList.ForEach(x => x.PreventDelete = costAuthoritiesOnAgreeent.Contains(x.ReclamationCostAuthorityID));
+                }
+                
+            }
+            else
+            {
+                CostAuthorityJsonList = new List<CostAuthorityJson> {new CostAuthorityJson()};
+            }
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest, FirmaSession currentFirmaSession)

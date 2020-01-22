@@ -71,6 +71,14 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public int ReclamationCostAuthorityID { get; set; }
         public string CostAuthorityWorkBreakdownStructure { get; set; }
         public string AccountStructureDescription { get; set; }
+        public string Note { get; set; }
+        public Money? ProjectedObligation { get; set; }
+
+        public bool PreventDelete { get; set; }
+
+        public CostAuthorityJson()
+        {
+        }
 
 
         public CostAuthorityJson(ReclamationCostAuthority reclamationCostAuthority)
@@ -78,6 +86,16 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             ReclamationCostAuthorityID = reclamationCostAuthority.ReclamationCostAuthorityID;
             CostAuthorityWorkBreakdownStructure = reclamationCostAuthority.CostAuthorityWorkBreakdownStructure;
             AccountStructureDescription = reclamationCostAuthority.AccountStructureDescription;
+
+        }
+
+        public CostAuthorityJson(ReclamationCostAuthorityAgreementRequest costAuthorityAgreementRequest)
+        {
+            ReclamationCostAuthorityID = costAuthorityAgreementRequest.CostAuthority.ReclamationCostAuthorityID;
+            CostAuthorityWorkBreakdownStructure = costAuthorityAgreementRequest.CostAuthority.CostAuthorityWorkBreakdownStructure;
+            AccountStructureDescription = costAuthorityAgreementRequest.CostAuthority.AccountStructureDescription;
+            Note = costAuthorityAgreementRequest.ReclamationCostAuthorityAgreementRequestNote;
+            ProjectedObligation = costAuthorityAgreementRequest.ProjectedObligation;
 
         }
     }

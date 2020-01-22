@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Collections.Generic;
+using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
@@ -63,7 +65,13 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             UserCanInteractWithSubmissionNotes = userCanInteractWithSubmissionNotes;
             AgreementRequestNotesViewData = agreementRequestNotesViewData;
             CostAuthorityAgreementRequestGridName = "costAuthorityAgreementRequestGrid";
-            CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession)
+
+            var costAuthorityIDList = reclamationAgreementRequest.Agreement != null
+                ? reclamationAgreementRequest.Agreement.ReclamationAgreementReclamationCostAuthorities
+                    .Select(x => x.ReclamationCostAuthorityID).ToList()
+                : new List<int>();
+
+            CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, reclamationAgreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft, costAuthorityIDList)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
