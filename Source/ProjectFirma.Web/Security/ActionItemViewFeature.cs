@@ -5,25 +5,25 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Add and Edit Action Items")]
-    public class ActionItemEditFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ActionItem>
+    public class ActionItemViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
-        private readonly FirmaFeatureWithContextImpl<ActionItem> _firmaFeatureWithContextImpl;
+        private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
-        public ActionItemEditFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+        public ActionItemViewFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
-            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ActionItem>(this);
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
         }
 
-        public PermissionCheckResult HasPermission(FirmaSession firmaSession, ActionItem contextModelObject)
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
             var person = firmaSession.Person;
-            var project = contextModelObject.Project;
+            var project = contextModelObject;
             var isProposal = project.IsProposal();
             if (isProposal)
             {
                 return new PermissionCheckResult(
-                    $"You cannot edit {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()} because it is in the Proposal stage.");
+                    $"You cannot view this {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()} because the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()} is in the Proposal stage.");
             }
             bool isProjectStewardButCannotStewardThisProject = person != null && firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(project);
             bool doesNotHavePermissionByPerson = !HasPermissionByFirmaSession(firmaSession);
@@ -31,12 +31,12 @@ namespace ProjectFirma.Web.Security
             if (forbidAdmin)
             {
                 return new PermissionCheckResult(
-                    $"You don't have permission to edit {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()}");
+                    $"You don't have permission to view this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
             return new PermissionCheckResult();
         }
 
-        public void DemandPermission(FirmaSession firmaSession, ActionItem contextModelObject)
+        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
         {
             _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
