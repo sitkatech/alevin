@@ -45,7 +45,6 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditViewModel viewModel)
         {
-            
             if (!ModelState.IsValid)
             {
                 return ViewEdit(viewModel);

@@ -300,7 +300,7 @@
     <Compile Include="Views\ActionItem\Edit.cs" />
     <Compile Include="Views\ActionItem\EditViewData.cs" />
     <Compile Include="Views\ActionItem\EditViewModel.cs" />
-    <Compile Include="Views\ActionItem\ProjectUpdateBatchGridSpec.cs" />
+    <Compile Include="Views\ActionItem\ActionItemsGridSpec.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
