@@ -86,6 +86,7 @@
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
+    <Compile Include="Models\ActionItemModelExtensions.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
@@ -175,6 +176,7 @@
     <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectProjectStatusExtensions.cs" />
+    <Compile Include="Models\ProjectProjectStatusModelExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectStatusModelExtensions.cs" />
