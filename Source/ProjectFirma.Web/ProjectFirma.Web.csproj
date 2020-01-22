@@ -214,7 +214,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
     <Compile Include="Security\ActionItemCreateFeature.cs" />
-    <Compile Include="Security\ActionItemEditFeature.cs" />
+    <Compile Include="Security\ActionItemManageFeature.cs" />
     <Compile Include="Security\ActionItemViewFeature.cs" />
     <Compile Include="Security\AgreementRequestCreateFeature.cs" />
     <Compile Include="Security\AgreementRequestIndexViewFeature.cs" />

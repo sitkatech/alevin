@@ -5,11 +5,11 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Add and Edit Action Items")]
-    public class ActionItemEditFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ActionItem>
+    public class ActionItemManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<ActionItem>
     {
         private readonly FirmaFeatureWithContextImpl<ActionItem> _firmaFeatureWithContextImpl;
 
-        public ActionItemEditFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+        public ActionItemManageFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ActionItem>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

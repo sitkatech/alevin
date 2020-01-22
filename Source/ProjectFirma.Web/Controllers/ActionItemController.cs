@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ActionItemEditFeature]
+        [ActionItemManageFeature]
         public PartialViewResult Edit(ActionItemPrimaryKey actionItemPrimaryKey)
         {
             var actionItem = actionItemPrimaryKey.EntityObject;
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ActionItemEditFeature]
+        [ActionItemManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(ActionItemPrimaryKey actionItemPrimaryKey, EditViewModel viewModel)
         {
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ActionItemEditFeature]
+        [ActionItemManageFeature]
         public PartialViewResult Delete(ActionItemPrimaryKey actionItemPrimaryKey)
         {
             var actionItem = actionItemPrimaryKey.EntityObject;
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ActionItemEditFeature]
+        [ActionItemManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Delete(ActionItemPrimaryKey actionItemPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
