@@ -120,10 +120,34 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusComment)</div>
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusRecentActivities)</div>
                     <div class="col-sm-8">
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
-                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusComment)
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusRecentActivities, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusRecentActivities)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusUpcomingActivities)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusUpcomingActivities, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusUpcomingActivities)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusRisksOrIssues)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusRisksOrIssues, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusRisksOrIssues)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusNotes)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusNotes, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusNotes)
                     </div>
                 </div>
 
