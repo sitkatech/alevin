@@ -175,11 +175,11 @@
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2 class="project-detail-heading">
-            PROJECT OBLIGATIONS
+            PROJECTED OBLIGATIONS
         </h2>
     </div>
     <div class="rightFloatingInfo" style="margin-right: 20px;">
-        @ViewDataTyped.ReclamationAgreementRequest.EditCostAuthorityAgreementRequestsButton()
+        @(ViewDataTyped.ReclamationAgreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft ? ViewDataTyped.ReclamationAgreementRequest.EditCostAuthorityAgreementRequestsButton() : new HtmlString(string.Empty))
     </div>
     <br/>
     <br/>

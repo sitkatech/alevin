@@ -7,21 +7,6 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-
-    public static class ReclamationCostAuthorityAgreementRequestModelExtensions
-    {
-        
-
-        public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(
-            SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t => t.DeleteCostAuthority(UrlTemplate.Parameter1Int)));
-
-        public static string GetDeleteUrl(this ReclamationCostAuthorityAgreementRequest reclamationCostAuthorityAgreementRequest)
-        {
-            return DeleteUrlTemplate.ParameterReplace(reclamationCostAuthorityAgreementRequest.PrimaryKey);
-        }
-    }
-
-
     public static class ReclamationAgreementRequestModelExtensions
     {
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(

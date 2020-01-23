@@ -38,6 +38,39 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [HttpGet]
+        [AgreementRequestCreateFeature]
+        public PartialViewResult EditCostAuthorityAgreementRequest(ReclamationCostAuthorityAgreementRequestPrimaryKey reclamationCostAuthorityAgreementRequestPrimaryKey)
+        {
+            var costAuthorityAgreementRequest = reclamationCostAuthorityAgreementRequestPrimaryKey.EntityObject;
+            var viewModel = new EditCostAuthorityAgreementRequestViewModel(costAuthorityAgreementRequest);
+            var projectStatusFirmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
+            return ViewEditCostAuthorityAgreementRequest(reclamationCostAuthorityAgreementRequestPrimaryKey.EntityObject,viewModel, projectStatusFirmaPage);
+        }
+
+        [HttpPost]
+        [AgreementRequestCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditCostAuthorityAgreementRequest(ReclamationCostAuthorityAgreementRequestPrimaryKey reclamationCostAuthorityAgreementRequestPrimaryKey, EditCostAuthorityAgreementRequestViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                var firmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
+                return ViewEditCostAuthorityAgreementRequest(reclamationCostAuthorityAgreementRequestPrimaryKey.EntityObject, viewModel, firmaPage);
+            }
+            viewModel.UpdateModel(reclamationCostAuthorityAgreementRequestPrimaryKey.EntityObject, CurrentFirmaSession);
+           
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditCostAuthorityAgreementRequest(ReclamationCostAuthorityAgreementRequest reclamationCostAuthorityAgreementRequest, EditCostAuthorityAgreementRequestViewModel viewModel, FirmaPage firmaPage)
+        {
+            var projectStatusFirmaPage = firmaPage;
+            var viewData = new EditCostAuthorityAgreementRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, reclamationCostAuthorityAgreementRequest.AgreementRequest);
+            return RazorPartialView<EditCostAuthorityAgreementRequest, EditCostAuthorityAgreementRequestViewData, EditCostAuthorityAgreementRequestViewModel>(viewData, viewModel);
+        }
+
 
         [HttpGet]
         [AgreementRequestCreateFeature]
@@ -66,16 +99,17 @@ namespace ProjectFirma.Web.Controllers
         [AgreementRequestCreateFeature]
         public PartialViewResult EditCostAuthorityAgreementRequests(ReclamationAgreementRequestPrimaryKey reclamationAgreementRequestPrimaryKey)
         {
-            var viewModel = new EditCostAuthorityAgreementRequestsViewModel(reclamationAgreementRequestPrimaryKey.EntityObject);
+            var reclamationAgreementRequest = reclamationAgreementRequestPrimaryKey.EntityObject;
+            var viewModel = new EditCostAuthorityAgreementRequestsViewModel(reclamationAgreementRequest);
             var projectStatusFirmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
-            return ViewEditCostAuthorityAgreementRequests(viewModel, projectStatusFirmaPage);
+            return ViewEditCostAuthorityAgreementRequests(reclamationAgreementRequest, viewModel, projectStatusFirmaPage );
         }
 
-        private PartialViewResult ViewEditCostAuthorityAgreementRequests(EditCostAuthorityAgreementRequestsViewModel viewModel, FirmaPage firmaPage)
+        private PartialViewResult ViewEditCostAuthorityAgreementRequests(ReclamationAgreementRequest reclamationAgreementRequest, EditCostAuthorityAgreementRequestsViewModel viewModel, FirmaPage firmaPage)
         {
             var projectStatusFirmaPage = firmaPage;
             var allCostAuthorities= HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorities.ToList();
-            var viewData = new EditCostAuthorityAgreementRequestsViewData(projectStatusFirmaPage, CurrentFirmaSession, allCostAuthorities);
+            var viewData = new EditCostAuthorityAgreementRequestsViewData(projectStatusFirmaPage, CurrentFirmaSession, allCostAuthorities, reclamationAgreementRequest);
             return RazorPartialView<EditCostAuthorityAgreementRequests, EditCostAuthorityAgreementRequestsViewData, EditCostAuthorityAgreementRequestsViewModel>(viewData, viewModel);
         }
 
@@ -84,25 +118,21 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditCostAuthorityAgreementRequests(ReclamationAgreementRequestPrimaryKey reclamationAgreementRequestPrimaryKey, EditCostAuthorityAgreementRequestsViewModel viewModel)
         {
+            var reclamationAgreementRequest = reclamationAgreementRequestPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 var firmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
-                return ViewEditCostAuthorityAgreementRequests(viewModel, firmaPage);
+                return ViewEditCostAuthorityAgreementRequests(reclamationAgreementRequest,viewModel, firmaPage);
             }
-            
 
             var listOfCostAuthorityIDs = viewModel.CostAuthorityJsonList.Select(x => x.ReclamationCostAuthorityID).ToList();
-            var reclamationAgreementRequest = reclamationAgreementRequestPrimaryKey.EntityObject;
             var existingCostAuthorityAgreementRequests = reclamationAgreementRequest
                 .ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest;
-            var costAuthorityAgreementRequestsToDelete =  existingCostAuthorityAgreementRequests.Where(x => !listOfCostAuthorityIDs.Contains(x.CostAuthorityID)).ToList();
-            costAuthorityAgreementRequestsToDelete.ForEach(x => x.DeleteFull(HttpRequestStorage.DatabaseEntities));
             
             foreach (var costAuthorityID in listOfCostAuthorityIDs)
             {
                 var costAuthorityJson =
                     viewModel.CostAuthorityJsonList.Single(x => x.ReclamationCostAuthorityID == costAuthorityID);
-
                 if (!existingCostAuthorityAgreementRequests.Select(x => x.CostAuthorityID).Contains(costAuthorityID))
                 {
                     var newCostAuthorityReclamationAgreement =
@@ -112,14 +142,6 @@ namespace ProjectFirma.Web.Controllers
                             , ReclamationCostAuthorityAgreementRequestNote = costAuthorityJson.Note
                         };
                     reclamationAgreementRequest.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Add(newCostAuthorityReclamationAgreement);
-                }
-
-                else
-                {
-                    var realOne =
-                        existingCostAuthorityAgreementRequests.Single(x => x.CostAuthorityID == costAuthorityID);
-                    realOne.ProjectedObligation = costAuthorityJson.ProjectedObligation;
-                    realOne.ReclamationCostAuthorityAgreementRequestNote = costAuthorityJson.Note;
                 }
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges();

@@ -181,6 +181,7 @@
     <Compile Include="Models\ReclamationAgreementModelExtensions.cs" />
     <Compile Include="Models\ReclamationAgreementRequestModelExtensions.cs" />
     <Compile Include="Models\ReclamationAgreementRequestSubmissionNoteModelExtensions.cs" />
+    <Compile Include="Models\ReclamationCostAuthorityAgreementRequestModelExtensions.cs" />
     <Compile Include="Models\ReclamationCostAuthorityModelExtensions.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
@@ -245,6 +246,9 @@
     <Compile Include="Views\AgreementRequest\AgreementRequestIndex.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestIndexViewData.cs" />
     <Compile Include="Views\AgreementRequest\CostAuthorityAgreementRequestGridSpec.cs" />
+    <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequest.cs" />
+    <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequestViewData.cs" />
+    <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequestViewModel.cs" />
     <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequests.cs" />
     <Compile Include="Views\AgreementRequest\EditAgreementRequest.cs" />
     <Compile Include="Views\AgreementRequest\EditCostAuthorityAgreementRequestsViewData.cs" />
@@ -628,6 +632,7 @@
     <Content Include="Views\AgreementRequest\EditAgreementRequest.cshtml" />
     <Content Include="Views\AgreementRequest\EditRequisitionInformation.cshtml" />
     <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequests.cshtml" />
+    <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequest.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />

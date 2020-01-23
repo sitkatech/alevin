@@ -45,12 +45,18 @@ namespace ProjectFirma.Web.Views.AgreementRequest
              ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
             , FirmaSession currentFirmaSession
             , List<ReclamationCostAuthority> allCostAuthorities
+            , ReclamationAgreementRequest reclamationAgreementRequest
             ) : base(currentFirmaSession)
         {
-            CostAuthorities = allCostAuthorities
+            var costAuthoritiesToOmit =
+                reclamationAgreementRequest.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
+                    .Select(x => x.CostAuthorityID);
+            var reclamationCostAuthoritiesToUse = allCostAuthorities
+                .Where(x => !costAuthoritiesToOmit.Contains(x.ReclamationCostAuthorityID)).ToList();
+            CostAuthorities = reclamationCostAuthoritiesToUse
                 .OrderBy(x => x.CostAuthorityWorkBreakdownStructure)
                 .ToSelectListWithEmptyFirstRow(x => x.ReclamationCostAuthorityID.ToString(), x => x.CostAuthorityWorkBreakdownStructure, "Select CAWBS");
-            CostAuthorityJsonList = new CostAuthorityJsonList(allCostAuthorities.Select(x => new CostAuthorityJson(x)).ToList());
+            CostAuthorityJsonList = new CostAuthorityJsonList(reclamationCostAuthoritiesToUse.Select(x => new CostAuthorityJson(x)).ToList());
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
         }
     }
