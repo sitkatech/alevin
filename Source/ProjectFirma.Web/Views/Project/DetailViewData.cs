@@ -154,7 +154,8 @@ namespace ProjectFirma.Web.Views.Project
             DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
             ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl,
             string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
-            bool userHasProjectTimelinePermissions, List<ProjectEvaluation> projectEvaluationsUserHasAccessTo)
+            bool userHasProjectTimelinePermissions, List<ProjectEvaluation> projectEvaluationsUserHasAccessTo,
+            bool userHasStartUpdateWorkflowPermission)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -167,6 +168,7 @@ namespace ProjectFirma.Web.Views.Project
             UserHasEditProjectAgreementPermissions = userHasEditProjectAgreementPermissions;
             UserHasPerformanceMeasureActualManagePermissions = userHasPerformanceMeasureActualManagePermissions;
             UserHasProjectTimelinePermissions = userHasProjectTimelinePermissions;
+            CanLaunchProjectOrProposalWizard = userHasStartUpdateWorkflowPermission;
 
             var projectAlerts = new List<string>();
             var proposedProjectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Proposed());
@@ -184,9 +186,7 @@ namespace ProjectFirma.Web.Views.Project
                     projectApprovalStatus == ProjectApprovalStatus.Returned
                         ? $"Edit Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}"
                         : $"Review Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
-                ProjectWizardUrl =
-                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
-                CanLaunchProjectOrProposalWizard = userCanEditProposal;
+                ProjectWizardUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 if (project.IsProposal())
                 {
                     ProjectListUrl = proposedProjectListUrl;
@@ -212,9 +212,7 @@ namespace ProjectFirma.Web.Views.Project
                     projectApprovalStatus == ProjectApprovalStatus.Returned
                         ? "Edit Proposal"
                         : "Review Proposal";
-                ProjectWizardUrl =
-                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
-                CanLaunchProjectOrProposalWizard = userCanEditProposal;
+                ProjectWizardUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 ProjectListUrl = proposedProjectListUrl;
                 BackToProjectsText = backToAllProposalsText;
                 if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
@@ -231,9 +229,7 @@ namespace ProjectFirma.Web.Views.Project
                     projectApprovalStatus == ProjectApprovalStatus.Returned
                         ? $"Edit Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}"
                         : $"Review Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
-                ProjectWizardUrl =
-                    SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
-                CanLaunchProjectOrProposalWizard = userCanEditProposal;
+                ProjectWizardUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditBasics(project.ProjectID));
                 ProjectListUrl = pendingProjectsListUrl;
                 BackToProjectsText = backToAllPendingProjectsText;
                 if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
@@ -251,7 +247,6 @@ namespace ProjectFirma.Web.Views.Project
                         ? "Review Update"
                         : $"Update {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
                 ProjectWizardUrl = project.GetProjectUpdateUrl();
-                CanLaunchProjectOrProposalWizard = userHasProjectUpdatePermissions;
                 ProjectListUrl = FullProjectListUrl;
                 BackToProjectsText = $"Back to all {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
 
