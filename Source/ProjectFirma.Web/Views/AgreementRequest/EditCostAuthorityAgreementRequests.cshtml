@@ -33,10 +33,6 @@
 
 <style>
 
-    form .form-group {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
 
     .white {
         color: white;
@@ -49,49 +45,52 @@
 
 @using (Html.BeginForm())
 {
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="form-horizontal">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="input-group">
-                                <div class="col-xs-offset-1 col-xs-12" style="margin: 10px;">
-                                    Add one or many CAWBS and their projected obligations to this Agreement Request.
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-12">
-                                <div class="input-group" style="width: 100%;">
-                                    
-                                    <div class="row">
-                                        @Html.LabelWithSugarFor(m => m.CostAuthorityID, "Identify Related Projects/activities by CAWBS", true)
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xs-11" style="padding-right: 0px;">
-                                            @Html.DropDownListFor(m => m.CostAuthorityID, ViewDataTyped.CostAuthorities, new {@class = "form-control selectpicker", @data_container = ".modal-content", @data_live_search = "true"})
-                                        </div>
-                                        <div class="col-xs-1" style="padding-left: 0px;">
-                                            <a class="btn-firma btn" id="addCostAuthorityButton">
-                                                <span class="glyphicon glyphicon-plus">Add</span>
-                                            </a>
-                                        </div>
+
+
+                        
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <div class="col-xs-offset-1 col-xs-12" style="margin: 10px;">
+                                        Add one or many CAWBS and their projected obligations to this Agreement Request.
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+                           
 
 
-    <div class="row selected-cost-authorities" style="@(Model.HasCostAuthorityJsonListWithoutFakeRow ? "" : "display : none;")">
-        <div class="col-md-12">
-            <div class="panel panel-primary">
+
+                            <div class="form-group">
+                                @Html.LabelWithSugarFor(m => m.CostAuthorityID, "Identify Related Projects/activities by CAWBS", true)
+                                <div class="col-md-12">
+                                    <div class="input-group" style="width: 100%;">
+                                        <div class="row">
+                                            <div class="btn-group bootstrap-select input-group-btn" style="width: 100%;">
+                                                @Html.DropDownListFor(m => m.CostAuthorityID, ViewDataTyped.CostAuthorities, new { @class = "form-control selectpicker", @data_container = ".modal-content", @data_live_search = "true" })
+                                            </div>
+                                            <span class="input-group-btn">
+                                                <button class="btn btn-firma" type="button" id="addCostAuthorityButton">
+                                                    <span class="glyphicon glyphicon-plus"></span> Add
+                                                </button>
+                                            </span>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                           
+                        
+
+
+            
+
+
+
+    <div class="selected-cost-authorities" style="@(Model.HasCostAuthorityJsonListWithoutFakeRow ? "max-height: 400px; " : "display : none; max-height: 400px;") ">
+        <div class="panel-group">
+            <div class="panel panelFirma">
                 <div class="panel-body panel-body-table">
-                    <table class="table table-condensed table-striped" id="tableForAdding">
+                    <table class="table" id="tableForAdding" style="border-collapse: separate;">
+                        <thead>
                         <tr>
                             <th style="width: 10%; white-space: inherit;"></th>
                             <th style="width: 30%; white-space: inherit;">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
@@ -99,55 +98,69 @@
                             <th style="width: 20%; white-space: inherit;">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectedObligation.ToType())</th>
                             <th style="width: 20%; white-space: inherit;">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityAgreementRequestNote.ToType(), "Note")</th>
                         </tr>
+                        </thead>
+                        <tbody id="bodyForAddingTo">
+
                         @if (Model.HasCostAuthorityJsonListWithoutFakeRow)
                         {
                             for (int i = 0; i < Model.CostAuthorityJsonList.Count; i++)
-                             {
-                                 <tr costauthority_id="@Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID.ToString()" class="costAuthorityRow">
-                                     <td>
-                                         <button type="button" 
-                                                 title="@(Model.CostAuthorityJsonList[i].PreventDelete ? "These CAWBS cannot be deleted because this is a modification to an existing Agreement" : "Remove row")" 
-                                                 alt="Remove row" 
-                                                 class="btn btn-xs btn-firma remove-cost-authority @(Model.CostAuthorityJsonList[i].PreventDelete ? "disabled" : "")" 
-                                                 onclick="@(Model.CostAuthorityJsonList[i].PreventDelete ? "" : "removeRow("+Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID+")") ">
-                                             <span class="glyphicon glyphicon-trash white"></span>
-                                         </button>
-                                         @Html.HiddenFor(m => m.CostAuthorityJsonList[i].ReclamationCostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
-                                     </td>
-                                     <td class="CostAuthorityWorkBreakdownStructure">
-                                         @Model.CostAuthorityJsonList[i].CostAuthorityWorkBreakdownStructure
-                                     </td>
-                                     <td class="AccountStructureDescription">
-                                         @Model.CostAuthorityJsonList[i].AccountStructureDescription
-                                     </td>
-                                     <td class="ProjectedObligation">
-                                         @Html.EditorFor(m => m.CostAuthorityJsonList[i].ProjectedObligation, new { @class = "form-control projectObligationClass" })
-                                     </td>
-                                     <td class="CostAuthorityAgreementRequestNote">
-                                         @Html.TextBoxFor(m => m.CostAuthorityJsonList[i].Note, new { @class = "form-control noteClass" })
-                                     </td>
-                                 </tr>
-                             }
-                        }
+                            {
+                                <tr costauthority_id="@Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID.ToString()" class="costAuthorityRow">
+                                    <td>
 
-                       
-                        
+
+                                        <span title="@(Model.CostAuthorityJsonList[i].PreventDelete ? "These CAWBS cannot be deleted because this is a modification to an existing Agreement" : "Remove row")"
+                                              class="glyphicon glyphicon-trash remove-cost-authority @(Model.CostAuthorityJsonList[i].PreventDelete ? "disabled" : "")"
+                                              alt="Remove row"
+                                              onclick="@(Model.CostAuthorityJsonList[i].PreventDelete ? "" : "removeRow(" + Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID + ")") "
+                                              style="cursor: pointer"></span>
+
+                                        @Html.HiddenFor(m => m.CostAuthorityJsonList[i].ReclamationCostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
+                                    </td>
+                                    <td class="CostAuthorityWorkBreakdownStructure">
+                                        @Model.CostAuthorityJsonList[i].CostAuthorityWorkBreakdownStructure
+                                    </td>
+                                    <td class="AccountStructureDescription">
+                                        @Model.CostAuthorityJsonList[i].AccountStructureDescription
+                                    </td>
+                                    <td class="ProjectedObligation">
+                                        @Html.EditorFor(m => m.CostAuthorityJsonList[i].ProjectedObligation, new { @class = "form-control projectObligationClass" })
+                                    </td>
+                                    <td class="CostAuthorityAgreementRequestNote">
+                                        @Html.TextBoxFor(m => m.CostAuthorityJsonList[i].Note, new { @class = "form-control noteClass" })
+                                    </td>
+                                </tr>
+                            }
+                        }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Total Projected Obligation</strong></td>
+                                <td id="totalAmountCell" style="font-weight: bold;">$0.00</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+
+
+
                         <tr style="display: none;" id="trForCloning" costauthority_id="@Model.CostAuthorityJsonList[0].ReclamationCostAuthorityID.ToString()" class="costAuthorityRow">
                             <td>
-                                <button type="button" title="Remove row" alt="Remove row" class="btn btn-xs btn-firma remove-cost-authority">
-                                    <span class="glyphicon glyphicon-trash white"></span>
-                                </button>
-                                @Html.HiddenFor(m => m.CostAuthorityJsonList[0].ReclamationCostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
+
+                                <span class="glyphicon glyphicon-trash remove-cost-authority" title="Remove row" alt="Remove row"></span>
+
+                                @Html.HiddenFor(m => m.CostAuthorityJsonList[0].ReclamationCostAuthorityID, new {@class = "form-control costAuthorityIDClass"})
                             </td>
                             <td class="CostAuthorityWorkBreakdownStructure">
-                                
+
                             </td>
                             <td class="AccountStructureDescription"></td>
                             <td class="ProjectedObligation">
-                                @Html.EditorFor(m => m.CostAuthorityJsonList[0].ProjectedObligation, new { @class = "form-control projectObligationClass" })
+                                @Html.EditorFor(m => m.CostAuthorityJsonList[0].ProjectedObligation, new {@class = "form-control projectObligationClass"})
                             </td>
                             <td class="CostAuthorityAgreementRequestNote">
-                                @Html.TextBoxFor(m => m.CostAuthorityJsonList[0].Note, new { @class = "form-control noteClass" })
+                                @Html.TextBoxFor(m => m.CostAuthorityJsonList[0].Note, new {@class = "form-control noteClass"})
                             </td>
                         </tr>
                     </table>
@@ -165,6 +178,9 @@
     jQuery(document).ready(function() {
         var costAuthorityJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.CostAuthorityJsonList.CostAuthorityJsons).ToString(Formatting.None));
 
+        var sitkaCurrencyClass = jQuery(".sitkaCurrency");
+        sitkaCurrencyClass.addClass("projectedObligationEditor");
+
         var cloningTr = jQuery("#trForCloning").clone();
         var tr = jQuery("#trForCloning");
         tr.remove();
@@ -181,6 +197,8 @@
             }
         }
 
+
+
         function replaceDefaultsForNewRow(thisInput, rowID, costAuthorityID, oldRowID,clearValues){
             var currentName = thisInput.prop("name");
             var updatedName = currentName.replace(oldRowID.toString(), rowID.toString());
@@ -193,6 +211,21 @@
                 thisInput.val(costAuthorityID);
             }
             thisInput.addClass("costAuthority_" + costAuthorityID.toString());
+        }
+
+        function resetTotal() {
+            var totalValue = 0.0;
+            jQuery(".projectedObligationEditor").each(function() {
+                var currentValueOfObligation = this.value;
+                if (currentValueOfObligation != undefined && currentValueOfObligation != null) {
+                    var trimmedVal = currentValueOfObligation.replace("$", "").replace(",","");
+                    var floatVal = parseFloat(trimmedVal);
+                    totalValue += floatVal;
+                }
+                console.log("current value: " + currentValueOfObligation);
+            });
+            var totalAsCurrency = Sitka.Methods.formatAsCurrencyFromString(totalValue, 2);
+            jQuery("#totalAmountCell").text(totalAsCurrency);
         }
 
         removeRow = function (costAuthorityID) {
@@ -220,6 +253,7 @@
                     });
                 }
             });
+            resetTotal();
         }
 
        
@@ -252,14 +286,15 @@
                     });
                     console.log("inputs");
                     console.log(inputs);
-                    jQuery("#tableForAdding").append(tr);
+                    jQuery("#bodyForAddingTo").append(tr);
                 }
             }
             jQuery("#@Html.IdFor(m => m.CostAuthorityID)").val('default');
             jQuery("#@Html.IdFor(m => m.CostAuthorityID)").selectpicker("refresh");
+            jQuery(".projectedObligationEditor").change(function () {
+                resetTotal();
+            });
 
-
-            
 
         });
 

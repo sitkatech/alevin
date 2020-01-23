@@ -31,31 +31,44 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.AgreementRequest
 {
-    public class EditCostAuthorityAgreementRequestsViewModel : FormViewModel, IValidatableObject
+    public class EditCostAuthorityAgreementRequestViewModel : FormViewModel, IValidatableObject
     {
-
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
-        public int? CostAuthorityID { get; set; }
+        public string CostAuthorityWorkBreakdownStructure { get; set; }
 
-        public List<CostAuthorityJson> CostAuthorityJsonList { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.AccountStructureDescription)]
+        public string AccountStructureDescription { get; set; }
 
-        public bool HasCostAuthorityJsonListWithoutFakeRow { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectedObligation)]
+        public Money? ProjectedObligation { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityAgreementRequestNote)]
+        public string ReclamationCostAuthorityAgreementRequestNote { get; set; }
 
 
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
-        public EditCostAuthorityAgreementRequestsViewModel()
+        public EditCostAuthorityAgreementRequestViewModel()
         {
 
         }
 
 
-        public EditCostAuthorityAgreementRequestsViewModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest)
+        public EditCostAuthorityAgreementRequestViewModel(ReclamationCostAuthorityAgreementRequest costAuthorityAgreementRequest)
         {
-            HasCostAuthorityJsonListWithoutFakeRow = false;
-            CostAuthorityJsonList = new List<CostAuthorityJson> {new CostAuthorityJson()};
-            
+            CostAuthorityWorkBreakdownStructure = costAuthorityAgreementRequest.CostAuthority.CostAuthorityWorkBreakdownStructure;
+            AccountStructureDescription = costAuthorityAgreementRequest.CostAuthority.AccountStructureDescription;
+            ProjectedObligation = costAuthorityAgreementRequest.ProjectedObligation;
+            ReclamationCostAuthorityAgreementRequestNote = costAuthorityAgreementRequest.ReclamationCostAuthorityAgreementRequestNote;
+        }
+
+        public void UpdateModel(ReclamationCostAuthorityAgreementRequest costAuthorityAgreementRequest, FirmaSession currentFirmaSession)
+        {
+            costAuthorityAgreementRequest.ProjectedObligation = ProjectedObligation;
+            costAuthorityAgreementRequest.ReclamationCostAuthorityAgreementRequestNote = ReclamationCostAuthorityAgreementRequestNote;
+
+
         }
 
 
