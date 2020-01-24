@@ -454,15 +454,17 @@
                         }
                     </div>
                 </div>
-            
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        <h3>@FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                @if(ViewDataTyped.UserCanViewActionItems) {
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>@FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                        </div>
+                        <div class="panel-body">
+                            @{ ActionItemsDisplay.RenderPartialView(Html, ViewDataTyped.ActionItemsDisplayViewData); }
+                        </div>
                     </div>
-                    <div class="panel-body">
-                        @{ ActionItemsDisplay.RenderPartialView(Html, ViewDataTyped.ActionItemsDisplayViewData); }
-                    </div>
-                </div>
+                }
+                
 
             @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
                 {

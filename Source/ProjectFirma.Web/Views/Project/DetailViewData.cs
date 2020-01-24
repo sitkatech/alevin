@@ -124,6 +124,7 @@ namespace ProjectFirma.Web.Views.Project
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
         public ProjectTimelineDisplayViewData ProjectTimelineDisplayViewData { get; }
         public ActionItemsDisplayViewData ActionItemsDisplayViewData { get; }
+        public bool UserCanViewActionItems { get; }
 
         public List<ProjectEvaluation> ProjectEvaluationsUserHasAccessTo { get; }
 
@@ -162,7 +163,8 @@ namespace ProjectFirma.Web.Views.Project
             ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl,
             string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
             bool userHasProjectTimelinePermissions, List<ProjectEvaluation> projectEvaluationsUserHasAccessTo,
-            ActionItemsDisplayViewData actionItemsDisplayViewData)
+            ActionItemsDisplayViewData actionItemsDisplayViewData,
+            bool userCanViewActionItems)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -387,6 +389,7 @@ namespace ProjectFirma.Web.Views.Project
             ProjectEvaluationsUserHasAccessTo = projectEvaluationsUserHasAccessTo;
 
             ActionItemsDisplayViewData = actionItemsDisplayViewData;
+            UserCanViewActionItems = userCanViewActionItems;
         }
     }
 }

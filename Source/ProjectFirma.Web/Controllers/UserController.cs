@@ -38,6 +38,7 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
 using Organization = ProjectFirmaModels.Models.Organization;
 using Person = ProjectFirmaModels.Models.Person;
@@ -196,6 +197,11 @@ namespace ProjectFirma.Web.Controllers
                 SitkaRoute<UserController>.BuildUrlFromExpression(tc => tc.ProjectsGridJsonData(person));
             var activateInactivateUrl =
                 SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ActivateInactivatePerson(person));
+
+            var actionItemsGridSpec = new ActionItemsUserGridSpec();
+            var actionItemsGridName = "actionItems";
+            var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsUserGridJsonData(person));
+
             var viewData = new DetailViewData(this.CurrentFirmaSession,
                 person,
                 basicProjectInfoGridSpec,
@@ -204,7 +210,10 @@ namespace ProjectFirma.Web.Controllers
                 userNotificationGridSpec,
                 "userNotifications",
                 userNotificationGridDataUrl,
-                activateInactivateUrl);
+                activateInactivateUrl,
+                actionItemsGridSpec,
+                actionItemsGridName,
+                actionItemsGridDataUrl);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

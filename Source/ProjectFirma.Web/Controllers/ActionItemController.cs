@@ -27,6 +27,16 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [UserViewFeature]
+        public GridJsonNetJObjectResult<ActionItem> ActionItemsUserGridJsonData(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var gridSpec = new ActionItemsUserGridSpec();
+            var actionItems = person.ActionItemsWhereYouAreTheAssignedToPerson.OrderByDescending(x => x.DueByDate).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ActionItem>(actionItems, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
         [HttpGet]
         [ActionItemCreateFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)

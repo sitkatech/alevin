@@ -242,8 +242,9 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
+            var userCanViewActionItems = new ActionItemViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
-
+            
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
@@ -295,7 +296,8 @@ namespace ProjectFirma.Web.Controllers
                 projectTimelineViewData,
                 userHasProjectTimelinePermissions,
                 projectEvaluationsUserHasAccessTo,
-                actionItemsDisplayViewData);
+                actionItemsDisplayViewData,
+                userCanViewActionItems);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
