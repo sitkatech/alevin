@@ -198,7 +198,8 @@ namespace ProjectFirma.Web.Controllers
             var activateInactivateUrl =
                 SitkaRoute<UserController>.BuildUrlFromExpression(x => x.ActivateInactivatePerson(person));
 
-            var actionItemsGridSpec = new ActionItemsUserGridSpec();
+            var userCanManageActionItems = new ActionItemManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var actionItemsGridSpec = new ActionItemsUserGridSpec(userCanManageActionItems);
             var actionItemsGridName = "actionItems";
             var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsUserGridJsonData(person));
 
