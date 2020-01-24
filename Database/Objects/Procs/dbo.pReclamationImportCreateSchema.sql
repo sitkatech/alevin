@@ -9,13 +9,13 @@ create procedure dbo.pReclamationImportCreateSchema
 as
 begin
 
-	IF OBJECT_ID('[dbo].[AP-Genl]', 'U') IS NOT NULL 
+	IF OBJECT_ID('dbo.impApGenSheet', 'U') IS NOT NULL 
 	begin
-		DROP TABLE [dbo].[AP-Genl];
+		DROP TABLE dbo.impApGenSheet;
 	end
 	
 
-	CREATE TABLE [dbo].[AP-Genl](
+	CREATE TABLE dbo.impApGenSheet(
 		[PO Number - Key] [nvarchar](255) NULL,
 		[Purch Ord Line Itm - Key] [nvarchar](255) NULL,
 		[Reference - Key] [nvarchar](255) NULL,
@@ -31,13 +31,13 @@ begin
 		[Debit/Credit Total] [float] NULL
 	) ON [PRIMARY]
 
-	IF OBJECT_ID('[dbo].[PayRec-v3]', 'U') IS NOT NULL 
+	IF OBJECT_ID('dbo.impPayRecV3', 'U') IS NOT NULL 
 	begin
-		DROP TABLE [dbo].[PayRec-v3];
+		DROP TABLE dbo.impPayRecV3;
 	end
 
 
-	CREATE TABLE [dbo].[PayRec-v3](
+	CREATE TABLE dbo.impPayRecV3(
 		[Business area - Key] [nvarchar](255) NULL,
 		[FA Budget Activity - Key] [nvarchar](255) NULL,
 		[Functional area - Text] [nvarchar](255) NULL,
