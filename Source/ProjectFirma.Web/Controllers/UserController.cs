@@ -40,6 +40,8 @@ using ProjectFirma.Web.KeystoneDataService;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Shared.UserStewardshipAreas;
+using IndexViewData = ProjectFirma.Web.Views.User.IndexViewData;
+using Index = ProjectFirma.Web.Views.User.Index;
 using Organization = ProjectFirmaModels.Models.Organization;
 using Person = ProjectFirmaModels.Models.Person;
 

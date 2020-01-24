@@ -30,6 +30,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ActionItem
 {
+
     public class EditViewModel : FormViewModel, IValidatableObject
     {
         [Required]

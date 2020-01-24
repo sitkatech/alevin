@@ -38,6 +38,29 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [ActionItemAdminFeature]
+        public GridJsonNetJObjectResult<ActionItem> ActionItemsIndexGridJsonData()
+        {
+            var gridSpec = new ActionItemsAdminGridSpec();
+            var actionItems = HttpRequestStorage.DatabaseEntities.ActionItems.OrderByDescending(x => x.DueByDate).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ActionItem>(actionItems, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [ActionItemAdminFeature]
+        public ViewResult Index()
+        {
+            return ViewIndex(SitkaRoute<ActionItemController>.BuildUrlFromExpression(x => x.ActionItemsIndexGridJsonData()));
+        }
+
+        [ActionItemAdminFeature]
+        public ViewResult ViewIndex(string gridDataUrl)
+        {
+            var firmaPage = FirmaPageTypeEnum.ActionItemIndexList.GetFirmaPage();
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl);
+            return RazorView<Index, IndexViewData>(viewData);
+        }
+        
         [HttpGet]
         [ActionItemCreateFeature]
         public PartialViewResult New(ProjectPrimaryKey projectPrimaryKey)
