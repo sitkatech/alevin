@@ -102,12 +102,17 @@ go
 -- Firma Page
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
 values
-(10004, 'ActionItemEditDialog', 'Action Item Edit Dialog', 2)
+(10004, 'ActionItemEditDialog', 'Action Item Edit Dialog', 2),
+(10005, 'ActionItemIndexList', 'Action Item Index List', 1)
 
 go
 insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 select TenantID, 10004, '<p>Action Item Edit Dialog</p>' 
 from dbo.Tenant
 
+go
+insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
+select TenantID, 10005, '<p>Manage all action items assigned to users.</p>' 
+from dbo.Tenant
 
 --rollback tran
