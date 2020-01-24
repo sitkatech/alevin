@@ -121,11 +121,15 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString MakeProjectStatusDetailsLinkButton(ProjectProjectStatus projectProjectStatus)
         {
+            var dialogTitle = projectProjectStatus.IsFinalStatusUpdate
+                ? FieldDefinitionEnum.FinalStatusUpdateStatus.ToType().GetFieldDefinitionLabel()
+                : FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel();
+
             var detailsLink = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
                 null,
                 "Show Details",
                 projectProjectStatus.GetProjectProjectStatusDetailsUrl()
-                , $"{FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details"
+                , $"{dialogTitle} Details"
                 , 900
                 ,"Close"
                 , new List<string>());
