@@ -101,15 +101,14 @@ namespace ProjectFirma.Web.Controllers
         {
             var reclamationAgreementRequest = reclamationAgreementRequestPrimaryKey.EntityObject;
             var viewModel = new EditCostAuthorityAgreementRequestsViewModel(reclamationAgreementRequest);
-            var projectStatusFirmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
-            return ViewEditCostAuthorityAgreementRequests(reclamationAgreementRequest, viewModel, projectStatusFirmaPage );
+            var firmaPage = FirmaPageTypeEnum.AddCostAuthorityToAgreementRequest.GetFirmaPage();
+            return ViewEditCostAuthorityAgreementRequests(reclamationAgreementRequest, viewModel, firmaPage );
         }
 
         private PartialViewResult ViewEditCostAuthorityAgreementRequests(ReclamationAgreementRequest reclamationAgreementRequest, EditCostAuthorityAgreementRequestsViewModel viewModel, FirmaPage firmaPage)
         {
-            var projectStatusFirmaPage = firmaPage;
             var allCostAuthorities= HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorities.ToList();
-            var viewData = new EditCostAuthorityAgreementRequestsViewData(projectStatusFirmaPage, CurrentFirmaSession, allCostAuthorities, reclamationAgreementRequest);
+            var viewData = new EditCostAuthorityAgreementRequestsViewData(firmaPage, CurrentFirmaSession, allCostAuthorities, reclamationAgreementRequest);
             return RazorPartialView<EditCostAuthorityAgreementRequests, EditCostAuthorityAgreementRequestsViewData, EditCostAuthorityAgreementRequestsViewModel>(viewData, viewModel);
         }
 
@@ -121,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
             var reclamationAgreementRequest = reclamationAgreementRequestPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                var firmaPage = FirmaPageTypeEnum.AgreementRequestFromGridDialog.GetFirmaPage();
+                var firmaPage = FirmaPageTypeEnum.AddCostAuthorityToAgreementRequest.GetFirmaPage();
                 return ViewEditCostAuthorityAgreementRequests(reclamationAgreementRequest,viewModel, firmaPage);
             }
 

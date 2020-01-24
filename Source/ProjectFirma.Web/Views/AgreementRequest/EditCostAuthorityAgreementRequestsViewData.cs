@@ -38,15 +38,15 @@ namespace ProjectFirma.Web.Views.AgreementRequest
     {
         public IEnumerable<SelectListItem> CostAuthorities { get; }
         public CostAuthorityJsonList CostAuthorityJsonList { get; }
-        public ViewPageContentViewData ProjectStatusFirmaPage { get; }
+        public ViewPageContentViewData EditCostAuthorityAgreementRequestsFirmaPage { get; }
         
 
         public EditCostAuthorityAgreementRequestsViewData(
-             ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
+             ProjectFirmaModels.Models.FirmaPage editCostAuthorityAgreementRequestsFirmaPage
             , FirmaSession currentFirmaSession
             , List<ReclamationCostAuthority> allCostAuthorities
             , ReclamationAgreementRequest reclamationAgreementRequest
-            ) : base(currentFirmaSession)
+            ) : base(currentFirmaSession, editCostAuthorityAgreementRequestsFirmaPage)
         {
             var costAuthoritiesToOmit =
                 reclamationAgreementRequest.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
                 .OrderBy(x => x.CostAuthorityWorkBreakdownStructure)
                 .ToSelectListWithEmptyFirstRow(x => x.ReclamationCostAuthorityID.ToString(), x => x.CostAuthorityWorkBreakdownStructure, "Select CAWBS");
             CostAuthorityJsonList = new CostAuthorityJsonList(reclamationCostAuthoritiesToUse.Select(x => new CostAuthorityJson(x)).ToList());
-            ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
+            EditCostAuthorityAgreementRequestsFirmaPage = new ViewPageContentViewData(editCostAuthorityAgreementRequestsFirmaPage, currentFirmaSession);
         }
     }
 
