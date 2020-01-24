@@ -91,6 +91,13 @@
         .rightOfPageTitle {
             margin: 0;
         }
+
+        a.disabledNotDraft {
+            /* And disable the pointer events */
+            cursor: not-allowed;
+            opacity: .5;
+        }
+
     </style>
 }
 
@@ -179,7 +186,7 @@
         </h2>
     </div>
     <div class="rightFloatingInfo" style="margin-right: 20px;">
-        @(ViewDataTyped.ReclamationAgreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft ? ViewDataTyped.ReclamationAgreementRequest.EditCostAuthorityAgreementRequestsButton() : new HtmlString(string.Empty))
+        @(ViewDataTyped.ReclamationAgreementRequest.EditCostAuthorityAgreementRequestsButton())
     </div>
     <br/>
     <br/>
@@ -274,3 +281,12 @@
         </div>
     </div>
 }
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        jQuery(".disabledNotDraft").prop('href', 'javascript:void(0);');
+        jQuery(".disabledNotDraft").attr('onclick', '');
+        jQuery(".disabledNotDraft").prop('title', 'You cannot Add Projected Obligations because this Agreement Request is not in a Draft state.');
+        
+    });
+</script>

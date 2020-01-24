@@ -463,6 +463,9 @@ namespace System
 
             s = s.Trim();
 
+            var isNegative = s.StartsWith("(") && s.EndsWith(")");
+            s = s.Replace("(", "").Replace(")","");
+
             if (s == String.Empty)
             {
                 return false;
@@ -494,7 +497,14 @@ namespace System
                 return false;
             }
 
+            if (isNegative)
+            {
+                value = value * (decimal) -1;
+
+            }
+
             money = currency != null ? new Money(value, currency.Value) : new Money(value);
+
 
             return true;
         }

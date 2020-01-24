@@ -193,6 +193,7 @@ namespace ProjectFirmaModels.Models
         AgreementList = 10000,
         CostAuthorityList = 10001,
         AgreementRequestList = 10002,
-        AgreementRequestFromGridDialog = 10003
+        AgreementRequestFromGridDialog = 10003,
+        AddCostAuthorityToAgreementRequest = 10004
     }
 }

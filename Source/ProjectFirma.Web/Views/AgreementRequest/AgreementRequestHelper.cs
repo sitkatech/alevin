@@ -58,10 +58,11 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
         public static HtmlString EditCostAuthorityAgreementRequestsButton(this ReclamationAgreementRequest reclamationAgreementRequest)
         {
+            var disable = reclamationAgreementRequest.AgreementRequestStatus != ReclamationAgreementRequestStatus.Draft ? "disabledNotDraft" : "";
             return ModalDialogFormHelper.ModalDialogFormLink(MakeProjectNewObligationsText(), EditCostAuthorityAgreementRequestsUrl(reclamationAgreementRequest),
                 $"Project new Obligations by CAWBS", 900, "Save",
                 "Cancel",
-                new List<string> { "btn", "btn-firma" }, null, null);
+                new List<string> { "btn", "btn-firma", disable }, null, null);
         }
 
 
