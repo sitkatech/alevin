@@ -16,6 +16,7 @@ begin
 	
 
 	CREATE TABLE dbo.impApGenSheet(
+		impApGenSheetID int identity(1,1) not null constraint PK_impApGenSheet_impApGenSheetID primary key,
 		[PO Number - Key] [nvarchar](255) NULL,
 		[Purch Ord Line Itm - Key] [nvarchar](255) NULL,
 		[Reference - Key] [nvarchar](255) NULL,
@@ -38,6 +39,7 @@ begin
 
 
 	CREATE TABLE dbo.impPayRecV3(
+		impPayRecV3ID int identity(1,1) not null constraint PK_impPayRecV3_impPayRecV3ID primary key,
 		[Business area - Key] [nvarchar](255) NULL,
 		[FA Budget Activity - Key] [nvarchar](255) NULL,
 		[Functional area - Text] [nvarchar](255) NULL,

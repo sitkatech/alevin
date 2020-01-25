@@ -80,7 +80,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureNoTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
+            modelBuilder.Configurations.Add(new impApGenSheetConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
+            modelBuilder.Configurations.Add(new impPayRecV3Configuration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
@@ -289,8 +291,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<GeospatialArea> GeospatialAreas { get { return AllGeospatialAreas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<impApGenSheet> impApGenSheets { get; set; }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<impPayRecV3> impPayRecV3s { get; set; }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
@@ -698,8 +702,14 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(googleChartType, "GoogleChartType", primaryKey);
                     return googleChartType;
 
+                case "impApGenSheet":
+                    return impApGenSheets.GetimpApGenSheet(primaryKey);
+
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "impPayRecV3":
+                    return impPayRecV3s.GetimpPayRecV3(primaryKey);
 
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
