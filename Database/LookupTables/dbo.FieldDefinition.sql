@@ -215,7 +215,7 @@ VALUES
 (10031, N'AccountStructureDescription', N'Account Structure Description'),
 (10032, N'CostAuthorityAgreementRequestNote', N'Note on projected obligation from a CAWBS to an Agreement'),
 (10033, N'AgreementRequestSubmissionNote', N'Submission Note'),
-(10034, N'StatusRecentActivities', N'Status Recent Activities'),
-(10035, N'StatusUpcomingActivities', N'Status Upcoming Activities'),
-(10036, N'StatusRisksOrIssues', N'Status Risks/Issues'),
-(10037, N'StatusNotes', N'Status Notes')
+(10034, N'StatusRecentActivities', N'Recent Activities'),
+(10035, N'StatusUpcomingActivities', N'Upcoming Activities'),
+(10036, N'StatusRisksOrIssues', N'Risks/Issues'),
+(10037, N'StatusNotes', N'Notes')
