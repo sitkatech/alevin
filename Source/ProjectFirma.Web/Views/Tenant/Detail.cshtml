@@ -238,7 +238,7 @@
             <div class="panel-heading panelTitle">
                 @if (ViewDataTyped.IsCurrentTenant)
                 {
-                    @ModalDialogFormHelper.ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, ModalDialogFormHelper.SaveButtonID, "Save", "Cancel", new List<string>(), null, null, ViewDataTyped.EditBoundingBoxFormID, null)
+                    @ModalDialogFormHelper.ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit").ToString(), ViewDataTyped.EditBoundingBoxUrl, string.Format("Edit Default Map Extent: {0}", ViewDataTyped.TenantAttribute.TenantShortDisplayName), 800, ModalDialogFormHelper.SaveButtonID, "Save", "Cancel", new List<string>(), null, null, ViewDataTyped.EditBoundingBoxFormID, null, ModalDialogFormHelper.DisabledState.NotDisabled)
                 }
                 Default Map Extent
             </div>
