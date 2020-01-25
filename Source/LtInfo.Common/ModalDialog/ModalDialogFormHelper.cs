@@ -190,6 +190,7 @@ namespace LtInfo.Common.ModalDialog
                 optionalDialogFormID, null, DisabledState.NotDisabled);
         }
 
+
         /// <summary>
         ///     Creates a link that will open a jQuery UI dialog form.
         ///     Adds additional parameters controlling button IDs if needed.
