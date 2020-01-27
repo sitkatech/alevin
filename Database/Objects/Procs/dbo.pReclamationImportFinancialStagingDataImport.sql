@@ -26,7 +26,7 @@ begin
 		dbo.impPayRecV3 as pr
 		full outer join dbo.impApGenSheet as ap on pr.[WBS Element - Key] = ap.[WBS Element - Key]
 	where
-		pr.[WBS Element - Text] = ap.[WBS Element - Text] and pr.[WBS Element - Key] != '#'
+		pr.[WBS Element - Key] != '#'
 
 
 	insert into ImportFinancial.Vendor(VendorKey, VendorText)
@@ -61,13 +61,40 @@ begin
 
 
 
-
+	insert into ImportFinancial.WbsElementObligationItemBudget(WbsElementID, ObligationItemID, Obligation, GoodsReceipt, Invoiced, Disbursed, UnexpendedBalance)
+	select 
+		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.[WBS Element - Key]) as WbsElementID,
+		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemKey = pr.[Obligation Item - Key] and obn.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationItemID,
+		pr.Obligation as Obligation,
+		pr.[Goods Receipt] as GoodsReceipt,
+		pr.Invoiced as Invoiced,
+		pr.Disbursed as Disbursed,
+		pr.[Unexpended Balance] as UnexpendedBalance
+	from
+		dbo.impPayRecV3 as pr
+	where 
+		pr.[WBS Element - Key] != '#'
+		
+		
 
 end
 GO
 
 
 /*
+
+		select * from dbo.impPayRecV3 as pr where pr.[WBS Element - Key] like '%#%'
+
+		select * from dbo.impPayRecV3 as pr where pr.[Unexpended Balance] = 3790.98
+
+		select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = 'RX.16786807.5001500'
+
+		select distinct WbsElementKey from ImportFinancial.WbsElement
+
+		select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID
+
+		select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemID = 249
+
 
 exec dbo.pReclamationImportFinancialStagingDataImport
 

@@ -18,6 +18,10 @@ begin
 	END
 
 
+	IF OBJECT_ID('ImportFinancial.WbsElementObligationItemBudget', 'U') IS NOT NULL 
+	begin
+	  DROP TABLE ImportFinancial.WbsElementObligationItemBudget
+	end
 
 	IF OBJECT_ID('ImportFinancial.WbsElement', 'U') IS NOT NULL 
 	begin
@@ -88,6 +92,19 @@ begin
 		ObligationItemKey ASC,
 		ObligationNumberID ASC
 	)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+
+
+
+	create table ImportFinancial.WbsElementObligationItemBudget(
+		WbsElementObligationItemBudgetID int not null identity(1,1) constraint PK_WbsElementObligationItemBudget_WbsElementObligationItemBudgetID primary key,
+		WbsElementID int not null constraint FK_WbsElementObligationItemBudget_WbsElement_WbsElementID foreign key references ImportFinancial.WbsElement(WbsElementID),
+		ObligationItemID int not null constraint FK_WbsElementObligationItemBudget_ObligationItem_ObligationItemID foreign key references ImportFinancial.ObligationItem(ObligationItemID),
+		Obligation float null,
+		GoodsReceipt varchar(255) null,
+		Invoiced float null,
+		Disbursed float null,
+		UnexpendedBalance float null
+	)
 
 
 
