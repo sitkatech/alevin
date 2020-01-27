@@ -10,6 +10,8 @@ as
 begin
 
 	
+	delete from ImportFinancial.WbsElementObligationItemBudget;
+	delete from ImportFinancial.WbsElementObligationItemInvoice;
 	delete from ImportFinancial.WbsElement;
 	delete from ImportFinancial.Vendor;
 	delete from ImportFinancial.ObligationItem;
@@ -74,7 +76,20 @@ begin
 		dbo.impPayRecV3 as pr
 	where 
 		pr.[WBS Element - Key] != '#'
-		
+
+
+
+	insert into ImportFinancial.WbsElementObligationItemInvoice(WbsElementID, ObligationItemID, DebitAmount, CreditAmount, DebitCreditTotal)
+	select 
+		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.[WBS Element - Key]) as WbsElementID,
+		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemKey = ap.[Purch Ord Line Itm - Key] and obn.ObligationNumberKey = ap.[PO Number - Key]) as ObligationItemID,
+		ap.[Debit Amount] as DebitAmount,
+		ap.[Credit Amount] as CreditAmount,
+		ap.[Debit/Credit Total] as DebitCreditTotal
+	from
+		dbo.impApGenSheet as ap
+	where
+		ap.[WBS Element - Key] != '#'
 		
 
 end

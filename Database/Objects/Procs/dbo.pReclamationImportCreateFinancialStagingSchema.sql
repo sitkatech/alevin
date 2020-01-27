@@ -23,6 +23,11 @@ begin
 	  DROP TABLE ImportFinancial.WbsElementObligationItemBudget
 	end
 
+	IF OBJECT_ID('ImportFinancial.WbsElementObligationItemInvoice', 'U') IS NOT NULL 
+	begin
+	  DROP TABLE ImportFinancial.WbsElementObligationItemBudget
+	end
+
 	IF OBJECT_ID('ImportFinancial.WbsElement', 'U') IS NOT NULL 
 	begin
 	  DROP TABLE ImportFinancial.WbsElement
@@ -104,6 +109,15 @@ begin
 		Invoiced float null,
 		Disbursed float null,
 		UnexpendedBalance float null
+	)
+
+	create table ImportFinancial.WbsElementObligationItemInvoice(
+		WbsElementObligationItemInvoiceID int not null identity(1,1) constraint PK_WbsElementObligationItemInvoice_WbsElementObligationItemInvoiceID primary key,
+		WbsElementID int not null constraint FK_WbsElementObligationItemInvoice_WbsElement_WbsElementID foreign key references ImportFinancial.WbsElement(WbsElementID),
+		ObligationItemID int not null constraint FK_WbsElementObligationItemInvoice_ObligationItem_ObligationItemID foreign key references ImportFinancial.ObligationItem(ObligationItemID),
+		DebitAmount float null,
+		CreditAmount float null,
+		DebitCreditTotal float null
 	)
 
 
