@@ -30,10 +30,10 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_PersonID]
 GO
-ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_TenantID] FOREIGN KEY([AssignedToPersonID], [TenantID])
+ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_TenantID_PersonID_TenantID] FOREIGN KEY([AssignedToPersonID], [TenantID])
 REFERENCES [dbo].[Person] ([PersonID], [TenantID])
 GO
-ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_TenantID]
+ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_TenantID_PersonID_TenantID]
 GO
 ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
