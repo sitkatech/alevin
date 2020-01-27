@@ -30,15 +30,30 @@ REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_PersonID]
 GO
+ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_TenantID] FOREIGN KEY([AssignedToPersonID], [TenantID])
+REFERENCES [dbo].[Person] ([PersonID], [TenantID])
+GO
+ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Person_AssignedToPersonID_TenantID]
+GO
 ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])
 GO
 ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Project_ProjectID]
 GO
+ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Project_ProjectID_TenantID] FOREIGN KEY([ProjectID], [TenantID])
+REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
+GO
+ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_Project_ProjectID_TenantID]
+GO
 ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID] FOREIGN KEY([ProjectProjectStatusID])
 REFERENCES [dbo].[ProjectProjectStatus] ([ProjectProjectStatusID])
 GO
 ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID]
+GO
+ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID_TenantID] FOREIGN KEY([ProjectProjectStatusID], [TenantID])
+REFERENCES [dbo].[ProjectProjectStatus] ([ProjectProjectStatusID], [TenantID])
+GO
+ALTER TABLE [dbo].[ActionItem] CHECK CONSTRAINT [FK_ActionItem_ProjectProjectStatus_ProjectProjectStatusID_TenantID]
 GO
 ALTER TABLE [dbo].[ActionItem]  WITH CHECK ADD  CONSTRAINT [FK_ActionItem_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
