@@ -298,6 +298,7 @@ namespace ProjectFirma.Web.Controllers
                 projectTimelineViewData,
                 userHasProjectTimelinePermissions,
                 projectEvaluationsUserHasAccessTo,
+                userHasStartUpdateWorkflowPermission,
                 actionItemsDisplayViewData,
                 userCanViewActionItems);
             return RazorView<Detail, DetailViewData>(viewData);

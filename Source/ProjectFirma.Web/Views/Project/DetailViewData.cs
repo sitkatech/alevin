@@ -164,7 +164,6 @@ namespace ProjectFirma.Web.Views.Project
             string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
             bool userHasProjectTimelinePermissions, List<ProjectEvaluation> projectEvaluationsUserHasAccessTo,
             bool userHasStartUpdateWorkflowPermission,
-
             ActionItemsDisplayViewData actionItemsDisplayViewData,
             bool userCanViewActionItems)
             : base(currentFirmaSession, project)

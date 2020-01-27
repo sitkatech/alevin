@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDelete(ActionItem actionItem, ConfirmDialogFormViewModel viewModel)
         {
             var confirmMessage =
-                $"Are you sure you want to delete this {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()} assigned to \"{actionItem.AssignedToPerson.GetFullNameFirstLastAndOrg()}\"?";
+                $"Are you sure you want to delete this {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()} assigned to \"{actionItem.AssignedToPerson.GetFullNameFirstLastAndOrg()}\"?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }

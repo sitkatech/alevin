@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.ActionItem
             Add($"{FieldDefinitionEnum.ActionItemAssignedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.AssignedOnDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemDueByDate.ToType().GetFieldDefinitionLabel()}", x => x.DueByDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemCompletedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.CompletedOnDate, 120);
-            Add($"Related {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()}", x => x.ProjectProjectStatus?.GetDropdownDisplayName() ?? "", 200, DhtmlxGridColumnFilterType.Text);
+            Add($"Related {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()}", x => x.ProjectProjectStatus?.GetDropdownDisplayName() ?? "", 200, DhtmlxGridColumnFilterType.Text);
         }
     }
 
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.ActionItem
             Add($"{FieldDefinitionEnum.ActionItemAssignedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.AssignedOnDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemDueByDate.ToType().GetFieldDefinitionLabel()}", x => x.DueByDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemCompletedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.CompletedOnDate, 120);
-            Add($"Related {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()}", x => x.ProjectProjectStatus?.GetDropdownDisplayName() ?? "", 200, DhtmlxGridColumnFilterType.Text);
+            Add($"Related {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()}", x => x.ProjectProjectStatus?.GetDropdownDisplayName() ?? "", 200, DhtmlxGridColumnFilterType.Text);
         }
     }
 
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.ActionItem
             Add($"{FieldDefinitionEnum.ActionItemAssignedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.AssignedOnDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemDueByDate.ToType().GetFieldDefinitionLabel()}", x => x.DueByDate, 120);
             Add($"{FieldDefinitionEnum.ActionItemCompletedOnDate.ToType().GetFieldDefinitionLabel()}", x => x.CompletedOnDate, 120);
-            Add($"Related {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabel()}", x => x.ProjectProjectStatus?.GetDropdownDisplayName() ?? "", 200, DhtmlxGridColumnFilterType.Text);
+            Add($"Related {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabel()}", x => x.ProjectProjectStatus?.GetDropdownDisplayName() ?? "", 200, DhtmlxGridColumnFilterType.Text);
         }
     }
 }
