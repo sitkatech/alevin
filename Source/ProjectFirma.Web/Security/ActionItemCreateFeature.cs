@@ -9,7 +9,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
-        public ActionItemCreateFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+        public ActionItemCreateFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -17,22 +17,26 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            var person = firmaSession.Person;
-            var isProposal = contextModelObject.IsProposal();
-            if (isProposal)
+            if (contextModelObject.IsRejected() || contextModelObject.IsProposal() || contextModelObject.IsPendingProject())
             {
-                return new PermissionCheckResult(
-                    $"You cannot create {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()} because it is in the Proposal stage.");
+                return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject);
             }
-            bool isProjectStewardButCannotStewardThisProject = person != null && firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(contextModelObject);
-            bool doesNotHavePermissionByPerson = !HasPermissionByFirmaSession(firmaSession);
-            var forbidAdmin = doesNotHavePermissionByPerson || isProjectStewardButCannotStewardThisProject;
-            if (forbidAdmin)
+            else
             {
-                return new PermissionCheckResult(
-                    $"You don't have permission to create {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {contextModelObject.GetDisplayName()}");
+                var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
+                if (!hasPermissionByPerson)
+                {
+                    return new PermissionCheckResult($"You do not have permission to create {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
+                }
+
+                var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
+                if (projectIsEditableByUser)
+                {
+                    return new PermissionCheckResult();
+                }
+
+                return new PermissionCheckResult($"You do not have permission to create {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
-            return new PermissionCheckResult();
         }
 
         public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
