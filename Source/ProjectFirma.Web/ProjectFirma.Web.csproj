@@ -650,12 +650,9 @@
     <Content Include="Views\AgreementRequest\AgreementRequestIndex.cshtml" />
     <Content Include="Views\AgreementRequest\EditAgreementRequest.cshtml" />
     <Content Include="Views\AgreementRequest\EditRequisitionInformation.cshtml" />
-<<<<<<< HEAD
     <Content Include="Views\ActionItem\Index.cshtml" />
-=======
     <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequests.cshtml" />
     <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequest.cshtml" />
->>>>>>> develop
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
