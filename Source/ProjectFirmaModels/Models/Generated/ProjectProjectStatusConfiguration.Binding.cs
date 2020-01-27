@@ -20,13 +20,16 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectStatusID).HasColumnName(@"ProjectStatusID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectProjectStatusUpdateDate).HasColumnName(@"ProjectProjectStatusUpdateDate").HasColumnType("datetime").IsRequired();
-            Property(x => x.ProjectProjectStatusComment).HasColumnName(@"ProjectProjectStatusComment").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(2500);
             Property(x => x.ProjectProjectStatusCreatePersonID).HasColumnName(@"ProjectProjectStatusCreatePersonID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectProjectStatusCreateDate).HasColumnName(@"ProjectProjectStatusCreateDate").HasColumnType("datetime").IsRequired();
             Property(x => x.ProjectProjectStatusLastEditedPersonID).HasColumnName(@"ProjectProjectStatusLastEditedPersonID").HasColumnType("int").IsOptional();
             Property(x => x.ProjectProjectStatusLastEditedDate).HasColumnName(@"ProjectProjectStatusLastEditedDate").HasColumnType("datetime").IsOptional();
             Property(x => x.IsFinalStatusUpdate).HasColumnName(@"IsFinalStatusUpdate").HasColumnType("bit").IsRequired();
             Property(x => x.LessonsLearned).HasColumnName(@"LessonsLearned").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2500);
+            Property(x => x.ProjectProjectStatusRecentActivities).HasColumnName(@"ProjectProjectStatusRecentActivities").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
+            Property(x => x.ProjectProjectStatusUpcomingActivities).HasColumnName(@"ProjectProjectStatusUpcomingActivities").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
+            Property(x => x.ProjectProjectStatusRisksOrIssues).HasColumnName(@"ProjectProjectStatusRisksOrIssues").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
+            Property(x => x.ProjectProjectStatusNotes).HasColumnName(@"ProjectProjectStatusNotes").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectProjectStatuses).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectProjectStatus_Project_ProjectID

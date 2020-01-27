@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditNoteViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectProjectStatusViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,36 +20,46 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectProjectStatus
 {
     public class EditProjectProjectStatusViewModel : FormViewModel, IValidatableObject
     {
         [Required]
-        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusComment)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusComments)]
-        public string ProjectProjectStatusComment { get; set; }
-
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatus)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Status)]
         public int ProjectStatusID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusUpdateDate)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusUpdateDate)]
         public DateTime? ProjectStatusUpdateDate { get; set; }
+
+        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusRecentActivities)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusRecentActivities)]
+        public string ProjectProjectStatusRecentActivities { get; set; }
+
+        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusUpcomingActivities)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusUpcomingActivities)]
+        public string ProjectProjectStatusUpcomingActivities { get; set; }
+
+        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusRisksOrIssues)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusRisksOrIssues)]
+        public string ProjectProjectStatusRisksOrIssues { get; set; }
+
+        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusNotes)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusNotes)]
+        public string ProjectProjectStatusNotes { get; set; }
+
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.IsFinalStatusUpdate)]
         public bool IsFinalStatusUpdate { get; set; }
 
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.LessonsLearned)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStatusLessonsLearned)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusLessonsLearned)]
         public string LessonsLearned { get; set; }
 
 
@@ -74,7 +84,10 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
 
         public EditProjectProjectStatusViewModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus)
         {
-            ProjectProjectStatusComment = projectProjectStatus.ProjectProjectStatusComment;
+            ProjectProjectStatusRecentActivities = projectProjectStatus.ProjectProjectStatusRecentActivities;
+            ProjectProjectStatusUpcomingActivities = projectProjectStatus.ProjectProjectStatusUpcomingActivities;
+            ProjectProjectStatusRisksOrIssues = projectProjectStatus.ProjectProjectStatusRisksOrIssues;
+            ProjectProjectStatusNotes = projectProjectStatus.ProjectProjectStatusNotes;
             LessonsLearned = projectProjectStatus.LessonsLearned;
             ProjectStatusID = projectProjectStatus.ProjectStatusID;
             ProjectStatusUpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate;
@@ -83,7 +96,10 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectProjectStatus projectProjectStatus, FirmaSession currentFirmaSession)
         {
-            projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
+            projectProjectStatus.ProjectProjectStatusRecentActivities = ProjectProjectStatusRecentActivities;
+            projectProjectStatus.ProjectProjectStatusUpcomingActivities = ProjectProjectStatusUpcomingActivities;
+            projectProjectStatus.ProjectProjectStatusRisksOrIssues = ProjectProjectStatusRisksOrIssues;
+            projectProjectStatus.ProjectProjectStatusNotes = ProjectProjectStatusNotes;
             if (IsFinalStatusUpdate)
             {
                 projectProjectStatus.LessonsLearned = LessonsLearned;
@@ -113,7 +129,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             var errors = new List<ValidationResult>();
             
 
-            // Expenditures note is required if no expenditures to enter is selected
+            // lessons learned is required if there is not Final Status Update
             if (string.IsNullOrEmpty(LessonsLearned) && IsFinalStatusUpdate)
             {
                 errors.Add(new ValidationResult($"Lessons Learned must be entered for Final Status Updates."));

@@ -7,7 +7,6 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-
     public static class ReclamationAgreementRequestModelExtensions
     {
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(
