@@ -9,13 +9,21 @@ create procedure dbo.pReclamationImportCreateSchema
 as
 begin
 
-	IF OBJECT_ID('dbo.impApGenSheet', 'U') IS NOT NULL 
+	IF NOT EXISTS (
+		SELECT  schema_name
+		FROM    information_schema.schemata
+		WHERE   schema_name = 'ImportFinancial' ) -- ImportFinancial is the name of the schema I wanted to check for
+	BEGIN
+		EXEC sp_executesql N'create schema ImportFinancial'   --ImportFinancial is the schema I want to create
+	END
+
+	IF OBJECT_ID('ImportFinancial.impApGenSheet', 'U') IS NOT NULL 
 	begin
-		DROP TABLE dbo.impApGenSheet;
+		DROP TABLE ImportFinancial.impApGenSheet;
 	end
 	
 
-	CREATE TABLE dbo.impApGenSheet(
+	CREATE TABLE ImportFinancial.impApGenSheet(
 		impApGenSheetID int identity(1,1) not null constraint PK_impApGenSheet_impApGenSheetID primary key,
 		[PO Number - Key] [nvarchar](255) NULL,
 		[Purch Ord Line Itm - Key] [nvarchar](255) NULL,
@@ -32,13 +40,13 @@ begin
 		[Debit/Credit Total] [float] NULL
 	) ON [PRIMARY]
 
-	IF OBJECT_ID('dbo.impPayRecV3', 'U') IS NOT NULL 
+	IF OBJECT_ID('ImportFinancial.impPayRecV3', 'U') IS NOT NULL 
 	begin
-		DROP TABLE dbo.impPayRecV3;
+		DROP TABLE ImportFinancial.impPayRecV3;
 	end
 
 
-	CREATE TABLE dbo.impPayRecV3(
+	CREATE TABLE ImportFinancial.impPayRecV3(
 		impPayRecV3ID int identity(1,1) not null constraint PK_impPayRecV3_impPayRecV3ID primary key,
 		[Business area - Key] [nvarchar](255) NULL,
 		[FA Budget Activity - Key] [nvarchar](255) NULL,

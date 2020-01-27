@@ -9,14 +9,6 @@ create procedure dbo.pReclamationImportCreateFinancialStagingSchema
 as
 begin
 
-	IF NOT EXISTS (
-		SELECT  schema_name
-		FROM    information_schema.schemata
-		WHERE   schema_name = 'ImportFinancial' ) -- ImportFinancial is the name of the schema I wanted to check for
-	BEGIN
-		EXEC sp_executesql N'create schema ImportFinancial'   --ImportFinancial is the schema I want to create
-	END
-
 
 	IF OBJECT_ID('ImportFinancial.WbsElementObligationItemBudget', 'U') IS NOT NULL 
 	begin
