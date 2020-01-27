@@ -235,6 +235,18 @@ Source code is available upon request via <support@sitkatech.com>.
     <div class="col-md-12">
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
+                @string.Format("{0} assigned to {1}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.Person.GetFullNameFirstLast())
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ActionItemsUserGridSpec, ViewDataTyped.ActionItemsGridName, ViewDataTyped.ActionItemsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
                 @string.Format("{0} for which {1} is a {2}", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(), ViewDataTyped.Person.GetFullNameFirstLast(), FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel())
             </div>
             <div class="panel-body">

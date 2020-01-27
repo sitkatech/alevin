@@ -24,6 +24,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Views.ActionItem;
 
 namespace ProjectFirma.Web.Views.User
 {
@@ -49,6 +50,11 @@ namespace ProjectFirma.Web.Views.User
 
         public HtmlString EditRolesLink { get; }
 
+        public ActionItemsUserGridSpec ActionItemsUserGridSpec { get; }
+        public string ActionItemsGridName { get; }
+        public string ActionItemsGridDataUrl { get; }
+
+
         public DetailViewData(FirmaSession currentFirmaSession,
             Person personToView,
             Project.BasicProjectInfoGridSpec basicProjectInfoGridSpec,
@@ -57,7 +63,10 @@ namespace ProjectFirma.Web.Views.User
             UserNotificationGridSpec userNotificationGridSpec,
             string userNotificationGridName,
             string userNotificationGridDataUrl,
-            string activateInactivateUrl)
+            string activateInactivateUrl,
+            ActionItemsUserGridSpec actionItemsUserGridSpec,
+            string actionItemsGridName,
+            string actionItemsGridDataUrl)
             // TOOD: Must pass in FirmaSession
             : base(currentFirmaSession)
         {
@@ -92,6 +101,10 @@ namespace ProjectFirma.Web.Views.User
             ActivateInactivateUrl = activateInactivateUrl;
 
             TenantHasStewardshipAreas = MultiTenantHelpers.GetProjectStewardshipAreaType() != null;
+
+            ActionItemsUserGridSpec = actionItemsUserGridSpec;
+            ActionItemsGridName = actionItemsGridName;
+            ActionItemsGridDataUrl = actionItemsGridDataUrl;
         }
 
         

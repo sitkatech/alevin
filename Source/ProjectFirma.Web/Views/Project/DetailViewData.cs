@@ -36,8 +36,10 @@ using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
+
 namespace ProjectFirma.Web.Views.Project
 {
     public class DetailViewData : ProjectViewData
@@ -92,6 +94,10 @@ namespace ProjectFirma.Web.Views.Project
         public string ProjectNotificationGridName { get; }
         public string ProjectNotificationGridDataUrl { get; }
 
+        public ActionItemsGridSpec ActionItemsGridSpec { get; }
+        public string ActionItemsGridName { get; }
+        public string ActionItemsGridDataUrl { get; }
+
         public string EditProjectGeospatialAreaFormID { get; }
         public string EditProjectBoundingBoxFormID { get; }
         public string ProjectStewardCannotEditUrl { get; }
@@ -117,6 +123,8 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectAttachmentsDetailViewData ProjectAttachmentsDetailViewData { get; }
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
         public ProjectTimelineDisplayViewData ProjectTimelineDisplayViewData { get; }
+        public ActionItemsDisplayViewData ActionItemsDisplayViewData { get; }
+        public bool UserCanViewActionItems { get; }
 
         public List<ProjectEvaluation> ProjectEvaluationsUserHasAccessTo { get; }
 
@@ -155,7 +163,9 @@ namespace ProjectFirma.Web.Views.Project
             ProjectContactsDetailViewData projectContactsDetailViewData, string editProjectContactsUrl,
             string editExpectedFundingUrl, ProjectTimelineDisplayViewData projectTimelineDisplayViewData,
             bool userHasProjectTimelinePermissions, List<ProjectEvaluation> projectEvaluationsUserHasAccessTo,
-            bool userHasStartUpdateWorkflowPermission)
+            bool userHasStartUpdateWorkflowPermission,
+            ActionItemsDisplayViewData actionItemsDisplayViewData,
+            bool userCanViewActionItems)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -372,6 +382,9 @@ namespace ProjectFirma.Web.Views.Project
             ProjectTimelineDisplayViewData = projectTimelineDisplayViewData;
 
             ProjectEvaluationsUserHasAccessTo = projectEvaluationsUserHasAccessTo;
+
+            ActionItemsDisplayViewData = actionItemsDisplayViewData;
+            UserCanViewActionItems = userCanViewActionItems;
         }
     }
 }

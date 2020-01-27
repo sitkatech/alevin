@@ -40,7 +40,17 @@ namespace ProjectFirma.Web.Security
             _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
         }
 
-
+        /// <summary>
+        /// 1/24/2020 SMG - I believe the permissions for this feature are:
+        /// SitkaAdmins can view all user pages 
+        /// Users can view their own pages
+        /// Only SitkaAdmins can view SitkaAdmins
+        /// Must be logged in to view user pages
+        /// 
+        /// </summary>
+        /// <param name="firmaSession"></param>
+        /// <param name="contextModelObject"></param>
+        /// <returns></returns>
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Person contextModelObject)
         {
             if (contextModelObject == null)

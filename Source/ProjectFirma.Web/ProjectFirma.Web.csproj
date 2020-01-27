@@ -57,6 +57,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\ActionItemController.cs" />
     <Compile Include="Controllers\AgreementRequestController.cs" />
     <Compile Include="Controllers\AgreementRequestSubmissionNotesController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
+    <Compile Include="Models\ActionItemModelExtensions.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeFileResourceMimeTypeModelExtensions.cs" />
     <Compile Include="Models\AttachmentRelationshipTypeModelExtensions.cs" />
@@ -177,6 +179,7 @@
     <Compile Include="Models\ProjectLocationStagingModelExtensions.cs" />
     <Compile Include="Models\ProjectLocationStagingUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectProjectStatusExtensions.cs" />
+    <Compile Include="Models\ProjectProjectStatusModelExtensions.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeSimple.cs" />
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectStatusModelExtensions.cs" />
@@ -214,6 +217,10 @@
     <Compile Include="Models\TechnicalAssistanceRequestUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
+    <Compile Include="Security\ActionItemAdminFeature.cs" />
+    <Compile Include="Security\ActionItemCreateFeature.cs" />
+    <Compile Include="Security\ActionItemManageFeature.cs" />
+    <Compile Include="Security\ActionItemViewFeature.cs" />
     <Compile Include="Security\AgreementRequestCreateFeature.cs" />
     <Compile Include="Security\AgreementRequestIndexViewFeature.cs" />
     <Compile Include="Security\AgreementRequestManageFeature.cs" />
@@ -244,6 +251,8 @@
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\ActionItem\Index.cs" />
+    <Compile Include="Views\ActionItem\IndexViewData.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestDetail.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestDetailViewData.cs" />
     <Compile Include="Views\AgreementRequest\AgreementRequestGridSpec.cs" />
@@ -305,6 +314,11 @@
     <Compile Include="Views\ExternalMapLayer\Index.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexGridSpec.cs" />
     <Compile Include="Views\ExternalMapLayer\IndexViewData.cs" />
+    <Compile Include="Views\ActionItem\ActionItemsDisplay.cs" />
+    <Compile Include="Views\ActionItem\Edit.cs" />
+    <Compile Include="Views\ActionItem\EditViewData.cs" />
+    <Compile Include="Views\ActionItem\EditViewModel.cs" />
+    <Compile Include="Views\ActionItem\ActionItemsGridSpec.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -457,6 +471,7 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewModel.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
+    <Compile Include="Views\ActionItem\ActionItemsDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
@@ -635,6 +650,7 @@
     <Content Include="Views\AgreementRequest\AgreementRequestIndex.cshtml" />
     <Content Include="Views\AgreementRequest\EditAgreementRequest.cshtml" />
     <Content Include="Views\AgreementRequest\EditRequisitionInformation.cshtml" />
+    <Content Include="Views\ActionItem\Index.cshtml" />
     <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequests.cshtml" />
     <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequest.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
@@ -1746,6 +1762,8 @@
     <Content Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReport.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cshtml" />
     <Content Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cshtml" />
+    <Content Include="Views\ActionItem\ActionItemsDisplay.cshtml" />
+    <Content Include="Views\ActionItem\Edit.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

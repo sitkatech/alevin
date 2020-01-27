@@ -40,6 +40,7 @@ namespace ProjectFirmaModels.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Configurations.Add(new ActionItemConfiguration());
             modelBuilder.Configurations.Add(new AssessmentGoalConfiguration());
             modelBuilder.Configurations.Add(new AssessmentQuestionConfiguration());
             modelBuilder.Configurations.Add(new AssessmentSubGoalConfiguration());
@@ -212,6 +213,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
         }
+        public virtual DbSet<ActionItem> AllActionItems { get; set; }
+        public virtual IQueryable<ActionItem> ActionItems { get { return AllActionItems.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentQuestion> AllAssessmentQuestions { get; set; }
@@ -522,6 +525,14 @@ namespace ProjectFirmaModels.Models
                     var accomplishmentsDashboardFundingDisplayType = AccomplishmentsDashboardFundingDisplayType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(accomplishmentsDashboardFundingDisplayType, "AccomplishmentsDashboardFundingDisplayType", primaryKey);
                     return accomplishmentsDashboardFundingDisplayType;
+
+                case "ActionItem":
+                    return ActionItems.GetActionItem(primaryKey);
+
+                case "ActionItemState":
+                    var actionItemState = ActionItemState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(actionItemState, "ActionItemState", primaryKey);
+                    return actionItemState;
 
                 case "AssessmentGoal":
                     return AssessmentGoals.GetAssessmentGoal(primaryKey);

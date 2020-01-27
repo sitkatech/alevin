@@ -233,6 +233,9 @@ namespace ProjectFirma.Web.Views
 
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
 
+            // todo: action item index here
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ActionItemController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()}", "Group4"));
+
             // Group 4 - Other
 
             // Group 5 - Project Firma Configuration stuff
