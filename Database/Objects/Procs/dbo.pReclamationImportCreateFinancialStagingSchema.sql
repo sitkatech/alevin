@@ -84,7 +84,7 @@ begin
 		ObligationNumberID int not null constraint FK_ObligationItem_ObligationNumber_ObligationNumberID foreign key references ImportFinancial.ObligationNumber(ObligationNumberID)
 	)
 
-	ALTER TABLE ImportFinancial.ObligationItem ADD  CONSTRAINT [AK_ObligationItem_ObligationItemKey] UNIQUE NONCLUSTERED 
+	ALTER TABLE ImportFinancial.ObligationItem ADD  CONSTRAINT AK_ObligationItem_ObligationItemKey_ObligationNumberID UNIQUE NONCLUSTERED 
 	(
 		ObligationItemKey ASC,
 		ObligationNumberID ASC
