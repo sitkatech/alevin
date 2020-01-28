@@ -31,6 +31,12 @@ namespace LtInfo.Common.ModalDialog
         public const string HiddenSaveButtonID = "hidden-save-button";
         public const int DefaultDialogWidth = 800;
 
+        public enum DisabledState
+        {
+            Disabled,
+            NotDisabled
+        }
+
         /// <summary>
         ///  Creates a link that will open a jQuery UI dialog form.
         /// </summary>
@@ -66,7 +72,51 @@ namespace LtInfo.Common.ModalDialog
                 onJavascriptReadyFunction,
                 postData,
                 null,
-                null);
+                null,
+                DisabledState.NotDisabled);
+        }
+
+        /// <summary>
+        ///  Creates a link that will open a jQuery UI dialog form.
+        /// </summary>
+        /// <param name="linkText">The inner text of the anchor element</param>
+        /// <param name="dialogContentUrl">The url that will return the content to be loaded into the dialog window</param>
+        /// <param name="dialogTitle">The title to be displayed in the dialog window</param>
+        /// <param name="dialogWidth">width in pixels of dialog</param>
+        /// <param name="saveButtonText">Text for the save button</param>
+        /// <param name="cancelButtonText">Text for the cancel button</param>
+        /// <param name="extraCssClasses">Any extra css classes for the button</param>
+        /// <param name="onJavascriptReadyFunction">Optional javascript function to run when dialog is loaded</param>
+        /// <param name="postData">Optional; if provided, will switch the dialog load to a POST from a GET</param>
+        /// <param name="disabledState">Optional; if provided, will switch the dialog load to a POST from a GET</param>
+        /// <param name="hoverText">Optional; if provided, will switch the dialog load to a POST from a GET</param>
+        /// <returns></returns>
+        public static HtmlString ModalDialogFormLink(string linkText,
+            string dialogContentUrl,
+            string dialogTitle,
+            int? dialogWidth,
+            string saveButtonText,
+            string cancelButtonText,
+            List<string> extraCssClasses,
+            string onJavascriptReadyFunction,
+            string postData,
+            DisabledState disabledState,
+            string hoverText)
+        {
+            return ModalDialogFormLink(null,
+                linkText,
+                dialogContentUrl,
+                dialogTitle,
+                dialogWidth,
+                SaveButtonID,
+                saveButtonText,
+                cancelButtonText,
+                extraCssClasses,
+                onJavascriptReadyFunction,
+                postData,
+                null,
+                hoverText,
+                disabledState);
         }
 
         /// <summary>
@@ -101,7 +151,8 @@ namespace LtInfo.Common.ModalDialog
                 null,
                 null,
                 null,
-                null);
+                null,
+                DisabledState.NotDisabled);
         }
 
         /// <summary>
@@ -136,8 +187,9 @@ namespace LtInfo.Common.ModalDialog
         {
             return ModalDialogFormLink(linkID, linkText, dialogContentUrl, dialogTitle, dialogWidth, saveButtonID,
                 saveButtonText, cancelButtonText, extraCssClasses, onJavascriptReadyFunction, postData,
-                optionalDialogFormID, null);
+                optionalDialogFormID, null, DisabledState.NotDisabled);
         }
+
 
         /// <summary>
         ///     Creates a link that will open a jQuery UI dialog form.
@@ -156,6 +208,7 @@ namespace LtInfo.Common.ModalDialog
         /// <param name="postData">Optional; if provided, will switch the dialog load to a POST from a GET</param>
         /// <param name="optionalDialogFormID"></param>
         /// <param name="hoverText"></param>
+        /// <param name="disabledState"></param>
         /// <returns></returns>
         public static HtmlString ModalDialogFormLink(string linkID,
             string linkText,
@@ -169,7 +222,8 @@ namespace LtInfo.Common.ModalDialog
             string onJavascriptReadyFunction,
             string postData,
             string optionalDialogFormID,
-            string hoverText)
+            string hoverText,
+            DisabledState disabledState)
         {
             var builder = new TagBuilder("a");
             builder.InnerHtml += linkText;
@@ -177,7 +231,17 @@ namespace LtInfo.Common.ModalDialog
             {
                 builder.Attributes.Add("id", linkID);
             }
-            builder.Attributes.Add("href", dialogContentUrl);
+
+            if (disabledState == DisabledState.NotDisabled)
+            {
+                builder.Attributes.Add("href", dialogContentUrl);
+            }
+            else
+            {
+                builder.Attributes.Add("href", "javascript:void(0);");
+                builder.Attributes.Add("style", "cursor: not-allowed;opacity: .5; ");
+            }
+            
             builder.Attributes.Add("data-dismiss", "modal");
             builder.Attributes.Add("data-dialog-title", dialogTitle);
             builder.Attributes.Add("data-dialog-width", dialogWidth.ToString());
@@ -198,7 +262,10 @@ namespace LtInfo.Common.ModalDialog
             var javascripReadyFunctionAsParameter = !string.IsNullOrWhiteSpace(onJavascriptReadyFunction) ? $"function() {{{onJavascriptReadyFunction}();}}" : "null";
             var postDataAsParameter = !string.IsNullOrWhiteSpace(postData) ? postData : "null";
             var onclickFunction = $"return modalDialogLink(this, {javascripReadyFunctionAsParameter}, {postDataAsParameter});";
-            builder.Attributes.Add("onclick", onclickFunction);
+            if (disabledState == DisabledState.NotDisabled)
+            {
+                builder.Attributes.Add("onclick", onclickFunction);
+            }
 
             if (extraCssClasses != null)
             {
@@ -224,7 +291,7 @@ namespace LtInfo.Common.ModalDialog
         public static HtmlString ModalDialogFormLink(string linkText, string dialogUrl, string dialogTitle, int dialogWidth, bool hasPermission, string dialogFormID)
         {
             return hasPermission
-                ? ModalDialogFormLink(null, linkText, dialogUrl, dialogTitle, dialogWidth, SaveButtonID, "Save", "Cancel", new List<string>(), null, null, dialogFormID, null)
+                ? ModalDialogFormLink(null, linkText, dialogUrl, dialogTitle, dialogWidth, SaveButtonID, "Save", "Cancel", new List<string>(), null, null, dialogFormID, null, DisabledState.NotDisabled)
                 : new HtmlString(string.Empty);
         }
 

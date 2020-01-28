@@ -58,10 +58,14 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
         public static HtmlString EditCostAuthorityAgreementRequestsButton(this ReclamationAgreementRequest reclamationAgreementRequest)
         {
+            var disabledState = reclamationAgreementRequest.AgreementRequestStatus != ReclamationAgreementRequestStatus.Draft ? ModalDialogFormHelper.DisabledState.Disabled : ModalDialogFormHelper.DisabledState.NotDisabled;
+            var disabledHoverText = disabledState == ModalDialogFormHelper.DisabledState.Disabled
+                ? "You cannot Add Projected Obligations because this Agreement Request is not in a Draft state."
+                : null;
             return ModalDialogFormHelper.ModalDialogFormLink(MakeProjectNewObligationsText(), EditCostAuthorityAgreementRequestsUrl(reclamationAgreementRequest),
                 $"Project new Obligations by CAWBS", 900, "Save",
                 "Cancel",
-                new List<string> { "btn", "btn-firma" }, null, null);
+                new List<string> { "btn", "btn-firma" }, null, null, disabledState, disabledHoverText);
         }
 
 

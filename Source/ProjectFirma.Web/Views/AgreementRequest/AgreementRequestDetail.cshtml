@@ -91,6 +91,7 @@
         .rightOfPageTitle {
             margin: 0;
         }
+
     </style>
 }
 
@@ -179,7 +180,7 @@
         </h2>
     </div>
     <div class="rightFloatingInfo" style="margin-right: 20px;">
-        @(ViewDataTyped.ReclamationAgreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft ? ViewDataTyped.ReclamationAgreementRequest.EditCostAuthorityAgreementRequestsButton() : new HtmlString(string.Empty))
+        @(ViewDataTyped.ReclamationAgreementRequest.EditCostAuthorityAgreementRequestsButton())
     </div>
     <br/>
     <br/>

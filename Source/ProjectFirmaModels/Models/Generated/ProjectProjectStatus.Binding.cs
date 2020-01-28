@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ProjectProjectStatus()
         {
-
+            this.ActionItems = new HashSet<ActionItem>();
         }
 
         /// <summary>
@@ -99,13 +99,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return ActionItems.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectProjectStatus).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectProjectStatus).Name, typeof(ActionItem).Name};
 
 
         /// <summary>
@@ -121,8 +121,19 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in ActionItems.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -144,6 +155,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ProjectProjectStatusID; } set { ProjectProjectStatusID = value; } }
 
+        public virtual ICollection<ActionItem> ActionItems { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual ProjectStatus ProjectStatus { get; set; }

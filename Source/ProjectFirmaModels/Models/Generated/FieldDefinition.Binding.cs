@@ -323,6 +323,14 @@ namespace ProjectFirmaModels.Models
         StatusRecentActivities = 10034,
         StatusUpcomingActivities = 10035,
         StatusRisksOrIssues = 10036,
-        StatusNotes = 10037
+        StatusNotes = 10037,
+        ActionItem = 10038,
+        ActionItemState = 10039,
+        ActionItemAssignedToPerson = 10040,
+        ActionItemAssignedOnDate = 10041,
+        ActionItemDueByDate = 10042,
+        ActionItemCompletedOnDate = 10043,
+        ActionItemProjectStatus = 10044,
+        ActionItemText = 10045
     }
 }
