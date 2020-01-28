@@ -17,7 +17,7 @@ begin
 
 	IF OBJECT_ID('ImportFinancial.WbsElementObligationItemInvoice', 'U') IS NOT NULL 
 	begin
-	  DROP TABLE ImportFinancial.WbsElementObligationItemBudget
+	  DROP TABLE ImportFinancial.WbsElementObligationItemInvoice
 	end
 
 	IF OBJECT_ID('ImportFinancial.WbsElement', 'U') IS NOT NULL 
