@@ -93,7 +93,7 @@ VALUES
 (10041,N'ActionItemAssignedOnDate', N'Assigned On'),
 (10042,N'ActionItemDueByDate', N'Due By'),
 (10043,N'ActionItemCompletedOnDate', N'Completed On'),
-(10044,N'ActionItemProjectStatus', N'Related Project Status'),
+(10044,N'ActionItemProjectStatus', N'Related Project Status Update'),
 (10045,N'ActionItemText', N'Action Item Text')
 
 
