@@ -4,12 +4,12 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Add and Edit Action Items")]
+    [SecurityFeatureDescription("View Action Items under the context of a project")]
     public class ActionItemViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
     {
         private readonly FirmaFeatureWithContextImpl<Project> _firmaFeatureWithContextImpl;
 
-        public ActionItemViewFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+        public ActionItemViewFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Project>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -17,23 +17,26 @@ namespace ProjectFirma.Web.Security
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
         {
-            var person = firmaSession.Person;
-            var project = contextModelObject;
-            var isProposal = project.IsProposal();
-            if (isProposal)
+            if (contextModelObject.IsRejected() || contextModelObject.IsProposal() || contextModelObject.IsPendingProject())
             {
-                return new PermissionCheckResult(
-                    $"You cannot view this {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()} because the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()} is in the Proposal stage.");
+                return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject);
             }
-            bool isProjectStewardButCannotStewardThisProject = person != null && firmaSession.Role.RoleID == Role.ProjectSteward.RoleID && !person.CanStewardProject(project);
-            bool doesNotHavePermissionByPerson = !HasPermissionByFirmaSession(firmaSession);
-            var forbidAdmin = doesNotHavePermissionByPerson || isProjectStewardButCannotStewardThisProject;
-            if (forbidAdmin)
+            else
             {
-                return new PermissionCheckResult(
-                    $"You don't have permission to view this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
+                var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
+                if (!hasPermissionByPerson)
+                {
+                    return new PermissionCheckResult($"You do not have permission to view {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
+                }
+
+                var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
+                if (projectIsEditableByUser)
+                {
+                    return new PermissionCheckResult();
+                }
+
+                return new PermissionCheckResult($"You do not have permission to view {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
             }
-            return new PermissionCheckResult();
         }
 
         public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)

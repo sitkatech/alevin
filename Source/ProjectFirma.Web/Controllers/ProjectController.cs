@@ -244,7 +244,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
-            var userCanViewActionItems = new ActionItemViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
             
             var viewData = new DetailViewData(CurrentFirmaSession,

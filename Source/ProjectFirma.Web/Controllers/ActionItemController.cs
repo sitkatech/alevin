@@ -31,8 +31,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<ActionItem> ActionItemsUserGridJsonData(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
-            var userCanManageActionItems = new ActionItemManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridSpec = new ActionItemsUserGridSpec(userCanManageActionItems);
+            var gridSpec = new ActionItemsUserGridSpec(CurrentFirmaSession);
             var actionItems = person.ActionItemsWhereYouAreTheAssignedToPerson.OrderByDescending(x => x.DueByDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ActionItem>(actionItems, gridSpec);
             return gridJsonNetJObjectResult;
