@@ -107,12 +107,30 @@ values
 
 go
 insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
-select TenantID, 10005, '<p>Action Item Edit Dialog</p>' 
+select TenantID, 10005, '<p>This action item is project specific and details a task for the identified individual. This entry will display on the contact detail page of the individual it is assigned to, in addition to the project detail page.</p>' 
 from dbo.Tenant
 
 go
 insert into dbo.FirmaPage(TenantID, FirmaPageTypeID, FirmaPageContent)
 select TenantID, 10006, '<p>Manage all action items assigned to users.</p>' 
 from dbo.Tenant
+
+go
+
+insert into dbo.FieldDefinitionDefault (FieldDefinitionID, DefaultDefinition)
+values 
+(10038, N'<p>Action Item</p>'),
+(10039, N'<p>Indicates whether the action item remains outstanding or is complete.</p>'),
+(10040, N'<p>The individual responsible for completing this action item.</p>'),
+(10041, N'<p>The date this action item is assigned to the responsible individual.</p>'),
+(10042, N'<p>The date by which this action item should be marked as "complete".</p>'),
+(10043, N'<p>The actual completion date of this action item.</p>'),
+(10044, N'<p>Links this action item to a project status update event.</p>'),
+(10045, N'<p>A description of the specific need captured in this action item.</p>')
+
+
+
+
+
 
 --rollback tran
