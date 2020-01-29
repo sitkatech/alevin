@@ -132,7 +132,7 @@ INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [Fie
 VALUES 
 (325, N'Evaluation', 'Evaluation'),
 (326, N'EvaluationCriteria', 'Evaluation Criteria'),
-(327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
+(327, N'EvaluationCriteriaValue', 'Evaluation Critera Value'),
 (328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
 (329, N'ProjectEvaluation', 'Project Evaluation'),
 (330, N'EvaluationName', 'Evaluation Name'),
@@ -141,8 +141,8 @@ VALUES
 (333, N'EvaluationStartDate', 'Evaluation Start Date'),
 (334, N'EvaluationEndDate', 'Evaluation End Date'),
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
-(336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
-(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition'),
+(336, N'EvaluationCriteriaName', 'Evaluation Criteria Name'),
+(337, N'EvaluationCriteriaDefinition', 'Evaluation Criteria Definition'),
 (338, N'EnableProjectEvaluations', 'Enable Project Evaluations');
 go
 
@@ -162,17 +162,17 @@ INSERT INTO [dbo].[FieldDefinitionDefault] ([FieldDefinitionID],[DefaultDefiniti
      VALUES
 			(325, N'<p>Evaluation</p>'),
 			(326, N'<p>Measures used to evaluate projects assigned to this evaluation.</p>'),
-			(327, N'<p>Evaluation Criterion Value</p>'),
+			(327, N'<p>Evaluation Criteria Value</p>'),
 			(328, N'<p>Evaluation Portfolio</p>'),
 			(329, N'<p>Project Evaluation</p>'),
 			(330, N'<p>A succinct, descriptive name that captures the purpose and scope of this evaluation.</p>'),
 			(331, N'<p>Pertinent context that communicates additional information such as drivers, goals, themes, etc. of this evaluation.</p>'),
-			(332, N'<p>Indicates the current phase of all projects in this evaluation; i.e., planning, implementation, completed.</p>'),
+			(332, N'<p>Indicates the current phase of this evaluation and is used for tracking an evaluation''s progress over time.</p>'),
 			(333, N'<p>The date on which the evaluation process is expected to begin.</p>'),
 			(334, N'<p>The date on which the evaluation process is expected to end.</p>'),
 			(335, N'<p>Evaluation Visibility</p>'),
-			(336, N'<p>Evaluation Criterion Name</p>'),
-			(337, N'<p>Evaluation Criterion Definition</p>'),
+			(336, N'<p>Evaluation Criteria Name</p>'),
+			(337, N'<p>Evaluation Criteria Definition</p>'),
             (338, N'<p>Enables the Project Evaluations feature.</p>');
 GO
 
