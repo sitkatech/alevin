@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditEvaluationCriterionViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="OrganizationManagePrimaryContactFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,19 +18,20 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.Evaluation
+namespace ProjectFirma.Web.Security
 {
-    public class EditEvaluationCriterionViewData : FirmaViewData
+    public class OrganizationPrimaryContactManageFeature : FirmaAdminFeature
     {
-
-
-        public EditEvaluationCriterionViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
+        public override bool HasPermissionByFirmaSession(FirmaSession firmaSession)
         {
-
+            if (!HttpRequestStorage.Tenant.AreOrganizationsExternallySourced)
+            {
+                return false;
+            }
+            return base.HasPermissionByFirmaSession(firmaSession);
         }
     }
-
 }
