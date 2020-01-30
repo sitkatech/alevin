@@ -47,6 +47,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
@@ -132,6 +133,8 @@ namespace ProjectFirma.Web.Controllers
             var userHasProjectTimelinePermissions = new ProjectTimelineFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userCanEditProposal = new ProjectCreateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var userHasPerformanceMeasureActualManagePermissions = new PerformanceMeasureActualFromProjectManageFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userHasStartUpdateWorkflowPermission = new ProjectStartUpdateWorkflowFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+
             // NEW permission for Project Agreement association editing
             var userHasProjectAgreementEditPermissions = new ProjectAgreementEditFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
 
@@ -219,7 +222,7 @@ namespace ProjectFirma.Web.Controllers
                 projectCustomAttributeGroups);
 
             var userHasEditProjectAsAdminPermissions = new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasProjectStatusUpdatePermissions = new ProjectStatusUpdateFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var projectTimeline = new ProjectTimeline(project, userHasEditProjectAsAdminPermissions, userHasProjectAdminPermissions);
             var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
             var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
@@ -241,7 +244,9 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
-
+            var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
+            
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
@@ -292,14 +297,16 @@ namespace ProjectFirma.Web.Controllers
                 editExpectedFundingUrl,
                 projectTimelineViewData,
                 userHasProjectTimelinePermissions,
-                projectEvaluationsUserHasAccessTo);
+                projectEvaluationsUserHasAccessTo,
+                userHasStartUpdateWorkflowPermission,
+                actionItemsDisplayViewData,
+                userCanViewActionItems);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
         private void AddWarningForSubmittingFinalStatusReportIfNeeded(Project project, HtmlString addProjectProjectStatusButton)
         {
-            var allowEditFinalStatusReport =
-                ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, CurrentFirmaSession);
+            var allowEditFinalStatusReport = ProjectProjectStatusController.AllowUserToSetNewStatusReportToFinal(project, CurrentFirmaSession);
             var projectEntityName = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
             if (allowEditFinalStatusReport)
             {
@@ -377,6 +384,20 @@ namespace ProjectFirma.Web.Controllers
                 x => x.CaptionOnFullView,
                 "Photo");
             return imageGalleryViewData;
+        }
+
+        private static ActionItemsDisplayViewData BuildActionItemsDisplayViewData(Project project, FirmaSession currentFirmaSession)
+        {
+            var actionItemsGridSpec = new ActionItemsGridSpec();
+            const string actionItemsGridName = "actionItems";
+            var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsGridJsonData(project));
+            var userCanViewActionItems = new ActionItemViewFeature().HasPermission(currentFirmaSession, project);
+            var userCanCreateActionItems = new ActionItemCreateFeature().HasPermission(currentFirmaSession, project);
+            var addNewActionItemUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.New(project));
+
+            var actionItemsDisplayViewData = new ActionItemsDisplayViewData(project, actionItemsGridSpec,
+                actionItemsGridName, actionItemsGridDataUrl, userCanViewActionItems, userCanCreateActionItems, addNewActionItemUrl);
+            return actionItemsDisplayViewData;
         }
 
         private static List<ProjectStage> GetActiveProjectStages(Project project)

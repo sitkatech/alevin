@@ -1,0 +1,111 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.AgreementRequest.EditCostAuthorityAgreementRequest
+
+
+<style>
+
+    form .form-group {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ProjectStatusFirmaPage); }
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(x => x.CostAuthorityWorkBreakdownStructure)
+                    </div>
+                    <div class="col-sm-8">
+                        @Model.CostAuthorityWorkBreakdownStructure
+                        @Html.HiddenFor(m => m.CostAuthorityWorkBreakdownStructure)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.AccountStructureDescription)
+                    </div>
+                    <div class="col-sm-8">
+                        @Model.AccountStructureDescription
+                        @Html.HiddenFor(m => m.AccountStructureDescription)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectedObligation)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.ProjectedObligation, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectedObligation)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ReclamationCostAuthorityAgreementRequestNote, "Note", false)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.TextBoxFor(m => m.ReclamationCostAuthorityAgreementRequestNote, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ReclamationCostAuthorityAgreementRequestNote)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+}
+
+    <script type="text/javascript">
+    jQuery(document).ready(function() {
+        var isNotDraft =
+            "@(ViewDataTyped.ReclamationAgreementRequest.AgreementRequestStatus != ReclamationAgreementRequestStatus.Draft)";
+
+        if (isNotDraft == "True") {
+            jQuery("#@Html.IdFor(x => x.ProjectedObligation)").prop("disabled",true);
+            jQuery("#@Html.IdFor(x => x.ProjectedObligation)").prop("title","You cannot edit this Projected Obligation because the Agreement Request is not in Draft");
+            jQuery("#@Html.IdFor(x => x.ReclamationCostAuthorityAgreementRequestNote)").prop("disabled", true);
+            jQuery("#@Html.IdFor(x => x.ReclamationCostAuthorityAgreementRequestNote)").prop("title", "You cannot edit this Projected Obligation because the Agreement Request is not in Draft");
+            jQuery("#@(ModalDialogFormHelper.SaveButtonID)").hide();
+        }
+    });
+    </script>
+

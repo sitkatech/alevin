@@ -32,6 +32,7 @@
 @using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ActionItem
 @using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.ProjectAgreement
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
@@ -453,7 +454,19 @@
                         }
                     </div>
                 </div>
-                @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                @if(ViewDataTyped.UserCanViewActionItems) {
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3>@FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                        </div>
+                        <div class="panel-body">
+                            @{ ActionItemsDisplay.RenderPartialView(Html, ViewDataTyped.ActionItemsDisplayViewData); }
+                        </div>
+                    </div>
+                }
+                
+
+            @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
                 {
                     <h2 class="sectionHeader">Timeline</h2>
                     <div class="panel panelFirma">
@@ -486,7 +499,7 @@
                                             <th scope="col">@FieldDefinitionEnum.EvaluationStatus.ToType().GetFieldDefinitionLabel()</th>
                                             <th scope="col">@FieldDefinitionEnum.EvaluationStartDate.ToType().GetFieldDefinitionLabel()</th>
                                             <th scope="col">@FieldDefinitionEnum.EvaluationEndDate.ToType().GetFieldDefinitionLabel()</th>
-                                            <th scope="col">@FieldDefinitionEnum.EvaluationCriterion.ToType().GetFieldDefinitionLabelPluralized()</th>
+                                            <th scope="col">@FieldDefinitionEnum.EvaluationCriteria.ToType().GetFieldDefinitionLabelPluralized()</th>
                                             <th scope="col">Comments</th>
                                         </tr>
                                     </thead>

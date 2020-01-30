@@ -233,6 +233,9 @@ namespace ProjectFirma.Web.Views
 
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
 
+            // todo: action item index here
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ActionItemController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()}", "Group4"));
+
             // Group 4 - Other
 
             // Group 5 - Project Firma Configuration stuff
@@ -258,7 +261,7 @@ namespace ProjectFirma.Web.Views
 
             if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
             {
-                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ProjectStatus.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
+                configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectStatusController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Status.ToType().GetFieldDefinitionLabelPluralized()}", "Group1"));
             }
 
             if (MultiTenantHelpers.GetTenantAttribute().CanManageCustomAttributes)

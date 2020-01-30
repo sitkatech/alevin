@@ -124,14 +124,14 @@ VALUES
 (299, N'TotalProjectSecuredFunds', N'Total Project Secured Funds'),
 (300, N'TotalProjectTargetedFunds', N'Total Project Targeted Funds'),
 (301, N'PerformanceMeasureCanBeChartedCumulatively', 'Can be charted cumulatively?'),
-(302, N'ProjectStatus', N'Status'),
-(303, N'ProjectStatusUpdate', N'Project Status Update'),
-(304, N'ProjectStatusHistory', N'Project Status History'),
-(305, N'ProjectUpdateHistory', N'Project Update History'),
-(306, N'ProjectStatusLegend', N'Project Status Legend'),
-(307, N'ProjectStatusUpdateCreatedBy', N'Project Status Update Created By'),
-(308, N'ProjectStatusUpdateDate', N'Project Status Update Date'),
-(309, N'ProjectStatusComments', N'Project Status Comments'),
+(302, N'Status', N'Status'),
+(303, N'StatusUpdate', N'Status Update'),
+(304, N'StatusHistory', N'Status History'),
+(305, N'UpdateHistory', N'Update History'),
+(306, N'StatusLegend', N'Status Legend'),
+(307, N'StatusUpdateCreatedBy', N'Status Update Created By'),
+(308, N'StatusUpdateDate', N'Status Update Date'),
+(309, N'StatusComments', N'Status Comments'),
 (310, N'GeospatialArea', 'Geospatial Area'),
 (311, N'ArcGISFileGeodatabase', 'ArcGIS File Geodatabase'),
 (312, N'KMLFile', 'KML File'),
@@ -145,11 +145,11 @@ VALUES
 (320, N'ExternalMapLayerIsActive', 'Is Active?'),
 (321, N'ExternalMapLayerIsATiledMapService', 'Is a Tiled Map Service?'),
 (322, N'FinalStatusUpdateStatus', N'Final Status Update'),
-(323,N'IsFinalStatusUpdate', N'Is Final Status Update'),
-(324,N'ProjectStatusLessonsLearned', N'Lessons Learned'),
+(323, N'IsFinalStatusUpdate', N'Is Final Status Update'),
+(324, N'StatusLessonsLearned', N'Lessons Learned'),
 (325, N'Evaluation', 'Evaluation'),
-(326, N'EvaluationCriterion', 'Evaluation Criterion'),
-(327, N'EvaluationCriterionValue', 'Evaluation Criterion Value'),
+(326, N'EvaluationCriteria', 'Evaluation Criteria'),
+(327, N'EvaluationCriteriaValue', 'Evaluation Criteria Value'),
 (328, N'EvaluationPortfolio', 'Evaluation Portfolio'),
 (329, N'ProjectEvaluation', 'Project Evaluation'),
 (330, N'EvaluationName', 'Evaluation Name'),
@@ -158,8 +158,26 @@ VALUES
 (333, N'EvaluationStartDate', 'Evaluation Start Date'),
 (334, N'EvaluationEndDate', 'Evaluation End Date'),
 (335, N'EvaluationVisibility', 'Evaluation Visibility'),
-(336, N'EvaluationCriterionName', 'Evaluation Criterion Name'),
-(337, N'EvaluationCriterionDefinition', 'Evaluation Criterion Definition')
+(336, N'EvaluationCriteriaName', 'Evaluation Criteria Name'),
+(337, N'EvaluationCriteriaDefinition', 'Evaluation Criteria Definition'),
+(338, N'EnableProjectEvaluations', 'Enable Project Evaluations'),
+(339, N'UseProjectTimeline', 'Use Project Timeline')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
@@ -170,30 +188,43 @@ VALUES
 (10004, N'ContractType', 'Contract Type'),
 (10005, N'ProjectApprovalDate', 'Project Approval Date'),
 (10006, N'AgreementRequest', 'Agreement Request'),
-(10007,N'IsModification', N'Is this request a modification to an existing Agreement'),
-(10008,N'RequestStatus', N'Request Status'),
-(10009,N'DescriptionOfNeed', N'Description of Need'),
-(10010,N'FundingPriority', N'Funding Priority'),
-(10011,N'RecipientOrganization', N'Recipient Organization'),
-(10012,N'TechnicalRepresentative', N'Technical Representative'),
-(10013,N'TargetAwardDate', N'Target Award Date'),
-(10014,N'PALT', N'PALT'),
-(10015,N'TargetSubmittalDate', N'Target Submittal Date'),
-(10016,N'AgreementRequestID', N'Agreement Request ID'),
-(10017,N'ProjectedObligation', N'Projected Obligation'),
-(10018,N'RequisitionNumber', N'Requisition Number'),
-(10019,N'RequisitionDate', N'Requisition Date'),
-(10020,N'ContractSpecialist', N'Contract Specialist'),
-(10021,N'AssignedDate', N'Assigned Date'),
-(10022,N'DateSentForDeptReview', N'Date Sent for Dept. Review'),
-(10023,N'DCApprovalDate', N'DC Approval Date'),
-(10024,N'ActualAwardDate', N'Actual Award Date'),
-(10025,N'RequisitionInformation', N'Requisition Information'),
-(10026,N'RequisitionAge', N'Age'),
-(10027,N'RequisitionDeptReviewDays', N'Dept Review Days'),
-(10028,N'RequisitionDaysToAssign', N'Days to Assign'),
-(10029,N'RequisitionDaysToAward', N'Days to Award'),
-(10030,N'CostAuthorityNumber', N'Cost Authority Number'),
-(10031,N'AccountStructureDescription', N'Account Structure Description'),
-(10032,N'CostAuthorityAgreementRequestNote', N'Note on projected obligation from a CAWBS to an Agreement'),
-(10033,N'AgreementRequestSubmissionNote', N'Submission Note')
+(10007, N'IsModification', N'Is this request a modification to an existing Agreement'),
+(10008, N'RequestStatus', N'Request Status'),
+(10009, N'DescriptionOfNeed', N'Description of Need'),
+(10010, N'FundingPriority', N'Funding Priority'),
+(10011, N'RecipientOrganization', N'Recipient Organization'),
+(10012, N'TechnicalRepresentative', N'Technical Representative'),
+(10013, N'TargetAwardDate', N'Target Award Date'),
+(10014, N'PALT', N'PALT'),
+(10015, N'TargetSubmittalDate', N'Target Submittal Date'),
+(10016, N'AgreementRequestID', N'Agreement Request ID'),
+(10017, N'ProjectedObligation', N'Projected Obligation'),
+(10018, N'RequisitionNumber', N'Requisition Number'),
+(10019, N'RequisitionDate', N'Requisition Date'),
+(10020, N'ContractSpecialist', N'Contract Specialist'),
+(10021, N'AssignedDate', N'Assigned Date'),
+(10022, N'DateSentForDeptReview', N'Date Sent for Dept. Review'),
+(10023, N'DCApprovalDate', N'DC Approval Date'),
+(10024, N'ActualAwardDate', N'Actual Award Date'),
+(10025, N'RequisitionInformation', N'Requisition Information'),
+(10026, N'RequisitionAge', N'Age'),
+(10027, N'RequisitionDeptReviewDays', N'Dept Review Days'),
+(10028, N'RequisitionDaysToAssign', N'Days to Assign'),
+(10029, N'RequisitionDaysToAward', N'Days to Award'),
+(10030, N'CostAuthorityNumber', N'Cost Authority Number'),
+(10031, N'AccountStructureDescription', N'Account Structure Description'),
+(10032, N'CostAuthorityAgreementRequestNote', N'Note on projected obligation from a CAWBS to an Agreement'),
+(10033, N'AgreementRequestSubmissionNote', N'Submission Note'),
+(10034, N'StatusRecentActivities', N'Recent Activities'),
+(10035, N'StatusUpcomingActivities', N'Upcoming Activities'),
+(10036, N'StatusRisksOrIssues', N'Risks/Issues'),
+(10037, N'StatusNotes', N'Notes'),
+(10038,N'ActionItem', N'Action Item'),
+(10039,N'ActionItemState', N'Action Item State'),
+(10040,N'ActionItemAssignedToPerson', N'Assigned To'),
+(10041,N'ActionItemAssignedOnDate', N'Assigned On'),
+(10042,N'ActionItemDueByDate', N'Due By'),
+(10043,N'ActionItemCompletedOnDate', N'Completed On'),
+(10044,N'ActionItemProjectStatus', N'Related Project Status Update'),
+(10045,N'ActionItemText', N'Action Item Text')
+

@@ -57,7 +57,7 @@ values
 (72, 'WebServicesList', 'Web Services List' , 1),
 (73, 'EvaluationList', 'Evaluation List' , 1),
 (74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
-(75, 'CreateEvaluationCriterionInstructions', 'Create Evaluation Criterion Instructions' , 2),
+(75, 'CreateEvaluationCriteriaInstructions', 'Create Evaluation Criteria Instructions' , 2),
 (76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2)
 
 
@@ -69,5 +69,8 @@ values
 (10000, 'AgreementList', 'Agreement List', 1),
 (10001, 'CostAuthorityList', 'Cost Authority List', 1),
 (10002, 'AgreementRequestList', 'Agreement Request List', 1),
-(10003, 'AgreementRequestFromGridDialog', 'Agreement Request Grid Dialog', 2)
+(10003, 'AgreementRequestFromGridDialog', 'Agreement Request Grid Dialog', 2),
+(10004, 'AddCostAuthorityToAgreementRequest', 'Add one or many CAWBS and their projected obligations to this Agreement Request.', 2),
+(10005, 'ActionItemEditDialog', 'Action Item Edit Dialog', 2),
+(10006, 'ActionItemIndexList', 'Action Item Index List', 1)
 

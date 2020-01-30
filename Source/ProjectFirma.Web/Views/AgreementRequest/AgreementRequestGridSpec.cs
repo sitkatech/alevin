@@ -37,7 +37,6 @@ namespace ProjectFirma.Web.Views.AgreementRequest
     {
         public AgreementRequestGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditUrl(), "Edit Agreement Request", true), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, x => ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete Agreement Request", true), 30, DhtmlxGridColumnFilterType.None);
 
             // AgreementRequestID

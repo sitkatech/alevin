@@ -114,18 +114,22 @@ namespace ProjectFirma.Web.Models
             {
                 editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
                     projectProjectStatus.GetEditProjectProjectStatusUrl()
-                    , $"Add {FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
+                    , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
             }
             return editIconAsModalDialogLinkBootstrap;
         }
 
         public static HtmlString MakeProjectStatusDetailsLinkButton(ProjectProjectStatus projectProjectStatus)
         {
+            var dialogTitle = projectProjectStatus.IsFinalStatusUpdate
+                ? FieldDefinitionEnum.FinalStatusUpdateStatus.ToType().GetFieldDefinitionLabel()
+                : FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel();
+
             var detailsLink = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
                 null,
                 "Show Details",
                 projectProjectStatus.GetProjectProjectStatusDetailsUrl()
-                , $"{FieldDefinitionEnum.ProjectStatusUpdate.ToType().GetFieldDefinitionLabel()} Details"
+                , $"{dialogTitle} Details"
                 , 900
                 ,"Close"
                 , new List<string>());

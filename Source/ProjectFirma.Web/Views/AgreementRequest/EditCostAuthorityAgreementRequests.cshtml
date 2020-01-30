@@ -1,0 +1,296 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditNote.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Microsoft.Web.Mvc.Html
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.AgreementRequest.EditCostAuthorityAgreementRequests
+
+
+<style>
+
+
+    .white {
+        color: white;
+    }
+</style>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+@using (Html.BeginForm())
+{
+    <div style="margin-bottom: 20px;">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+
+    <hr/>
+
+    <div class="form-group">
+        <strong>1. </strong>@Html.LabelWithSugarFor(m => m.CostAuthorityID, "Identify Related Projects/activities by CAWBS", true)
+        <div class="col-md-12">
+            <div class="input-group" style="width: 100%;">
+                <div class="row">
+                    <div class="btn-group bootstrap-select input-group-btn" style="width: 100%;">
+                        @Html.DropDownListFor(m => m.CostAuthorityID, ViewDataTyped.CostAuthorities, new { @class = "form-control selectpicker", @data_container = ".modal-content", @data_live_search = "true" })
+                    </div>
+                    <span class="input-group-btn">
+                        <button class="btn btn-firma" type="button" id="addCostAuthorityButton">
+                            <span class="glyphicon glyphicon-plus"></span> Add
+                        </button>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="selected-cost-authorities" style="@(Model.HasCostAuthorityJsonListWithoutFakeRow ? "max-height: 400px; margin-top: 80px; border-top: 2px solid #ddd;" : "display : none; max-height: 400px; margin-top: 80px; border-top: 2px solid #ddd;") ">
+        <div><strong>2. Review and Edit Selected Projected Obligations</strong></div>
+                    <table class="table" id="tableForAdding" style="border-collapse: separate;">
+                        <thead>
+                            <tr>
+                                <th style="width: 10%; white-space: inherit;"></th>
+                                <th style="width: 30%; white-space: inherit;">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
+                                <th style="width: 20%; white-space: inherit;">@Html.LabelWithSugarFor(FieldDefinitionEnum.AccountStructureDescription.ToType())</th>
+                                <th style="width: 20%; white-space: inherit;">@Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectedObligation.ToType())</th>
+                                <th style="width: 20%; white-space: inherit;">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityAgreementRequestNote.ToType(), "Note")</th>
+                            </tr>
+                        </thead>
+                        <tbody id="bodyForAddingTo">
+
+                            @if (Model.HasCostAuthorityJsonListWithoutFakeRow)
+                            {
+                                for (int i = 0; i < Model.CostAuthorityJsonList.Count; i++)
+                                {
+                                    <tr costauthority_id="@Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID.ToString()" class="costAuthorityRow">
+                                        <td>
+
+
+                                            <span title="@(Model.CostAuthorityJsonList[i].PreventDelete ? "These CAWBS cannot be deleted because this is a modification to an existing Agreement" : "Remove row")"
+                                                  class="glyphicon glyphicon-trash remove-cost-authority @(Model.CostAuthorityJsonList[i].PreventDelete ? "disabled" : "")"
+                                                  alt="Remove row"
+                                                  onclick="@(Model.CostAuthorityJsonList[i].PreventDelete ? "" : "removeRow(" + Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID + ")") "
+                                                  style="cursor: pointer"></span>
+
+                                            @Html.HiddenFor(m => m.CostAuthorityJsonList[i].ReclamationCostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
+                                        </td>
+                                        <td class="CostAuthorityWorkBreakdownStructure">
+                                            @Model.CostAuthorityJsonList[i].CostAuthorityWorkBreakdownStructure
+                                        </td>
+                                        <td class="AccountStructureDescription">
+                                            @Model.CostAuthorityJsonList[i].AccountStructureDescription
+                                        </td>
+                                        <td class="ProjectedObligation">
+                                            @Html.EditorFor(m => m.CostAuthorityJsonList[i].ProjectedObligation, new { @class = "form-control projectObligationClass" })
+                                        </td>
+                                        <td class="CostAuthorityAgreementRequestNote">
+                                            @Html.TextBoxFor(m => m.CostAuthorityJsonList[i].Note, new { @class = "form-control noteClass" })
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td></td>
+                                <td></td>
+                                <td><strong>Total Projected Obligation</strong></td>
+                                <td id="totalAmountCell" style="font-weight: bold;">$0.00</td>
+                                <td></td>
+                            </tr>
+                        </tfoot>
+
+
+
+                        <tr style="display: none;" id="trForCloning" costauthority_id="@Model.CostAuthorityJsonList[0].ReclamationCostAuthorityID.ToString()" class="costAuthorityRow">
+                            <td>
+
+                                <span class="glyphicon glyphicon-trash remove-cost-authority" title="Remove row" alt="Remove row"></span>
+
+                                @Html.HiddenFor(m => m.CostAuthorityJsonList[0].ReclamationCostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
+                            </td>
+                            <td class="CostAuthorityWorkBreakdownStructure"></td>
+                            <td class="AccountStructureDescription"></td>
+                            <td class="ProjectedObligation">
+                                @Html.EditorFor(m => m.CostAuthorityJsonList[0].ProjectedObligation, new { @class = "form-control projectObligationClass" })
+                            </td>
+                            <td class="CostAuthorityAgreementRequestNote">
+                                @Html.TextBoxFor(m => m.CostAuthorityJsonList[0].Note, new { @class = "form-control noteClass" })
+                            </td>
+                        </tr>
+                    </table>
+                
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    var removeRow = function (costAuthorityID) {};
+
+    jQuery(document).ready(function() {
+        var costAuthorityJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.CostAuthorityJsonList.CostAuthorityJsons).ToString(Formatting.None));
+
+        var sitkaCurrencyClass = jQuery(".sitkaCurrency");
+        sitkaCurrencyClass.addClass("projectedObligationEditor");
+
+        var cloningTr = jQuery("#trForCloning").clone();
+        var tr = jQuery("#trForCloning");
+        tr.remove();
+
+
+        //setup selected reclamation cost authority ids
+        var alreadyAddedCostAuthorityIDs = new Array();
+        var alreadySelectedCostAuthorityIDsAsStringList = "@(string.Join(",", Model.CostAuthorityJsonList.Select(x => x.ReclamationCostAuthorityID.ToString())))";
+        var shouldUseList = "@(Model.HasCostAuthorityJsonListWithoutFakeRow)";
+        if (shouldUseList == "True") {
+            var alreadySelectedCostAuthorityIDs = alreadySelectedCostAuthorityIDsAsStringList.split(",");
+            for (var index = 0; index < alreadySelectedCostAuthorityIDs.length; index++) {
+                alreadyAddedCostAuthorityIDs.push(parseInt(alreadySelectedCostAuthorityIDs[index]));
+            }
+        }
+
+
+
+        function replaceDefaultsForNewRow(thisInput, rowID, costAuthorityID, oldRowID,clearValues){
+            var currentName = thisInput.prop("name");
+            var updatedName = currentName.replace(oldRowID.toString(), rowID.toString());
+            thisInput.prop("name", updatedName);
+            thisInput.prop("id", "");
+            if (clearValues) {
+                thisInput.val("");
+            }
+            if (thisInput.hasClass("costAuthorityIDClass")) {
+                thisInput.val(costAuthorityID);
+            }
+            thisInput.addClass("costAuthority_" + costAuthorityID.toString());
+        }
+
+        function resetTotal() {
+            var totalValue = 0.0;
+            jQuery(".projectedObligationEditor").each(function() {
+                var currentValueOfObligation = this.value;
+                if (currentValueOfObligation != undefined && currentValueOfObligation != null) {
+                    var isNegative = currentValueOfObligation.indexOf("(") != -1;
+                    var trimmedVal = currentValueOfObligation.replace("$", "").replace(",", "").replace("(", "").replace(")", "");
+                    var floatVal = parseFloat(trimmedVal);
+                    if (isNegative) {
+                        totalValue -= floatVal;
+                    } else {
+                        totalValue += floatVal;
+                    }
+                    
+                }
+                console.log("current value: " + currentValueOfObligation);
+            });
+            var totalAsCurrency = Sitka.Methods.formatAsCurrencyFromString(totalValue, 2);
+            jQuery("#totalAmountCell").text(totalAsCurrency);
+        }
+
+        removeRow = function (costAuthorityID) {
+            console.log(costAuthorityID);
+            var indexToRemove = alreadyAddedCostAuthorityIDs.indexOf(costAuthorityID);
+            var oldListOfCostAuthorityIDs = new Array();
+            for (var ind = 0; ind < alreadyAddedCostAuthorityIDs.length; ind++) { oldListOfCostAuthorityIDs.push(alreadyAddedCostAuthorityIDs[ind]);}
+
+            alreadyAddedCostAuthorityIDs.splice(indexToRemove, 1);
+
+
+            jQuery(".costAuthorityRow").each(function() {
+                var possibleRowToDelete = jQuery(this);
+                var costAuthorityIDProp = possibleRowToDelete.attr("costauthority_id");
+                if (costAuthorityIDProp == costAuthorityID) {
+                    possibleRowToDelete.remove();
+                } else {
+                    var thisCostAuthorityIDAsInt = parseInt(costAuthorityIDProp);
+                    var oldIndex = oldListOfCostAuthorityIDs.indexOf(thisCostAuthorityIDAsInt);
+                    var newIndex = alreadyAddedCostAuthorityIDs.indexOf(thisCostAuthorityIDAsInt);
+                    var inputs = possibleRowToDelete.find(".form-control");
+                    jQuery(inputs).each(function () {
+                        replaceDefaultsForNewRow(jQuery(this), newIndex, thisCostAuthorityIDAsInt, oldIndex, false);
+
+                    });
+                }
+            });
+            resetTotal();
+        }
+
+
+
+        jQuery("#addCostAuthorityButton").click(function () {
+            jQuery(".selected-cost-authorities").show();
+            var costAuthoritySelection = jQuery("#@Html.IdFor(m => m.CostAuthorityID)");
+            var costAuthorityVal = costAuthoritySelection.val();
+            console.log(costAuthorityVal);
+            if (costAuthorityVal != null && costAuthorityVal != '') {
+                var thiscostAuthorityID = parseInt(costAuthorityVal);
+                var costAuthority = costAuthorityJsons[thiscostAuthorityID];
+                if (alreadyAddedCostAuthorityIDs.indexOf(thiscostAuthorityID) == -1) {
+                    alreadyAddedCostAuthorityIDs.push(thiscostAuthorityID);
+                    console.log(alreadyAddedCostAuthorityIDs);
+                    var currentlyAddingIndex = alreadyAddedCostAuthorityIDs.indexOf(thiscostAuthorityID);
+                    console.log(costAuthority);
+                    var tr = cloningTr.clone();
+                    tr.prop("id", "");
+                    tr.attr("costauthority_id", costAuthorityVal);
+                    tr.children(".CostAuthorityWorkBreakdownStructure").text(costAuthority.CostAuthorityWorkBreakdownStructure);
+                    tr.children(".AccountStructureDescription").text(costAuthority.AccountStructureDescription);
+                    tr.css("display", "");
+                    var inputs = tr.find(".form-control");
+                    var deleteButton = tr.find(".remove-cost-authority");
+                    deleteButton.click(function() { removeRow(costAuthorityVal) });
+                    jQuery(inputs).each(function () {
+                        replaceDefaultsForNewRow(jQuery(this), currentlyAddingIndex, thiscostAuthorityID, 0, true);
+
+                    });
+                    console.log("inputs");
+                    console.log(inputs);
+                    jQuery("#bodyForAddingTo").append(tr);
+                }
+            }
+            jQuery("#@Html.IdFor(m => m.CostAuthorityID)").val('default');
+            jQuery("#@Html.IdFor(m => m.CostAuthorityID)").selectpicker("refresh");
+            jQuery(".projectedObligationEditor").change(function () {
+                resetTotal();
+            });
+
+
+        });
+
+
+
+
+        jQuery(".selectpicker").selectpicker();
+
+
+    });
+
+
+</script>
+

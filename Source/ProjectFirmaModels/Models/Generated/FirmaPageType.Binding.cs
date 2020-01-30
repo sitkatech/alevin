@@ -188,11 +188,14 @@ namespace ProjectFirmaModels.Models
         WebServicesList = 72,
         EvaluationList = 73,
         CreateEvaluationInstructions = 74,
-        CreateEvaluationCriterionInstructions = 75,
+        CreateEvaluationCriteriaInstructions = 75,
         AddProjectToEvaluationPortfolioInstructions = 76,
         AgreementList = 10000,
         CostAuthorityList = 10001,
         AgreementRequestList = 10002,
-        AgreementRequestFromGridDialog = 10003
+        AgreementRequestFromGridDialog = 10003,
+        AddCostAuthorityToAgreementRequest = 10004,
+        ActionItemEditDialog = 10005,
+        ActionItemIndexList = 10006
     }
 }
