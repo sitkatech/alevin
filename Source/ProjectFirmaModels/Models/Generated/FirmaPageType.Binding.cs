@@ -193,7 +193,6 @@ namespace ProjectFirmaModels.Models
         ReportCenter = 77,
         ReportCenterProjects = 78,
         ReportCenterAddReport = 79,
-
         AgreementList = 10000,
         CostAuthorityList = 10001,
         AgreementRequestList = 10002,

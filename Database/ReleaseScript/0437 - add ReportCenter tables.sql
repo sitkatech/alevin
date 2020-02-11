@@ -48,13 +48,6 @@ GO
 SET ANSI_PADDING ON
 GO
 
-/****** Object:  Index [AK_Person_Email_TenantID]    Script Date: 1/7/2020 12:41:44 PM ******/
-ALTER TABLE [dbo].[ReportTemplate] ADD  CONSTRAINT [AK_ReportTemplate_DisplayName_TenantID] UNIQUE NONCLUSTERED 
-(
-	[DisplayName] ASC,
-	[TenantID] ASC
-)
-GO
 
 
 
