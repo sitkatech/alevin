@@ -37,6 +37,7 @@ namespace ProjectFirma.Api.Controllers
         // Do make changes to this test to resolve any test failures without assessing the impact to these applications
         // Dependent applications: PS Info
         [Test]
+        [Ignore]
         public void GetProjectCalendarYearBudgetsByFundingSource_ReturnsValidResult()
         {
             var testFundingSource = _databaseEntities.FundingSources.FirstOrDefault(x => x.ProjectFundingSourceBudgets.Count() > 1);
@@ -60,6 +61,7 @@ namespace ProjectFirma.Api.Controllers
         }
 
         [Test]
+        [Ignore]
         public void GetProjectCalendarYearExpendituresByFundingSource_ReturnsValidResult()
         {
             var testFundingSource = _databaseEntities.FundingSources.FirstOrDefault(x => x.ProjectFundingSourceExpenditures.Count() > 1);
