@@ -300,8 +300,7 @@ namespace LtInfo.Common.ModalDialog
             {
                 builder.Attributes.Add("id", linkID);
             }
-            builder.Attributes.Add("href", dialogContentUrl);
-
+            
             if (disabledState == DisabledState.NotDisabled)
             {
                 builder.Attributes.Add("href", dialogContentUrl);
@@ -334,7 +333,7 @@ namespace LtInfo.Common.ModalDialog
             var javascripReadyFunctionAsParameter = !string.IsNullOrWhiteSpace(onJavascriptReadyFunction) ? $"function() {{{onJavascriptReadyFunction}();}}" : "null";
             var postDataAsParameter = !string.IsNullOrWhiteSpace(postData) ? postData : "null";
             var onclickFunction = $"return modalDialogLink(this, {javascripReadyFunctionAsParameter}, {postDataAsParameter});";
-            builder.Attributes.Add("onclick", onclickFunction);
+            
             if (disabledState == DisabledState.NotDisabled)
             {
                 builder.Attributes.Add("onclick", onclickFunction);
