@@ -11,11 +11,6 @@ namespace ProjectFirma.Api.Controllers
     {
         private readonly DatabaseEntities _databaseEntities = new DatabaseEntities(Tenant.ActionAgendaForPugetSound.TenantID, "ProjectFirmaDB");
 
-        //public OrganizationsController(DatabaseEntities databaseEntities)
-        //{
-        //    _databaseEntities = databaseEntities;
-        //}
-
         [Route("api/Organizations/List/{apiKey}")]
         [HttpGet]
         public IHttpActionResult Get(string apiKey)
@@ -31,11 +26,20 @@ namespace ProjectFirma.Api.Controllers
         public IHttpActionResult PostOrganization(string apiKey, [FromBody] OrganizationDto organizationDto)
         {
             Check.Require(apiKey == FirmaWebApiConfiguration.PsInfoApiKey, "Unrecognized api key!");
+            var tenantID = Tenant.ActionAgendaForPugetSound.TenantID;
+            // If Organization already exists because it was created by Keystone - do an Update instead of a create
+            if (_databaseEntities.Organizations.Any(x => x.OrganizationName == organizationDto.OrganizationName))
+            {
+                var existingOrganization = _databaseEntities.Organizations.Single(x => x.OrganizationName == organizationDto.OrganizationName);
+                // Give the Dto the correct Organization ID and OrganizationTypeID for ProjectFirma
+                organizationDto.OrganizationID = existingOrganization.OrganizationID;
+                organizationDto.OrganizationTypeID = _databaseEntities.OrganizationTypes.SingleOrDefault(x => x.OrganizationTypeName == organizationDto.OrganizationTypeName)?.OrganizationTypeID ?? _databaseEntities.OrganizationTypes.Single(x => x.IsDefaultOrganizationType).OrganizationTypeID;
+                return UpdateOrganization(apiKey, organizationDto);
+            }
             var organization = new Organization(organizationDto.OrganizationName, organizationDto.IsActive, organizationDto.OrganizationTypeID);
             organization.OrganizationGuid = organizationDto.OrganizationGuid;
             organization.OrganizationShortName = organizationDto.OrganizationShortName;
             organization.OrganizationUrl = organizationDto.OrganizationUrl;
-
             if (organizationDto.LogoFileResource != null)
             {
                 var fileResourceDto = organizationDto.LogoFileResource;
@@ -56,12 +60,10 @@ namespace ProjectFirma.Api.Controllers
 
                 organization.LogoFileResource = fileResource;
             }
-
-            var tenantID = Tenant.ActionAgendaForPugetSound.TenantID;
             _databaseEntities.AllOrganizations.Add(organization);
             _databaseEntities.SaveChangesWithNoAuditing(tenantID);
-            var fundingSourceReloaded = new OrganizationDto(organization);
-            return Ok(fundingSourceReloaded);
+            var organizationReloaded = new OrganizationDto(organization);
+            return Ok(organizationReloaded);
         }
 
         private static FileResourceMimeType MapFileResourceMimeTypeNameToFileResourceMimeType(string googleChartTypeName)

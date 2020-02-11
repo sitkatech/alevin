@@ -58,11 +58,10 @@ values
 (73, 'EvaluationList', 'Evaluation List' , 1),
 (74, 'CreateEvaluationInstructions', 'Create Evaluation Instructions' , 2),
 (75, 'CreateEvaluationCriteriaInstructions', 'Create Evaluation Criteria Instructions' , 2),
-(76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2)
-
-
-
-
+(76, 'AddProjectToEvaluationPortfolioInstructions', 'Add Project to Evaluation Portfolio Instructions' , 2),
+(77, 'ReportCenter', 'Report Center' , 1),
+(78, 'ReportCenterProjects', 'Report Center Projects' , 1),
+(79, 'ReportCenterAddReport', 'Add a Report' , 2)
 -- Alevin only page types always start after ProjectFirma page types and begin at 10000
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)
 values
