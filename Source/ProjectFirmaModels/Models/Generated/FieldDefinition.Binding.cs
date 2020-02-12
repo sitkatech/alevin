@@ -294,6 +294,7 @@ namespace ProjectFirmaModels.Models
         ReportCenterReportDescription = 344,
         ReportCenterReportFile = 345,
         ReportCenterReportModel = 346,
+        ReportCenterSelectedReportTemplate = 347,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
