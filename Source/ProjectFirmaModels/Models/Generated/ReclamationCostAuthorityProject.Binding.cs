@@ -30,29 +30,32 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationCostAuthorityProject(int reclamationCostAuthorityProjectID, int reclamationCostAuthorityID, int projectID) : this()
+        public ReclamationCostAuthorityProject(int reclamationCostAuthorityProjectID, int reclamationCostAuthorityID, int projectID, bool isPrimaryProjectCawbs, string primaryProjectCawbsUniqueString) : this()
         {
             this.ReclamationCostAuthorityProjectID = reclamationCostAuthorityProjectID;
             this.ReclamationCostAuthorityID = reclamationCostAuthorityID;
             this.ProjectID = projectID;
+            this.IsPrimaryProjectCawbs = isPrimaryProjectCawbs;
+            this.PrimaryProjectCawbsUniqueString = primaryProjectCawbsUniqueString;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationCostAuthorityProject(int reclamationCostAuthorityID, int projectID) : this()
+        public ReclamationCostAuthorityProject(int reclamationCostAuthorityID, int projectID, bool isPrimaryProjectCawbs) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationCostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ReclamationCostAuthorityID = reclamationCostAuthorityID;
             this.ProjectID = projectID;
+            this.IsPrimaryProjectCawbs = isPrimaryProjectCawbs;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReclamationCostAuthorityProject(ReclamationCostAuthority reclamationCostAuthority, Project project) : this()
+        public ReclamationCostAuthorityProject(ReclamationCostAuthority reclamationCostAuthority, Project project, bool isPrimaryProjectCawbs) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationCostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -62,6 +65,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ReclamationCostAuthorityProjects.Add(this);
+            this.IsPrimaryProjectCawbs = isPrimaryProjectCawbs;
         }
 
         /// <summary>
@@ -69,7 +73,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ReclamationCostAuthorityProject CreateNewBlank(ReclamationCostAuthority reclamationCostAuthority, Project project)
         {
-            return new ReclamationCostAuthorityProject(reclamationCostAuthority, project);
+            return new ReclamationCostAuthorityProject(reclamationCostAuthority, project, default(bool));
         }
 
         /// <summary>
@@ -108,6 +112,8 @@ namespace ProjectFirmaModels.Models
         public int ReclamationCostAuthorityProjectID { get; set; }
         public int ReclamationCostAuthorityID { get; set; }
         public int ProjectID { get; set; }
+        public bool IsPrimaryProjectCawbs { get; set; }
+        public string PrimaryProjectCawbsUniqueString { get; private set; }
         [NotMapped]
         public int PrimaryKey { get { return ReclamationCostAuthorityProjectID; } set { ReclamationCostAuthorityProjectID = value; } }
 
@@ -116,7 +122,7 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-
+            public const int PrimaryProjectCawbsUniqueString = 500;
         }
     }
 }
