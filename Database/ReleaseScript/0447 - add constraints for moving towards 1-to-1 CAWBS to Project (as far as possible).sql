@@ -33,6 +33,7 @@ ON dbo.ReclamationCostAuthorityProject (PrimaryProjectCawbsUniqueString)
 GO
 
 
+
 --alter table dbo.ReclamationCostAuthorityProject
 --add CONSTRAINT [AK_ReclamationCostAuthorityProject_PrimaryCawbsUniqueString] UNIQUE NONCLUSTERED 
 --(
@@ -58,7 +59,9 @@ select rcap.ReclamationCostAuthorityProjectID,
        rcap.IsPrimaryProjectCawbs,
        rcap.PrimaryProjectCawbsUniqueString
 from dbo.ReclamationCostAuthorityProject as rcap
+where rcap.ProjectID = 13638
 order by  ProjectID, PrimaryProjectCawbsUniqueString
+
 
 -- From here, we'd need to pick Primary CAWBS for ProjectIDs.
 -- But we can also work on bulding a UI for that, and for 

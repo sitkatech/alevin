@@ -60,7 +60,17 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
             if (SelectedReclamationCostAuthorityIDs != null)
             {
                 projectReclamationCostAuthoritiesUpdated.AddRange(SelectedReclamationCostAuthorityIDs.Select(x =>
-                    new ReclamationCostAuthorityProject(x, project.ProjectID, (x == PrimaryReclamationCostAuthorityID))).OrderBy(x => x.IsPrimaryProjectCawbs));
+                    new ReclamationCostAuthorityProject(x, project.ProjectID, (x == PrimaryReclamationCostAuthorityID))));
+            }
+
+            if (projectReclamationCostAuthoritiesUpdated.Any())
+            {
+                //projectReclamationCostAuthoritiesUpdated.ForEach(x => x.IsPrimaryProjectCawbs = false);
+
+                var projectReclamationCostAuthoritiesUpdatedIds = projectReclamationCostAuthoritiesUpdated.Select(x => x.ReclamationCostAuthorityProjectID).ToList();
+                var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorityProjects.Where(x => projectReclamationCostAuthoritiesUpdatedIds.Contains(x.ReclamationCostAuthorityProjectID)).ToList();
+                onDiskRecordsToTemporarilyUpdate.ForEach(odr => odr.IsPrimaryProjectCawbs = false);
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(MultiTenantHelpers.GetTenantAttribute().TenantID);
             }
 
             project.ReclamationCostAuthorityProjects.Merge(
