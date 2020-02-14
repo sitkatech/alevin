@@ -39,8 +39,18 @@ GO
 --    PrimaryCawbsUniqueString ASC
 --)
 
+/*
 
+-- Example index blowing up. Second will fail:
 
+update dbo.ReclamationCostAuthorityProject
+set IsPrimaryProjectCawbs = 1
+where ReclamationCostAuthorityProjectID = 62
+
+update dbo.ReclamationCostAuthorityProject
+set IsPrimaryProjectCawbs = 1
+where ReclamationCostAuthorityProjectID = 68
+*/
 
 select rcap.ReclamationCostAuthorityProjectID,
        rcap.ProjectID,
@@ -48,7 +58,7 @@ select rcap.ReclamationCostAuthorityProjectID,
        rcap.IsPrimaryProjectCawbs,
        rcap.PrimaryProjectCawbsUniqueString
 from dbo.ReclamationCostAuthorityProject as rcap
-order by PrimaryProjectCawbsUniqueString
+order by  ProjectID, PrimaryProjectCawbsUniqueString
 
 -- From here, we'd need to pick Primary CAWBS for ProjectIDs.
 -- But we can also work on bulding a UI for that, and for 
