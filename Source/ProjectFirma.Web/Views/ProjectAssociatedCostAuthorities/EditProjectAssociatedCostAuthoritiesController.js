@@ -36,7 +36,12 @@ angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoriti
         return selectedCostAuthorities;
     }
 
+    $scope.getPrimaryCostAuthorityOptions = function() {
 
+        return $scope.SelectedCostAuthorities;
+    }
+
+    $scope.primaryCostAuthorityID = $scope.AngularModel.PrimaryReclamationCostAuthorityID;
     $scope.selectedCostAuthorityIDs = $scope.AngularModel.SelectedReclamationCostAuthorityIDs.map(String);
     $scope.SelectedCostAuthorities = $scope.getSelectedCostAuthorities();
 

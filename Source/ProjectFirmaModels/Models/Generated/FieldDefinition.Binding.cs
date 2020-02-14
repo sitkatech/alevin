@@ -339,6 +339,8 @@ namespace ProjectFirmaModels.Models
         ActionItemDueByDate = 10042,
         ActionItemCompletedOnDate = 10043,
         ActionItemProjectStatus = 10044,
-        ActionItemText = 10045
+        ActionItemText = 10045,
+        PrimaryCostAuthorityWorkBreakdownStructure = 10046,
+        SecondaryCostAuthorityWorkBreakdownStructure = 10047
     }
 }

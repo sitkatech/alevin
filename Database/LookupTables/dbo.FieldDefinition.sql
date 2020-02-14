@@ -224,4 +224,6 @@ VALUES
 (10042,N'ActionItemDueByDate', N'Due By'),
 (10043,N'ActionItemCompletedOnDate', N'Completed On'),
 (10044,N'ActionItemProjectStatus', N'Related Project Status Update'),
-(10045,N'ActionItemText', N'Action Item Text')
+(10045,N'ActionItemText', N'Action Item Text'),
+(10046, N'PrimaryCostAuthorityWorkBreakdownStructure', N'Primary Cost Authority Work Breakdown Structure'),
+(10047, N'SecondaryCostAuthorityWorkBreakdownStructure', N'Secondary Cost Authority Work Breakdown Structure')

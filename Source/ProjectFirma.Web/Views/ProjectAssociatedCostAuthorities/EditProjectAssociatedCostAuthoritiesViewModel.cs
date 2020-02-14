@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
         public List<int> SelectedReclamationCostAuthorityIDs { get; set; }
 
+        public int? PrimaryReclamationCostAuthorityID { get; set; }
+
         /// <summary>
         /// Needed by Model Binder
         /// </summary>
@@ -47,6 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         {
             SelectedReclamationCostAuthorityIDs = project.ReclamationCostAuthorityProjects
                 .Select(x => x.ReclamationCostAuthorityID).ToList();
+            PrimaryReclamationCostAuthorityID = project.ReclamationCostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthorityID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
@@ -57,13 +60,14 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
             if (SelectedReclamationCostAuthorityIDs != null)
             {
                 projectReclamationCostAuthoritiesUpdated.AddRange(SelectedReclamationCostAuthorityIDs.Select(x =>
-                    new ReclamationCostAuthorityProject(x, project.ProjectID)).ToList()); 
+                    new ReclamationCostAuthorityProject(x, project.ProjectID, (x == PrimaryReclamationCostAuthorityID))).OrderBy(x => x.IsPrimaryProjectCawbs));
             }
 
             project.ReclamationCostAuthorityProjects.Merge(
                 projectReclamationCostAuthoritiesUpdated,
                 allProjectReclamationCostAuthoritiesInDatabase.Local,  
                 (x, y) => x.ProjectID == y.ProjectID && x.ReclamationCostAuthorityID == y.ReclamationCostAuthorityID, 
+                (x, y) => x.IsPrimaryProjectCawbs = y.IsPrimaryProjectCawbs,
                 HttpRequestStorage.DatabaseEntities);
         }
 
