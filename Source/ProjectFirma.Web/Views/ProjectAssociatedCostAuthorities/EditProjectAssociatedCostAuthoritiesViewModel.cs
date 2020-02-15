@@ -55,26 +55,29 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
             DbSet<ReclamationCostAuthorityProject> allProjectReclamationCostAuthoritiesInDatabase, Person currentPerson)
         {
-            var projectReclamationCostAuthoritiesUpdated = new List<ReclamationCostAuthorityProject>();
+            var updatedCostAuthorityIDs = new List<ReclamationCostAuthorityProject>();
 
             if (SelectedReclamationCostAuthorityIDs != null)
             {
-                projectReclamationCostAuthoritiesUpdated.AddRange(SelectedReclamationCostAuthorityIDs.Select(x =>
+                updatedCostAuthorityIDs.AddRange(SelectedReclamationCostAuthorityIDs.Select(x =>
                     new ReclamationCostAuthorityProject(x, project.ProjectID, (x == PrimaryReclamationCostAuthorityID))));
             }
 
-            if (projectReclamationCostAuthoritiesUpdated.Any())
+            // Awkward hack: To get around the only-one-primary-CAWBS constraint, we need to clear any
+            // existing primaries for the relevant set of existing data, and write them to disk.
+            // Otherwise when we write out we'll blow up if there's already a primary and we're changing away
+            // from it. We'd like to do better, but aren't sure how. -- SLG & TK 2/14/2020
+            if (updatedCostAuthorityIDs.Any())
             {
-                //projectReclamationCostAuthoritiesUpdated.ForEach(x => x.IsPrimaryProjectCawbs = false);
-
-                var projectReclamationCostAuthoritiesUpdatedIds = projectReclamationCostAuthoritiesUpdated.Select(x => x.ReclamationCostAuthorityProjectID).ToList();
-                var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorityProjects.Where(x => projectReclamationCostAuthoritiesUpdatedIds.Contains(x.ReclamationCostAuthorityProjectID)).ToList();
+                var projectReclamationCostAuthoritiesUpdatedIds = updatedCostAuthorityIDs.Select(x => x.ReclamationCostAuthorityID).ToList();
+                var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorityProjects.Where(x => x.ProjectID == project.ProjectID && projectReclamationCostAuthoritiesUpdatedIds.Contains(x.ReclamationCostAuthorityID) && x.IsPrimaryProjectCawbs).ToList();
                 onDiskRecordsToTemporarilyUpdate.ForEach(odr => odr.IsPrimaryProjectCawbs = false);
                 HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(MultiTenantHelpers.GetTenantAttribute().TenantID);
             }
 
+            // Now we can do the merge again, and this time we keep the new IsPrimaryProjectCawbs.
             project.ReclamationCostAuthorityProjects.Merge(
-                projectReclamationCostAuthoritiesUpdated,
+                updatedCostAuthorityIDs,
                 allProjectReclamationCostAuthoritiesInDatabase.Local,  
                 (x, y) => x.ProjectID == y.ProjectID && x.ReclamationCostAuthorityID == y.ReclamationCostAuthorityID, 
                 (x, y) => x.IsPrimaryProjectCawbs = y.IsPrimaryProjectCawbs,
