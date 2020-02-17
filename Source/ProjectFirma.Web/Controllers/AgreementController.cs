@@ -7,10 +7,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.CostAuthority;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
-using Detail = ProjectFirma.Web.Views.PerformanceMeasure.Detail;
-using DetailViewData = ProjectFirma.Web.Views.PerformanceMeasure.DetailViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
