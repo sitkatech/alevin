@@ -1,60 +1,64 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="ProjectFundingDetail.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
-    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
-    <author>Sitka Technology Group</author>
-    </copyright>
+<copyright file="ProjectFundingDetail.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
 
-    <license>
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-    Source code is available upon request via <support@sitkatech.com>.
-    </license>
-    -----------------------------------------------------------------------*@
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectAgreement.ProjectAgreementDetail
-<div class="table-responsive" style="overflow-x: hidden">
-    <table class="summaryLayout table table-condensed table-striped">
-        @if (!ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures.Any())
-        {
-            <tr>
-                <td class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</td>
-            </tr>
-        }
-        else
-        {
-            <thead>
+<div class="col-xs-12">
+
+    @if (!ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures.Any())
+    {
+        <div>
+            <p class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive" style="overflow-x: hidden">
+            <table class="summaryLayout table table-condensed table-striped">
+                <thead>
                 <tr>
                     <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
                     <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
                 </tr>
-            </thead>
-            @*This is the new way its going to be with a model that focuses more on the CAWBS *@
-            foreach (var reclamationCostAuthorityWorkBreakdownStructure in ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures)
-            {
-                <tr>
-                    <td>@Html.Raw(reclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
-                    <td>
-                        <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                            @foreach (var reclamationAgreement in reclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
-                            {
-                                <li>
-                                    <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingFullDisplayName())</span>
-                                </li>
-                            }
-                        </ul>
-                    </td>
-                </tr>
-            }
-        }
-    </table>
+                </thead>
+                @*This is the new way its going to be with a model that focuses more on the CAWBS *@
+                @foreach (var reclamationCostAuthorityWorkBreakdownStructure in ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures)
+                {
+                    <tr>
+                        <td>@Html.Raw(reclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
+                        <td>
+                            <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                                @foreach (var reclamationAgreement in reclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
+                                {
+                                    <li>
+                                        <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingFullDisplayName())</span>
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+
 </div>
