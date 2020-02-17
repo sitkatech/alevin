@@ -304,6 +304,22 @@
                 }
 
                 <h2 class="sectionHeader">Financials</h2>
+                @* Reclamation Agreements and Reclamation Cost Authority Work Breakdown Structures *@
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.AssociateProjectAgreementUrl, string.Format("Edit {0} and {1}", FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectAgreementPermissions)
+                        <h3 class="project-detail-heading">
+                            Agreements and Cost Authority Work Breakdown Structures
+                        </h3>
+                    </div>
+                    <div class="panel-body panel-body-table">
+                        @{
+                            ProjectAgreementDetail.RenderPartialView(Html, ViewDataTyped.ProjectAgreementDetailViewData);
+                        }
+                    </div>
+                </div>
+
+
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditExpectedFundingUrl, "Edit Budget", 1000, ViewDataTyped.UserHasEditProjectPermissions)
@@ -324,21 +340,6 @@
                             ProjectBudgetsAnnual.RenderPartialView(Html, ViewDataTyped.ProjectBudgetsAnnualViewData);
                         }
 
-                    </div>
-                </div>
-                
-                @* Reclamation Agreements and Reclamation Cost Authority Work Breakdown Structures *@ 
-                <div class="panel panelFirma">
-                    <div class="panel-heading panelTitle">
-                        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.AssociateProjectAgreementUrl, string.Format("Edit {0} and {1}", FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized(), FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectAgreementPermissions)
-                        <h3 class="project-detail-heading">
-                            Agreements and Cost Authority Work Breakdown Structures
-                        </h3>
-                    </div>
-                    <div class="panel-body panel-body-table">
-                        @{
-                            ProjectAgreementDetail.RenderPartialView(Html, ViewDataTyped.ProjectAgreementDetailViewData);
-                        }
                     </div>
                 </div>
 
@@ -454,7 +455,8 @@
                         }
                     </div>
                 </div>
-                @if(ViewDataTyped.UserCanViewActionItems) {
+                @if (ViewDataTyped.UserCanViewActionItems)
+                {
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>@FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()</h3>
@@ -464,9 +466,9 @@
                         </div>
                     </div>
                 }
-                
 
-            @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+
+                @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
                 {
                     <h2 class="sectionHeader">Timeline</h2>
                     <div class="panel panelFirma">
@@ -484,7 +486,7 @@
                 {
                     <h2 class="sectionHeader">Administrative</h2>
 
-                    
+
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
                             <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
@@ -504,17 +506,17 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
-                                    {
-                                        <tr>
-                                            <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
-                                            <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
-                                            <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
-                                            <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
-                                            <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
-                                            <td>@projectEvaluation.Comments</td>
-                                        </tr>
-                                    }
+                                        @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
+                                        {
+                                            <tr>
+                                                <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                                <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                                <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                                <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                                <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                                <td>@projectEvaluation.Comments</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
 
@@ -534,7 +536,7 @@
                             }
                         </div>
                     </div>
-                    
+
 
                     <div class="panel panelFirma">
                         <div class="panel-heading panelTitle">
