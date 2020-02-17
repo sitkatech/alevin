@@ -1,60 +1,114 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="ProjectFundingDetail.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
-    Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
-    <author>Sitka Technology Group</author>
-    </copyright>
+<copyright file="ProjectFundingDetail.cshtml" company="Tahoe Regional Planning Agency & Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency & Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
 
-    <license>
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-    Source code is available upon request via <support@sitkatech.com>.
-    </license>
-    -----------------------------------------------------------------------*@
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ProjectAgreement.ProjectAgreementDetail
-<div class="table-responsive" style="overflow-x: hidden">
-    <table class="summaryLayout table table-condensed table-striped">
-        @if (!ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures.Any())
+<div class="col-xs-12">
+
+    @if (!ViewDataTyped.SecondaryReclamationCostAuthorityWorkBreakdownStructures.Any() && ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure == null)
+    {
+        <div>
+            <p class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+        </div>
+    }
+    else
+    {
+        <h4>@FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()</h4>
+        if (ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure == null)
         {
-            <tr>
-                <td class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</td>
-            </tr>
+            <div>
+                <p class="systemText">No @(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) selected for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+            </div>
         }
         else
         {
-            <thead>
-                <tr>
-                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType())</th>
-                    <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType())</th>
-                </tr>
-            </thead>
-            @*This is the new way its going to be with a model that focuses more on the CAWBS *@
-            foreach (var reclamationCostAuthorityWorkBreakdownStructure in ViewDataTyped.ReclamationCostAuthorityWorkBreakdownStructures)
-            {
-                <tr>
-                    <td>@Html.Raw(reclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
-                    <td>
-                        <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                            @foreach (var reclamationAgreement in reclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
-                            {
-                                <li>
-                                    <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingFullDisplayName())</span>
-                                </li>
-                            }
-                        </ul>
-                    </td>
-                </tr>
-            }
+            <div class="table-responsive" style="overflow-x: hidden">
+                <table class="summaryLayout table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()</th>
+                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.AgreementNumber.ToType().GetFieldDefinitionLabel()</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Html.Raw(ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
+                            <td>
+                                <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                                    @foreach (var reclamationAgreement in ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
+                                    {
+                                        <li>
+                                            <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingFullDisplayName())</span>
+                                        </li>
+                                    }
+                                </ul>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         }
-    </table>
+
+        <h4>@FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()</h4>
+        if (!ViewDataTyped.SecondaryReclamationCostAuthorityWorkBreakdownStructures.Any())
+        {
+            @* You should technically never get in this situation, because you can only select a Primary CAWBS from the list of Secondary CAWBS *@
+            <div>
+                <p class="systemText">No @(FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) selected for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+            </div>
+        }
+        else
+        {
+            <div class="table-responsive" style="overflow-x: hidden">
+                <table class="summaryLayout table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()</th>
+                            <th class="col-sm-6">@Html.LabelWithSugarFor(FieldDefinitionEnum.AgreementNumber.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.AgreementNumber.ToType().GetFieldDefinitionLabel()</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @*This is the new way its going to be with a model that focuses more on the CAWBS *@
+                        @foreach (var reclamationCostAuthorityWorkBreakdownStructure in ViewDataTyped.SecondaryReclamationCostAuthorityWorkBreakdownStructures)
+                        {
+                            <tr>
+                                <td>@Html.Raw(reclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
+                                <td>
+                                    <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
+                                        @foreach (var reclamationAgreement in reclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
+                                        {
+                                            <li>
+                                                <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingFullDisplayName())</span>
+                                            </li>
+                                        }
+                                    </ul>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        }
+
+    }
+
 </div>
