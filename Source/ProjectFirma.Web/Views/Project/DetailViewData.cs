@@ -112,6 +112,7 @@ namespace ProjectFirma.Web.Views.Project
 
         public string ProjectUpdateButtonText { get; }
         public bool CanLaunchProjectOrProposalWizard { get; }
+        public bool ShowFactSheetButton { get; }
         public string ProjectWizardUrl { get; }
         public string ProjectListUrl { get; }
         public string BackToProjectsText { get; }
@@ -376,12 +377,14 @@ namespace ProjectFirma.Web.Views.Project
                 SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(x => x.New(project)), 
                 project.ProjectName,
                 new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession, project).HasPermission,
-                project.GetAllAttachmentRelationshipTypes().ToList(),
+                project.GetAllAttachmentTypes().ToList(),
                 currentFirmaSession);
 
             ProjectTimelineDisplayViewData = projectTimelineDisplayViewData;
 
             ProjectEvaluationsUserHasAccessTo = projectEvaluationsUserHasAccessTo;
+
+            ShowFactSheetButton = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
 
             ActionItemsDisplayViewData = actionItemsDisplayViewData;
             UserCanViewActionItems = userCanViewActionItems;

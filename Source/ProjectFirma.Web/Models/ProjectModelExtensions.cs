@@ -66,10 +66,6 @@ namespace ProjectFirma.Web.Models
             return ProjectCreateUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
-        public static bool FactSheetIsAvailable(this Project project)
-        {
-            return project.ProjectStage != ProjectStage.Terminated;
-        }
         public static readonly UrlTemplate<int> FactSheetUrlTemplate = new UrlTemplate<int>(SitkaRoute<ProjectController>.BuildUrlFromExpression(t => t.FactSheet(UrlTemplate.Parameter1Int)));
         public static string GetFactSheetUrl(this Project project)
         {
@@ -686,10 +682,17 @@ namespace ProjectFirma.Web.Models
                     .Select(x => x.Organization.OrganizationName));
         }
 
-        public static FancyTreeNode ToFancyTreeNode(this Project project)
+        public static FancyTreeNode ToFancyTreeNode(this Project project, FirmaSession currentFirmaSession)
         {
-            var fancyTreeNode = new FancyTreeNode(
-                $"{UrlTemplate.MakeHrefString(project.GetFactSheetUrl(), project.ProjectName, project.ProjectName)}", project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
+            bool shouldOfferFactSheetLink = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
+            HtmlString titleHtml = new HtmlString(project.ProjectName);
+            if (shouldOfferFactSheetLink)
+            {
+                string factSheetUrl = project.GetFactSheetUrl();
+                titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, project.ProjectName);
+            }
+
+            var fancyTreeNode = new FancyTreeNode(titleHtml, project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
             return fancyTreeNode;
         }
 
@@ -784,14 +787,14 @@ namespace ProjectFirma.Web.Models
             return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetValidAttachmentRelationshipTypesForForms(this Project project)
+        public static IEnumerable<AttachmentType> GetValidAttachmentTypesForForms(this Project project)
         {
-            return project.GetAllAttachmentRelationshipTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Where(pa => pa.ProjectID == project.ProjectID).ToList().Count < x.NumberOfAllowedAttachments));
+            return project.GetAllAttachmentTypes().Where(x => !x.NumberOfAllowedAttachments.HasValue || (x.ProjectAttachments.Where(pa => pa.ProjectID == project.ProjectID).ToList().Count < x.NumberOfAllowedAttachments));
         }
 
-        public static IEnumerable<AttachmentRelationshipType> GetAllAttachmentRelationshipTypes(this Project project)
+        public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this Project project)
         {
-            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentRelationshipTypeTaxonomyTrunks.Select(x => x.AttachmentRelationshipType);
+            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
         public static decimal GetSecuredFundingForAllProjects()
