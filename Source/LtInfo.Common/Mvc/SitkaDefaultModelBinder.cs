@@ -102,7 +102,20 @@ namespace LtInfo.Common.Mvc
 
         private static bool CheckIfValueProviderResultIsNull(ValueProviderResult valueProviderResult)
         {
-            return valueProviderResult == null || String.IsNullOrWhiteSpace(valueProviderResult.AttemptedValue) || valueProviderResult.AttemptedValue.Equals("null", StringComparison.InvariantCultureIgnoreCase);
+            return valueProviderResult == null || 
+                   String.IsNullOrWhiteSpace(valueProviderResult.AttemptedValue) ||
+                   IsStringSpellingOutNull(valueProviderResult) ||
+                   IsAngularTypeOddballNull(valueProviderResult);
+        }
+
+        private static bool IsStringSpellingOutNull(ValueProviderResult valueProviderResult)
+        {
+            return valueProviderResult.AttemptedValue.Equals("null", StringComparison.InvariantCultureIgnoreCase);
+        }
+
+        private static bool IsAngularTypeOddballNull(ValueProviderResult valueProviderResult)
+        {
+            return valueProviderResult.AttemptedValue.ToLower() == "? object:null ?";
         }
 
         private static int TryModelBindInt(ModelBindingContext bindingContext)
