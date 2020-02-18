@@ -66,9 +66,10 @@ namespace ProjectFirma.Web.Controllers
         [AgreementViewFeature]
         public GridJsonNetJObjectResult<Project> AgreementProjectsGridJsonData(ReclamationAgreementPrimaryKey reclamationAgreementPrimaryKey)
         {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true);
+            var reclamationAgreement = reclamationAgreementPrimaryKey.EntityObject;
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationAgreement);
             //var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-            var projectReclamationAgreements = reclamationAgreementPrimaryKey.EntityObject.GetAssociatedProjects();
+            var projectReclamationAgreements = reclamationAgreement.GetAssociatedProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }

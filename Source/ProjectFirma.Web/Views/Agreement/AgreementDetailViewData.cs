@@ -117,7 +117,7 @@ namespace ProjectFirma.Web.Views.Agreement
 
             /* Basic Project Info */
             BasicProjectInfoProjectGridName = "agreementProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession, true)
+            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession, true, reclamationAgreement)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with Agreement Number {reclamationAgreement.AgreementNumber}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with Agreement Number {reclamationAgreement.AgreementNumber}",
