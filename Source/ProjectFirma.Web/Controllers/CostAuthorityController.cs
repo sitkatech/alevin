@@ -50,8 +50,9 @@ namespace ProjectFirma.Web.Controllers
         [CostAuthorityViewFeature]
         public GridJsonNetJObjectResult<Project> CostAuthorityProjectsGridJsonData(ReclamationCostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
         {
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true);
-            var projectReclamationAgreements = reclamationCostAuthorityPrimaryKey.EntityObject.GetAssociatedProjects();
+            var reclamationCostAuthority = reclamationCostAuthorityPrimaryKey.EntityObject;
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationCostAuthority);
+            var projectReclamationAgreements = reclamationCostAuthority.GetAssociatedProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }

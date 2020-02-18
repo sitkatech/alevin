@@ -35,7 +35,7 @@ namespace ProjectFirma.Web.Views.Project
 {
     public class BasicProjectInfoGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        public BasicProjectInfoGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality)
+        public BasicProjectInfoGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality, ReclamationCostAuthority costAuthorityWorkBreakdownStructure = null)
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (userHasTagManagePermissions && allowTaggingFunctionality)
@@ -47,6 +47,10 @@ namespace ProjectFirma.Web.Views.Project
 
             Add(string.Empty, x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30, DhtmlxGridColumnFilterType.None);
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
+            if (costAuthorityWorkBreakdownStructure != null)
+            {
+                Add($"Is {costAuthorityWorkBreakdownStructure.GetDisplayName()} Primary or Secondary CAWBS for this project?", x => x.ReclamationCostAuthorityProjects.Any(rcap => rcap.IsPrimaryProjectCawbs && rcap.ReclamationCostAuthorityID == costAuthorityWorkBreakdownStructure.ReclamationCostAuthorityID) ? "Primary" : "Secondary", 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            }
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,

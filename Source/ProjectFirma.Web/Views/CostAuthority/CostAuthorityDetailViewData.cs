@@ -132,7 +132,7 @@ namespace ProjectFirma.Web.Views.Agreement
 
 
             BasicProjectInfoProjectGridName = "costAuthorityProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true)
+            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, ReclamationCostAuthority)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} {reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}",
