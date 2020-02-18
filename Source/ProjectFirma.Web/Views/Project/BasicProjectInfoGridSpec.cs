@@ -134,11 +134,11 @@ namespace ProjectFirma.Web.Views.Project
             }
         }
 
-        private static string GetSecondaryReclamationCostAuthorityAsCommaDelimitedList(ProjectFirmaModels.Models.Project project)
+        private static HtmlString GetSecondaryReclamationCostAuthorityAsCommaDelimitedList(ProjectFirmaModels.Models.Project project)
         {
             var reclamationCostAuthorities = project.ReclamationCostAuthorityProjects.Where(rcap => !rcap.IsPrimaryProjectCawbs).Select(x => x.ReclamationCostAuthority);
-            var costAuthorityWorkBreakdownStructures = reclamationCostAuthorities.Select(rca => rca.CostAuthorityWorkBreakdownStructure).ToList();
-            return string.Join(", ", costAuthorityWorkBreakdownStructures);
+            var costAuthorityWorkBreakdownStructures = reclamationCostAuthorities.Select(rca => rca.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()).ToList();
+            return new HtmlString(string.Join(", ", costAuthorityWorkBreakdownStructures));
         }
     }
 }
