@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
         public static List<Project> GetAssociatedProjects(this ReclamationAgreement reclamationAgreement)
         {
             var costAuthorities = reclamationAgreement.GetReclamationCostAuthorities();
-            var projects = costAuthorities.SelectMany(x => x.GetAssociatedProjects()).ToList();
+            var projects = costAuthorities.SelectMany(x => x.GetAssociatedProjects()).Distinct().ToList();
             return projects;
         }
 
