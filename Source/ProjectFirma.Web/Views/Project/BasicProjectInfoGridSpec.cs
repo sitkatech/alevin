@@ -70,8 +70,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(string.Empty,
                 x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30,
                 DhtmlxGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(),
-                x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
             if (costAuthorityWorkBreakdownStructure != null)
             {
                 Add($"Is {costAuthorityWorkBreakdownStructure.GetDisplayName()} Primary or Secondary CAWBS for this project?",
@@ -84,7 +83,7 @@ namespace ProjectFirma.Web.Views.Project
 
             if (reclamationAgreement != null)
             {
-                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.ReclamationCostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.ReclamationCostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Text);
+                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.ReclamationCostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.ReclamationCostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Html);
 
                 Add(FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), x => GetSecondaryReclamationCostAuthorityAsCommaDelimitedList(x), 200, DhtmlxGridColumnFilterType.Text);
             }

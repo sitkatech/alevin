@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.CostAuthority
         public CostAuthorityGridSpec(FirmaSession currentFirmaSession)
         {
             // Cost Authority Work Breakdown Structure
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => new HtmlString(a.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()), 125, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => a.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 125, DhtmlxGridColumnFilterType.Text);
             // Cost Authority Number
             Add("Cost Authority Number", a => a.CostAuthorityNumber, 125, DhtmlxGridColumnFilterType.Text);
             // Projects
