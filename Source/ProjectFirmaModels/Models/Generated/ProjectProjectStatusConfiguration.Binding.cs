@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectProjectStatusRecentActivities).HasColumnName(@"ProjectProjectStatusRecentActivities").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
             Property(x => x.ProjectProjectStatusUpcomingActivities).HasColumnName(@"ProjectProjectStatusUpcomingActivities").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
             Property(x => x.ProjectProjectStatusRisksOrIssues).HasColumnName(@"ProjectProjectStatusRisksOrIssues").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
-            Property(x => x.ProjectProjectStatusNotes).HasColumnName(@"ProjectProjectStatusNotes").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
+            Property(x => x.ProjectProjectStatusComment).HasColumnName(@"ProjectProjectStatusComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(2000);
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.ProjectProjectStatuses).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_ProjectProjectStatus_Project_ProjectID

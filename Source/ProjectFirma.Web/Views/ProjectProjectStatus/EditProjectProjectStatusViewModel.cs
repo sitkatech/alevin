@@ -49,9 +49,9 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         [FieldDefinitionDisplay(FieldDefinitionEnum.StatusRisksOrIssues)]
         public string ProjectProjectStatusRisksOrIssues { get; set; }
 
-        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusNotes)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusNotes)]
-        public string ProjectProjectStatusNotes { get; set; }
+        [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusComment)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.StatusComments)]
+        public string ProjectProjectStatusComment { get; set; }
 
 
         [Required]
@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             ProjectProjectStatusRecentActivities = projectProjectStatus.ProjectProjectStatusRecentActivities;
             ProjectProjectStatusUpcomingActivities = projectProjectStatus.ProjectProjectStatusUpcomingActivities;
             ProjectProjectStatusRisksOrIssues = projectProjectStatus.ProjectProjectStatusRisksOrIssues;
-            ProjectProjectStatusNotes = projectProjectStatus.ProjectProjectStatusNotes;
+            ProjectProjectStatusComment = projectProjectStatus.ProjectProjectStatusComment;
             LessonsLearned = projectProjectStatus.LessonsLearned;
             ProjectStatusID = projectProjectStatus.ProjectStatusID;
             ProjectStatusUpdateDate = projectProjectStatus.ProjectProjectStatusUpdateDate;
@@ -99,7 +99,7 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
             projectProjectStatus.ProjectProjectStatusRecentActivities = ProjectProjectStatusRecentActivities;
             projectProjectStatus.ProjectProjectStatusUpcomingActivities = ProjectProjectStatusUpcomingActivities;
             projectProjectStatus.ProjectProjectStatusRisksOrIssues = ProjectProjectStatusRisksOrIssues;
-            projectProjectStatus.ProjectProjectStatusNotes = ProjectProjectStatusNotes;
+            projectProjectStatus.ProjectProjectStatusComment = ProjectProjectStatusComment;
             if (IsFinalStatusUpdate)
             {
                 projectProjectStatus.LessonsLearned = LessonsLearned;

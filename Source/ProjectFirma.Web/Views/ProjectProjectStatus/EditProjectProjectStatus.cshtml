@@ -144,10 +144,10 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusNotes)</div>
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.ProjectProjectStatusComment)</div>
                     <div class="col-sm-8">
-                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusNotes, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
-                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusNotes)
+                        @Html.TextAreaWithMaxLengthFor(m => m.ProjectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectProjectStatusComment)
                     </div>
                 </div>
 

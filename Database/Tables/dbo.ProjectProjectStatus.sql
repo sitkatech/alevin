@@ -17,7 +17,7 @@ CREATE TABLE [dbo].[ProjectProjectStatus](
 	[ProjectProjectStatusRecentActivities] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectProjectStatusUpcomingActivities] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectProjectStatusRisksOrIssues] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[ProjectProjectStatusNotes] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ProjectProjectStatusComment] [varchar](2000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectProjectStatus_ProjectProjectStatusID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectProjectStatusID] ASC

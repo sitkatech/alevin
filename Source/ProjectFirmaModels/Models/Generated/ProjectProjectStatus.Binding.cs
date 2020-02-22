@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectProjectStatus(int projectProjectStatusID, int projectID, int projectStatusID, DateTime projectProjectStatusUpdateDate, int projectProjectStatusCreatePersonID, DateTime projectProjectStatusCreateDate, int? projectProjectStatusLastEditedPersonID, DateTime? projectProjectStatusLastEditedDate, bool isFinalStatusUpdate, string lessonsLearned, string projectProjectStatusRecentActivities, string projectProjectStatusUpcomingActivities, string projectProjectStatusRisksOrIssues, string projectProjectStatusNotes) : this()
+        public ProjectProjectStatus(int projectProjectStatusID, int projectID, int projectStatusID, DateTime projectProjectStatusUpdateDate, int projectProjectStatusCreatePersonID, DateTime projectProjectStatusCreateDate, int? projectProjectStatusLastEditedPersonID, DateTime? projectProjectStatusLastEditedDate, bool isFinalStatusUpdate, string lessonsLearned, string projectProjectStatusRecentActivities, string projectProjectStatusUpcomingActivities, string projectProjectStatusRisksOrIssues, string projectProjectStatusComment) : this()
         {
             this.ProjectProjectStatusID = projectProjectStatusID;
             this.ProjectID = projectID;
@@ -45,7 +45,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectProjectStatusRecentActivities = projectProjectStatusRecentActivities;
             this.ProjectProjectStatusUpcomingActivities = projectProjectStatusUpcomingActivities;
             this.ProjectProjectStatusRisksOrIssues = projectProjectStatusRisksOrIssues;
-            this.ProjectProjectStatusNotes = projectProjectStatusNotes;
+            this.ProjectProjectStatusComment = projectProjectStatusComment;
         }
 
         /// <summary>
@@ -151,7 +151,7 @@ namespace ProjectFirmaModels.Models
         public string ProjectProjectStatusRecentActivities { get; set; }
         public string ProjectProjectStatusUpcomingActivities { get; set; }
         public string ProjectProjectStatusRisksOrIssues { get; set; }
-        public string ProjectProjectStatusNotes { get; set; }
+        public string ProjectProjectStatusComment { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectProjectStatusID; } set { ProjectProjectStatusID = value; } }
 
@@ -168,7 +168,7 @@ namespace ProjectFirmaModels.Models
             public const int ProjectProjectStatusRecentActivities = 2000;
             public const int ProjectProjectStatusUpcomingActivities = 2000;
             public const int ProjectProjectStatusRisksOrIssues = 2000;
-            public const int ProjectProjectStatusNotes = 2000;
+            public const int ProjectProjectStatusComment = 2000;
         }
     }
 }

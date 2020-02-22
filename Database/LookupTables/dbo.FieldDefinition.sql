@@ -216,7 +216,7 @@ VALUES
 (10034, N'StatusRecentActivities', N'Recent Activities'),
 (10035, N'StatusUpcomingActivities', N'Upcoming Activities'),
 (10036, N'StatusRisksOrIssues', N'Risks/Issues'),
-(10037, N'StatusNotes', N'Notes'),
+--(10037, N'StatusNotes', N'Notes'), This field has been removed from Alevin. Renamed to ProjectProjectStatusComment to align with PF for reporting. Feel free to replace this with a new FieldDefinition -- 2/21/2020 TK
 (10038,N'ActionItem', N'Action Item'),
 (10039,N'ActionItemState', N'Action Item State'),
 (10040,N'ActionItemAssignedToPerson', N'Assigned To'),
