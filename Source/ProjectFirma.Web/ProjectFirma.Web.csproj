@@ -101,11 +101,13 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
-    <Compile Include="ReportTemplates\Models\ReportTemplateBaseViewModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplatePersonModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectContactModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectImageModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectOrganizationModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectStatusModel.cs" />
     <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />
@@ -1942,12 +1944,9 @@
     <Reference Include="Owin, Version=1.0.0.0, Culture=neutral, PublicKeyToken=f0ebd12fd5e55cc5, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Owin.1.0\lib\net40\Owin.dll</HintPath>
     </Reference>
+    <Reference Include="PresentationCore" />
     <Reference Include="SharpDocx, Version=2.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\SharpDocx.2.0.1\lib\net45\SharpDocx.dll</HintPath>
-    </Reference>
-    <Reference Include="SharpImage, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>Libraries\SharpImage.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -3518,7 +3517,6 @@
   <ItemGroup>
     <Folder Include="Content\img\MimeTypeIcons\" />
     <Folder Include="Content\themes\base\minified\images\" />
-    <Folder Include="Models\ReportTemplate\Models\" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

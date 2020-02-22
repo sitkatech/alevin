@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
-using DocumentFormat.OpenXml;
+﻿using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Wordprocessing;
 using SharpDocx;
 using SharpDocx.Extensions;
+using System.Collections.Generic;
+using Color = DocumentFormat.OpenXml.Wordprocessing.Color;
 
 namespace ProjectFirma.Web.ReportTemplates
 {
@@ -16,8 +17,9 @@ namespace ProjectFirma.Web.ReportTemplates
             {
                 "using ProjectFirma.Web.ReportTemplates;",
                 "using ProjectFirma.Web.Models;",
-                "using System.Linq;",
-                "using Microsoft.CSharp.RuntimeBinder;"
+                "using System.Collections.Generic;",
+                "using Microsoft.CSharp.RuntimeBinder;",
+                "using System.Linq;"
 
             };
         }
@@ -28,7 +30,9 @@ namespace ProjectFirma.Web.ReportTemplates
             return new List<string>
             {
                 "System.Core.dll",
-                "Microsoft.CSharp.dll"
+                "Microsoft.CSharp.dll",
+                "System.Collections.dll",
+                "System.Runtime.dll",
             };
         }
 
@@ -51,7 +55,9 @@ namespace ProjectFirma.Web.ReportTemplates
         {
             var run = CurrentCodeBlock.Placeholder.GetParent<Run>();
             if (run == null) return;
-            run.RunProperties.Color = new Color { Val = color };
+            run.RunProperties.Color = new Color {Val = color};
         }
+
     }
+    
 }

@@ -1,24 +1,32 @@
-﻿using LtInfo.Common;
+﻿using DocumentFormat.OpenXml.Packaging;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.ReportTemplates.Models;
 using ProjectFirmaModels.Models;
 using SharpDocx;
 using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Web.Mvc;
 
 namespace ProjectFirma.Web.ReportTemplates
 {
     public class ReportTemplateGenerator
     {
-        public const string TemplateTempDirectory = "ProjectFirmaReportTemplates";
+        public const string TemplateTempDirectoryName = "ProjectFirmaReportTemplates";
+        public const string TemplateTempImageDirectoryName = "Images";
         public const int TemplateTempDirectoryFileLifespanInDays = 2;
         protected ReportTemplate ReportTemplate { get; set; }
         protected ReportTemplateModelEnum ReportTemplateModelEnum { get; set; }
         protected ReportTemplateModelTypeEnum ReportTemplateModelTypeEnum { get; set; }
         protected List<int> SelectedModelIDs { get; set; }
+        protected string FullTemplateTempDirectory { get; set; }
+        protected string FullTemplateTempImageDirectory { get; set; }
+
         /// <summary>
         /// ReportTemplateUniqueIdentifier is used for file names in the TEMP directory.
         /// </summary>
@@ -31,33 +39,129 @@ namespace ProjectFirma.Web.ReportTemplates
             ReportTemplateModelTypeEnum = reportTemplate.ReportTemplateModelType.ToEnum;
             SelectedModelIDs = selectedModelIDs;
             ReportTemplateUniqueIdentifier = Guid.NewGuid();
+            InitializeTempFolders();
+        }
+
+        private void InitializeTempFolders()
+        {
+            var tempPath = new DirectoryInfo(SitkaConfiguration.GetRequiredAppSetting("TempFolder"));
+            var baseTempDirectory = new DirectoryInfo($"{tempPath.FullName}\\{TemplateTempDirectoryName}\\");
+            baseTempDirectory.Create();
+            FullTemplateTempDirectory = baseTempDirectory.FullName;
+            FullTemplateTempImageDirectory = baseTempDirectory.CreateSubdirectory(TemplateTempImageDirectoryName).FullName;
         }
 
         public void Generate()
         {
-
-            var models = GetListOfModels();
-            var templateViewModel = new ReportTemplateBaseViewModel()
-            {
-                ReportTitle = ReportTemplate.DisplayName,
-                ReportModel = models
-            };
-
             var templatePath = GetTemplatePath();
+            ProjectFirmaDocxDocument document;
             SaveTemplateFileToTempDirectory();
-            
-            var document = DocumentFactory.Create<ProjectFirmaDocxDocument>(templatePath, templateViewModel);
-            
-            // TODO: Figure out solution/need for images in the reports
-            //document.ImageDirectory =
-            //    "C:\\git\\sitkatech\\projectfirma\\Source\\ProjectFirma.Web\\Content\\document-templates\\images";
+
+            // todo: if someone generates a report with all projects, the resulting .docx can get up to 3gb+ depending on the tenant, how do we want to handle this situation?
+            if (TemplateHasImages(templatePath))
+            {
+                SaveImageFilesToTempDirectory();
+            }
+
+            switch (ReportTemplateModelEnum)
+            {
+                case ReportTemplateModelEnum.Project:
+                    var baseViewModel = new ReportTemplateProjectBaseViewModel()
+                    {
+                        ReportTitle = ReportTemplate.DisplayName,
+                        ReportModel = GetListOfProjectModels()
+                    };
+                    document = DocumentFactory.Create<ProjectFirmaDocxDocument>(templatePath, baseViewModel);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
 
             var compilePath = GetCompilePath();
+            document.ImageDirectory = FullTemplateTempImageDirectory;
             document.Generate(compilePath);
 
-            CleanDirectoryOfOldTemplates(GetFullTemporaryTemplateDirectory());
+            CleanTempDirectoryOfOldFiles(FullTemplateTempDirectory);
         }
 
+        /// <summary>
+        /// Simple regex to test to see if a word document template has any Image() methods in it.
+        /// </summary>
+        /// <param name="templatePath"></param>
+        /// <returns></returns>
+        private static bool TemplateHasImages(string templatePath)
+        {
+            using (WordprocessingDocument wordDoc = WordprocessingDocument.Open(templatePath, true))
+            {
+                using (StreamReader sr = new StreamReader(wordDoc.MainDocumentPart.GetStream()))
+                {
+                    var docText = sr.ReadToEnd();
+                    var regexForImage = @"Image\(";
+                    var match = Regex.Match(docText, regexForImage);
+                    return match.Success;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Because Sharpdocx uses directories for images we need to save the images that can be used with the chosen model into a directory that can be accessed
+        /// when the report generates. This allows us to create a helper on the ReportTemplateProjectImage model that can then call Image() and pass in the
+        /// same file name (that uses the file resource unique GUID)
+        /// </summary>
+        private void SaveImageFilesToTempDirectory()
+        {
+            switch (ReportTemplateModelEnum)
+            {
+                case ReportTemplateModelEnum.Project:
+                    var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => SelectedModelIDs.Contains(x.ProjectID)).ToList();
+                    var projectImages = projectsList.SelectMany(x => x.ProjectImages).ToList();
+                    foreach (var projectImage in projectImages)
+                    {
+                        var imagePath = $"{FullTemplateTempImageDirectory}\\{projectImage.FileResource.GetFullGuidBasedFilename()}";
+                        CorrectImageProblemsAndSaveToDisk(projectImage, imagePath);
+                    }
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+        }
+
+        /// <summary>
+        /// In testing the sharpdocx image functionality at least two issues with images uploaded to ProjectFirma came up
+        /// 1. Encountered an image with a corrupt color profile
+        /// 2. Encountered an image with no DPI set
+        ///
+        /// In case #1, this caused caused the generation to crash
+        /// In case #2, this caused the the image in the OpenXML for the .docx to have invalid x and y extents, corrupting the .docx file
+        ///
+        /// It is likely that doing this will fix other potential issues with uploaded images to ProjectFirma
+        ///
+        /// We can also take the opportunity here to do some scaling of the images so that they don't need to generate massive images files that have been uploaded
+        /// to ProjectFirma
+        ///
+        /// todo: let the owner of the SharpDocx repository know about these issues to be able to set defaults there instead
+        /// </summary>
+        /// <param name="projectImage"></param>
+        /// <param name="imagePath"></param>
+        private static void CorrectImageProblemsAndSaveToDisk(ProjectImage projectImage, string imagePath)
+        {
+            // in order to save time on subsequent reports, we should check to see if the file already exists at the path and return early
+            var fileInfo = new FileInfo(imagePath);
+            if (fileInfo.Exists)
+            {
+                return;
+            }
+
+            using (var ms = new MemoryStream(projectImage.FileResource.FileResourceData))
+            {
+                var bitmap = new Bitmap(ms);
+                using (Bitmap newBitmap = new Bitmap(bitmap))
+                {
+                    newBitmap.Save(imagePath, ImageFormat.Jpeg);
+                }
+            }
+        }
+        
         public ActionResult GenerateAndDownload()
         {
             Generate();
@@ -66,7 +170,7 @@ namespace ProjectFirma.Web.ReportTemplates
             return new FileResourceResult(ReportTemplate.FileResource.GetOriginalCompleteFileName(), stream, FileResourceMimeType.WordDOCX);
         }
 
-        private void CleanDirectoryOfOldTemplates(string targetDirectory)
+        private void CleanTempDirectoryOfOldFiles(string targetDirectory)
         {
             if (Directory.Exists(targetDirectory))
             {
@@ -75,7 +179,7 @@ namespace ProjectFirma.Web.ReportTemplates
                     DeleteFileIfOlderThanLifespan(fileName);
                 var directories = Directory.GetDirectories(targetDirectory);
                 foreach (string directory in directories)
-                    CleanDirectoryOfOldTemplates(directory);
+                    CleanTempDirectoryOfOldFiles(directory);
             }
         }
 
@@ -101,43 +205,28 @@ namespace ProjectFirma.Web.ReportTemplates
         /// <returns></returns>
         private string GetTemplatePath()
         {
-            var fileName = new FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
-
+        
         /// <summary>
         /// Get the compile path for this ReportTemplate that the .docx template will compile to.
         /// </summary>
         /// <returns></returns>
         private string GetCompilePath()
         {
-            var fileName = new FileInfo($"{GetFullTemporaryTemplateDirectory()}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
+            var fileName = new FileInfo($"{FullTemplateTempDirectory}{ReportTemplateUniqueIdentifier}-generated-{ReportTemplate.FileResource.GetOriginalCompleteFileName()}");
             fileName.Directory.Create();
             return fileName.FullName;
         }
-
-        private string GetFullTemporaryTemplateDirectory()
+        
+        private List<ReportTemplateProjectModel> GetListOfProjectModels()
         {
-            var tempPath = new DirectoryInfo(SitkaConfiguration.GetRequiredAppSetting("TempFolder"));
-            return $"{tempPath.FullName}\\{TemplateTempDirectory}\\";
-        }
-
-        private List<ReportTemplateBaseModel> GetListOfModels()
-        {
-            var listOfModels = new List<ReportTemplateBaseModel>();
-
-            switch (ReportTemplateModelEnum)
-            {
-                case ReportTemplateModelEnum.Project:
-                    var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => SelectedModelIDs.Contains(x.ProjectID)).ToList();
-                    var orderedProjectList = projectsList.OrderBy(p => SelectedModelIDs.IndexOf(p.ProjectID)).ToList();
-                    orderedProjectList.ForEach(x => listOfModels.Add(new ReportTemplateProjectModel(x)));
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+            var listOfModels = new List<ReportTemplateProjectModel>();
+            var projectsList = HttpRequestStorage.DatabaseEntities.Projects.Where(x => SelectedModelIDs.Contains(x.ProjectID)).ToList();
+            var orderedProjectList = projectsList.OrderBy(p => SelectedModelIDs.IndexOf(p.ProjectID)).ToList();
+            orderedProjectList.ForEach(x => listOfModels.Add(new ReportTemplateProjectModel(x)));
             return listOfModels;
         }
 
