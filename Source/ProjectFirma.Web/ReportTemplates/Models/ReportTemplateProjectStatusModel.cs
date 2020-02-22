@@ -18,6 +18,11 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string ProjectStatusColor { get; set; }
         public string ProjectStatusDescription { get; set; }
 
+        //Alevin specific properties
+        public string ProjectStatusRecentActivities { get; set; }
+        public string ProjectStatusUpcomingActivities { get; set; }
+        public string ProjectStatusRisksOrIssues { get; set; }
+
 
         public ReportTemplateProjectStatusModel(ProjectProjectStatus projectProjectStatus)
         {
@@ -36,6 +41,11 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             ProjectStatusDisplayName = projectProjectStatus.ProjectStatus.ProjectStatusDisplayName;
             ProjectStatusColor = projectProjectStatus.ProjectStatus.ProjectStatusColor;
             ProjectStatusDescription = projectProjectStatus.ProjectStatus.ProjectStatusDescription;
+
+            //Alevin Specific Public properties
+            ProjectStatusRecentActivities = projectProjectStatus.ProjectProjectStatusRecentActivities;
+            ProjectStatusUpcomingActivities = projectProjectStatus.ProjectProjectStatusUpcomingActivities;
+            ProjectStatusRisksOrIssues = projectProjectStatus.ProjectProjectStatusRisksOrIssues;
 
         }
 
