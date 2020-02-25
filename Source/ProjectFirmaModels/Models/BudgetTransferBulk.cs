@@ -24,10 +24,9 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using LtInfo.Common;
-using LtInfo.Common.DesignByContract;
-using ProjectFirma.Web.Views.ReportCenter;
 
-namespace ProjectFirma.Web.Views.ExcelUpload
+
+namespace ProjectFirmaModels.Models
 {
     /// <summary>
     /// An exception generated when a cell value is bad
@@ -61,11 +60,11 @@ namespace ProjectFirma.Web.Views.ExcelUpload
         public readonly string BudgetObjectClassKey;
         public readonly string VendorKey;
         public readonly string VendorText;
-        public readonly decimal Obligation;
-        public readonly decimal GoodsReceipt;
-        public readonly decimal Invoiced;
-        public readonly decimal Disbersed;
-        public readonly decimal UnexpendedBalance;
+        public readonly double? Obligation;
+        public readonly double? GoodsReceipt;
+        public readonly double? Invoiced;
+        public readonly double? Disbersed;
+        public readonly double? UnexpendedBalance;
 
         //public BudgetTransferBulk(AccountSpecifier sourceFund,
         //                          AccountSpecifier destinationFund,
@@ -185,6 +184,8 @@ namespace ProjectFirma.Web.Views.ExcelUpload
                 throw new BudgetTransferBadCellException("G", rowIndex, dr["G"].ToString(), "Problem parsing Funded Program Key", e);
             }
 
+            FundedProgramKeyNotCompounded = fundedProgramKey;
+
             // Column H - WBS Element Key
             string wbsElementKey;
             try
@@ -253,8 +254,16 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             // Column M - Obligation
             try
             {
-               
-                Obligation = decimal.Parse(dr["M"].ToString());
+                var isNullOrWhitespace = string.IsNullOrWhiteSpace(dr["M"].ToString());
+                if (isNullOrWhitespace)
+                {
+                    Obligation = null;
+                }
+                else
+                {
+                    Obligation = double.Parse(dr["M"].ToString());
+                }
+                
             }
             catch (Exception e)
             {
@@ -264,8 +273,17 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             // Column N - Goods Receipt
             try
             {
+                var isNullOrEmpty = string.IsNullOrWhiteSpace(dr["N"].ToString());
+                if (isNullOrEmpty)
+                {
+                    GoodsReceipt = null;
+                }
+                else
+                {
+                    GoodsReceipt = double.Parse(dr["N"].ToString());
+                }
 
-                GoodsReceipt = decimal.Parse(dr["N"].ToString());
+                
             }
             catch (Exception e)
             {
@@ -275,7 +293,16 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             // Column O - Invoiced
             try
             {
-                Invoiced = decimal.Parse(dr["O"].ToString());
+                var isNullOrWhitespace = string.IsNullOrWhiteSpace(dr["O"].ToString());
+                if (isNullOrWhitespace)
+                {
+                    Invoiced = null;
+                }
+                else
+                {
+                    Invoiced = double.Parse(dr["O"].ToString());
+                }
+                
             }
             catch (Exception e)
             {
@@ -285,7 +312,16 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             // Column P - Disbursed
             try
             {
-                Disbersed = decimal.Parse(dr["P"].ToString());
+                var isNullOrWhitespace = string.IsNullOrWhiteSpace(dr["P"].ToString());
+                if (isNullOrWhitespace)
+                {
+                    Disbersed = null;
+                }
+                else
+                {
+                    Disbersed = double.Parse(dr["P"].ToString());
+                }
+                
             }
             catch (Exception e)
             {
@@ -295,7 +331,16 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             // Column Q - Unexpended Balance
             try
             {
-                UnexpendedBalance = decimal.Parse(dr["Q"].ToString());
+                var isNullOrWhitespace = string.IsNullOrWhiteSpace(dr["Q"].ToString());
+                if (isNullOrWhitespace)
+                {
+                    UnexpendedBalance = null;
+                }
+                else
+                {
+                    UnexpendedBalance = double.Parse(dr["Q"].ToString());
+                }
+                
             }
             catch (Exception e)
             {

@@ -49,7 +49,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.ReportCenterProjects.GetFirmaPage();
             var formID = GenerateUploadFbmsFileUploadFormID();
-            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, "string", formID);
+            var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile());
+            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newGisUploadUrl, formID);
             return RazorView<ManageFbmsUpload, ManageFbmsUploadViewData>(viewData);
         }
 
@@ -71,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectCreateFeature]
+        [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult ImportExcelFile( ImportEtlExcelFileViewModel viewModel)
         {
@@ -81,9 +82,11 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var httpPostedFileBase = viewModel.FileResourceData;
+            List<BudgetTransferBulk> budgetTransferBulks;
             try
             {
-                var budgetTransferBulks = BudgetTransferBulksHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
+                budgetTransferBulks = BudgetTransferBulksHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
+                
             }
             catch (Exception ex)
             {
@@ -100,30 +103,23 @@ namespace ProjectFirma.Web.Controllers
                         ex);
                     SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
                 }
-                var errorMessage = string.Format("There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.", httpPostedFileBase.FileName, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
-                //Context.Errors.Add(errorMessage);
-               
-                return ViewImportEtlExcelFile(viewModel);
+                var errorMessage = string.Format("There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No budget updates were saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.", httpPostedFileBase.FileName, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
+                SetErrorForDisplay(errorMessage);
+
+                return new ModalDialogFormJsonResult();
             }
 
+            var countAdded = budgetTransferBulks.Count;
+            var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
+            var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
+            existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
 
 
 
-            //var isExcel = httpPostedFileBase.FileName.EndsWith(".xlsx");
-            //var fileEnding = ".xlsx";
-            //using (var disposableTempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(fileEnding))
-            //{
-            //    var excelFile = disposableTempFile.FileInfo;
-            //    httpPostedFileBase.SaveAs(excelFile.FullName);
-               
-               
-            //    else
-            //    {
-            //        ProjectLocationStagingModelExtensions.CreateProjectLocationStagingListFromGdb(excelFile, httpPostedFileBase.FileName, project, CurrentFirmaSession);
-            //    }
-
-            //}
-            return ManageFbmsUpload();
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"{countAdded} Budget Transfers were Successfully saved to database.");
+            return new ModalDialogFormJsonResult();
         }
 
 

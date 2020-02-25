@@ -307,7 +307,6 @@
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
     <Compile Include="Views\ExcelUpload\BudgetTransferBulks.cs" />
-    <Compile Include="Views\ExcelUpload\BudgetTransferBulk.cs" />
     <Compile Include="Views\ExcelUpload\BudgetTransferBulksHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelFileViewModel.cs" />

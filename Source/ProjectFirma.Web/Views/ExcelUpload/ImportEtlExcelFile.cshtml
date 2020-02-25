@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-<copyright file="ImportGdbFile.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
-</copyright>
+    <copyright file="ImportGdbFile.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
 
-<license>
-This program is free software: you can redistribute it and/or modify
-it under the terms of the GNU Affero General Public License as published by
-the Free Software Foundation, either version 3 of the License, or
-(at your option) any later version.
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-Source code is available upon request via <support@sitkatech.com>.
-</license>
------------------------------------------------------------------------*@
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
 @using LtInfo.Common.ModalDialog
 @using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
@@ -25,79 +25,34 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ExcelUpload.ImportEtlExcelFile
 
-<table style="width: 100%" class="summaryLayout">
-    <tr>
-        <td style="width: 350px">
-            <p>
-                You may provide an existing map of your @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s detailed location by uploading an @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForArcGISFileGeodatabase.GetFieldDefinitionLabel()</strong>
-                or a @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForKMLFile, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)<strong>@ViewDataTyped.FieldDefinitionForKMLFile.GetFieldDefinitionLabel()</strong>. Please upload a single file containing only features associated with the current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().
 
-            </p>
-            <p>
-                After you upload your file you will be able to preview and verify the uploaded data. Note that once you accept
-                the uploaded data, any existing detailed @FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel() data will be overwritten.
-            </p>
 
-            <form method="POST" id="uploadGisForm" action="@ViewDataTyped.NewEtlExcelUploadUrl" enctype="multipart/form-data">
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+    <table style="width: 100%" class="summaryLayout">
+        <tr>
+            <td style="width: 350px">
+               
+                <p>
+                    Upload an xlsx file.
+                </p>
+                <form method="POST" id="@ViewDataTyped.UploadFormID" action="@ViewDataTyped.NewEtlExcelUploadUrl">
                 <div>
                     @Html.EditorFor(x => x.FileResourceData)@Html.ValidationMessageFor(x => x.FileResourceData)
                     <span class="smallExplanationText">
                         Allowed Extensions: @Model.GetFileExtensions(x => x.FileResourceData)
                     </span>
                 </div>
-            </form>
-        </td>
-        <td>
-            <form method="POST" id="@ViewDataTyped.UploadFormID" action="@ViewDataTyped.NewEtlExcelUploadUrl">
-                <div id="gisUploadResults" style="min-height:600px"></div>
-            </form>
-        </td>
-    </tr>
-</table>
+                </form>
+            </td>
 
-<script>
-    function uploadGisFile() {
-        var form = jQuery("#uploadGisForm");
-        if (form.valid()) {
-            var saveButton = jQuery("#" + "@ModalDialogFormHelper.SaveButtonID");
-            var gisUploadResults = jQuery("#gisUploadResults");
-            form.ajaxForm({
-                url: this.action,
-                type: this.method,
-                beforeSubmit: function ()
-                {
-                    gisUploadResults.html("<div style='padding-top: 50%'><div class='progress'><div class='progress-bar progress-bar-info progress-bar-striped active' role='progressbar' style='width:100%'>Uploading</div></div></div>");
-                },
-                success: function (result, textStatus, jqXhr) {
-                    jQuery(".progress").hide();
-                    // Piggy back off the centralized login required detection in Ajax handling in SitkaAjax
-                    SitkaAjax.handleLoginRedirect(result, textStatus, jqXhr, function () {
-                        gisUploadResults.html(result);
-                        saveButton.prop("disabled", false);
-                    }
-                      );
-                },
-                error: function (xhr, statusText) {
-                    // Piggy back off the centralized error Ajax handling in SitkaAjax
-                    //SitkaAjax.errorHandler(xhr, statusText);
-                    jQuery(".progress").hide();
-                    saveButton.prop("disabled", true);
-                    gisUploadResults.html("<div class='alert alert-danger' style='position: fixed; top: 50%; width:500px'>There was a problem uploading your file geodatabase. Verify it meets the requirements and is not corrupt.</div>");
-                }
-            });
-            form.submit();
-        }
-    }
+        </tr>
+    </table>
 
-    jQuery(document).ready(function () {
 
-        var modalDialog = jQuery(".modal");
-        if (!Sitka.Methods.isUndefinedNullOrEmpty(modalDialog)) {
-            modalDialog.on("shown.bs.modal", function () {
-                jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", true);
-            });
-        }
-        jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", true);
-        jQuery("#" + "@Html.IdFor(x => x.FileResourceData)").change(uploadGisFile);
-    });
-</script>
+    <script>
+   
+
+    </script>

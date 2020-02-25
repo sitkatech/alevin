@@ -738,6 +738,10 @@
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeaf.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpPayRecV3.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpPayRecV3.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\StageImpPayRecV3Configuration.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpPayRecV3PrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StateProvinceConfiguration.Binding.cs" />
@@ -816,6 +820,7 @@
     <Compile Include="Models\Generated\vGeoServerProjectDetailedLocationsConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectSimpleLocations.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectSimpleLocationsConfiguration.Binding.cs" />
+    <Compile Include="Models\BudgetTransferBulk.cs" />
     <Compile Include="Models\FieldDefinitionTest.cs" />
     <Compile Include="Models\EvaluationCriteriaValue.cs" />
     <Compile Include="Models\EvaluationCriteria.cs" />
@@ -918,6 +923,7 @@
     <Compile Include="Models\ReclamationCostAuthorityAgreementRequest.cs" />
     <Compile Include="Models\ReclamationCostAuthorityProject.cs" />
     <Compile Include="Models\ReclamationAgreementSimple.cs" />
+    <Compile Include="Models\StageImpPayRecV3.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\ReclamationAgreement.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />

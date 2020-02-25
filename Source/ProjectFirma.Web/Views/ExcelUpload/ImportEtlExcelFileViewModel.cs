@@ -34,7 +34,7 @@ namespace ProjectFirma.Web.Views.ExcelUpload
     {
         [Required]
         [DisplayName("Excel File to Upload")]
-        [SitkaFileExtensions("xlxs")]
+        [SitkaFileExtensions("xlsx")]
         public HttpPostedFileBase FileResourceData { get; set; }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, Person person)

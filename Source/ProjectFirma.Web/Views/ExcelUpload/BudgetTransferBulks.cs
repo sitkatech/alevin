@@ -24,12 +24,13 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
     public class BudgetTransferBulks : List<BudgetTransferBulk>
     {
-        public const string SheetName = "MainSheet";
+        public const string SheetName = "PayRec-v3";
         /// <summary>
         /// If there is only a single worksheet in a file, try to use it, no matter what it is named
         /// </summary>
@@ -106,23 +107,7 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             Check.RequireThrowUserDisplayable(!missingColumns.Any(),
                                               string.Format("Expected columns [{0}]\n\nBut got columns [{1}].\n\nThese columns were missing: [{2}]", string.Join(", ", expectedColumns),
                                                             string.Join(", ", actualColumns), string.Join(", ", missingColumns)));
-            var anyNegativeAmounts = dataTable.Rows.Cast<DataRow>().Skip(1).Any(dr =>
-            {
-                var currentValue = dr["I"].ToString();
-
-                // Ignore whitespace silently
-                if (String.IsNullOrWhiteSpace(currentValue))
-                {
-                    return false;
-                }
-
-                // TODO: Try block here with exceptions
-
-                // Otherwise, try to parse as integer
-                return decimal.Parse(dr["I"].ToString()) < 0;
-            });
-            Check.RequireThrowUserDisplayable(!anyNegativeAmounts,
-                                              string.Format("Amounts can not be negative"));
+           
         }
 
     }
