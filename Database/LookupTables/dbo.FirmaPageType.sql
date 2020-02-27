@@ -71,5 +71,6 @@ values
 (10003, 'AgreementRequestFromGridDialog', 'Agreement Request Grid Dialog', 2),
 (10004, 'AddCostAuthorityToAgreementRequest', 'Add one or many CAWBS and their projected obligations to this Agreement Request.', 2),
 (10005, 'ActionItemEditDialog', 'Action Item Edit Dialog', 2),
-(10006, 'ActionItemIndexList', 'Action Item Index List', 1)
+(10006, 'ActionItemIndexList', 'Action Item Index List', 1),
+(10007, 'UploadBudgetAndInvoiceExcel', 'Upload Budget And Invoice Excel', 1)
 

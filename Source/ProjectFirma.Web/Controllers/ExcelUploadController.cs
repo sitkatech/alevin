@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ManageFbmsUpload()
         {
-            var firmaPage = FirmaPageTypeEnum.ReportCenterProjects.GetFirmaPage();
+            var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
             var formID = GenerateUploadFbmsFileUploadFormID();
             var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile());
             var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newGisUploadUrl, formID);

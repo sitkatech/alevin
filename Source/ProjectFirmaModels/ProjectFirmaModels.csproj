@@ -738,6 +738,10 @@
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeaf.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpApGenSheet.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpApGenSheet.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\StageImpApGenSheetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpApGenSheetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPayRecV3.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPayRecV3.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StageImpPayRecV3Configuration.Binding.cs" />
