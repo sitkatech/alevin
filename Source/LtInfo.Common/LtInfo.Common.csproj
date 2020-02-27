@@ -98,9 +98,6 @@
     <Reference Include="DocumentFormat.OpenXml, Version=2.10.0.0, Culture=neutral, PublicKeyToken=8fb06cb64d019a17, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\DocumentFormat.OpenXml.2.10.0\lib\net46\DocumentFormat.OpenXml.dll</HintPath>
     </Reference>
-    <Reference Include="DocumentFormat.OpenXml.Extensions, Version=2.1.5598.22044, Culture=neutral, PublicKeyToken=bebd372c505097f2, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\SimpleOOXML.2.1.5598.22044\lib\net40\DocumentFormat.OpenXml.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -202,7 +199,11 @@
     <Compile Include="DhtmlWrappers\DhtmlxGridColumnAggregationType.cs" />
     <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.cs" />
     <Compile Include="DhtmlWrappers\SelectProjectsModalDialogForm.cs" />
+    <Compile Include="ExcelWorkbookUtilities\AbstractReader.cs" />
+    <Compile Include="ExcelWorkbookUtilities\OpenXmlExtensionMethods.cs" />
+    <Compile Include="ExcelWorkbookUtilities\SpreadsheetReader.cs" />
     <Compile Include="ExcelWorkbookUtilities\OpenXmlSpreadSheetDocument.cs" />
+    <Compile Include="ExcelWorkbookUtilities\SpreadsheetStyle.cs" />
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
     <Compile Include="HealthMonitor\HealthCheckStatus.cs" />

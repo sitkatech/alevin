@@ -21,7 +21,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using DocumentFormat.OpenXml;
 using DocumentFormat.OpenXml.Packaging;
 using DocumentFormat.OpenXml.Spreadsheet;
-using DocumentFormat.OpenXml.Extensions;
 using LtInfo.Common.DhtmlWrappers;
 using System;
 using System.Collections.Generic;
