@@ -2,26 +2,26 @@
 {
     public partial class StageImpPayRecV3 : IAuditableEntity
     {
-        public StageImpPayRecV3(BudgetTransferBulk budgetTransferBulk)
+        public StageImpPayRecV3(BudgetStageImport budgetStageImport)
         {
 
-            this.BusinessAreaKey = budgetTransferBulk.BusinessAreaKey;
-            this.FABudgetActivityKey = budgetTransferBulk.FaBudgetActivityKey;
-            this.FunctionalAreaText = budgetTransferBulk.FunctionalAreaText;
-            this.ObligationNumberKey = budgetTransferBulk.ObligationNumberKey;
-            this.ObligationItemKey = budgetTransferBulk.ObligationItemKey;
-            this.FundKey = budgetTransferBulk.FundKey;
-            this.FundedProgramKeyNotCompounded = budgetTransferBulk.FundedProgramKeyNotCompounded;
-            this.WBSElementKey = budgetTransferBulk.WbsElementKey;
-            this.WBSElementText = budgetTransferBulk.WbsElementText;
-            this.BudgetObjectClassKey = budgetTransferBulk.BudgetObjectClassKey;
-            this.VendorKey = budgetTransferBulk.VendorKey;
-            this.VendorText = budgetTransferBulk.VendorText;
-            this.Obligation = budgetTransferBulk.Obligation;
-            this.GoodsReceipt = budgetTransferBulk.GoodsReceipt?.ToString();
-            this.Invoiced = budgetTransferBulk.Invoiced;
-            this.Disbursed = budgetTransferBulk.Disbersed;
-            this.UnexpendedBalance = budgetTransferBulk.UnexpendedBalance;
+            this.BusinessAreaKey = budgetStageImport.BusinessAreaKey;
+            this.FABudgetActivityKey = budgetStageImport.FaBudgetActivityKey;
+            this.FunctionalAreaText = budgetStageImport.FunctionalAreaText;
+            this.ObligationNumberKey = budgetStageImport.ObligationNumberKey;
+            this.ObligationItemKey = budgetStageImport.ObligationItemKey;
+            this.FundKey = budgetStageImport.FundKey;
+            this.FundedProgramKeyNotCompounded = budgetStageImport.FundedProgramKeyNotCompounded;
+            this.WBSElementKey = budgetStageImport.WbsElementKey;
+            this.WBSElementText = budgetStageImport.WbsElementText;
+            this.BudgetObjectClassKey = budgetStageImport.BudgetObjectClassKey;
+            this.VendorKey = budgetStageImport.VendorKey;
+            this.VendorText = budgetStageImport.VendorText;
+            this.Obligation = budgetStageImport.Obligation;
+            this.GoodsReceipt = budgetStageImport.GoodsReceipt?.ToString();
+            this.Invoiced = budgetStageImport.Invoiced;
+            this.Disbursed = budgetStageImport.Disbersed;
+            this.UnexpendedBalance = budgetStageImport.UnexpendedBalance;
         }
 
         public string GetAuditDescriptionString()

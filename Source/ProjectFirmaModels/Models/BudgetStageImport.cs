@@ -31,13 +31,13 @@ namespace ProjectFirmaModels.Models
     /// <summary>
     /// An exception generated when a cell value is bad
     /// </summary>
-    public class BudgetTransferBadCellException : SitkaDisplayErrorException
+    public class BudgetStageImportBadCellException : SitkaDisplayErrorException
     {
         public string ColumnName;
         public int RowIndex;
         public string CellValue;
 
-        public BudgetTransferBadCellException(string columnName, int rowIndex, string cellValue, string errorMessage, Exception innerException) : base(string.Format("{0} - Cell {1}{2} - Cell Value \"{3}\"", errorMessage, columnName, rowIndex + 1, cellValue), innerException)
+        public BudgetStageImportBadCellException(string columnName, int rowIndex, string cellValue, string errorMessage, Exception innerException) : base(string.Format("{0} - Cell {1}{2} - Cell Value \"{3}\"", errorMessage, columnName, rowIndex + 1, cellValue), innerException)
         {
             ColumnName = columnName;
             CellValue = cellValue;
@@ -46,7 +46,7 @@ namespace ProjectFirmaModels.Models
     }
 
    
-    public class BudgetTransferBulk
+    public class BudgetStageImport
     {
         public readonly string BusinessAreaKey;
         public readonly string FaBudgetActivityKey;
@@ -66,27 +66,7 @@ namespace ProjectFirmaModels.Models
         public readonly double? Disbersed;
         public readonly double? UnexpendedBalance;
 
-        //public BudgetTransferBulk(AccountSpecifier sourceFund,
-        //                          AccountSpecifier destinationFund,
-        //                          AccountSpecifier sourceProject,
-        //                          AccountSpecifier destinationProject,
-        //                          decimal amount,
-        //                          string shortDescription,
-        //                          string rationale,
-        //                          string bpaComments)
-        //{
-        //    SourceFund = sourceFund;
-        //    DestinationFund = destinationFund;
-        //    SourceProject = sourceProject;
-        //    DestinationProject = destinationProject;
-        //    Amount = amount;
-        //    ShortDescription = shortDescription;
-        //    Rationale = rationale;
-        //    BpaComments = bpaComments;
-        //    BpaCommentsSet = true;
-        //}
-
-        public BudgetTransferBulk(KeyValuePair<int, DataRow> keyValuePair)
+        public BudgetStageImport(KeyValuePair<int, DataRow> keyValuePair)
         {
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
@@ -99,7 +79,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("A", rowIndex, dr["A"].ToString(), "Problem parsing Source Business area - Key", e);
+                throw new BudgetStageImportBadCellException("A", rowIndex, dr["A"].ToString(), "Problem parsing Source Business area - Key", e);
             }
 
             BusinessAreaKey = businessAreaKey;
@@ -113,7 +93,7 @@ namespace ProjectFirmaModels.Models
             
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("B", rowIndex, dr["B"].ToString(), "Problem parsing FA Budget Activity Key", e);
+                throw new BudgetStageImportBadCellException("B", rowIndex, dr["B"].ToString(), "Problem parsing FA Budget Activity Key", e);
             }
 
             FaBudgetActivityKey = faBudgetActivityKey;
@@ -127,7 +107,7 @@ namespace ProjectFirmaModels.Models
 
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("C", rowIndex, dr["C"].ToString(), "Problem parsing Functional Area Text", e);
+                throw new BudgetStageImportBadCellException("C", rowIndex, dr["C"].ToString(), "Problem parsing Functional Area Text", e);
             }
 
             FunctionalAreaText = functionalAreaText;
@@ -141,7 +121,7 @@ namespace ProjectFirmaModels.Models
 
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("D", rowIndex, dr["D"].ToString(), "Problem parsing Obligation Number Key", e);
+                throw new BudgetStageImportBadCellException("D", rowIndex, dr["D"].ToString(), "Problem parsing Obligation Number Key", e);
             }
 
             ObligationNumberKey = obligationNumberKey;
@@ -155,7 +135,7 @@ namespace ProjectFirmaModels.Models
 
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("E", rowIndex, dr["E"].ToString(), "Problem parsing Obligation Item Key", e);
+                throw new BudgetStageImportBadCellException("E", rowIndex, dr["E"].ToString(), "Problem parsing Obligation Item Key", e);
             }
 
             ObligationItemKey = obligationItemKey;
@@ -168,7 +148,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("F", rowIndex, dr["F"].ToString(), "Problem parsing Fund Key", e);
+                throw new BudgetStageImportBadCellException("F", rowIndex, dr["F"].ToString(), "Problem parsing Fund Key", e);
             }
 
             FundKey = fundKey;
@@ -181,7 +161,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("G", rowIndex, dr["G"].ToString(), "Problem parsing Funded Program Key", e);
+                throw new BudgetStageImportBadCellException("G", rowIndex, dr["G"].ToString(), "Problem parsing Funded Program Key", e);
             }
 
             FundedProgramKeyNotCompounded = fundedProgramKey;
@@ -194,7 +174,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("H", rowIndex, dr["H"].ToString(), "Problem parsing WBS Element Key", e);
+                throw new BudgetStageImportBadCellException("H", rowIndex, dr["H"].ToString(), "Problem parsing WBS Element Key", e);
             }
 
             WbsElementKey = wbsElementKey;
@@ -207,7 +187,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("I", rowIndex, dr["I"].ToString(), "Problem parsing WBS Element Text", e);
+                throw new BudgetStageImportBadCellException("I", rowIndex, dr["I"].ToString(), "Problem parsing WBS Element Text", e);
             }
 
             WbsElementText = wbsElementText;
@@ -220,7 +200,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("J", rowIndex, dr["J"].ToString(), "Problem parsing Budget Object Class Key", e);
+                throw new BudgetStageImportBadCellException("J", rowIndex, dr["J"].ToString(), "Problem parsing Budget Object Class Key", e);
             }
 
             BudgetObjectClassKey = budgetObjectClassKey;
@@ -233,7 +213,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("K", rowIndex, dr["K"].ToString(), "Problem parsing Vendor Key", e);
+                throw new BudgetStageImportBadCellException("K", rowIndex, dr["K"].ToString(), "Problem parsing Vendor Key", e);
             }
 
             VendorKey = vendorKey;
@@ -246,7 +226,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("L", rowIndex, dr["L"].ToString(), "Problem parsing Vendor Text", e);
+                throw new BudgetStageImportBadCellException("L", rowIndex, dr["L"].ToString(), "Problem parsing Vendor Text", e);
             }
 
             VendorText = vendorText;
@@ -267,7 +247,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("M", rowIndex, dr["M"].ToString(), "Problem parsing Obligation", e);
+                throw new BudgetStageImportBadCellException("M", rowIndex, dr["M"].ToString(), "Problem parsing Obligation", e);
             }
 
             // Column N - Goods Receipt
@@ -287,7 +267,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("N", rowIndex, dr["N"].ToString(), "Problem parsing Goods Receipt", e);
+                throw new BudgetStageImportBadCellException("N", rowIndex, dr["N"].ToString(), "Problem parsing Goods Receipt", e);
             }
 
             // Column O - Invoiced
@@ -306,7 +286,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("O", rowIndex, dr["O"].ToString(), "Problem parsing Invoiced", e);
+                throw new BudgetStageImportBadCellException("O", rowIndex, dr["O"].ToString(), "Problem parsing Invoiced", e);
             }
 
             // Column P - Disbursed
@@ -325,7 +305,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("P", rowIndex, dr["P"].ToString(), "Problem parsing Disbursed", e);
+                throw new BudgetStageImportBadCellException("P", rowIndex, dr["P"].ToString(), "Problem parsing Disbursed", e);
             }
 
             // Column Q - Unexpended Balance
@@ -344,7 +324,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetTransferBadCellException("Q", rowIndex, dr["Q"].ToString(), "Problem parsing Unexpended Balance", e);
+                throw new BudgetStageImportBadCellException("Q", rowIndex, dr["Q"].ToString(), "Problem parsing Unexpended Balance", e);
             }
             
         }

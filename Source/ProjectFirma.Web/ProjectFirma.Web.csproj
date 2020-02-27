@@ -306,12 +306,14 @@
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
-    <Compile Include="Views\ExcelUpload\BudgetTransferBulks.cs" />
-    <Compile Include="Views\ExcelUpload\BudgetTransferBulksHelper.cs" />
+    <Compile Include="Views\ExcelUpload\InvoiceStageImports.cs" />
+    <Compile Include="Views\ExcelUpload\BudgetStageImports.cs" />
+    <Compile Include="Views\ExcelUpload\BudgetStageImportsHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelFileViewModel.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelFileViewData.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelFile.cs" />
+    <Compile Include="Views\ExcelUpload\InvoiceStageImportsHelper.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewData.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewModel.cs" />
