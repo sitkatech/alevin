@@ -23,20 +23,14 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Web.Mvc;
 using LtInfo.Common;
+using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-using System.Web.Mvc;
-using System.Web.WebPages;
-using LtInfo.Common.Mvc;
-using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.ReportTemplates;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ExcelUpload;
-using ProjectFirma.Web.Views.ReportCenter;
-using ProjectFirma.Web.Views.Shared;
-using SharpDocx;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
