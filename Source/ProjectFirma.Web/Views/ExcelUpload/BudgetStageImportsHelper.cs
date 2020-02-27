@@ -21,19 +21,21 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.IO;
 using LtInfo.Common.ExcelWorkbookUtilities;
-using ProjectFirma.Web.Views.ExcelUpload;
 
-public class BudgetTransferBulksHelper
+namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public static BudgetTransferBulks LoadFromXlsFile(Stream stream)
+    public class BudgetStageImportsHelper
     {
-        var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(stream, BudgetTransferBulks.SheetName, BudgetTransferBulks.UseExistingSheetNameIfSingleSheetFound);
-        return BudgetTransferBulks.LoadFromXlsFile(dataTable);
-    }
+        public static BudgetStageImports LoadFromXlsFile(Stream stream)
+        {
+            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(stream, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound);
+            return BudgetStageImports.LoadFromXlsFile(dataTable);
+        }
 
-    public static BudgetTransferBulks LoadFromXlsFile(FileInfo file)
-    {
-        var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(file.FullName, BudgetTransferBulks.SheetName, BudgetTransferBulks.UseExistingSheetNameIfSingleSheetFound);
-        return BudgetTransferBulks.LoadFromXlsFile(dataTable);
+        public static BudgetStageImports LoadFromXlsFile(FileInfo file)
+        {
+            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(file.FullName, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound);
+            return BudgetStageImports.LoadFromXlsFile(dataTable);
+        }
     }
 }

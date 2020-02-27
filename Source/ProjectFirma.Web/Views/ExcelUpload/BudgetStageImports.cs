@@ -28,7 +28,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class BudgetTransferBulks : List<BudgetTransferBulk>
+    public class BudgetStageImports : List<BudgetStageImport>
     {
         public const string SheetName = "PayRec-v3";
         /// <summary>
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.ExcelUpload
         /// </summary>
         public const bool UseExistingSheetNameIfSingleSheetFound = true;
 
-        public static BudgetTransferBulks LoadFromXlsFile(DataTable dataTable)
+        public static BudgetStageImports LoadFromXlsFile(DataTable dataTable)
         {
             EnsureWorksheetHasCorrectShape(dataTable);
 
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             // Remove any blank rows
             foreach (var kvp in indexToRowDict)
             {
-                if (BudgetTransferBulk.RowIsBlank(kvp.Value))
+                if (BudgetStageImport.RowIsBlank(kvp.Value))
                 {
                     indexesToRemove.Add(kvp.Key);
                 }
@@ -68,10 +68,10 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             }
 
             // Turn all valid rows into BudgetTransferBulks
-            return new BudgetTransferBulks(indexToRowDict.Select(kvp => new BudgetTransferBulk(kvp)));
+            return new BudgetStageImports(indexToRowDict.Select(kvp => new BudgetStageImport(kvp)));
         }
 
-        public BudgetTransferBulks(IEnumerable<BudgetTransferBulk> collection) : base(collection)
+        public BudgetStageImports(IEnumerable<BudgetStageImport> collection) : base(collection)
         {
         }
 

@@ -28,15 +28,9 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 using System.Web.Mvc;
-using System.Web.WebPages;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
-using ProjectFirma.Web.ReportTemplates;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ExcelUpload;
-using ProjectFirma.Web.Views.ReportCenter;
-using ProjectFirma.Web.Views.Shared;
-using SharpDocx;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -48,9 +42,9 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult ManageFbmsUpload()
         {
             var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
-            var formID = GenerateUploadFbmsFileUploadFormID();
+            var formId = GenerateUploadFbmsFileUploadFormId();
             var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile());
-            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newGisUploadUrl, formID);
+            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newGisUploadUrl, formId);
             return RazorView<ManageFbmsUpload, ManageFbmsUploadViewData>(viewData);
         }
 
@@ -65,9 +59,9 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewImportEtlExcelFile(ImportEtlExcelFileViewModel viewModel)
         {
-            var mapFormID = GenerateUploadFbmsFileUploadFormID();
+            var mapFormId = GenerateUploadFbmsFileUploadFormId();
             var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile(null));
-            var viewData = new ImportEtlExcelFileViewData(mapFormID, newGisUploadUrl);
+            var viewData = new ImportEtlExcelFileViewData(mapFormId, newGisUploadUrl);
             return RazorPartialView<ImportEtlExcelFile, ImportEtlExcelFileViewData, ImportEtlExcelFileViewModel>(viewData, viewModel);
         }
 
@@ -82,10 +76,12 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var httpPostedFileBase = viewModel.FileResourceData;
-            List<BudgetTransferBulk> budgetTransferBulks;
+            List<BudgetStageImport> budgetTransferBulks;
+            List<InvoiceStageImport> invoiceStageImports;
             try
             {
-                budgetTransferBulks = BudgetTransferBulksHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
+                budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
+                invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
                 
             }
             catch (Exception ex)
@@ -109,21 +105,27 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            var countAdded = budgetTransferBulks.Count;
+            var countAddedBudgets = budgetTransferBulks.Count;
             var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
             var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
 
+            var countAddedInvoices = invoiceStageImports.Count;
+            var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
+            var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
+            existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
+
 
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{countAdded} Budget Transfers were Successfully saved to database.");
+            SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
             return new ModalDialogFormJsonResult();
         }
 
 
-        public static string GenerateUploadFbmsFileUploadFormID()
+        public static string GenerateUploadFbmsFileUploadFormId()
         {
             return $"uploadFbmsFileUpload";
         }
