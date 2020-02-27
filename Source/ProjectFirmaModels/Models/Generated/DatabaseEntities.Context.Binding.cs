@@ -195,6 +195,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new ReportTemplateConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
+            modelBuilder.Configurations.Add(new StageImpApGenSheetConfiguration());
             modelBuilder.Configurations.Add(new StageImpPayRecV3Configuration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SubbasinLiasonConfiguration());
@@ -491,6 +492,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ReportTemplate> ReportTemplates { get { return AllReportTemplates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<StageImpApGenSheet> StageImpApGenSheets { get; set; }
         public virtual DbSet<StageImpPayRecV3> StageImpPayRecV3s { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
@@ -1198,6 +1200,9 @@ namespace ProjectFirmaModels.Models
 
                 case "SecondaryProjectTaxonomyLeaf":
                     return SecondaryProjectTaxonomyLeafs.GetSecondaryProjectTaxonomyLeaf(primaryKey);
+
+                case "StageImpApGenSheet":
+                    return StageImpApGenSheets.GetStageImpApGenSheet(primaryKey);
 
                 case "StageImpPayRecV3":
                     return StageImpPayRecV3s.GetStageImpPayRecV3(primaryKey);
