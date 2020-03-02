@@ -53,10 +53,10 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
             total += increment;
 
             string result = "";
-            int remainder;
 
             while (total > 0)
             {
+                int remainder;
                 total = System.Math.DivRem(total, 26, out remainder);
                 if (remainder == 0)
                 {

@@ -64,7 +64,9 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
         {
             IEnumerable<Sheet> source = document.WorkbookPart.Workbook.Descendants<Sheet>().Where<Sheet>((Func<Sheet, bool>)(s => (string)s.Name == worksheetName));
             if (source.Count<Sheet>() == 0)
+            {
                 return (WorksheetPart)null;
+            }
             return (WorksheetPart)document.WorkbookPart.GetPartById((string)source.First<Sheet>().Id);
         }
 
@@ -208,9 +210,13 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
                 string strA1 = SpreadsheetReader.ColumnFromReference((string)cell1.CellReference);
                 string strA2 = SpreadsheetReader.ColumnFromReference((string)cell2.CellReference);
                 if (strB1 == string.Empty || string.Compare(strA1, strB1, true) < 0)
+                {
                     strB1 = strA1;
+                }
                 if (strB2 == string.Empty || string.Compare(strA2, strB2, true) > 0)
+                {
                     strB2 = strA2;
+                }
             }
             SheetDimension firstChild = worksheetPart.Worksheet.GetFirstChild<SheetDimension>();
             if (source.Count<Row>() == 0)
@@ -222,9 +228,13 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
                 Row row1 = source.First<Row>();
                 Row row2 = source.Last<Row>();
                 if (object.ReferenceEquals((object)row1, (object)row2) && strB1 == strB2)
+                {
                     firstChild.Reference = new StringValue(string.Format("{0}{1}", (object)strB1, (object)row1.RowIndex));
+                }
                 else
+                {
                     firstChild.Reference = new StringValue(string.Format("{0}{1}:{2}{3}", (object)strB1, (object)row1.RowIndex, (object)strB2, (object)row2.RowIndex));
+                }
             }
             return firstChild;
         }
@@ -244,7 +254,9 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
             }
             GetWorkbookStyles(spreadsheet).Stylesheet.Save();
             if (spreadsheet.WorkbookPart.GetPartsOfType<SharedStringTablePart>().Count<SharedStringTablePart>() > 0)
+            {
                 spreadsheet.WorkbookPart.GetPartsOfType<SharedStringTablePart>().First<SharedStringTablePart>().SharedStringTable.Save();
+            }
             spreadsheet.WorkbookPart.Workbook.Save();
         }
 

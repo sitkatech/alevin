@@ -14,7 +14,6 @@ namespace ProjectFirma.Web.Views.ExcelUpload
 
         public ManageFbmsUploadViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string uploadFbmsSpreadSheetUrl, string uploadFormID) : base(currentFirmaSession, firmaPage)
         {
-
             PageTitle = $"Upload Budget and Invoice Data";
             UploadFbmsSpreadSheetUrl = uploadFbmsSpreadSheetUrl;
             UploadFormID = uploadFormID;

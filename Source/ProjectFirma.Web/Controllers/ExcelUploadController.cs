@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ImportExcelFile( ImportEtlExcelFileViewModel viewModel)
+        public ActionResult ImportExcelFile(ImportEtlExcelFileViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -82,7 +82,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
                 invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
-                
             }
             catch (Exception ex)
             {
@@ -116,8 +115,6 @@ namespace ProjectFirma.Web.Controllers
             var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
             existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
-
-
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
