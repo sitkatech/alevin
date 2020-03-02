@@ -37,6 +37,8 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
         [FieldDefinitionDisplay(FieldDefinitionEnum.StatusUpdateDate)]
         public DateTime? ProjectStatusUpdateDate { get; set; }
 
+        public DateTime? ProjectStatusUpdateTime { get; set; }
+
         [StringLength(ProjectFirmaModels.Models.ProjectProjectStatus.FieldLengths.ProjectProjectStatusRecentActivities)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.StatusRecentActivities)]
         public string ProjectProjectStatusRecentActivities { get; set; }
@@ -109,7 +111,22 @@ namespace ProjectFirma.Web.Views.ProjectProjectStatus
                 projectProjectStatus.LessonsLearned = null;
             }
             projectProjectStatus.ProjectStatusID = ProjectStatusID;
-            projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
+
+            if (ProjectStatusUpdateTime.HasValue && ProjectStatusUpdateDate.HasValue)
+            {
+                var year = ProjectStatusUpdateDate.Value.Year;
+                var month = ProjectStatusUpdateDate.Value.Month;
+                var day = ProjectStatusUpdateDate.Value.Day;
+                var hours = ProjectStatusUpdateTime.Value.Hour;
+                var minutes = ProjectStatusUpdateTime.Value.Minute;
+                var seconds = 0;
+                projectProjectStatus.ProjectProjectStatusUpdateDate = new DateTime(year, month, day, hours, minutes, seconds);
+            }
+            else
+            {
+                projectProjectStatus.ProjectProjectStatusUpdateDate = ProjectStatusUpdateDate.Value;
+            }
+
             projectProjectStatus.IsFinalStatusUpdate = IsFinalStatusUpdate;
             if (!ModelObjectHelpers.IsRealPrimaryKeyValue(projectProjectStatus.PrimaryKey))
             {
