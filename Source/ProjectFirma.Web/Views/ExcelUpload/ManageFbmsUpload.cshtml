@@ -49,3 +49,10 @@
         null,
         ModalDialogFormHelper.DisabledState.NotDisabled)
 </p>
+
+<div>
+    <form action="@ViewDataTyped.DoPublishingProcessingPostUrl" method="post">
+        @Html.HiddenFor(x => x.FakeDataToMakeFormPost)
+        <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false">Do Publishing Processing</button>
+    </form>
+</div>

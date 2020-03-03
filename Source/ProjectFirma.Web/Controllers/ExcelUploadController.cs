@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
@@ -31,6 +33,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ExcelUpload;
 using ProjectFirmaModels.Models;
+using ProjectFirmaModels.UnitTestCommon;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -41,11 +44,18 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult ManageFbmsUpload()
         {
+            return ViewManageFbmsUpload_Impl();
+        }
+
+        private ViewResult ViewManageFbmsUpload_Impl()
+        {
             var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
             var formId = GenerateUploadFbmsFileUploadFormId();
             var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile());
-            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newGisUploadUrl, formId);
-            return RazorView<ManageFbmsUpload, ManageFbmsUploadViewData>(viewData);
+            var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
+            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newGisUploadUrl, doPublishingProcessingPostUrl, formId);
+            var viewModel = new ManageFbmsUploadViewModel();
+            return RazorView<ManageFbmsUpload, ManageFbmsUploadViewData, ManageFbmsUploadViewModel>(viewData, viewModel);
         }
 
         [HttpGet]
@@ -56,13 +66,69 @@ namespace ProjectFirma.Web.Controllers
             return ViewImportEtlExcelFile( viewModel);
         }
 
-
         private PartialViewResult ViewImportEtlExcelFile(ImportEtlExcelFileViewModel viewModel)
         {
             var mapFormId = GenerateUploadFbmsFileUploadFormId();
             var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile(null));
             var viewData = new ImportEtlExcelFileViewData(mapFormId, newGisUploadUrl);
             return RazorPartialView<ImportEtlExcelFile, ImportEtlExcelFileViewData, ImportEtlExcelFileViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public ActionResult DoPublishingProcessing()
+        {
+            throw new NotImplementedException("Just here to provide signature; do not call.");
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DoPublishingProcessing(ManageFbmsUploadViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                //return ViewImportEtlExcelFile(viewModel);
+            }
+
+            
+            DoPublishingSql();
+
+            return ViewManageFbmsUpload_Impl();
+        }
+
+        private void DoPublishingSql()
+        {
+            try
+            {
+                Logger.Info($"Starting DoPublishingSql");
+                string vendorImportProc = "dbo.pReclamationImportFinancialStagingDataImport";
+                using (SqlConnection sqlConnection = CreateAndOpenSqlConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(vendorImportProc, sqlConnection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        //cmd.Parameters.AddWithValue("@SocrataDataMartRawJsonImportID", socrataDataMartRawJsonImportID);
+                        //cmd.Parameters.AddWithValue("@BienniumToImport", bienniumToImport);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                Logger.Info($"Ending DoPublishingSql");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new SitkaDisplayErrorException($"Problem calling SQL: {e.Message}");
+            }
+        }
+
+        public static SqlConnection CreateAndOpenSqlConnection()
+        {
+            var db = new ProjectFirmaSqlDatabase();
+            var sqlConnection = db.CreateConnection();
+            sqlConnection.Open();
+            return sqlConnection;
         }
 
         [HttpPost]

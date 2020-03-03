@@ -9,7 +9,77 @@ create procedure dbo.pReclamationImportFinancialStagingDataImport
 as
 begin
 
-	
+    -- TODO: A sanity check that there are actually records to import
+    delete from ImportFinancial.impApGenSheet
+    INSERT INTO [ImportFinancial].[impApGenSheet]
+               ([PO Number - Key]
+               ,[Purch Ord Line Itm - Key]
+               ,[Reference - Key]
+               ,[Vendor - Key]
+               ,[Vendor - Text]
+               ,[Fund - Key]
+               ,[Funded Program - Key]
+               ,[WBS Element - Key]
+               ,[WBS Element - Text]
+               ,[Budget Object Class - Key]
+               ,[Debit Amount]
+               ,[Credit Amount]
+               ,[Debit/Credit Total])
+    SELECT 
+           [PONumberKey]
+          ,[PurchOrdLineItmKey]
+          ,[ReferenceKey]
+          ,[VendorKey]
+          ,[VendorText]
+          ,[FundKey]
+          ,[FundedProgramKey]
+          ,[WBSElementKey]
+          ,[WBSElementText]
+          ,[BudgetObjectClassKey]
+          ,[DebitAmount]
+          ,[CreditAmount]
+          ,[DebitCreditTotal]
+      FROM [dbo].[StageImpApGenSheet]
+
+    delete from ImportFinancial.impPayRecV3
+    INSERT INTO [ImportFinancial].[impPayRecV3]
+               ([Business area - Key]
+               ,[FA Budget Activity - Key]
+               ,[Functional area - Text]
+               ,[Obligation Number - Key]
+               ,[Obligation Item - Key]
+               ,[Fund - Key]
+               ,[Funded Program - Key (Not Compounded)]
+               ,[WBS Element - Key]
+               ,[WBS Element - Text]
+               ,[Budget Object Class - Key]
+               ,[Vendor - Key]
+               ,[Vendor - Text]
+               ,[Obligation]
+               ,[Goods Receipt]
+               ,[Invoiced]
+               ,[Disbursed]
+               ,[Unexpended Balance])
+    SELECT
+           [BusinessAreaKey]
+          ,[FABudgetActivityKey]
+          ,[FunctionalAreaText]
+          ,[ObligationNumberKey]
+          ,[ObligationItemKey]
+          ,[FundKey]
+          ,[FundedProgramKeyNotCompounded]
+          ,[WBSElementKey]
+          ,[WBSElementText]
+          ,[BudgetObjectClassKey]
+          ,[VendorKey]
+          ,[VendorText]
+          ,[Obligation]
+          ,[GoodsReceipt]
+          ,[Invoiced]
+          ,[Disbursed]
+          ,[UnexpendedBalance]
+      FROM [dbo].[StageImpPayRecV3]
+
 	delete from ImportFinancial.WbsElementObligationItemBudget;
 	delete from ImportFinancial.WbsElementObligationItemInvoice;
 	delete from ImportFinancial.WbsElement;

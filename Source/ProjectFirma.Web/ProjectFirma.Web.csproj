@@ -306,6 +306,7 @@
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
+    <Compile Include="Views\ExcelUpload\ManageFbmsUploadViewModel.cs" />
     <Compile Include="Views\ExcelUpload\InvoiceStageImports.cs" />
     <Compile Include="Views\ExcelUpload\BudgetStageImports.cs" />
     <Compile Include="Views\ExcelUpload\BudgetStageImportsHelper.cs" />
@@ -362,7 +363,8 @@
     <Compile Include="Views\Reports\Index.cs" />
     <Compile Include="Views\Reports\IndexViewData.cs" />
     <Compile Include="Views\Reports\GenerateReports.cs" />
-    <Compile Include="Views\Reports\GenerateReportsViewModel.cs" />    <Compile Include="Views\ActionItem\ActionItemsDisplay.cs" />
+    <Compile Include="Views\Reports\GenerateReportsViewModel.cs" />
+    <Compile Include="Views\ActionItem\ActionItemsDisplay.cs" />
     <Compile Include="Views\ActionItem\Edit.cs" />
     <Compile Include="Views\ActionItem\EditViewData.cs" />
     <Compile Include="Views\ActionItem\EditViewModel.cs" />

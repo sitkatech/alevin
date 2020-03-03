@@ -1,9 +1,4 @@
-﻿using System.Collections.Generic;
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ProjectCustomGrid;
-using ProjectFirmaModels.Models;
+﻿using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
@@ -12,11 +7,19 @@ namespace ProjectFirma.Web.Views.ExcelUpload
         public string UploadFbmsSpreadSheetUrl { get; set; }
         public string UploadFormID { get; set; }
 
-        public ManageFbmsUploadViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, string uploadFbmsSpreadSheetUrl, string uploadFormID) : base(currentFirmaSession, firmaPage)
+        public string DoPublishingProcessingPostUrl { get; set; }
+
+        public ManageFbmsUploadViewData(FirmaSession currentFirmaSession, 
+                                       ProjectFirmaModels.Models.FirmaPage firmaPage,
+                                       string uploadFbmsSpreadSheetUrl, 
+                                       string doPublishingProcessingPostUrl, 
+                                       string uploadFormID) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Upload Budget and Invoice Data";
             UploadFbmsSpreadSheetUrl = uploadFbmsSpreadSheetUrl;
             UploadFormID = uploadFormID;
+
+            DoPublishingProcessingPostUrl = doPublishingProcessingPostUrl;
         }
     }
 }
