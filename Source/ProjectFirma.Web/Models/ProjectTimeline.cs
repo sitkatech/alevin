@@ -169,6 +169,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public List<ActionItem> ActionItems { get; }
+        public HtmlString AddActionItemLinkHtmlString { get; }
 
 
         public ProjectTimelineCreateEvent(Project project)
@@ -187,7 +188,7 @@ namespace ProjectFirma.Web.Models
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
             ActionItems = new List<ActionItem>();
-
+            AddActionItemLinkHtmlString = new HtmlString("");
         }
     }
 
@@ -207,6 +208,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public ProjectProjectStatus ProjectProjectStatus { get; }
         public List<ActionItem> ActionItems { get; }
+        public HtmlString AddActionItemLinkHtmlString { get; }
 
         public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
         {
@@ -222,6 +224,7 @@ namespace ProjectFirma.Web.Models
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectStatusDetailsLinkButton(projectProjectStatus);
             ProjectProjectStatus = projectProjectStatus;
             ActionItems = projectProjectStatus.ActionItems.ToList();
+            AddActionItemLinkHtmlString = ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus' style='margin-right: 3px'></span>Add {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.NewForProjectStatus(projectProjectStatus.Project, projectProjectStatus)), string.Format("Add New {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), 700, "Add", "Cancel", new List<string> { }, null, null);
         }
     }
 
@@ -240,6 +243,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public List<ActionItem> ActionItems { get; }
+        public HtmlString AddActionItemLinkHtmlString { get; }
 
         public ProjectTimelineApprovalEvent(Project project)
         {
@@ -257,6 +261,7 @@ namespace ProjectFirma.Web.Models
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
             ActionItems = new List<ActionItem>();
+            AddActionItemLinkHtmlString = new HtmlString("");
         }
 
     }
@@ -275,6 +280,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public List<ActionItem> ActionItems { get; }
+        public HtmlString AddActionItemLinkHtmlString { get; }
 
         public ProjectTimelineUpdateEvent(ProjectUpdateBatch projectUpdateBatch)
         {
@@ -290,6 +296,7 @@ namespace ProjectFirma.Web.Models
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectUpdateDetailsLinkButton(projectUpdateBatch);
             ActionItems = new List<ActionItem>();
+            AddActionItemLinkHtmlString = new HtmlString("");
         }
     }
 
@@ -309,6 +316,7 @@ namespace ProjectFirma.Web.Models
         HtmlString EditButton { get; }
         HtmlString ShowDetailsLinkHtmlString { get; }
         List<ActionItem> ActionItems { get; }
+        HtmlString AddActionItemLinkHtmlString { get; }
     }
 
     public enum ProjectTimelineEventType

@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Controllers
             
             return ViewEdit(viewModel);
         }
-
+        
         [HttpPost]
         [ActionItemCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
@@ -93,6 +93,44 @@ namespace ProjectFirma.Web.Controllers
             SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
         }
+
+        [HttpGet]
+        [ActionItemCreateFeature]
+        public PartialViewResult NewForProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
+
+            var viewModel = new EditViewModel()
+            {
+                ActionItemStateEnum = ActionItemStateEnum.Incomplete,
+                ProjectID = project.ProjectID,
+                ProjectProjectStatusID = projectProjectStatus.ProjectProjectStatusID,
+                AssignedOnDate = DateTime.Now,
+                DueByDate = DateTime.Now
+            };
+
+            return ViewEdit(viewModel);
+        }
+
+        [HttpPost]
+        [ActionItemCreateFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult NewForProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
+
+            var actionItem = new ActionItem(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
+
+            viewModel.UpdateModel(actionItem, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.AllActionItems.Add(actionItem);
+            SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
+            return new ModalDialogFormJsonResult();
+        }
+
 
         [HttpGet]
         [ActionItemManageFeature]

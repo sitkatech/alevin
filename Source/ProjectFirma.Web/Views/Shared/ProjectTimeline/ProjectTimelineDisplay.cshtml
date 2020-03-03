@@ -122,6 +122,10 @@
                                                         }
                                                         <div class="timeline-event-footer">
                                                             <span class="timeline-event-details-link pull-right">@projectTimelineEvent.ShowDetailsLinkHtmlString</span>
+                                                            @if (projectTimelineEvent.ProjectTimelineEventType == ProjectTimelineEventType.ProjectStatusChange && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+                                                            {
+                                                                <span class="timeline-event-details-link pull-right" style="margin-right:15px">@projectTimelineEvent.AddActionItemLinkHtmlString</span>
+                                                            }
                                                         </div>
                                                         @if (projectTimelineEvent.ActionItems.Any())
                                                         {
