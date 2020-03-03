@@ -168,6 +168,7 @@ namespace ProjectFirma.Web.Models
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
+        public List<ActionItem> ActionItems { get; }
 
 
         public ProjectTimelineCreateEvent(Project project)
@@ -185,6 +186,7 @@ namespace ProjectFirma.Web.Models
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
+            ActionItems = new List<ActionItem>();
 
         }
     }
@@ -204,6 +206,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public ProjectProjectStatus ProjectProjectStatus { get; }
+        public List<ActionItem> ActionItems { get; }
 
         public ProjectTimelineProjectStatusChangeEvent(ProjectProjectStatus projectProjectStatus, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
         {
@@ -214,11 +217,11 @@ namespace ProjectFirma.Web.Models
             TimelineEventTypeDisplayName = projectProjectStatus.IsFinalStatusUpdate ? "Final Status Update" : "Status Updated";
             TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetFullNameFirstLast();
             ProjectTimelineSide = ProjectTimelineSide.Right;
-
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             Color = projectProjectStatus.ProjectStatus.ProjectStatusColor;
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectStatusDetailsLinkButton(projectProjectStatus);
             ProjectProjectStatus = projectProjectStatus;
+            ActionItems = projectProjectStatus.ActionItems.ToList();
         }
     }
 
@@ -236,6 +239,7 @@ namespace ProjectFirma.Web.Models
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
+        public List<ActionItem> ActionItems { get; }
 
         public ProjectTimelineApprovalEvent(Project project)
         {
@@ -252,6 +256,7 @@ namespace ProjectFirma.Web.Models
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
+            ActionItems = new List<ActionItem>();
         }
 
     }
@@ -269,6 +274,7 @@ namespace ProjectFirma.Web.Models
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
+        public List<ActionItem> ActionItems { get; }
 
         public ProjectTimelineUpdateEvent(ProjectUpdateBatch projectUpdateBatch)
         {
@@ -283,6 +289,7 @@ namespace ProjectFirma.Web.Models
             ProjectTimelineSide = ProjectTimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectUpdateDetailsLinkButton(projectUpdateBatch);
+            ActionItems = new List<ActionItem>();
         }
     }
 
@@ -301,6 +308,7 @@ namespace ProjectFirma.Web.Models
         string Color { get; }
         HtmlString EditButton { get; }
         HtmlString ShowDetailsLinkHtmlString { get; }
+        List<ActionItem> ActionItems { get; }
     }
 
     public enum ProjectTimelineEventType
