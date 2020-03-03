@@ -20,7 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Web;
 using System.Web.Mvc;
+using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
@@ -31,13 +34,14 @@ namespace ProjectFirma.Web.Views.ActionItem
         public ViewPageContentViewData PageContentViewData { get; }
         public IEnumerable<SelectListItem> ProjectProjectStatusSelectListItems { get; }
         public IEnumerable<SelectListItem> PeopleSelectListItems { get; }
+        public HtmlString DeleteButton { get; }
 
-        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<SelectListItem> peopleSelectListItems, IEnumerable<SelectListItem> projectProjectStatusSelectListItems) : base(currentFirmaSession, firmaPage)
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<SelectListItem> peopleSelectListItems, IEnumerable<SelectListItem> projectProjectStatusSelectListItems, string deleteUrl) : base(currentFirmaSession, firmaPage)
         {
             PageContentViewData = new ViewPageContentViewData(firmaPage, true);
             ProjectProjectStatusSelectListItems = projectProjectStatusSelectListItems;
             PeopleSelectListItems = peopleSelectListItems;
+            DeleteButton = string.IsNullOrEmpty(deleteUrl) ? new HtmlString(string.Empty) : ModalDialogFormHelper.MakeDeleteIconButton(deleteUrl, $"Delete {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}", true);
         }
-
     }
 }
