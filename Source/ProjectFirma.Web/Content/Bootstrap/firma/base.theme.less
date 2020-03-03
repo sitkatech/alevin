@@ -2150,6 +2150,11 @@ nav#wizardNav ul {
                     z-index: 2;
                     position: relative;
 
+                    span {
+                        transition: all .25s;
+                        -webkit-transition: all .25s;
+                    }
+
                     &:hover {
                         background-color: #c8c8c8;
                     }
@@ -2161,7 +2166,7 @@ nav#wizardNav ul {
 
                     &.open {
                         & > span {
-                            transform: rotate(180deg);
+                            transform: rotate(-90deg);
                         }
                     }
                 }

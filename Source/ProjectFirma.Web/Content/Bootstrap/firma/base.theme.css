@@ -1787,6 +1787,10 @@ nav#wizardNav ul li.workflowSection a:hover {
   z-index: 2;
   position: relative;
 }
+.project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items-toggle-button span {
+  transition: all 0.25s;
+  -webkit-transition: all 0.25s;
+}
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items-toggle-button:hover {
   background-color: #c8c8c8;
 }
@@ -1795,7 +1799,7 @@ nav#wizardNav ul li.workflowSection a:hover {
   outline: none;
 }
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items-toggle-button.open > span {
-  transform: rotate(180deg);
+  transform: rotate(-90deg);
 }
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items {
   width: 100%;
