@@ -19,6 +19,9 @@
     </license>
     -----------------------------------------------------------------------*@
 @using System.Globalization
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -26,14 +29,19 @@
 @inherits ProjectFirma.Web.Views.Shared.ProjectTimeline.ProjectTimelineDisplay
 
 <script>
-    jQuery(document).on('click',
-        '.timeline-button',
-        function () {
+    jQuery(document).ready(function() {
+        // register click handlers
+        jQuery('.timeline-button').click(function() {
             jQuery(this).toggleClass('open');
             var childGroup = jQuery(this).siblings('div');
             childGroup.toggleClass('open');
-
         });
+        jQuery('.action-items-toggle-button').click(function () {
+            jQuery(this).toggleClass('open');
+            var childGroup = jQuery(this).siblings('div');
+            childGroup.toggleClass('open');
+        });
+    });
 </script>
 
 
@@ -114,7 +122,29 @@
                                                         }
                                                         <div class="timeline-event-footer">
                                                             <span class="timeline-event-details-link pull-right">@projectTimelineEvent.ShowDetailsLinkHtmlString</span>
+                                                            @if (projectTimelineEvent.ProjectTimelineEventType == ProjectTimelineEventType.ProjectStatusChange && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+                                                            {
+                                                                <span class="timeline-event-details-link pull-right" style="margin-right:15px">@projectTimelineEvent.AddActionItemLinkHtmlString</span>
+                                                            }
                                                         </div>
+                                                        @if (projectTimelineEvent.ActionItems.Any())
+                                                        {
+                                                        <div class="action-items-wrapper">
+                                                            <div class="action-items">
+                                                                <h5>@FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()</h5>
+                                                                <ul>
+                                                                    @foreach (var actionItem in projectTimelineEvent.ActionItems)
+                                                                    {
+                                                                        <li>
+                                                                            <p>@actionItem.GetDisplayHeaderHtmlString(ViewDataTyped.UserHasProjectStatusUpdatePermissions)</p>
+                                                                            <p class="small">@actionItem.GetDisplayFooterHtmlString()</p>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                            <button class="action-items-toggle-button pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> @FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized() (@projectTimelineEvent.ActionItems.Count)</button>
+                                                        </div>
+                                                        }
                                                     </div>
                                                 </div>
                                             }
