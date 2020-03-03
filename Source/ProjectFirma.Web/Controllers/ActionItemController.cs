@@ -152,7 +152,7 @@ namespace ProjectFirma.Web.Controllers
                 ? projectProjectStatuses.AsEnumerable().ToSelectListWithEmptyFirstRow(x => x.ProjectProjectStatusID.ToString(), x => x.GetDropdownDisplayName()) 
                 : new List<SelectListItem>().AsEnumerable();
 
-            var deleteUrl = actionItem.GetDeleteUrl();
+            var deleteUrl = actionItem == null ? string.Empty : actionItem.GetDeleteUrl();
 
             var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems, deleteUrl);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
