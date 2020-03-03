@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
         public static HtmlString GetEditButtonHtmlString(this ActionItem actionItem, bool userHasEditPermissions)
         {
             var buttonString = userHasEditPermissions 
-                ? $"{DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(actionItem.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Action Item"))}" 
+                ? $"{DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(actionItem.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.ActionItem.ToType().FieldDefinitionDisplayName}"))}" 
                 : string.Empty;
             return new HtmlString(buttonString);
         }
