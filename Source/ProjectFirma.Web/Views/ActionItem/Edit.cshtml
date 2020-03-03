@@ -20,12 +20,19 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Views.Shared
-@using ProjectFirma.Web.Views
 @using System.Web.Mvc.Html
 @using LtInfo.Common.HtmlHelperExtensions
-@using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ActionItem.Edit
 
+<style>
+    .delete-action-item-button .btn-firma .glyphicon {
+        color: white;
+    }
+
+    .delete-action-item-button .btn-firma {
+        margin-left: 15px;
+    }
+</style>
 
 <div class="row">
     <div class="col-md-12">
@@ -108,3 +115,8 @@
 </div>
 }
 
+<div class="row delete-action-item-button">
+    <div class="col-md-12">
+        @ViewDataTyped.DeleteButton
+    </div>
+</div>
