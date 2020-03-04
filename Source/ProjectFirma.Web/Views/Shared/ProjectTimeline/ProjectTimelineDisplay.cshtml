@@ -130,6 +130,7 @@
                                                         @if (projectTimelineEvent.ActionItems.Any())
                                                         {
                                                         <div class="action-items-wrapper">
+                                                            <button class="action-items-toggle-button pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> @FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized() (@projectTimelineEvent.ActionItems.Count)</button>
                                                             <div class="action-items">
                                                                 <h5>@FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()</h5>
                                                                 <ul>
@@ -142,7 +143,6 @@
                                                                     }
                                                                 </ul>
                                                             </div>
-                                                            <button class="action-items-toggle-button pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> @FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized() (@projectTimelineEvent.ActionItems.Count)</button>
                                                         </div>
                                                         }
                                                     </div>

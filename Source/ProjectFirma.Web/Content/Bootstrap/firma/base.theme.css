@@ -1774,10 +1774,6 @@ nav#wizardNav ul li.workflowSection a:hover {
   position: relative;
 }
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items-toggle-button {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
   width: 100%;
   transition: all 0.25s;
   -webkit-transition: all 0.25s;
@@ -1786,6 +1782,7 @@ nav#wizardNav ul li.workflowSection a:hover {
   padding: 5px 15px;
   z-index: 2;
   position: relative;
+  margin-top: 10px;
 }
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items-toggle-button span {
   transition: all 0.25s;
@@ -1804,6 +1801,7 @@ nav#wizardNav ul li.workflowSection a:hover {
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items {
   width: 100%;
   float: left;
+  margin: 0;
 }
 .project-timeline-wrapper .timeline-event-wrapper .timeline-event .action-items-wrapper .action-items ul {
   list-style: none;
