@@ -19,16 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
 
 namespace ProjectFirma.Web.Models
 {
@@ -134,12 +134,23 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static List<Project> GetPrimaryContactProjects(this Person person, FirmaSession currentFirmaSession)
         {
-            var isPersonViewingThePrimaryContact = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == person.PersonID;
-            if (isPersonViewingThePrimaryContact)
+            var isPersonTheCurrentUser = !currentFirmaSession.IsAnonymousUser() && currentFirmaSession.PersonID == person.PersonID;
+            if (isPersonTheCurrentUser)
             {
                 return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
             }
             return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals()).ToList();
+        }
+
+        /// <summary>
+        /// List of Projects for which this Person is a contact
+        /// </summary>
+        public static List<Project> GetProjectsWhereYouAreAContact(this Person person)
+        {
+            var projectsUserIsAContact = person.ProjectContactsWhereYouAreTheContact.Select(x => x.Project).ToList();
+            var projectsUserIsThePrimaryContactPerson = person.ProjectsWhereYouAreThePrimaryContactPerson;
+            projectsUserIsAContact.AddRange(projectsUserIsThePrimaryContactPerson);
+            return projectsUserIsAContact.Distinct().ToList();
         }
 
         public static List<Project> GetPrimaryContactUpdatableProjects(this Person person, FirmaSession currentFirmaSession)
@@ -231,5 +242,48 @@ namespace ProjectFirma.Web.Models
         {
             return people.ToList().Where(x => x.ReceiveSupportEmails && x.IsActive).OrderBy(ht => ht.GetFullNameLastFirst()).ToList();
         }
+
+        /// <summary>
+        /// Returns a HtmlString of the person's first and last name and their relationship to the provided project (if any)
+        /// in a comma separated list inside parentheses
+        ///
+        /// e.g. "Stewart Gordon (Project Primary Contact, NTA Coordinator, NTA Manager)" if the person is multiple types of contacts on a project
+        /// or "Stewart Gordon" if the person isn't any type of contact on the project
+        /// </summary>
+        /// <param name="person"></param>
+        /// <param name="project"></param>
+        /// <returns></returns>
+        public static HtmlString GetPersonDisplayNameWithContactTypesListForProject(this Person person, Project project)
+        {
+            var personContactTypesList = person.GetListOfContactTypeStringsForProject(project);
+
+            if (!personContactTypesList.Any())
+            {
+                return new HtmlString(person.GetFullNameFirstLast());
+            }
+
+            return new HtmlString($"{person.GetFullNameFirstLast()} <span class=\"small\">({string.Join(", ", personContactTypesList)})</span>");
+        }
+
+        public static List<string> GetListOfContactTypeStringsForProject(this Person person, Project project)
+        {
+            var personContactTypesList = new List<string>();
+
+            // Project primary contact
+            if (person.PersonID == project.PrimaryContactPerson.PersonID)
+            {
+                personContactTypesList.Add($"{FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()}");
+            }
+
+            // The rest of the project contacts
+            var projectContactsThatAreThisPerson = project.ProjectContacts.Where(x => x.Contact.PersonID == person.PersonID);
+            foreach (var projectContact in projectContactsThatAreThisPerson)
+            {
+                personContactTypesList.Add(projectContact.ContactRelationshipType.ContactRelationshipTypeName);
+            }
+
+            return personContactTypesList;
+        }
+
     }
 }

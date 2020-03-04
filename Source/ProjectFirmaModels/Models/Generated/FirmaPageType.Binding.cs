@@ -193,6 +193,7 @@ namespace ProjectFirmaModels.Models
         Reports = 77,
         ReportProjects = 78,
         ReportAddReport = 79,
+        ReleaseNotes = 80,
         AgreementList = 10000,
         CostAuthorityList = 10001,
         AgreementRequestList = 10002,
