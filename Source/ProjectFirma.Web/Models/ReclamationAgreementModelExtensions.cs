@@ -12,13 +12,16 @@ namespace ProjectFirma.Web.Models
 
         public static string GetDisplayName(this ReclamationAgreement reclamationAgreement)
         {
+            if (reclamationAgreement == null)
+            {
+                return null;
+            }
             return $"{reclamationAgreement.AgreementNumber}";
         }
 
         public static string GetFullDisplayName(this ReclamationAgreement reclamationAgreement)
         {
-            return
-                $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
+            return $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
         }
 
         /// <summary>
@@ -41,6 +44,10 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<AgreementController>.BuildUrlFromExpression(t => t.AgreementDetail(UrlTemplate.Parameter1Int)));
         public static string GetDetailUrl(this ReclamationAgreement agreement)
         {
+            if (agreement == null)
+            {
+                return null;
+            }
             return DetailUrlTemplate.ParameterReplace(agreement.PrimaryKey);
         }
 

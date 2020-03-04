@@ -30,15 +30,16 @@
 
 @functions 
 {
-//private string GetOrganizationDisplayName()
-//{
-//    // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
-//    if (ViewDataTyped.ReclamationAgreement.Organization == null)
-//    {
-//        return string.Empty;
-//    }
-//    return ViewDataTyped.ReclamationAgreement.Organization.GetDisplayName();
-//}
+    private HtmlString MakeReclamationAgreementLink(ReclamationAgreement reclamationAgreement)
+    {
+        if (reclamationAgreement == null)
+        {
+            return null;
+        }
+
+        return UrlTemplate.MakeHrefString(reclamationAgreement.GetDetailUrl(), reclamationAgreement.GetDisplayName());
+    }
+
 }
 
 @section JavascriptAndStylesContent
@@ -106,7 +107,8 @@
                     @*<div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasure)</div>*@
                     <div class="col-xs-5 fieldLabel text-right">Agreement Number</div>
                     @*<div class="col-xs-7">@ViewDataTyped.ObligationNumber.ReclamationAgreement.AgreementNumber</div>*@
-                    <div class="col-xs-7">@UrlTemplate.MakeHrefString(ViewDataTyped.ObligationNumber.ReclamationAgreement.GetDetailUrl(), ViewDataTyped.ObligationNumber.ReclamationAgreement.GetDisplayName())</div>
+                    @*<div class="col-xs-7">@UrlTemplate.MakeHrefString(ViewDataTyped.ObligationNumber.ReclamationAgreement.GetDetailUrl(), ViewDataTyped.ObligationNumber.ReclamationAgreement.GetDisplayName())</div>*@
+                    <div class="col-xs-7">@MakeReclamationAgreementLink(ViewDataTyped.ObligationNumber.ReclamationAgreement)</div>
                 </div>
             </div>
         </div>
