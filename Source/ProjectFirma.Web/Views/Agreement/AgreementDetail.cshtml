@@ -25,6 +25,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Agreement
 @inherits ProjectFirma.Web.Views.Agreement.AgreementDetail
 
 @functions 
@@ -118,11 +119,16 @@
                     <div class="col-xs-5 fieldLabel text-right">Old Agreement Number</div>
                     <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.OldAgreementNumber</div>
                 </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Obligations</div>
+                    <div class="col-xs-7">@AgreementGridSpec.GetObligationHrefsString(ViewDataTyped.ReclamationAgreement)</div>
+                </div>
+
                 @*There are more fields we can show here, just am not doing it to start with. -- SLG*@
                 @*<div class="row">
-                          <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
-                          <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</div>
-                    </div>*@
+              <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>
+              <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.PerformanceMeasureDefinition.ToHTMLFormattedString()</div>
+        </div>*@
             </div>
         </div>
     </div>

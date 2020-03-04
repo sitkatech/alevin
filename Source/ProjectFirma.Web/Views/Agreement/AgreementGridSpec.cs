@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.Agreement
             return commaDelimitedHrefStrings;
         }
 
-        private static HtmlString GetObligationHrefsString(ReclamationAgreement reclamationAgreement)
+        public static HtmlString GetObligationHrefsString(ReclamationAgreement reclamationAgreement)
         {
             var obligations = reclamationAgreement.ObligationNumbers.ToList();
 

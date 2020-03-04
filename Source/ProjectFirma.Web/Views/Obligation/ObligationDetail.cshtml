@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -104,7 +105,8 @@
                 <div class="row">
                     @*<div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasure)</div>*@
                     <div class="col-xs-5 fieldLabel text-right">Agreement Number</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationNumber.ReclamationAgreement.AgreementNumber</div>
+                    @*<div class="col-xs-7">@ViewDataTyped.ObligationNumber.ReclamationAgreement.AgreementNumber</div>*@
+                    <div class="col-xs-7">@UrlTemplate.MakeHrefString(ViewDataTyped.ObligationNumber.ReclamationAgreement.GetDetailUrl(), ViewDataTyped.ObligationNumber.ReclamationAgreement.GetDisplayName())</div>
                 </div>
             </div>
         </div>
