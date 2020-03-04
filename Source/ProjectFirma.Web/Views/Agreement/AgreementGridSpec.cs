@@ -27,6 +27,7 @@ using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
 
@@ -40,6 +41,13 @@ namespace ProjectFirma.Web.Views.Agreement
             Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
             // Projects
             Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300, DhtmlxGridColumnFilterType.Html);
+
+            if (new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                // Obligations
+                Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderStringPlural(), a => GetObligationHrefsString(a), 300, DhtmlxGridColumnFilterType.Html);
+            }
+
             // Organization info
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization?.GetDetailUrl(), a.Organization?.GetDisplayName()), 300);
             Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization?.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -60,5 +68,15 @@ namespace ProjectFirma.Web.Views.Agreement
             var commaDelimitedHrefStrings =  new HtmlString(string.Join(", ", hrefStrings));
             return commaDelimitedHrefStrings;
         }
+
+        public static HtmlString GetObligationHrefsString(ReclamationAgreement reclamationAgreement)
+        {
+            var obligations = reclamationAgreement.ObligationNumbers.ToList();
+
+            List<HtmlString> hrefStrings = obligations.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.ObligationNumberKey)).ToList();
+            var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", hrefStrings));
+            return commaDelimitedHrefStrings;
+        }
+
     }
 }
