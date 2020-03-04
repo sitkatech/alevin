@@ -108,6 +108,7 @@ namespace ProjectFirma.Web.Views
                 BuildProjectsMenu(currentFirmaSession),
                 // WARNING: This has been deleted multiple times. We are manually re-adding it. If a conflict occurs here, lets talk - SMG & SLG
                 BuildAgreementsMenu(currentFirmaSession),
+                //BuildObligationsMenu(currentFirmaSession),
                 BuildProgramInfoMenu(currentFirmaSession)
             };
 
@@ -123,7 +124,6 @@ namespace ProjectFirma.Web.Views
 
             TopLevelLtInfoMenuItems.Add(BuildManageMenu(currentFirmaSession));
             TopLevelLtInfoMenuItems.Add(BuildConfigureMenu(currentFirmaSession));
-
 
             TopLevelLtInfoMenuItems.ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-root-item" });
             TopLevelLtInfoMenuItems.SelectMany(x => x.ChildMenus).ToList().ForEach(x => x.ExtraTopLevelMenuCssClasses = new List<string> { "navigation-dropdown-item" });
@@ -309,8 +309,6 @@ namespace ProjectFirma.Web.Views
                 reportsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ReportsController>(c => c.Index()), currentFirmaSession, "Manage Report Templates", "Group2"));
             }
 
-            
-
             return reportsMenu;
         }
 
@@ -348,10 +346,35 @@ namespace ProjectFirma.Web.Views
             {
                 agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementRequestController>(c => c.AgreementRequestIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} List", "Group2"));
             }
+            // Obligations treated as part of Agreements for now.
+            if (new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.Obligation.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+            }
+
             // Adding the Cost Authorities to the Agreements menu for now.
             agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CostAuthorityController>(c => c.CostAuthorityIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} List", "Group2"));
             return agreementsMenu;
         }
+
+        // We *COULD* do this, but keeping as part of Agreements menu for the moment
+        /*
+        /// <summary>
+        /// Obligations menu
+        /// </summary>
+        /// <param name="currentFirmaSession"></param>
+        /// <returns></returns>
+        private static LtInfoMenuItem BuildObligationsMenu(FirmaSession currentFirmaSession)
+        {
+            if (new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                var obligationsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Obligation.ToType().GetFieldDefinitionLabelPluralized()}");
+                obligationsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.Obligation.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+                return obligationsMenu;
+            }
+            return null;
+        }
+        */
 
         public string IsActiveUrl(string currentUrlPathAndQuery, string urlToCompare)
         {
