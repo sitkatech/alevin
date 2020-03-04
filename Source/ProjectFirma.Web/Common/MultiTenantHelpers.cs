@@ -119,6 +119,16 @@ namespace ProjectFirma.Web.Common
             return PluralizationService.Pluralize(GetCostAuthorityName());
         }
 
+        public static string GetObligationName()
+        {
+            return FieldDefinitionEnum.Obligation.ToType().GetFieldDefinitionLabel();
+        }
+
+        public static string GetObligationNamePluralized()
+        {
+            return PluralizationService.Pluralize(GetObligationName());
+        }
+
         #endregion Reclamation
 
         public static string GetTenantSquareLogoUrl()

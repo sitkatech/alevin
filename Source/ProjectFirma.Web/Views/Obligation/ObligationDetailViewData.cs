@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Obligation
@@ -26,6 +28,8 @@ namespace ProjectFirma.Web.Views.Obligation
     public class ObligationDetailViewData : FirmaViewData
     {
         public ObligationNumber ObligationNumber { get; }
+        public string ObligationIndexUrl { get; }
+
 
         public ObligationDetailViewData(FirmaSession currentFirmaSession,
                                        ObligationNumber obligationNumber) : base(currentFirmaSession)
@@ -34,6 +38,7 @@ namespace ProjectFirma.Web.Views.Obligation
             EntityName = "Obligation Detail";
             
             ObligationNumber = obligationNumber;
+            ObligationIndexUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(c => c.ObligationIndex());
         }
 
 

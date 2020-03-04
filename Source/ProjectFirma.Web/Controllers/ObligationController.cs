@@ -44,6 +44,26 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ObligationDetail, ObligationDetailViewData>(viewData);
         }
 
+
+
+
+        //[ObligationViewFeature]
+        //public GridJsonNetJObjectResult<Project> ObligationAgreementGridJsonData(ObligationNumberPrimaryKey obligationPrimaryKey)
+        //{
+        //    var reclamationObligation = obligationPrimaryKey.EntityObject;
+        //    /*
+        //    var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationObligation);
+        //    //var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
+        //    var projectReclamationObligations = reclamationObligation.GetAssociatedProjects();
+        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationObligations, gridSpec);
+        //    return gridJsonNetJObjectResult;
+        //    */
+        //    return null;
+        //}
+
+
+
+
         //[ObligationViewFeature]
         //public GridJsonNetJObjectResult<Project> ObligationProjectsGridJsonData(ObligationNumberPrimaryKey reclamationObligationPrimaryKey)
         //{
