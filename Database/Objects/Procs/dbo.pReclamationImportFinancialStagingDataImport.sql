@@ -121,6 +121,11 @@ begin
 		ImportFinancial.impPayRecV3 as pr
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Obligation Number - Key] = ap.[PO Number - Key]
 
+    update ImportFinancial.ObligationNumber
+    set ReclamationAgreementID = rca.ReclamationAgreementID
+    from dbo.ReclamationAgreement as rca
+    inner join ImportFinancial.ObligationNumber as onum on rca.AgreementNumber = onum.ObligationNumberKey
+
 
 	insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID)
 	select 

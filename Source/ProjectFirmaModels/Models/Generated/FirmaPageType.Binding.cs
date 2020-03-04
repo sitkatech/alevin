@@ -200,6 +200,7 @@ namespace ProjectFirmaModels.Models
         AddCostAuthorityToAgreementRequest = 10004,
         ActionItemEditDialog = 10005,
         ActionItemIndexList = 10006,
-        UploadBudgetAndInvoiceExcel = 10007
+        UploadBudgetAndInvoiceExcel = 10007,
+        ObligationList = 10008
     }
 }

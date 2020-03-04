@@ -213,6 +213,12 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new tmpFishProject2DissolveConfiguration());
             modelBuilder.Configurations.Add(new tmpFishProject2PopulationDissolveConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
+            modelBuilder.Configurations.Add(new ObligationItemConfiguration());
+            modelBuilder.Configurations.Add(new ObligationNumberConfiguration());
+            modelBuilder.Configurations.Add(new VendorConfiguration());
+            modelBuilder.Configurations.Add(new WbsElementConfiguration());
+            modelBuilder.Configurations.Add(new WbsElementObligationItemBudgetConfiguration());
+            modelBuilder.Configurations.Add(new WbsElementObligationItemInvoiceConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
@@ -302,6 +308,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ObligationItem> ObligationItems { get; set; }
+        public virtual DbSet<ObligationNumber> ObligationNumbers { get; set; }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
         public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationRelationshipType> AllOrganizationRelationshipTypes { get; set; }
@@ -523,6 +531,10 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<tmpFishProject2PopulationDissolve> tmpFishProject2PopulationDissolves { get; set; }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Vendor> Vendors { get; set; }
+        public virtual DbSet<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
+        public virtual DbSet<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
+        public virtual DbSet<WbsElement> WbsElements { get; set; }
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
         public virtual DbSet<vGeoServerProjectDetailedLocations> vGeoServerProjectDetailedLocations { get; set; }
         public virtual DbSet<vGeoServerProjectSimpleLocations> vGeoServerProjectSimpleLocations { get; set; }
@@ -737,6 +749,12 @@ namespace ProjectFirmaModels.Models
                     var notificationType = NotificationType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(notificationType, "NotificationType", primaryKey);
                     return notificationType;
+
+                case "ObligationItem":
+                    return ObligationItems.GetObligationItem(primaryKey);
+
+                case "ObligationNumber":
+                    return ObligationNumbers.GetObligationNumber(primaryKey);
 
                 case "OrganizationBoundaryStaging":
                     return OrganizationBoundaryStagings.GetOrganizationBoundaryStaging(primaryKey);
@@ -1274,6 +1292,18 @@ namespace ProjectFirmaModels.Models
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);
+
+                case "Vendor":
+                    return Vendors.GetVendor(primaryKey);
+
+                case "WbsElementObligationItemBudget":
+                    return WbsElementObligationItemBudgets.GetWbsElementObligationItemBudget(primaryKey);
+
+                case "WbsElementObligationItemInvoice":
+                    return WbsElementObligationItemInvoices.GetWbsElementObligationItemInvoice(primaryKey);
+
+                case "WbsElement":
+                    return WbsElements.GetWbsElement(primaryKey);
                 default:
                     throw new NotImplementedException(string.Format("No loader for type \"{0}\"", type.FullName));
             }

@@ -340,6 +340,7 @@ namespace ProjectFirmaModels.Models
         ActionItemProjectStatus = 10044,
         ActionItemText = 10045,
         PrimaryCostAuthorityWorkBreakdownStructure = 10046,
-        SecondaryCostAuthorityWorkBreakdownStructure = 10047
+        SecondaryCostAuthorityWorkBreakdownStructure = 10047,
+        Obligation = 10048
     }
 }

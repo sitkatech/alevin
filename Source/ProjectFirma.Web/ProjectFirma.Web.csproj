@@ -61,6 +61,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\ObligationController.cs" />
     <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ActionItemController.cs" />
     <Compile Include="Controllers\AgreementRequestController.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
+    <Compile Include="Security\ObligationViewFeature.cs" />
     <Compile Include="Security\OrganizationPrimaryContactManageFeature.cs" />
     <Compile Include="Security\OfferProjectFactSheetLinkFeature.cs" />
     <Compile Include="Security\ProjectAttachmentEditAsAdminFeature.cs" />
@@ -276,6 +278,11 @@
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\Obligation\ObligationDetail.cs" />
+    <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />
+    <Compile Include="Views\Obligation\ObligationGridSpec.cs" />
+    <Compile Include="Views\Obligation\ObligationIndex.cs" />
+    <Compile Include="Views\Obligation\ObligationIndexViewData.cs" />
     <Compile Include="Views\AttachmentType\AttachmentTypeGridSpec.cs" />
     <Compile Include="Views\AttachmentType\EditAttachmentType.cs" />
     <Compile Include="Views\AttachmentType\EditAttachmentTypeViewData.cs" />
@@ -709,6 +716,8 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
     <Content Include="Views\ExcelUpload\ImportEtlExcelFile.cshtml" />
+    <Content Include="Views\Obligation\ObligationDetail.cshtml" />
+    <Content Include="Views\Obligation\ObligationIndex.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />

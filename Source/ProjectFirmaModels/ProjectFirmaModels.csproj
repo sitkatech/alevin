@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -242,6 +242,14 @@
     <Compile Include="Models\Generated\NotificationProjectPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\NotificationType.Binding.cs" />
     <Compile Include="Models\Generated\NotificationTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ObligationItem.Binding.cs" />
+    <Compile Include="Models\Generated\ObligationItem.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ObligationItemConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ObligationItemPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ObligationNumber.Binding.cs" />
+    <Compile Include="Models\Generated\ObligationNumber.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ObligationNumberConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ObligationNumberPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Organization.Binding.cs" />
     <Compile Include="Models\Generated\Organization.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\OrganizationBoundaryStaging.Binding.cs" />
@@ -818,12 +826,28 @@
     <Compile Include="Models\Generated\TrainingVideo.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TrainingVideoConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Vendor.Binding.cs" />
+    <Compile Include="Models\Generated\Vendor.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\VendorConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\VendorPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialArea.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerGeospatialAreaConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectDetailedLocations.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectDetailedLocationsConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectSimpleLocations.Binding.cs" />
     <Compile Include="Models\Generated\vGeoServerProjectSimpleLocationsConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElement.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElement.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\WbsElementConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemBudget.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemBudget.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemBudgetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemBudgetPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemInvoice.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemInvoice.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemInvoiceConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElementObligationItemInvoicePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\WbsElementPrimaryKey.Binding.cs" />
     <Compile Include="Models\BudgetStageImport.cs" />
     <Compile Include="Models\FieldDefinitionTest.cs" />
     <Compile Include="Models\EvaluationCriteriaValue.cs" />

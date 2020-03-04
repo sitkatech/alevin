@@ -226,4 +226,5 @@ VALUES
 (10044,N'ActionItemProjectStatus', N'Related Project Status Update'),
 (10045,N'ActionItemText', N'Action Item Text'),
 (10046, N'PrimaryCostAuthorityWorkBreakdownStructure', N'Primary Cost Authority Work Breakdown Structure'),
-(10047, N'SecondaryCostAuthorityWorkBreakdownStructure', N'Secondary Cost Authority Work Breakdown Structure')
+(10047, N'SecondaryCostAuthorityWorkBreakdownStructure', N'Secondary Cost Authority Work Breakdown Structure'),
+(10048, N'Obligation', N'Obligation')
