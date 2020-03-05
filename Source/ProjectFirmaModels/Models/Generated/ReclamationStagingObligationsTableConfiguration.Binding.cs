@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationStagingObligationsTable]
+//  Source Table: [Reclamation].[ReclamationStagingObligationsTable]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
 {
     public class ReclamationStagingObligationsTableConfiguration : EntityTypeConfiguration<ReclamationStagingObligationsTable>
     {
-        public ReclamationStagingObligationsTableConfiguration() : this("dbo"){}
+        public ReclamationStagingObligationsTableConfiguration() : this("Reclamation"){}
 
         public ReclamationStagingObligationsTableConfiguration(string schema)
         {

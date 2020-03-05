@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationWorkOrder]
+//  Source Table: [Reclamation].[ReclamationWorkOrder]
 using System.Collections.Generic;
 using System.Linq;
 using Z.EntityFramework.Plus;

@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationAgreement]
+//  Source Table: [Reclamation].[ReclamationAgreement]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +15,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ReclamationAgreement] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[ReclamationAgreement]")]
+    // Table [Reclamation].[ReclamationAgreement] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Reclamation].[ReclamationAgreement]")]
     public partial class ReclamationAgreement : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>
@@ -24,11 +24,11 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ReclamationAgreement()
         {
+            this.ObligationNumbers = new HashSet<ObligationNumber>();
             this.ReclamationAgreementPacificNorthActivities = new HashSet<ReclamationAgreementPacificNorthActivity>();
             this.ReclamationAgreementReclamationCostAuthorities = new HashSet<ReclamationAgreementReclamationCostAuthority>();
             this.ReclamationAgreementRequestsWhereYouAreTheAgreement = new HashSet<ReclamationAgreementRequest>();
             this.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement = new HashSet<ReclamationStagingCostAuthorityAgreement>();
-            this.ObligationNumbers = new HashSet<ObligationNumber>();
         }
 
         /// <summary>
@@ -94,13 +94,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationAgreementPacificNorthActivities.Any() || ReclamationAgreementReclamationCostAuthorities.Any() || ReclamationAgreementRequestsWhereYouAreTheAgreement.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement.Any() || ObligationNumbers.Any();
+            return ObligationNumbers.Any() || ReclamationAgreementPacificNorthActivities.Any() || ReclamationAgreementReclamationCostAuthorities.Any() || ReclamationAgreementRequestsWhereYouAreTheAgreement.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationAgreement).Name, typeof(ReclamationAgreementPacificNorthActivity).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationAgreementRequest).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name, typeof(ObligationNumber).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationAgreement).Name, typeof(ObligationNumber).Name, typeof(ReclamationAgreementPacificNorthActivity).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationAgreementRequest).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -125,6 +125,11 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in ObligationNumbers.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ReclamationAgreementPacificNorthActivities.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -141,11 +146,6 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in ObligationNumbers.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -170,11 +170,11 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationAgreementID; } set { ReclamationAgreementID = value; } }
 
+        public virtual ICollection<ObligationNumber> ObligationNumbers { get; set; }
         public virtual ICollection<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
         public virtual ICollection<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
         public virtual ICollection<ReclamationAgreementRequest> ReclamationAgreementRequestsWhereYouAreTheAgreement { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement { get; set; }
-        public virtual ICollection<ObligationNumber> ObligationNumbers { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
 

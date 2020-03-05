@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationAgreementRequestFundingPriority]
+//  Source Table: [Reclamation].[ReclamationAgreementRequestFundingPriority]
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

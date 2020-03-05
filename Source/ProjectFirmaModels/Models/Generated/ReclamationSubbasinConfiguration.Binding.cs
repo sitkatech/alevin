@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationSubbasin]
+//  Source Table: [Reclamation].[ReclamationSubbasin]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
 {
     public class ReclamationSubbasinConfiguration : EntityTypeConfiguration<ReclamationSubbasin>
     {
-        public ReclamationSubbasinConfiguration() : this("dbo"){}
+        public ReclamationSubbasinConfiguration() : this("Reclamation"){}
 
         public ReclamationSubbasinConfiguration(string schema)
         {

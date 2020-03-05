@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationWorkOrder]
+//  Source Table: [Reclamation].[ReclamationWorkOrder]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
 {
     public class ReclamationWorkOrderConfiguration : EntityTypeConfiguration<ReclamationWorkOrder>
     {
-        public ReclamationWorkOrderConfiguration() : this("dbo"){}
+        public ReclamationWorkOrderConfiguration() : this("Reclamation"){}
 
         public ReclamationWorkOrderConfiguration(string schema)
         {

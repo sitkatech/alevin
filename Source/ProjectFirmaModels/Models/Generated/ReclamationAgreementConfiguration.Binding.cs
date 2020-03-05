@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationAgreement]
+//  Source Table: [Reclamation].[ReclamationAgreement]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
 {
     public class ReclamationAgreementConfiguration : EntityTypeConfiguration<ReclamationAgreement>
     {
-        public ReclamationAgreementConfiguration() : this("dbo"){}
+        public ReclamationAgreementConfiguration() : this("Reclamation"){}
 
         public ReclamationAgreementConfiguration(string schema)
         {

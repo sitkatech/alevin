@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationStagingPersonsTable]
+//  Source Table: [Reclamation].[ReclamationStagingPersonsTable]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +15,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ReclamationStagingPersonsTable] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[ReclamationStagingPersonsTable]")]
+    // Table [Reclamation].[ReclamationStagingPersonsTable] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Reclamation].[ReclamationStagingPersonsTable]")]
     public partial class ReclamationStagingPersonsTable : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>

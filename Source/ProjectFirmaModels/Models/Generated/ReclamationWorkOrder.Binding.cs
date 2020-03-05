@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationWorkOrder]
+//  Source Table: [Reclamation].[ReclamationWorkOrder]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +15,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ReclamationWorkOrder] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[ReclamationWorkOrder]")]
+    // Table [Reclamation].[ReclamationWorkOrder] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Reclamation].[ReclamationWorkOrder]")]
     public partial class ReclamationWorkOrder : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>

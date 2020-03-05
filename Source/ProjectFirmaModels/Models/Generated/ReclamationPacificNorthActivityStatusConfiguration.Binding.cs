@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationPacificNorthActivityStatus]
+//  Source Table: [Reclamation].[ReclamationPacificNorthActivityStatus]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
 {
     public class ReclamationPacificNorthActivityStatusConfiguration : EntityTypeConfiguration<ReclamationPacificNorthActivityStatus>
     {
-        public ReclamationPacificNorthActivityStatusConfiguration() : this("dbo"){}
+        public ReclamationPacificNorthActivityStatusConfiguration() : this("Reclamation"){}
 
         public ReclamationPacificNorthActivityStatusConfiguration(string schema)
         {

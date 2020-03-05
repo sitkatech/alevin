@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ReclamationDeliverableType]
+//  Source Table: [Reclamation].[ReclamationDeliverableType]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +15,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ReclamationDeliverableType] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[ReclamationDeliverableType]")]
+    // Table [Reclamation].[ReclamationDeliverableType] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Reclamation].[ReclamationDeliverableType]")]
     public partial class ReclamationDeliverableType : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>
