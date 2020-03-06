@@ -188,7 +188,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new WbsElementConfiguration());
             modelBuilder.Configurations.Add(new WbsElementObligationItemBudgetConfiguration());
             modelBuilder.Configurations.Add(new WbsElementObligationItemInvoiceConfiguration());
-            modelBuilder.Configurations.Add(new ReclamationAgreementConfiguration());
+            modelBuilder.Configurations.Add(new AgreementConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementPacificNorthActivityConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementReclamationCostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementRequestConfiguration());
@@ -225,6 +225,7 @@ namespace ProjectFirmaModels.Models
         }
         public virtual DbSet<ActionItem> AllActionItems { get; set; }
         public virtual IQueryable<ActionItem> ActionItems { get { return AllActionItems.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Agreement> Agreements { get; set; }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AssessmentQuestion> AllAssessmentQuestions { get; set; }
@@ -468,7 +469,6 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
         public virtual DbSet<ReclamationAgreementRequest> ReclamationAgreementRequests { get; set; }
         public virtual DbSet<ReclamationAgreementRequestSubmissionNote> ReclamationAgreementRequestSubmissionNotes { get; set; }
-        public virtual DbSet<ReclamationAgreement> ReclamationAgreements { get; set; }
         public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
         public virtual DbSet<ReclamationContractType> ReclamationContractTypes { get; set; }
         public virtual DbSet<ReclamationCostAuthority> ReclamationCostAuthorities { get; set; }
@@ -555,6 +555,9 @@ namespace ProjectFirmaModels.Models
                     var actionItemState = ActionItemState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(actionItemState, "ActionItemState", primaryKey);
                     return actionItemState;
+
+                case "Agreement":
+                    return Agreements.GetAgreement(primaryKey);
 
                 case "AssessmentGoal":
                     return AssessmentGoals.GetAssessmentGoal(primaryKey);
@@ -1113,9 +1116,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ReclamationAgreementRequestSubmissionNote":
                     return ReclamationAgreementRequestSubmissionNotes.GetReclamationAgreementRequestSubmissionNote(primaryKey);
-
-                case "ReclamationAgreement":
-                    return ReclamationAgreements.GetReclamationAgreement(primaryKey);
 
                 case "ReclamationBasin":
                     return ReclamationBasins.GetReclamationBasin(primaryKey);

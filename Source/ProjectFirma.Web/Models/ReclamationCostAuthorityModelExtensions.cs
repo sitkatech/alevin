@@ -19,9 +19,9 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Convenience accessor for Reclamation Agreements.
         /// </summary>
-        public static List<ReclamationAgreement> GetReclamationAgreements(this ReclamationCostAuthority reclamationCostAuthority)
+        public static List<Agreement> GetReclamationAgreements(this ReclamationCostAuthority reclamationCostAuthority)
         {
-            return reclamationCostAuthority.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement).ToList();
+            return reclamationCostAuthority.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.Agreement).ToList();
         }
 
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityDetail(UrlTemplate.Parameter1Int)));

@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReclamationAgreementReclamationCostAuthority(ReclamationAgreement reclamationAgreement, ReclamationCostAuthority reclamationCostAuthority) : this()
+        public ReclamationAgreementReclamationCostAuthority(Agreement reclamationAgreement, ReclamationCostAuthority reclamationCostAuthority) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementReclamationCostAuthorityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -67,7 +67,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ReclamationAgreementReclamationCostAuthority CreateNewBlank(ReclamationAgreement reclamationAgreement, ReclamationCostAuthority reclamationCostAuthority)
+        public static ReclamationAgreementReclamationCostAuthority CreateNewBlank(Agreement reclamationAgreement, ReclamationCostAuthority reclamationCostAuthority)
         {
             return new ReclamationAgreementReclamationCostAuthority(reclamationAgreement, reclamationCostAuthority);
         }
@@ -111,7 +111,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationAgreementReclamationCostAuthorityID; } set { ReclamationAgreementReclamationCostAuthorityID = value; } }
 
-        public virtual ReclamationAgreement ReclamationAgreement { get; set; }
+        public virtual Agreement ReclamationAgreement { get; set; }
         public virtual ReclamationCostAuthority ReclamationCostAuthority { get; set; }
 
         public static class FieldLengths

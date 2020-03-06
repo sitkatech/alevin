@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReclamationCostAuthorityID).HasColumnName(@"ReclamationCostAuthorityID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasRequired(a => a.ReclamationAgreement).WithMany(b => b.ReclamationAgreementReclamationCostAuthorities).HasForeignKey(c => c.ReclamationAgreementID).WillCascadeOnDelete(false); // FK_ReclamationAgreementReclamationCostAuthority_ReclamationAgreement_ReclamationAgreementID
+            HasRequired(a => a.ReclamationAgreement).WithMany(b => b.ReclamationAgreementReclamationCostAuthorities).HasForeignKey(c => c.ReclamationAgreementID).WillCascadeOnDelete(false); // FK_ReclamationAgreementReclamationCostAuthority_Agreement_ReclamationAgreementID
             HasRequired(a => a.ReclamationCostAuthority).WithMany(b => b.ReclamationAgreementReclamationCostAuthorities).HasForeignKey(c => c.ReclamationCostAuthorityID).WillCascadeOnDelete(false); // FK_ReclamationAgreementReclamationCostAuthority_ReclamationCostAuthority_ReclamationCostAuthorityID
         }
     }

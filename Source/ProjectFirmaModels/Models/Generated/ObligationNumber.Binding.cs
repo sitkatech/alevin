@@ -108,7 +108,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ObligationNumberID; } set { ObligationNumberID = value; } }
 
         public virtual ICollection<ObligationItem> ObligationItems { get; set; }
-        public virtual ReclamationAgreement ReclamationAgreement { get; set; }
+        public virtual Agreement ReclamationAgreement { get; set; }
 
         public static class FieldLengths
         {

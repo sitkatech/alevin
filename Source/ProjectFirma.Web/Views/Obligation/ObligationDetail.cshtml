@@ -30,14 +30,14 @@
 
 @functions 
 {
-    private HtmlString MakeReclamationAgreementLink(ReclamationAgreement reclamationAgreement)
+    private HtmlString MakeReclamationAgreementLink(Agreement agreement)
     {
-        if (reclamationAgreement == null)
+        if (agreement == null)
         {
             return null;
         }
 
-        return UrlTemplate.MakeHrefString(reclamationAgreement.GetDetailUrl(), reclamationAgreement.GetDisplayName());
+        return UrlTemplate.MakeHrefString(agreement.GetDetailUrl(), agreement.GetDisplayName());
     }
 
 }
@@ -106,7 +106,7 @@
                 <div class="row">
                     @*<div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasure)</div>*@
                     <div class="col-xs-5 fieldLabel text-right">Agreement Number</div>
-                    <div class="col-xs-7">@MakeReclamationAgreementLink(ViewDataTyped.ObligationNumber.ReclamationAgreement)</div>
+                    <div class="col-xs-7">@MakeReclamationAgreementLink(ViewDataTyped.ObligationNumber.Agreement)</div>
                 </div>
             </div>
         </div>

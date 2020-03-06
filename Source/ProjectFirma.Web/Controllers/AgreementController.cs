@@ -33,11 +33,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AgreementViewFeature]
-        public GridJsonNetJObjectResult<ReclamationAgreement> AgreementGridJsonData()
+        public GridJsonNetJObjectResult<Agreement> AgreementGridJsonData()
         {
             var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
             var agreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationAgreement>(agreements, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(agreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

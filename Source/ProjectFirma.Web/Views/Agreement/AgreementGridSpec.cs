@@ -33,7 +33,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Agreement
 {
-    public class AgreementGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationAgreement>
+    public class AgreementGridSpec : GridSpec<ProjectFirmaModels.Models.Agreement>
     {
         public AgreementGridSpec(FirmaSession currentFirmaSession)
         {
@@ -57,9 +57,9 @@ namespace ProjectFirma.Web.Views.Agreement
             Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReclamationAgreementReclamationCostAuthorities.Count, 80);
         }
 
-        private static HtmlString GetProjectHrefsString(ReclamationAgreement reclamationAgreement)
+        private static HtmlString GetProjectHrefsString(ProjectFirmaModels.Models.Agreement agreement)
         {
-            var costAuthorities = reclamationAgreement.ReclamationAgreementReclamationCostAuthorities
+            var costAuthorities = agreement.ReclamationAgreementReclamationCostAuthorities
                 .Select(rarca => rarca.ReclamationCostAuthority).ToList();
             var projects =
                 costAuthorities.SelectMany(ca => ca.ReclamationCostAuthorityProjects.Select(rcap => rcap.Project)).ToList();
@@ -69,9 +69,9 @@ namespace ProjectFirma.Web.Views.Agreement
             return commaDelimitedHrefStrings;
         }
 
-        public static HtmlString GetObligationHrefsString(ReclamationAgreement reclamationAgreement)
+        public static HtmlString GetObligationHrefsString(ProjectFirmaModels.Models.Agreement agreement)
         {
-            var obligations = reclamationAgreement.ObligationNumbers.ToList();
+            var obligations = agreement.ObligationNumbers.ToList();
 
             List<HtmlString> hrefStrings = obligations.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.ObligationNumberKey)).ToList();
             var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", hrefStrings));

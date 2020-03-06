@@ -40,7 +40,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ActualAwardDate).HasColumnName(@"ActualAwardDate").HasColumnType("datetime").IsOptional();
 
             // Foreign keys
-            HasOptional(a => a.Agreement).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheAgreement).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID
+            HasOptional(a => a.Agreement).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheAgreement).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_Agreement_AgreementID_ReclamationAgreementID
             HasRequired(a => a.ContractType).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_ReclamationContractType_ContractTypeID_ReclamationContractTypeID
             HasOptional(a => a.RecipientOrganization).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheRecipientOrganization).HasForeignKey(c => c.RecipientOrganizationID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_Organization_RecipientOrganizationID_OrganizationID
             HasOptional(a => a.TechnicalRepresentativePerson).WithMany(b => b.ReclamationAgreementRequestsWhereYouAreTheTechnicalRepresentativePerson).HasForeignKey(c => c.TechnicalRepresentativePersonID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequest_Person_TechnicalRepresentativePersonID_PersonID

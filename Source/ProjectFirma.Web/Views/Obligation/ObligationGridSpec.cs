@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Obligation
             // ObligationNumber as link
             Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), ob => UrlTemplate.MakeHrefString(ob?.GetDetailUrl(), ob?.ObligationNumberKey), 100, DhtmlxGridColumnFilterType.Text);
             // Agreement
-            Add(FieldDefinitionEnum.Agreement.ToType().ToGridHeaderStringPlural(), ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.GetDetailUrl(), ra.ReclamationAgreement?.GetDisplayName()), 300, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Agreement.ToType().ToGridHeaderStringPlural(), ra => UrlTemplate.MakeHrefString(ra.Agreement?.GetDetailUrl(), ra.Agreement?.GetDisplayName()), 300, DhtmlxGridColumnFilterType.Html);
         }
     }
 }

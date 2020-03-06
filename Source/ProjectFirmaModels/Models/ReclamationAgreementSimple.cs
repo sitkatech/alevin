@@ -16,12 +16,12 @@
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public ReclamationAgreementSimple(ReclamationAgreement reclamationAgreement)
+        public ReclamationAgreementSimple(Agreement agreement)
             : this()
         {
-            ReclamationAgreementID = reclamationAgreement.ReclamationAgreementID;
-            ReclamationAgreementDisplayName = $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
-            AgreementNumber = reclamationAgreement.AgreementNumber;
+            ReclamationAgreementID = agreement.ReclamationAgreementID;
+            ReclamationAgreementDisplayName = $"{agreement.AgreementNumber} - {agreement.GetOrganizationDisplayName()} - {agreement.ContractType.ContractTypeDisplayName}";
+            AgreementNumber = agreement.AgreementNumber;
         }
     }
 }

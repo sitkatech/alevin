@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Agreement
 {
     public class AgreementDetailViewData : FirmaViewData
     {
-        public ProjectFirmaModels.Models.ReclamationAgreement ReclamationAgreement { get; }
+        public ProjectFirmaModels.Models.Agreement Agreement { get; }
 
         public bool IsAdmin { get; }
 
@@ -84,16 +84,16 @@ namespace ProjectFirma.Web.Views.Agreement
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostAuthorityWorkBreakdownStructure { get; }
 
         public AgreementDetailViewData(FirmaSession currentFirmaSession,
-                                       ProjectFirmaModels.Models.ReclamationAgreement reclamationAgreement
+                                       ProjectFirmaModels.Models.Agreement agreement
                                        //PerformanceMeasureChartViewData performanceMeasureChartViewData,
                                        //EntityNotesViewData entityNotesViewData,
                                        //bool userHasAgreementManagePermissions, 
                                        /*bool isAdmin*/) : base(currentFirmaSession)
         {
-            PageTitle = $"Agreement Number: {reclamationAgreement.AgreementNumber}";
+            PageTitle = $"Agreement Number: {agreement.AgreementNumber}";
             EntityName = "Agreement Detail";
 
-            ReclamationAgreement = reclamationAgreement;
+            Agreement = agreement;
             //PerformanceMeasureChartViewData = performanceMeasureChartViewData;
             //EntityNotesViewData = entityNotesViewData;
             UserHasAgreementManagePermissions = new AgreementManageFeature().HasPermissionByPerson(CurrentPerson);
@@ -117,23 +117,23 @@ namespace ProjectFirma.Web.Views.Agreement
 
             /* Basic Project Info */
             BasicProjectInfoProjectGridName = "agreementProjectListGrid";
-            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession, true, reclamationAgreement)
+            BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(currentFirmaSession, true, agreement)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with Agreement Number {reclamationAgreement.AgreementNumber}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with Agreement Number {reclamationAgreement.AgreementNumber}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} associated with Agreement Number {agreement.AgreementNumber}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with Agreement Number {agreement.AgreementNumber}",
                 SaveFiltersInCookie = true
             };
-            BasicProjectInfoProjectGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(tc => tc.AgreementProjectsGridJsonData(reclamationAgreement));
+            BasicProjectInfoProjectGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(tc => tc.AgreementProjectsGridJsonData(agreement));
 
             /* Cost Authority */
             BasicCostAuthorityGridName = "costAuthorityAgreementListGrid";
             BasicCostAuthorityGridSpec = new BasicCostAuthorityGridSpec(CurrentPerson)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} {reclamationAgreement.AgreementNumber}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} {reclamationAgreement.AgreementNumber}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} {agreement.AgreementNumber}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} {agreement.AgreementNumber}",
                 SaveFiltersInCookie = true
             };
-            BasicCostAuthorityGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(ac => ac.AgreementCostAuthorityGridJsonData(reclamationAgreement));
+            BasicCostAuthorityGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(ac => ac.AgreementCostAuthorityGridJsonData(agreement));
 
             
             //GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingType>(), geospatialAreaTypes, projectCustomAttributeTypes) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };

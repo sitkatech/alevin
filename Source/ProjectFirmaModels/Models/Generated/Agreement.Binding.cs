@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [Reclamation].[ReclamationAgreement]
+//  Source Table: [Reclamation].[Agreement]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [Reclamation].[ReclamationAgreement] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[Reclamation].[ReclamationAgreement]")]
-    public partial class ReclamationAgreement : IHavePrimaryKey, ICanDeleteFull
+    // Table [Reclamation].[Agreement] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Reclamation].[Agreement]")]
+    public partial class Agreement : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected ReclamationAgreement()
+        protected Agreement()
         {
             this.ObligationNumbers = new HashSet<ObligationNumber>();
             this.ReclamationAgreementPacificNorthActivities = new HashSet<ReclamationAgreementPacificNorthActivity>();
@@ -34,7 +34,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreement(int reclamationAgreementID, int? original_ReclamationAgreementID, string agreementNumber, double? contractorLU, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
+        public Agreement(int reclamationAgreementID, int? original_ReclamationAgreementID, string agreementNumber, double? contractorLU, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
         {
             this.ReclamationAgreementID = reclamationAgreementID;
             this.Original_ReclamationAgreementID = original_ReclamationAgreementID;
@@ -56,7 +56,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ReclamationAgreement(bool isContingent, bool isIncrementalFunding, int contractTypeID) : this()
+        public Agreement(bool isContingent, bool isIncrementalFunding, int contractTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -69,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReclamationAgreement(bool isContingent, bool isIncrementalFunding, ReclamationContractType contractType) : this()
+        public Agreement(bool isContingent, bool isIncrementalFunding, ReclamationContractType contractType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -77,15 +77,15 @@ namespace ProjectFirmaModels.Models
             this.IsIncrementalFunding = isIncrementalFunding;
             this.ContractTypeID = contractType.ReclamationContractTypeID;
             this.ContractType = contractType;
-            contractType.ReclamationAgreementsWhereYouAreTheContractType.Add(this);
+            contractType.AgreementsWhereYouAreTheContractType.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ReclamationAgreement CreateNewBlank(ReclamationContractType contractType)
+        public static Agreement CreateNewBlank(ReclamationContractType contractType)
         {
-            return new ReclamationAgreement(default(bool), default(bool), contractType);
+            return new Agreement(default(bool), default(bool), contractType);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationAgreement).Name, typeof(ObligationNumber).Name, typeof(ReclamationAgreementPacificNorthActivity).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationAgreementRequest).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Agreement).Name, typeof(ObligationNumber).Name, typeof(ReclamationAgreementPacificNorthActivity).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationAgreementRequest).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -108,7 +108,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.ReclamationAgreements.Remove(this);
+            dbContext.Agreements.Remove(this);
         }
         
         /// <summary>

@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReclamationAgreementPacificNorthActivity(ReclamationAgreement reclamationAgreement, ReclamationPacificNorthActivityList reclamationPacificNorthActivityList) : this()
+        public ReclamationAgreementPacificNorthActivity(Agreement reclamationAgreement, ReclamationPacificNorthActivityList reclamationPacificNorthActivityList) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementPacificNorthActivityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -67,7 +67,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ReclamationAgreementPacificNorthActivity CreateNewBlank(ReclamationAgreement reclamationAgreement, ReclamationPacificNorthActivityList reclamationPacificNorthActivityList)
+        public static ReclamationAgreementPacificNorthActivity CreateNewBlank(Agreement reclamationAgreement, ReclamationPacificNorthActivityList reclamationPacificNorthActivityList)
         {
             return new ReclamationAgreementPacificNorthActivity(reclamationAgreement, reclamationPacificNorthActivityList);
         }
@@ -111,7 +111,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationAgreementPacificNorthActivityID; } set { ReclamationAgreementPacificNorthActivityID = value; } }
 
-        public virtual ReclamationAgreement ReclamationAgreement { get; set; }
+        public virtual Agreement ReclamationAgreement { get; set; }
         public virtual ReclamationPacificNorthActivityList ReclamationPacificNorthActivityList { get; set; }
 
         public static class FieldLengths

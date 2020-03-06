@@ -3,11 +3,11 @@ using System.Linq;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class ReclamationAgreement : IAuditableEntity
+    public partial class Agreement : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {
-            return $"ReclamationAgreement: {this.ReclamationAgreementID} - {this.AgreementNumber}";
+            return $"Agreement: {this.ReclamationAgreementID} - {this.AgreementNumber}";
         }
 
         public string GetOrganizationDisplayName()

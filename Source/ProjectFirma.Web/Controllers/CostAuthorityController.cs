@@ -58,11 +58,11 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [CostAuthorityViewFeature]
-        public GridJsonNetJObjectResult<ReclamationAgreement> CostAuthorityAgreementGridJsonData(ReclamationCostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
+        public GridJsonNetJObjectResult<Agreement> CostAuthorityAgreementGridJsonData(ReclamationCostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
         {
             var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
             var projectReclamationAgreements = reclamationCostAuthorityPrimaryKey.EntityObject.GetReclamationAgreements();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationAgreement>(projectReclamationAgreements, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
 

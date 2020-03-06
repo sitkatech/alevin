@@ -9,31 +9,31 @@ namespace ProjectFirma.Web.Models
 {
     public static class ObligationModelExtensions
     {
-        //public static string GetDisplayName(this ReclamationAgreement reclamationAgreement)
+        //public static string GetDisplayName(this Agreement agreement)
         //{
-        //    return $"{reclamationAgreement.AgreementNumber}";
+        //    return $"{agreement.AgreementNumber}";
         //}
 
-        //public static string GetFullDisplayName(this ReclamationAgreement reclamationAgreement)
+        //public static string GetFullDisplayName(this Agreement agreement)
         //{
         //    return
-        //        $"{reclamationAgreement.AgreementNumber} - {reclamationAgreement.GetOrganizationDisplayName()} - {reclamationAgreement.ContractType.ContractTypeDisplayName}";
+        //        $"{agreement.AgreementNumber} - {agreement.GetOrganizationDisplayName()} - {agreement.ContractType.ContractTypeDisplayName}";
         //}
 
         ///// <summary>
         ///// Convenience accessor for Reclamation Cost Authorities.
         ///// </summary>
-        //public static List<ReclamationCostAuthority> GetReclamationCostAuthorities(this ReclamationAgreement reclamationAgreement)
+        //public static List<ReclamationCostAuthority> GetReclamationCostAuthorities(this Agreement agreement)
         //{
-        //    return reclamationAgreement.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationCostAuthority).ToList();
+        //    return agreement.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationCostAuthority).ToList();
         //}
 
         ///// <summary>
         ///// Convenience accessor for Reclamation Cost Authorities.
         ///// </summary>
-        //public static string GetReclamationWorkBreakdownStructuresAsCommaDelimitedString(this ReclamationAgreement reclamationAgreement)
+        //public static string GetReclamationWorkBreakdownStructuresAsCommaDelimitedString(this Agreement agreement)
         //{
-        //    var costAuthorities = reclamationAgreement.GetReclamationCostAuthorities();
+        //    var costAuthorities = agreement.GetReclamationCostAuthorities();
         //    return string.Join(", ", costAuthorities.Select(ca => ca.CostAuthorityWorkBreakdownStructure));
         //}
 
@@ -43,24 +43,24 @@ namespace ProjectFirma.Web.Models
             return ObligationDetailUrlTemplate.ParameterReplace(obligation.PrimaryKey);
         }
 
-        //public static string GetDetailLinkUsingAgreementNumber(this ReclamationAgreement reclamationAgreement)
+        //public static string GetDetailLinkUsingAgreementNumber(this Agreement agreement)
         //{
-        //    return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(reclamationAgreement), reclamationAgreement.AgreementNumber);
+        //    return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(agreement), agreement.AgreementNumber);
         //}
 
-        //public static string GetDetailLinkUsingFullDisplayName(this ReclamationAgreement reclamationAgreement)
+        //public static string GetDetailLinkUsingFullDisplayName(this Agreement agreement)
         //{
-        //    return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(reclamationAgreement), reclamationAgreement.GetFullDisplayName());
+        //    return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(agreement), agreement.GetFullDisplayName());
         //}
 
         ///// <summary>
         ///// Get the Projects associated with this Agreement
         ///// </summary>
-        ///// <param name="reclamationAgreement"></param>
+        ///// <param name="agreement"></param>
         ///// <returns></returns>
-        //public static List<Project> GetAssociatedProjects(this ReclamationAgreement reclamationAgreement)
+        //public static List<Project> GetAssociatedProjects(this Agreement agreement)
         //{
-        //    var costAuthorities = reclamationAgreement.GetReclamationCostAuthorities();
+        //    var costAuthorities = agreement.GetReclamationCostAuthorities();
         //    var projects = costAuthorities.SelectMany(x => x.GetAssociatedProjects()).Distinct().ToList();
         //    return projects;
         //}

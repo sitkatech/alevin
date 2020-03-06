@@ -19,7 +19,7 @@ CREATE TABLE [Reclamation].[ReclamationAgreementPacificNorthActivity](
 
 GO
 ALTER TABLE [Reclamation].[ReclamationAgreementPacificNorthActivity]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY([ReclamationAgreementID])
-REFERENCES [Reclamation].[ReclamationAgreement] ([ReclamationAgreementID])
+REFERENCES [Reclamation].[Agreement] ([ReclamationAgreementID])
 GO
 ALTER TABLE [Reclamation].[ReclamationAgreementPacificNorthActivity] CHECK CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationAgreement_ReclamationAgreementID]
 GO

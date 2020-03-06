@@ -110,7 +110,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationStagingCostAuthorityAgreementID; } set { ReclamationStagingCostAuthorityAgreementID = value; } }
 
         public virtual ICollection<ReclamationDeliverable> ReclamationDeliverablesWhereYouAreTheCostAuthorityAgreement { get; set; }
-        public virtual ReclamationAgreement Agreement { get; set; }
+        public virtual Agreement Agreement { get; set; }
         public virtual ReclamationCostAuthority CostAuthority { get; set; }
 
         public static class FieldLengths

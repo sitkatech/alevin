@@ -54,7 +54,7 @@ GO
 ALTER TABLE [Reclamation].[ReclamationAgreementRequest] CHECK CONSTRAINT [FK_ReclamationAgreementRequest_Person_UpdatePersonID_PersonID]
 GO
 ALTER TABLE [Reclamation].[ReclamationAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID] FOREIGN KEY([AgreementID])
-REFERENCES [Reclamation].[ReclamationAgreement] ([ReclamationAgreementID])
+REFERENCES [Reclamation].[Agreement] ([ReclamationAgreementID])
 GO
 ALTER TABLE [Reclamation].[ReclamationAgreementRequest] CHECK CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID]
 GO

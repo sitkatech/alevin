@@ -33,11 +33,11 @@
     private string GetOrganizationDisplayName()
     {
         // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
-        if (ViewDataTyped.ReclamationAgreement.Organization == null)
+        if (ViewDataTyped.Agreement.Organization == null)
         {
             return string.Empty;
         }
-        return ViewDataTyped.ReclamationAgreement.Organization.GetDisplayName();
+        return ViewDataTyped.Agreement.Organization.GetDisplayName();
     }
 }
 
@@ -100,28 +100,28 @@
             <div class="panel-body">
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Agreement Number</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.AgreementNumber</div>
+                    <div class="col-xs-7">@ViewDataTyped.Agreement.AgreementNumber</div>
                 </div>
                 <div class="row">
                     @*<div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForPerformanceMeasure)</div>*@
                     <div class="col-xs-5 fieldLabel text-right">BOC</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.BOC</div>
+                    <div class="col-xs-7">@ViewDataTyped.Agreement.BOC</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Organization.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.GetOrganizationDisplayName()</div>
+                    <div class="col-xs-7">@ViewDataTyped.Agreement.GetOrganizationDisplayName()</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@FieldDefinitionEnum.ContractType.ToType().GetFieldDefinitionLabel()</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.ContractType.ContractTypeDisplayName</div>
+                    <div class="col-xs-7">@ViewDataTyped.Agreement.ContractType.ContractTypeDisplayName</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Old Agreement Number</div>
-                    <div class="col-xs-7">@ViewDataTyped.ReclamationAgreement.OldAgreementNumber</div>
+                    <div class="col-xs-7">@ViewDataTyped.Agreement.OldAgreementNumber</div>
                 </div>
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Obligations</div>
-                    <div class="col-xs-7">@AgreementGridSpec.GetObligationHrefsString(ViewDataTyped.ReclamationAgreement)</div>
+                    <div class="col-xs-7">@AgreementGridSpec.GetObligationHrefsString(ViewDataTyped.Agreement)</div>
                 </div>
 
                 @*There are more fields we can show here, just am not doing it to start with. -- SLG*@

@@ -178,7 +178,7 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<ReclamationAgreementRequestSubmissionNote> ReclamationAgreementRequestSubmissionNotes { get; set; }
         public virtual ICollection<ReclamationCostAuthorityAgreementRequest> ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest { get; set; }
-        public virtual ReclamationAgreement Agreement { get; set; }
+        public virtual Agreement Agreement { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
         public ReclamationAgreementRequestStatus AgreementRequestStatus { get { return ReclamationAgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }
         public ReclamationAgreementRequestFundingPriority ReclamationAgreementRequestFundingPriority { get { return ReclamationAgreementRequestFundingPriorityID.HasValue ? ReclamationAgreementRequestFundingPriority.AllLookupDictionary[ReclamationAgreementRequestFundingPriorityID.Value] : null; } }

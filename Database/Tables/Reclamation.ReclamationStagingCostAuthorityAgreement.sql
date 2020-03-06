@@ -20,7 +20,7 @@ CREATE TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement](
 
 GO
 ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_ReclamationAgreement_AgreementID_ReclamationAgreementID] FOREIGN KEY([AgreementID])
-REFERENCES [Reclamation].[ReclamationAgreement] ([ReclamationAgreementID])
+REFERENCES [Reclamation].[Agreement] ([ReclamationAgreementID])
 GO
 ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement] CHECK CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_ReclamationAgreement_AgreementID_ReclamationAgreementID]
 GO

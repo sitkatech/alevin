@@ -1,19 +1,19 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [Reclamation].[ReclamationAgreement]
+//  Source Table: [Reclamation].[Agreement]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace ProjectFirmaModels.Models
 {
-    public class ReclamationAgreementConfiguration : EntityTypeConfiguration<ReclamationAgreement>
+    public class AgreementConfiguration : EntityTypeConfiguration<Agreement>
     {
-        public ReclamationAgreementConfiguration() : this("Reclamation"){}
+        public AgreementConfiguration() : this("Reclamation"){}
 
-        public ReclamationAgreementConfiguration(string schema)
+        public AgreementConfiguration(string schema)
         {
-            ToTable("ReclamationAgreement", schema);
+            ToTable("Agreement", schema);
             HasKey(x => x.ReclamationAgreementID);
             Property(x => x.ReclamationAgreementID).HasColumnName(@"ReclamationAgreementID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Original_ReclamationAgreementID).HasColumnName(@"Original_ReclamationAgreementID").HasColumnType("int").IsOptional();
@@ -32,8 +32,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ContractTypeID).HasColumnName(@"ContractTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-            HasOptional(a => a.Organization).WithMany(b => b.ReclamationAgreements).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_ReclamationAgreement_Organization_OrganizationID
-            HasRequired(a => a.ContractType).WithMany(b => b.ReclamationAgreementsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID
+            HasOptional(a => a.Organization).WithMany(b => b.Agreements).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_Agreement_Organization_OrganizationID
+            HasRequired(a => a.ContractType).WithMany(b => b.AgreementsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_Agreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID
         }
     }
 }

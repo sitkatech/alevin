@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [Reclamation].[ReclamationAgreement](
+CREATE TABLE [Reclamation].[Agreement](
 	[ReclamationAgreementID] [int] IDENTITY(1,1) NOT NULL,
 	[Original_ReclamationAgreementID] [int] NULL,
 	[AgreementNumber] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -25,12 +25,12 @@ CREATE TABLE [Reclamation].[ReclamationAgreement](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[ReclamationAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
+ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
 REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
-ALTER TABLE [Reclamation].[ReclamationAgreement] CHECK CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID]
+ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID]
 GO
-ALTER TABLE [Reclamation].[ReclamationAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
+ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
 REFERENCES [Reclamation].[ReclamationContractType] ([ReclamationContractTypeID])
 GO
-ALTER TABLE [Reclamation].[ReclamationAgreement] CHECK CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID]
+ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID]

@@ -18,6 +18,6 @@ CREATE TABLE [ImportFinancial].[ObligationNumber](
 
 GO
 ALTER TABLE [ImportFinancial].[ObligationNumber]  WITH CHECK ADD  CONSTRAINT [FK_ObligationNumber_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY([ReclamationAgreementID])
-REFERENCES [Reclamation].[ReclamationAgreement] ([ReclamationAgreementID])
+REFERENCES [Reclamation].[Agreement] ([ReclamationAgreementID])
 GO
 ALTER TABLE [ImportFinancial].[ObligationNumber] CHECK CONSTRAINT [FK_ObligationNumber_ReclamationAgreement_ReclamationAgreementID]

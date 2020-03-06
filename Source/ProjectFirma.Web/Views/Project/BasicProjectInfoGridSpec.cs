@@ -46,15 +46,15 @@ namespace ProjectFirma.Web.Views.Project
             BasicProjectInfoGridSpec_Impl(currentFirmaSession, allowTaggingFunctionality, costAuthorityWorkBreakdownStructure, null);
         }
 
-        public BasicProjectInfoGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality, ReclamationAgreement reclamationAgreement)
+        public BasicProjectInfoGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality, ProjectFirmaModels.Models.Agreement agreement)
         {
-            BasicProjectInfoGridSpec_Impl(currentFirmaSession, allowTaggingFunctionality, null, reclamationAgreement);
+            BasicProjectInfoGridSpec_Impl(currentFirmaSession, allowTaggingFunctionality, null, agreement);
         }
 
         private void BasicProjectInfoGridSpec_Impl(FirmaSession currentFirmaSession, 
                                                    bool allowTaggingFunctionality,
                                                    ReclamationCostAuthority costAuthorityWorkBreakdownStructure,
-                                                   ReclamationAgreement reclamationAgreement)
+                                                   ProjectFirmaModels.Models.Agreement agreement)
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (userHasTagManagePermissions && allowTaggingFunctionality)
@@ -81,7 +81,7 @@ namespace ProjectFirma.Web.Views.Project
                         : "Secondary", 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
 
-            if (reclamationAgreement != null)
+            if (agreement != null)
             {
                 Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.ReclamationCostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.ReclamationCostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Html);
 

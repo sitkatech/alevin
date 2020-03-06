@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public EditAgreementRequestViewData(
              ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
             , FirmaSession currentFirmaSession
-            , List<ReclamationAgreement> allAgreements
+            , List<ProjectFirmaModels.Models.Agreement> allAgreements
             , List<ReclamationContractType> allContractTypes
             , List<ReclamationAgreementRequestStatus> allAgreementRequestStatuses
             , List<ReclamationAgreementRequestFundingPriority> allFundingPriorities
@@ -109,12 +109,12 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public int? OrganizationID { get; set; }
 
 
-        public AgreementJson(ProjectFirmaModels.Models.ReclamationAgreement reclamationAgreement)
+        public AgreementJson(ProjectFirmaModels.Models.Agreement agreement)
         {
             TechnicalRepresentativeID = null;
-            TechnicalRepresentativeID = reclamationAgreement.TechnicalRepresentative.HasValue ? (int)reclamationAgreement.TechnicalRepresentative.Value : TechnicalRepresentativeID;
-            OrganizationID = reclamationAgreement.OrganizationID;
-            ReclamationAgreementID = reclamationAgreement.ReclamationAgreementID;
+            TechnicalRepresentativeID = agreement.TechnicalRepresentative.HasValue ? (int)agreement.TechnicalRepresentative.Value : TechnicalRepresentativeID;
+            OrganizationID = agreement.OrganizationID;
+            ReclamationAgreementID = agreement.ReclamationAgreementID;
         }
     }
 }

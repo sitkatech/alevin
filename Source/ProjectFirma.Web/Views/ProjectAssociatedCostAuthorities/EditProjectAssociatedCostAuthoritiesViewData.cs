@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         public List<ReclamationCostAuthoritySimple> AllReclamationCostAuthorities { get; }
 
 
-        public EditProjectAssociatedCostAuthoritiesViewData(IEnumerable<ReclamationAgreement> allReclamationAgreements, IEnumerable<ReclamationCostAuthority> allReclamationCostAuthorities)
+        public EditProjectAssociatedCostAuthoritiesViewData(IEnumerable<ProjectFirmaModels.Models.Agreement> allReclamationAgreements, IEnumerable<ReclamationCostAuthority> allReclamationCostAuthorities)
         {
             AllReclamationAgreements = allReclamationAgreements.Select(x => new ReclamationAgreementSimple(x)).ToList();
             AllReclamationCostAuthorities = allReclamationCostAuthorities
