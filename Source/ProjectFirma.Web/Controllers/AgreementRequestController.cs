@@ -125,8 +125,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var listOfCostAuthorityIDs = viewModel.CostAuthorityJsonList.Select(x => x.ReclamationCostAuthorityID).ToList();
-            var existingCostAuthorityAgreementRequests = reclamationAgreementRequest
-                .ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest;
+            var existingCostAuthorityAgreementRequests = reclamationAgreementRequest.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest;
             
             foreach (var costAuthorityID in listOfCostAuthorityIDs)
             {
