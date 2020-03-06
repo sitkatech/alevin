@@ -26,17 +26,17 @@ CREATE TABLE [Reclamation].[AgreementRequest](
 	[DateSentForDeptReview] [datetime] NULL,
 	[DCApprovalDate] [datetime] NULL,
 	[ActualAwardDate] [datetime] NULL,
- CONSTRAINT [PK_AgreementRequest_ReclamationAgreementRequestID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AgreementRequest_AgreementRequestID] PRIMARY KEY CLUSTERED 
 (
 	[AgreementRequestID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID_ReclamationAgreementID] FOREIGN KEY([AgreementID])
+ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID] FOREIGN KEY([AgreementID])
 REFERENCES [Reclamation].[Agreement] ([AgreementID])
 GO
-ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID_ReclamationAgreementID]
+ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID]
 GO
 ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_AgreementRequestFundingPriority_ReclamationAgreementRequestFundingPriorityID_AgreementRequestFundingPriority] FOREIGN KEY([ReclamationAgreementRequestFundingPriorityID])
 REFERENCES [Reclamation].[AgreementRequestFundingPriority] ([AgreementRequestFundingPriorityID])
@@ -48,10 +48,10 @@ REFERENCES [Reclamation].[AgreementRequestStatus] ([AgreementRequestStatusID])
 GO
 ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_AgreementRequestStatus_AgreementRequestStatusID]
 GO
-ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
+ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID] FOREIGN KEY([ContractTypeID])
 REFERENCES [Reclamation].[ContractType] ([ContractTypeID])
 GO
-ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID_ReclamationContractTypeID]
+ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID]
 GO
 ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Organization_RecipientOrganizationID_OrganizationID] FOREIGN KEY([RecipientOrganizationID])
 REFERENCES [dbo].[Organization] ([OrganizationID])

@@ -46,15 +46,15 @@ CREATE TABLE [dbo].[Person](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_DepartmentCode_ReclamationDepartmentCodeID] FOREIGN KEY([ReclamationDepartmentCodeID])
+ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_DepartmentCode_ReclamationDepartmentCodeID_DepartmentCodeID] FOREIGN KEY([ReclamationDepartmentCodeID])
 REFERENCES [Reclamation].[DepartmentCode] ([DepartmentCodeID])
 GO
-ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_DepartmentCode_ReclamationDepartmentCodeID]
+ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_DepartmentCode_ReclamationDepartmentCodeID_DepartmentCodeID]
 GO
-ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Location_ReclamationLocationID] FOREIGN KEY([ReclamationLocationID])
+ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Location_ReclamationLocationID_LocationID] FOREIGN KEY([ReclamationLocationID])
 REFERENCES [Reclamation].[Location] ([LocationID])
 GO
-ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Location_ReclamationLocationID]
+ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Location_ReclamationLocationID_LocationID]
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
 REFERENCES [dbo].[Organization] ([OrganizationID])

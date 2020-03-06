@@ -13,17 +13,17 @@ CREATE TABLE [Reclamation].[Deliverable](
 	[CostAuthorityAgreementID] [int] NULL,
 	[ReclamationStagingAgreementStatusTableID] [int] NULL,
 	[PersonID] [int] NULL,
- CONSTRAINT [PK_Deliverable_ReclamationDeliverableID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Deliverable_DeliverableID] PRIMARY KEY CLUSTERED 
 (
 	[DeliverableID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID] FOREIGN KEY([DeliverableTypeID])
+ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID] FOREIGN KEY([DeliverableTypeID])
 REFERENCES [Reclamation].[DeliverableType] ([DeliverableTypeID])
 GO
-ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID]
+ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID]
 GO
 ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_Person_PersonID] FOREIGN KEY([PersonID])
 REFERENCES [dbo].[Person] ([PersonID])

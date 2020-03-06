@@ -9,19 +9,19 @@ CREATE TABLE [Reclamation].[PacificNorthActivityList](
 	[SortOrder] [int] NULL,
 	[PacificNorthActivityTypeID] [int] NULL,
 	[PacificNorthActivityStatusID] [int] NULL,
- CONSTRAINT [PK_PacificNorthActivityList_ReclamationPacificNorthActivityListID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_PacificNorthActivityList_PacificNorthActivityListID] PRIMARY KEY CLUSTERED 
 (
 	[PacificNorthActivityListID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[PacificNorthActivityList]  WITH CHECK ADD  CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityStatus_PacificNorthActivityStatusID_ReclamationPacificNorthActivityStatusID] FOREIGN KEY([PacificNorthActivityStatusID])
+ALTER TABLE [Reclamation].[PacificNorthActivityList]  WITH CHECK ADD  CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityStatus_PacificNorthActivityStatusID] FOREIGN KEY([PacificNorthActivityStatusID])
 REFERENCES [Reclamation].[PacificNorthActivityStatus] ([PacificNorthActivityStatusID])
 GO
-ALTER TABLE [Reclamation].[PacificNorthActivityList] CHECK CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityStatus_PacificNorthActivityStatusID_ReclamationPacificNorthActivityStatusID]
+ALTER TABLE [Reclamation].[PacificNorthActivityList] CHECK CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityStatus_PacificNorthActivityStatusID]
 GO
-ALTER TABLE [Reclamation].[PacificNorthActivityList]  WITH CHECK ADD  CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityType_PacificNorthActivityTypeID_ReclamationPacificNorthActivityTypeID] FOREIGN KEY([PacificNorthActivityTypeID])
+ALTER TABLE [Reclamation].[PacificNorthActivityList]  WITH CHECK ADD  CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityType_PacificNorthActivityTypeID] FOREIGN KEY([PacificNorthActivityTypeID])
 REFERENCES [Reclamation].[PacificNorthActivityType] ([PacificNorthActivityTypeID])
 GO
-ALTER TABLE [Reclamation].[PacificNorthActivityList] CHECK CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityType_PacificNorthActivityTypeID_ReclamationPacificNorthActivityTypeID]
+ALTER TABLE [Reclamation].[PacificNorthActivityList] CHECK CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityType_PacificNorthActivityTypeID]

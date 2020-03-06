@@ -19,12 +19,12 @@ CREATE TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_Agreement_AgreementID_ReclamationAgreementID] FOREIGN KEY([AgreementID])
+ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_Agreement_AgreementID] FOREIGN KEY([AgreementID])
 REFERENCES [Reclamation].[Agreement] ([AgreementID])
 GO
-ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement] CHECK CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_Agreement_AgreementID_ReclamationAgreementID]
+ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement] CHECK CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_Agreement_AgreementID]
 GO
-ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_CostAuthority_CostAuthorityID_ReclamationCostAuthorityID] FOREIGN KEY([CostAuthorityID])
+ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_CostAuthority_CostAuthorityID] FOREIGN KEY([CostAuthorityID])
 REFERENCES [Reclamation].[CostAuthority] ([CostAuthorityID])
 GO
-ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement] CHECK CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_CostAuthority_CostAuthorityID_ReclamationCostAuthorityID]
+ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityAgreement] CHECK CONSTRAINT [FK_ReclamationStagingCostAuthorityAgreement_CostAuthority_CostAuthorityID]
