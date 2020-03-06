@@ -6,15 +6,15 @@ namespace ProjectFirma.Web.Models
 {
     public static class ReclamationAgreementRequestSubmissionNoteModelExtensions
     {
-        public static string GetDeleteUrl(this ReclamationAgreementRequestSubmissionNote reclamationAgreementRequestSubmissionNote)
+        public static string GetDeleteUrl(this AgreementRequestSubmissionNote agreementRequestSubmissionNote)
         {
             return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c =>
-                c.DeleteReclamationAgreementRequestSubmissionNote(reclamationAgreementRequestSubmissionNote.ReclamationAgreementRequestSubmissionNoteID));
+                c.DeleteReclamationAgreementRequestSubmissionNote(agreementRequestSubmissionNote.ReclamationAgreementRequestSubmissionNoteID));
         }
 
-        public static string GetEditUrl(this ReclamationAgreementRequestSubmissionNote reclamationAgreementRequestSubmissionNote)
+        public static string GetEditUrl(this AgreementRequestSubmissionNote agreementRequestSubmissionNote)
         {
-            return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c => c.Edit(reclamationAgreementRequestSubmissionNote.ReclamationAgreementRequestSubmissionNoteID));
+            return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c => c.Edit(agreementRequestSubmissionNote.ReclamationAgreementRequestSubmissionNoteID));
         }
     }
 }

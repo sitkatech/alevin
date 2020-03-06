@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
              ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
             , FirmaSession currentFirmaSession
             , List<ProjectFirmaModels.Models.Agreement> allAgreements
-            , List<ReclamationContractType> allContractTypes
+            , List<ContractType> allContractTypes
             , List<AgreementRequestStatus> allAgreementRequestStatuses
             , List<AgreementRequestFundingPriority> allFundingPriorities
             , List<ProjectFirmaModels.Models.Organization> allOrganizations

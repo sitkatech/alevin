@@ -76,11 +76,11 @@ namespace ProjectFirma.Web.Controllers
         //}
 
         //[ObligationViewFeature]
-        //public GridJsonNetJObjectResult<ReclamationCostAuthority> ObligationCostAuthorityGridJsonData(ObligationNumberPrimaryKey reclamationObligationPrimaryKey)
+        //public GridJsonNetJObjectResult<CostAuthority> ObligationCostAuthorityGridJsonData(ObligationNumberPrimaryKey reclamationObligationPrimaryKey)
         //{
         //    var gridSpec = new BasicCostAuthorityGridSpec(CurrentPerson);
         //    var projectReclamationObligations = reclamationObligationPrimaryKey.EntityObject.GetReclamationCostAuthorities();
-        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthority>(projectReclamationObligations, gridSpec);
+        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthority>(projectReclamationObligations, gridSpec);
         //    return gridJsonNetJObjectResult;
         //}
 

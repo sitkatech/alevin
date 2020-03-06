@@ -29,18 +29,18 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [CostAuthorityViewFeature]
-        public GridJsonNetJObjectResult<ReclamationCostAuthority> CostAuthorityGridJsonData()
+        public GridJsonNetJObjectResult<CostAuthority> CostAuthorityGridJsonData()
         {
             var gridSpec = new CostAuthorityGridSpec(CurrentFirmaSession);
-            var CostAuthorities = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorities.ToList().OrderBy(x => x.CostAuthorityNumber).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthority>(CostAuthorities, gridSpec);
+            var CostAuthorities = HttpRequestStorage.DatabaseEntities.CostAuthorities.ToList().OrderBy(x => x.CostAuthorityNumber).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthority>(CostAuthorities, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
         [CostAuthorityViewFeature]
         //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         // Can we / should we use the AgreementNumber as the primary key string?
-        public ViewResult CostAuthorityDetail(ReclamationCostAuthorityPrimaryKey costAuthorityPrimaryKey)
+        public ViewResult CostAuthorityDetail(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
         {
             var costAuthority = costAuthorityPrimaryKey.EntityObject;
             var viewData = new CostAuthorityDetailViewData(CurrentFirmaSession, costAuthority);
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [CostAuthorityViewFeature]
-        public GridJsonNetJObjectResult<Project> CostAuthorityProjectsGridJsonData(ReclamationCostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
+        public GridJsonNetJObjectResult<Project> CostAuthorityProjectsGridJsonData(CostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
         {
             var reclamationCostAuthority = reclamationCostAuthorityPrimaryKey.EntityObject;
             var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationCostAuthority);
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [CostAuthorityViewFeature]
-        public GridJsonNetJObjectResult<Agreement> CostAuthorityAgreementGridJsonData(ReclamationCostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
+        public GridJsonNetJObjectResult<Agreement> CostAuthorityAgreementGridJsonData(CostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
         {
             var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
             var projectReclamationAgreements = reclamationCostAuthorityPrimaryKey.EntityObject.GetReclamationAgreements();

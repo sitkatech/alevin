@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public AgreementPacificNorthActivity(Agreement reclamationAgreement, ReclamationPacificNorthActivityList reclamationPacificNorthActivityList) : this()
+        public AgreementPacificNorthActivity(Agreement reclamationAgreement, PacificNorthActivityList reclamationPacificNorthActivityList) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementPacificNorthActivityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -67,7 +67,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AgreementPacificNorthActivity CreateNewBlank(Agreement reclamationAgreement, ReclamationPacificNorthActivityList reclamationPacificNorthActivityList)
+        public static AgreementPacificNorthActivity CreateNewBlank(Agreement reclamationAgreement, PacificNorthActivityList reclamationPacificNorthActivityList)
         {
             return new AgreementPacificNorthActivity(reclamationAgreement, reclamationPacificNorthActivityList);
         }
@@ -112,7 +112,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationAgreementPacificNorthActivityID; } set { ReclamationAgreementPacificNorthActivityID = value; } }
 
         public virtual Agreement ReclamationAgreement { get; set; }
-        public virtual ReclamationPacificNorthActivityList ReclamationPacificNorthActivityList { get; set; }
+        public virtual PacificNorthActivityList ReclamationPacificNorthActivityList { get; set; }
 
         public static class FieldLengths
         {

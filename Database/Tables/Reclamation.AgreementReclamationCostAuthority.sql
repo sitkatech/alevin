@@ -24,6 +24,6 @@ GO
 ALTER TABLE [Reclamation].[AgreementReclamationCostAuthority] CHECK CONSTRAINT [FK_ReclamationAgreementReclamationCostAuthority_ReclamationAgreement_ReclamationAgreementID]
 GO
 ALTER TABLE [Reclamation].[AgreementReclamationCostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementReclamationCostAuthority_ReclamationCostAuthority_ReclamationCostAuthorityID] FOREIGN KEY([ReclamationCostAuthorityID])
-REFERENCES [Reclamation].[ReclamationCostAuthority] ([ReclamationCostAuthorityID])
+REFERENCES [Reclamation].[CostAuthority] ([ReclamationCostAuthorityID])
 GO
 ALTER TABLE [Reclamation].[AgreementReclamationCostAuthority] CHECK CONSTRAINT [FK_ReclamationAgreementReclamationCostAuthority_ReclamationCostAuthority_ReclamationCostAuthorityID]

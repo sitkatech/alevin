@@ -29,15 +29,15 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
             var agreementRequest = agreementRequestPrimaryKey.EntityObject;
-            var agreementRequestNote = ReclamationAgreementRequestSubmissionNote.CreateNewBlank(agreementRequest);
+            var agreementRequestNote = AgreementRequestSubmissionNote.CreateNewBlank(agreementRequest);
             viewModel.UpdateModel(agreementRequestNote, CurrentFirmaSession);
-            HttpRequestStorage.DatabaseEntities.ReclamationAgreementRequestSubmissionNotes.Add(agreementRequestNote);
+            HttpRequestStorage.DatabaseEntities.AgreementRequestSubmissionNotes.Add(agreementRequestNote);
             return new ModalDialogFormJsonResult();
         }
 
         [HttpGet]
         [AgreementRequestSubmissionNoteFeature]
-        public PartialViewResult Edit(ReclamationAgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey)
+        public PartialViewResult Edit(AgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey)
         {
             var agreementRequestNote = agreementRequestNotePrimaryKey.EntityObject;
             var viewModel = new EditNoteViewModel(agreementRequestNote.Note);
@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [AgreementRequestSubmissionNoteFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Edit(ReclamationAgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey, EditNoteViewModel viewModel)
+        public ActionResult Edit(AgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey, EditNoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -66,14 +66,14 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [AgreementRequestSubmissionNoteFeature]
-        public PartialViewResult DeleteReclamationAgreementRequestSubmissionNote(ReclamationAgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey)
+        public PartialViewResult DeleteReclamationAgreementRequestSubmissionNote(AgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey)
         {
             var agreementRequestNote = agreementRequestNotePrimaryKey.EntityObject;
             var viewModel = new ConfirmDialogFormViewModel(agreementRequestNote.ReclamationAgreementRequestSubmissionNoteID);
             return ViewDeleteReclamationAgreementRequestSubmissionNote(agreementRequestNote, viewModel);
         }
 
-        private PartialViewResult ViewDeleteReclamationAgreementRequestSubmissionNote(ReclamationAgreementRequestSubmissionNote agreementRequestNote, ConfirmDialogFormViewModel viewModel)
+        private PartialViewResult ViewDeleteReclamationAgreementRequestSubmissionNote(AgreementRequestSubmissionNote agreementRequestNote, ConfirmDialogFormViewModel viewModel)
         {
             var canDelete = !agreementRequestNote.HasDependentObjects();
             var confirmMessage = canDelete
@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [AgreementRequestSubmissionNoteFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteReclamationAgreementRequestSubmissionNote(ReclamationAgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteReclamationAgreementRequestSubmissionNote(AgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var agreementRequestNote = agreementRequestNotePrimaryKey.EntityObject;
             if (!ModelState.IsValid)

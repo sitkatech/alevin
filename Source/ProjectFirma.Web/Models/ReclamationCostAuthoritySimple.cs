@@ -23,15 +23,15 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public ReclamationCostAuthoritySimple(ReclamationCostAuthority reclamationCostAuthority)
+        public ReclamationCostAuthoritySimple(CostAuthority costAuthority)
             : this()
         {
-            ReclamationCostAuthorityID = reclamationCostAuthority.ReclamationCostAuthorityID;
-            ReclamationCostAuthorityAgreementSimplesList = reclamationCostAuthority.AgreementReclamationCostAuthorities.Select(x => new ReclamationAgreementSimple(x.ReclamationAgreement)).ToList();
-            ReclamationCostAuthorityDisplayName = $"{reclamationCostAuthority.CostAuthorityWorkBreakdownStructure} - {reclamationCostAuthority.AccountStructureDescription}";
+            ReclamationCostAuthorityID = costAuthority.ReclamationCostAuthorityID;
+            ReclamationCostAuthorityAgreementSimplesList = costAuthority.AgreementReclamationCostAuthorities.Select(x => new ReclamationAgreementSimple(x.ReclamationAgreement)).ToList();
+            ReclamationCostAuthorityDisplayName = $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}";
             CountOfRelatedAgreements = ReclamationCostAuthorityAgreementSimplesList.Count;
             ReclamationCostAuthorityDropdownDisplayName =
-                $"{reclamationCostAuthority.CostAuthorityWorkBreakdownStructure} - {reclamationCostAuthority.AccountStructureDescription}{(ReclamationCostAuthorityAgreementSimplesList.Any() ? GetRelatedAgreementIDsAsCommaDelimitedString() : "")}";
+                $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}{(ReclamationCostAuthorityAgreementSimplesList.Any() ? GetRelatedAgreementIDsAsCommaDelimitedString() : "")}";
         }
 
         private string GetRelatedAgreementIDsAsCommaDelimitedString()

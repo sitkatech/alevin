@@ -92,7 +92,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListID; } set { ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListID = value; } }
 
-        public virtual ReclamationPacificNorthActivityList PacificNorthActivityList { get; set; }
+        public virtual PacificNorthActivityList PacificNorthActivityList { get; set; }
 
         public static class FieldLengths
         {

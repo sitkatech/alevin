@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ReclamationStagingCostAuthorityAgreement()
         {
-            this.ReclamationDeliverablesWhereYouAreTheCostAuthorityAgreement = new HashSet<ReclamationDeliverable>();
+            this.DeliverablesWhereYouAreTheCostAuthorityAgreement = new HashSet<Deliverable>();
         }
 
         /// <summary>
@@ -59,13 +59,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationDeliverablesWhereYouAreTheCostAuthorityAgreement.Any();
+            return DeliverablesWhereYouAreTheCostAuthorityAgreement.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationStagingCostAuthorityAgreement).Name, typeof(ReclamationDeliverable).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationStagingCostAuthorityAgreement).Name, typeof(Deliverable).Name};
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in ReclamationDeliverablesWhereYouAreTheCostAuthorityAgreement.ToList())
+            foreach(var x in DeliverablesWhereYouAreTheCostAuthorityAgreement.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -109,9 +109,9 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationStagingCostAuthorityAgreementID; } set { ReclamationStagingCostAuthorityAgreementID = value; } }
 
-        public virtual ICollection<ReclamationDeliverable> ReclamationDeliverablesWhereYouAreTheCostAuthorityAgreement { get; set; }
+        public virtual ICollection<Deliverable> DeliverablesWhereYouAreTheCostAuthorityAgreement { get; set; }
         public virtual Agreement Agreement { get; set; }
-        public virtual ReclamationCostAuthority CostAuthority { get; set; }
+        public virtual CostAuthority CostAuthority { get; set; }
 
         public static class FieldLengths
         {

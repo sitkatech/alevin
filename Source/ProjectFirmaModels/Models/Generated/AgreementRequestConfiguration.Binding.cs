@@ -41,7 +41,7 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasOptional(a => a.Agreement).WithMany(b => b.AgreementRequestsWhereYouAreTheAgreement).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_AgreementRequest_Agreement_AgreementID_ReclamationAgreementID
-            HasRequired(a => a.ContractType).WithMany(b => b.AgreementRequestsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_AgreementRequest_ReclamationContractType_ContractTypeID_ReclamationContractTypeID
+            HasRequired(a => a.ContractType).WithMany(b => b.AgreementRequestsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_AgreementRequest_ContractType_ContractTypeID_ReclamationContractTypeID
             HasOptional(a => a.RecipientOrganization).WithMany(b => b.AgreementRequestsWhereYouAreTheRecipientOrganization).HasForeignKey(c => c.RecipientOrganizationID).WillCascadeOnDelete(false); // FK_AgreementRequest_Organization_RecipientOrganizationID_OrganizationID
             HasOptional(a => a.TechnicalRepresentativePerson).WithMany(b => b.AgreementRequestsWhereYouAreTheTechnicalRepresentativePerson).HasForeignKey(c => c.TechnicalRepresentativePersonID).WillCascadeOnDelete(false); // FK_AgreementRequest_Person_TechnicalRepresentativePersonID_PersonID
             HasRequired(a => a.CreatePerson).WithMany(b => b.AgreementRequestsWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_AgreementRequest_Person_CreatePersonID_PersonID

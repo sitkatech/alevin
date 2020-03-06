@@ -32,7 +32,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.CostAuthority
 {
-    public class BasicCostAuthorityGridSpec : GridSpec<ReclamationCostAuthority>
+    public class BasicCostAuthorityGridSpec : GridSpec<ProjectFirmaModels.Models.CostAuthority>
     {
         public BasicCostAuthorityGridSpec(Person currentPerson)
         {

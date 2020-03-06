@@ -33,7 +33,7 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasOptional(a => a.Organization).WithMany(b => b.Agreements).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_Agreement_Organization_OrganizationID
-            HasRequired(a => a.ContractType).WithMany(b => b.AgreementsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_Agreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID
+            HasRequired(a => a.ContractType).WithMany(b => b.AgreementsWhereYouAreTheContractType).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_Agreement_ContractType_ContractTypeID_ReclamationContractTypeID
         }
     }
 }

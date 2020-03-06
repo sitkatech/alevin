@@ -69,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Agreement(bool isContingent, bool isIncrementalFunding, ReclamationContractType contractType) : this()
+        public Agreement(bool isContingent, bool isIncrementalFunding, ContractType contractType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -83,7 +83,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Agreement CreateNewBlank(ReclamationContractType contractType)
+        public static Agreement CreateNewBlank(ContractType contractType)
         {
             return new Agreement(default(bool), default(bool), contractType);
         }
@@ -176,7 +176,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheAgreement { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement { get; set; }
         public virtual Organization Organization { get; set; }
-        public virtual ReclamationContractType ContractType { get; set; }
+        public virtual ContractType ContractType { get; set; }
 
         public static class FieldLengths
         {

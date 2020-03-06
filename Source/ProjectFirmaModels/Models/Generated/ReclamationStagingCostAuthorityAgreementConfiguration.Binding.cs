@@ -27,7 +27,7 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasOptional(a => a.Agreement).WithMany(b => b.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_ReclamationStagingCostAuthorityAgreement_Agreement_AgreementID_ReclamationAgreementID
-            HasOptional(a => a.CostAuthority).WithMany(b => b.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority).HasForeignKey(c => c.CostAuthorityID).WillCascadeOnDelete(false); // FK_ReclamationStagingCostAuthorityAgreement_ReclamationCostAuthority_CostAuthorityID_ReclamationCostAuthorityID
+            HasOptional(a => a.CostAuthority).WithMany(b => b.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority).HasForeignKey(c => c.CostAuthorityID).WillCascadeOnDelete(false); // FK_ReclamationStagingCostAuthorityAgreement_CostAuthority_CostAuthorityID_ReclamationCostAuthorityID
         }
     }
 }

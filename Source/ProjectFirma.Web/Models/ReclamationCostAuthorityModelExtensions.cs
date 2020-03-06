@@ -11,38 +11,38 @@ namespace ProjectFirma.Web.Models
     public static class ReclamationCostAuthorityModelExtensions
     {
 
-        public static string GetDisplayName(this ReclamationCostAuthority reclamationCostAuthority)
+        public static string GetDisplayName(this CostAuthority costAuthority)
         {
-            return $"{reclamationCostAuthority.CostAuthorityWorkBreakdownStructure}";
+            return $"{costAuthority.CostAuthorityWorkBreakdownStructure}";
         }
 
         /// <summary>
         /// Convenience accessor for Reclamation Agreements.
         /// </summary>
-        public static List<Agreement> GetReclamationAgreements(this ReclamationCostAuthority reclamationCostAuthority)
+        public static List<Agreement> GetReclamationAgreements(this CostAuthority costAuthority)
         {
-            return reclamationCostAuthority.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement).ToList();
+            return costAuthority.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement).ToList();
         }
 
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityDetail(UrlTemplate.Parameter1Int)));
-        public static string GetDetailUrl(this ReclamationCostAuthority costAuthority)
+        public static string GetDetailUrl(this CostAuthority costAuthority)
         {
             return DetailUrlTemplate.ParameterReplace(costAuthority.PrimaryKey);
         }
 
-        public static HtmlString GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(this ReclamationCostAuthority reclamationCostAuthority)
+        public static HtmlString GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(this CostAuthority costAuthority)
         {
-            return new HtmlString(SitkaRoute<CostAuthorityController>.BuildLinkFromExpression(cac => cac.CostAuthorityDetail(reclamationCostAuthority), reclamationCostAuthority.CostAuthorityWorkBreakdownStructure));
+            return new HtmlString(SitkaRoute<CostAuthorityController>.BuildLinkFromExpression(cac => cac.CostAuthorityDetail(costAuthority), costAuthority.CostAuthorityWorkBreakdownStructure));
         }
 
         /// <summary>
         /// Get the Projects associated with this Cost Authority through its associated agreements
         /// </summary>
-        /// <param name="reclamationCostAuthority"></param>
+        /// <param name="costAuthority"></param>
         /// <returns></returns>
-        public static List<Project> GetAssociatedProjects(this ReclamationCostAuthority reclamationCostAuthority)
+        public static List<Project> GetAssociatedProjects(this CostAuthority costAuthority)
         {
-            var projects = reclamationCostAuthority.ReclamationCostAuthorityProjects.Select(x => x.Project).ToList();
+            var projects = costAuthority.CostAuthorityProjects.Select(x => x.Project).ToList();
             return projects;
         }
 

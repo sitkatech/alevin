@@ -17,6 +17,6 @@ CREATE TABLE [Reclamation].[ReclamationStagingCostAuthorityWorkBreakdownStructur
 
 GO
 ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList_ReclamationPacificNorthActivityList_PacificNort] FOREIGN KEY([PacificNorthActivityListID])
-REFERENCES [Reclamation].[ReclamationPacificNorthActivityList] ([ReclamationPacificNorthActivityListID])
+REFERENCES [Reclamation].[PacificNorthActivityList] ([ReclamationPacificNorthActivityListID])
 GO
 ALTER TABLE [Reclamation].[ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList] CHECK CONSTRAINT [FK_ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList_ReclamationPacificNorthActivityList_PacificNort]

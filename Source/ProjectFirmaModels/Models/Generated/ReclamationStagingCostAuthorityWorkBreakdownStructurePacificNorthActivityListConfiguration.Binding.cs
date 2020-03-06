@@ -23,7 +23,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PacificNorthActivityListID).HasColumnName(@"PacificNorthActivityListID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-            HasOptional(a => a.PacificNorthActivityList).WithMany(b => b.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList).HasForeignKey(c => c.PacificNorthActivityListID).WillCascadeOnDelete(false); // FK_ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList_ReclamationPacificNorthActivityList_PacificNort
+            HasOptional(a => a.PacificNorthActivityList).WithMany(b => b.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList).HasForeignKey(c => c.PacificNorthActivityListID).WillCascadeOnDelete(false); // FK_ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList_PacificNorthActivityList_PacificNorthActivityLi
         }
     }
 }

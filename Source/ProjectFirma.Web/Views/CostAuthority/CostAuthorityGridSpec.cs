@@ -32,7 +32,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.CostAuthority
 {
-    public class CostAuthorityGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationCostAuthority>
+    public class CostAuthorityGridSpec : GridSpec<ProjectFirmaModels.Models.CostAuthority>
     {
         public CostAuthorityGridSpec(FirmaSession currentFirmaSession)
         {
@@ -52,9 +52,9 @@ namespace ProjectFirma.Web.Views.CostAuthority
             Add("Authority", ca => ca.Authority, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
 
-        private static HtmlString GetAgreementsHrefsString(ReclamationCostAuthority reclamationCostAuthority)
+        private static HtmlString GetAgreementsHrefsString(ProjectFirmaModels.Models.CostAuthority costAuthority)
         {
-            List<ProjectFirmaModels.Models.Agreement> agreements = reclamationCostAuthority.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement).ToList();
+            List<ProjectFirmaModels.Models.Agreement> agreements = costAuthority.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement).ToList();
             List<HtmlString> agreementsHrefHtmlStrings = agreements.Select(a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.AgreementNumber)).ToList();
 
             var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", agreementsHrefHtmlStrings));
@@ -62,9 +62,9 @@ namespace ProjectFirma.Web.Views.CostAuthority
         }
 
 
-        private static HtmlString GetProjectHrefsString(ReclamationCostAuthority reclamationCostAuthority)
+        private static HtmlString GetProjectHrefsString(ProjectFirmaModels.Models.CostAuthority costAuthority)
         {
-            var projects = reclamationCostAuthority.ReclamationCostAuthorityProjects.Select(rcap => rcap.Project)
+            var projects = costAuthority.CostAuthorityProjects.Select(rcap => rcap.Project)
                 .ToList();
             List<HtmlString> projectsHrefHtmlStrings = projects.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.GetDisplayName())).ToList();
 

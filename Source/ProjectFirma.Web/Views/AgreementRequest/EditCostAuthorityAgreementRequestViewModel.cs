@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         }
 
 
-        public EditCostAuthorityAgreementRequestViewModel(ReclamationCostAuthorityAgreementRequest costAuthorityAgreementRequest)
+        public EditCostAuthorityAgreementRequestViewModel(CostAuthorityAgreementRequest costAuthorityAgreementRequest)
         {
             CostAuthorityWorkBreakdownStructure = costAuthorityAgreementRequest.CostAuthority.CostAuthorityWorkBreakdownStructure;
             AccountStructureDescription = costAuthorityAgreementRequest.CostAuthority.AccountStructureDescription;
@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             ReclamationCostAuthorityAgreementRequestNote = costAuthorityAgreementRequest.ReclamationCostAuthorityAgreementRequestNote;
         }
 
-        public void UpdateModel(ReclamationCostAuthorityAgreementRequest costAuthorityAgreementRequest, FirmaSession currentFirmaSession)
+        public void UpdateModel(CostAuthorityAgreementRequest costAuthorityAgreementRequest, FirmaSession currentFirmaSession)
         {
             costAuthorityAgreementRequest.ProjectedObligation = ProjectedObligation;
             costAuthorityAgreementRequest.ReclamationCostAuthorityAgreementRequestNote = ReclamationCostAuthorityAgreementRequestNote;

@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public static List<EntityNote> CreateFromEntityNote(
-            IEnumerable<ReclamationAgreementRequestSubmissionNote> entityNotes)
+            IEnumerable<AgreementRequestSubmissionNote> entityNotes)
         {
             return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
         }

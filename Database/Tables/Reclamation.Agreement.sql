@@ -31,6 +31,6 @@ GO
 ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID]
 GO
 ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
-REFERENCES [Reclamation].[ReclamationContractType] ([ReclamationContractTypeID])
+REFERENCES [Reclamation].[ContractType] ([ReclamationContractTypeID])
 GO
 ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID]

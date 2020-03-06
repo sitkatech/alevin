@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Project
             BasicProjectInfoGridSpec_Impl(currentFirmaSession, allowTaggingFunctionality, null, null);
         }
 
-        public BasicProjectInfoGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality, ReclamationCostAuthority costAuthorityWorkBreakdownStructure)
+        public BasicProjectInfoGridSpec(FirmaSession currentFirmaSession, bool allowTaggingFunctionality, ProjectFirmaModels.Models.CostAuthority costAuthorityWorkBreakdownStructure)
         {
             BasicProjectInfoGridSpec_Impl(currentFirmaSession, allowTaggingFunctionality, costAuthorityWorkBreakdownStructure, null);
         }
@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Project
 
         private void BasicProjectInfoGridSpec_Impl(FirmaSession currentFirmaSession, 
                                                    bool allowTaggingFunctionality,
-                                                   ReclamationCostAuthority costAuthorityWorkBreakdownStructure,
+                                                   ProjectFirmaModels.Models.CostAuthority costAuthorityWorkBreakdownStructure,
                                                    ProjectFirmaModels.Models.Agreement agreement)
         {
             var userHasTagManagePermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.Project
             if (costAuthorityWorkBreakdownStructure != null)
             {
                 Add($"Is {costAuthorityWorkBreakdownStructure.GetDisplayName()} Primary or Secondary CAWBS for this project?",
-                    x => x.ReclamationCostAuthorityProjects.Any(rcap =>
+                    x => x.CostAuthorityProjects.Any(rcap =>
                         rcap.IsPrimaryProjectCawbs && rcap.ReclamationCostAuthorityID ==
                         costAuthorityWorkBreakdownStructure.ReclamationCostAuthorityID)
                         ? "Primary"
@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Views.Project
 
             if (agreement != null)
             {
-                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.ReclamationCostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.ReclamationCostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.CostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.ReclamationCostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Html);
 
                 Add(FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), x => GetSecondaryReclamationCostAuthorityAsCommaDelimitedList(x), 200, DhtmlxGridColumnFilterType.Text);
             }
@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Views.Project
 
         private static HtmlString GetSecondaryReclamationCostAuthorityAsCommaDelimitedList(ProjectFirmaModels.Models.Project project)
         {
-            var reclamationCostAuthorities = project.ReclamationCostAuthorityProjects.Where(rcap => !rcap.IsPrimaryProjectCawbs).Select(x => x.ReclamationCostAuthority);
+            var reclamationCostAuthorities = project.CostAuthorityProjects.Where(rcap => !rcap.IsPrimaryProjectCawbs).Select(x => x.ReclamationCostAuthority);
             var costAuthorityWorkBreakdownStructures = reclamationCostAuthorities.Select(rca => rca.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()).ToList();
             return new HtmlString(string.Join(", ", costAuthorityWorkBreakdownStructures));
         }

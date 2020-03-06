@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ReclamationStagingAgreementStatusTable()
         {
-            this.ReclamationDeliverables = new HashSet<ReclamationDeliverable>();
+            this.Deliverables = new HashSet<Deliverable>();
         }
 
         /// <summary>
@@ -73,13 +73,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationDeliverables.Any();
+            return Deliverables.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationStagingAgreementStatusTable).Name, typeof(ReclamationDeliverable).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationStagingAgreementStatusTable).Name, typeof(Deliverable).Name};
 
 
         /// <summary>
@@ -104,7 +104,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in ReclamationDeliverables.ToList())
+            foreach(var x in Deliverables.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -127,7 +127,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationStagingAgreementStatusTableID; } set { ReclamationStagingAgreementStatusTableID = value; } }
 
-        public virtual ICollection<ReclamationDeliverable> ReclamationDeliverables { get; set; }
+        public virtual ICollection<Deliverable> Deliverables { get; set; }
 
         public static class FieldLengths
         {

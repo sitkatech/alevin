@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewProjectAssociatedCostAuthoritiesEditor(viewModel, project);
             }
 
-            viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorityProjects, CurrentPerson);
+            viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities.CostAuthorityProjects, CurrentPerson);
 
             return new ModalDialogFormJsonResult();
         }
@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewProjectAssociatedCostAuthoritiesEditor(EditProjectAssociatedCostAuthoritiesViewModel viewModel, Project project)
         {
             var allReclamationAgreements = HttpRequestStorage.DatabaseEntities.Agreements.ToList();
-            var allReclamationCostAuthorities = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorities.ToList();
+            var allReclamationCostAuthorities = HttpRequestStorage.DatabaseEntities.CostAuthorities.ToList();
 
             var viewData = new EditProjectAssociatedCostAuthoritiesViewData(allReclamationAgreements, allReclamationCostAuthorities);
             return RazorPartialView<EditProjectAssociatedCostAuthorities, EditProjectAssociatedCostAuthoritiesViewData, EditProjectAssociatedCostAuthoritiesViewModel>(viewData, viewModel);

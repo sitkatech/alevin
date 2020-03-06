@@ -32,8 +32,8 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         public string AddNewAgreementUrl { get; }
         public List<ProjectFirmaModels.Models.Agreement> ReclamationAgreements { get; }
 
-        public List<ReclamationCostAuthority> SecondaryReclamationCostAuthorityWorkBreakdownStructures { get; }
-        public ReclamationCostAuthority PrimaryReclamationCostAuthorityWorkBreakdownStructure { get; }
+        public List<ProjectFirmaModels.Models.CostAuthority> SecondaryReclamationCostAuthorityWorkBreakdownStructures { get; }
+        public ProjectFirmaModels.Models.CostAuthority PrimaryCostAuthorityWorkBreakdownStructure { get; }
 
         public ProjectAgreementDetailViewData(FirmaSession currentFirmaSession, 
                                               ProjectFirmaModels.Models.Project project,
@@ -44,14 +44,14 @@ namespace ProjectFirma.Web.Views.ProjectFunding
             UserHasProjectAgreementManagePermissions = userHasProjectAgreementManagePermissions;
             AddNewAgreementUrl = "NO_URL_YET";
 
-            var costAuthorities = project.ReclamationCostAuthorityProjects.Select(x => x.ReclamationCostAuthority)
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority)
                 .ToList();
 
             ReclamationAgreements = costAuthorities.SelectMany(ca =>
                 ca.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement)).ToList();
 
-            SecondaryReclamationCostAuthorityWorkBreakdownStructures = project.ReclamationCostAuthorityProjects.Where(x => !x.IsPrimaryProjectCawbs).Select(rcap => rcap.ReclamationCostAuthority).ToList();
-            PrimaryReclamationCostAuthorityWorkBreakdownStructure = project.ReclamationCostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthority;
+            SecondaryReclamationCostAuthorityWorkBreakdownStructures = project.CostAuthorityProjects.Where(x => !x.IsPrimaryProjectCawbs).Select(rcap => rcap.ReclamationCostAuthority).ToList();
+            PrimaryCostAuthorityWorkBreakdownStructure = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthority;
 
         }
     }

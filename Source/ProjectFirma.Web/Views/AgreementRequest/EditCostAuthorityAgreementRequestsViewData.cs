@@ -44,12 +44,12 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public EditCostAuthorityAgreementRequestsViewData(
              ProjectFirmaModels.Models.FirmaPage editCostAuthorityAgreementRequestsFirmaPage
             , FirmaSession currentFirmaSession
-            , List<ReclamationCostAuthority> allCostAuthorities
+            , List<ProjectFirmaModels.Models.CostAuthority> allCostAuthorities
             , ProjectFirmaModels.Models.AgreementRequest agreementRequest
             ) : base(currentFirmaSession, editCostAuthorityAgreementRequestsFirmaPage)
         {
             var costAuthoritiesToOmit =
-                agreementRequest.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
+                agreementRequest.CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
                     .Select(x => x.CostAuthorityID);
             var reclamationCostAuthoritiesToUse = allCostAuthorities
                 .Where(x => !costAuthoritiesToOmit.Contains(x.ReclamationCostAuthorityID)).ToList();
@@ -87,15 +87,15 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         }
 
 
-        public CostAuthorityJson(ReclamationCostAuthority reclamationCostAuthority)
+        public CostAuthorityJson(ProjectFirmaModels.Models.CostAuthority costAuthority)
         {
-            ReclamationCostAuthorityID = reclamationCostAuthority.ReclamationCostAuthorityID;
-            CostAuthorityWorkBreakdownStructure = reclamationCostAuthority.CostAuthorityWorkBreakdownStructure;
-            AccountStructureDescription = reclamationCostAuthority.AccountStructureDescription;
+            ReclamationCostAuthorityID = costAuthority.ReclamationCostAuthorityID;
+            CostAuthorityWorkBreakdownStructure = costAuthority.CostAuthorityWorkBreakdownStructure;
+            AccountStructureDescription = costAuthority.AccountStructureDescription;
 
         }
 
-        public CostAuthorityJson(ReclamationCostAuthorityAgreementRequest costAuthorityAgreementRequest)
+        public CostAuthorityJson(CostAuthorityAgreementRequest costAuthorityAgreementRequest)
         {
             ReclamationCostAuthorityID = costAuthorityAgreementRequest.CostAuthority.ReclamationCostAuthorityID;
             CostAuthorityWorkBreakdownStructure = costAuthorityAgreementRequest.CostAuthority.CostAuthorityWorkBreakdownStructure;

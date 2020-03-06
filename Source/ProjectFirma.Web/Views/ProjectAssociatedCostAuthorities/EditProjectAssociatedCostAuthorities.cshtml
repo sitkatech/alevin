@@ -101,7 +101,7 @@
                             <div class="input-group" style="width: 100%;">
                                 <select class="selectpicker" name="@Html.NameFor(x => x.PrimaryReclamationCostAuthorityID)" ng-model="primaryCostAuthorityID" data-width="100%" data-container=".modal-content" data-live-search="true" data-size="6" id="PrimaryReclamationCostAuthorityID" data-selected-text-format="count" data-dropup-auto="false">
                                     <option value="0" disabled>Select a @(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel())</option>
-                                    <option class="allow-option-word-wrap" ng-selected="costAuthority.ReclamationCostAuthorityID == primaryCostAuthorityID" ng-repeat="costAuthority in getPrimaryCostAuthorityOptions()" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDropdownDisplayName}}</option>
+                                    <option class="allow-option-word-wrap" ng-selected="costAuthority.CostAuthorityID == primaryCostAuthorityID" ng-repeat="costAuthority in getPrimaryCostAuthorityOptions()" value="{{costAuthority.CostAuthorityID}}">{{costAuthority.CostAuthorityDropdownDisplayName}}</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.PrimaryReclamationCostAuthorityID)
                             </div>
@@ -124,7 +124,7 @@
                             <div class="input-group" style="width: 100%;">
                                 <select class="selectpicker" multiple name="@Html.NameFor(x => x.SelectedReclamationCostAuthorityIDs)" ng-model="selectedCostAuthorityIDs" data-width="100%" data-container=".modal-content" data-live-search="true" data-size="6" id="SelectedReclamationCostAuthorityIDs" data-selected-text-format="count" data-dropup-auto="false">
                                     <option value="0" disabled>Select a @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel())</option>
-                                    <option class="allow-option-word-wrap" ng-selected="isSelected(costAuthority.ReclamationCostAuthorityID)" ng-repeat="costAuthority in ReclamationCostAuthorityOptions" value="{{costAuthority.ReclamationCostAuthorityID}}">{{costAuthority.ReclamationCostAuthorityDropdownDisplayName}}</option>
+                                    <option class="allow-option-word-wrap" ng-selected="isSelected(costAuthority.CostAuthorityID)" ng-repeat="costAuthority in CostAuthorityOptions" value="{{costAuthority.CostAuthorityID}}">{{costAuthority.CostAuthorityDropdownDisplayName}}</option>
                                 </select>
                                 @Html.ValidationMessageFor(m => m.SelectedReclamationCostAuthorityIDs)
                             </div>
@@ -147,13 +147,13 @@
                                 </tr>
                                 <tr ng-repeat="selectedCostAuthority in SelectedCostAuthorities">
                                     <td>
-                                        <button type="button" title="Remove row" alt="Remove row" ng-click="removeCostAuthority(selectedCostAuthority.ReclamationCostAuthorityID)" class="btn btn-xs btn-firma remove-cost-authority"><span class="glyphicon glyphicon-trash white"></span></button>
+                                        <button type="button" title="Remove row" alt="Remove row" ng-click="removeCostAuthority(selectedCostAuthority.CostAuthorityID)" class="btn btn-xs btn-firma remove-cost-authority"><span class="glyphicon glyphicon-trash white"></span></button>
                                     </td>
-                                    <td>{{selectedCostAuthority.ReclamationCostAuthorityDisplayName}}</td>
+                                    <td>{{selectedCostAuthority.CostAuthorityDisplayName}}</td>
                                     <td>
                                         <ul>
-                                            <li ng-if="selectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList.length == 0">(none)</li>
-                                            <li ng-repeat="agreement in selectedCostAuthority.ReclamationCostAuthorityAgreementSimplesList">{{agreement.AgreementDisplayName}}</li>
+                                            <li ng-if="selectedCostAuthority.CostAuthorityAgreementSimplesList.length == 0">(none)</li>
+                                            <li ng-repeat="agreement in selectedCostAuthority.CostAuthorityAgreementSimplesList">{{agreement.AgreementDisplayName}}</li>
                                         </ul>
                                     </td>
                                 </tr>

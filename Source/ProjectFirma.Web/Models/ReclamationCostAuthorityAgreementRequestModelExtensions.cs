@@ -12,17 +12,17 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t => t.DeleteCostAuthority(UrlTemplate.Parameter1Int)));
 
-        public static string GetDeleteUrl(this ReclamationCostAuthorityAgreementRequest reclamationCostAuthorityAgreementRequest)
+        public static string GetDeleteUrl(this CostAuthorityAgreementRequest costAuthorityAgreementRequest)
         {
-            return DeleteUrlTemplate.ParameterReplace(reclamationCostAuthorityAgreementRequest.PrimaryKey);
+            return DeleteUrlTemplate.ParameterReplace(costAuthorityAgreementRequest.PrimaryKey);
         }
 
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t => t.EditCostAuthorityAgreementRequest(UrlTemplate.Parameter1Int)));
 
-        public static string GetEditUrl(this ReclamationCostAuthorityAgreementRequest reclamationCostAuthorityAgreementRequest)
+        public static string GetEditUrl(this CostAuthorityAgreementRequest costAuthorityAgreementRequest)
         {
-            return EditUrlTemplate.ParameterReplace(reclamationCostAuthorityAgreementRequest.PrimaryKey);
+            return EditUrlTemplate.ParameterReplace(costAuthorityAgreementRequest.PrimaryKey);
         }
     }
 }

@@ -24,7 +24,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @inherits ProjectFirma.Web.Views.ProjectAgreement.ProjectAgreementDetail
 <div class="col-xs-12">
 
-    @if (!ViewDataTyped.SecondaryReclamationCostAuthorityWorkBreakdownStructures.Any() && ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure == null)
+    @if (!ViewDataTyped.SecondaryReclamationCostAuthorityWorkBreakdownStructures.Any() && ViewDataTyped.PrimaryCostAuthorityWorkBreakdownStructure == null)
     {
         <div>
             <p class="systemText">No @(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) associated with this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
@@ -33,7 +33,7 @@ Source code is available upon request via <support@sitkatech.com>.
     else
     {
         <h4>@FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()</h4>
-        if (ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure == null)
+        if (ViewDataTyped.PrimaryCostAuthorityWorkBreakdownStructure == null)
         {
             <div>
                 <p class="systemText">No @(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()) selected for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
@@ -51,10 +51,10 @@ Source code is available upon request via <support@sitkatech.com>.
                     </thead>
                     <tbody>
                         <tr>
-                            <td>@Html.Raw(ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
+                            <td>@Html.Raw(ViewDataTyped.PrimaryCostAuthorityWorkBreakdownStructure.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure())</td>
                             <td>
                                 <ul style="list-style-type: none; padding-left: 0; margin-left: 0;">
-                                    @foreach (var reclamationAgreement in ViewDataTyped.PrimaryReclamationCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
+                                    @foreach (var reclamationAgreement in ViewDataTyped.PrimaryCostAuthorityWorkBreakdownStructure.GetReclamationAgreements())
                                     {
                                         <li>
                                             <span>@Html.Raw(reclamationAgreement.GetDetailLinkUsingFullDisplayName())</span>

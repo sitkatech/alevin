@@ -34,7 +34,7 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.AgreementRequest
 {
-    public class CostAuthorityAgreementRequestGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationCostAuthorityAgreementRequest>
+    public class CostAuthorityAgreementRequestGridSpec : GridSpec<ProjectFirmaModels.Models.CostAuthorityAgreementRequest>
     {
         public CostAuthorityAgreementRequestGridSpec(FirmaSession currentFirmaSession, bool isInDraft, List<int> costAuthorityIDListOnAgreement)
         {

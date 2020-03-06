@@ -24,8 +24,8 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected AgreementRequest()
         {
-            this.ReclamationAgreementRequestSubmissionNotes = new HashSet<ReclamationAgreementRequestSubmissionNote>();
-            this.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest = new HashSet<ReclamationCostAuthorityAgreementRequest>();
+            this.AgreementRequestSubmissionNotes = new HashSet<AgreementRequestSubmissionNote>();
+            this.CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest = new HashSet<CostAuthorityAgreementRequest>();
         }
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public AgreementRequest(bool isModification, ReclamationContractType contractType, AgreementRequestStatus agreementRequestStatus, string descriptionOfNeed, DateTime createDate, Person createPerson) : this()
+        public AgreementRequest(bool isModification, ContractType contractType, AgreementRequestStatus agreementRequestStatus, string descriptionOfNeed, DateTime createDate, Person createPerson) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -96,7 +96,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AgreementRequest CreateNewBlank(ReclamationContractType contractType, AgreementRequestStatus agreementRequestStatus, Person createPerson)
+        public static AgreementRequest CreateNewBlank(ContractType contractType, AgreementRequestStatus agreementRequestStatus, Person createPerson)
         {
             return new AgreementRequest(default(bool), contractType, agreementRequestStatus, default(string), default(DateTime), createPerson);
         }
@@ -107,13 +107,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationAgreementRequestSubmissionNotes.Any() || ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Any();
+            return AgreementRequestSubmissionNotes.Any() || CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AgreementRequest).Name, typeof(ReclamationAgreementRequestSubmissionNote).Name, typeof(ReclamationCostAuthorityAgreementRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(AgreementRequest).Name, typeof(AgreementRequestSubmissionNote).Name, typeof(CostAuthorityAgreementRequest).Name};
 
 
         /// <summary>
@@ -138,12 +138,12 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in ReclamationAgreementRequestSubmissionNotes.ToList())
+            foreach(var x in AgreementRequestSubmissionNotes.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList())
+            foreach(var x in CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -176,10 +176,10 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationAgreementRequestID; } set { ReclamationAgreementRequestID = value; } }
 
-        public virtual ICollection<ReclamationAgreementRequestSubmissionNote> ReclamationAgreementRequestSubmissionNotes { get; set; }
-        public virtual ICollection<ReclamationCostAuthorityAgreementRequest> ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest { get; set; }
+        public virtual ICollection<AgreementRequestSubmissionNote> AgreementRequestSubmissionNotes { get; set; }
+        public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest { get; set; }
         public virtual Agreement Agreement { get; set; }
-        public virtual ReclamationContractType ContractType { get; set; }
+        public virtual ContractType ContractType { get; set; }
         public AgreementRequestStatus AgreementRequestStatus { get { return AgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }
         public AgreementRequestFundingPriority ReclamationAgreementRequestFundingPriority { get { return ReclamationAgreementRequestFundingPriorityID.HasValue ? AgreementRequestFundingPriority.AllLookupDictionary[ReclamationAgreementRequestFundingPriorityID.Value] : null; } }
         public virtual Organization RecipientOrganization { get; set; }

@@ -39,8 +39,8 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasRequired(a => a.Organization).WithMany(b => b.People).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_Person_Organization_OrganizationID
-            HasOptional(a => a.ReclamationLocation).WithMany(b => b.People).HasForeignKey(c => c.ReclamationLocationID).WillCascadeOnDelete(false); // FK_Person_ReclamationLocation_ReclamationLocationID
-            HasOptional(a => a.ReclamationDepartmentCode).WithMany(b => b.People).HasForeignKey(c => c.ReclamationDepartmentCodeID).WillCascadeOnDelete(false); // FK_Person_ReclamationDepartmentCode_ReclamationDepartmentCodeID
+            HasOptional(a => a.ReclamationLocation).WithMany(b => b.People).HasForeignKey(c => c.ReclamationLocationID).WillCascadeOnDelete(false); // FK_Person_Location_ReclamationLocationID
+            HasOptional(a => a.ReclamationDepartmentCode).WithMany(b => b.People).HasForeignKey(c => c.ReclamationDepartmentCodeID).WillCascadeOnDelete(false); // FK_Person_DepartmentCode_ReclamationDepartmentCodeID
         }
     }
 }

@@ -47,20 +47,20 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
 
         public EditProjectAssociatedCostAuthoritiesViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
-            SelectedReclamationCostAuthorityIDs = project.ReclamationCostAuthorityProjects
+            SelectedReclamationCostAuthorityIDs = project.CostAuthorityProjects
                 .Select(x => x.ReclamationCostAuthorityID).ToList();
-            PrimaryReclamationCostAuthorityID = project.ReclamationCostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthorityID;
+            PrimaryReclamationCostAuthorityID = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthorityID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
-            DbSet<ReclamationCostAuthorityProject> allProjectReclamationCostAuthoritiesInDatabase, Person currentPerson)
+            DbSet<CostAuthorityProject> allProjectReclamationCostAuthoritiesInDatabase, Person currentPerson)
         {
-            var updatedCostAuthorityIDs = new List<ReclamationCostAuthorityProject>();
+            var updatedCostAuthorityIDs = new List<CostAuthorityProject>();
 
             if (SelectedReclamationCostAuthorityIDs != null)
             {
                 updatedCostAuthorityIDs.AddRange(SelectedReclamationCostAuthorityIDs.Select(x =>
-                    new ReclamationCostAuthorityProject(x, project.ProjectID, (x == PrimaryReclamationCostAuthorityID))));
+                    new CostAuthorityProject(x, project.ProjectID, (x == PrimaryReclamationCostAuthorityID))));
             }
 
             // Awkward hack: To get around the only-one-primary-CAWBS constraint, we need to clear any
@@ -70,13 +70,13 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
             if (updatedCostAuthorityIDs.Any())
             {
                 var projectReclamationCostAuthoritiesUpdatedIds = updatedCostAuthorityIDs.Select(x => x.ReclamationCostAuthorityID).ToList();
-                var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.ReclamationCostAuthorityProjects.Where(x => x.ProjectID == project.ProjectID && projectReclamationCostAuthoritiesUpdatedIds.Contains(x.ReclamationCostAuthorityID) && x.IsPrimaryProjectCawbs).ToList();
+                var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.CostAuthorityProjects.Where(x => x.ProjectID == project.ProjectID && projectReclamationCostAuthoritiesUpdatedIds.Contains(x.ReclamationCostAuthorityID) && x.IsPrimaryProjectCawbs).ToList();
                 onDiskRecordsToTemporarilyUpdate.ForEach(odr => odr.IsPrimaryProjectCawbs = false);
                 HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(MultiTenantHelpers.GetTenantAttribute().TenantID);
             }
 
             // Now we can do the merge again, and this time we keep the new IsPrimaryProjectCawbs.
-            project.ReclamationCostAuthorityProjects.Merge(
+            project.CostAuthorityProjects.Merge(
                 updatedCostAuthorityIDs,
                 allProjectReclamationCostAuthoritiesInDatabase.Local,  
                 (x, y) => x.ProjectID == y.ProjectID && x.ReclamationCostAuthorityID == y.ReclamationCostAuthorityID, 

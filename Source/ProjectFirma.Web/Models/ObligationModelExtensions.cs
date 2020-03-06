@@ -23,9 +23,9 @@ namespace ProjectFirma.Web.Models
         ///// <summary>
         ///// Convenience accessor for Reclamation Cost Authorities.
         ///// </summary>
-        //public static List<ReclamationCostAuthority> GetReclamationCostAuthorities(this Agreement agreement)
+        //public static List<CostAuthority> GetReclamationCostAuthorities(this Agreement agreement)
         //{
-        //    return agreement.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationCostAuthority).ToList();
+        //    return agreement.AgreementReclamationCostAuthorities.Select(rarca => rarca.CostAuthority).ToList();
         //}
 
         ///// <summary>

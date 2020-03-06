@@ -57,12 +57,12 @@ GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Organization_OrganizationID_TenantID]
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_ReclamationDepartmentCode_ReclamationDepartmentCodeID] FOREIGN KEY([ReclamationDepartmentCodeID])
-REFERENCES [Reclamation].[ReclamationDepartmentCode] ([ReclamationDepartmentCodeID])
+REFERENCES [Reclamation].[DepartmentCode] ([ReclamationDepartmentCodeID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_ReclamationDepartmentCode_ReclamationDepartmentCodeID]
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_ReclamationLocation_ReclamationLocationID] FOREIGN KEY([ReclamationLocationID])
-REFERENCES [Reclamation].[ReclamationLocation] ([ReclamationLocationID])
+REFERENCES [Reclamation].[Location] ([ReclamationLocationID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_ReclamationLocation_ReclamationLocationID]
 GO
