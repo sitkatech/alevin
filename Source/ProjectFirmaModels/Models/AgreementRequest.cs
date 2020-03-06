@@ -4,7 +4,7 @@
     {
         public string GetAuditDescriptionString()
         {
-            return $"AgreementRequest: {this.ReclamationAgreementRequestID}";
+            return $"AgreementRequest: {this.AgreementRequestID}";
         }
 
         public decimal? ProjectedObligation => null;

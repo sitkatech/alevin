@@ -26,7 +26,7 @@ namespace ProjectFirmaModels.Models
 
         public string GetAuditDescriptionString()
         {
-            return $"Reclamation Agreement Request Submission Note: {ReclamationAgreementRequestSubmissionNoteID} Note";
+            return $"Agreement Request Submission Note: {AgreementRequestSubmissionNoteID} Note";
         }
     }
 }

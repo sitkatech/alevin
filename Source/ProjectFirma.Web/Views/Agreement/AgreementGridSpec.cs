@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Agreement
         {
             var costAuthorities = agreement.AgreementCostAuthorities.Select(rarca => rarca.CostAuthority).ToList();
             var projects =
-                costAuthorities.SelectMany(ca => ca.CostAuthorityProjects.Select(rcap => rcap.Project)).ToList();
+                costAuthorities.SelectMany(ca => ca.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Select(rcap => rcap.Project)).ToList();
 
             List<HtmlString> hrefStrings = projects.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.GetDisplayName())).ToList();
             var commaDelimitedHrefStrings =  new HtmlString(string.Join(", ", hrefStrings));

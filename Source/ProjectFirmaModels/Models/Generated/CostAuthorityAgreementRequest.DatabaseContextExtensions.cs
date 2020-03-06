@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static CostAuthorityAgreementRequest GetCostAuthorityAgreementRequest(this IQueryable<CostAuthorityAgreementRequest> costAuthorityAgreementRequests, int reclamationCostAuthorityAgreementRequestID)
+        public static CostAuthorityAgreementRequest GetCostAuthorityAgreementRequest(this IQueryable<CostAuthorityAgreementRequest> costAuthorityAgreementRequests, int costAuthorityAgreementRequestID)
         {
-            var costAuthorityAgreementRequest = costAuthorityAgreementRequests.SingleOrDefault(x => x.ReclamationCostAuthorityAgreementRequestID == reclamationCostAuthorityAgreementRequestID);
-            Check.RequireNotNullThrowNotFound(costAuthorityAgreementRequest, "CostAuthorityAgreementRequest", reclamationCostAuthorityAgreementRequestID);
+            var costAuthorityAgreementRequest = costAuthorityAgreementRequests.SingleOrDefault(x => x.CostAuthorityAgreementRequestID == costAuthorityAgreementRequestID);
+            Check.RequireNotNullThrowNotFound(costAuthorityAgreementRequest, "CostAuthorityAgreementRequest", costAuthorityAgreementRequestID);
             return costAuthorityAgreementRequest;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteCostAuthorityAgreementRequest(this IQueryable<CostAuthorityAgreementRequest> costAuthorityAgreementRequests, List<int> reclamationCostAuthorityAgreementRequestIDList)
+        public static void DeleteCostAuthorityAgreementRequest(this IQueryable<CostAuthorityAgreementRequest> costAuthorityAgreementRequests, List<int> costAuthorityAgreementRequestIDList)
         {
-            if(reclamationCostAuthorityAgreementRequestIDList.Any())
+            if(costAuthorityAgreementRequestIDList.Any())
             {
-                costAuthorityAgreementRequests.Where(x => reclamationCostAuthorityAgreementRequestIDList.Contains(x.ReclamationCostAuthorityAgreementRequestID)).Delete();
+                costAuthorityAgreementRequests.Where(x => costAuthorityAgreementRequestIDList.Contains(x.CostAuthorityAgreementRequestID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(costAuthorityAgreementRequestsToDelete.Any())
             {
-                var reclamationCostAuthorityAgreementRequestIDList = costAuthorityAgreementRequestsToDelete.Select(x => x.ReclamationCostAuthorityAgreementRequestID).ToList();
-                costAuthorityAgreementRequests.Where(x => reclamationCostAuthorityAgreementRequestIDList.Contains(x.ReclamationCostAuthorityAgreementRequestID)).Delete();
+                var costAuthorityAgreementRequestIDList = costAuthorityAgreementRequestsToDelete.Select(x => x.CostAuthorityAgreementRequestID).ToList();
+                costAuthorityAgreementRequests.Where(x => costAuthorityAgreementRequestIDList.Contains(x.CostAuthorityAgreementRequestID)).Delete();
             }
         }
 
-        public static void DeleteCostAuthorityAgreementRequest(this IQueryable<CostAuthorityAgreementRequest> costAuthorityAgreementRequests, int reclamationCostAuthorityAgreementRequestID)
+        public static void DeleteCostAuthorityAgreementRequest(this IQueryable<CostAuthorityAgreementRequest> costAuthorityAgreementRequests, int costAuthorityAgreementRequestID)
         {
-            DeleteCostAuthorityAgreementRequest(costAuthorityAgreementRequests, new List<int> { reclamationCostAuthorityAgreementRequestID });
+            DeleteCostAuthorityAgreementRequest(costAuthorityAgreementRequests, new List<int> { costAuthorityAgreementRequestID });
         }
 
         public static void DeleteCostAuthorityAgreementRequest(this IQueryable<CostAuthorityAgreementRequest> costAuthorityAgreementRequests, CostAuthorityAgreementRequest costAuthorityAgreementRequestToDelete)

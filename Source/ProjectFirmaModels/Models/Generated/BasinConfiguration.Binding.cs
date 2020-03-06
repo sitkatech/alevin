@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public BasinConfiguration(string schema)
         {
             ToTable("Basin", schema);
-            HasKey(x => x.ReclamationBasinID);
-            Property(x => x.ReclamationBasinID).HasColumnName(@"ReclamationBasinID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.BasinID);
+            Property(x => x.BasinID).HasColumnName(@"BasinID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.BasinAbbreviation).HasColumnName(@"BasinAbbreviation").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
             Property(x => x.BasinName).HasColumnName(@"BasinName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
 

@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WorkbreakdownStructure(int reclamationWorkBreakdownStructureID, string workBreakdownStructureNumber) : this()
+        public WorkbreakdownStructure(int workbreakdownStructureID, string workBreakdownStructureNumber) : this()
         {
-            this.ReclamationWorkBreakdownStructureID = reclamationWorkBreakdownStructureID;
+            this.WorkbreakdownStructureID = workbreakdownStructureID;
             this.WorkBreakdownStructureNumber = workBreakdownStructureNumber;
         }
 
@@ -42,7 +42,7 @@ namespace ProjectFirmaModels.Models
         public WorkbreakdownStructure(string workBreakdownStructureNumber) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationWorkBreakdownStructureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.WorkbreakdownStructureID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.WorkBreakdownStructureNumber = workBreakdownStructureNumber;
         }
@@ -89,10 +89,10 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationWorkBreakdownStructureID { get; set; }
+        public int WorkbreakdownStructureID { get; set; }
         public string WorkBreakdownStructureNumber { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationWorkBreakdownStructureID; } set { ReclamationWorkBreakdownStructureID = value; } }
+        public int PrimaryKey { get { return WorkbreakdownStructureID; } set { WorkbreakdownStructureID = value; } }
 
 
 

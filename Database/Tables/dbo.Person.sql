@@ -47,12 +47,12 @@ CREATE TABLE [dbo].[Person](
 
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_DepartmentCode_ReclamationDepartmentCodeID] FOREIGN KEY([ReclamationDepartmentCodeID])
-REFERENCES [Reclamation].[DepartmentCode] ([ReclamationDepartmentCodeID])
+REFERENCES [Reclamation].[DepartmentCode] ([DepartmentCodeID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_DepartmentCode_ReclamationDepartmentCodeID]
 GO
 ALTER TABLE [dbo].[Person]  WITH CHECK ADD  CONSTRAINT [FK_Person_Location_ReclamationLocationID] FOREIGN KEY([ReclamationLocationID])
-REFERENCES [Reclamation].[Location] ([ReclamationLocationID])
+REFERENCES [Reclamation].[Location] ([LocationID])
 GO
 ALTER TABLE [dbo].[Person] CHECK CONSTRAINT [FK_Person_Location_ReclamationLocationID]
 GO

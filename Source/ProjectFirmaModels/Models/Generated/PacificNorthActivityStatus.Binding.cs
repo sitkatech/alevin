@@ -24,15 +24,15 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected PacificNorthActivityStatus()
         {
-            this.PacificNorthActivityListsWhereYouAreThePacificNorthActivityStatus = new HashSet<PacificNorthActivityList>();
+            this.PacificNorthActivityLists = new HashSet<PacificNorthActivityList>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PacificNorthActivityStatus(int reclamationPacificNorthActivityStatusID, string pacificNorthActivityStatusName) : this()
+        public PacificNorthActivityStatus(int pacificNorthActivityStatusID, string pacificNorthActivityStatusName) : this()
         {
-            this.ReclamationPacificNorthActivityStatusID = reclamationPacificNorthActivityStatusID;
+            this.PacificNorthActivityStatusID = pacificNorthActivityStatusID;
             this.PacificNorthActivityStatusName = pacificNorthActivityStatusName;
         }
 
@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PacificNorthActivityListsWhereYouAreThePacificNorthActivityStatus.Any();
+            return PacificNorthActivityLists.Any();
         }
 
         /// <summary>
@@ -83,19 +83,19 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in PacificNorthActivityListsWhereYouAreThePacificNorthActivityStatus.ToList())
+            foreach(var x in PacificNorthActivityLists.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationPacificNorthActivityStatusID { get; set; }
+        public int PacificNorthActivityStatusID { get; set; }
         public string PacificNorthActivityStatusName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationPacificNorthActivityStatusID; } set { ReclamationPacificNorthActivityStatusID = value; } }
+        public int PrimaryKey { get { return PacificNorthActivityStatusID; } set { PacificNorthActivityStatusID = value; } }
 
-        public virtual ICollection<PacificNorthActivityList> PacificNorthActivityListsWhereYouAreThePacificNorthActivityStatus { get; set; }
+        public virtual ICollection<PacificNorthActivityList> PacificNorthActivityLists { get; set; }
 
         public static class FieldLengths
         {

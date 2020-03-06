@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [Reclamation].[AgreementRequest](
-	[ReclamationAgreementRequestID] [int] IDENTITY(1,1) NOT NULL,
+	[AgreementRequestID] [int] IDENTITY(1,1) NOT NULL,
 	[IsModification] [bit] NOT NULL,
 	[AgreementID] [int] NULL,
 	[ContractTypeID] [int] NOT NULL,
@@ -28,7 +28,7 @@ CREATE TABLE [Reclamation].[AgreementRequest](
 	[ActualAwardDate] [datetime] NULL,
  CONSTRAINT [PK_AgreementRequest_ReclamationAgreementRequestID] PRIMARY KEY CLUSTERED 
 (
-	[ReclamationAgreementRequestID] ASC
+	[AgreementRequestID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
@@ -49,7 +49,7 @@ GO
 ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_AgreementRequestStatus_AgreementRequestStatusID]
 GO
 ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
-REFERENCES [Reclamation].[ContractType] ([ReclamationContractTypeID])
+REFERENCES [Reclamation].[ContractType] ([ContractTypeID])
 GO
 ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID_ReclamationContractTypeID]
 GO

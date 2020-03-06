@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public DeliverableConfiguration(string schema)
         {
             ToTable("Deliverable", schema);
-            HasKey(x => x.ReclamationDeliverableID);
-            Property(x => x.ReclamationDeliverableID).HasColumnName(@"ReclamationDeliverableID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.DeliverableID);
+            Property(x => x.DeliverableID).HasColumnName(@"DeliverableID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.DeliverableTypeID).HasColumnName(@"DeliverableTypeID").HasColumnType("int").IsOptional();
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("nvarchar").IsOptional().HasMaxLength(500);
             Property(x => x.DueDate).HasColumnName(@"DueDate").HasColumnType("datetime").IsOptional();
@@ -27,7 +27,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PersonID).HasColumnName(@"PersonID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-            HasOptional(a => a.DeliverableType).WithMany(b => b.DeliverablesWhereYouAreTheDeliverableType).HasForeignKey(c => c.DeliverableTypeID).WillCascadeOnDelete(false); // FK_Deliverable_DeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID
+            HasOptional(a => a.DeliverableType).WithMany(b => b.Deliverables).HasForeignKey(c => c.DeliverableTypeID).WillCascadeOnDelete(false); // FK_Deliverable_DeliverableType_DeliverableTypeID
             HasOptional(a => a.CostAuthorityAgreement).WithMany(b => b.DeliverablesWhereYouAreTheCostAuthorityAgreement).HasForeignKey(c => c.CostAuthorityAgreementID).WillCascadeOnDelete(false); // FK_Deliverable_ReclamationStagingCostAuthorityAgreement_CostAuthorityAgreementID_ReclamationStagingCostAuthorityAgreementID
             HasOptional(a => a.ReclamationStagingAgreementStatusTable).WithMany(b => b.Deliverables).HasForeignKey(c => c.ReclamationStagingAgreementStatusTableID).WillCascadeOnDelete(false); // FK_Deliverable_ReclamationStagingAgreementStatusTable_ReclamationStagingAgreementStatusTableID
             HasOptional(a => a.Person).WithMany(b => b.Deliverables).HasForeignKey(c => c.PersonID).WillCascadeOnDelete(false); // FK_Deliverable_Person_PersonID

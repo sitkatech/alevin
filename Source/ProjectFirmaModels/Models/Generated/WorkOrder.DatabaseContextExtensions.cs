@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static WorkOrder GetWorkOrder(this IQueryable<WorkOrder> workOrders, int reclamationWorkOrderID)
+        public static WorkOrder GetWorkOrder(this IQueryable<WorkOrder> workOrders, int workOrderID)
         {
-            var workOrder = workOrders.SingleOrDefault(x => x.ReclamationWorkOrderID == reclamationWorkOrderID);
-            Check.RequireNotNullThrowNotFound(workOrder, "WorkOrder", reclamationWorkOrderID);
+            var workOrder = workOrders.SingleOrDefault(x => x.WorkOrderID == workOrderID);
+            Check.RequireNotNullThrowNotFound(workOrder, "WorkOrder", workOrderID);
             return workOrder;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteWorkOrder(this IQueryable<WorkOrder> workOrders, List<int> reclamationWorkOrderIDList)
+        public static void DeleteWorkOrder(this IQueryable<WorkOrder> workOrders, List<int> workOrderIDList)
         {
-            if(reclamationWorkOrderIDList.Any())
+            if(workOrderIDList.Any())
             {
-                workOrders.Where(x => reclamationWorkOrderIDList.Contains(x.ReclamationWorkOrderID)).Delete();
+                workOrders.Where(x => workOrderIDList.Contains(x.WorkOrderID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(workOrdersToDelete.Any())
             {
-                var reclamationWorkOrderIDList = workOrdersToDelete.Select(x => x.ReclamationWorkOrderID).ToList();
-                workOrders.Where(x => reclamationWorkOrderIDList.Contains(x.ReclamationWorkOrderID)).Delete();
+                var workOrderIDList = workOrdersToDelete.Select(x => x.WorkOrderID).ToList();
+                workOrders.Where(x => workOrderIDList.Contains(x.WorkOrderID)).Delete();
             }
         }
 
-        public static void DeleteWorkOrder(this IQueryable<WorkOrder> workOrders, int reclamationWorkOrderID)
+        public static void DeleteWorkOrder(this IQueryable<WorkOrder> workOrders, int workOrderID)
         {
-            DeleteWorkOrder(workOrders, new List<int> { reclamationWorkOrderID });
+            DeleteWorkOrder(workOrders, new List<int> { workOrderID });
         }
 
         public static void DeleteWorkOrder(this IQueryable<WorkOrder> workOrders, WorkOrder workOrderToDelete)

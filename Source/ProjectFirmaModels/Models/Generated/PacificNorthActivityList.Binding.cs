@@ -24,16 +24,16 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected PacificNorthActivityList()
         {
-            this.AgreementPacificNorthActivities = new HashSet<AgreementPacificNorthActivity>();
-            this.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList = new HashSet<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList>();
+            this.AgreementPacificNorthActivitiesWhereYouAreTheReclamationPacificNorthActivityList = new HashSet<AgreementPacificNorthActivity>();
+            this.ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists = new HashSet<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PacificNorthActivityList(int reclamationPacificNorthActivityListID, int? activityID, string pacificNorthActivityName, int? sortOrder, int? pacificNorthActivityTypeID, int? pacificNorthActivityStatusID) : this()
+        public PacificNorthActivityList(int pacificNorthActivityListID, int? activityID, string pacificNorthActivityName, int? sortOrder, int? pacificNorthActivityTypeID, int? pacificNorthActivityStatusID) : this()
         {
-            this.ReclamationPacificNorthActivityListID = reclamationPacificNorthActivityListID;
+            this.PacificNorthActivityListID = pacificNorthActivityListID;
             this.ActivityID = activityID;
             this.PacificNorthActivityName = pacificNorthActivityName;
             this.SortOrder = sortOrder;
@@ -57,7 +57,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AgreementPacificNorthActivities.Any() || ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList.Any();
+            return AgreementPacificNorthActivitiesWhereYouAreTheReclamationPacificNorthActivityList.Any() || ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists.Any();
         }
 
         /// <summary>
@@ -88,29 +88,29 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in AgreementPacificNorthActivities.ToList())
+            foreach(var x in AgreementPacificNorthActivitiesWhereYouAreTheReclamationPacificNorthActivityList.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList.ToList())
+            foreach(var x in ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationPacificNorthActivityListID { get; set; }
+        public int PacificNorthActivityListID { get; set; }
         public int? ActivityID { get; set; }
         public string PacificNorthActivityName { get; set; }
         public int? SortOrder { get; set; }
         public int? PacificNorthActivityTypeID { get; set; }
         public int? PacificNorthActivityStatusID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationPacificNorthActivityListID; } set { ReclamationPacificNorthActivityListID = value; } }
+        public int PrimaryKey { get { return PacificNorthActivityListID; } set { PacificNorthActivityListID = value; } }
 
-        public virtual ICollection<AgreementPacificNorthActivity> AgreementPacificNorthActivities { get; set; }
-        public virtual ICollection<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList> ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityListsWhereYouAreThePacificNorthActivityList { get; set; }
+        public virtual ICollection<AgreementPacificNorthActivity> AgreementPacificNorthActivitiesWhereYouAreTheReclamationPacificNorthActivityList { get; set; }
+        public virtual ICollection<ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList> ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists { get; set; }
         public virtual PacificNorthActivityType PacificNorthActivityType { get; set; }
         public virtual PacificNorthActivityStatus PacificNorthActivityStatus { get; set; }
 

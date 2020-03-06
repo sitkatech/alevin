@@ -24,15 +24,15 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected PacificNorthActivityType()
         {
-            this.PacificNorthActivityListsWhereYouAreThePacificNorthActivityType = new HashSet<PacificNorthActivityList>();
+            this.PacificNorthActivityLists = new HashSet<PacificNorthActivityList>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PacificNorthActivityType(int reclamationPacificNorthActivityTypeID, string pacificNorthActivityTypeName) : this()
+        public PacificNorthActivityType(int pacificNorthActivityTypeID, string pacificNorthActivityTypeName) : this()
         {
-            this.ReclamationPacificNorthActivityTypeID = reclamationPacificNorthActivityTypeID;
+            this.PacificNorthActivityTypeID = pacificNorthActivityTypeID;
             this.PacificNorthActivityTypeName = pacificNorthActivityTypeName;
         }
 
@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PacificNorthActivityListsWhereYouAreThePacificNorthActivityType.Any();
+            return PacificNorthActivityLists.Any();
         }
 
         /// <summary>
@@ -83,19 +83,19 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in PacificNorthActivityListsWhereYouAreThePacificNorthActivityType.ToList())
+            foreach(var x in PacificNorthActivityLists.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationPacificNorthActivityTypeID { get; set; }
+        public int PacificNorthActivityTypeID { get; set; }
         public string PacificNorthActivityTypeName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationPacificNorthActivityTypeID; } set { ReclamationPacificNorthActivityTypeID = value; } }
+        public int PrimaryKey { get { return PacificNorthActivityTypeID; } set { PacificNorthActivityTypeID = value; } }
 
-        public virtual ICollection<PacificNorthActivityList> PacificNorthActivityListsWhereYouAreThePacificNorthActivityType { get; set; }
+        public virtual ICollection<PacificNorthActivityList> PacificNorthActivityLists { get; set; }
 
         public static class FieldLengths
         {

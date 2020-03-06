@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public DeliverableTypeConfiguration(string schema)
         {
             ToTable("DeliverableType", schema);
-            HasKey(x => x.ReclamationDeliverableTypeID);
-            Property(x => x.ReclamationDeliverableTypeID).HasColumnName(@"ReclamationDeliverableTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.DeliverableTypeID);
+            Property(x => x.DeliverableTypeID).HasColumnName(@"DeliverableTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.DeliverableTypeDisplayName).HasColumnName(@"DeliverableTypeDisplayName").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.DeliverableTypeName).HasColumnName(@"DeliverableTypeName").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
 

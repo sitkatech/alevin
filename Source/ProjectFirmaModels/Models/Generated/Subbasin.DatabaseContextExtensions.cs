@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static Subbasin GetSubbasin(this IQueryable<Subbasin> subbasins, int reclamationSubbasinID)
+        public static Subbasin GetSubbasin(this IQueryable<Subbasin> subbasins, int subbasinID)
         {
-            var subbasin = subbasins.SingleOrDefault(x => x.ReclamationSubbasinID == reclamationSubbasinID);
-            Check.RequireNotNullThrowNotFound(subbasin, "Subbasin", reclamationSubbasinID);
+            var subbasin = subbasins.SingleOrDefault(x => x.SubbasinID == subbasinID);
+            Check.RequireNotNullThrowNotFound(subbasin, "Subbasin", subbasinID);
             return subbasin;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteSubbasin(this IQueryable<Subbasin> subbasins, List<int> reclamationSubbasinIDList)
+        public static void DeleteSubbasin(this IQueryable<Subbasin> subbasins, List<int> subbasinIDList)
         {
-            if(reclamationSubbasinIDList.Any())
+            if(subbasinIDList.Any())
             {
-                subbasins.Where(x => reclamationSubbasinIDList.Contains(x.ReclamationSubbasinID)).Delete();
+                subbasins.Where(x => subbasinIDList.Contains(x.SubbasinID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(subbasinsToDelete.Any())
             {
-                var reclamationSubbasinIDList = subbasinsToDelete.Select(x => x.ReclamationSubbasinID).ToList();
-                subbasins.Where(x => reclamationSubbasinIDList.Contains(x.ReclamationSubbasinID)).Delete();
+                var subbasinIDList = subbasinsToDelete.Select(x => x.SubbasinID).ToList();
+                subbasins.Where(x => subbasinIDList.Contains(x.SubbasinID)).Delete();
             }
         }
 
-        public static void DeleteSubbasin(this IQueryable<Subbasin> subbasins, int reclamationSubbasinID)
+        public static void DeleteSubbasin(this IQueryable<Subbasin> subbasins, int subbasinID)
         {
-            DeleteSubbasin(subbasins, new List<int> { reclamationSubbasinID });
+            DeleteSubbasin(subbasins, new List<int> { subbasinID });
         }
 
         public static void DeleteSubbasin(this IQueryable<Subbasin> subbasins, Subbasin subbasinToDelete)

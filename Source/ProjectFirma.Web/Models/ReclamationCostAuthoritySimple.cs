@@ -26,9 +26,8 @@ namespace ProjectFirma.Web.Models
         public ReclamationCostAuthoritySimple(CostAuthority costAuthority)
             : this()
         {
-            ReclamationCostAuthorityID = costAuthority.ReclamationCostAuthorityID;
-            //ReclamationCostAuthorityAgreementSimplesList = costAuthority.AgreementReclamationCostAuthorities.Select(x => new ReclamationAgreementSimple(x.ReclamationAgreement)).ToList();
-            ReclamationCostAuthorityAgreementSimplesList = costAuthority.AgreementCostAuthoritiesWhereYouAreTheCostAuthority.Select(x => new ReclamationAgreementSimple(x.Agreement)).ToList();
+            ReclamationCostAuthorityID = costAuthority.CostAuthorityID;
+            ReclamationCostAuthorityAgreementSimplesList = costAuthority.AgreementCostAuthorities.Select(x => new ReclamationAgreementSimple(x.Agreement)).ToList();
             ReclamationCostAuthorityDisplayName = $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}";
             CountOfRelatedAgreements = ReclamationCostAuthorityAgreementSimplesList.Count;
             ReclamationCostAuthorityDropdownDisplayName =

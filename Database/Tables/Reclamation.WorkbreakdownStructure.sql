@@ -3,10 +3,10 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [Reclamation].[WorkbreakdownStructure](
-	[ReclamationWorkBreakdownStructureID] [int] IDENTITY(1,1) NOT NULL,
+	[WorkbreakdownStructureID] [int] IDENTITY(1,1) NOT NULL,
 	[WorkBreakdownStructureNumber] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_WorkbreakdownStructure_ReclamationWorkBreakdownStructureID] PRIMARY KEY CLUSTERED 
 (
-	[ReclamationWorkBreakdownStructureID] ASC
+	[WorkbreakdownStructureID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]

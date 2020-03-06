@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static DeliverableType GetDeliverableType(this IQueryable<DeliverableType> deliverableTypes, int reclamationDeliverableTypeID)
+        public static DeliverableType GetDeliverableType(this IQueryable<DeliverableType> deliverableTypes, int deliverableTypeID)
         {
-            var deliverableType = deliverableTypes.SingleOrDefault(x => x.ReclamationDeliverableTypeID == reclamationDeliverableTypeID);
-            Check.RequireNotNullThrowNotFound(deliverableType, "DeliverableType", reclamationDeliverableTypeID);
+            var deliverableType = deliverableTypes.SingleOrDefault(x => x.DeliverableTypeID == deliverableTypeID);
+            Check.RequireNotNullThrowNotFound(deliverableType, "DeliverableType", deliverableTypeID);
             return deliverableType;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteDeliverableType(this IQueryable<DeliverableType> deliverableTypes, List<int> reclamationDeliverableTypeIDList)
+        public static void DeleteDeliverableType(this IQueryable<DeliverableType> deliverableTypes, List<int> deliverableTypeIDList)
         {
-            if(reclamationDeliverableTypeIDList.Any())
+            if(deliverableTypeIDList.Any())
             {
-                deliverableTypes.Where(x => reclamationDeliverableTypeIDList.Contains(x.ReclamationDeliverableTypeID)).Delete();
+                deliverableTypes.Where(x => deliverableTypeIDList.Contains(x.DeliverableTypeID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(deliverableTypesToDelete.Any())
             {
-                var reclamationDeliverableTypeIDList = deliverableTypesToDelete.Select(x => x.ReclamationDeliverableTypeID).ToList();
-                deliverableTypes.Where(x => reclamationDeliverableTypeIDList.Contains(x.ReclamationDeliverableTypeID)).Delete();
+                var deliverableTypeIDList = deliverableTypesToDelete.Select(x => x.DeliverableTypeID).ToList();
+                deliverableTypes.Where(x => deliverableTypeIDList.Contains(x.DeliverableTypeID)).Delete();
             }
         }
 
-        public static void DeleteDeliverableType(this IQueryable<DeliverableType> deliverableTypes, int reclamationDeliverableTypeID)
+        public static void DeleteDeliverableType(this IQueryable<DeliverableType> deliverableTypes, int deliverableTypeID)
         {
-            DeleteDeliverableType(deliverableTypes, new List<int> { reclamationDeliverableTypeID });
+            DeleteDeliverableType(deliverableTypes, new List<int> { deliverableTypeID });
         }
 
         public static void DeleteDeliverableType(this IQueryable<DeliverableType> deliverableTypes, DeliverableType deliverableTypeToDelete)

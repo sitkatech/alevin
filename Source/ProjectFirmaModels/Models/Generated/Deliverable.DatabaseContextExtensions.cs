@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static Deliverable GetDeliverable(this IQueryable<Deliverable> deliverables, int reclamationDeliverableID)
+        public static Deliverable GetDeliverable(this IQueryable<Deliverable> deliverables, int deliverableID)
         {
-            var deliverable = deliverables.SingleOrDefault(x => x.ReclamationDeliverableID == reclamationDeliverableID);
-            Check.RequireNotNullThrowNotFound(deliverable, "Deliverable", reclamationDeliverableID);
+            var deliverable = deliverables.SingleOrDefault(x => x.DeliverableID == deliverableID);
+            Check.RequireNotNullThrowNotFound(deliverable, "Deliverable", deliverableID);
             return deliverable;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteDeliverable(this IQueryable<Deliverable> deliverables, List<int> reclamationDeliverableIDList)
+        public static void DeleteDeliverable(this IQueryable<Deliverable> deliverables, List<int> deliverableIDList)
         {
-            if(reclamationDeliverableIDList.Any())
+            if(deliverableIDList.Any())
             {
-                deliverables.Where(x => reclamationDeliverableIDList.Contains(x.ReclamationDeliverableID)).Delete();
+                deliverables.Where(x => deliverableIDList.Contains(x.DeliverableID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(deliverablesToDelete.Any())
             {
-                var reclamationDeliverableIDList = deliverablesToDelete.Select(x => x.ReclamationDeliverableID).ToList();
-                deliverables.Where(x => reclamationDeliverableIDList.Contains(x.ReclamationDeliverableID)).Delete();
+                var deliverableIDList = deliverablesToDelete.Select(x => x.DeliverableID).ToList();
+                deliverables.Where(x => deliverableIDList.Contains(x.DeliverableID)).Delete();
             }
         }
 
-        public static void DeleteDeliverable(this IQueryable<Deliverable> deliverables, int reclamationDeliverableID)
+        public static void DeleteDeliverable(this IQueryable<Deliverable> deliverables, int deliverableID)
         {
-            DeleteDeliverable(deliverables, new List<int> { reclamationDeliverableID });
+            DeleteDeliverable(deliverables, new List<int> { deliverableID });
         }
 
         public static void DeleteDeliverable(this IQueryable<Deliverable> deliverables, Deliverable deliverableToDelete)

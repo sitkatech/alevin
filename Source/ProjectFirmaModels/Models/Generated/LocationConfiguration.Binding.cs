@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public LocationConfiguration(string schema)
         {
             ToTable("Location", schema);
-            HasKey(x => x.ReclamationLocationID);
-            Property(x => x.ReclamationLocationID).HasColumnName(@"ReclamationLocationID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.LocationID);
+            Property(x => x.LocationID).HasColumnName(@"LocationID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.ReclamationLocationName).HasColumnName(@"ReclamationLocationName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
             Property(x => x.ReclamationLocationAbbreviation).HasColumnName(@"ReclamationLocationAbbreviation").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
 

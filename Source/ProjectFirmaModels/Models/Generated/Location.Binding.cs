@@ -24,15 +24,15 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Location()
         {
-            this.People = new HashSet<Person>();
+            this.PeopleWhereYouAreTheReclamationLocation = new HashSet<Person>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Location(int reclamationLocationID, string reclamationLocationName, string reclamationLocationAbbreviation) : this()
+        public Location(int locationID, string reclamationLocationName, string reclamationLocationAbbreviation) : this()
         {
-            this.ReclamationLocationID = reclamationLocationID;
+            this.LocationID = locationID;
             this.ReclamationLocationName = reclamationLocationName;
             this.ReclamationLocationAbbreviation = reclamationLocationAbbreviation;
         }
@@ -53,7 +53,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return People.Any();
+            return PeopleWhereYouAreTheReclamationLocation.Any();
         }
 
         /// <summary>
@@ -84,20 +84,20 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in People.ToList())
+            foreach(var x in PeopleWhereYouAreTheReclamationLocation.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationLocationID { get; set; }
+        public int LocationID { get; set; }
         public string ReclamationLocationName { get; set; }
         public string ReclamationLocationAbbreviation { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationLocationID; } set { ReclamationLocationID = value; } }
+        public int PrimaryKey { get { return LocationID; } set { LocationID = value; } }
 
-        public virtual ICollection<Person> People { get; set; }
+        public virtual ICollection<Person> PeopleWhereYouAreTheReclamationLocation { get; set; }
 
         public static class FieldLengths
         {

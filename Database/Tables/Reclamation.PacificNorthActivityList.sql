@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [Reclamation].[PacificNorthActivityList](
-	[ReclamationPacificNorthActivityListID] [int] IDENTITY(1,1) NOT NULL,
+	[PacificNorthActivityListID] [int] IDENTITY(1,1) NOT NULL,
 	[ActivityID] [int] NULL,
 	[PacificNorthActivityName] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SortOrder] [int] NULL,
@@ -11,17 +11,17 @@ CREATE TABLE [Reclamation].[PacificNorthActivityList](
 	[PacificNorthActivityStatusID] [int] NULL,
  CONSTRAINT [PK_PacificNorthActivityList_ReclamationPacificNorthActivityListID] PRIMARY KEY CLUSTERED 
 (
-	[ReclamationPacificNorthActivityListID] ASC
+	[PacificNorthActivityListID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
 ALTER TABLE [Reclamation].[PacificNorthActivityList]  WITH CHECK ADD  CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityStatus_PacificNorthActivityStatusID_ReclamationPacificNorthActivityStatusID] FOREIGN KEY([PacificNorthActivityStatusID])
-REFERENCES [Reclamation].[PacificNorthActivityStatus] ([ReclamationPacificNorthActivityStatusID])
+REFERENCES [Reclamation].[PacificNorthActivityStatus] ([PacificNorthActivityStatusID])
 GO
 ALTER TABLE [Reclamation].[PacificNorthActivityList] CHECK CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityStatus_PacificNorthActivityStatusID_ReclamationPacificNorthActivityStatusID]
 GO
 ALTER TABLE [Reclamation].[PacificNorthActivityList]  WITH CHECK ADD  CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityType_PacificNorthActivityTypeID_ReclamationPacificNorthActivityTypeID] FOREIGN KEY([PacificNorthActivityTypeID])
-REFERENCES [Reclamation].[PacificNorthActivityType] ([ReclamationPacificNorthActivityTypeID])
+REFERENCES [Reclamation].[PacificNorthActivityType] ([PacificNorthActivityTypeID])
 GO
 ALTER TABLE [Reclamation].[PacificNorthActivityList] CHECK CONSTRAINT [FK_PacificNorthActivityList_PacificNorthActivityType_PacificNorthActivityTypeID_ReclamationPacificNorthActivityTypeID]

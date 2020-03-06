@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static List<Agreement> GetReclamationAgreements(this CostAuthority costAuthority)
         {
-            return costAuthority.AgreementCostAuthoritiesWhereYouAreTheCostAuthority.Select(rarca => rarca.Agreement).ToList();
+            return costAuthority.AgreementCostAuthorities.Select(rarca => rarca.Agreement).ToList();
         }
 
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityDetail(UrlTemplate.Parameter1Int)));
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static List<Project> GetAssociatedProjects(this CostAuthority costAuthority)
         {
-            var projects = costAuthority.CostAuthorityProjects.Select(x => x.Project).ToList();
+            var projects = costAuthority.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Select(x => x.Project).ToList();
             return projects;
         }
 

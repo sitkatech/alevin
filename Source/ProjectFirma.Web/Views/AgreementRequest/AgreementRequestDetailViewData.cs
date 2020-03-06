@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             ProjectFirmaModels.Models.AgreementRequest agreementRequest, bool userCanInteractWithSubmissionNotes,
             EntityNotesViewData agreementRequestNotesViewData) : base(currentFirmaSession)
         {
-            PageTitle = $"Agreement Request: {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}";
+            PageTitle = $"Agreement Request: {agreementRequest.AgreementRequestID.ToString("D4")}";
             EntityName = "Agreement Request Detail";
             AgreementRequest = agreementRequest;
             IndexUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestIndex());
@@ -73,8 +73,8 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
             CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, agreementRequest.AgreementRequestStatus == AgreementRequestStatus.Draft, costAuthorityIDList)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.AgreementRequestID.ToString("D4")}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.AgreementRequestID.ToString("D4")}",
                 SaveFiltersInCookie = true
             };
             CostAuthorityAgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementRequestsJsonData(agreementRequest));        }

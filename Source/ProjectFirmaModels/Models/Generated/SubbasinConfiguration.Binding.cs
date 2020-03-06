@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public SubbasinConfiguration(string schema)
         {
             ToTable("Subbasin", schema);
-            HasKey(x => x.ReclamationSubbasinID);
-            Property(x => x.ReclamationSubbasinID).HasColumnName(@"ReclamationSubbasinID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.SubbasinID);
+            Property(x => x.SubbasinID).HasColumnName(@"SubbasinID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.SubbasinName).HasColumnName(@"SubbasinName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys

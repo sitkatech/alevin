@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static HCategory GetHCategory(this IQueryable<HCategory> hCategories, int reclamationHCategoryID)
+        public static HCategory GetHCategory(this IQueryable<HCategory> hCategories, int hCategoryID)
         {
-            var hCategory = hCategories.SingleOrDefault(x => x.ReclamationHCategoryID == reclamationHCategoryID);
-            Check.RequireNotNullThrowNotFound(hCategory, "HCategory", reclamationHCategoryID);
+            var hCategory = hCategories.SingleOrDefault(x => x.HCategoryID == hCategoryID);
+            Check.RequireNotNullThrowNotFound(hCategory, "HCategory", hCategoryID);
             return hCategory;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteHCategory(this IQueryable<HCategory> hCategories, List<int> reclamationHCategoryIDList)
+        public static void DeleteHCategory(this IQueryable<HCategory> hCategories, List<int> hCategoryIDList)
         {
-            if(reclamationHCategoryIDList.Any())
+            if(hCategoryIDList.Any())
             {
-                hCategories.Where(x => reclamationHCategoryIDList.Contains(x.ReclamationHCategoryID)).Delete();
+                hCategories.Where(x => hCategoryIDList.Contains(x.HCategoryID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(hCategoriesToDelete.Any())
             {
-                var reclamationHCategoryIDList = hCategoriesToDelete.Select(x => x.ReclamationHCategoryID).ToList();
-                hCategories.Where(x => reclamationHCategoryIDList.Contains(x.ReclamationHCategoryID)).Delete();
+                var hCategoryIDList = hCategoriesToDelete.Select(x => x.HCategoryID).ToList();
+                hCategories.Where(x => hCategoryIDList.Contains(x.HCategoryID)).Delete();
             }
         }
 
-        public static void DeleteHCategory(this IQueryable<HCategory> hCategories, int reclamationHCategoryID)
+        public static void DeleteHCategory(this IQueryable<HCategory> hCategories, int hCategoryID)
         {
-            DeleteHCategory(hCategories, new List<int> { reclamationHCategoryID });
+            DeleteHCategory(hCategories, new List<int> { hCategoryID });
         }
 
         public static void DeleteHCategory(this IQueryable<HCategory> hCategories, HCategory hCategoryToDelete)

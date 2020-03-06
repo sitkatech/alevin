@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WorkOrder(int reclamationWorkOrderID, string workOrderName, double? fiscalYear, int? workBreakdownStructureID, string fUND, string fBMSSTATUS, string eTASSTATUS, string dEYSTATAUS, string description) : this()
+        public WorkOrder(int workOrderID, string workOrderName, double? fiscalYear, int? workBreakdownStructureID, string fUND, string fBMSSTATUS, string eTASSTATUS, string dEYSTATAUS, string description) : this()
         {
-            this.ReclamationWorkOrderID = reclamationWorkOrderID;
+            this.WorkOrderID = workOrderID;
             this.WorkOrderName = workOrderName;
             this.FiscalYear = fiscalYear;
             this.WorkBreakdownStructureID = workBreakdownStructureID;
@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationWorkOrderID { get; set; }
+        public int WorkOrderID { get; set; }
         public string WorkOrderName { get; set; }
         public double? FiscalYear { get; set; }
         public int? WorkBreakdownStructureID { get; set; }
@@ -96,7 +96,7 @@ namespace ProjectFirmaModels.Models
         public string DEYSTATAUS { get; set; }
         public string Description { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationWorkOrderID; } set { ReclamationWorkOrderID = value; } }
+        public int PrimaryKey { get { return WorkOrderID; } set { WorkOrderID = value; } }
 
 
 

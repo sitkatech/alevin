@@ -4,7 +4,7 @@
     {
         public string GetAuditDescriptionString()
         {
-            return $"ContractType: {this.ReclamationContractTypeID} - {this.ContractTypeDisplayName}";
+            return $"ContractType: {this.ContractTypeID} - {this.ContractTypeDisplayName}";
         }
     }
 }

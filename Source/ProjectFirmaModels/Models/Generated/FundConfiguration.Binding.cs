@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public FundConfiguration(string schema)
         {
             ToTable("Fund", schema);
-            HasKey(x => x.ReclamationFundID);
-            Property(x => x.ReclamationFundID).HasColumnName(@"ReclamationFundID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.FundID);
+            Property(x => x.FundID).HasColumnName(@"FundID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.ReclamationFundNumber).HasColumnName(@"ReclamationFundNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
 

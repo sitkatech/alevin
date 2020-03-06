@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public DepartmentCodeConfiguration(string schema)
         {
             ToTable("DepartmentCode", schema);
-            HasKey(x => x.ReclamationDepartmentCodeID);
-            Property(x => x.ReclamationDepartmentCodeID).HasColumnName(@"ReclamationDepartmentCodeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.DepartmentCodeID);
+            Property(x => x.DepartmentCodeID).HasColumnName(@"DepartmentCodeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.ReclamationDepartmentCodeName).HasColumnName(@"ReclamationDepartmentCodeName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
 
             // Foreign keys

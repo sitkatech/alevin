@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Deliverable(int reclamationDeliverableID, int? deliverableTypeID, string description, DateTime? dueDate, DateTime? dateDelivered, bool isTaskCompleted, bool isTaskCanceled, int? costAuthorityAgreementID, int? reclamationStagingAgreementStatusTableID, int? personID) : this()
+        public Deliverable(int deliverableID, int? deliverableTypeID, string description, DateTime? dueDate, DateTime? dateDelivered, bool isTaskCompleted, bool isTaskCanceled, int? costAuthorityAgreementID, int? reclamationStagingAgreementStatusTableID, int? personID) : this()
         {
-            this.ReclamationDeliverableID = reclamationDeliverableID;
+            this.DeliverableID = deliverableID;
             this.DeliverableTypeID = deliverableTypeID;
             this.Description = description;
             this.DueDate = dueDate;
@@ -50,7 +50,7 @@ namespace ProjectFirmaModels.Models
         public Deliverable(bool isTaskCompleted, bool isTaskCanceled) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationDeliverableID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.DeliverableID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.IsTaskCompleted = isTaskCompleted;
             this.IsTaskCanceled = isTaskCanceled;
@@ -98,7 +98,7 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationDeliverableID { get; set; }
+        public int DeliverableID { get; set; }
         public int? DeliverableTypeID { get; set; }
         public string Description { get; set; }
         public DateTime? DueDate { get; set; }
@@ -109,7 +109,7 @@ namespace ProjectFirmaModels.Models
         public int? ReclamationStagingAgreementStatusTableID { get; set; }
         public int? PersonID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationDeliverableID; } set { ReclamationDeliverableID = value; } }
+        public int PrimaryKey { get { return DeliverableID; } set { DeliverableID = value; } }
 
         public virtual DeliverableType DeliverableType { get; set; }
         public virtual ReclamationStagingCostAuthorityAgreement CostAuthorityAgreement { get; set; }

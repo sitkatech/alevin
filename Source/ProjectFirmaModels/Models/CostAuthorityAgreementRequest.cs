@@ -4,7 +4,7 @@
     {
         public string GetAuditDescriptionString()
         {
-            return $"CostAuthorityAgreementRequest: {this.ReclamationCostAuthorityAgreementRequestID}";
+            return $"CostAuthorityAgreementRequest: {this.CostAuthorityAgreementRequestID}";
         }
     }
 }

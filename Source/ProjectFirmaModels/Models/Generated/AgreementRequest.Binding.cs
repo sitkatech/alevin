@@ -24,16 +24,16 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected AgreementRequest()
         {
-            this.AgreementRequestSubmissionNotes = new HashSet<AgreementRequestSubmissionNote>();
-            this.CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest = new HashSet<CostAuthorityAgreementRequest>();
+            this.AgreementRequestSubmissionNotesWhereYouAreTheReclamationAgreementRequest = new HashSet<AgreementRequestSubmissionNote>();
+            this.CostAuthorityAgreementRequests = new HashSet<CostAuthorityAgreementRequest>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AgreementRequest(int reclamationAgreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
+        public AgreementRequest(int agreementRequestID, bool isModification, int? agreementID, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, int? reclamationAgreementRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
         {
-            this.ReclamationAgreementRequestID = reclamationAgreementRequestID;
+            this.AgreementRequestID = agreementRequestID;
             this.IsModification = isModification;
             this.AgreementID = agreementID;
             this.ContractTypeID = contractTypeID;
@@ -64,7 +64,7 @@ namespace ProjectFirmaModels.Models
         public AgreementRequest(bool isModification, int contractTypeID, int agreementRequestStatusID, string descriptionOfNeed, DateTime createDate, int createPersonID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.IsModification = isModification;
             this.ContractTypeID = contractTypeID;
@@ -80,11 +80,11 @@ namespace ProjectFirmaModels.Models
         public AgreementRequest(bool isModification, ContractType contractType, AgreementRequestStatus agreementRequestStatus, string descriptionOfNeed, DateTime createDate, Person createPerson) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.IsModification = isModification;
-            this.ContractTypeID = contractType.ReclamationContractTypeID;
+            this.ContractTypeID = contractType.ContractTypeID;
             this.ContractType = contractType;
-            contractType.AgreementRequestsWhereYouAreTheContractType.Add(this);
+            contractType.AgreementRequests.Add(this);
             this.AgreementRequestStatusID = agreementRequestStatus.AgreementRequestStatusID;
             this.DescriptionOfNeed = descriptionOfNeed;
             this.CreateDate = createDate;
@@ -107,7 +107,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AgreementRequestSubmissionNotes.Any() || CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Any();
+            return AgreementRequestSubmissionNotesWhereYouAreTheReclamationAgreementRequest.Any() || CostAuthorityAgreementRequests.Any();
         }
 
         /// <summary>
@@ -138,19 +138,19 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in AgreementRequestSubmissionNotes.ToList())
+            foreach(var x in AgreementRequestSubmissionNotesWhereYouAreTheReclamationAgreementRequest.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList())
+            foreach(var x in CostAuthorityAgreementRequests.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationAgreementRequestID { get; set; }
+        public int AgreementRequestID { get; set; }
         public bool IsModification { get; set; }
         public int? AgreementID { get; set; }
         public int ContractTypeID { get; set; }
@@ -174,10 +174,10 @@ namespace ProjectFirmaModels.Models
         public DateTime? DCApprovalDate { get; set; }
         public DateTime? ActualAwardDate { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationAgreementRequestID; } set { ReclamationAgreementRequestID = value; } }
+        public int PrimaryKey { get { return AgreementRequestID; } set { AgreementRequestID = value; } }
 
-        public virtual ICollection<AgreementRequestSubmissionNote> AgreementRequestSubmissionNotes { get; set; }
-        public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest { get; set; }
+        public virtual ICollection<AgreementRequestSubmissionNote> AgreementRequestSubmissionNotesWhereYouAreTheReclamationAgreementRequest { get; set; }
+        public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequests { get; set; }
         public virtual Agreement Agreement { get; set; }
         public virtual ContractType ContractType { get; set; }
         public AgreementRequestStatus AgreementRequestStatus { get { return AgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }

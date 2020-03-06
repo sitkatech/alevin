@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static DepartmentCode GetDepartmentCode(this IQueryable<DepartmentCode> departmentCodes, int reclamationDepartmentCodeID)
+        public static DepartmentCode GetDepartmentCode(this IQueryable<DepartmentCode> departmentCodes, int departmentCodeID)
         {
-            var departmentCode = departmentCodes.SingleOrDefault(x => x.ReclamationDepartmentCodeID == reclamationDepartmentCodeID);
-            Check.RequireNotNullThrowNotFound(departmentCode, "DepartmentCode", reclamationDepartmentCodeID);
+            var departmentCode = departmentCodes.SingleOrDefault(x => x.DepartmentCodeID == departmentCodeID);
+            Check.RequireNotNullThrowNotFound(departmentCode, "DepartmentCode", departmentCodeID);
             return departmentCode;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteDepartmentCode(this IQueryable<DepartmentCode> departmentCodes, List<int> reclamationDepartmentCodeIDList)
+        public static void DeleteDepartmentCode(this IQueryable<DepartmentCode> departmentCodes, List<int> departmentCodeIDList)
         {
-            if(reclamationDepartmentCodeIDList.Any())
+            if(departmentCodeIDList.Any())
             {
-                departmentCodes.Where(x => reclamationDepartmentCodeIDList.Contains(x.ReclamationDepartmentCodeID)).Delete();
+                departmentCodes.Where(x => departmentCodeIDList.Contains(x.DepartmentCodeID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(departmentCodesToDelete.Any())
             {
-                var reclamationDepartmentCodeIDList = departmentCodesToDelete.Select(x => x.ReclamationDepartmentCodeID).ToList();
-                departmentCodes.Where(x => reclamationDepartmentCodeIDList.Contains(x.ReclamationDepartmentCodeID)).Delete();
+                var departmentCodeIDList = departmentCodesToDelete.Select(x => x.DepartmentCodeID).ToList();
+                departmentCodes.Where(x => departmentCodeIDList.Contains(x.DepartmentCodeID)).Delete();
             }
         }
 
-        public static void DeleteDepartmentCode(this IQueryable<DepartmentCode> departmentCodes, int reclamationDepartmentCodeID)
+        public static void DeleteDepartmentCode(this IQueryable<DepartmentCode> departmentCodes, int departmentCodeID)
         {
-            DeleteDepartmentCode(departmentCodes, new List<int> { reclamationDepartmentCodeID });
+            DeleteDepartmentCode(departmentCodes, new List<int> { departmentCodeID });
         }
 
         public static void DeleteDepartmentCode(this IQueryable<DepartmentCode> departmentCodes, DepartmentCode departmentCodeToDelete)

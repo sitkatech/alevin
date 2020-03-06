@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [Reclamation].[Deliverable](
-	[ReclamationDeliverableID] [int] IDENTITY(1,1) NOT NULL,
+	[DeliverableID] [int] IDENTITY(1,1) NOT NULL,
 	[DeliverableTypeID] [int] NULL,
 	[Description] [nvarchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[DueDate] [datetime] NULL,
@@ -15,13 +15,13 @@ CREATE TABLE [Reclamation].[Deliverable](
 	[PersonID] [int] NULL,
  CONSTRAINT [PK_Deliverable_ReclamationDeliverableID] PRIMARY KEY CLUSTERED 
 (
-	[ReclamationDeliverableID] ASC
+	[DeliverableID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
 ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID] FOREIGN KEY([DeliverableTypeID])
-REFERENCES [Reclamation].[DeliverableType] ([ReclamationDeliverableTypeID])
+REFERENCES [Reclamation].[DeliverableType] ([DeliverableTypeID])
 GO
 ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID]
 GO

@@ -76,7 +76,7 @@ namespace ProjectFirma.Web.Views.Project
                 Add($"Is {costAuthorityWorkBreakdownStructure.GetDisplayName()} Primary or Secondary CAWBS for this project?",
                     x => x.CostAuthorityProjects.Any(rcap =>
                         rcap.IsPrimaryProjectCawbs && rcap.ReclamationCostAuthorityID ==
-                        costAuthorityWorkBreakdownStructure.ReclamationCostAuthorityID)
+                        costAuthorityWorkBreakdownStructure.CostAuthorityID)
                         ? "Primary"
                         : "Secondary", 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }

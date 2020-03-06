@@ -24,15 +24,15 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Basin()
         {
-            this.CostAuthoritiesWhereYouAreTheBasin = new HashSet<CostAuthority>();
+            this.CostAuthorities = new HashSet<CostAuthority>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Basin(int reclamationBasinID, string basinAbbreviation, string basinName) : this()
+        public Basin(int basinID, string basinAbbreviation, string basinName) : this()
         {
-            this.ReclamationBasinID = reclamationBasinID;
+            this.BasinID = basinID;
             this.BasinAbbreviation = basinAbbreviation;
             this.BasinName = basinName;
         }
@@ -53,7 +53,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return CostAuthoritiesWhereYouAreTheBasin.Any();
+            return CostAuthorities.Any();
         }
 
         /// <summary>
@@ -84,20 +84,20 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in CostAuthoritiesWhereYouAreTheBasin.ToList())
+            foreach(var x in CostAuthorities.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationBasinID { get; set; }
+        public int BasinID { get; set; }
         public string BasinAbbreviation { get; set; }
         public string BasinName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationBasinID; } set { ReclamationBasinID = value; } }
+        public int PrimaryKey { get { return BasinID; } set { BasinID = value; } }
 
-        public virtual ICollection<CostAuthority> CostAuthoritiesWhereYouAreTheBasin { get; set; }
+        public virtual ICollection<CostAuthority> CostAuthorities { get; set; }
 
         public static class FieldLengths
         {

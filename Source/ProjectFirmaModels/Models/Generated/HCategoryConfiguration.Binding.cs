@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public HCategoryConfiguration(string schema)
         {
             ToTable("HCategory", schema);
-            HasKey(x => x.ReclamationHCategoryID);
-            Property(x => x.ReclamationHCategoryID).HasColumnName(@"ReclamationHCategoryID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.HCategoryID);
+            Property(x => x.HCategoryID).HasColumnName(@"HCategoryID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.HabitatCategoryName).HasColumnName(@"HabitatCategoryName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(50);
 
             // Foreign keys

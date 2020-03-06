@@ -24,15 +24,15 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Subbasin()
         {
-            this.CostAuthoritiesWhereYouAreTheSubbasin = new HashSet<CostAuthority>();
+            this.CostAuthorities = new HashSet<CostAuthority>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Subbasin(int reclamationSubbasinID, string subbasinName) : this()
+        public Subbasin(int subbasinID, string subbasinName) : this()
         {
-            this.ReclamationSubbasinID = reclamationSubbasinID;
+            this.SubbasinID = subbasinID;
             this.SubbasinName = subbasinName;
         }
 
@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return CostAuthoritiesWhereYouAreTheSubbasin.Any();
+            return CostAuthorities.Any();
         }
 
         /// <summary>
@@ -83,19 +83,19 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in CostAuthoritiesWhereYouAreTheSubbasin.ToList())
+            foreach(var x in CostAuthorities.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationSubbasinID { get; set; }
+        public int SubbasinID { get; set; }
         public string SubbasinName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationSubbasinID; } set { ReclamationSubbasinID = value; } }
+        public int PrimaryKey { get { return SubbasinID; } set { SubbasinID = value; } }
 
-        public virtual ICollection<CostAuthority> CostAuthoritiesWhereYouAreTheSubbasin { get; set; }
+        public virtual ICollection<CostAuthority> CostAuthorities { get; set; }
 
         public static class FieldLengths
         {

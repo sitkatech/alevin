@@ -59,9 +59,9 @@ namespace ProjectFirmaModels.Models
             this.AgreementID = agreement.AgreementID;
             this.Agreement = agreement;
             agreement.AgreementCostAuthorities.Add(this);
-            this.CostAuthorityID = costAuthority.ReclamationCostAuthorityID;
+            this.CostAuthorityID = costAuthority.CostAuthorityID;
             this.CostAuthority = costAuthority;
-            costAuthority.AgreementCostAuthoritiesWhereYouAreTheCostAuthority.Add(this);
+            costAuthority.AgreementCostAuthorities.Add(this);
         }
 
         /// <summary>

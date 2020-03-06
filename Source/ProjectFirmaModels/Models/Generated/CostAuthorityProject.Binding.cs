@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthorityProject(int reclamationCostAuthorityProjectID, int reclamationCostAuthorityID, int projectID, bool isPrimaryProjectCawbs, string primaryProjectCawbsUniqueString) : this()
+        public CostAuthorityProject(int costAuthorityProjectID, int reclamationCostAuthorityID, int projectID, bool isPrimaryProjectCawbs, string primaryProjectCawbsUniqueString) : this()
         {
-            this.ReclamationCostAuthorityProjectID = reclamationCostAuthorityProjectID;
+            this.CostAuthorityProjectID = costAuthorityProjectID;
             this.ReclamationCostAuthorityID = reclamationCostAuthorityID;
             this.ProjectID = projectID;
             this.IsPrimaryProjectCawbs = isPrimaryProjectCawbs;
@@ -45,7 +45,7 @@ namespace ProjectFirmaModels.Models
         public CostAuthorityProject(int reclamationCostAuthorityID, int projectID, bool isPrimaryProjectCawbs) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationCostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.CostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ReclamationCostAuthorityID = reclamationCostAuthorityID;
             this.ProjectID = projectID;
@@ -58,10 +58,10 @@ namespace ProjectFirmaModels.Models
         public CostAuthorityProject(CostAuthority reclamationCostAuthority, Project project, bool isPrimaryProjectCawbs) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationCostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ReclamationCostAuthorityID = reclamationCostAuthority.ReclamationCostAuthorityID;
+            this.CostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ReclamationCostAuthorityID = reclamationCostAuthority.CostAuthorityID;
             this.ReclamationCostAuthority = reclamationCostAuthority;
-            reclamationCostAuthority.CostAuthorityProjects.Add(this);
+            reclamationCostAuthority.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Add(this);
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.CostAuthorityProjects.Add(this);
@@ -109,13 +109,13 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationCostAuthorityProjectID { get; set; }
+        public int CostAuthorityProjectID { get; set; }
         public int ReclamationCostAuthorityID { get; set; }
         public int ProjectID { get; set; }
         public bool IsPrimaryProjectCawbs { get; set; }
         public string PrimaryProjectCawbsUniqueString { get; private set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationCostAuthorityProjectID; } set { ReclamationCostAuthorityProjectID = value; } }
+        public int PrimaryKey { get { return CostAuthorityProjectID; } set { CostAuthorityProjectID = value; } }
 
         public virtual CostAuthority ReclamationCostAuthority { get; set; }
         public virtual Project Project { get; set; }

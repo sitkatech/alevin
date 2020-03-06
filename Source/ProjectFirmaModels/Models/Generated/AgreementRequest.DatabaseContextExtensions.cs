@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static AgreementRequest GetAgreementRequest(this IQueryable<AgreementRequest> agreementRequests, int reclamationAgreementRequestID)
+        public static AgreementRequest GetAgreementRequest(this IQueryable<AgreementRequest> agreementRequests, int agreementRequestID)
         {
-            var agreementRequest = agreementRequests.SingleOrDefault(x => x.ReclamationAgreementRequestID == reclamationAgreementRequestID);
-            Check.RequireNotNullThrowNotFound(agreementRequest, "AgreementRequest", reclamationAgreementRequestID);
+            var agreementRequest = agreementRequests.SingleOrDefault(x => x.AgreementRequestID == agreementRequestID);
+            Check.RequireNotNullThrowNotFound(agreementRequest, "AgreementRequest", agreementRequestID);
             return agreementRequest;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteAgreementRequest(this IQueryable<AgreementRequest> agreementRequests, List<int> reclamationAgreementRequestIDList)
+        public static void DeleteAgreementRequest(this IQueryable<AgreementRequest> agreementRequests, List<int> agreementRequestIDList)
         {
-            if(reclamationAgreementRequestIDList.Any())
+            if(agreementRequestIDList.Any())
             {
-                agreementRequests.Where(x => reclamationAgreementRequestIDList.Contains(x.ReclamationAgreementRequestID)).Delete();
+                agreementRequests.Where(x => agreementRequestIDList.Contains(x.AgreementRequestID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(agreementRequestsToDelete.Any())
             {
-                var reclamationAgreementRequestIDList = agreementRequestsToDelete.Select(x => x.ReclamationAgreementRequestID).ToList();
-                agreementRequests.Where(x => reclamationAgreementRequestIDList.Contains(x.ReclamationAgreementRequestID)).Delete();
+                var agreementRequestIDList = agreementRequestsToDelete.Select(x => x.AgreementRequestID).ToList();
+                agreementRequests.Where(x => agreementRequestIDList.Contains(x.AgreementRequestID)).Delete();
             }
         }
 
-        public static void DeleteAgreementRequest(this IQueryable<AgreementRequest> agreementRequests, int reclamationAgreementRequestID)
+        public static void DeleteAgreementRequest(this IQueryable<AgreementRequest> agreementRequests, int agreementRequestID)
         {
-            DeleteAgreementRequest(agreementRequests, new List<int> { reclamationAgreementRequestID });
+            DeleteAgreementRequest(agreementRequests, new List<int> { agreementRequestID });
         }
 
         public static void DeleteAgreementRequest(this IQueryable<AgreementRequest> agreementRequests, AgreementRequest agreementRequestToDelete)

@@ -75,9 +75,9 @@ namespace ProjectFirmaModels.Models
             this.AgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.IsContingent = isContingent;
             this.IsIncrementalFunding = isIncrementalFunding;
-            this.ContractTypeID = contractType.ReclamationContractTypeID;
+            this.ContractTypeID = contractType.ContractTypeID;
             this.ContractType = contractType;
-            contractType.AgreementsWhereYouAreTheContractType.Add(this);
+            contractType.Agreements.Add(this);
         }
 
         /// <summary>

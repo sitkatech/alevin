@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public HCategory(int reclamationHCategoryID, string habitatCategoryName) : this()
+        public HCategory(int hCategoryID, string habitatCategoryName) : this()
         {
-            this.ReclamationHCategoryID = reclamationHCategoryID;
+            this.HCategoryID = hCategoryID;
             this.HabitatCategoryName = habitatCategoryName;
         }
 
@@ -90,10 +90,10 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationHCategoryID { get; set; }
+        public int HCategoryID { get; set; }
         public string HabitatCategoryName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationHCategoryID; } set { ReclamationHCategoryID = value; } }
+        public int PrimaryKey { get { return HCategoryID; } set { HCategoryID = value; } }
 
         public virtual ICollection<CostAuthority> CostAuthoritiesWhereYouAreTheHabitatCategory { get; set; }
 

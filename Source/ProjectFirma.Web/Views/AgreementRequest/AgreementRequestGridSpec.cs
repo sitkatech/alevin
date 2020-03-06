@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
             // AgreementRequestID
             Add(FieldDefinitionEnum.AgreementRequestID.ToType().ToGridHeaderString()
-                , a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.ReclamationAgreementRequestID.ToString("D4"))
+                , a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.AgreementRequestID.ToString("D4"))
                 , 100
                 , DhtmlxGridColumnFilterType.Html);
 

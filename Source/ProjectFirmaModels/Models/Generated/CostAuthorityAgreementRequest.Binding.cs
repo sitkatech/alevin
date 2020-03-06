@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthorityAgreementRequest(int reclamationCostAuthorityAgreementRequestID, int costAuthorityID, int agreementRequestID, decimal? projectedObligation, string reclamationCostAuthorityAgreementRequestNote) : this()
+        public CostAuthorityAgreementRequest(int costAuthorityAgreementRequestID, int costAuthorityID, int agreementRequestID, decimal? projectedObligation, string reclamationCostAuthorityAgreementRequestNote) : this()
         {
-            this.ReclamationCostAuthorityAgreementRequestID = reclamationCostAuthorityAgreementRequestID;
+            this.CostAuthorityAgreementRequestID = costAuthorityAgreementRequestID;
             this.CostAuthorityID = costAuthorityID;
             this.AgreementRequestID = agreementRequestID;
             this.ProjectedObligation = projectedObligation;
@@ -45,7 +45,7 @@ namespace ProjectFirmaModels.Models
         public CostAuthorityAgreementRequest(int costAuthorityID, int agreementRequestID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationCostAuthorityAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.CostAuthorityAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.CostAuthorityID = costAuthorityID;
             this.AgreementRequestID = agreementRequestID;
@@ -57,13 +57,13 @@ namespace ProjectFirmaModels.Models
         public CostAuthorityAgreementRequest(CostAuthority costAuthority, AgreementRequest agreementRequest) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationCostAuthorityAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.CostAuthorityID = costAuthority.ReclamationCostAuthorityID;
+            this.CostAuthorityAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.CostAuthorityID = costAuthority.CostAuthorityID;
             this.CostAuthority = costAuthority;
-            costAuthority.CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority.Add(this);
-            this.AgreementRequestID = agreementRequest.ReclamationAgreementRequestID;
+            costAuthority.CostAuthorityAgreementRequests.Add(this);
+            this.AgreementRequestID = agreementRequest.AgreementRequestID;
             this.AgreementRequest = agreementRequest;
-            agreementRequest.CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.Add(this);
+            agreementRequest.CostAuthorityAgreementRequests.Add(this);
         }
 
         /// <summary>
@@ -107,13 +107,13 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationCostAuthorityAgreementRequestID { get; set; }
+        public int CostAuthorityAgreementRequestID { get; set; }
         public int CostAuthorityID { get; set; }
         public int AgreementRequestID { get; set; }
         public decimal? ProjectedObligation { get; set; }
         public string ReclamationCostAuthorityAgreementRequestNote { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationCostAuthorityAgreementRequestID; } set { ReclamationCostAuthorityAgreementRequestID = value; } }
+        public int PrimaryKey { get { return CostAuthorityAgreementRequestID; } set { CostAuthorityAgreementRequestID = value; } }
 
         public virtual CostAuthority CostAuthority { get; set; }
         public virtual AgreementRequest AgreementRequest { get; set; }

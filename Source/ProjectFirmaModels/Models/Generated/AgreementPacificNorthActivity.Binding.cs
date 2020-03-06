@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AgreementPacificNorthActivity(int reclamationAgreementPacificNorthActivityID, int reclamationAgreementID, int reclamationPacificNorthActivityListID) : this()
+        public AgreementPacificNorthActivity(int agreementPacificNorthActivityID, int reclamationAgreementID, int reclamationPacificNorthActivityListID) : this()
         {
-            this.ReclamationAgreementPacificNorthActivityID = reclamationAgreementPacificNorthActivityID;
+            this.AgreementPacificNorthActivityID = agreementPacificNorthActivityID;
             this.ReclamationAgreementID = reclamationAgreementID;
             this.ReclamationPacificNorthActivityListID = reclamationPacificNorthActivityListID;
         }
@@ -43,7 +43,7 @@ namespace ProjectFirmaModels.Models
         public AgreementPacificNorthActivity(int reclamationAgreementID, int reclamationPacificNorthActivityListID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementPacificNorthActivityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AgreementPacificNorthActivityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ReclamationAgreementID = reclamationAgreementID;
             this.ReclamationPacificNorthActivityListID = reclamationPacificNorthActivityListID;
@@ -55,13 +55,13 @@ namespace ProjectFirmaModels.Models
         public AgreementPacificNorthActivity(Agreement reclamationAgreement, PacificNorthActivityList reclamationPacificNorthActivityList) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementPacificNorthActivityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AgreementPacificNorthActivityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ReclamationAgreementID = reclamationAgreement.AgreementID;
             this.ReclamationAgreement = reclamationAgreement;
             reclamationAgreement.AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.Add(this);
-            this.ReclamationPacificNorthActivityListID = reclamationPacificNorthActivityList.ReclamationPacificNorthActivityListID;
+            this.ReclamationPacificNorthActivityListID = reclamationPacificNorthActivityList.PacificNorthActivityListID;
             this.ReclamationPacificNorthActivityList = reclamationPacificNorthActivityList;
-            reclamationPacificNorthActivityList.AgreementPacificNorthActivities.Add(this);
+            reclamationPacificNorthActivityList.AgreementPacificNorthActivitiesWhereYouAreTheReclamationPacificNorthActivityList.Add(this);
         }
 
         /// <summary>
@@ -105,11 +105,11 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationAgreementPacificNorthActivityID { get; set; }
+        public int AgreementPacificNorthActivityID { get; set; }
         public int ReclamationAgreementID { get; set; }
         public int ReclamationPacificNorthActivityListID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationAgreementPacificNorthActivityID; } set { ReclamationAgreementPacificNorthActivityID = value; } }
+        public int PrimaryKey { get { return AgreementPacificNorthActivityID; } set { AgreementPacificNorthActivityID = value; } }
 
         public virtual Agreement ReclamationAgreement { get; set; }
         public virtual PacificNorthActivityList ReclamationPacificNorthActivityList { get; set; }

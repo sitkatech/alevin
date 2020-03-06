@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public AgreementRequestSubmissionNote(int reclamationAgreementRequestSubmissionNoteID, int reclamationAgreementRequestID, string note, int? createPersonID, DateTime createDate, int? updatePersonID, DateTime? updateDate) : this()
+        public AgreementRequestSubmissionNote(int agreementRequestSubmissionNoteID, int reclamationAgreementRequestID, string note, int? createPersonID, DateTime createDate, int? updatePersonID, DateTime? updateDate) : this()
         {
-            this.ReclamationAgreementRequestSubmissionNoteID = reclamationAgreementRequestSubmissionNoteID;
+            this.AgreementRequestSubmissionNoteID = agreementRequestSubmissionNoteID;
             this.ReclamationAgreementRequestID = reclamationAgreementRequestID;
             this.Note = note;
             this.CreatePersonID = createPersonID;
@@ -47,7 +47,7 @@ namespace ProjectFirmaModels.Models
         public AgreementRequestSubmissionNote(int reclamationAgreementRequestID, string note, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementRequestSubmissionNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AgreementRequestSubmissionNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ReclamationAgreementRequestID = reclamationAgreementRequestID;
             this.Note = note;
@@ -60,10 +60,10 @@ namespace ProjectFirmaModels.Models
         public AgreementRequestSubmissionNote(AgreementRequest reclamationAgreementRequest, string note, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementRequestSubmissionNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ReclamationAgreementRequestID = reclamationAgreementRequest.ReclamationAgreementRequestID;
+            this.AgreementRequestSubmissionNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.ReclamationAgreementRequestID = reclamationAgreementRequest.AgreementRequestID;
             this.ReclamationAgreementRequest = reclamationAgreementRequest;
-            reclamationAgreementRequest.AgreementRequestSubmissionNotes.Add(this);
+            reclamationAgreementRequest.AgreementRequestSubmissionNotesWhereYouAreTheReclamationAgreementRequest.Add(this);
             this.Note = note;
             this.CreateDate = createDate;
         }
@@ -109,7 +109,7 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationAgreementRequestSubmissionNoteID { get; set; }
+        public int AgreementRequestSubmissionNoteID { get; set; }
         public int ReclamationAgreementRequestID { get; set; }
         public string Note { get; set; }
         public int? CreatePersonID { get; set; }
@@ -117,7 +117,7 @@ namespace ProjectFirmaModels.Models
         public int? UpdatePersonID { get; set; }
         public DateTime? UpdateDate { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationAgreementRequestSubmissionNoteID; } set { ReclamationAgreementRequestSubmissionNoteID = value; } }
+        public int PrimaryKey { get { return AgreementRequestSubmissionNoteID; } set { AgreementRequestSubmissionNoteID = value; } }
 
         public virtual AgreementRequest ReclamationAgreementRequest { get; set; }
         public virtual Person CreatePerson { get; set; }

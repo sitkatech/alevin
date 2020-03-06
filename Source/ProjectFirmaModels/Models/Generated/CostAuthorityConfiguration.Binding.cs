@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public CostAuthorityConfiguration(string schema)
         {
             ToTable("CostAuthority", schema);
-            HasKey(x => x.ReclamationCostAuthorityID);
-            Property(x => x.ReclamationCostAuthorityID).HasColumnName(@"ReclamationCostAuthorityID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.CostAuthorityID);
+            Property(x => x.CostAuthorityID).HasColumnName(@"CostAuthorityID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.CostAuthorityWorkBreakdownStructure).HasColumnName(@"CostAuthorityWorkBreakdownStructure").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.CostAuthorityNumber).HasColumnName(@"CostAuthorityNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.AccountStructureDescription).HasColumnName(@"AccountStructureDescription").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
@@ -32,9 +32,9 @@ namespace ProjectFirmaModels.Models
             Property(x => x.SubbasinID).HasColumnName(@"SubbasinID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-            HasOptional(a => a.HabitatCategory).WithMany(b => b.CostAuthoritiesWhereYouAreTheHabitatCategory).HasForeignKey(c => c.HabitatCategoryID).WillCascadeOnDelete(false); // FK_CostAuthority_HCategory_HabitatCategoryID_ReclamationHCategoryID
-            HasOptional(a => a.Basin).WithMany(b => b.CostAuthoritiesWhereYouAreTheBasin).HasForeignKey(c => c.BasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Basin_BasinID_ReclamationBasinID
-            HasOptional(a => a.Subbasin).WithMany(b => b.CostAuthoritiesWhereYouAreTheSubbasin).HasForeignKey(c => c.SubbasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Subbasin_SubbasinID_ReclamationSubbasinID
+            HasOptional(a => a.HabitatCategory).WithMany(b => b.CostAuthoritiesWhereYouAreTheHabitatCategory).HasForeignKey(c => c.HabitatCategoryID).WillCascadeOnDelete(false); // FK_CostAuthority_HCategory_HabitatCategoryID_HCategoryID
+            HasOptional(a => a.Basin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.BasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Basin_BasinID
+            HasOptional(a => a.Subbasin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.SubbasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Subbasin_SubbasinID
         }
     }
 }

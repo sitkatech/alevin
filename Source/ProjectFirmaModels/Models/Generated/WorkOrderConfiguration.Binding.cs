@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public WorkOrderConfiguration(string schema)
         {
             ToTable("WorkOrder", schema);
-            HasKey(x => x.ReclamationWorkOrderID);
-            Property(x => x.ReclamationWorkOrderID).HasColumnName(@"ReclamationWorkOrderID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.WorkOrderID);
+            Property(x => x.WorkOrderID).HasColumnName(@"WorkOrderID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.WorkOrderName).HasColumnName(@"WorkOrderName").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.FiscalYear).HasColumnName(@"FiscalYear").HasColumnType("float").IsOptional();
             Property(x => x.WorkBreakdownStructureID).HasColumnName(@"WorkBreakdownStructureID").HasColumnType("int").IsOptional();

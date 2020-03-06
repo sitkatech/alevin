@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             , List<Person> allPeople) : base(currentFirmaSession)
         {
             Agreements = allAgreements.OrderBy(x => x.AgreementNumber).ToSelectListWithEmptyFirstRow(x => x.AgreementID.ToString(), x => $"{x.AgreementNumber} - {x.Organization?.GetDisplayName()}");
-            ContractTypes = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ReclamationContractTypeID.ToString(), x => x.ContractTypeDisplayName);
+            ContractTypes = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);
             AgreementRequestStatuses = allAgreementRequestStatuses.OrderBy(x => x.AgreementRequestStatusID).ToSelectListWithEmptyFirstRow(x => x.AgreementRequestStatusID.ToString(), x => x.AgreementRequestStatusDisplayName);
             FundingPriorities = allFundingPriorities.OrderBy(x => x.AgreementRequestFundingPriorityID).ToSelectListWithEmptyFirstRow(x => x.AgreementRequestFundingPriorityID.ToString(), x => x.AgreementRequestFundingPriorityDisplayName);
             Organizations = allOrganizations.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.GetDisplayName());

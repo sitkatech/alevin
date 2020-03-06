@@ -9,12 +9,12 @@ namespace ProjectFirma.Web.Models
         public static string GetDeleteUrl(this AgreementRequestSubmissionNote agreementRequestSubmissionNote)
         {
             return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c =>
-                c.DeleteReclamationAgreementRequestSubmissionNote(agreementRequestSubmissionNote.ReclamationAgreementRequestSubmissionNoteID));
+                c.DeleteReclamationAgreementRequestSubmissionNote(agreementRequestSubmissionNote.AgreementRequestSubmissionNoteID));
         }
 
         public static string GetEditUrl(this AgreementRequestSubmissionNote agreementRequestSubmissionNote)
         {
-            return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c => c.Edit(agreementRequestSubmissionNote.ReclamationAgreementRequestSubmissionNoteID));
+            return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c => c.Edit(agreementRequestSubmissionNote.AgreementRequestSubmissionNoteID));
         }
     }
 }

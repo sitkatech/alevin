@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static AgreementPacificNorthActivity GetAgreementPacificNorthActivity(this IQueryable<AgreementPacificNorthActivity> agreementPacificNorthActivities, int reclamationAgreementPacificNorthActivityID)
+        public static AgreementPacificNorthActivity GetAgreementPacificNorthActivity(this IQueryable<AgreementPacificNorthActivity> agreementPacificNorthActivities, int agreementPacificNorthActivityID)
         {
-            var agreementPacificNorthActivity = agreementPacificNorthActivities.SingleOrDefault(x => x.ReclamationAgreementPacificNorthActivityID == reclamationAgreementPacificNorthActivityID);
-            Check.RequireNotNullThrowNotFound(agreementPacificNorthActivity, "AgreementPacificNorthActivity", reclamationAgreementPacificNorthActivityID);
+            var agreementPacificNorthActivity = agreementPacificNorthActivities.SingleOrDefault(x => x.AgreementPacificNorthActivityID == agreementPacificNorthActivityID);
+            Check.RequireNotNullThrowNotFound(agreementPacificNorthActivity, "AgreementPacificNorthActivity", agreementPacificNorthActivityID);
             return agreementPacificNorthActivity;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteAgreementPacificNorthActivity(this IQueryable<AgreementPacificNorthActivity> agreementPacificNorthActivities, List<int> reclamationAgreementPacificNorthActivityIDList)
+        public static void DeleteAgreementPacificNorthActivity(this IQueryable<AgreementPacificNorthActivity> agreementPacificNorthActivities, List<int> agreementPacificNorthActivityIDList)
         {
-            if(reclamationAgreementPacificNorthActivityIDList.Any())
+            if(agreementPacificNorthActivityIDList.Any())
             {
-                agreementPacificNorthActivities.Where(x => reclamationAgreementPacificNorthActivityIDList.Contains(x.ReclamationAgreementPacificNorthActivityID)).Delete();
+                agreementPacificNorthActivities.Where(x => agreementPacificNorthActivityIDList.Contains(x.AgreementPacificNorthActivityID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(agreementPacificNorthActivitiesToDelete.Any())
             {
-                var reclamationAgreementPacificNorthActivityIDList = agreementPacificNorthActivitiesToDelete.Select(x => x.ReclamationAgreementPacificNorthActivityID).ToList();
-                agreementPacificNorthActivities.Where(x => reclamationAgreementPacificNorthActivityIDList.Contains(x.ReclamationAgreementPacificNorthActivityID)).Delete();
+                var agreementPacificNorthActivityIDList = agreementPacificNorthActivitiesToDelete.Select(x => x.AgreementPacificNorthActivityID).ToList();
+                agreementPacificNorthActivities.Where(x => agreementPacificNorthActivityIDList.Contains(x.AgreementPacificNorthActivityID)).Delete();
             }
         }
 
-        public static void DeleteAgreementPacificNorthActivity(this IQueryable<AgreementPacificNorthActivity> agreementPacificNorthActivities, int reclamationAgreementPacificNorthActivityID)
+        public static void DeleteAgreementPacificNorthActivity(this IQueryable<AgreementPacificNorthActivity> agreementPacificNorthActivities, int agreementPacificNorthActivityID)
         {
-            DeleteAgreementPacificNorthActivity(agreementPacificNorthActivities, new List<int> { reclamationAgreementPacificNorthActivityID });
+            DeleteAgreementPacificNorthActivity(agreementPacificNorthActivities, new List<int> { agreementPacificNorthActivityID });
         }
 
         public static void DeleteAgreementPacificNorthActivity(this IQueryable<AgreementPacificNorthActivity> agreementPacificNorthActivities, AgreementPacificNorthActivity agreementPacificNorthActivityToDelete)

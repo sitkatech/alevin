@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static ContractType GetContractType(this IQueryable<ContractType> contractTypes, int reclamationContractTypeID)
+        public static ContractType GetContractType(this IQueryable<ContractType> contractTypes, int contractTypeID)
         {
-            var contractType = contractTypes.SingleOrDefault(x => x.ReclamationContractTypeID == reclamationContractTypeID);
-            Check.RequireNotNullThrowNotFound(contractType, "ContractType", reclamationContractTypeID);
+            var contractType = contractTypes.SingleOrDefault(x => x.ContractTypeID == contractTypeID);
+            Check.RequireNotNullThrowNotFound(contractType, "ContractType", contractTypeID);
             return contractType;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteContractType(this IQueryable<ContractType> contractTypes, List<int> reclamationContractTypeIDList)
+        public static void DeleteContractType(this IQueryable<ContractType> contractTypes, List<int> contractTypeIDList)
         {
-            if(reclamationContractTypeIDList.Any())
+            if(contractTypeIDList.Any())
             {
-                contractTypes.Where(x => reclamationContractTypeIDList.Contains(x.ReclamationContractTypeID)).Delete();
+                contractTypes.Where(x => contractTypeIDList.Contains(x.ContractTypeID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(contractTypesToDelete.Any())
             {
-                var reclamationContractTypeIDList = contractTypesToDelete.Select(x => x.ReclamationContractTypeID).ToList();
-                contractTypes.Where(x => reclamationContractTypeIDList.Contains(x.ReclamationContractTypeID)).Delete();
+                var contractTypeIDList = contractTypesToDelete.Select(x => x.ContractTypeID).ToList();
+                contractTypes.Where(x => contractTypeIDList.Contains(x.ContractTypeID)).Delete();
             }
         }
 
-        public static void DeleteContractType(this IQueryable<ContractType> contractTypes, int reclamationContractTypeID)
+        public static void DeleteContractType(this IQueryable<ContractType> contractTypes, int contractTypeID)
         {
-            DeleteContractType(contractTypes, new List<int> { reclamationContractTypeID });
+            DeleteContractType(contractTypes, new List<int> { contractTypeID });
         }
 
         public static void DeleteContractType(this IQueryable<ContractType> contractTypes, ContractType contractTypeToDelete)

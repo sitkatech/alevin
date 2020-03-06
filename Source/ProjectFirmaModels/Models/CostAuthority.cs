@@ -7,7 +7,7 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"CostAuthority: {this.ReclamationCostAuthorityID} - {this.CostAuthorityWorkBreakdownStructure}";
+            return $"CostAuthority: {this.CostAuthorityID} - {this.CostAuthorityWorkBreakdownStructure}";
         }
     }
 }

@@ -24,15 +24,15 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected DeliverableType()
         {
-            this.DeliverablesWhereYouAreTheDeliverableType = new HashSet<Deliverable>();
+            this.Deliverables = new HashSet<Deliverable>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public DeliverableType(int reclamationDeliverableTypeID, string deliverableTypeDisplayName, string deliverableTypeName) : this()
+        public DeliverableType(int deliverableTypeID, string deliverableTypeDisplayName, string deliverableTypeName) : this()
         {
-            this.ReclamationDeliverableTypeID = reclamationDeliverableTypeID;
+            this.DeliverableTypeID = deliverableTypeID;
             this.DeliverableTypeDisplayName = deliverableTypeDisplayName;
             this.DeliverableTypeName = deliverableTypeName;
         }
@@ -53,7 +53,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return DeliverablesWhereYouAreTheDeliverableType.Any();
+            return Deliverables.Any();
         }
 
         /// <summary>
@@ -84,20 +84,20 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in DeliverablesWhereYouAreTheDeliverableType.ToList())
+            foreach(var x in Deliverables.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationDeliverableTypeID { get; set; }
+        public int DeliverableTypeID { get; set; }
         public string DeliverableTypeDisplayName { get; set; }
         public string DeliverableTypeName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationDeliverableTypeID; } set { ReclamationDeliverableTypeID = value; } }
+        public int PrimaryKey { get { return DeliverableTypeID; } set { DeliverableTypeID = value; } }
 
-        public virtual ICollection<Deliverable> DeliverablesWhereYouAreTheDeliverableType { get; set; }
+        public virtual ICollection<Deliverable> Deliverables { get; set; }
 
         public static class FieldLengths
         {

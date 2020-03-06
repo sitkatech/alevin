@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static Location GetLocation(this IQueryable<Location> locations, int reclamationLocationID)
+        public static Location GetLocation(this IQueryable<Location> locations, int locationID)
         {
-            var location = locations.SingleOrDefault(x => x.ReclamationLocationID == reclamationLocationID);
-            Check.RequireNotNullThrowNotFound(location, "Location", reclamationLocationID);
+            var location = locations.SingleOrDefault(x => x.LocationID == locationID);
+            Check.RequireNotNullThrowNotFound(location, "Location", locationID);
             return location;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteLocation(this IQueryable<Location> locations, List<int> reclamationLocationIDList)
+        public static void DeleteLocation(this IQueryable<Location> locations, List<int> locationIDList)
         {
-            if(reclamationLocationIDList.Any())
+            if(locationIDList.Any())
             {
-                locations.Where(x => reclamationLocationIDList.Contains(x.ReclamationLocationID)).Delete();
+                locations.Where(x => locationIDList.Contains(x.LocationID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(locationsToDelete.Any())
             {
-                var reclamationLocationIDList = locationsToDelete.Select(x => x.ReclamationLocationID).ToList();
-                locations.Where(x => reclamationLocationIDList.Contains(x.ReclamationLocationID)).Delete();
+                var locationIDList = locationsToDelete.Select(x => x.LocationID).ToList();
+                locations.Where(x => locationIDList.Contains(x.LocationID)).Delete();
             }
         }
 
-        public static void DeleteLocation(this IQueryable<Location> locations, int reclamationLocationID)
+        public static void DeleteLocation(this IQueryable<Location> locations, int locationID)
         {
-            DeleteLocation(locations, new List<int> { reclamationLocationID });
+            DeleteLocation(locations, new List<int> { locationID });
         }
 
         public static void DeleteLocation(this IQueryable<Location> locations, Location locationToDelete)

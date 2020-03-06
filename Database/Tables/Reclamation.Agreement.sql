@@ -26,7 +26,7 @@ CREATE TABLE [Reclamation].[Agreement](
 
 GO
 ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_Agreement_ContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
-REFERENCES [Reclamation].[ContractType] ([ReclamationContractTypeID])
+REFERENCES [Reclamation].[ContractType] ([ContractTypeID])
 GO
 ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_Agreement_ContractType_ContractTypeID_ReclamationContractTypeID]
 GO

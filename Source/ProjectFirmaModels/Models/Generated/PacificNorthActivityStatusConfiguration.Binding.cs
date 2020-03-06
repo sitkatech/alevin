@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public PacificNorthActivityStatusConfiguration(string schema)
         {
             ToTable("PacificNorthActivityStatus", schema);
-            HasKey(x => x.ReclamationPacificNorthActivityStatusID);
-            Property(x => x.ReclamationPacificNorthActivityStatusID).HasColumnName(@"ReclamationPacificNorthActivityStatusID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.PacificNorthActivityStatusID);
+            Property(x => x.PacificNorthActivityStatusID).HasColumnName(@"PacificNorthActivityStatusID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.PacificNorthActivityStatusName).HasColumnName(@"PacificNorthActivityStatusName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys

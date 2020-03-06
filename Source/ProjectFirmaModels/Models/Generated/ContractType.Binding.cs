@@ -24,16 +24,16 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ContractType()
         {
-            this.AgreementsWhereYouAreTheContractType = new HashSet<Agreement>();
-            this.AgreementRequestsWhereYouAreTheContractType = new HashSet<AgreementRequest>();
+            this.Agreements = new HashSet<Agreement>();
+            this.AgreementRequests = new HashSet<AgreementRequest>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ContractType(int reclamationContractTypeID, string contractTypeName, string contractTypeDisplayName) : this()
+        public ContractType(int contractTypeID, string contractTypeName, string contractTypeDisplayName) : this()
         {
-            this.ReclamationContractTypeID = reclamationContractTypeID;
+            this.ContractTypeID = contractTypeID;
             this.ContractTypeName = contractTypeName;
             this.ContractTypeDisplayName = contractTypeDisplayName;
         }
@@ -54,7 +54,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AgreementsWhereYouAreTheContractType.Any() || AgreementRequestsWhereYouAreTheContractType.Any();
+            return Agreements.Any() || AgreementRequests.Any();
         }
 
         /// <summary>
@@ -85,26 +85,26 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in AgreementsWhereYouAreTheContractType.ToList())
+            foreach(var x in Agreements.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementRequestsWhereYouAreTheContractType.ToList())
+            foreach(var x in AgreementRequests.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationContractTypeID { get; set; }
+        public int ContractTypeID { get; set; }
         public string ContractTypeName { get; set; }
         public string ContractTypeDisplayName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationContractTypeID; } set { ReclamationContractTypeID = value; } }
+        public int PrimaryKey { get { return ContractTypeID; } set { ContractTypeID = value; } }
 
-        public virtual ICollection<Agreement> AgreementsWhereYouAreTheContractType { get; set; }
-        public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheContractType { get; set; }
+        public virtual ICollection<Agreement> Agreements { get; set; }
+        public virtual ICollection<AgreementRequest> AgreementRequests { get; set; }
 
         public static class FieldLengths
         {

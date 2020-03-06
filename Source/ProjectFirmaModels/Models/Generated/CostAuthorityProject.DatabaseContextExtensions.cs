@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static CostAuthorityProject GetCostAuthorityProject(this IQueryable<CostAuthorityProject> costAuthorityProjects, int reclamationCostAuthorityProjectID)
+        public static CostAuthorityProject GetCostAuthorityProject(this IQueryable<CostAuthorityProject> costAuthorityProjects, int costAuthorityProjectID)
         {
-            var costAuthorityProject = costAuthorityProjects.SingleOrDefault(x => x.ReclamationCostAuthorityProjectID == reclamationCostAuthorityProjectID);
-            Check.RequireNotNullThrowNotFound(costAuthorityProject, "CostAuthorityProject", reclamationCostAuthorityProjectID);
+            var costAuthorityProject = costAuthorityProjects.SingleOrDefault(x => x.CostAuthorityProjectID == costAuthorityProjectID);
+            Check.RequireNotNullThrowNotFound(costAuthorityProject, "CostAuthorityProject", costAuthorityProjectID);
             return costAuthorityProject;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteCostAuthorityProject(this IQueryable<CostAuthorityProject> costAuthorityProjects, List<int> reclamationCostAuthorityProjectIDList)
+        public static void DeleteCostAuthorityProject(this IQueryable<CostAuthorityProject> costAuthorityProjects, List<int> costAuthorityProjectIDList)
         {
-            if(reclamationCostAuthorityProjectIDList.Any())
+            if(costAuthorityProjectIDList.Any())
             {
-                costAuthorityProjects.Where(x => reclamationCostAuthorityProjectIDList.Contains(x.ReclamationCostAuthorityProjectID)).Delete();
+                costAuthorityProjects.Where(x => costAuthorityProjectIDList.Contains(x.CostAuthorityProjectID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(costAuthorityProjectsToDelete.Any())
             {
-                var reclamationCostAuthorityProjectIDList = costAuthorityProjectsToDelete.Select(x => x.ReclamationCostAuthorityProjectID).ToList();
-                costAuthorityProjects.Where(x => reclamationCostAuthorityProjectIDList.Contains(x.ReclamationCostAuthorityProjectID)).Delete();
+                var costAuthorityProjectIDList = costAuthorityProjectsToDelete.Select(x => x.CostAuthorityProjectID).ToList();
+                costAuthorityProjects.Where(x => costAuthorityProjectIDList.Contains(x.CostAuthorityProjectID)).Delete();
             }
         }
 
-        public static void DeleteCostAuthorityProject(this IQueryable<CostAuthorityProject> costAuthorityProjects, int reclamationCostAuthorityProjectID)
+        public static void DeleteCostAuthorityProject(this IQueryable<CostAuthorityProject> costAuthorityProjects, int costAuthorityProjectID)
         {
-            DeleteCostAuthorityProject(costAuthorityProjects, new List<int> { reclamationCostAuthorityProjectID });
+            DeleteCostAuthorityProject(costAuthorityProjects, new List<int> { costAuthorityProjectID });
         }
 
         public static void DeleteCostAuthorityProject(this IQueryable<CostAuthorityProject> costAuthorityProjects, CostAuthorityProject costAuthorityProjectToDelete)

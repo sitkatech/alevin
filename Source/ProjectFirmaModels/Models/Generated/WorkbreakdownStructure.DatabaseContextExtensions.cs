@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static WorkbreakdownStructure GetWorkbreakdownStructure(this IQueryable<WorkbreakdownStructure> workbreakdownStructures, int reclamationWorkBreakdownStructureID)
+        public static WorkbreakdownStructure GetWorkbreakdownStructure(this IQueryable<WorkbreakdownStructure> workbreakdownStructures, int workbreakdownStructureID)
         {
-            var workbreakdownStructure = workbreakdownStructures.SingleOrDefault(x => x.ReclamationWorkBreakdownStructureID == reclamationWorkBreakdownStructureID);
-            Check.RequireNotNullThrowNotFound(workbreakdownStructure, "WorkbreakdownStructure", reclamationWorkBreakdownStructureID);
+            var workbreakdownStructure = workbreakdownStructures.SingleOrDefault(x => x.WorkbreakdownStructureID == workbreakdownStructureID);
+            Check.RequireNotNullThrowNotFound(workbreakdownStructure, "WorkbreakdownStructure", workbreakdownStructureID);
             return workbreakdownStructure;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteWorkbreakdownStructure(this IQueryable<WorkbreakdownStructure> workbreakdownStructures, List<int> reclamationWorkBreakdownStructureIDList)
+        public static void DeleteWorkbreakdownStructure(this IQueryable<WorkbreakdownStructure> workbreakdownStructures, List<int> workbreakdownStructureIDList)
         {
-            if(reclamationWorkBreakdownStructureIDList.Any())
+            if(workbreakdownStructureIDList.Any())
             {
-                workbreakdownStructures.Where(x => reclamationWorkBreakdownStructureIDList.Contains(x.ReclamationWorkBreakdownStructureID)).Delete();
+                workbreakdownStructures.Where(x => workbreakdownStructureIDList.Contains(x.WorkbreakdownStructureID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(workbreakdownStructuresToDelete.Any())
             {
-                var reclamationWorkBreakdownStructureIDList = workbreakdownStructuresToDelete.Select(x => x.ReclamationWorkBreakdownStructureID).ToList();
-                workbreakdownStructures.Where(x => reclamationWorkBreakdownStructureIDList.Contains(x.ReclamationWorkBreakdownStructureID)).Delete();
+                var workbreakdownStructureIDList = workbreakdownStructuresToDelete.Select(x => x.WorkbreakdownStructureID).ToList();
+                workbreakdownStructures.Where(x => workbreakdownStructureIDList.Contains(x.WorkbreakdownStructureID)).Delete();
             }
         }
 
-        public static void DeleteWorkbreakdownStructure(this IQueryable<WorkbreakdownStructure> workbreakdownStructures, int reclamationWorkBreakdownStructureID)
+        public static void DeleteWorkbreakdownStructure(this IQueryable<WorkbreakdownStructure> workbreakdownStructures, int workbreakdownStructureID)
         {
-            DeleteWorkbreakdownStructure(workbreakdownStructures, new List<int> { reclamationWorkBreakdownStructureID });
+            DeleteWorkbreakdownStructure(workbreakdownStructures, new List<int> { workbreakdownStructureID });
         }
 
         public static void DeleteWorkbreakdownStructure(this IQueryable<WorkbreakdownStructure> workbreakdownStructures, WorkbreakdownStructure workbreakdownStructureToDelete)

@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult DeleteReclamationAgreementRequestSubmissionNote(AgreementRequestSubmissionNotePrimaryKey agreementRequestNotePrimaryKey)
         {
             var agreementRequestNote = agreementRequestNotePrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(agreementRequestNote.ReclamationAgreementRequestSubmissionNoteID);
+            var viewModel = new ConfirmDialogFormViewModel(agreementRequestNote.AgreementRequestSubmissionNoteID);
             return ViewDeleteReclamationAgreementRequestSubmissionNote(agreementRequestNote, viewModel);
         }
 
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !agreementRequestNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} '{agreementRequestNote.ReclamationAgreementRequest.ReclamationAgreementRequestID}'?"
+                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} '{agreementRequestNote.ReclamationAgreementRequest.AgreementRequestID}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.AgreementRequestSubmissionNote.ToType().GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

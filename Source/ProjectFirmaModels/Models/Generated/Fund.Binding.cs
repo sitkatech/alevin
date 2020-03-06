@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Fund(int reclamationFundID, string reclamationFundNumber, string description) : this()
+        public Fund(int fundID, string reclamationFundNumber, string description) : this()
         {
-            this.ReclamationFundID = reclamationFundID;
+            this.FundID = fundID;
             this.ReclamationFundNumber = reclamationFundNumber;
             this.Description = description;
         }
@@ -80,11 +80,11 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int ReclamationFundID { get; set; }
+        public int FundID { get; set; }
         public string ReclamationFundNumber { get; set; }
         public string Description { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationFundID; } set { ReclamationFundID = value; } }
+        public int PrimaryKey { get { return FundID; } set { FundID = value; } }
 
 
 

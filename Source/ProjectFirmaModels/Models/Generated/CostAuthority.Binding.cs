@@ -24,18 +24,18 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected CostAuthority()
         {
-            this.AgreementCostAuthoritiesWhereYouAreTheCostAuthority = new HashSet<AgreementCostAuthority>();
-            this.CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority = new HashSet<CostAuthorityAgreementRequest>();
-            this.CostAuthorityProjects = new HashSet<CostAuthorityProject>();
-            this.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority = new HashSet<ReclamationStagingCostAuthorityAgreement>();
+            this.AgreementCostAuthorities = new HashSet<AgreementCostAuthority>();
+            this.CostAuthorityAgreementRequests = new HashSet<CostAuthorityAgreementRequest>();
+            this.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority = new HashSet<CostAuthorityProject>();
+            this.ReclamationStagingCostAuthorityAgreements = new HashSet<ReclamationStagingCostAuthorityAgreement>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthority(int reclamationCostAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string jobNumber, string authority, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID) : this()
+        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string jobNumber, string authority, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID) : this()
         {
-            this.ReclamationCostAuthorityID = reclamationCostAuthorityID;
+            this.CostAuthorityID = costAuthorityID;
             this.CostAuthorityWorkBreakdownStructure = costAuthorityWorkBreakdownStructure;
             this.CostAuthorityNumber = costAuthorityNumber;
             this.AccountStructureDescription = accountStructureDescription;
@@ -68,7 +68,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AgreementCostAuthoritiesWhereYouAreTheCostAuthority.Any() || CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority.Any() || CostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
+            return AgreementCostAuthorities.Any() || CostAuthorityAgreementRequests.Any() || CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Any() || ReclamationStagingCostAuthorityAgreements.Any();
         }
 
         /// <summary>
@@ -99,29 +99,29 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in AgreementCostAuthoritiesWhereYouAreTheCostAuthority.ToList())
+            foreach(var x in AgreementCostAuthorities.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority.ToList())
+            foreach(var x in CostAuthorityAgreementRequests.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in CostAuthorityProjects.ToList())
+            foreach(var x in CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.ToList())
+            foreach(var x in ReclamationStagingCostAuthorityAgreements.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationCostAuthorityID { get; set; }
+        public int CostAuthorityID { get; set; }
         public string CostAuthorityWorkBreakdownStructure { get; set; }
         public string CostAuthorityNumber { get; set; }
         public string AccountStructureDescription { get; set; }
@@ -137,12 +137,12 @@ namespace ProjectFirmaModels.Models
         public int? BasinID { get; set; }
         public int? SubbasinID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationCostAuthorityID; } set { ReclamationCostAuthorityID = value; } }
+        public int PrimaryKey { get { return CostAuthorityID; } set { CostAuthorityID = value; } }
 
-        public virtual ICollection<AgreementCostAuthority> AgreementCostAuthoritiesWhereYouAreTheCostAuthority { get; set; }
-        public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority { get; set; }
-        public virtual ICollection<CostAuthorityProject> CostAuthorityProjects { get; set; }
-        public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority { get; set; }
+        public virtual ICollection<AgreementCostAuthority> AgreementCostAuthorities { get; set; }
+        public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequests { get; set; }
+        public virtual ICollection<CostAuthorityProject> CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority { get; set; }
+        public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
         public virtual HCategory HabitatCategory { get; set; }
         public virtual Basin Basin { get; set; }
         public virtual Subbasin Subbasin { get; set; }

@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public WorkbreakdownStructureConfiguration(string schema)
         {
             ToTable("WorkbreakdownStructure", schema);
-            HasKey(x => x.ReclamationWorkBreakdownStructureID);
-            Property(x => x.ReclamationWorkBreakdownStructureID).HasColumnName(@"ReclamationWorkBreakdownStructureID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.WorkbreakdownStructureID);
+            Property(x => x.WorkbreakdownStructureID).HasColumnName(@"WorkbreakdownStructureID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.WorkBreakdownStructureNumber).HasColumnName(@"WorkBreakdownStructureNumber").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(50);
 
         }

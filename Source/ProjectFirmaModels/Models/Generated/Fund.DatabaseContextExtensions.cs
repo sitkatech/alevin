@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static Fund GetFund(this IQueryable<Fund> funds, int reclamationFundID)
+        public static Fund GetFund(this IQueryable<Fund> funds, int fundID)
         {
-            var fund = funds.SingleOrDefault(x => x.ReclamationFundID == reclamationFundID);
-            Check.RequireNotNullThrowNotFound(fund, "Fund", reclamationFundID);
+            var fund = funds.SingleOrDefault(x => x.FundID == fundID);
+            Check.RequireNotNullThrowNotFound(fund, "Fund", fundID);
             return fund;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteFund(this IQueryable<Fund> funds, List<int> reclamationFundIDList)
+        public static void DeleteFund(this IQueryable<Fund> funds, List<int> fundIDList)
         {
-            if(reclamationFundIDList.Any())
+            if(fundIDList.Any())
             {
-                funds.Where(x => reclamationFundIDList.Contains(x.ReclamationFundID)).Delete();
+                funds.Where(x => fundIDList.Contains(x.FundID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(fundsToDelete.Any())
             {
-                var reclamationFundIDList = fundsToDelete.Select(x => x.ReclamationFundID).ToList();
-                funds.Where(x => reclamationFundIDList.Contains(x.ReclamationFundID)).Delete();
+                var fundIDList = fundsToDelete.Select(x => x.FundID).ToList();
+                funds.Where(x => fundIDList.Contains(x.FundID)).Delete();
             }
         }
 
-        public static void DeleteFund(this IQueryable<Fund> funds, int reclamationFundID)
+        public static void DeleteFund(this IQueryable<Fund> funds, int fundID)
         {
-            DeleteFund(funds, new List<int> { reclamationFundID });
+            DeleteFund(funds, new List<int> { fundID });
         }
 
         public static void DeleteFund(this IQueryable<Fund> funds, Fund fundToDelete)

@@ -24,15 +24,15 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected DepartmentCode()
         {
-            this.People = new HashSet<Person>();
+            this.PeopleWhereYouAreTheReclamationDepartmentCode = new HashSet<Person>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public DepartmentCode(int reclamationDepartmentCodeID, string reclamationDepartmentCodeName) : this()
+        public DepartmentCode(int departmentCodeID, string reclamationDepartmentCodeName) : this()
         {
-            this.ReclamationDepartmentCodeID = reclamationDepartmentCodeID;
+            this.DepartmentCodeID = departmentCodeID;
             this.ReclamationDepartmentCodeName = reclamationDepartmentCodeName;
         }
 
@@ -52,7 +52,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return People.Any();
+            return PeopleWhereYouAreTheReclamationDepartmentCode.Any();
         }
 
         /// <summary>
@@ -83,19 +83,19 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in People.ToList())
+            foreach(var x in PeopleWhereYouAreTheReclamationDepartmentCode.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationDepartmentCodeID { get; set; }
+        public int DepartmentCodeID { get; set; }
         public string ReclamationDepartmentCodeName { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationDepartmentCodeID; } set { ReclamationDepartmentCodeID = value; } }
+        public int PrimaryKey { get { return DepartmentCodeID; } set { DepartmentCodeID = value; } }
 
-        public virtual ICollection<Person> People { get; set; }
+        public virtual ICollection<Person> PeopleWhereYouAreTheReclamationDepartmentCode { get; set; }
 
         public static class FieldLengths
         {

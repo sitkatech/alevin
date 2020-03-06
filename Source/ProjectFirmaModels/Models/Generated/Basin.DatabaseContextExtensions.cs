@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static Basin GetBasin(this IQueryable<Basin> basins, int reclamationBasinID)
+        public static Basin GetBasin(this IQueryable<Basin> basins, int basinID)
         {
-            var basin = basins.SingleOrDefault(x => x.ReclamationBasinID == reclamationBasinID);
-            Check.RequireNotNullThrowNotFound(basin, "Basin", reclamationBasinID);
+            var basin = basins.SingleOrDefault(x => x.BasinID == basinID);
+            Check.RequireNotNullThrowNotFound(basin, "Basin", basinID);
             return basin;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteBasin(this IQueryable<Basin> basins, List<int> reclamationBasinIDList)
+        public static void DeleteBasin(this IQueryable<Basin> basins, List<int> basinIDList)
         {
-            if(reclamationBasinIDList.Any())
+            if(basinIDList.Any())
             {
-                basins.Where(x => reclamationBasinIDList.Contains(x.ReclamationBasinID)).Delete();
+                basins.Where(x => basinIDList.Contains(x.BasinID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(basinsToDelete.Any())
             {
-                var reclamationBasinIDList = basinsToDelete.Select(x => x.ReclamationBasinID).ToList();
-                basins.Where(x => reclamationBasinIDList.Contains(x.ReclamationBasinID)).Delete();
+                var basinIDList = basinsToDelete.Select(x => x.BasinID).ToList();
+                basins.Where(x => basinIDList.Contains(x.BasinID)).Delete();
             }
         }
 
-        public static void DeleteBasin(this IQueryable<Basin> basins, int reclamationBasinID)
+        public static void DeleteBasin(this IQueryable<Basin> basins, int basinID)
         {
-            DeleteBasin(basins, new List<int> { reclamationBasinID });
+            DeleteBasin(basins, new List<int> { basinID });
         }
 
         public static void DeleteBasin(this IQueryable<Basin> basins, Basin basinToDelete)

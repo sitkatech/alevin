@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static AgreementRequestSubmissionNote GetAgreementRequestSubmissionNote(this IQueryable<AgreementRequestSubmissionNote> agreementRequestSubmissionNotes, int reclamationAgreementRequestSubmissionNoteID)
+        public static AgreementRequestSubmissionNote GetAgreementRequestSubmissionNote(this IQueryable<AgreementRequestSubmissionNote> agreementRequestSubmissionNotes, int agreementRequestSubmissionNoteID)
         {
-            var agreementRequestSubmissionNote = agreementRequestSubmissionNotes.SingleOrDefault(x => x.ReclamationAgreementRequestSubmissionNoteID == reclamationAgreementRequestSubmissionNoteID);
-            Check.RequireNotNullThrowNotFound(agreementRequestSubmissionNote, "AgreementRequestSubmissionNote", reclamationAgreementRequestSubmissionNoteID);
+            var agreementRequestSubmissionNote = agreementRequestSubmissionNotes.SingleOrDefault(x => x.AgreementRequestSubmissionNoteID == agreementRequestSubmissionNoteID);
+            Check.RequireNotNullThrowNotFound(agreementRequestSubmissionNote, "AgreementRequestSubmissionNote", agreementRequestSubmissionNoteID);
             return agreementRequestSubmissionNote;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteAgreementRequestSubmissionNote(this IQueryable<AgreementRequestSubmissionNote> agreementRequestSubmissionNotes, List<int> reclamationAgreementRequestSubmissionNoteIDList)
+        public static void DeleteAgreementRequestSubmissionNote(this IQueryable<AgreementRequestSubmissionNote> agreementRequestSubmissionNotes, List<int> agreementRequestSubmissionNoteIDList)
         {
-            if(reclamationAgreementRequestSubmissionNoteIDList.Any())
+            if(agreementRequestSubmissionNoteIDList.Any())
             {
-                agreementRequestSubmissionNotes.Where(x => reclamationAgreementRequestSubmissionNoteIDList.Contains(x.ReclamationAgreementRequestSubmissionNoteID)).Delete();
+                agreementRequestSubmissionNotes.Where(x => agreementRequestSubmissionNoteIDList.Contains(x.AgreementRequestSubmissionNoteID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(agreementRequestSubmissionNotesToDelete.Any())
             {
-                var reclamationAgreementRequestSubmissionNoteIDList = agreementRequestSubmissionNotesToDelete.Select(x => x.ReclamationAgreementRequestSubmissionNoteID).ToList();
-                agreementRequestSubmissionNotes.Where(x => reclamationAgreementRequestSubmissionNoteIDList.Contains(x.ReclamationAgreementRequestSubmissionNoteID)).Delete();
+                var agreementRequestSubmissionNoteIDList = agreementRequestSubmissionNotesToDelete.Select(x => x.AgreementRequestSubmissionNoteID).ToList();
+                agreementRequestSubmissionNotes.Where(x => agreementRequestSubmissionNoteIDList.Contains(x.AgreementRequestSubmissionNoteID)).Delete();
             }
         }
 
-        public static void DeleteAgreementRequestSubmissionNote(this IQueryable<AgreementRequestSubmissionNote> agreementRequestSubmissionNotes, int reclamationAgreementRequestSubmissionNoteID)
+        public static void DeleteAgreementRequestSubmissionNote(this IQueryable<AgreementRequestSubmissionNote> agreementRequestSubmissionNotes, int agreementRequestSubmissionNoteID)
         {
-            DeleteAgreementRequestSubmissionNote(agreementRequestSubmissionNotes, new List<int> { reclamationAgreementRequestSubmissionNoteID });
+            DeleteAgreementRequestSubmissionNote(agreementRequestSubmissionNotes, new List<int> { agreementRequestSubmissionNoteID });
         }
 
         public static void DeleteAgreementRequestSubmissionNote(this IQueryable<AgreementRequestSubmissionNote> agreementRequestSubmissionNotes, AgreementRequestSubmissionNote agreementRequestSubmissionNoteToDelete)

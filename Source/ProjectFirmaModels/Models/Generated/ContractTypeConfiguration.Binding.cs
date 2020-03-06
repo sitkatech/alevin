@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public ContractTypeConfiguration(string schema)
         {
             ToTable("ContractType", schema);
-            HasKey(x => x.ReclamationContractTypeID);
-            Property(x => x.ReclamationContractTypeID).HasColumnName(@"ReclamationContractTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.ContractTypeID);
+            Property(x => x.ContractTypeID).HasColumnName(@"ContractTypeID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.ContractTypeName).HasColumnName(@"ContractTypeName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
             Property(x => x.ContractTypeDisplayName).HasColumnName(@"ContractTypeDisplayName").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
 

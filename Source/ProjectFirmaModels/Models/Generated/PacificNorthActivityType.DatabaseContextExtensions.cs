@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static PacificNorthActivityType GetPacificNorthActivityType(this IQueryable<PacificNorthActivityType> pacificNorthActivityTypes, int reclamationPacificNorthActivityTypeID)
+        public static PacificNorthActivityType GetPacificNorthActivityType(this IQueryable<PacificNorthActivityType> pacificNorthActivityTypes, int pacificNorthActivityTypeID)
         {
-            var pacificNorthActivityType = pacificNorthActivityTypes.SingleOrDefault(x => x.ReclamationPacificNorthActivityTypeID == reclamationPacificNorthActivityTypeID);
-            Check.RequireNotNullThrowNotFound(pacificNorthActivityType, "PacificNorthActivityType", reclamationPacificNorthActivityTypeID);
+            var pacificNorthActivityType = pacificNorthActivityTypes.SingleOrDefault(x => x.PacificNorthActivityTypeID == pacificNorthActivityTypeID);
+            Check.RequireNotNullThrowNotFound(pacificNorthActivityType, "PacificNorthActivityType", pacificNorthActivityTypeID);
             return pacificNorthActivityType;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeletePacificNorthActivityType(this IQueryable<PacificNorthActivityType> pacificNorthActivityTypes, List<int> reclamationPacificNorthActivityTypeIDList)
+        public static void DeletePacificNorthActivityType(this IQueryable<PacificNorthActivityType> pacificNorthActivityTypes, List<int> pacificNorthActivityTypeIDList)
         {
-            if(reclamationPacificNorthActivityTypeIDList.Any())
+            if(pacificNorthActivityTypeIDList.Any())
             {
-                pacificNorthActivityTypes.Where(x => reclamationPacificNorthActivityTypeIDList.Contains(x.ReclamationPacificNorthActivityTypeID)).Delete();
+                pacificNorthActivityTypes.Where(x => pacificNorthActivityTypeIDList.Contains(x.PacificNorthActivityTypeID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(pacificNorthActivityTypesToDelete.Any())
             {
-                var reclamationPacificNorthActivityTypeIDList = pacificNorthActivityTypesToDelete.Select(x => x.ReclamationPacificNorthActivityTypeID).ToList();
-                pacificNorthActivityTypes.Where(x => reclamationPacificNorthActivityTypeIDList.Contains(x.ReclamationPacificNorthActivityTypeID)).Delete();
+                var pacificNorthActivityTypeIDList = pacificNorthActivityTypesToDelete.Select(x => x.PacificNorthActivityTypeID).ToList();
+                pacificNorthActivityTypes.Where(x => pacificNorthActivityTypeIDList.Contains(x.PacificNorthActivityTypeID)).Delete();
             }
         }
 
-        public static void DeletePacificNorthActivityType(this IQueryable<PacificNorthActivityType> pacificNorthActivityTypes, int reclamationPacificNorthActivityTypeID)
+        public static void DeletePacificNorthActivityType(this IQueryable<PacificNorthActivityType> pacificNorthActivityTypes, int pacificNorthActivityTypeID)
         {
-            DeletePacificNorthActivityType(pacificNorthActivityTypes, new List<int> { reclamationPacificNorthActivityTypeID });
+            DeletePacificNorthActivityType(pacificNorthActivityTypes, new List<int> { pacificNorthActivityTypeID });
         }
 
         public static void DeletePacificNorthActivityType(this IQueryable<PacificNorthActivityType> pacificNorthActivityTypes, PacificNorthActivityType pacificNorthActivityTypeToDelete)
