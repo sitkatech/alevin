@@ -184,7 +184,7 @@ namespace ProjectFirmaModels.Models
         public void AssureThatPrimaryKeyColumnMatchNamingStandard()
         {
             const string sql = @"
-                select a.SchemaName, a.TableName, a.PrimaryKeyName, 'exec sp_rename ''' + a.TableName + '.' + a.PrimaryKeyName + ''', ''' + NewPrimaryKeyName + '''' AS QueryToRenameConstraint
+                select a.SchemaName, a.TableName, a.PrimaryKeyName, 'exec sp_rename ''' + a.SchemaName + '.' + a.TableName + '.' + a.PrimaryKeyName + ''', ''' + NewPrimaryKeyName + '''' AS QueryToRenameConstraint
                 from
                 (
                     SELECT
@@ -215,10 +215,10 @@ namespace ProjectFirmaModels.Models
         public void AssureThatPrimaryAndAlternateKeyNamesMatchNamingStandard()
         {
             const string sql = @"
-                select a.TableName, a.ConstraintName, 'exec sp_rename ''' + a.ConstraintName + ''', ''' + NewConstraintName + ''', ''OBJECT''' AS QueryToRenameConstraint
+                select a.TableName, a.ConstraintName, 'exec sp_rename ''' + a.TableSchema + '.' + a.ConstraintName + ''', ''' + NewConstraintName + ''', ''OBJECT''' AS QueryToRenameConstraint
                 from
                 (
-                    SELECT	t.TABLE_NAME as TableName, c.CONSTRAINT_NAME as ConstraintName
+                    SELECT	t.TABLE_NAME as TableName, c.CONSTRAINT_NAME as ConstraintName, t.TABLE_SCHEMA as TableSchema
                             , substring(case when c.CONSTRAINT_TYPE = 'unique' then 'AK' else 'PK' end + '_' + c.TABLE_NAME + 
                             (         
                                 SELECT  '_' + cols.COLUMN_NAME AS [text()]       
