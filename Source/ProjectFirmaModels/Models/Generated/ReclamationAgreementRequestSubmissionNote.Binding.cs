@@ -57,7 +57,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ReclamationAgreementRequestSubmissionNote(ReclamationAgreementRequest reclamationAgreementRequest, string note, DateTime createDate) : this()
+        public ReclamationAgreementRequestSubmissionNote(AgreementRequest reclamationAgreementRequest, string note, DateTime createDate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementRequestSubmissionNoteID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -71,7 +71,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ReclamationAgreementRequestSubmissionNote CreateNewBlank(ReclamationAgreementRequest reclamationAgreementRequest)
+        public static ReclamationAgreementRequestSubmissionNote CreateNewBlank(AgreementRequest reclamationAgreementRequest)
         {
             return new ReclamationAgreementRequestSubmissionNote(reclamationAgreementRequest, default(string), default(DateTime));
         }
@@ -119,7 +119,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationAgreementRequestSubmissionNoteID; } set { ReclamationAgreementRequestSubmissionNoteID = value; } }
 
-        public virtual ReclamationAgreementRequest ReclamationAgreementRequest { get; set; }
+        public virtual AgreementRequest ReclamationAgreementRequest { get; set; }
         public virtual Person CreatePerson { get; set; }
         public virtual Person UpdatePerson { get; set; }
 

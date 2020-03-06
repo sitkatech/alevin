@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 {
     public class AgreementRequestDetailViewData : FirmaViewData
     {
-        public ProjectFirmaModels.Models.ReclamationAgreementRequest ReclamationAgreementRequest { get; }
+        public ProjectFirmaModels.Models.AgreementRequest AgreementRequest { get; }
 
         public string CostAuthorityAgreementRequestGridName { get; }
         public CostAuthorityAgreementRequestGridSpec CostAuthorityAgreementRequestGridSpec { get; }
@@ -51,33 +51,33 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public EntityNotesViewData AgreementRequestNotesViewData { get; }
 
         public AgreementRequestDetailViewData(FirmaSession currentFirmaSession,
-            ReclamationAgreementRequest reclamationAgreementRequest, bool userCanInteractWithSubmissionNotes,
+            ProjectFirmaModels.Models.AgreementRequest agreementRequest, bool userCanInteractWithSubmissionNotes,
             EntityNotesViewData agreementRequestNotesViewData) : base(currentFirmaSession)
         {
-            PageTitle = $"Agreement Request: {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}";
+            PageTitle = $"Agreement Request: {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}";
             EntityName = "Agreement Request Detail";
-            ReclamationAgreementRequest = reclamationAgreementRequest;
+            AgreementRequest = agreementRequest;
             IndexUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.AgreementRequestIndex());
-            EditAgreementRequestBasicsUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.Edit(reclamationAgreementRequest));
-            EditRequisitionInformationUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.EditRequisitionInformation(reclamationAgreementRequest));
+            EditAgreementRequestBasicsUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.Edit(agreementRequest));
+            EditRequisitionInformationUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(c => c.EditRequisitionInformation(agreementRequest));
             UserCanEditAgreementRequest = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             UserCanEditRequisitionInformation = new AgreementRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             UserCanInteractWithSubmissionNotes = userCanInteractWithSubmissionNotes;
             AgreementRequestNotesViewData = agreementRequestNotesViewData;
             CostAuthorityAgreementRequestGridName = "costAuthorityAgreementRequestGrid";
 
-            var costAuthorityIDList = reclamationAgreementRequest.Agreement != null
-                ? reclamationAgreementRequest.Agreement.ReclamationAgreementReclamationCostAuthorities
+            var costAuthorityIDList = agreementRequest.Agreement != null
+                ? agreementRequest.Agreement.AgreementReclamationCostAuthorities
                     .Select(x => x.ReclamationCostAuthorityID).ToList()
                 : new List<int>();
 
-            CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, reclamationAgreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft, costAuthorityIDList)
+            CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, agreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft, costAuthorityIDList)
             {
-                ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {reclamationAgreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
+                ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
+                ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
                 SaveFiltersInCookie = true
             };
-            CostAuthorityAgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementRequestsJsonData(reclamationAgreementRequest));        }
+            CostAuthorityAgreementRequestGridDataUrl = SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementRequestsJsonData(agreementRequest));        }
 
     }
 }

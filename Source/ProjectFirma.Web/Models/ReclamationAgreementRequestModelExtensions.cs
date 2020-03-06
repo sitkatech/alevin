@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
             SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t =>
                 t.AgreementRequestDetail(UrlTemplate.Parameter1Int)));
 
-        public static string GetDetailUrl(this ReclamationAgreementRequest agreementRequest)
+        public static string GetDetailUrl(this AgreementRequest agreementRequest)
         {
             return DetailUrlTemplate.ParameterReplace(agreementRequest.PrimaryKey);
         }
@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t => t.Edit(UrlTemplate.Parameter1Int)));
 
-        public static string GetEditUrl(this ReclamationAgreementRequest agreementRequest)
+        public static string GetEditUrl(this AgreementRequest agreementRequest)
         {
             return EditUrlTemplate.ParameterReplace(agreementRequest.PrimaryKey);
         }
@@ -30,12 +30,12 @@ namespace ProjectFirma.Web.Models
         public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t => t.Delete(UrlTemplate.Parameter1Int)));
 
-        public static string GetDeleteUrl(this ReclamationAgreementRequest agreementRequest)
+        public static string GetDeleteUrl(this AgreementRequest agreementRequest)
         {
             return DeleteUrlTemplate.ParameterReplace(agreementRequest.PrimaryKey);
         }
 
-        public static string GetRequisitionAge(this ReclamationAgreementRequest agreementRequest)
+        public static string GetRequisitionAge(this AgreementRequest agreementRequest)
         {
             if (agreementRequest.RequisitionDate != null && agreementRequest.ActualAwardDate != null)
             {
@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Models
             return "";
         }
 
-        public static string GetRequisitionDeptReviewDays(this ReclamationAgreementRequest agreementRequest)
+        public static string GetRequisitionDeptReviewDays(this AgreementRequest agreementRequest)
         {
             if (agreementRequest.DateSentForDeptReview != null && agreementRequest.ActualAwardDate != null)
             {
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Models
             return "";
         }
 
-        public static string GetRequisitionDaysToAssign(this ReclamationAgreementRequest agreementRequest)
+        public static string GetRequisitionDaysToAssign(this AgreementRequest agreementRequest)
         {
             if (agreementRequest.RequisitionDate != null && agreementRequest.AssignedDate == null &&
                 agreementRequest.ActualAwardDate == null)
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Models
             return "";
         }
 
-        public static int? GetRequisitionDaysToAward(this ReclamationAgreementRequest agreementRequest)
+        public static int? GetRequisitionDaysToAward(this AgreementRequest agreementRequest)
         {
             if (agreementRequest.RequisitionDate != null && agreementRequest.ActualAwardDate != null)
             {

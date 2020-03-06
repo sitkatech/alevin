@@ -25,7 +25,7 @@ namespace ProjectFirmaModels.Models
         protected ReclamationContractType()
         {
             this.AgreementsWhereYouAreTheContractType = new HashSet<Agreement>();
-            this.ReclamationAgreementRequestsWhereYouAreTheContractType = new HashSet<ReclamationAgreementRequest>();
+            this.AgreementRequestsWhereYouAreTheContractType = new HashSet<AgreementRequest>();
         }
 
         /// <summary>
@@ -54,13 +54,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AgreementsWhereYouAreTheContractType.Any() || ReclamationAgreementRequestsWhereYouAreTheContractType.Any();
+            return AgreementsWhereYouAreTheContractType.Any() || AgreementRequestsWhereYouAreTheContractType.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationContractType).Name, typeof(Agreement).Name, typeof(ReclamationAgreementRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationContractType).Name, typeof(Agreement).Name, typeof(AgreementRequest).Name};
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in ReclamationAgreementRequestsWhereYouAreTheContractType.ToList())
+            foreach(var x in AgreementRequestsWhereYouAreTheContractType.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -104,7 +104,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ReclamationContractTypeID; } set { ReclamationContractTypeID = value; } }
 
         public virtual ICollection<Agreement> AgreementsWhereYouAreTheContractType { get; set; }
-        public virtual ICollection<ReclamationAgreementRequest> ReclamationAgreementRequestsWhereYouAreTheContractType { get; set; }
+        public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheContractType { get; set; }
 
         public static class FieldLengths
         {

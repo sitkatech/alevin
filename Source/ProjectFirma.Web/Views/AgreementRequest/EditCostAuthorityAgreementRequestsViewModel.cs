@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         }
 
 
-        public EditCostAuthorityAgreementRequestsViewModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest)
+        public EditCostAuthorityAgreementRequestsViewModel(ProjectFirmaModels.Models.AgreementRequest agreementRequest)
         {
             HasCostAuthorityJsonListWithoutFakeRow = false;
             CostAuthorityJsonList = new List<CostAuthorityJson> {new CostAuthorityJson()};

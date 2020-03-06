@@ -38,17 +38,17 @@ namespace ProjectFirma.Web.Views.AgreementRequest
     {
 
         public ViewPageContentViewData ProjectStatusFirmaPage { get; }
-        public ReclamationAgreementRequest ReclamationAgreementRequest { get; set; }
+        public ProjectFirmaModels.Models.AgreementRequest AgreementRequest { get; set; }
         
 
         public EditCostAuthorityAgreementRequestViewData(
              ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
             , FirmaSession currentFirmaSession
-            , ReclamationAgreementRequest reclamationAgreementRequest
+            , ProjectFirmaModels.Models.AgreementRequest agreementRequest
             ) : base(currentFirmaSession)
         {
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
-            ReclamationAgreementRequest = reclamationAgreementRequest;
+            AgreementRequest = agreementRequest;
         }
     }
 }

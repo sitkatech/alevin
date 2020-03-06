@@ -25,7 +25,7 @@ namespace ProjectFirma.Web.Models
         ///// </summary>
         //public static List<ReclamationCostAuthority> GetReclamationCostAuthorities(this Agreement agreement)
         //{
-        //    return agreement.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationCostAuthority).ToList();
+        //    return agreement.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationCostAuthority).ToList();
         //}
 
         ///// <summary>

@@ -45,11 +45,11 @@ namespace ProjectFirma.Web.Views.AgreementRequest
              ProjectFirmaModels.Models.FirmaPage editCostAuthorityAgreementRequestsFirmaPage
             , FirmaSession currentFirmaSession
             , List<ReclamationCostAuthority> allCostAuthorities
-            , ReclamationAgreementRequest reclamationAgreementRequest
+            , ProjectFirmaModels.Models.AgreementRequest agreementRequest
             ) : base(currentFirmaSession, editCostAuthorityAgreementRequestsFirmaPage)
         {
             var costAuthoritiesToOmit =
-                reclamationAgreementRequest.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
+                agreementRequest.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
                     .Select(x => x.CostAuthorityID);
             var reclamationCostAuthoritiesToUse = allCostAuthorities
                 .Where(x => !costAuthoritiesToOmit.Contains(x.ReclamationCostAuthorityID)).ToList();

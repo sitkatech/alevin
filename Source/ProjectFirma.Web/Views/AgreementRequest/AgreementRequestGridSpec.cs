@@ -33,7 +33,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.AgreementRequest
 {
-    public class AgreementRequestGridSpec : GridSpec<ProjectFirmaModels.Models.ReclamationAgreementRequest>
+    public class AgreementRequestGridSpec : GridSpec<ProjectFirmaModels.Models.AgreementRequest>
     {
         public AgreementRequestGridSpec(FirmaSession currentFirmaSession)
         {

@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.UpdateDate).HasColumnName(@"UpdateDate").HasColumnType("datetime").IsOptional();
 
             // Foreign keys
-            HasRequired(a => a.ReclamationAgreementRequest).WithMany(b => b.ReclamationAgreementRequestSubmissionNotes).HasForeignKey(c => c.ReclamationAgreementRequestID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequestSubmissionNote_ReclamationAgreementRequest_ReclamationAgreementRequestID
+            HasRequired(a => a.ReclamationAgreementRequest).WithMany(b => b.ReclamationAgreementRequestSubmissionNotes).HasForeignKey(c => c.ReclamationAgreementRequestID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequestSubmissionNote_AgreementRequest_ReclamationAgreementRequestID
             HasOptional(a => a.CreatePerson).WithMany(b => b.ReclamationAgreementRequestSubmissionNotesWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequestSubmissionNote_Person_CreatePersonID_PersonID
             HasOptional(a => a.UpdatePerson).WithMany(b => b.ReclamationAgreementRequestSubmissionNotesWhereYouAreTheUpdatePerson).HasForeignKey(c => c.UpdatePersonID).WillCascadeOnDelete(false); // FK_ReclamationAgreementRequestSubmissionNote_Person_UpdatePersonID_PersonID
         }

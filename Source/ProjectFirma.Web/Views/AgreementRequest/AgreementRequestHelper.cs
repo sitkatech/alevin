@@ -48,21 +48,21 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         }
 
 
-        private static string EditCostAuthorityAgreementRequestsUrl(this ReclamationAgreementRequest reclamationAgreementRequest)
+        private static string EditCostAuthorityAgreementRequestsUrl(this ProjectFirmaModels.Models.AgreementRequest agreementRequest)
         {
-            return SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(x => x.EditCostAuthorityAgreementRequests(reclamationAgreementRequest.PrimaryKey));
+            return SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(x => x.EditCostAuthorityAgreementRequests(agreementRequest.PrimaryKey));
         }
 
         private static string MakeProjectNewObligationsText() =>
             $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Project new Obligations";
 
-        public static HtmlString EditCostAuthorityAgreementRequestsButton(this ReclamationAgreementRequest reclamationAgreementRequest)
+        public static HtmlString EditCostAuthorityAgreementRequestsButton(this ProjectFirmaModels.Models.AgreementRequest agreementRequest)
         {
-            var disabledState = reclamationAgreementRequest.AgreementRequestStatus != ReclamationAgreementRequestStatus.Draft ? ModalDialogFormHelper.DisabledState.Disabled : ModalDialogFormHelper.DisabledState.NotDisabled;
+            var disabledState = agreementRequest.AgreementRequestStatus != ReclamationAgreementRequestStatus.Draft ? ModalDialogFormHelper.DisabledState.Disabled : ModalDialogFormHelper.DisabledState.NotDisabled;
             var disabledHoverText = disabledState == ModalDialogFormHelper.DisabledState.Disabled
                 ? "You cannot Add Projected Obligations because this Agreement Request is not in a Draft state."
                 : null;
-            return ModalDialogFormHelper.ModalDialogFormLink(MakeProjectNewObligationsText(), EditCostAuthorityAgreementRequestsUrl(reclamationAgreementRequest),
+            return ModalDialogFormHelper.ModalDialogFormLink(MakeProjectNewObligationsText(), EditCostAuthorityAgreementRequestsUrl(agreementRequest),
                 $"Project new Obligations by CAWBS", 900, "Save",
                 "Cancel",
                 new List<string> { "btn", "btn-firma" }, null, null, disabledState, disabledHoverText);

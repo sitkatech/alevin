@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.CostAuthority
 
         private static HtmlString GetAgreementsHrefsString(ReclamationCostAuthority reclamationCostAuthority)
         {
-            List<ProjectFirmaModels.Models.Agreement> agreements = reclamationCostAuthority.ReclamationAgreementReclamationCostAuthorities.Select(rarca => rarca.Agreement).ToList();
+            List<ProjectFirmaModels.Models.Agreement> agreements = reclamationCostAuthority.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement).ToList();
             List<HtmlString> agreementsHrefHtmlStrings = agreements.Select(a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.AgreementNumber)).ToList();
 
             var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", agreementsHrefHtmlStrings));

@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [AgreementRequestSubmissionNoteFeature]
-        public PartialViewResult New(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey)
+        public PartialViewResult New(AgreementRequestPrimaryKey agreementRequestPrimaryKey)
         {
             var viewModel = new EditNoteViewModel();
             return ViewEdit(viewModel);
@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [AgreementRequestSubmissionNoteFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(ReclamationAgreementRequestPrimaryKey agreementRequestPrimaryKey, EditNoteViewModel viewModel)
+        public ActionResult New(AgreementRequestPrimaryKey agreementRequestPrimaryKey, EditNoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {

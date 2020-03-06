@@ -18,7 +18,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         [FieldDefinitionDisplay(FieldDefinitionEnum.RequisitionDate)]
         public DateTime? RequisitionDate { get; set; }
 
-        [StringLength(ProjectFirmaModels.Models.ReclamationAgreementRequest.FieldLengths.ContractSpecialist)]
+        [StringLength(ProjectFirmaModels.Models.AgreementRequest.FieldLengths.ContractSpecialist)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ContractSpecialist)]
         public string ContractSpecialist { get; set; }
 
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
         }
 
-        public EditRequisitionInformationViewModel(ReclamationAgreementRequest agreementRequest)
+        public EditRequisitionInformationViewModel(ProjectFirmaModels.Models.AgreementRequest agreementRequest)
         {
             AgreementID = agreementRequest.AgreementID;
             RequisitionNumber = agreementRequest.RequisitionNumber;
@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         }
 
 
-        public void UpdateModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.AgreementRequest agreementRequest, FirmaSession currentFirmaSession)
         {
             agreementRequest.AgreementID = AgreementID;
             agreementRequest.RequisitionNumber = RequisitionNumber;

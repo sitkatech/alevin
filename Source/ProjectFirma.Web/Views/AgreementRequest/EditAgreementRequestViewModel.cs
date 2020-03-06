@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public int AgreementRequestStatusID { get; set; }
 
         [Required]
-        [StringLength(ProjectFirmaModels.Models.ReclamationAgreementRequest.FieldLengths.DescriptionOfNeed)]
+        [StringLength(ProjectFirmaModels.Models.AgreementRequest.FieldLengths.DescriptionOfNeed)]
         [FieldDefinitionDisplay(FieldDefinitionEnum.DescriptionOfNeed)]
         public string DescriptionOfNeed { get; set; }
 
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         }
 
 
-        public EditAgreementRequestViewModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest)
+        public EditAgreementRequestViewModel(ProjectFirmaModels.Models.AgreementRequest agreementRequest)
         {
             IsModification = agreementRequest.IsModification;
             AgreementID = agreementRequest.AgreementID;
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             TargetSubmittalDate = agreementRequest.TargetSubmittalDate;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.ReclamationAgreementRequest agreementRequest, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.AgreementRequest agreementRequest, FirmaSession currentFirmaSession)
         {
 
             if (IsModification)

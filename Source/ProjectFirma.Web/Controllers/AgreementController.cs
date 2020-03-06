@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Agreement> AgreementGridJsonData()
         {
             var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
-            var agreements = HttpRequestStorage.DatabaseEntities.ReclamationAgreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
+            var agreements = HttpRequestStorage.DatabaseEntities.Agreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(agreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         [AgreementViewFeature]
         //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         // Can we / should we use the AgreementNumber as the primary key string?
-        public ViewResult AgreementDetail(ReclamationAgreementPrimaryKey agreementPrimaryKey)
+        public ViewResult AgreementDetail(AgreementPrimaryKey agreementPrimaryKey)
         {
             var agreement = agreementPrimaryKey.EntityObject;
             var viewData = new AgreementDetailViewData(CurrentFirmaSession, agreement);
@@ -64,9 +64,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AgreementViewFeature]
-        public GridJsonNetJObjectResult<Project> AgreementProjectsGridJsonData(ReclamationAgreementPrimaryKey reclamationAgreementPrimaryKey)
+        public GridJsonNetJObjectResult<Project> AgreementProjectsGridJsonData(AgreementPrimaryKey agreementPrimaryKey)
         {
-            var reclamationAgreement = reclamationAgreementPrimaryKey.EntityObject;
+            var reclamationAgreement = agreementPrimaryKey.EntityObject;
             var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationAgreement);
             //var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
             var projectReclamationAgreements = reclamationAgreement.GetAssociatedProjects();
@@ -75,10 +75,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AgreementViewFeature]
-        public GridJsonNetJObjectResult<ReclamationCostAuthority> AgreementCostAuthorityGridJsonData(ReclamationAgreementPrimaryKey reclamationAgreementPrimaryKey)
+        public GridJsonNetJObjectResult<ReclamationCostAuthority> AgreementCostAuthorityGridJsonData(AgreementPrimaryKey agreementPrimaryKey)
         {
             var gridSpec = new BasicCostAuthorityGridSpec(CurrentPerson);
-            var projectReclamationAgreements = reclamationAgreementPrimaryKey.EntityObject.GetReclamationCostAuthorities();
+            var projectReclamationAgreements = agreementPrimaryKey.EntityObject.GetReclamationCostAuthorities();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthority>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }

@@ -28,6 +28,6 @@ GO
 ALTER TABLE [Reclamation].[ReclamationAgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_Person_UpdatePersonID_PersonID]
 GO
 ALTER TABLE [Reclamation].[ReclamationAgreementRequestSubmissionNote]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_ReclamationAgreementRequest_ReclamationAgreementRequestID] FOREIGN KEY([ReclamationAgreementRequestID])
-REFERENCES [Reclamation].[ReclamationAgreementRequest] ([ReclamationAgreementRequestID])
+REFERENCES [Reclamation].[AgreementRequest] ([ReclamationAgreementRequestID])
 GO
 ALTER TABLE [Reclamation].[ReclamationAgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_ReclamationAgreementRequest_ReclamationAgreementRequestID]

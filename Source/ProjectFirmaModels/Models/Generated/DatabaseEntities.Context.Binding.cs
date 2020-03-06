@@ -189,9 +189,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new WbsElementObligationItemBudgetConfiguration());
             modelBuilder.Configurations.Add(new WbsElementObligationItemInvoiceConfiguration());
             modelBuilder.Configurations.Add(new AgreementConfiguration());
-            modelBuilder.Configurations.Add(new ReclamationAgreementPacificNorthActivityConfiguration());
-            modelBuilder.Configurations.Add(new ReclamationAgreementReclamationCostAuthorityConfiguration());
-            modelBuilder.Configurations.Add(new ReclamationAgreementRequestConfiguration());
+            modelBuilder.Configurations.Add(new AgreementPacificNorthActivityConfiguration());
+            modelBuilder.Configurations.Add(new AgreementReclamationCostAuthorityConfiguration());
+            modelBuilder.Configurations.Add(new AgreementRequestConfiguration());
             modelBuilder.Configurations.Add(new ReclamationAgreementRequestSubmissionNoteConfiguration());
             modelBuilder.Configurations.Add(new ReclamationBasinConfiguration());
             modelBuilder.Configurations.Add(new ReclamationContractTypeConfiguration());
@@ -225,6 +225,9 @@ namespace ProjectFirmaModels.Models
         }
         public virtual DbSet<ActionItem> AllActionItems { get; set; }
         public virtual IQueryable<ActionItem> ActionItems { get { return AllActionItems.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AgreementPacificNorthActivity> AgreementPacificNorthActivities { get; set; }
+        public virtual DbSet<AgreementReclamationCostAuthority> AgreementReclamationCostAuthorities { get; set; }
+        public virtual DbSet<AgreementRequest> AgreementRequests { get; set; }
         public virtual DbSet<Agreement> Agreements { get; set; }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
@@ -465,9 +468,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ProjectUpdate> ProjectUpdates { get { return AllProjectUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ProjectUpdateSetting> AllProjectUpdateSettings { get; set; }
         public virtual IQueryable<ProjectUpdateSetting> ProjectUpdateSettings { get { return AllProjectUpdateSettings.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<ReclamationAgreementPacificNorthActivity> ReclamationAgreementPacificNorthActivities { get; set; }
-        public virtual DbSet<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
-        public virtual DbSet<ReclamationAgreementRequest> ReclamationAgreementRequests { get; set; }
         public virtual DbSet<ReclamationAgreementRequestSubmissionNote> ReclamationAgreementRequestSubmissionNotes { get; set; }
         public virtual DbSet<ReclamationBasin> ReclamationBasins { get; set; }
         public virtual DbSet<ReclamationContractType> ReclamationContractTypes { get; set; }
@@ -555,6 +555,15 @@ namespace ProjectFirmaModels.Models
                     var actionItemState = ActionItemState.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(actionItemState, "ActionItemState", primaryKey);
                     return actionItemState;
+
+                case "AgreementPacificNorthActivity":
+                    return AgreementPacificNorthActivities.GetAgreementPacificNorthActivity(primaryKey);
+
+                case "AgreementReclamationCostAuthority":
+                    return AgreementReclamationCostAuthorities.GetAgreementReclamationCostAuthority(primaryKey);
+
+                case "AgreementRequest":
+                    return AgreementRequests.GetAgreementRequest(primaryKey);
 
                 case "Agreement":
                     return Agreements.GetAgreement(primaryKey);
@@ -1095,19 +1104,10 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
                     return projectWorkflowSectionGrouping;
 
-                case "ReclamationAgreementPacificNorthActivity":
-                    return ReclamationAgreementPacificNorthActivities.GetReclamationAgreementPacificNorthActivity(primaryKey);
-
-                case "ReclamationAgreementReclamationCostAuthority":
-                    return ReclamationAgreementReclamationCostAuthorities.GetReclamationAgreementReclamationCostAuthority(primaryKey);
-
                 case "ReclamationAgreementRequestFundingPriority":
                     var reclamationAgreementRequestFundingPriority = ReclamationAgreementRequestFundingPriority.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(reclamationAgreementRequestFundingPriority, "ReclamationAgreementRequestFundingPriority", primaryKey);
                     return reclamationAgreementRequestFundingPriority;
-
-                case "ReclamationAgreementRequest":
-                    return ReclamationAgreementRequests.GetReclamationAgreementRequest(primaryKey);
 
                 case "ReclamationAgreementRequestStatus":
                     var reclamationAgreementRequestStatus = ReclamationAgreementRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

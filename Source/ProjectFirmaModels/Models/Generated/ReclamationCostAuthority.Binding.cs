@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected ReclamationCostAuthority()
         {
-            this.ReclamationAgreementReclamationCostAuthorities = new HashSet<ReclamationAgreementReclamationCostAuthority>();
+            this.AgreementReclamationCostAuthorities = new HashSet<AgreementReclamationCostAuthority>();
             this.ReclamationCostAuthorityAgreementRequestsWhereYouAreTheCostAuthority = new HashSet<ReclamationCostAuthorityAgreementRequest>();
             this.ReclamationCostAuthorityProjects = new HashSet<ReclamationCostAuthorityProject>();
             this.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority = new HashSet<ReclamationStagingCostAuthorityAgreement>();
@@ -68,13 +68,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ReclamationAgreementReclamationCostAuthorities.Any() || ReclamationCostAuthorityAgreementRequestsWhereYouAreTheCostAuthority.Any() || ReclamationCostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
+            return AgreementReclamationCostAuthorities.Any() || ReclamationCostAuthorityAgreementRequestsWhereYouAreTheCostAuthority.Any() || ReclamationCostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationCostAuthority).Name, typeof(ReclamationAgreementReclamationCostAuthority).Name, typeof(ReclamationCostAuthorityAgreementRequest).Name, typeof(ReclamationCostAuthorityProject).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationCostAuthority).Name, typeof(AgreementReclamationCostAuthority).Name, typeof(ReclamationCostAuthorityAgreementRequest).Name, typeof(ReclamationCostAuthorityProject).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in ReclamationAgreementReclamationCostAuthorities.ToList())
+            foreach(var x in AgreementReclamationCostAuthorities.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -139,7 +139,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationCostAuthorityID; } set { ReclamationCostAuthorityID = value; } }
 
-        public virtual ICollection<ReclamationAgreementReclamationCostAuthority> ReclamationAgreementReclamationCostAuthorities { get; set; }
+        public virtual ICollection<AgreementReclamationCostAuthority> AgreementReclamationCostAuthorities { get; set; }
         public virtual ICollection<ReclamationCostAuthorityAgreementRequest> ReclamationCostAuthorityAgreementRequestsWhereYouAreTheCostAuthority { get; set; }
         public virtual ICollection<ReclamationCostAuthorityProject> ReclamationCostAuthorityProjects { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority { get; set; }
