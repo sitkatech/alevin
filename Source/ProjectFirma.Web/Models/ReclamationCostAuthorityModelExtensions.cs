@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Models
         /// </summary>
         public static List<Agreement> GetReclamationAgreements(this CostAuthority costAuthority)
         {
-            return costAuthority.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement).ToList();
+            return costAuthority.AgreementCostAuthoritiesWhereYouAreTheCostAuthority.Select(rarca => rarca.Agreement).ToList();
         }
 
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityDetail(UrlTemplate.Parameter1Int)));

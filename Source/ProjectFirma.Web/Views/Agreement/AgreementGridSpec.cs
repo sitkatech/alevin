@@ -54,12 +54,12 @@ namespace ProjectFirma.Web.Views.Agreement
             // Contract Type
             Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
-            Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.Count, 80);
+            Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.AgreementCostAuthorities.Count, 80);
         }
 
         private static HtmlString GetProjectHrefsString(ProjectFirmaModels.Models.Agreement agreement)
         {
-            var costAuthorities = agreement.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.Select(rarca => rarca.ReclamationCostAuthority).ToList();
+            var costAuthorities = agreement.AgreementCostAuthorities.Select(rarca => rarca.CostAuthority).ToList();
             var projects =
                 costAuthorities.SelectMany(ca => ca.CostAuthorityProjects.Select(rcap => rcap.Project)).ToList();
 

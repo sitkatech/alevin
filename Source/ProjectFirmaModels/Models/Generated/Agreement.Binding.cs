@@ -25,8 +25,8 @@ namespace ProjectFirmaModels.Models
         protected Agreement()
         {
             this.ObligationNumbersWhereYouAreTheReclamationAgreement = new HashSet<ObligationNumber>();
+            this.AgreementCostAuthorities = new HashSet<AgreementCostAuthority>();
             this.AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement = new HashSet<AgreementPacificNorthActivity>();
-            this.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement = new HashSet<AgreementReclamationCostAuthority>();
             this.AgreementRequests = new HashSet<AgreementRequest>();
             this.ReclamationStagingCostAuthorityAgreements = new HashSet<ReclamationStagingCostAuthorityAgreement>();
         }
@@ -94,13 +94,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ObligationNumbersWhereYouAreTheReclamationAgreement.Any() || AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.Any() || AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.Any() || AgreementRequests.Any() || ReclamationStagingCostAuthorityAgreements.Any();
+            return ObligationNumbersWhereYouAreTheReclamationAgreement.Any() || AgreementCostAuthorities.Any() || AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.Any() || AgreementRequests.Any() || ReclamationStagingCostAuthorityAgreements.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Agreement).Name, typeof(ObligationNumber).Name, typeof(AgreementPacificNorthActivity).Name, typeof(AgreementReclamationCostAuthority).Name, typeof(AgreementRequest).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Agreement).Name, typeof(ObligationNumber).Name, typeof(AgreementCostAuthority).Name, typeof(AgreementPacificNorthActivity).Name, typeof(AgreementRequest).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -130,12 +130,12 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.ToList())
+            foreach(var x in AgreementCostAuthorities.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.ToList())
+            foreach(var x in AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -171,8 +171,8 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return AgreementID; } set { AgreementID = value; } }
 
         public virtual ICollection<ObligationNumber> ObligationNumbersWhereYouAreTheReclamationAgreement { get; set; }
+        public virtual ICollection<AgreementCostAuthority> AgreementCostAuthorities { get; set; }
         public virtual ICollection<AgreementPacificNorthActivity> AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement { get; set; }
-        public virtual ICollection<AgreementReclamationCostAuthority> AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement { get; set; }
         public virtual ICollection<AgreementRequest> AgreementRequests { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
         public virtual Organization Organization { get; set; }

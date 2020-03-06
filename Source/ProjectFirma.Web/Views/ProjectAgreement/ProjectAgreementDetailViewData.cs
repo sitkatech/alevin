@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Views.ProjectFunding
                 .ToList();
 
             ReclamationAgreements = costAuthorities.SelectMany(ca =>
-                ca.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationAgreement)).ToList();
+                ca.AgreementCostAuthoritiesWhereYouAreTheCostAuthority.Select(rarca => rarca.Agreement)).ToList();
 
             SecondaryReclamationCostAuthorityWorkBreakdownStructures = project.CostAuthorityProjects.Where(x => !x.IsPrimaryProjectCawbs).Select(rcap => rcap.ReclamationCostAuthority).ToList();
             PrimaryCostAuthorityWorkBreakdownStructure = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthority;

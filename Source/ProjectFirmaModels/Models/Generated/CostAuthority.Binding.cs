@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected CostAuthority()
         {
-            this.AgreementReclamationCostAuthorities = new HashSet<AgreementReclamationCostAuthority>();
+            this.AgreementCostAuthoritiesWhereYouAreTheCostAuthority = new HashSet<AgreementCostAuthority>();
             this.CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority = new HashSet<CostAuthorityAgreementRequest>();
             this.CostAuthorityProjects = new HashSet<CostAuthorityProject>();
             this.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority = new HashSet<ReclamationStagingCostAuthorityAgreement>();
@@ -68,13 +68,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return AgreementReclamationCostAuthorities.Any() || CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority.Any() || CostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
+            return AgreementCostAuthoritiesWhereYouAreTheCostAuthority.Any() || CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority.Any() || CostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthority).Name, typeof(AgreementReclamationCostAuthority).Name, typeof(CostAuthorityAgreementRequest).Name, typeof(CostAuthorityProject).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthority).Name, typeof(AgreementCostAuthority).Name, typeof(CostAuthorityAgreementRequest).Name, typeof(CostAuthorityProject).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in AgreementReclamationCostAuthorities.ToList())
+            foreach(var x in AgreementCostAuthoritiesWhereYouAreTheCostAuthority.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -139,7 +139,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return ReclamationCostAuthorityID; } set { ReclamationCostAuthorityID = value; } }
 
-        public virtual ICollection<AgreementReclamationCostAuthority> AgreementReclamationCostAuthorities { get; set; }
+        public virtual ICollection<AgreementCostAuthority> AgreementCostAuthoritiesWhereYouAreTheCostAuthority { get; set; }
         public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequestsWhereYouAreTheCostAuthority { get; set; }
         public virtual ICollection<CostAuthorityProject> CostAuthorityProjects { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheCostAuthority { get; set; }

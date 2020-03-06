@@ -189,8 +189,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new WbsElementObligationItemBudgetConfiguration());
             modelBuilder.Configurations.Add(new WbsElementObligationItemInvoiceConfiguration());
             modelBuilder.Configurations.Add(new AgreementConfiguration());
+            modelBuilder.Configurations.Add(new AgreementCostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new AgreementPacificNorthActivityConfiguration());
-            modelBuilder.Configurations.Add(new AgreementReclamationCostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new AgreementRequestConfiguration());
             modelBuilder.Configurations.Add(new AgreementRequestSubmissionNoteConfiguration());
             modelBuilder.Configurations.Add(new BasinConfiguration());
@@ -225,8 +225,8 @@ namespace ProjectFirmaModels.Models
         }
         public virtual DbSet<ActionItem> AllActionItems { get; set; }
         public virtual IQueryable<ActionItem> ActionItems { get { return AllActionItems.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<AgreementCostAuthority> AgreementCostAuthorities { get; set; }
         public virtual DbSet<AgreementPacificNorthActivity> AgreementPacificNorthActivities { get; set; }
-        public virtual DbSet<AgreementReclamationCostAuthority> AgreementReclamationCostAuthorities { get; set; }
         public virtual DbSet<AgreementRequest> AgreementRequests { get; set; }
         public virtual DbSet<AgreementRequestSubmissionNote> AgreementRequestSubmissionNotes { get; set; }
         public virtual DbSet<Agreement> Agreements { get; set; }
@@ -556,11 +556,11 @@ namespace ProjectFirmaModels.Models
                     Check.RequireNotNullThrowNotFound(actionItemState, "ActionItemState", primaryKey);
                     return actionItemState;
 
+                case "AgreementCostAuthority":
+                    return AgreementCostAuthorities.GetAgreementCostAuthority(primaryKey);
+
                 case "AgreementPacificNorthActivity":
                     return AgreementPacificNorthActivities.GetAgreementPacificNorthActivity(primaryKey);
-
-                case "AgreementReclamationCostAuthority":
-                    return AgreementReclamationCostAuthorities.GetAgreementReclamationCostAuthority(primaryKey);
 
                 case "AgreementRequestFundingPriority":
                     var agreementRequestFundingPriority = AgreementRequestFundingPriority.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
