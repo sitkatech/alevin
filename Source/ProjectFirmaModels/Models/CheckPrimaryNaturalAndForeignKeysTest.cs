@@ -162,7 +162,7 @@ namespace ProjectFirmaModels.Models
                            c.ChildTableName as TableName,
                            c.ConstraintName as ConstraintName,
                            c.IdealNewConstraintName,
-                           'exec sp_rename ''' + c.ConstraintName + ''', ''' + IdealNewConstraintName + ''', ''OBJECT''' AS QueryToRenameConstraint
+                           'exec sp_rename ''' + c.ChildSchemaName + '.' + c.ConstraintName + ''', ''' + IdealNewConstraintName + ''', ''OBJECT''' AS QueryToRenameConstraint
                     from
                     (
                         select x.ParentSchemaName, x.ParentTableName, x.ChildSchemaName, x.ChildTableName, x.ConstraintName,
