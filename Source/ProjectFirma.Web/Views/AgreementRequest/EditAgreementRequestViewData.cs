@@ -52,14 +52,14 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             , FirmaSession currentFirmaSession
             , List<ProjectFirmaModels.Models.Agreement> allAgreements
             , List<ReclamationContractType> allContractTypes
-            , List<ReclamationAgreementRequestStatus> allAgreementRequestStatuses
+            , List<AgreementRequestStatus> allAgreementRequestStatuses
             , List<AgreementRequestFundingPriority> allFundingPriorities
             , List<ProjectFirmaModels.Models.Organization> allOrganizations
             , List<Person> allPeople) : base(currentFirmaSession)
         {
             Agreements = allAgreements.OrderBy(x => x.AgreementNumber).ToSelectListWithEmptyFirstRow(x => x.ReclamationAgreementID.ToString(), x => $"{x.AgreementNumber} - {x.Organization?.GetDisplayName()}");
             ContractTypes = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ReclamationContractTypeID.ToString(), x => x.ContractTypeDisplayName);
-            AgreementRequestStatuses = allAgreementRequestStatuses.OrderBy(x => x.ReclamationAgreementRequestStatusID).ToSelectListWithEmptyFirstRow(x => x.ReclamationAgreementRequestStatusID.ToString(), x => x.AgreementRequestStatusDisplayName);
+            AgreementRequestStatuses = allAgreementRequestStatuses.OrderBy(x => x.AgreementRequestStatusID).ToSelectListWithEmptyFirstRow(x => x.AgreementRequestStatusID.ToString(), x => x.AgreementRequestStatusDisplayName);
             FundingPriorities = allFundingPriorities.OrderBy(x => x.AgreementRequestFundingPriorityID).ToSelectListWithEmptyFirstRow(x => x.AgreementRequestFundingPriorityID.ToString(), x => x.AgreementRequestFundingPriorityDisplayName);
             Organizations = allOrganizations.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.GetDisplayName());
             People = allPeople.OrderBy(x => x.GetFullNameFirstLast()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLast());
@@ -85,10 +85,10 @@ namespace ProjectFirma.Web.Views.AgreementRequest
         public int ReclamationAgreementRequestStatusID { get; set; }
         public string ReclamationAgreementRequestStatusDisplayName { get; set; }
 
-        public AgreementRequestStatusJson(ProjectFirmaModels.Models.ReclamationAgreementRequestStatus reclamationAgreementRequestStatus)
+        public AgreementRequestStatusJson(ProjectFirmaModels.Models.AgreementRequestStatus agreementRequestStatus)
         {
-            ReclamationAgreementRequestStatusID = reclamationAgreementRequestStatus.ReclamationAgreementRequestStatusID;
-            ReclamationAgreementRequestStatusDisplayName = reclamationAgreementRequestStatus.AgreementRequestStatusDisplayName;
+            ReclamationAgreementRequestStatusID = agreementRequestStatus.AgreementRequestStatusID;
+            ReclamationAgreementRequestStatusDisplayName = agreementRequestStatus.AgreementRequestStatusDisplayName;
         }
     }
 

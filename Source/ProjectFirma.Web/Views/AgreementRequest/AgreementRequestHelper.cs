@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
 
         public static HtmlString EditCostAuthorityAgreementRequestsButton(this ProjectFirmaModels.Models.AgreementRequest agreementRequest)
         {
-            var disabledState = agreementRequest.AgreementRequestStatus != ReclamationAgreementRequestStatus.Draft ? ModalDialogFormHelper.DisabledState.Disabled : ModalDialogFormHelper.DisabledState.NotDisabled;
+            var disabledState = agreementRequest.AgreementRequestStatus != AgreementRequestStatus.Draft ? ModalDialogFormHelper.DisabledState.Disabled : ModalDialogFormHelper.DisabledState.NotDisabled;
             var disabledHoverText = disabledState == ModalDialogFormHelper.DisabledState.Disabled
                 ? "You cannot Add Projected Obligations because this Agreement Request is not in a Draft state."
                 : null;

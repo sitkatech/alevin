@@ -71,7 +71,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
                     .Select(x => x.ReclamationCostAuthorityID).ToList()
                 : new List<int>();
 
-            CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, agreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft, costAuthorityIDList)
+            CostAuthorityAgreementRequestGridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, agreementRequest.AgreementRequestStatus == AgreementRequestStatus.Draft, costAuthorityIDList)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} {agreementRequest.ReclamationAgreementRequestID.ToString("D4")}",

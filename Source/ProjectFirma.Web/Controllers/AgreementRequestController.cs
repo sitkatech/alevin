@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
             var projectStatusFirmaPage = firmaPage;
             var allAgreements = HttpRequestStorage.DatabaseEntities.Agreements.ToList();
             var allContractTypes = HttpRequestStorage.DatabaseEntities.ReclamationContractTypes.ToList();
-            var allRequestStatuses = ReclamationAgreementRequestStatus.All;
+            var allRequestStatuses = AgreementRequestStatus.All;
             var allFundingPriorities = AgreementRequestFundingPriority.All;
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList();
@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
         private ActionResult MakeTheNewAgreementRequest(EditAgreementRequestViewModel viewModel)
         {
             var contractType = HttpRequestStorage.DatabaseEntities.ReclamationContractTypes.Single(x => x.ReclamationContractTypeID == viewModel.ContractTypeID);
-            var requestStatus = ReclamationAgreementRequestStatus.AllLookupDictionary[viewModel.AgreementRequestStatusID];
+            var requestStatus = AgreementRequestStatus.AllLookupDictionary[viewModel.AgreementRequestStatusID];
             var agreementRequestFromViewModel = new AgreementRequest(viewModel.IsModification, contractType, requestStatus, viewModel.DescriptionOfNeed,DateTime.Now, CurrentFirmaSession.Person);
             viewModel.UpdateModel(agreementRequestFromViewModel, CurrentFirmaSession);
 
@@ -364,7 +364,7 @@ namespace ProjectFirma.Web.Controllers
             var costAuthorityIDList = reclamationAgreementRequest.Agreement != null
                 ? reclamationAgreementRequest.Agreement.AgreementReclamationCostAuthorities.Select(x => x.ReclamationCostAuthorityID).ToList()
                 : new List<int>();
-            var gridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, reclamationAgreementRequest.AgreementRequestStatus == ReclamationAgreementRequestStatus.Draft, costAuthorityIDList);
+            var gridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, reclamationAgreementRequest.AgreementRequestStatus == AgreementRequestStatus.Draft, costAuthorityIDList);
             var reclamationCostAuthorityAgreementRequests = reclamationAgreementRequestPrimaryKey.EntityObject
                 .ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest.ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ReclamationCostAuthorityAgreementRequest>(reclamationCostAuthorityAgreementRequests, gridSpec);

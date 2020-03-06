@@ -570,6 +570,11 @@ namespace ProjectFirmaModels.Models
                 case "AgreementRequest":
                     return AgreementRequests.GetAgreementRequest(primaryKey);
 
+                case "AgreementRequestStatus":
+                    var agreementRequestStatus = AgreementRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(agreementRequestStatus, "AgreementRequestStatus", primaryKey);
+                    return agreementRequestStatus;
+
                 case "Agreement":
                     return Agreements.GetAgreement(primaryKey);
 
@@ -1108,11 +1113,6 @@ namespace ProjectFirmaModels.Models
                     var projectWorkflowSectionGrouping = ProjectWorkflowSectionGrouping.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
                     return projectWorkflowSectionGrouping;
-
-                case "ReclamationAgreementRequestStatus":
-                    var reclamationAgreementRequestStatus = ReclamationAgreementRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(reclamationAgreementRequestStatus, "ReclamationAgreementRequestStatus", primaryKey);
-                    return reclamationAgreementRequestStatus;
 
                 case "ReclamationAgreementRequestSubmissionNote":
                     return ReclamationAgreementRequestSubmissionNotes.GetReclamationAgreementRequestSubmissionNote(primaryKey);

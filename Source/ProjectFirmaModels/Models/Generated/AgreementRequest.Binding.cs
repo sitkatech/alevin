@@ -77,7 +77,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public AgreementRequest(bool isModification, ReclamationContractType contractType, ReclamationAgreementRequestStatus agreementRequestStatus, string descriptionOfNeed, DateTime createDate, Person createPerson) : this()
+        public AgreementRequest(bool isModification, ReclamationContractType contractType, AgreementRequestStatus agreementRequestStatus, string descriptionOfNeed, DateTime createDate, Person createPerson) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementRequestID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -85,7 +85,7 @@ namespace ProjectFirmaModels.Models
             this.ContractTypeID = contractType.ReclamationContractTypeID;
             this.ContractType = contractType;
             contractType.AgreementRequestsWhereYouAreTheContractType.Add(this);
-            this.AgreementRequestStatusID = agreementRequestStatus.ReclamationAgreementRequestStatusID;
+            this.AgreementRequestStatusID = agreementRequestStatus.AgreementRequestStatusID;
             this.DescriptionOfNeed = descriptionOfNeed;
             this.CreateDate = createDate;
             this.CreatePersonID = createPerson.PersonID;
@@ -96,7 +96,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static AgreementRequest CreateNewBlank(ReclamationContractType contractType, ReclamationAgreementRequestStatus agreementRequestStatus, Person createPerson)
+        public static AgreementRequest CreateNewBlank(ReclamationContractType contractType, AgreementRequestStatus agreementRequestStatus, Person createPerson)
         {
             return new AgreementRequest(default(bool), contractType, agreementRequestStatus, default(string), default(DateTime), createPerson);
         }
@@ -180,7 +180,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ReclamationCostAuthorityAgreementRequest> ReclamationCostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest { get; set; }
         public virtual Agreement Agreement { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
-        public ReclamationAgreementRequestStatus AgreementRequestStatus { get { return ReclamationAgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }
+        public AgreementRequestStatus AgreementRequestStatus { get { return AgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }
         public AgreementRequestFundingPriority ReclamationAgreementRequestFundingPriority { get { return ReclamationAgreementRequestFundingPriorityID.HasValue ? AgreementRequestFundingPriority.AllLookupDictionary[ReclamationAgreementRequestFundingPriorityID.Value] : null; } }
         public virtual Organization RecipientOrganization { get; set; }
         public virtual Person CreatePerson { get; set; }
