@@ -18,19 +18,19 @@ CREATE TABLE [Reclamation].[Agreement](
 	[FinancialReporting] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationID] [int] NULL,
 	[ContractTypeID] [int] NOT NULL,
- CONSTRAINT [PK_ReclamationAgreement_ReclamationAgreementID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Agreement_ReclamationAgreementID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationAgreementID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
-REFERENCES [dbo].[Organization] ([OrganizationID])
-GO
-ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_ReclamationAgreement_Organization_OrganizationID]
-GO
-ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
+ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_Agreement_ContractType_ContractTypeID_ReclamationContractTypeID] FOREIGN KEY([ContractTypeID])
 REFERENCES [Reclamation].[ContractType] ([ReclamationContractTypeID])
 GO
-ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_ReclamationAgreement_ReclamationContractType_ContractTypeID_ReclamationContractTypeID]
+ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_Agreement_ContractType_ContractTypeID_ReclamationContractTypeID]
+GO
+ALTER TABLE [Reclamation].[Agreement]  WITH CHECK ADD  CONSTRAINT [FK_Agreement_Organization_OrganizationID] FOREIGN KEY([OrganizationID])
+REFERENCES [dbo].[Organization] ([OrganizationID])
+GO
+ALTER TABLE [Reclamation].[Agreement] CHECK CONSTRAINT [FK_Agreement_Organization_OrganizationID]

@@ -10,24 +10,24 @@ CREATE TABLE [Reclamation].[AgreementRequestSubmissionNote](
 	[CreateDate] [datetime] NOT NULL,
 	[UpdatePersonID] [int] NULL,
 	[UpdateDate] [datetime] NULL,
- CONSTRAINT [PK_ReclamationAgreementRequestSubmissionNote_ReclamationAgreementRequestSubmissionNoteID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AgreementRequestSubmissionNote_ReclamationAgreementRequestSubmissionNoteID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationAgreementRequestSubmissionNoteID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_Person_CreatePersonID_PersonID] FOREIGN KEY([CreatePersonID])
-REFERENCES [dbo].[Person] ([PersonID])
-GO
-ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_Person_CreatePersonID_PersonID]
-GO
-ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_Person_UpdatePersonID_PersonID] FOREIGN KEY([UpdatePersonID])
-REFERENCES [dbo].[Person] ([PersonID])
-GO
-ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_Person_UpdatePersonID_PersonID]
-GO
-ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_ReclamationAgreementRequest_ReclamationAgreementRequestID] FOREIGN KEY([ReclamationAgreementRequestID])
+ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequestSubmissionNote_AgreementRequest_ReclamationAgreementRequestID] FOREIGN KEY([ReclamationAgreementRequestID])
 REFERENCES [Reclamation].[AgreementRequest] ([ReclamationAgreementRequestID])
 GO
-ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_ReclamationAgreementRequestSubmissionNote_ReclamationAgreementRequest_ReclamationAgreementRequestID]
+ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_AgreementRequestSubmissionNote_AgreementRequest_ReclamationAgreementRequestID]
+GO
+ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequestSubmissionNote_Person_CreatePersonID_PersonID] FOREIGN KEY([CreatePersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_AgreementRequestSubmissionNote_Person_CreatePersonID_PersonID]
+GO
+ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequestSubmissionNote_Person_UpdatePersonID_PersonID] FOREIGN KEY([UpdatePersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [Reclamation].[AgreementRequestSubmissionNote] CHECK CONSTRAINT [FK_AgreementRequestSubmissionNote_Person_UpdatePersonID_PersonID]

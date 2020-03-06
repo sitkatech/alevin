@@ -6,7 +6,7 @@ CREATE TABLE [Reclamation].[Location](
 	[ReclamationLocationID] [int] IDENTITY(1,1) NOT NULL,
 	[ReclamationLocationName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ReclamationLocationAbbreviation] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
- CONSTRAINT [PK_ReclamationLocation_ReclamationLocationID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Location_ReclamationLocationID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationLocationID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

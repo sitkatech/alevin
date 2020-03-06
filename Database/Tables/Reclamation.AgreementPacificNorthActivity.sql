@@ -6,11 +6,11 @@ CREATE TABLE [Reclamation].[AgreementPacificNorthActivity](
 	[ReclamationAgreementPacificNorthActivityID] [int] IDENTITY(1,1) NOT NULL,
 	[ReclamationAgreementID] [int] NOT NULL,
 	[ReclamationPacificNorthActivityListID] [int] NOT NULL,
- CONSTRAINT [PK_ReclamationAgreementPacificNorthActivity_ReclamationAgreementPacificNorthActivityID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_AgreementPacificNorthActivity_ReclamationAgreementPacificNorthActivityID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationAgreementPacificNorthActivityID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ReclamationAgreementPacificNorthActivity_ReclamationAgreementID_ReclamationPacificNorthActivityListID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_AgreementPacificNorthActivity_ReclamationAgreementID_ReclamationPacificNorthActivityListID] UNIQUE NONCLUSTERED 
 (
 	[ReclamationAgreementID] ASC,
 	[ReclamationPacificNorthActivityListID] ASC
@@ -18,12 +18,12 @@ CREATE TABLE [Reclamation].[AgreementPacificNorthActivity](
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[AgreementPacificNorthActivity]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationAgreement_ReclamationAgreementID] FOREIGN KEY([ReclamationAgreementID])
+ALTER TABLE [Reclamation].[AgreementPacificNorthActivity]  WITH CHECK ADD  CONSTRAINT [FK_AgreementPacificNorthActivity_Agreement_ReclamationAgreementID] FOREIGN KEY([ReclamationAgreementID])
 REFERENCES [Reclamation].[Agreement] ([ReclamationAgreementID])
 GO
-ALTER TABLE [Reclamation].[AgreementPacificNorthActivity] CHECK CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationAgreement_ReclamationAgreementID]
+ALTER TABLE [Reclamation].[AgreementPacificNorthActivity] CHECK CONSTRAINT [FK_AgreementPacificNorthActivity_Agreement_ReclamationAgreementID]
 GO
-ALTER TABLE [Reclamation].[AgreementPacificNorthActivity]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationPacificNorthActivityList_ReclamationPacificNorthActivityListID] FOREIGN KEY([ReclamationPacificNorthActivityListID])
+ALTER TABLE [Reclamation].[AgreementPacificNorthActivity]  WITH CHECK ADD  CONSTRAINT [FK_AgreementPacificNorthActivity_PacificNorthActivityList_ReclamationPacificNorthActivityListID] FOREIGN KEY([ReclamationPacificNorthActivityListID])
 REFERENCES [Reclamation].[PacificNorthActivityList] ([ReclamationPacificNorthActivityListID])
 GO
-ALTER TABLE [Reclamation].[AgreementPacificNorthActivity] CHECK CONSTRAINT [FK_ReclamationAgreementPacificNorthActivity_ReclamationPacificNorthActivityList_ReclamationPacificNorthActivityListID]
+ALTER TABLE [Reclamation].[AgreementPacificNorthActivity] CHECK CONSTRAINT [FK_AgreementPacificNorthActivity_PacificNorthActivityList_ReclamationPacificNorthActivityListID]

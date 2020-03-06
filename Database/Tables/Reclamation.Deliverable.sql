@@ -13,29 +13,29 @@ CREATE TABLE [Reclamation].[Deliverable](
 	[CostAuthorityAgreementID] [int] NULL,
 	[ReclamationStagingAgreementStatusTableID] [int] NULL,
 	[PersonID] [int] NULL,
- CONSTRAINT [PK_ReclamationDeliverable_ReclamationDeliverableID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Deliverable_ReclamationDeliverableID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationDeliverableID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationDeliverable_Person_PersonID] FOREIGN KEY([PersonID])
-REFERENCES [dbo].[Person] ([PersonID])
-GO
-ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_ReclamationDeliverable_Person_PersonID]
-GO
-ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationDeliverable_ReclamationDeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID] FOREIGN KEY([DeliverableTypeID])
+ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID] FOREIGN KEY([DeliverableTypeID])
 REFERENCES [Reclamation].[DeliverableType] ([ReclamationDeliverableTypeID])
 GO
-ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_ReclamationDeliverable_ReclamationDeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID]
+ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_Deliverable_DeliverableType_DeliverableTypeID_ReclamationDeliverableTypeID]
 GO
-ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationDeliverable_ReclamationStagingAgreementStatusTable_ReclamationStagingAgreementStatusTableID] FOREIGN KEY([ReclamationStagingAgreementStatusTableID])
+ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_Person_PersonID] FOREIGN KEY([PersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_Deliverable_Person_PersonID]
+GO
+ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_ReclamationStagingAgreementStatusTable_ReclamationStagingAgreementStatusTableID] FOREIGN KEY([ReclamationStagingAgreementStatusTableID])
 REFERENCES [Reclamation].[ReclamationStagingAgreementStatusTable] ([ReclamationStagingAgreementStatusTableID])
 GO
-ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_ReclamationDeliverable_ReclamationStagingAgreementStatusTable_ReclamationStagingAgreementStatusTableID]
+ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_Deliverable_ReclamationStagingAgreementStatusTable_ReclamationStagingAgreementStatusTableID]
 GO
-ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationDeliverable_ReclamationStagingCostAuthorityAgreement_CostAuthorityAgreementID_ReclamationStagingCostAuthorityAgree] FOREIGN KEY([CostAuthorityAgreementID])
+ALTER TABLE [Reclamation].[Deliverable]  WITH CHECK ADD  CONSTRAINT [FK_Deliverable_ReclamationStagingCostAuthorityAgreement_CostAuthorityAgreementID_ReclamationStagingCostAuthorityAgreementID] FOREIGN KEY([CostAuthorityAgreementID])
 REFERENCES [Reclamation].[ReclamationStagingCostAuthorityAgreement] ([ReclamationStagingCostAuthorityAgreementID])
 GO
-ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_ReclamationDeliverable_ReclamationStagingCostAuthorityAgreement_CostAuthorityAgreementID_ReclamationStagingCostAuthorityAgree]
+ALTER TABLE [Reclamation].[Deliverable] CHECK CONSTRAINT [FK_Deliverable_ReclamationStagingCostAuthorityAgreement_CostAuthorityAgreementID_ReclamationStagingCostAuthorityAgreementID]

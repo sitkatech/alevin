@@ -18,24 +18,24 @@ CREATE TABLE [Reclamation].[CostAuthority](
 	[HabitatCategoryID] [int] NULL,
 	[BasinID] [int] NULL,
 	[SubbasinID] [int] NULL,
- CONSTRAINT [PK_ReclamationCostAuthority_ReclamationCostAuthorityID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_CostAuthority_ReclamationCostAuthorityID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationCostAuthorityID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationCostAuthority_ReclamationBasin_BasinID_ReclamationBasinID] FOREIGN KEY([BasinID])
+ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthority_Basin_BasinID_ReclamationBasinID] FOREIGN KEY([BasinID])
 REFERENCES [Reclamation].[Basin] ([ReclamationBasinID])
 GO
-ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_ReclamationCostAuthority_ReclamationBasin_BasinID_ReclamationBasinID]
+ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_CostAuthority_Basin_BasinID_ReclamationBasinID]
 GO
-ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationCostAuthority_ReclamationHCategory_HabitatCategoryID_ReclamationHCategoryID] FOREIGN KEY([HabitatCategoryID])
+ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthority_HCategory_HabitatCategoryID_ReclamationHCategoryID] FOREIGN KEY([HabitatCategoryID])
 REFERENCES [Reclamation].[HCategory] ([ReclamationHCategoryID])
 GO
-ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_ReclamationCostAuthority_ReclamationHCategory_HabitatCategoryID_ReclamationHCategoryID]
+ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_CostAuthority_HCategory_HabitatCategoryID_ReclamationHCategoryID]
 GO
-ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationCostAuthority_ReclamationSubbasin_SubbasinID_ReclamationSubbasinID] FOREIGN KEY([SubbasinID])
+ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthority_Subbasin_SubbasinID_ReclamationSubbasinID] FOREIGN KEY([SubbasinID])
 REFERENCES [Reclamation].[Subbasin] ([ReclamationSubbasinID])
 GO
-ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_ReclamationCostAuthority_ReclamationSubbasin_SubbasinID_ReclamationSubbasinID]
+ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_CostAuthority_Subbasin_SubbasinID_ReclamationSubbasinID]

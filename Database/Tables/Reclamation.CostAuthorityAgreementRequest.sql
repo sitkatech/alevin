@@ -8,19 +8,19 @@ CREATE TABLE [Reclamation].[CostAuthorityAgreementRequest](
 	[AgreementRequestID] [int] NOT NULL,
 	[ProjectedObligation] [money] NULL,
 	[ReclamationCostAuthorityAgreementRequestNote] [varchar](800) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
- CONSTRAINT [PK_ReclamationCostAuthorityAgreementRequest_ReclamationCostAuthorityAgreementRequestID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_CostAuthorityAgreementRequest_ReclamationCostAuthorityAgreementRequestID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationCostAuthorityAgreementRequestID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationCostAuthorityAgreementRequest_ReclamationAgreementRequest_AgreementRequestID_ReclamationAgreementRequestID] FOREIGN KEY([AgreementRequestID])
+ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthorityAgreementRequest_AgreementRequest_AgreementRequestID_ReclamationAgreementRequestID] FOREIGN KEY([AgreementRequestID])
 REFERENCES [Reclamation].[AgreementRequest] ([ReclamationAgreementRequestID])
 GO
-ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest] CHECK CONSTRAINT [FK_ReclamationCostAuthorityAgreementRequest_ReclamationAgreementRequest_AgreementRequestID_ReclamationAgreementRequestID]
+ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest] CHECK CONSTRAINT [FK_CostAuthorityAgreementRequest_AgreementRequest_AgreementRequestID_ReclamationAgreementRequestID]
 GO
-ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationCostAuthorityAgreementRequest_ReclamationCostAuthority_CostAuthorityID_ReclamationCostAuthorityID] FOREIGN KEY([CostAuthorityID])
+ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthorityAgreementRequest_CostAuthority_CostAuthorityID_ReclamationCostAuthorityID] FOREIGN KEY([CostAuthorityID])
 REFERENCES [Reclamation].[CostAuthority] ([ReclamationCostAuthorityID])
 GO
-ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest] CHECK CONSTRAINT [FK_ReclamationCostAuthorityAgreementRequest_ReclamationCostAuthority_CostAuthorityID_ReclamationCostAuthorityID]
+ALTER TABLE [Reclamation].[CostAuthorityAgreementRequest] CHECK CONSTRAINT [FK_CostAuthorityAgreementRequest_CostAuthority_CostAuthorityID_ReclamationCostAuthorityID]

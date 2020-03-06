@@ -5,7 +5,7 @@ GO
 CREATE TABLE [Reclamation].[Subbasin](
 	[ReclamationSubbasinID] [int] IDENTITY(1,1) NOT NULL,
 	[SubbasinName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
- CONSTRAINT [PK_ReclamationSubbasin_ReclamationSubbasinID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_Subbasin_ReclamationSubbasinID] PRIMARY KEY CLUSTERED 
 (
 	[ReclamationSubbasinID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
