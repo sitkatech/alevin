@@ -181,7 +181,7 @@ namespace ProjectFirmaModels.Models
         public virtual Agreement Agreement { get; set; }
         public virtual ReclamationContractType ContractType { get; set; }
         public ReclamationAgreementRequestStatus AgreementRequestStatus { get { return ReclamationAgreementRequestStatus.AllLookupDictionary[AgreementRequestStatusID]; } }
-        public ReclamationAgreementRequestFundingPriority ReclamationAgreementRequestFundingPriority { get { return ReclamationAgreementRequestFundingPriorityID.HasValue ? ReclamationAgreementRequestFundingPriority.AllLookupDictionary[ReclamationAgreementRequestFundingPriorityID.Value] : null; } }
+        public AgreementRequestFundingPriority ReclamationAgreementRequestFundingPriority { get { return ReclamationAgreementRequestFundingPriorityID.HasValue ? AgreementRequestFundingPriority.AllLookupDictionary[ReclamationAgreementRequestFundingPriorityID.Value] : null; } }
         public virtual Organization RecipientOrganization { get; set; }
         public virtual Person CreatePerson { get; set; }
         public virtual Person TechnicalRepresentativePerson { get; set; }

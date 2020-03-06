@@ -53,14 +53,14 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             , List<ProjectFirmaModels.Models.Agreement> allAgreements
             , List<ReclamationContractType> allContractTypes
             , List<ReclamationAgreementRequestStatus> allAgreementRequestStatuses
-            , List<ReclamationAgreementRequestFundingPriority> allFundingPriorities
+            , List<AgreementRequestFundingPriority> allFundingPriorities
             , List<ProjectFirmaModels.Models.Organization> allOrganizations
             , List<Person> allPeople) : base(currentFirmaSession)
         {
             Agreements = allAgreements.OrderBy(x => x.AgreementNumber).ToSelectListWithEmptyFirstRow(x => x.ReclamationAgreementID.ToString(), x => $"{x.AgreementNumber} - {x.Organization?.GetDisplayName()}");
             ContractTypes = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ReclamationContractTypeID.ToString(), x => x.ContractTypeDisplayName);
             AgreementRequestStatuses = allAgreementRequestStatuses.OrderBy(x => x.ReclamationAgreementRequestStatusID).ToSelectListWithEmptyFirstRow(x => x.ReclamationAgreementRequestStatusID.ToString(), x => x.AgreementRequestStatusDisplayName);
-            FundingPriorities = allFundingPriorities.OrderBy(x => x.ReclamationAgreementRequestFundingPriorityID).ToSelectListWithEmptyFirstRow(x => x.ReclamationAgreementRequestFundingPriorityID.ToString(), x => x.AgreementRequestFundingPriorityDisplayName);
+            FundingPriorities = allFundingPriorities.OrderBy(x => x.AgreementRequestFundingPriorityID).ToSelectListWithEmptyFirstRow(x => x.AgreementRequestFundingPriorityID.ToString(), x => x.AgreementRequestFundingPriorityDisplayName);
             Organizations = allOrganizations.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.GetDisplayName());
             People = allPeople.OrderBy(x => x.GetFullNameFirstLast()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLast());
             AgreementJsonList = new AgreementJsonList(allAgreements.Select(x => new AgreementJson(x)).ToList());

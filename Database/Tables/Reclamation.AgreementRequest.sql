@@ -59,7 +59,7 @@ GO
 ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreement_AgreementID_ReclamationAgreementID]
 GO
 ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreementRequestFundingPriority_ReclamationAgreementRequestFundingPriorityID] FOREIGN KEY([ReclamationAgreementRequestFundingPriorityID])
-REFERENCES [Reclamation].[ReclamationAgreementRequestFundingPriority] ([ReclamationAgreementRequestFundingPriorityID])
+REFERENCES [Reclamation].[AgreementRequestFundingPriority] ([AgreementRequestFundingPriorityID])
 GO
 ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_ReclamationAgreementRequest_ReclamationAgreementRequestFundingPriority_ReclamationAgreementRequestFundingPriorityID]
 GO

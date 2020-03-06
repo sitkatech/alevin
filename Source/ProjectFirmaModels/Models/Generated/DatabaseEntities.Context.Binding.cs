@@ -562,6 +562,11 @@ namespace ProjectFirmaModels.Models
                 case "AgreementReclamationCostAuthority":
                     return AgreementReclamationCostAuthorities.GetAgreementReclamationCostAuthority(primaryKey);
 
+                case "AgreementRequestFundingPriority":
+                    var agreementRequestFundingPriority = AgreementRequestFundingPriority.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(agreementRequestFundingPriority, "AgreementRequestFundingPriority", primaryKey);
+                    return agreementRequestFundingPriority;
+
                 case "AgreementRequest":
                     return AgreementRequests.GetAgreementRequest(primaryKey);
 
@@ -1103,11 +1108,6 @@ namespace ProjectFirmaModels.Models
                     var projectWorkflowSectionGrouping = ProjectWorkflowSectionGrouping.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(projectWorkflowSectionGrouping, "ProjectWorkflowSectionGrouping", primaryKey);
                     return projectWorkflowSectionGrouping;
-
-                case "ReclamationAgreementRequestFundingPriority":
-                    var reclamationAgreementRequestFundingPriority = ReclamationAgreementRequestFundingPriority.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(reclamationAgreementRequestFundingPriority, "ReclamationAgreementRequestFundingPriority", primaryKey);
-                    return reclamationAgreementRequestFundingPriority;
 
                 case "ReclamationAgreementRequestStatus":
                     var reclamationAgreementRequestStatus = ReclamationAgreementRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

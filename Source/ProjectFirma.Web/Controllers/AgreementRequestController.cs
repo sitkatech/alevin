@@ -87,7 +87,7 @@ namespace ProjectFirma.Web.Controllers
             var allAgreements = HttpRequestStorage.DatabaseEntities.Agreements.ToList();
             var allContractTypes = HttpRequestStorage.DatabaseEntities.ReclamationContractTypes.ToList();
             var allRequestStatuses = ReclamationAgreementRequestStatus.All;
-            var allFundingPriorities = ReclamationAgreementRequestFundingPriority.All;
+            var allFundingPriorities = AgreementRequestFundingPriority.All;
             var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
             var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList();
             var viewData = new EditAgreementRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allAgreements,allContractTypes, allRequestStatuses, allFundingPriorities, allOrganizations, allPeople );
