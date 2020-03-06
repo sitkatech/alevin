@@ -7,7 +7,7 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"Agreement: {this.ReclamationAgreementID} - {this.AgreementNumber}";
+            return $"Agreement: {this.AgreementID} - {this.AgreementNumber}";
         }
 
         public string GetOrganizationDisplayName()

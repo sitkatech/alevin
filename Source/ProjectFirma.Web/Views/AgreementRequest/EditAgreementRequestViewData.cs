@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             , List<ProjectFirmaModels.Models.Organization> allOrganizations
             , List<Person> allPeople) : base(currentFirmaSession)
         {
-            Agreements = allAgreements.OrderBy(x => x.AgreementNumber).ToSelectListWithEmptyFirstRow(x => x.ReclamationAgreementID.ToString(), x => $"{x.AgreementNumber} - {x.Organization?.GetDisplayName()}");
+            Agreements = allAgreements.OrderBy(x => x.AgreementNumber).ToSelectListWithEmptyFirstRow(x => x.AgreementID.ToString(), x => $"{x.AgreementNumber} - {x.Organization?.GetDisplayName()}");
             ContractTypes = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ReclamationContractTypeID.ToString(), x => x.ContractTypeDisplayName);
             AgreementRequestStatuses = allAgreementRequestStatuses.OrderBy(x => x.AgreementRequestStatusID).ToSelectListWithEmptyFirstRow(x => x.AgreementRequestStatusID.ToString(), x => x.AgreementRequestStatusDisplayName);
             FundingPriorities = allFundingPriorities.OrderBy(x => x.AgreementRequestFundingPriorityID).ToSelectListWithEmptyFirstRow(x => x.AgreementRequestFundingPriorityID.ToString(), x => x.AgreementRequestFundingPriorityDisplayName);
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             TechnicalRepresentativeID = null;
             TechnicalRepresentativeID = agreement.TechnicalRepresentative.HasValue ? (int)agreement.TechnicalRepresentative.Value : TechnicalRepresentativeID;
             OrganizationID = agreement.OrganizationID;
-            ReclamationAgreementID = agreement.ReclamationAgreementID;
+            ReclamationAgreementID = agreement.AgreementID;
         }
     }
 }

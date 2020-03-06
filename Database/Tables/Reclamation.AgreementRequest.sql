@@ -34,7 +34,7 @@ CREATE TABLE [Reclamation].[AgreementRequest](
 
 GO
 ALTER TABLE [Reclamation].[AgreementRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID_ReclamationAgreementID] FOREIGN KEY([AgreementID])
-REFERENCES [Reclamation].[Agreement] ([ReclamationAgreementID])
+REFERENCES [Reclamation].[Agreement] ([AgreementID])
 GO
 ALTER TABLE [Reclamation].[AgreementRequest] CHECK CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID_ReclamationAgreementID]
 GO

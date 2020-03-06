@@ -19,7 +19,7 @@
         public ReclamationAgreementSimple(Agreement agreement)
             : this()
         {
-            ReclamationAgreementID = agreement.ReclamationAgreementID;
+            ReclamationAgreementID = agreement.AgreementID;
             ReclamationAgreementDisplayName = $"{agreement.AgreementNumber} - {agreement.GetOrganizationDisplayName()} - {agreement.ContractType.ContractTypeDisplayName}";
             AgreementNumber = agreement.AgreementNumber;
         }

@@ -54,12 +54,12 @@ namespace ProjectFirma.Web.Views.Agreement
             // Contract Type
             Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
-            Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.AgreementReclamationCostAuthorities.Count, 80);
+            Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.Count, 80);
         }
 
         private static HtmlString GetProjectHrefsString(ProjectFirmaModels.Models.Agreement agreement)
         {
-            var costAuthorities = agreement.AgreementReclamationCostAuthorities.Select(rarca => rarca.ReclamationCostAuthority).ToList();
+            var costAuthorities = agreement.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.Select(rarca => rarca.ReclamationCostAuthority).ToList();
             var projects =
                 costAuthorities.SelectMany(ca => ca.CostAuthorityProjects.Select(rcap => rcap.Project)).ToList();
 
@@ -70,7 +70,7 @@ namespace ProjectFirma.Web.Views.Agreement
 
         public static HtmlString GetObligationHrefsString(ProjectFirmaModels.Models.Agreement agreement)
         {
-            var obligations = agreement.ObligationNumbers.ToList();
+            var obligations = agreement.ObligationNumbersWhereYouAreTheReclamationAgreement.ToList();
 
             List<HtmlString> hrefStrings = obligations.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.ObligationNumberKey)).ToList();
             var commaDelimitedHrefStrings = new HtmlString(string.Join(", ", hrefStrings));

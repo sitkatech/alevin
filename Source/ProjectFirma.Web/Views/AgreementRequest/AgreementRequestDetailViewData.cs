@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.AgreementRequest
             CostAuthorityAgreementRequestGridName = "costAuthorityAgreementRequestGrid";
 
             var costAuthorityIDList = agreementRequest.Agreement != null
-                ? agreementRequest.Agreement.AgreementReclamationCostAuthorities
+                ? agreementRequest.Agreement.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement
                     .Select(x => x.ReclamationCostAuthorityID).ToList()
                 : new List<int>();
 

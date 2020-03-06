@@ -56,9 +56,9 @@ namespace ProjectFirmaModels.Models
         {
             // Mark this as a new object by setting primary key with special value
             this.ReclamationAgreementPacificNorthActivityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ReclamationAgreementID = reclamationAgreement.ReclamationAgreementID;
+            this.ReclamationAgreementID = reclamationAgreement.AgreementID;
             this.ReclamationAgreement = reclamationAgreement;
-            reclamationAgreement.AgreementPacificNorthActivities.Add(this);
+            reclamationAgreement.AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.Add(this);
             this.ReclamationPacificNorthActivityListID = reclamationPacificNorthActivityList.ReclamationPacificNorthActivityListID;
             this.ReclamationPacificNorthActivityList = reclamationPacificNorthActivityList;
             reclamationPacificNorthActivityList.AgreementPacificNorthActivities.Add(this);

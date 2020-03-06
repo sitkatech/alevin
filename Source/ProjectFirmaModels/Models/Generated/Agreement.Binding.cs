@@ -24,19 +24,19 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Agreement()
         {
-            this.ObligationNumbers = new HashSet<ObligationNumber>();
-            this.AgreementPacificNorthActivities = new HashSet<AgreementPacificNorthActivity>();
-            this.AgreementReclamationCostAuthorities = new HashSet<AgreementReclamationCostAuthority>();
-            this.AgreementRequestsWhereYouAreTheAgreement = new HashSet<AgreementRequest>();
-            this.ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement = new HashSet<ReclamationStagingCostAuthorityAgreement>();
+            this.ObligationNumbersWhereYouAreTheReclamationAgreement = new HashSet<ObligationNumber>();
+            this.AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement = new HashSet<AgreementPacificNorthActivity>();
+            this.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement = new HashSet<AgreementReclamationCostAuthority>();
+            this.AgreementRequests = new HashSet<AgreementRequest>();
+            this.ReclamationStagingCostAuthorityAgreements = new HashSet<ReclamationStagingCostAuthorityAgreement>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Agreement(int reclamationAgreementID, int? original_ReclamationAgreementID, string agreementNumber, double? contractorLU, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
+        public Agreement(int agreementID, int? original_ReclamationAgreementID, string agreementNumber, double? contractorLU, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
         {
-            this.ReclamationAgreementID = reclamationAgreementID;
+            this.AgreementID = agreementID;
             this.Original_ReclamationAgreementID = original_ReclamationAgreementID;
             this.AgreementNumber = agreementNumber;
             this.ContractorLU = contractorLU;
@@ -59,7 +59,7 @@ namespace ProjectFirmaModels.Models
         public Agreement(bool isContingent, bool isIncrementalFunding, int contractTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.IsContingent = isContingent;
             this.IsIncrementalFunding = isIncrementalFunding;
@@ -72,7 +72,7 @@ namespace ProjectFirmaModels.Models
         public Agreement(bool isContingent, bool isIncrementalFunding, ContractType contractType) : this()
         {
             // Mark this as a new object by setting primary key with special value
-            this.ReclamationAgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.AgreementID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.IsContingent = isContingent;
             this.IsIncrementalFunding = isIncrementalFunding;
             this.ContractTypeID = contractType.ReclamationContractTypeID;
@@ -94,7 +94,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ObligationNumbers.Any() || AgreementPacificNorthActivities.Any() || AgreementReclamationCostAuthorities.Any() || AgreementRequestsWhereYouAreTheAgreement.Any() || ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement.Any();
+            return ObligationNumbersWhereYouAreTheReclamationAgreement.Any() || AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.Any() || AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.Any() || AgreementRequests.Any() || ReclamationStagingCostAuthorityAgreements.Any();
         }
 
         /// <summary>
@@ -125,34 +125,34 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in ObligationNumbers.ToList())
+            foreach(var x in ObligationNumbersWhereYouAreTheReclamationAgreement.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementPacificNorthActivities.ToList())
+            foreach(var x in AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementReclamationCostAuthorities.ToList())
+            foreach(var x in AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementRequestsWhereYouAreTheAgreement.ToList())
+            foreach(var x in AgreementRequests.ToList())
             {
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement.ToList())
+            foreach(var x in ReclamationStagingCostAuthorityAgreements.ToList())
             {
                 x.DeleteFull(dbContext);
             }
         }
 
         [Key]
-        public int ReclamationAgreementID { get; set; }
+        public int AgreementID { get; set; }
         public int? Original_ReclamationAgreementID { get; set; }
         public string AgreementNumber { get; set; }
         public double? ContractorLU { get; set; }
@@ -168,13 +168,13 @@ namespace ProjectFirmaModels.Models
         public int? OrganizationID { get; set; }
         public int ContractTypeID { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return ReclamationAgreementID; } set { ReclamationAgreementID = value; } }
+        public int PrimaryKey { get { return AgreementID; } set { AgreementID = value; } }
 
-        public virtual ICollection<ObligationNumber> ObligationNumbers { get; set; }
-        public virtual ICollection<AgreementPacificNorthActivity> AgreementPacificNorthActivities { get; set; }
-        public virtual ICollection<AgreementReclamationCostAuthority> AgreementReclamationCostAuthorities { get; set; }
-        public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheAgreement { get; set; }
-        public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreementsWhereYouAreTheAgreement { get; set; }
+        public virtual ICollection<ObligationNumber> ObligationNumbersWhereYouAreTheReclamationAgreement { get; set; }
+        public virtual ICollection<AgreementPacificNorthActivity> AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement { get; set; }
+        public virtual ICollection<AgreementReclamationCostAuthority> AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement { get; set; }
+        public virtual ICollection<AgreementRequest> AgreementRequests { get; set; }
+        public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
         public virtual Organization Organization { get; set; }
         public virtual ContractType ContractType { get; set; }
 

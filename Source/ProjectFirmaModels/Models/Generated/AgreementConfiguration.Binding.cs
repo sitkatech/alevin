@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public AgreementConfiguration(string schema)
         {
             ToTable("Agreement", schema);
-            HasKey(x => x.ReclamationAgreementID);
-            Property(x => x.ReclamationAgreementID).HasColumnName(@"ReclamationAgreementID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.AgreementID);
+            Property(x => x.AgreementID).HasColumnName(@"AgreementID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.Original_ReclamationAgreementID).HasColumnName(@"Original_ReclamationAgreementID").HasColumnType("int").IsOptional();
             Property(x => x.AgreementNumber).HasColumnName(@"AgreementNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.ContractorLU).HasColumnName(@"ContractorLU").HasColumnType("float").IsOptional();

@@ -169,9 +169,10 @@ namespace ProjectFirma.Web.Controllers
 
             if (viewModel.IsModification)
             {
-                var agreement = HttpRequestStorage.DatabaseEntities.Agreements.Single(x => x.ReclamationAgreementID == viewModel.AgreementID.Value);
+                var agreement = HttpRequestStorage.DatabaseEntities.Agreements.Single(x => x.AgreementID == viewModel.AgreementID.Value);
                 var costAuthorities = HttpRequestStorage.DatabaseEntities.CostAuthorities.ToList();
-                var agreementCostAuthorities = agreement.AgreementReclamationCostAuthorities;
+                //var agreementCostAuthorities = agreement.AgreementReclamationCostAuthorities;
+                var agreementCostAuthorities = agreement.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement;
                 var listOfCostAuthorityIDs = agreementCostAuthorities.Select(x => x.ReclamationCostAuthorityID).ToList();
                 foreach (var costAuthorityID in listOfCostAuthorityIDs)
                 {
@@ -228,9 +229,9 @@ namespace ProjectFirma.Web.Controllers
             if (viewModel.IsModification)
             {
                 var agreementRequest = agreementRequestPrimaryKey.EntityObject;
-                var agreement = HttpRequestStorage.DatabaseEntities.Agreements.Single(x => x.ReclamationAgreementID == viewModel.AgreementID.Value);
+                var agreement = HttpRequestStorage.DatabaseEntities.Agreements.Single(x => x.AgreementID == viewModel.AgreementID.Value);
                 var costAuthorities = HttpRequestStorage.DatabaseEntities.CostAuthorities.ToList();
-                var agreementCostAuthorities = agreement.AgreementReclamationCostAuthorities;
+                var agreementCostAuthorities = agreement.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement;
                 var listOfCostAuthorityIDs = agreementCostAuthorities.Select(x => x.ReclamationCostAuthorityID).ToList();
                 var currentListOfCostAuthoritiesOnAgreementRequest = agreementRequest
                     .CostAuthorityAgreementRequestsWhereYouAreTheAgreementRequest
@@ -361,7 +362,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var reclamationAgreementRequest = reclamationAgreementRequestPrimaryKey.EntityObject;
             var costAuthorityIDList = reclamationAgreementRequest.Agreement != null
-                ? reclamationAgreementRequest.Agreement.AgreementReclamationCostAuthorities.Select(x => x.ReclamationCostAuthorityID).ToList()
+                ? reclamationAgreementRequest.Agreement.AgreementReclamationCostAuthoritiesWhereYouAreTheReclamationAgreement.Select(x => x.ReclamationCostAuthorityID).ToList()
                 : new List<int>();
             var gridSpec = new CostAuthorityAgreementRequestGridSpec(CurrentFirmaSession, reclamationAgreementRequest.AgreementRequestStatus == AgreementRequestStatus.Draft, costAuthorityIDList);
             var reclamationCostAuthorityAgreementRequests = reclamationAgreementRequestPrimaryKey.EntityObject
