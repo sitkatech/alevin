@@ -4,7 +4,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class ReclamationAgreementRequestSubmissionNoteModelExtensions
+    public static class AgreementRequestSubmissionNoteModelExtensions
     {
         public static string GetDeleteUrl(this AgreementRequestSubmissionNote agreementRequestSubmissionNote)
         {

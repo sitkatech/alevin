@@ -7,7 +7,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class ReclamationAgreementRequestModelExtensions
+    public static class AgreementRequestModelExtensions
     {
         public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t =>

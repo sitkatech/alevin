@@ -8,7 +8,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class ReclamationCostAuthorityModelExtensions
+    public static class CostAuthorityModelExtensions
     {
 
         public static string GetDisplayName(this CostAuthority costAuthority)

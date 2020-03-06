@@ -4,30 +4,30 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public class ReclamationCostAuthoritySimple
+    public class CostAuthoritySimple
     {
-
+        //3/6/2019 TK -- Leaving the properties on this class with the Reclamation Prefix because of their use in front end code
         public int ReclamationCostAuthorityID { get; set; }
         public string ReclamationCostAuthorityDisplayName { get; set; }
         public string ReclamationCostAuthorityDropdownDisplayName { get; set; }
-        public List<ReclamationAgreementSimple> ReclamationCostAuthorityAgreementSimplesList { get; set; }
+        public List<AgreementSimple> ReclamationCostAuthorityAgreementSimplesList { get; set; }
         public int CountOfRelatedAgreements { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
-        public ReclamationCostAuthoritySimple()
+        public CostAuthoritySimple()
         {
         }
 
         /// <summary>
         /// Constructor for building a new simple object with the POCO class
         /// </summary>
-        public ReclamationCostAuthoritySimple(CostAuthority costAuthority)
+        public CostAuthoritySimple(CostAuthority costAuthority)
             : this()
         {
             ReclamationCostAuthorityID = costAuthority.CostAuthorityID;
-            ReclamationCostAuthorityAgreementSimplesList = costAuthority.AgreementCostAuthorities.Select(x => new ReclamationAgreementSimple(x.Agreement)).ToList();
+            ReclamationCostAuthorityAgreementSimplesList = costAuthority.AgreementCostAuthorities.Select(x => new AgreementSimple(x.Agreement)).ToList();
             ReclamationCostAuthorityDisplayName = $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}";
             CountOfRelatedAgreements = ReclamationCostAuthorityAgreementSimplesList.Count;
             ReclamationCostAuthorityDropdownDisplayName =

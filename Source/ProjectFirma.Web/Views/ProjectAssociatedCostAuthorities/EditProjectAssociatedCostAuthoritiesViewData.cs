@@ -28,16 +28,16 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
 {
     public class EditProjectAssociatedCostAuthoritiesViewData
     {
-        public List<ReclamationAgreementSimple> AllReclamationAgreements { get; }
+        public List<AgreementSimple> AllReclamationAgreements { get; }
 
-        public List<ReclamationCostAuthoritySimple> AllReclamationCostAuthorities { get; }
+        public List<CostAuthoritySimple> AllReclamationCostAuthorities { get; }
 
 
         public EditProjectAssociatedCostAuthoritiesViewData(IEnumerable<ProjectFirmaModels.Models.Agreement> allReclamationAgreements, IEnumerable<ProjectFirmaModels.Models.CostAuthority> allReclamationCostAuthorities)
         {
-            AllReclamationAgreements = allReclamationAgreements.Select(x => new ReclamationAgreementSimple(x)).ToList();
+            AllReclamationAgreements = allReclamationAgreements.Select(x => new AgreementSimple(x)).ToList();
             AllReclamationCostAuthorities = allReclamationCostAuthorities
-                .Select(x => new ReclamationCostAuthoritySimple(x)).ToList();
+                .Select(x => new CostAuthoritySimple(x)).ToList();
         }
     }
 }

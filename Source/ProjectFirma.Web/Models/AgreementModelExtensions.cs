@@ -7,7 +7,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class ReclamationAgreementModelExtensions
+    public static class AgreementModelExtensions
     {
 
         public static string GetDisplayName(this Agreement agreement)

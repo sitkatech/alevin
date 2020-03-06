@@ -5,7 +5,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class ReclamationCostAuthorityAgreementRequestModelExtensions
+    public static class CostAuthorityAgreementRequestModelExtensions
     {
         
 

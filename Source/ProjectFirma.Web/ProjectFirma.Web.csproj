@@ -203,11 +203,11 @@
     <Compile Include="Models\ProjectRelevantCostTypeUpdateModelExtensions.cs" />
     <Compile Include="Models\ProjectStatusModelExtensions.cs" />
     <Compile Include="Models\ProjectTimeline.cs" />
-    <Compile Include="Models\ReclamationAgreementModelExtensions.cs" />
-    <Compile Include="Models\ReclamationAgreementRequestModelExtensions.cs" />
-    <Compile Include="Models\ReclamationAgreementRequestSubmissionNoteModelExtensions.cs" />
-    <Compile Include="Models\ReclamationCostAuthorityAgreementRequestModelExtensions.cs" />
-    <Compile Include="Models\ReclamationCostAuthorityModelExtensions.cs" />
+    <Compile Include="Models\AgreementModelExtensions.cs" />
+    <Compile Include="Models\AgreementRequestModelExtensions.cs" />
+    <Compile Include="Models\AgreementRequestSubmissionNoteModelExtensions.cs" />
+    <Compile Include="Models\CostAuthorityAgreementRequestModelExtensions.cs" />
+    <Compile Include="Models\CostAuthorityModelExtensions.cs" />
     <Compile Include="Models\ReleaseNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteModelExtensions.cs" />
     <Compile Include="Models\ProjectNoteUpdateModelExtensions.cs" />
@@ -326,7 +326,7 @@
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewData.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewModel.cs" />
-    <Compile Include="Models\ReclamationCostAuthoritySimple.cs" />
+    <Compile Include="Models\CostAuthoritySimple.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\AddProjectEvaluation.cs" />
     <Compile Include="Views\Evaluation\EditProjectEvaluationViewData.cs" />
