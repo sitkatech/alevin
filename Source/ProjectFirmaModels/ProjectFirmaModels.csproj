@@ -970,6 +970,7 @@
     <Compile Include="Models\TaxonomyTrunk.cs" />
     <Compile Include="Models\TenantAttribute.cs" />
     <Compile Include="UnitTestCommon\AssertCustom.cs" />
+    <Compile Include="UnitTestCommon\DatabaseHasOnlyResolvedObjectReferences.cs" />
     <Compile Include="UnitTestCommon\HttpRequestStorageForTest.cs" />
     <Compile Include="UnitTestCommon\DatabaseDirectAccessTestFixtureBase.cs" />
     <Compile Include="UnitTestCommon\TestClassification.cs" />
