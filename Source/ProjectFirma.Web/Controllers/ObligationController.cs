@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using ApprovalUtilities.Utilities;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -33,6 +34,18 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ObligationNumber>(obligations, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(ObligationNumberPrimaryKey obligationNumberPrimaryKey)
+        {
+            var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
+            var obligationNumber = obligationNumberPrimaryKey.EntityObject;
+            var obligationItems = obligationNumber.ObligationItems;
+            var obligationItemInvoices = obligationItems.SelectMany(x => x.WbsElementObligationItemInvoices).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
 
         [ObligationViewFeature]
         //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)

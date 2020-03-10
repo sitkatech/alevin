@@ -281,6 +281,7 @@
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\Obligation\ObligationDetail.cs" />
     <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />
+    <Compile Include="Views\Obligation\ObligationItemInvoiceGridSpec.cs" />
     <Compile Include="Views\Obligation\ObligationGridSpec.cs" />
     <Compile Include="Views\Obligation\ObligationIndex.cs" />
     <Compile Include="Views\Obligation\ObligationIndexViewData.cs" />

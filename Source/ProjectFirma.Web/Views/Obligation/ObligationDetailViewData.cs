@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -29,16 +30,24 @@ namespace ProjectFirma.Web.Views.Obligation
     {
         public ObligationNumber ObligationNumber { get; }
         public string ObligationIndexUrl { get; }
+        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
+        public string ObligationItemInvoiceGridName { get; }
+        public string ObligationItemInvoiceGridDataUrl { get; }
 
 
         public ObligationDetailViewData(FirmaSession currentFirmaSession,
-                                       ObligationNumber obligationNumber) : base(currentFirmaSession)
+                                        ObligationNumber obligationNumber) : base(currentFirmaSession)
         {
             PageTitle = $"Obligation Number Key: {obligationNumber.ObligationNumberKey}";
             EntityName = "Obligation Detail";
             
             ObligationNumber = obligationNumber;
             ObligationIndexUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(c => c.ObligationIndex());
+
+            ObligationItemInvoiceGridName = "obligationItemInvoices";
+            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
+            ObligationItemInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ObligationItemInvoiceGridJsonData(ObligationNumber));
+
         }
 
 
