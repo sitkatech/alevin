@@ -46,6 +46,17 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridJsonData(ObligationNumberPrimaryKey obligationNumberPrimaryKey)
+        {
+            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var obligationNumber = obligationNumberPrimaryKey.EntityObject;
+            var obligationItems = obligationNumber.ObligationItems;
+            var obligationItemBudgets = obligationItems.SelectMany(x => x.WbsElementObligationItemBudgets).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
 
         [ObligationViewFeature]
         //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)

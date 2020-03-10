@@ -33,6 +33,9 @@ namespace ProjectFirma.Web.Views.Obligation
         public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
         public string ObligationItemInvoiceGridName { get; }
         public string ObligationItemInvoiceGridDataUrl { get; }
+        public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
+        public string ObligationItemBudgetGridName { get; }
+        public string ObligationItemBudgetGridDataUrl { get; }
 
 
         public ObligationDetailViewData(FirmaSession currentFirmaSession,
@@ -47,6 +50,10 @@ namespace ProjectFirma.Web.Views.Obligation
             ObligationItemInvoiceGridName = "obligationItemInvoices";
             ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
             ObligationItemInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ObligationItemInvoiceGridJsonData(ObligationNumber));
+
+            ObligationItemBudgetGridName = "obligationItemBudgets";
+            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
+            ObligationItemBudgetGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ObligationItemBudgetGridJsonData(ObligationNumber));
 
         }
 

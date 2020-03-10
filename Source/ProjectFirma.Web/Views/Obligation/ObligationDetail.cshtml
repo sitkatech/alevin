@@ -128,6 +128,21 @@
     </div>
 </div>
 
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    Obligation Item Budgets
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @* Projects (V2) *@
 @*<div class="panel panelFirma">
