@@ -37,13 +37,15 @@ namespace ProjectFirma.Web.Views.Obligation
 
             Add("Obligation Number Key", ob => ob.ObligationItem.ObligationNumber.ObligationNumberKey, 150, DhtmlxGridColumnFilterType.Text);
             Add("Obligation Item Key", ob => ob.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), ob => ob.WbsElement.WbsElementKey, 300, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), ob => ob.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
 
             Add("Obligation", ob => ob.Obligation, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Goods Receipt", ob => ob.GoodsReceipt, 100, DhtmlxGridColumnFilterType.Text);
             Add("Invoiced", ob => ob.Invoiced, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Disbursed", ob => ob.Disbursed, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Unexpended Balance", ob => ob.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency);
+
+            Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
         }
     }
 }
