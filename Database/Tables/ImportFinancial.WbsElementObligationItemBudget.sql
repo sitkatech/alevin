@@ -11,12 +11,18 @@ CREATE TABLE [ImportFinancial].[WbsElementObligationItemBudget](
 	[Invoiced] [float] NULL,
 	[Disbursed] [float] NULL,
 	[UnexpendedBalance] [float] NULL,
+	[CostAuthorityID] [int] NOT NULL,
  CONSTRAINT [PK_WbsElementObligationItemBudget_WbsElementObligationItemBudgetID] PRIMARY KEY CLUSTERED 
 (
 	[WbsElementObligationItemBudgetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [ImportFinancial].[WbsElementObligationItemBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementObligationItemBudget_CostAuthority_CostAuthorityID] FOREIGN KEY([CostAuthorityID])
+REFERENCES [Reclamation].[CostAuthority] ([CostAuthorityID])
+GO
+ALTER TABLE [ImportFinancial].[WbsElementObligationItemBudget] CHECK CONSTRAINT [FK_WbsElementObligationItemBudget_CostAuthority_CostAuthorityID]
 GO
 ALTER TABLE [ImportFinancial].[WbsElementObligationItemBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementObligationItemBudget_ObligationItem_ObligationItemID] FOREIGN KEY([ObligationItemID])
 REFERENCES [ImportFinancial].[ObligationItem] ([ObligationItemID])

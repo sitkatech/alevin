@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal) : this()
+        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID) : this()
         {
             this.WbsElementObligationItemInvoiceID = wbsElementObligationItemInvoiceID;
             this.WbsElementID = wbsElementID;
@@ -38,24 +38,26 @@ namespace ProjectFirmaModels.Models
             this.DebitAmount = debitAmount;
             this.CreditAmount = creditAmount;
             this.DebitCreditTotal = debitCreditTotal;
+            this.CostAuthorityID = costAuthorityID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemInvoice(int wbsElementID, int obligationItemID) : this()
+        public WbsElementObligationItemInvoice(int wbsElementID, int obligationItemID, int costAuthorityID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementObligationItemInvoiceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.WbsElementID = wbsElementID;
             this.ObligationItemID = obligationItemID;
+            this.CostAuthorityID = costAuthorityID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public WbsElementObligationItemInvoice(WbsElement wbsElement, ObligationItem obligationItem) : this()
+        public WbsElementObligationItemInvoice(WbsElement wbsElement, ObligationItem obligationItem, CostAuthority costAuthority) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementObligationItemInvoiceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -65,14 +67,17 @@ namespace ProjectFirmaModels.Models
             this.ObligationItemID = obligationItem.ObligationItemID;
             this.ObligationItem = obligationItem;
             obligationItem.WbsElementObligationItemInvoices.Add(this);
+            this.CostAuthorityID = costAuthority.CostAuthorityID;
+            this.CostAuthority = costAuthority;
+            costAuthority.WbsElementObligationItemInvoices.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static WbsElementObligationItemInvoice CreateNewBlank(WbsElement wbsElement, ObligationItem obligationItem)
+        public static WbsElementObligationItemInvoice CreateNewBlank(WbsElement wbsElement, ObligationItem obligationItem, CostAuthority costAuthority)
         {
-            return new WbsElementObligationItemInvoice(wbsElement, obligationItem);
+            return new WbsElementObligationItemInvoice(wbsElement, obligationItem, costAuthority);
         }
 
         /// <summary>
@@ -114,11 +119,13 @@ namespace ProjectFirmaModels.Models
         public double? DebitAmount { get; set; }
         public double? CreditAmount { get; set; }
         public double? DebitCreditTotal { get; set; }
+        public int CostAuthorityID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemInvoiceID; } set { WbsElementObligationItemInvoiceID = value; } }
 
         public virtual WbsElement WbsElement { get; set; }
         public virtual ObligationItem ObligationItem { get; set; }
+        public virtual CostAuthority CostAuthority { get; set; }
 
         public static class FieldLengths
         {

@@ -147,9 +147,10 @@ begin
 
 
 
-	insert into ImportFinancial.WbsElementObligationItemBudget(WbsElementID, ObligationItemID, Obligation, GoodsReceipt, Invoiced, Disbursed, UnexpendedBalance)
+	insert into ImportFinancial.WbsElementObligationItemBudget(WbsElementID, CostAuthorityID, ObligationItemID, Obligation, GoodsReceipt, Invoiced, Disbursed, UnexpendedBalance)
 	select 
 		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.[WBS Element - Key]) as WbsElementID,
+		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.[WBS Element - Key]) as CostAuthorityID,
 		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemKey = pr.[Obligation Item - Key] and obn.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationItemID,
 		pr.Obligation as Obligation,
 		pr.[Goods Receipt] as GoodsReceipt,
@@ -163,9 +164,10 @@ begin
 
 
 
-	insert into ImportFinancial.WbsElementObligationItemInvoice(WbsElementID, ObligationItemID, DebitAmount, CreditAmount, DebitCreditTotal)
+	insert into ImportFinancial.WbsElementObligationItemInvoice(WbsElementID, CostAuthorityID, ObligationItemID, DebitAmount, CreditAmount, DebitCreditTotal)
 	select 
 		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.[WBS Element - Key]) as WbsElementID,
+		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = ap.[WBS Element - Key]) as CostAuthorityID,
 		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemKey = ap.[Purch Ord Line Itm - Key] and obn.ObligationNumberKey = ap.[PO Number - Key]) as ObligationItemID,
 		ap.[Debit Amount] as DebitAmount,
 		ap.[Credit Amount] as CreditAmount,
