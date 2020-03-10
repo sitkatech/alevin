@@ -100,6 +100,15 @@ begin
 	where
 		pr.[WBS Element - Key] != '#'
 
+	--insert missing WBS elements into the Reclamation.CostAuthority table
+	insert into Reclamation.CostAuthority(CostAuthorityWorkBreakdownStructure, AccountStructureDescription)  
+    select wbs.WbsElementKey, wbs.WbsElementText
+    from 
+		Reclamation.CostAuthority as ca
+		right join ImportFinancial.WbsElement as wbs on ca.CostAuthorityWorkBreakdownStructure = wbs.WbsElementKey
+	where
+		ca.CostAuthorityWorkBreakdownStructure is null
+
 
 	insert into ImportFinancial.Vendor(VendorKey, VendorText)
 	select 
@@ -122,8 +131,8 @@ begin
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Obligation Number - Key] = ap.[PO Number - Key]
 
     update ImportFinancial.ObligationNumber
-    set ReclamationAgreementID = rca.ReclamationAgreementID
-    from dbo.ReclamationAgreement as rca
+    set ReclamationAgreementID = rca.AgreementID
+    from Reclamation.Agreement as rca
     inner join ImportFinancial.ObligationNumber as onum on rca.AgreementNumber = onum.ObligationNumberKey
 
 
