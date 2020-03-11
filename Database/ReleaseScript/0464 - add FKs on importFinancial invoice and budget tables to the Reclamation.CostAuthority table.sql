@@ -46,8 +46,11 @@ alter table ImportFinancial.WbsElementObligationItemInvoice
 alter column CostAuthorityID int not null
 
 
-
-
+-- Turns out we have some wonky data currently for VendorNumber, with 
+update dbo.Organization
+set VendorNumber = null
+from ImportFinancial.Vendor as iv
+where TenantID = 12
 
 
 

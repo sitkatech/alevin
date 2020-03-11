@@ -178,6 +178,23 @@ begin
 		ap.[WBS Element - Key] != '#'
 		
 
+	-- Update VendorNumbers for any Organizations for Vendors we recognize by text from the incoming Vendor import table
+	-- This only works for Reclamation (Tenant 12)
+	update dbo.Organization
+	set VendorNumber = iv.VendorKey
+	from ImportFinancial.Vendor as iv
+	join dbo.Organization as do on iv.VendorText = do.OrganizationName 
+	where TenantID = 12
+
+	--select * 
+	--from ImportFinancial.Vendor as iv
+	--left join dbo.Organization as do on iv.VendorText = do.OrganizationName 
+	--where TenantID = 12 
+
+	--select * from dbo.Organization
+	--where VendorNumber is not null
+	
+
 end
 GO
 
