@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Obligation
             ObjectNamePlural = "Obligation Item Invoices";
             SaveFiltersInCookie = true;
 
-            Add("Obligation Number Key", obi => obi.ObligationItem.ObligationNumber.ObligationNumberKey, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Obligation Number Key", obi => UrlTemplate.MakeHrefString(obi.ObligationItem.ObligationNumber.GetDetailUrl(), obi.ObligationItem.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
             Add("Obligation Item Key", obi => obi.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
             Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), obi => obi.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
 
