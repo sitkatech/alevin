@@ -6,6 +6,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.CostAuthority;
+using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.TextControls;
@@ -45,6 +46,26 @@ namespace ProjectFirma.Web.Controllers
             var costAuthority = costAuthorityPrimaryKey.EntityObject;
             var viewData = new CostAuthorityDetailViewData(CurrentFirmaSession, costAuthority);
             return RazorView<CostAuthorityDetail, CostAuthorityDetailViewData>(viewData);
+        }
+
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
+        {
+            var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            var obligationItemInvoices = costAuthority.WbsElementObligationItemInvoices.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
+        {
+            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            var obligationItemBudgets = costAuthority.WbsElementObligationItemBudgets.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
         }
 
         [CostAuthorityViewFeature]

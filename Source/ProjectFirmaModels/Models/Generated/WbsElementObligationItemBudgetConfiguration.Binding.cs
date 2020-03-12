@@ -23,10 +23,12 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Invoiced).HasColumnName(@"Invoiced").HasColumnType("float").IsOptional();
             Property(x => x.Disbursed).HasColumnName(@"Disbursed").HasColumnType("float").IsOptional();
             Property(x => x.UnexpendedBalance).HasColumnName(@"UnexpendedBalance").HasColumnType("float").IsOptional();
+            Property(x => x.CostAuthorityID).HasColumnName(@"CostAuthorityID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.WbsElement).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.WbsElementID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_WbsElement_WbsElementID
             HasRequired(a => a.ObligationItem).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.ObligationItemID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_ObligationItem_ObligationItemID
+            HasRequired(a => a.CostAuthority).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.CostAuthorityID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_CostAuthority_CostAuthorityID
         }
     }
 }

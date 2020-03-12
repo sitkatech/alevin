@@ -295,6 +295,8 @@ namespace ProjectFirmaModels.Models
         ReportFile = 345,
         ReportModel = 346,
         SelectedReportTemplate = 347,
+        FactSheetCustomText = 348,
+        FactSheetLogo = 349,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,

@@ -24,6 +24,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Project;
 
 //using ProjectFirma.Web.Views.Project;
@@ -35,100 +36,49 @@ namespace ProjectFirma.Web.Views.Agreement
         public ProjectFirmaModels.Models.CostAuthority CostAuthority { get; }
 
         public bool IsAdmin { get; }
-
-        //public string EditPerformanceMeasureUrl { get; }
-        //public string EditSubcategoriesAndOptionsUrl { get; }
-        //public string EditCriticalDefinitionsUrl { get; }
-        //public string EditProjectReportingUrl { get; }
-
         public string IndexUrl { get; }
         public string AgreementIndexUrl { get; }
-
-        //public string EditTaxonomyTiersUrl { get; }
-        //public bool UserHasTaxonomyTierPerformanceMeasureManagePermissions { get; }
         public bool UserHasCostAuthorityManagePermissions { get; }
-        //public PerformanceMeasureReportedValuesGridSpec PerformanceMeasureReportedValuesGridSpec { get; }
-        //public string PerformanceMeasureReportedValuesGridName { get; }
-        //public string PerformanceMeasureReportedValuesGridDataUrl { get; }
-
-        /*
-        public Project.IndexGridSpec ProjectIndexGridSpec { get; }
-        public string ProjectIndexGridName { get;}
-        public string ProjectIndexGridDataUrl { get; }
-        */
-
         public string BasicProjectInfoProjectGridName { get; }
         public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
         public string BasicProjectInfoProjectGridDataUrl { get; }
-
         public string AgreementGridName { get;  }
         public AgreementGridSpec AgreementGridSpec { get; }
         public string AgreementGridDataUrl { get; }
 
-
-
-
-        //public string PerformanceMeasureExpectedsGridName { get; }
-        //public string PerformanceMeasureExpectedsGridDataUrl { get; }
-
-        //public string TaxonomyTierDisplayNamePluralized { get; }
-
-        /*
-        public RelatedTaxonomyTiersViewData RelatedTaxonomyTiersViewData { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasure { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategory { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPerformanceMeasureSubcategoryOption { get; }
-        */
-
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForAgreement { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostAuthorityWorkBreakdownStructure { get; }
-        
+
+        public bool HasObligationViewPermission { get; }
+        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
+        public string ObligationItemInvoiceGridName { get; }
+        public string ObligationItemInvoiceGridDataUrl { get; }
+        public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
+        public string ObligationItemBudgetGridName { get; }
+        public string ObligationItemBudgetGridDataUrl { get; }
+
+
 
         public CostAuthorityDetailViewData(FirmaSession currentFirmaSession,
-                                       ProjectFirmaModels.Models.CostAuthority costAuthority
-                                       //PerformanceMeasureChartViewData performanceMeasureChartViewData,
-                                       //EntityNotesViewData entityNotesViewData,
-                                       //bool userHasAgreementManagePermissions, 
-                                       /*bool isAdmin*/) : base(currentFirmaSession)
+                                           ProjectFirmaModels.Models.CostAuthority costAuthority) : base(currentFirmaSession)
         {
             CostAuthority = costAuthority;
 
             PageTitle = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()}: {costAuthority.CostAuthorityWorkBreakdownStructure}";
             EntityName = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} Detail";
 
-            //PerformanceMeasureChartViewData = performanceMeasureChartViewData;
-            //EntityNotesViewData = entityNotesViewData;
-            UserHasCostAuthorityManagePermissions = new CostAuthorityManageFeature().HasPermissionByPerson(CurrentPerson);
-            IsAdmin = new FirmaAdminFeature().HasPermissionByPerson(CurrentPerson);
 
-            /*
-            EditPerformanceMeasureUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
-            EditSubcategoriesAndOptionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditSubcategoriesAndOptions(performanceMeasure));
-                
-            EditCriticalDefinitionsUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.CriticalDefinitions));
-            EditProjectReportingUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureRichText(performanceMeasure, EditRtfContent.PerformanceMeasureRichTextType.ProjectReporting));
-            */
+            UserHasCostAuthorityManagePermissions = new CostAuthorityManageFeature().HasPermissionByPerson(CurrentPerson);
+            IsAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             IndexUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(ca => ca.CostAuthorityIndex());
             AgreementIndexUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(ac => ac.AgreementIndex());
 
-        //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForAgreement { get; }
-        //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
-        //public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostAuthorityWorkBreakdownStructure { get; }
+            FieldDefinitionForAgreement = FieldDefinitionEnum.Agreement.ToType();
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            FieldDefinitionForCostAuthorityWorkBreakdownStructure = FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType();
 
-        FieldDefinitionForAgreement = FieldDefinitionEnum.Agreement.ToType();
-        FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
-        FieldDefinitionForCostAuthorityWorkBreakdownStructure = FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType();
-
-            /*
-        public Project.IndexGridSpec ProjectIndexGridSpec { get; }
-        public string ProjectIndexGridName { get;}
-        public string ProjectIndexGridDataUrl { get; }
-               
-             *
-             */
 
 
             BasicProjectInfoProjectGridName = "costAuthorityProjectListGrid";
@@ -149,62 +99,14 @@ namespace ProjectFirma.Web.Views.Agreement
             };
             AgreementGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementGridJsonData(costAuthority));
 
-            //GridSpec = new IndexGridSpec(currentPerson, new Dictionary<int, FundingType>(), geospatialAreaTypes, projectCustomAttributeTypes) { ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", SaveFiltersInCookie = true };
+            HasObligationViewPermission = new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            ObligationItemInvoiceGridName = "obligationItemInvoices";
+            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
+            ObligationItemInvoiceGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(oc => oc.ObligationItemInvoiceGridJsonData(costAuthority));
 
-            //if (new ProjectCreateFeature().HasPermissionByPerson(CurrentPerson))
-            //{
-            //    GridSpec<>.CustomExcelDownloadUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
-            //}
-            //else if (currentPerson.RoleID == ProjectFirmaModels.Models.Role.ProjectSteward.RoleID)
-            //{
-            //    GridSpec.CreateEntityModalDialogForm = new ModalDialogForm(SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.DenyCreateProject()), $"New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
-            //}
-
-            //GridName = "projectsGrid";
-            //GridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.IndexGridJsonData());
-
-
-
-
-
-
-
-
-
-
-
-            //var associatePerformanceMeasureTaxonomyLevel = MultiTenantHelpers.GetAssociatePerformanceMeasureTaxonomyLevel();
-            //TaxonomyTierDisplayNamePluralized = associatePerformanceMeasureTaxonomyLevel.GetFieldDefinition().GetFieldDefinitionLabelPluralized();
-            //UserHasTaxonomyTierPerformanceMeasureManagePermissions = new TaxonomyTierPerformanceMeasureManageFeature().HasPermission(currentPerson, performanceMeasure).HasPermission;
-            //EditTaxonomyTiersUrl = SitkaRoute<TaxonomyTierPerformanceMeasureController>.BuildUrlFromExpression(c => c.Edit(performanceMeasure));
-            //RelatedTaxonomyTiersViewData = new RelatedTaxonomyTiersViewData(performanceMeasure, associatePerformanceMeasureTaxonomyLevel, true);
-
-            /*
-            PerformanceMeasureReportedValuesGridSpec = new PerformanceMeasureReportedValuesGridSpec(performanceMeasure)
-            {
-                ObjectNameSingular = $"{FieldDefinitionEnum.ReportedValue.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.ReportedValue.ToType().GetFieldDefinitionLabelPluralized()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                SaveFiltersInCookie = true
-            };
-
-            PerformanceMeasureReportedValuesGridName = "performanceMeasuresReportedValuesFromPerformanceMeasureGrid";
-            PerformanceMeasureReportedValuesGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureReportedValuesGridJsonData(performanceMeasure));
-
-            PerformanceMeasureExpectedGridSpec = new PerformanceMeasureExpectedGridSpec(performanceMeasure)
-            {
-                ObjectNameSingular = $"{FieldDefinitionEnum.ExpectedValue.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
-                ObjectNamePlural = $"{FieldDefinitionEnum.ExpectedValue.ToType().GetFieldDefinitionLabelPluralized()} for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
-                SaveFiltersInCookie = true
-            };
-
-            PerformanceMeasureExpectedsGridName = "performanceMeasuresExpectedValuesFromPerformanceMeasureGrid";
-            PerformanceMeasureExpectedsGridDataUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(tc => tc.PerformanceMeasureExpectedsGridJsonData(performanceMeasure));
-
-            FieldDefinitionForPerformanceMeasure = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
-            FieldDefinitionForPerformanceMeasureSubcategory = FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType();
-            FieldDefinitionForPerformanceMeasureSubcategoryOption = FieldDefinitionEnum.PerformanceMeasureSubcategoryOption.ToType();
-            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
-            */
+            ObligationItemBudgetGridName = "obligationItemBudgets";
+            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
+            ObligationItemBudgetGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(oc => oc.ObligationItemBudgetGridJsonData(costAuthority));
         }
 
 

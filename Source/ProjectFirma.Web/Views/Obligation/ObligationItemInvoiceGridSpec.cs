@@ -38,13 +38,15 @@ namespace ProjectFirma.Web.Views.Obligation
             ObjectNamePlural = "Obligation Item Invoices";
             SaveFiltersInCookie = true;
 
-            Add("Obligation Number Key", obi => obi.ObligationItem.ObligationNumber.ObligationNumberKey, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Obligation Number Key", obi => UrlTemplate.MakeHrefString(obi.ObligationItem.ObligationNumber.GetDetailUrl(), obi.ObligationItem.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
             Add("Obligation Item Key", obi => obi.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), obi => obi.WbsElement.WbsElementKey, 300, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), obi => obi.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
 
             Add("Debit Amount", obi => obi.DebitAmount, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Debit/Credit Total", obi => obi.DebitCreditTotal, 100, DhtmlxGridColumnFormatType.Currency);
+
+            Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
         }
     }
 }
