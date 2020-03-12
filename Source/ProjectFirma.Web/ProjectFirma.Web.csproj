@@ -61,6 +61,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Controllers\ExcelUploadControllerTest.cs" />
     <Compile Include="Controllers\ObligationController.cs" />
     <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ActionItemController.cs" />

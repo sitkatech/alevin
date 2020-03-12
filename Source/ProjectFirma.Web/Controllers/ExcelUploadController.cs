@@ -26,6 +26,7 @@ using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
+using log4net;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -94,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
 
             try
             {
-                DoPublishingSql();
+                DoPublishingSql(Logger);
             }
             catch (Exception e)
             {
@@ -104,11 +105,11 @@ namespace ProjectFirma.Web.Controllers
             return ViewManageFbmsUpload_Impl();
         }
 
-        private void DoPublishingSql()
+        public static void DoPublishingSql(ILog optionalLogger)
         {
             try
             {
-                Logger.Info($"Starting DoPublishingSql");
+                optionalLogger?.Info($"Starting DoPublishingSql");
                 string vendorImportProc = "dbo.pReclamationImportFinancialStagingDataImport";
                 using (SqlConnection sqlConnection = CreateAndOpenSqlConnection())
                 {
@@ -120,7 +121,7 @@ namespace ProjectFirma.Web.Controllers
                         cmd.ExecuteNonQuery();
                     }
                 }
-                Logger.Info($"Ending DoPublishingSql");
+                optionalLogger?.Info($"Ending DoPublishingSql");
             }
             catch (Exception e)
             {
