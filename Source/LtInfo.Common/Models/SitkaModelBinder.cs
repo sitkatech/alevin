@@ -50,7 +50,6 @@ namespace LtInfo.Common.Models
             catch (FormatException e)
             {
                 modelState.Errors.Add(e.Message);
-
             }
             bindingContext.ModelState.Add(bindingContext.ModelName, modelState);
 

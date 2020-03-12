@@ -84,16 +84,22 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [FirmaAdminFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DoPublishingProcessing(ManageFbmsUploadViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
+                throw new SitkaDisplayErrorException("Not expecting model state to be bad; not running publishing processing.");
                 //return ViewImportEtlExcelFile(viewModel);
             }
 
-            
-            DoPublishingSql();
+            try
+            {
+                DoPublishingSql();
+            }
+            catch (Exception e)
+            {
+                SetErrorForDisplay($"Problem executing Publishing: {e.Message}");
+            }
 
             return ViewManageFbmsUpload_Impl();
         }

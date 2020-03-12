@@ -9,6 +9,16 @@ create procedure dbo.pReclamationImportFinancialStagingDataImport
 as
 begin
 
+if (
+    (not EXISTS(SELECT 1 FROM ImportFinancial.impApGenSheet))
+    OR 
+    (not EXISTS(SELECT 1 FROM ImportFinancial.impPayRecV3))
+    )
+begin
+   raiserror('There is no data in at least one of the tables for publishing. Publishing halted.', 16,1)
+   return -1
+end
+
     -- TODO: A sanity check that there are actually records to import
     delete from ImportFinancial.impApGenSheet
     INSERT INTO [ImportFinancial].[impApGenSheet]
@@ -87,7 +97,6 @@ begin
 	delete from ImportFinancial.ObligationItem;
 	delete from ImportFinancial.ObligationNumber;
 
-
 	--INSERTS
 	insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
 	select 
@@ -119,8 +128,8 @@ begin
 		ImportFinancial.impPayRecV3 as pr
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Vendor - Key] = ap.[Vendor - Key]
 	where
-		pr.[Vendor - Text] = ap.[Vendor - Text] and pr.[Vendor - Key] != '#'
-
+        -- These are unassigned/blank vendors; no reason to take them
+		pr.[Vendor - Key] != '#'
 
 	insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
 	select 
@@ -197,5 +206,5 @@ GO
 
 exec dbo.pReclamationImportFinancialStagingDataImport
 
-
+select * from 
 */
