@@ -66,14 +66,14 @@ join ImportFinancial.ObligationItem as obi on pr.[Obligation Item - Key] = obi.O
 --begin tran
 
 
+
+-- Now done earlier
+--alter table ImportFinancial.ObligationItem
+--add VendorID int null constraint FK_ObligationItem_Vendor_VendorID foreign key references ImportFinancial.Vendor(VendorID)
+--GO
+
 exec dbo.pReclamationImportFinancialStagingDataImport
 GO
-
-alter table ImportFinancial.ObligationItem
-add VendorID int null constraint FK_ObligationItem_Vendor_VendorID foreign key references ImportFinancial.Vendor(VendorID)
-
-GO
-
 -- Part 1
 
 -- Filling in so we can close out the schema as non-null; real work needs to happen during import job

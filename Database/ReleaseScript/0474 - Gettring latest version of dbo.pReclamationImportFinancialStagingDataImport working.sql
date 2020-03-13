@@ -172,7 +172,6 @@ end
 		ImportFinancial.impPayRecV3 as pr
 	where 
 		pr.[WBS Element - Key] != '#'
-    order by ObligationItemID
 
 
 
