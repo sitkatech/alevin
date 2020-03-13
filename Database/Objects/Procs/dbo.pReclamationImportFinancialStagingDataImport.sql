@@ -146,15 +146,17 @@ end
     inner join ImportFinancial.ObligationNumber as onum on rca.AgreementNumber = onum.ObligationNumberKey
 
 
-	insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID)
+	insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID, VendorID)
 	select 
 		distinct
 			coalesce(pr.[Obligation Item - Key] , ap.[Purch Ord Line Itm - Key]) as ObligationItemKey,
-			(select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationNumberID
+			(select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationNumberID,
+            (coalesce((select VendorID from ImportFinancial.Vendor as v where v.VendorKey = pr.[Vendor - Key]),
+                      (select VendorID from ImportFinancial.Vendor as v where v.VendorKey = ap.[Vendor - Key]))) as VendorID
 	from
 		ImportFinancial.impPayRecV3 as pr
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Obligation Number - Key] = ap.[PO Number - Key]
-
+    order by VendorID
 
 
 	insert into ImportFinancial.WbsElementObligationItemBudget(WbsElementID, CostAuthorityID, ObligationItemID, Obligation, GoodsReceipt, Invoiced, Disbursed, UnexpendedBalance)
