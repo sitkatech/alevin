@@ -166,7 +166,6 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-
         private PartialViewResult ViewImportEtlExcelFile(ImportEtlExcelFileViewModel viewModel)
         {
             var mapFormId = GenerateUploadFbmsFileUploadFormId();
@@ -174,8 +173,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ImportEtlExcelFileViewData(mapFormId, newGisUploadUrl);
             return RazorPartialView<ImportEtlExcelFile, ImportEtlExcelFileViewData, ImportEtlExcelFileViewModel>(viewData, viewModel);
         }
-
-
 
         [HttpGet]
         [FirmaAdminFeature]
@@ -202,6 +199,7 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorForDisplay($"Problem executing Publishing: {e.Message}");
             }
 
+            SetMessageForDisplay($"Publishing Processing completed Successfully");
             return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageFbmsUpload()));
         }
 
