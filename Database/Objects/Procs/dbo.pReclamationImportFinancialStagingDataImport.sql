@@ -10,9 +10,9 @@ as
 begin
 
 if (
-    (not EXISTS(SELECT 1 FROM ImportFinancial.impApGenSheet))
+    (not EXISTS(SELECT 1 FROM dbo.[StageImpApGenSheet]))
     OR 
-    (not EXISTS(SELECT 1 FROM ImportFinancial.impPayRecV3))
+    (not EXISTS(SELECT 1 FROM dbo.[StageImpPayRecV3]))
     )
 begin
    raiserror('There is no data in at least one of the tables for publishing. Publishing halted.', 16,1)
@@ -90,12 +90,13 @@ end
           ,[UnexpendedBalance]
       FROM [dbo].[StageImpPayRecV3]
 
-	delete from ImportFinancial.WbsElementObligationItemBudget;
-	delete from ImportFinancial.WbsElementObligationItemInvoice;
-	delete from ImportFinancial.WbsElement;
-	delete from ImportFinancial.Vendor;
-	delete from ImportFinancial.ObligationItem;
-	delete from ImportFinancial.ObligationNumber;
+    delete from ImportFinancial.WbsElementObligationItemBudget;
+    delete from ImportFinancial.WbsElementObligationItemInvoice;
+    delete from ImportFinancial.WbsElement;
+    delete from ImportFinancial.ObligationItem;
+    delete from ImportFinancial.ObligationNumber;
+    delete from ImportFinancial.Vendor;
+
 
 	--INSERTS
 	insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)

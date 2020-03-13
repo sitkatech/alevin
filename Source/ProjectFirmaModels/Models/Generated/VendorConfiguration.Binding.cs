@@ -19,6 +19,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.VendorKey).HasColumnName(@"VendorKey").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.VendorText).HasColumnName(@"VendorText").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(500);
 
+            // Foreign keys
+
         }
     }
 }

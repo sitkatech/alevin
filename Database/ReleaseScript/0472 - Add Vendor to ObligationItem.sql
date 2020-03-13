@@ -71,9 +71,6 @@ add VendorID int null constraint FK_ObligationItem_Vendor_VendorID foreign key r
 
 GO
 
-
-
-
 -- Part 1
 
 -- Filling in so we can close out the schema as non-null; real work needs to happen during import job
@@ -114,12 +111,19 @@ join ImportFinancial.ObligationItem as obi on pr.[Obligation Item - Key] = obi.O
 where obi.VendorID is null
 
 
+/*
+
+-- WE WANT THIS, But it doesn't work yet 
 alter table ImportFinancial.ObligationItem
 alter column VendorID int not null 
 
+*/
 --rollback tran
 
 
+/*
+
+-- Experiments
 
 select * from 
 ImportFinancial.ObligationItem as oi
@@ -160,3 +164,5 @@ order by VendorText
 
 select * from ImportFinancial.impPayRecV3 as pr
 where pr.[Vendor - Text] like 'KROHN'
+
+*/

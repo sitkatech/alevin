@@ -88,13 +88,6 @@ namespace ProjectFirma.Web.Controllers
             return DoExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
         }
 
-        //public  ActionResult DoExcelImportForDiskFile(string diskFilePath)
-        //{
-        //    // WARNING - Leaves filestream open
-        //    FileStream fileStream = new FileStream(diskFilePath, FileMode.Open, FileAccess.Read);
-        //    return DoExcelImportForFileStream(fileStream, diskFilePath);
-        //}
-
         public ActionResult DoExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
             List<BudgetStageImport> budgetTransferBulks;
@@ -162,7 +155,6 @@ namespace ProjectFirma.Web.Controllers
             existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
 
-            // Depersonalize this?
             if (optionalCurrentFirmaSession != null)
             {
                 HttpRequestStorage.DatabaseEntities.SaveChanges(optionalCurrentFirmaSession.Person);

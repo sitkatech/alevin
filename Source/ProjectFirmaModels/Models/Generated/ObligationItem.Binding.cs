@@ -31,11 +31,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ObligationItem(int obligationItemID, string obligationItemKey, int obligationNumberID) : this()
+        public ObligationItem(int obligationItemID, string obligationItemKey, int obligationNumberID, int? vendorID) : this()
         {
             this.ObligationItemID = obligationItemID;
             this.ObligationItemKey = obligationItemKey;
             this.ObligationNumberID = obligationNumberID;
+            this.VendorID = vendorID;
         }
 
         /// <summary>
@@ -123,12 +124,14 @@ namespace ProjectFirmaModels.Models
         public int ObligationItemID { get; set; }
         public string ObligationItemKey { get; set; }
         public int ObligationNumberID { get; set; }
+        public int? VendorID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ObligationItemID; } set { ObligationItemID = value; } }
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
         public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ObligationNumber ObligationNumber { get; set; }
+        public virtual Vendor Vendor { get; set; }
 
         public static class FieldLengths
         {
