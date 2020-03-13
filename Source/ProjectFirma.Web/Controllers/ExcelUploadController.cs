@@ -79,64 +79,23 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var httpPostedFileBase = viewModel.FileResourceData;
-            return DoExcelImport_Impl_ALTERNATE(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
+
+            return DoExcelImportForHttpPostedFile(httpPostedFileBase);
         }
-        
-        /*
-        public ActionResult DoExcelImport_Impl(HttpPostedFileBase httpPostedFileBase)
+
+        public ActionResult DoExcelImportForHttpPostedFile(HttpPostedFileBase httpPostedFileBase)
         {
-            List<BudgetStageImport> budgetTransferBulks;
-            List<InvoiceStageImport> invoiceStageImports;
-            try
-            {
-                budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
-                invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
-            }
-            catch (Exception ex)
-            {
-                // If this is something really weird...
-                if (!(ex is SitkaDisplayErrorException))
-                {
-                    // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
-                    var tempFilename = Path.GetTempFileName() + ".xlsx";
-                    httpPostedFileBase.SaveAs(tempFilename);
-                    var errorLogMessage = string.Format(
-                        "Unexpected exception while uploading Excel file by PersonID {0} ({1}). File saved at \"{2}\".\r\nException Details:\r\n{3}",
-                        CurrentFirmaSession.PersonID,
-                        CurrentFirmaSession.Person.GetFullNameFirstLast(),
-                        tempFilename,
-                        ex);
-                    SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
-                }
-
-                var errorMessage = string.Format(
-                    "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No budget updates were saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
-                    httpPostedFileBase.FileName, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
-                SetErrorForDisplay(errorMessage);
-
-                return new ModalDialogFormJsonResult();
-            }
-
-            var countAddedBudgets = budgetTransferBulks.Count;
-            var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
-            var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
-            existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
-
-            var countAddedInvoices = invoiceStageImports.Count;
-            var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
-            var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
-            existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
-
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(
-                $"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
-            return new ModalDialogFormJsonResult();
+            return DoExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
         }
-        */
 
-        public ActionResult DoExcelImport_Impl_ALTERNATE(Stream excelFileAsStream, string optionalOriginalFilename)
+        //public  ActionResult DoExcelImportForDiskFile(string diskFilePath)
+        //{
+        //    // WARNING - Leaves filestream open
+        //    FileStream fileStream = new FileStream(diskFilePath, FileMode.Open, FileAccess.Read);
+        //    return DoExcelImportForFileStream(fileStream, diskFilePath);
+        //}
+
+        public ActionResult DoExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
             List<BudgetStageImport> budgetTransferBulks;
             List<InvoiceStageImport> invoiceStageImports;
@@ -177,37 +136,43 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            var countAddedBudgets = budgetTransferBulks.Count;
+            DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+
+            SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
+            // This is the right thing to return, since this starts off in a modal dialog
+            return new ModalDialogFormJsonResult();
+        }
+
+        public static void DoProcessingOnRecordsLoadedIntoPairedStagingTables(
+                                        List<BudgetStageImport> budgetTransferBulks,
+                                        List<InvoiceStageImport> invoiceStageImports, 
+                                        out int countAddedBudgets,
+                                        out int countAddedInvoices,
+                                        FirmaSession optionalCurrentFirmaSession)
+        {
+            countAddedBudgets = budgetTransferBulks.Count;
             var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
             var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
 
-            var countAddedInvoices = invoiceStageImports.Count;
+            countAddedInvoices = invoiceStageImports.Count;
             var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
             var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
             existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
 
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay(
-                $"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
-            // This is the right thing to return, since this starts off in a modal dialog
-            return new ModalDialogFormJsonResult();
+            // Depersonalize this?
+            if (optionalCurrentFirmaSession != null)
+            {
+                HttpRequestStorage.DatabaseEntities.SaveChanges(optionalCurrentFirmaSession.Person);
+            }
+            else
+            {
+                // This is most likely a test context anyhow
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
+            }
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
         private PartialViewResult ViewImportEtlExcelFile(ImportEtlExcelFileViewModel viewModel)

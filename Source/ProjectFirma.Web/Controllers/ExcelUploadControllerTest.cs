@@ -18,13 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
-using System.Linq;
-using ApprovalUtilities.SimpleLogger;
+using System.IO;
 using log4net;
-using LtInfo.Common.EntityModelBinding;
 using NUnit.Framework;
+using ProjectFirma.Web.Views.ExcelUpload;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -34,11 +34,17 @@ namespace ProjectFirma.Web.Controllers
         protected ILog Logger = LogManager.GetLogger(typeof(ExcelUploadControllerTest));
 
         [Test]
-        [Description("blah")]
+        [Description("Simulate the uploading and processing of the Excel FBMS information")]
         public void TestExcelUploadAndPublishingProcess()
         {
-            // To start with, this should not crash.
-            ExcelUploadController.DoPublishingSql(Logger);
+            const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Sitka_Combined_R1678_2020-01-12-e05945.xlsx";
+
+            FileStream excelFileStream = new FileStream(pathToSampleFbmsExcelFileThatWouldBeUploaded, FileMode.Open, FileAccess.Read);
+
+            List<BudgetStageImport> budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(excelFileStream);
+            List<InvoiceStageImport> invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream);
+
+            ExcelUploadController.DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);
         }
 
     }
