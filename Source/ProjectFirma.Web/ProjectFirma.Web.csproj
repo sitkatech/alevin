@@ -67,6 +67,7 @@
     <Compile Include="Controllers\ActionItemController.cs" />
     <Compile Include="Controllers\AgreementRequestController.cs" />
     <Compile Include="Controllers\AgreementRequestSubmissionNotesController.cs" />
+    <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
     <Compile Include="Controllers\AgreementController.cs" />

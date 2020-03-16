@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -40,13 +39,13 @@ namespace ProjectFirma.Web.Views.Obligation
 
             Add("Obligation Number Key", obi => UrlTemplate.MakeHrefString(obi.ObligationItem.ObligationNumber.GetDetailUrl(), obi.ObligationItem.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
             Add("Obligation Item Key", obi => obi.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), obi => obi.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Vendor", ob => ob.ObligationItem.Vendor.VendorText, 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            //Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), obi => obi.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
 
             Add("Debit Amount", obi => obi.DebitAmount, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Debit/Credit Total", obi => obi.DebitCreditTotal, 100, DhtmlxGridColumnFormatType.Currency);
-
-            Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
         }
     }
 }
