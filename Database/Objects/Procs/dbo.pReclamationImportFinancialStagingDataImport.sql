@@ -97,7 +97,6 @@ end
     delete from ImportFinancial.ObligationNumber;
     delete from ImportFinancial.Vendor;
 
-
 	--INSERTS
 	insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
 	select 
@@ -120,6 +119,14 @@ end
 		ca.CostAuthorityWorkBreakdownStructure is null
 
 
+-- We'd really prefer not to have an "Unassigned Vendor" but we feel we've been pushed into a corner for the moment.
+-- Fortunately it is very rare. -- SLG 3/13/2020
+
+-- #    Not assigned
+insert into ImportFinancial.Vendor (VendorKey, VendorText)
+values
+('#', 'Not Assigned')
+
 	insert into ImportFinancial.Vendor(VendorKey, VendorText)
 	select 
 		distinct
@@ -129,7 +136,7 @@ end
 		ImportFinancial.impPayRecV3 as pr
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Vendor - Key] = ap.[Vendor - Key]
 	where
-        -- These are unassigned/blank vendors; no reason to take them
+        -- These are unassigned/blank vendors; see above
 		pr.[Vendor - Key] != '#'
 
 	insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
@@ -157,7 +164,6 @@ end
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Obligation Number - Key] = ap.[PO Number - Key]
 
 
-
 	insert into ImportFinancial.WbsElementObligationItemBudget(WbsElementID, CostAuthorityID, ObligationItemID, Obligation, GoodsReceipt, Invoiced, Disbursed, UnexpendedBalance)
 	select 
 		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.[WBS Element - Key]) as WbsElementID,
@@ -174,21 +180,25 @@ end
 		pr.[WBS Element - Key] != '#'
     order by ObligationItemID
 
+    insert into ImportFinancial.WbsElementObligationItemInvoice(WbsElementID, CostAuthorityID, ObligationItemID, DebitAmount, CreditAmount, DebitCreditTotal)
+    select q.*
+    from
+    (
+       select 
+          (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.[WBS Element - Key]) as WbsElementID,
+          (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = ap.[WBS Element - Key]) as CostAuthorityID,
+          (select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = ap.[Purch Ord Line Itm - Key] and obn.ObligationNumberKey = ap.[PO Number - Key] and v.VendorKey = ap.[Vendor - Key]) as ObligationItemID,
+          ap.[Debit Amount] as DebitAmount,
+          ap.[Credit Amount] as CreditAmount,
+          ap.[Debit/Credit Total] as DebitCreditTotal
+       from
+          ImportFinancial.impApGenSheet as ap
+       where
+         ap.[WBS Element - Key] != '#'
+    ) as q
+    -- Has no Obligations on the AP-Gen tab
+    where q.ObligationItemID is not null
 
-
-	insert into ImportFinancial.WbsElementObligationItemInvoice(WbsElementID, CostAuthorityID, ObligationItemID, DebitAmount, CreditAmount, DebitCreditTotal)
-	select 
-		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.[WBS Element - Key]) as WbsElementID,
-		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = ap.[WBS Element - Key]) as CostAuthorityID,
-		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = ap.[Purch Ord Line Itm - Key] and obn.ObligationNumberKey = ap.[PO Number - Key] and v.VendorKey = ap.[Vendor - Key]) as ObligationItemID,
-		ap.[Debit Amount] as DebitAmount,
-		ap.[Credit Amount] as CreditAmount,
-		ap.[Debit/Credit Total] as DebitCreditTotal
-	from
-		ImportFinancial.impApGenSheet as ap
-	where
-		ap.[WBS Element - Key] != '#'
-		
 
 	-- Update VendorNumbers for any Organizations for Vendors we recognize by text from the incoming Vendor import table
 	-- This only works for Reclamation (Tenant 12)

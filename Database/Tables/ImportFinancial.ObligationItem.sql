@@ -6,15 +6,16 @@ CREATE TABLE [ImportFinancial].[ObligationItem](
 	[ObligationItemID] [int] IDENTITY(1,1) NOT NULL,
 	[ObligationItemKey] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ObligationNumberID] [int] NOT NULL,
-	[VendorID] [int] NULL,
+	[VendorID] [int] NOT NULL,
  CONSTRAINT [PK_ObligationItem_ObligationItemID] PRIMARY KEY CLUSTERED 
 (
 	[ObligationItemID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ObligationItem_ObligationItemKey_ObligationNumberID] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ObligationItem_ObligationItemKey_ObligationNumberID_VendorID] UNIQUE NONCLUSTERED 
 (
 	[ObligationItemKey] ASC,
-	[ObligationNumberID] ASC
+	[ObligationNumberID] ASC,
+	[VendorID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
