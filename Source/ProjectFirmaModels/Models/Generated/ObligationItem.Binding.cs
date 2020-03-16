@@ -31,29 +31,31 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ObligationItem(int obligationItemID, string obligationItemKey, int obligationNumberID) : this()
+        public ObligationItem(int obligationItemID, string obligationItemKey, int obligationNumberID, int vendorID) : this()
         {
             this.ObligationItemID = obligationItemID;
             this.ObligationItemKey = obligationItemKey;
             this.ObligationNumberID = obligationNumberID;
+            this.VendorID = vendorID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ObligationItem(string obligationItemKey, int obligationNumberID) : this()
+        public ObligationItem(string obligationItemKey, int obligationNumberID, int vendorID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ObligationItemID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ObligationItemKey = obligationItemKey;
             this.ObligationNumberID = obligationNumberID;
+            this.VendorID = vendorID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ObligationItem(string obligationItemKey, ObligationNumber obligationNumber) : this()
+        public ObligationItem(string obligationItemKey, ObligationNumber obligationNumber, Vendor vendor) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ObligationItemID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -61,14 +63,17 @@ namespace ProjectFirmaModels.Models
             this.ObligationNumberID = obligationNumber.ObligationNumberID;
             this.ObligationNumber = obligationNumber;
             obligationNumber.ObligationItems.Add(this);
+            this.VendorID = vendor.VendorID;
+            this.Vendor = vendor;
+            vendor.ObligationItems.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ObligationItem CreateNewBlank(ObligationNumber obligationNumber)
+        public static ObligationItem CreateNewBlank(ObligationNumber obligationNumber, Vendor vendor)
         {
-            return new ObligationItem(default(string), obligationNumber);
+            return new ObligationItem(default(string), obligationNumber, vendor);
         }
 
         /// <summary>
@@ -123,12 +128,14 @@ namespace ProjectFirmaModels.Models
         public int ObligationItemID { get; set; }
         public string ObligationItemKey { get; set; }
         public int ObligationNumberID { get; set; }
+        public int VendorID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ObligationItemID; } set { ObligationItemID = value; } }
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
         public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ObligationNumber ObligationNumber { get; set; }
+        public virtual Vendor Vendor { get; set; }
 
         public static class FieldLengths
         {

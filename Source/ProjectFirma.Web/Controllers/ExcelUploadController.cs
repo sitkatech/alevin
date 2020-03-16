@@ -25,7 +25,9 @@ using System.Data;
 using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
+using log4net;
 using LtInfo.Common;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -51,9 +53,9 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
             var formId = GenerateUploadFbmsFileUploadFormId();
-            var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile());
+            var newExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile());
             var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
-            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newGisUploadUrl, doPublishingProcessingPostUrl, formId);
+            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newExcelFileUploadUrl, doPublishingProcessingPostUrl, formId);
             var viewModel = new ManageFbmsUploadViewModel();
             return RazorView<ManageFbmsUpload, ManageFbmsUploadViewData, ManageFbmsUploadViewModel>(viewData, viewModel);
         }
@@ -66,6 +68,104 @@ namespace ProjectFirma.Web.Controllers
             return ViewImportEtlExcelFile( viewModel);
         }
 
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ImportExcelFile(ImportEtlExcelFileViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewImportEtlExcelFile(viewModel);
+            }
+
+            var httpPostedFileBase = viewModel.FileResourceData;
+
+            return DoExcelImportForHttpPostedFile(httpPostedFileBase);
+        }
+
+        public ActionResult DoExcelImportForHttpPostedFile(HttpPostedFileBase httpPostedFileBase)
+        {
+            return DoExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
+        }
+
+        public ActionResult DoExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
+        {
+            List<BudgetStageImport> budgetTransferBulks;
+            List<InvoiceStageImport> invoiceStageImports;
+            try
+            {
+                budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream);
+                invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream);
+            }
+            catch (Exception ex)
+            {
+                string tempExcelFilename = Path.GetTempFileName() + ".xlsx";
+                using (var excelFileStream = System.IO.File.Create(tempExcelFilename))
+                {
+                    excelFileAsStream.Seek(0, SeekOrigin.Begin);
+                    excelFileAsStream.CopyTo(excelFileStream);
+
+                    // If this is something really weird...
+                    if (!(ex is SitkaDisplayErrorException))
+                    {
+                        // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
+                        var errorLogMessage = string.Format(
+                            "Unexpected exception while uploading Excel file by PersonID {0} ({1}). Original filename \"{4}\" File saved at \"{2}\".\r\nException Details:\r\n{3}",
+                            CurrentFirmaSession.PersonID,
+                            CurrentFirmaSession.Person.GetFullNameFirstLast(),
+                            tempExcelFilename,
+                            optionalOriginalFilename,
+                            ex);
+                        SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
+                    }
+
+                    var errorMessage = string.Format(
+                        "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No budget updates were saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
+                        optionalOriginalFilename, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
+                    SetErrorForDisplay(errorMessage);
+                }
+
+                // This is the right thing to return, since this starts off in a modal dialog
+                return new ModalDialogFormJsonResult();
+            }
+
+            DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+
+            SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
+            // This is the right thing to return, since this starts off in a modal dialog
+            return new ModalDialogFormJsonResult();
+        }
+
+        public static void DoProcessingOnRecordsLoadedIntoPairedStagingTables(
+                                        List<BudgetStageImport> budgetTransferBulks,
+                                        List<InvoiceStageImport> invoiceStageImports, 
+                                        out int countAddedBudgets,
+                                        out int countAddedInvoices,
+                                        FirmaSession optionalCurrentFirmaSession)
+        {
+            countAddedBudgets = budgetTransferBulks.Count;
+            var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
+            var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
+            existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
+
+            countAddedInvoices = invoiceStageImports.Count;
+            var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
+            var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
+            existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
+
+            if (optionalCurrentFirmaSession != null)
+            {
+                HttpRequestStorage.DatabaseEntities.SaveChanges(optionalCurrentFirmaSession.Person);
+            }
+            else
+            {
+                // This is most likely a test context anyhow
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
+            }
+        }
+
         private PartialViewResult ViewImportEtlExcelFile(ImportEtlExcelFileViewModel viewModel)
         {
             var mapFormId = GenerateUploadFbmsFileUploadFormId();
@@ -73,7 +173,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ImportEtlExcelFileViewData(mapFormId, newGisUploadUrl);
             return RazorPartialView<ImportEtlExcelFile, ImportEtlExcelFileViewData, ImportEtlExcelFileViewModel>(viewData, viewModel);
         }
-
 
         [HttpGet]
         [FirmaAdminFeature]
@@ -84,25 +183,31 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [FirmaAdminFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DoPublishingProcessing(ManageFbmsUploadViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                //return ViewImportEtlExcelFile(viewModel);
+                throw new SitkaDisplayErrorException("Not expecting model state to be bad; not running publishing processing.");
             }
 
-            
-            DoPublishingSql();
+            try
+            {
+                DoPublishingSql(Logger);
+            }
+            catch (Exception e)
+            {
+                SetErrorForDisplay($"Problem executing Publishing: {e.Message}");
+            }
 
-            return ViewManageFbmsUpload_Impl();
+            SetMessageForDisplay($"Publishing Processing completed Successfully");
+            return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageFbmsUpload()));
         }
 
-        private void DoPublishingSql()
+        public static void DoPublishingSql(ILog optionalLogger)
         {
             try
             {
-                Logger.Info($"Starting DoPublishingSql");
+                optionalLogger?.Info($"Starting DoPublishingSql");
                 string vendorImportProc = "dbo.pReclamationImportFinancialStagingDataImport";
                 using (SqlConnection sqlConnection = CreateAndOpenSqlConnection())
                 {
@@ -114,7 +219,7 @@ namespace ProjectFirma.Web.Controllers
                         cmd.ExecuteNonQuery();
                     }
                 }
-                Logger.Info($"Ending DoPublishingSql");
+                optionalLogger?.Info($"Ending DoPublishingSql");
             }
             catch (Exception e)
             {
@@ -129,62 +234,6 @@ namespace ProjectFirma.Web.Controllers
             var sqlConnection = db.CreateConnection();
             sqlConnection.Open();
             return sqlConnection;
-        }
-
-        [HttpPost]
-        [FirmaAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ImportExcelFile(ImportEtlExcelFileViewModel viewModel)
-        {
-            if (!ModelState.IsValid)
-            {
-                return ViewImportEtlExcelFile(viewModel);
-            }
-
-            var httpPostedFileBase = viewModel.FileResourceData;
-            List<BudgetStageImport> budgetTransferBulks;
-            List<InvoiceStageImport> invoiceStageImports;
-            try
-            {
-                budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
-                invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(httpPostedFileBase.InputStream);
-            }
-            catch (Exception ex)
-            {
-                // If this is something really weird...
-                if (!(ex is SitkaDisplayErrorException))
-                {
-                    // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
-                    var tempFilename = Path.GetTempFileName() + ".xlsx";
-                    httpPostedFileBase.SaveAs(tempFilename);
-                    var errorLogMessage = string.Format("Unexpected exception while uploading Excel file by PersonID {0} ({1}). File saved at \"{2}\".\r\nException Details:\r\n{3}",
-                        CurrentFirmaSession.PersonID,
-                        CurrentFirmaSession.Person.GetFullNameFirstLast(),
-                        tempFilename,
-                        ex);
-                    SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
-                }
-                var errorMessage = string.Format("There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No budget updates were saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.", httpPostedFileBase.FileName, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
-                SetErrorForDisplay(errorMessage);
-
-                return new ModalDialogFormJsonResult();
-            }
-
-            var countAddedBudgets = budgetTransferBulks.Count;
-            var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
-            var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
-            existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
-
-            var countAddedInvoices = invoiceStageImports.Count;
-            var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
-            var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
-            existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
-
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
-            SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
-            return new ModalDialogFormJsonResult();
         }
 
 

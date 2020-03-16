@@ -9,6 +9,16 @@ create procedure dbo.pReclamationImportFinancialStagingDataImport
 as
 begin
 
+if (
+    (not EXISTS(SELECT 1 FROM dbo.[StageImpApGenSheet]))
+    OR 
+    (not EXISTS(SELECT 1 FROM dbo.[StageImpPayRecV3]))
+    )
+begin
+   raiserror('There is no data in at least one of the tables for publishing. Publishing halted.', 16,1)
+   return -1
+end
+
     -- TODO: A sanity check that there are actually records to import
     delete from ImportFinancial.impApGenSheet
     INSERT INTO [ImportFinancial].[impApGenSheet]
@@ -80,13 +90,12 @@ begin
           ,[UnexpendedBalance]
       FROM [dbo].[StageImpPayRecV3]
 
-	delete from ImportFinancial.WbsElementObligationItemBudget;
-	delete from ImportFinancial.WbsElementObligationItemInvoice;
-	delete from ImportFinancial.WbsElement;
-	delete from ImportFinancial.Vendor;
-	delete from ImportFinancial.ObligationItem;
-	delete from ImportFinancial.ObligationNumber;
-
+    delete from ImportFinancial.WbsElementObligationItemBudget;
+    delete from ImportFinancial.WbsElementObligationItemInvoice;
+    delete from ImportFinancial.WbsElement;
+    delete from ImportFinancial.ObligationItem;
+    delete from ImportFinancial.ObligationNumber;
+    delete from ImportFinancial.Vendor;
 
 	--INSERTS
 	insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
@@ -110,6 +119,14 @@ begin
 		ca.CostAuthorityWorkBreakdownStructure is null
 
 
+-- We'd really prefer not to have an "Unassigned Vendor" but we feel we've been pushed into a corner for the moment.
+-- Fortunately it is very rare. -- SLG 3/13/2020
+
+-- #    Not assigned
+insert into ImportFinancial.Vendor (VendorKey, VendorText)
+values
+('#', 'Not Assigned')
+
 	insert into ImportFinancial.Vendor(VendorKey, VendorText)
 	select 
 		distinct
@@ -119,8 +136,8 @@ begin
 		ImportFinancial.impPayRecV3 as pr
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Vendor - Key] = ap.[Vendor - Key]
 	where
-		pr.[Vendor - Text] = ap.[Vendor - Text] and pr.[Vendor - Key] != '#'
-
+        -- These are unassigned/blank vendors; see above
+		pr.[Vendor - Key] != '#'
 
 	insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
 	select 
@@ -135,23 +152,23 @@ begin
     from Reclamation.Agreement as rca
     inner join ImportFinancial.ObligationNumber as onum on rca.AgreementNumber = onum.ObligationNumberKey
 
-
-	insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID)
+	insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID, VendorID)
 	select 
 		distinct
 			coalesce(pr.[Obligation Item - Key] , ap.[Purch Ord Line Itm - Key]) as ObligationItemKey,
-			(select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationNumberID
+			(select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationNumberID,
+            (coalesce((select VendorID from ImportFinancial.Vendor as v where v.VendorKey = pr.[Vendor - Key]),
+                      (select VendorID from ImportFinancial.Vendor as v where v.VendorKey = ap.[Vendor - Key]))) as VendorID
 	from
 		ImportFinancial.impPayRecV3 as pr
 		full outer join ImportFinancial.impApGenSheet as ap on pr.[Obligation Number - Key] = ap.[PO Number - Key]
-
 
 
 	insert into ImportFinancial.WbsElementObligationItemBudget(WbsElementID, CostAuthorityID, ObligationItemID, Obligation, GoodsReceipt, Invoiced, Disbursed, UnexpendedBalance)
 	select 
 		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.[WBS Element - Key]) as WbsElementID,
 		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.[WBS Element - Key]) as CostAuthorityID,
-		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemKey = pr.[Obligation Item - Key] and obn.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationItemID,
+		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.[Obligation Item - Key] and obn.ObligationNumberKey = pr.[Obligation Number - Key] and v.VendorKey = pr.[Vendor - Key]) as ObligationItemID,
 		pr.Obligation as Obligation,
 		pr.[Goods Receipt] as GoodsReceipt,
 		pr.Invoiced as Invoiced,
@@ -161,22 +178,27 @@ begin
 		ImportFinancial.impPayRecV3 as pr
 	where 
 		pr.[WBS Element - Key] != '#'
+    order by ObligationItemID
 
+    insert into ImportFinancial.WbsElementObligationItemInvoice(WbsElementID, CostAuthorityID, ObligationItemID, DebitAmount, CreditAmount, DebitCreditTotal)
+    select q.*
+    from
+    (
+       select 
+          (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.[WBS Element - Key]) as WbsElementID,
+          (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = ap.[WBS Element - Key]) as CostAuthorityID,
+          (select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = ap.[Purch Ord Line Itm - Key] and obn.ObligationNumberKey = ap.[PO Number - Key] and v.VendorKey = ap.[Vendor - Key]) as ObligationItemID,
+          ap.[Debit Amount] as DebitAmount,
+          ap.[Credit Amount] as CreditAmount,
+          ap.[Debit/Credit Total] as DebitCreditTotal
+       from
+          ImportFinancial.impApGenSheet as ap
+       where
+         ap.[WBS Element - Key] != '#'
+    ) as q
+    -- Has no Obligations on the AP-Gen tab
+    where q.ObligationItemID is not null
 
-
-	insert into ImportFinancial.WbsElementObligationItemInvoice(WbsElementID, CostAuthorityID, ObligationItemID, DebitAmount, CreditAmount, DebitCreditTotal)
-	select 
-		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.[WBS Element - Key]) as WbsElementID,
-		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = ap.[WBS Element - Key]) as CostAuthorityID,
-		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemKey = ap.[Purch Ord Line Itm - Key] and obn.ObligationNumberKey = ap.[PO Number - Key]) as ObligationItemID,
-		ap.[Debit Amount] as DebitAmount,
-		ap.[Credit Amount] as CreditAmount,
-		ap.[Debit/Credit Total] as DebitCreditTotal
-	from
-		ImportFinancial.impApGenSheet as ap
-	where
-		ap.[WBS Element - Key] != '#'
-		
 
 	-- Update VendorNumbers for any Organizations for Vendors we recognize by text from the incoming Vendor import table
 	-- This only works for Reclamation (Tenant 12)
@@ -216,5 +238,5 @@ GO
 
 exec dbo.pReclamationImportFinancialStagingDataImport
 
-
+select * from 
 */

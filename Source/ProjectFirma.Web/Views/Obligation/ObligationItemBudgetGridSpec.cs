@@ -22,7 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
-using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -33,13 +32,15 @@ namespace ProjectFirma.Web.Views.Obligation
         public ObligationItemBudgetGridSpec(FirmaSession currentFirmaSession)
         {
             // These are reclamation-specific, so don't need Tenant customization.
-            ObjectNameSingular = "Obligation Item Invoice";
-            ObjectNamePlural = "Obligation Item Invoices";
+            ObjectNameSingular = "Obligation Item Budget";
+            ObjectNamePlural = "Obligation Item Budgets";
             SaveFiltersInCookie = true;
 
             Add("Obligation Number Key", ob => UrlTemplate.MakeHrefString(ob.ObligationItem.ObligationNumber.GetDetailUrl(), ob.ObligationItem.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
             Add("Obligation Item Key", ob => ob.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), ob => ob.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Vendor", ob => ob.ObligationItem.Vendor.VendorText, 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            //Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), ob => ob.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
+            Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
 
             Add("Obligation", ob => ob.Obligation, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Goods Receipt", ob => ob.GoodsReceipt, 100, DhtmlxGridColumnFilterType.Text);
@@ -47,7 +48,7 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Disbursed", ob => ob.Disbursed, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Unexpended Balance", ob => ob.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency);
 
-            Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
+            
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Vendor()
         {
-
+            this.ObligationItems = new HashSet<ObligationItem>();
         }
 
         /// <summary>
@@ -64,13 +64,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return ObligationItems.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Vendor).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Vendor).Name, typeof(ObligationItem).Name};
 
 
         /// <summary>
@@ -86,8 +86,19 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in ObligationItems.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -97,7 +108,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return VendorID; } set { VendorID = value; } }
 
-
+        public virtual ICollection<ObligationItem> ObligationItems { get; set; }
 
         public static class FieldLengths
         {
