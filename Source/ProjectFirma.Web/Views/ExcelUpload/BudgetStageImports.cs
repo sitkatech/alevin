@@ -79,24 +79,23 @@ namespace ProjectFirma.Web.Views.ExcelUpload
         {
             var columnNames = new Dictionary<string, string>
                               {
-                                  {"A", "Business area - Key"},
-                                  {"B", "FA Budget Activity - Key"},
-                                  {"C", "Functional area - Text"},
-                                  {"D", "Obligation Number - Key"},
-                                  {"E", "Obligation Item - Key"},
-                                  {"F", "Fund - Key"},
-                                  {"G", "Funded Program - Key (Not Compounded)"},
-                                  {"H", "WBS Element - Key"},
-                                  {"I", "WBS Element - Text"},
-                                  {"J", "Budget Object Class - Key"},
-                                  {"K", "Vendor - Key"},
-                                  {"L", "Vendor - Text" },
-                                  {"M", "Obligation" },
-                                  {"N", "Goods Receipt" },
-                                  {"O", "Invoiced" },
-                                  {"P", "Disbursed" },
-                                  {"Q", "Unexpended Balance" }
-                                  
+                                  {"B", "Business area - Key"},
+                                  {"C", "FA Budget Activity - Key"},
+                                  {"D", "Functional area - Text"},
+                                  {"E", "Obligation Number - Key"},
+                                  {"F", "Obligation Item - Key"},
+                                  {"G", "Fund - Key"},
+                                  {"H", "Funded Program - Key (Not Compounded)"},
+                                  {"I", "WBS Element - Key"},
+                                  {"J", "WBS Element - Text"},
+                                  {"K", "Budget Object Class - Key"},
+                                  {"L", "Vendor - Key"},
+                                  {"M", "Vendor - Text" },
+                                  {"N", "Obligation" },
+                                  {"O", "Goods Receipt" },
+                                  {"P", "Invoiced" },
+                                  {"Q", "Disbursed" },
+                                  {"R", "Unexpended Balance" }
                               };
 
             var dataRow = dataTable.Rows[0];

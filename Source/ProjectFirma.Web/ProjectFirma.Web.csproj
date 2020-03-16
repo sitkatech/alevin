@@ -324,7 +324,6 @@
     <Compile Include="Views\ExcelUpload\InvoiceStageImports.cs" />
     <Compile Include="Views\ExcelUpload\BudgetStageImports.cs" />
     <Compile Include="Views\ExcelUpload\BudgetStageImportsHelper.cs" />
-    <Compile Include="Views\ExcelUpload\ImportEtlExcelHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelFileViewModel.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelFileViewData.cs" />
     <Compile Include="Views\ExcelUpload\ImportEtlExcelFile.cs" />

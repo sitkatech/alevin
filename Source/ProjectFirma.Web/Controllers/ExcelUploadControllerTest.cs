@@ -37,12 +37,12 @@ namespace ProjectFirma.Web.Controllers
         [Description("Simulate the uploading and processing of the Excel FBMS information")]
         public void TestExcelUploadAndPublishingProcess()
         {
-            const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Sitka_Combined_R1678_2020-01-12-e05945.xlsx";
+            const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Sitka AP Rpt_2020-03-13 added Dates.xlsx";
 
             FileStream excelFileStream = new FileStream(pathToSampleFbmsExcelFileThatWouldBeUploaded, FileMode.Open, FileAccess.Read);
 
-            List<BudgetStageImport> budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(excelFileStream);
-            List<InvoiceStageImport> invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream);
+            List<BudgetStageImport> budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.ExcelFileHeaderRowOffset);
+            List<InvoiceStageImport> invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.ExcelFileHeaderRowOffset);
 
             ExcelUploadController.DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);
         }

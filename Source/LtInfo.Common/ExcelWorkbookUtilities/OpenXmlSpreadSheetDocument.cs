@@ -40,9 +40,9 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
         /// </summary> 
         private const string DefaultSheetName = "Sheet1";
 
-        public static DataTable ExcelWorksheetToDataTable(string fileName, string sheetName, bool useExistingSheetNameIfSingleSheetFound)
+        public static DataTable ExcelWorksheetToDataTable(string fileName, string sheetName, bool useExistingSheetNameIfSingleSheetFound, int headerRowOffset)
         {
-            return ExcelWorksheetToDataTable(AbstractReader.StreamFromFile(fileName), sheetName, useExistingSheetNameIfSingleSheetFound);
+            return ExcelWorksheetToDataTable(AbstractReader.StreamFromFile(fileName), sheetName, useExistingSheetNameIfSingleSheetFound, headerRowOffset);
         }
 
         /// <summary>
@@ -51,12 +51,13 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
         /// <param name="stream"></param>
         /// <param name="sheetName"></param>
         /// <param name="useExistingSheetNameIfSingleSheetFound">If there is only a single sheet in the document, and this is set true, the reader will use that sheet, regardless of what it is named. If there is more than one sheet in the document, then sheetName must be found, no matter what useExistingSheetNameIfSingleSheetFound is set to.</param>
+        /// <param name="headerRowOffset"></param>
         /// <returns></returns>
-        public static DataTable ExcelWorksheetToDataTable(Stream stream, string sheetName, bool useExistingSheetNameIfSingleSheetFound)
+        public static DataTable ExcelWorksheetToDataTable(Stream stream, string sheetName, bool useExistingSheetNameIfSingleSheetFound, int headerRowOffset)
         {
             using (var spreadsheetDocument = SpreadsheetDocument.Open(stream, false))
             {
-                return GetWorkSheetAsDataTable(spreadsheetDocument, sheetName, useExistingSheetNameIfSingleSheetFound);
+                return GetWorkSheetAsDataTable(spreadsheetDocument, sheetName, useExistingSheetNameIfSingleSheetFound, headerRowOffset);
             }
         }
 
@@ -70,7 +71,7 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
             return (WorksheetPart)document.WorkbookPart.GetPartById((string)source.First<Sheet>().Id);
         }
 
-        private static DataTable GetWorkSheetAsDataTable(SpreadsheetDocument spreadsheetDocument, string sheetName, bool useExistingSheetNameIfSingleSheetFound)
+        private static DataTable GetWorkSheetAsDataTable(SpreadsheetDocument spreadsheetDocument, string sheetName, bool useExistingSheetNameIfSingleSheetFound, int headerRowOffset)
         {
             // Get the Sheets and Sheet Names in this file
             var allWorksheets = spreadsheetDocument.WorkbookPart.Workbook.GetFirstChild<Sheets>().Elements<Sheet>().ToList();
@@ -99,12 +100,14 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
             if (sheetRows.Any())
             {
                 // header row
-                foreach (var cell in sheetRows[0].Descendants<Cell>())
+                foreach (var cell in sheetRows[headerRowOffset].Descendants<Cell>())
                 {
-                    dt.Columns.Add(new DataColumn(GetColumnName(cell.CellReference), typeof(string)));
+                    var newDataColumn = new DataColumn(GetColumnName(cell.CellReference), typeof(string));
+                    dt.Columns.Add(newDataColumn);
                 }
+
                 // non-header rows
-                for (var i = 0; i < sheetRows.Count(); i++)
+                for (var i = headerRowOffset; i < sheetRows.Count(); i++)
                 {
                     var row = sheetRows[i];
                     var dr = dt.NewRow();
