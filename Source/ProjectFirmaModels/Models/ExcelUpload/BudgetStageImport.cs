@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using LtInfo.Common;
+using ProjectFirmaModels.Models.ExcelUpload;
 
 
 namespace ProjectFirmaModels.Models
@@ -71,87 +72,56 @@ namespace ProjectFirmaModels.Models
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
 
-            // Column A - Business Area Key
-            string businessAreaKey;
-            try
-            {
-                businessAreaKey = string.IsNullOrWhiteSpace(dr["A"].ToString()) ? null : dr["A"].ToString();
-            }
-            catch (Exception e)
-            {
-                throw new BudgetStageImportBadCellException("A", rowIndex, dr["A"].ToString(), "Problem parsing Source Business area - Key", e);
-            }
+            /*
+             *
+             *
+             *
+             */
 
-            BusinessAreaKey = businessAreaKey;
+            // Are you there tom?
+
+
+            //var columnNames =  BudgetStageImports.GetBudgetColumnLetterToColumnNameDictionary();
+            var columnNameToLetterDict = BudgetStageImports.GetBudgetColumnNameToColumnLetterDictionary();
+
+            // Column A - Business Area Key
+            //string businessAreaKey;
+            //var businessAreaKeyColumnLetterName = columnNameToLetterDict[BudgetStageImports.BusinessAreaKey];
+            //try
+            //{
+            //    businessAreaKey = string.IsNullOrWhiteSpace(dr[businessAreaKeyColumnLetterName].ToString()) ? null : dr[businessAreaKeyColumnLetterName].ToString();
+            //}
+            //catch (Exception e)
+            //{
+            //    throw new BudgetStageImportBadCellException(businessAreaKeyColumnLetterName, rowIndex, dr[businessAreaKeyColumnLetterName].ToString(), $"Problem parsing Source {BudgetStageImports.BusinessAreaKey}", e);
+            //}
+
+            //BusinessAreaKey = businessAreaKey;
+
+
+
+
+
+
+
+
+            // Column A - Business Area Key
+            BusinessAreaKey = GetDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BusinessAreaKey);
 
             // Column B - FA Budget Activity Key
-            string faBudgetActivityKey;
-            try
-            {
-                faBudgetActivityKey = string.IsNullOrWhiteSpace(dr["B"].ToString()) ? null : dr["B"].ToString();
-            }
-            
-            catch (Exception e)
-            {
-                throw new BudgetStageImportBadCellException("B", rowIndex, dr["B"].ToString(), "Problem parsing FA Budget Activity Key", e);
-            }
-
-            FaBudgetActivityKey = faBudgetActivityKey;
+            FaBudgetActivityKey = GetDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FaBudgetActivityKey);
 
             // Column C - Functional Area Text
-            string functionalAreaText;
-            try
-            {
-                functionalAreaText = string.IsNullOrWhiteSpace(dr["C"].ToString()) ? null : dr["C"].ToString();
-            }
-
-            catch (Exception e)
-            {
-                throw new BudgetStageImportBadCellException("C", rowIndex, dr["C"].ToString(), "Problem parsing Functional Area Text", e);
-            }
-
-            FunctionalAreaText = functionalAreaText;
+            FunctionalAreaText = GetDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FunctionalAreaText);
 
             // Column D - Obligation Number Key
-            string obligationNumberKey;
-            try
-            {
-                obligationNumberKey = string.IsNullOrWhiteSpace(dr["D"].ToString()) ? null : dr["D"].ToString();
-            }
-
-            catch (Exception e)
-            {
-                throw new BudgetStageImportBadCellException("D", rowIndex, dr["D"].ToString(), "Problem parsing Obligation Number Key", e);
-            }
-
-            ObligationNumberKey = obligationNumberKey;
+            ObligationNumberKey = GetDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationNumberKey);
 
             // Column E - Obligation Item Key
-            string obligationItemKey;
-            try
-            {
-                obligationItemKey = string.IsNullOrWhiteSpace(dr["E"].ToString()) ? null : dr["E"].ToString();
-            }
-
-            catch (Exception e)
-            {
-                throw new BudgetStageImportBadCellException("E", rowIndex, dr["E"].ToString(), "Problem parsing Obligation Item Key", e);
-            }
-
-            ObligationItemKey = obligationItemKey;
+            ObligationItemKey = GetDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationItemKey);
 
             // Column F - Fund Key
-            string fundKey;
-            try
-            {
-                fundKey = string.IsNullOrWhiteSpace(dr["F"].ToString()) ? null : dr["F"].ToString();
-            }
-            catch (Exception e)
-            {
-                throw new BudgetStageImportBadCellException("F", rowIndex, dr["F"].ToString(), "Problem parsing Fund Key", e);
-            }
-
-            FundKey = fundKey;
+            FundKey = GetDataValueForColumnName(dr, rowIndex, BudgetStageImports.BusinessAreaKey, columnNameToLetterDict[BudgetStageImports.FundKey]);
 
             // Column G - Funded Program Key (Not Compunded)
             string fundedProgramKey;
@@ -329,6 +299,49 @@ namespace ProjectFirmaModels.Models
             
         }
 
+        private string GetDataValueForColumnName(DataRow dr, int rowIndex, Dictionary<string, string> columnNameToLetterDict, string humanReadableNameOfColumn)
+        {
+            string columnKeyLetterName = columnNameToLetterDict[humanReadableNameOfColumn];
+
+            string dataValue;
+            try
+            {
+                dataValue = string.IsNullOrWhiteSpace(dr[columnKeyLetterName].ToString())
+                    ? null
+                    : dr[columnKeyLetterName].ToString();
+            }
+            catch (Exception e)
+            {
+                throw new BudgetStageImportBadCellException(columnKeyLetterName, rowIndex,
+                    dr[columnKeyLetterName].ToString(),
+                    $"Problem parsing Source {humanReadableNameOfColumn}", e);
+            }
+
+            return dataValue;
+        }
+
+        //private static string GetDataValueForColumnName(DataRow dr, int rowIndex, string columnNameKey,)
+        //{
+        //    string columnKeyLetterName = columnNameToLetterDict[BudgetStageImports.BusinessAreaKey]
+
+        //    string dataValue;
+        //    try
+        //    {
+                
+
+        //        dataValue = string.IsNullOrWhiteSpace(dr[columnKeyLetterName].ToString())
+        //            ? null
+        //            : dr[columnKeyLetterName].ToString();
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        throw new BudgetStageImportBadCellException(columnKeyLetterName, rowIndex,
+        //            dr[columnKeyLetterName].ToString(),
+        //            $"Problem parsing Source {columnNameKey}", e);
+        //    }
+
+        //    return dataValue;
+        //}
 
 
         /// <summary>

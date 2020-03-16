@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.IO;
 using LtInfo.Common.ExcelWorkbookUtilities;
+using ProjectFirmaModels.Models;
+using ProjectFirmaModels.Models.ExcelUpload;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {

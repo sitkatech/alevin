@@ -93,8 +93,6 @@ namespace ProjectFirma.Web.Views.ExcelUpload
                                   {"K", "Debit Amount"},
                                   {"L", "Credit Amount" },
                                   {"M", "Debit/Credit Total" }
-
-                                  
                               };
 
             var dataRow = dataTable.Rows[0];
