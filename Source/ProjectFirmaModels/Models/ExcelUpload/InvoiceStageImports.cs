@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ImportGdbFile.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="InvoiceStageImports.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,15 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
-using MoreLinq;
-using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ExcelUpload
+namespace ProjectFirmaModels.Models.ExcelUpload
 {
     public class InvoiceStageImports : List<InvoiceStageImport>
     {

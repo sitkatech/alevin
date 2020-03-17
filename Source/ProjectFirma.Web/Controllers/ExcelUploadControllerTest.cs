@@ -25,6 +25,7 @@ using log4net;
 using NUnit.Framework;
 using ProjectFirma.Web.Views.ExcelUpload;
 using ProjectFirmaModels.Models;
+using ProjectFirmaModels.Models.ExcelUpload;
 
 namespace ProjectFirma.Web.Controllers
 {

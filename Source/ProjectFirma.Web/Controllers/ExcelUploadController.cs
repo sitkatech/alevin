@@ -35,6 +35,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ExcelUpload;
 using ProjectFirmaModels.Models;
+using ProjectFirmaModels.Models.ExcelUpload;
 using ProjectFirmaModels.UnitTestCommon;
 
 namespace ProjectFirma.Web.Controllers

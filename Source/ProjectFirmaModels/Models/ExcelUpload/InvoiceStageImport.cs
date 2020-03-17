@@ -2,28 +2,9 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using LtInfo.Common;
 
-namespace ProjectFirmaModels.Models
+namespace ProjectFirmaModels.Models.ExcelUpload
 {
-
-    /// <summary>
-    /// An exception generated when a cell value is bad
-    /// </summary>
-    public class InvoiceStageImportBadCellException : SitkaDisplayErrorException
-    {
-        public string ColumnName;
-        public int RowIndex;
-        public string CellValue;
-
-        public InvoiceStageImportBadCellException(string columnName, int rowIndex, string cellValue, string errorMessage, Exception innerException) : base(string.Format("{0} - Cell {1}{2} - Cell Value \"{3}\"", errorMessage, columnName, rowIndex + 1, cellValue), innerException)
-        {
-            ColumnName = columnName;
-            CellValue = cellValue;
-            RowIndex = rowIndex;
-        }
-    }
-
     public class InvoiceStageImport
     {
         public readonly string PONumberKey;
@@ -103,7 +84,7 @@ namespace ProjectFirmaModels.Models
             }
             catch (Exception e)
             {
-                throw new BudgetStageImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
+                throw new InvoiceStageImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
                     $"Problem parsing {displayString}", e);
             }
 
@@ -134,7 +115,7 @@ namespace ProjectFirmaModels.Models
         public static bool RowIsBlank(DataRow dr)
         {
             var columnsToCheck = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
-            var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[col].ToString()));
+            var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[(string) col].ToString()));
             return allColumnsBlank;
         }
     }

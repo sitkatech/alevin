@@ -35,7 +35,10 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\ExcelUpload\BudgetStageImportBadCellException.cs" />
     <Compile Include="Models\ExcelUpload\BudgetStageImports.cs" />
+    <Compile Include="Models\ExcelUpload\InvoiceStageImportBadCellException.cs" />
+    <Compile Include="Models\ExcelUpload\InvoiceStageImports.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ActionItem.Binding.cs" />
@@ -908,7 +911,7 @@
     <Compile Include="Models\GeospatialAreaPerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
-    <Compile Include="Models\InvoiceStageImport.cs" />
+    <Compile Include="Models\ExcelUpload\InvoiceStageImport.cs" />
     <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\ISortingGroup.cs" />
     <Compile Include="Models\ExternalMapLayer.cs" />
