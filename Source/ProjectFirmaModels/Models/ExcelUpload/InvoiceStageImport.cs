@@ -26,95 +26,69 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         {
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
+            var columnNameToLetterDict = InvoiceStageImports.GetInvoiceColumnNameToColumnLetterDictionary();
 
             // Column A - PO Number - Key
-            PONumberKey = TryParseStringColumn(dr, rowIndex, "A", "PO Number - Key");
+            PONumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.PurchaseOrderNumberKey);
 
             // Column B - Purch Ord Line Itm - Key
-            PurchOrdLineItmKey = TryParseStringColumn(dr, rowIndex, "B", "Purch Ord Line Itm - Key");
+            PurchOrdLineItmKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.PurchaseOrderLineItemKey);
 
             // Column C - Reference - Key
-            ReferenceKey = TryParseStringColumn(dr, rowIndex, "C", "Reference - Key");
+            ReferenceKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.ReferenceKey);
 
             // Column D - Vendor - Key
-            VendorKey = TryParseStringColumn(dr, rowIndex, "D", "Vendor - Key");
+            VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.VendorKey);
 
             // Column E - Vendor - Text
-            VendorText = TryParseStringColumn(dr, rowIndex, "E", "Vendor - Text");
+            VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.VendorText);
             
             // Column F - Fund - Key
-            FundKey = TryParseStringColumn(dr, rowIndex, "F", "Fund - Key");
+            FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.FundKey);
 
             // Column G - Funded Program - Key
-            FundedProgramKey = TryParseStringColumn(dr, rowIndex, "G", "Funded Program - Key");
+            FundedProgramKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.FundedProgramKey);
 
             // Column H - Wbs Element - Key
-            WbsElementKey = TryParseStringColumn(dr, rowIndex, "H", "Wbs Element - Key");
+            WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.WbsElementKey);
 
             // Column I - Wbs Element - Text
-            WbsElementText = TryParseStringColumn(dr, rowIndex, "I", "Wbs Element - Text");
+            WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.WbsElementText);
 
             // Column J - Budget Object Class - Key
-            BudgetObjectClassKey = TryParseStringColumn(dr, rowIndex, "J", "Budget Object Class - Key");
+            BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.BudgetObjectClassKey);
 
             // Column K - DebitAmount
-            DebitAmount = TryParseDoubleColumn(dr, rowIndex, "K", "DebitAmount");
+            DebitAmount = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.DebitAmount);
 
             // Column L - CreditAmount
-            CreditAmount = TryParseDoubleColumn(dr, rowIndex, "L", "CreditAmount");
+            CreditAmount = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.CreditAmount);
 
             // Column M - DebitCreditTotal
-            DebitCreditTotal = TryParseDoubleColumn(dr, rowIndex, "M", "DebitCreditTotal");
-        }
-
-        private static double? TryParseDoubleColumn(DataRow dr, int rowIndex, string columnName, string displayString)
-        {
-            double? debitAmount;
-            try
-            {
-                var isNullOrWhitespace = string.IsNullOrWhiteSpace(dr[columnName].ToString());
-                if (isNullOrWhitespace)
-                {
-                    debitAmount = null;
-                }
-                else
-                {
-                    debitAmount = double.Parse(dr[columnName].ToString());
-                }
-            }
-            catch (Exception e)
-            {
-                throw new ExcelImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
-                    $"Problem parsing {displayString}", e);
-            }
-
-            return debitAmount;
-        }
-
-        private static string TryParseStringColumn(DataRow dr, int rowIndex, string columnName, string textOfSource)
-        {
-            string vendorText;
-            try
-            {
-                vendorText = string.IsNullOrWhiteSpace(dr[columnName].ToString()) ? null : dr[columnName].ToString();
-            }
-            catch (Exception e)
-            {
-                throw new ExcelImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
-                    $"Problem parsing Source {textOfSource}", e);
-            }
-
-            return vendorText;
+            DebitCreditTotal = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.DebitCreditTotal);
         }
 
         /// <summary>
-        /// Are all relevant colummns in this row blank?
+        /// Are all relevant columns in this row blank?
         /// </summary>
         /// <param name="dr"></param>
         /// <returns></returns>
         public static bool RowIsBlank(DataRow dr)
         {
-            var columnsToCheck = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M" };
+            var columnsToCheck = InvoiceStageImports.GetInvoiceColumnLetterToColumnNameDictionary().Keys.ToList();
             var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[(string) col].ToString()));
             return allColumnsBlank;
         }

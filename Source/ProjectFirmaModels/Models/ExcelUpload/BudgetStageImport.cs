@@ -56,46 +56,46 @@ namespace ProjectFirmaModels.Models.ExcelUpload
 
  
             // Column A - Business Area Key
-            BusinessAreaKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BusinessAreaKey);
+            BusinessAreaKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BusinessAreaKey);
 
             // Column B - FA Budget Activity Key
-            FaBudgetActivityKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FaBudgetActivityKey);
+            FaBudgetActivityKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FaBudgetActivityKey);
 
             // Column C - Functional Area Text
-            FunctionalAreaText = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FunctionalAreaText);
+            FunctionalAreaText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FunctionalAreaText);
 
             // Column D - Obligation Number Key
-            ObligationNumberKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationNumberKey);
+            ObligationNumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationNumberKey);
 
             // Column E - Obligation Item Key
-            ObligationItemKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationItemKey);
+            ObligationItemKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationItemKey);
 
             // Column F - Fund Key
-            FundKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundKey);
+            FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundKey);
 
             // Column G - Funded Program Key (Not Compunded)
-            FundedProgramKeyNotCompounded = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundedProgramKey);
+            FundedProgramKeyNotCompounded = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundedProgramKey);
 
             // Column H - WBS Element Key
-            WbsElementKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementKey);
+            WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementKey);
 
             // Column I - WBS Element Text
-            WbsElementText = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementText);
+            WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementText);
 
             // Column J - Budget Object Class Key
-            BudgetObjectClassKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BudgetObjectClassKey);
+            BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BudgetObjectClassKey);
 
             // Column K - Vendor Key
-            VendorKey = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorKey);
+            VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorKey);
 
             // Column L - Vendor Key
-            VendorText = GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorText);
+            VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorText);
 
             // Column M - Obligation
-            Obligation = GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Obligation);
+            Obligation = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Obligation);
 
             // Column N - Goods Receipt
-            GoodsReceipt = GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.GoodsReceipt);
+            GoodsReceipt = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.GoodsReceipt);
             //try
             //{
             //    var isNullOrEmpty = string.IsNullOrWhiteSpace(dr["N"].ToString());
@@ -116,10 +116,10 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             //}
 
             // Column O - Invoiced
-            Invoiced = GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Invoiced);
+            Invoiced = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Invoiced);
 
             // Column P - Disbursed
-            Disbersed = GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Disbursed);
+            Disbersed = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Disbursed);
 
             // Column Q - Unexpended Balance
             //try
@@ -140,47 +140,6 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             //    throw new ExcelImportBadCellException("Q", rowIndex, dr["Q"].ToString(), "Problem parsing Unexpended Balance", e);
             //}
             
-        }
-
-        private string GetStringDataValueForColumnName(DataRow dr, int rowIndex, Dictionary<string, string> columnNameToLetterDict, string humanReadableNameOfColumn)
-        {
-            string columnKeyLetterName = columnNameToLetterDict[humanReadableNameOfColumn];
-
-            string dataValue;
-            try
-            {
-                dataValue = string.IsNullOrWhiteSpace(dr[columnKeyLetterName].ToString())
-                    ? null
-                    : dr[columnKeyLetterName].ToString();
-            }
-            catch (Exception e)
-            {
-                throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex,
-                    dr[columnKeyLetterName].ToString(),
-                    $"Problem parsing Source {humanReadableNameOfColumn}", e);
-            }
-
-            return dataValue;
-        }
-
-        private double? GetDoubleDataValueForColumnName(DataRow dr, int rowIndex, Dictionary<string, string> columnNameToLetterDict, string humanReadableNameOfColumn)
-        {
-            string columnKeyLetterName = columnNameToLetterDict[humanReadableNameOfColumn];
-            double? returnValue = null;
-            try
-            {
-                if (double.TryParse(dr[columnKeyLetterName].ToString(), out double dataValueAsDouble))
-                {
-                    returnValue = dataValueAsDouble;
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex, dr[columnKeyLetterName].ToString(), $"Problem parsing {humanReadableNameOfColumn}", e);
-            }
-
-            return returnValue;
         }
 
         //private static string GetStringDataValueForColumnName(DataRow dr, int rowIndex, string columnNameKey,)
@@ -213,8 +172,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         /// <param name="dr"></param>
         /// <returns></returns>
         public static bool RowIsBlank(DataRow dr)
-        {
-            //var columnsToCheck = new List<String> { "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L","M", "N", "O", "P", "Q" };
+        { 
             var columnsToCheck = BudgetStageImports.GetBudgetColumnLetterToColumnNameDictionary().Keys.ToList();
             var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[col].ToString()));
             return allColumnsBlank;

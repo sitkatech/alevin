@@ -86,14 +86,18 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                                               string.Format("Expected columns [{0}]\n\nBut got columns [{1}].\n\nThese columns were missing: [{2}]", string.Join(", ", expectedColumns),
                                                             string.Join(", ", actualColumns), string.Join(", ", missingColumns)));
 
-            foreach (var dataColumn in dataTable.Columns.Cast<DataColumn>())
-            {
-                var currentString = (string) dataRow[dataColumn];
-                if (!expectedColumns.Any(x => string.Equals(currentString, x)))
-                {
-                    dataTable.Columns.Remove(dataColumn);
-                }
-            }
+            // taking this out for now - we don't think we want it to be tolerant  of oddball formats. We'd wnat to know when things change.
+            // -- SLG 3/16/20 
+
+            //foreach (var dataColumn in dataTable.Columns.Cast<DataColumn>())
+            //{
+            //    var currentString = (string) dataRow[dataColumn];
+            //    // Remove unexpected columns?
+            //    if (!expectedColumns.Any(x => string.Equals(currentString, x)))
+            //    {
+            //        dataTable.Columns.Remove(dataColumn);
+            //    }
+            //}
 
 
 
@@ -117,19 +121,19 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         {
             return new Dictionary<string, string>
             {
-                {"A", PurchaseOrderNumberKey},
-                {"B", PurchaseOrderLineItemKey},
-                {"C", ReferenceKey},
-                {"D", VendorKey},
-                {"E", VendorText},
-                {"F", FundKey},
-                {"G", FundedProgramKey},
-                {"H", WbsElementKey},
-                {"I", WbsElementText},
-                {"J", BudgetObjectClassKey},
-                {"K", DebitAmount},
-                {"L", CreditAmount},
-                {"M", DebitCreditTotal}
+                {"B", PurchaseOrderNumberKey},
+                {"C", PurchaseOrderLineItemKey},
+                {"D", ReferenceKey},
+                {"E", VendorKey},
+                {"F", VendorText},
+                {"G", FundKey},
+                {"H", FundedProgramKey},
+                {"I", WbsElementKey},
+                {"J", WbsElementText},
+                {"K", BudgetObjectClassKey},
+                {"L", DebitAmount},
+                {"M", CreditAmount},
+                {"N", DebitCreditTotal}
             };
         }
 

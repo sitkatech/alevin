@@ -35,6 +35,7 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Models\ExcelUpload\ExcelColumnHelper.cs" />
     <Compile Include="Models\ExcelUpload\ExcelImportBadCellException.cs" />
     <Compile Include="Models\ExcelUpload\BudgetStageImports.cs" />
     <Compile Include="Models\ExcelUpload\InvoiceStageImports.cs" />
