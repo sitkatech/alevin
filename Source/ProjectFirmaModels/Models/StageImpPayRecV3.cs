@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
             this.VendorKey = budgetStageImport.VendorKey;
             this.VendorText = budgetStageImport.VendorText;
             this.Obligation = budgetStageImport.Obligation;
-            this.GoodsReceipt = budgetStageImport.GoodsReceipt?.ToString();
+            this.GoodsReceipt = budgetStageImport.GoodsReceipt;
             this.Invoiced = budgetStageImport.Invoiced;
             this.Disbursed = budgetStageImport.Disbursed;
             this.UnexpendedBalance = budgetStageImport.UnexpendedBalance;

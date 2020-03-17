@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public StageImpApGenSheet(int stageImpApGenSheetID, string pONumberKey, string purchOrdLineItmKey, string referenceKey, string vendorKey, string vendorText, string fundKey, string fundedProgramKey, string wBSElementKey, string wBSElementText, string budgetObjectClassKey, double? debitAmount, double? creditAmount, double? debitCreditTotal) : this()
+        public StageImpApGenSheet(int stageImpApGenSheetID, string pONumberKey, string purchOrdLineItmKey, string referenceKey, string vendorKey, string vendorText, string fundKey, string fundedProgramKey, string wBSElementKey, string wBSElementText, string budgetObjectClassKey, double? debitAmount, double? creditAmount, double? debitCreditTotal, DateTime? createdOnKey, DateTime? postingDateKey) : this()
         {
             this.StageImpApGenSheetID = stageImpApGenSheetID;
             this.PONumberKey = pONumberKey;
@@ -46,6 +46,8 @@ namespace ProjectFirmaModels.Models
             this.DebitAmount = debitAmount;
             this.CreditAmount = creditAmount;
             this.DebitCreditTotal = debitCreditTotal;
+            this.CreatedOnKey = createdOnKey;
+            this.PostingDateKey = postingDateKey;
         }
 
 
@@ -105,6 +107,8 @@ namespace ProjectFirmaModels.Models
         public double? DebitAmount { get; set; }
         public double? CreditAmount { get; set; }
         public double? DebitCreditTotal { get; set; }
+        public DateTime? CreatedOnKey { get; set; }
+        public DateTime? PostingDateKey { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return StageImpApGenSheetID; } set { StageImpApGenSheetID = value; } }
 

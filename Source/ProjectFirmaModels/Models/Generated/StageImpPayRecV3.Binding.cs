@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public StageImpPayRecV3(int stageImpPayRecV3ID, string businessAreaKey, string fABudgetActivityKey, string functionalAreaText, string obligationNumberKey, string obligationItemKey, string fundKey, string fundedProgramKeyNotCompounded, string wBSElementKey, string wBSElementText, string budgetObjectClassKey, string vendorKey, string vendorText, double? obligation, string goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance) : this()
+        public StageImpPayRecV3(int stageImpPayRecV3ID, string businessAreaKey, string fABudgetActivityKey, string functionalAreaText, string obligationNumberKey, string obligationItemKey, string fundKey, string fundedProgramKeyNotCompounded, string wBSElementKey, string wBSElementText, string budgetObjectClassKey, string vendorKey, string vendorText, double? obligation, double? goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey) : this()
         {
             this.StageImpPayRecV3ID = stageImpPayRecV3ID;
             this.BusinessAreaKey = businessAreaKey;
@@ -50,6 +50,11 @@ namespace ProjectFirmaModels.Models
             this.Invoiced = invoiced;
             this.Disbursed = disbursed;
             this.UnexpendedBalance = unexpendedBalance;
+            this.CreatedOnKey = createdOnKey;
+            this.DateOfUpdateKey = dateOfUpdateKey;
+            this.PostingDateKey = postingDateKey;
+            this.PostingDatePerSplKey = postingDatePerSplKey;
+            this.DocumentDateOfBlKey = documentDateOfBlKey;
         }
 
 
@@ -109,10 +114,15 @@ namespace ProjectFirmaModels.Models
         public string VendorKey { get; set; }
         public string VendorText { get; set; }
         public double? Obligation { get; set; }
-        public string GoodsReceipt { get; set; }
+        public double? GoodsReceipt { get; set; }
         public double? Invoiced { get; set; }
         public double? Disbursed { get; set; }
         public double? UnexpendedBalance { get; set; }
+        public DateTime? CreatedOnKey { get; set; }
+        public DateTime? DateOfUpdateKey { get; set; }
+        public DateTime? PostingDateKey { get; set; }
+        public DateTime? PostingDatePerSplKey { get; set; }
+        public DateTime? DocumentDateOfBlKey { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return StageImpPayRecV3ID; } set { StageImpPayRecV3ID = value; } }
 
@@ -132,7 +142,6 @@ namespace ProjectFirmaModels.Models
             public const int BudgetObjectClassKey = 255;
             public const int VendorKey = 255;
             public const int VendorText = 255;
-            public const int GoodsReceipt = 255;
         }
     }
 }
