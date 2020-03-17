@@ -19,89 +19,69 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.Models;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using Detail = ProjectFirma.Web.Views.Organization.Detail;
-using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
-using Index = ProjectFirma.Web.Views.Organization.Index;
-using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
-using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
-using Organization = ProjectFirmaModels.Models.Organization;
+using ProjectFirma.Web.Views.Obligation;
+using ProjectFirma.Web.Views.Vendor;
 
 namespace ProjectFirma.Web.Controllers
 {
-    /// <summary>
-    /// UNDER CONSTRUCTION - DOES NOT WORK YET. Copied from Organization...
-    /// </summary>
     public class VendorController : FirmaBaseController
     {
-        [OrganizationViewFeature]
+        [VendorViewFeature]
         public ViewResult Index()
         {
-            var firmaPage = FirmaPageTypeEnum.OrganizationsList.GetFirmaPage();
-            var hasManageOrganizationPermission = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridDataUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations));
-            var activeOrAllOrganizationsSelectListItems = new List<SelectListItem>()
-            {
-                new SelectListItem() {Text = "Active Organizations Only", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations))},
-                new SelectListItem() {Text = "All Organizations", Value = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations))}
-            };
+            var firmaPage = FirmaPageTypeEnum.VendorList.GetFirmaPage();
+            var gridDataUrl = SitkaRoute<VendorController>.BuildUrlFromExpression(x => x.VendorIndexGridJsonData());
+            var viewData = new VendorIndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl);
 
-            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, activeOrAllOrganizationsSelectListItems, hasManageOrganizationPermission);
-            return RazorView<Index, IndexViewData>(viewData);
+            return RazorView<VendorIndex, VendorIndexViewData>(viewData);
         }
 
-        [OrganizationViewFeature]
-        public GridJsonNetJObjectResult<Organization> IndexGridJsonData(IndexGridSpec.OrganizationStatusFilterTypeEnum organizationStatusFilterType)
+        [VendorViewFeature]
+        public GridJsonNetJObjectResult<Vendor> VendorIndexGridJsonData()
         {
-            var hasDeleteOrganizationPermission = new OrganizationManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridSpec = new IndexGridSpec(CurrentFirmaSession, hasDeleteOrganizationPermission);
-            var organizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+            var gridSpec = new VendorIndexGridSpec(CurrentFirmaSession);
+            List<Vendor> vendors = HttpRequestStorage.DatabaseEntities.Vendors.ToList();
+            List<Vendor> orderedVendors = vendors.OrderBy(v => v.VendorText).ToList();
 
-            switch (organizationStatusFilterType)
-            {
-                case IndexGridSpec.OrganizationStatusFilterTypeEnum.ActiveOrganizations:
-                    organizations = organizations.Where(x => x.IsActive).ToList();
-                    break;
-                case IndexGridSpec.OrganizationStatusFilterTypeEnum.AllOrganizations:
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException("organizationStatusFilterType", organizationStatusFilterType,
-                        null);
-            }
-
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Organization>(organizations.OrderBy(x => x.GetDisplayName()).ToList(), gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Vendor>(orderedVendors, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
+        [VendorViewFeature]
+        public ViewResult Detail(VendorPrimaryKey vendorPrimaryKey)
+        {
+            var vendor = vendorPrimaryKey.EntityObject;
+            var viewData = new VendorDetailViewData(CurrentFirmaSession, vendor);
+            return RazorView<VendorDetail, VendorDetailViewData>(viewData);
+        }
 
-        //[OrganizationViewFeature]
-        //public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
-        //{
-        //    var organization = organizationPrimaryKey.EntityObject;
-        //    var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(organization);
-        //    var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentFirmaSession);
+        [VendorViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> VendorObligationItemInvoiceGridJsonData(VendorPrimaryKey vendorPrimaryKey)
+        {
+            var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
+            var vendor = vendorPrimaryKey.EntityObject;
+            var obligationItemInvoices = vendor.ObligationItems.SelectMany(oi => oi.WbsElementObligationItemInvoices).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
 
-        //    var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
-
-        //    var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList()
-        //        .SelectMany(x => x.PerformanceMeasureActuals)
-        //        .Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>())
-        //        .OrderBy(x => x.PerformanceMeasureDisplayName)
-        //        .ToList();
-
-        //    var viewData = new DetailViewData(CurrentFirmaSession, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
-        //    return RazorView<Detail, DetailViewData>(viewData);
-        //}
-
+        [VendorViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> VendorObligationItemBudgetGridJsonData(VendorPrimaryKey vendorPrimaryKey)
+        {
+            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var vendor = vendorPrimaryKey.EntityObject;
+            var obligationItemBudgets = vendor.ObligationItems.SelectMany(oi => oi.WbsElementObligationItemBudgets).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
 
     }
 }
