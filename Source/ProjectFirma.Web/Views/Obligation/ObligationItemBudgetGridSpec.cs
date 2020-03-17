@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Obligation
 
             Add("Obligation Number Key", ob => UrlTemplate.MakeHrefString(ob.ObligationItem.ObligationNumber.GetDetailUrl(), ob.ObligationItem.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
             Add("Obligation Item Key", ob => ob.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
-            Add("Vendor", ob => ob.ObligationItem.Vendor.VendorText, 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Vendor", ob => ob.ObligationItem.Vendor.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             //Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), ob => ob.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
             Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
 
@@ -47,8 +47,6 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Invoiced", ob => ob.Invoiced, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Disbursed", ob => ob.Disbursed, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Unexpended Balance", ob => ob.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency);
-
-            
         }
     }
 }
