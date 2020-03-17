@@ -145,14 +145,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         public static void DoProcessingOnRecordsLoadedIntoPairedStagingTables(
-                                        List<BudgetStageImport> budgetTransferBulks,
+                                        List<BudgetStageImport> budgetStageImports,
                                         List<InvoiceStageImport> invoiceStageImports, 
                                         out int countAddedBudgets,
                                         out int countAddedInvoices,
                                         FirmaSession optionalCurrentFirmaSession)
         {
-            countAddedBudgets = budgetTransferBulks.Count;
-            var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
+            countAddedBudgets = budgetStageImports.Count;
+            var payrecs = budgetStageImports.Select(x => new StageImpPayRecV3(x)).ToList();
             var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
