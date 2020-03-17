@@ -203,6 +203,7 @@ namespace ProjectFirmaModels.Models
         ActionItemEditDialog = 10005,
         ActionItemIndexList = 10006,
         UploadBudgetAndInvoiceExcel = 10007,
-        ObligationList = 10008
+        ObligationList = 10008,
+        VendorList = 10009
     }
 }
