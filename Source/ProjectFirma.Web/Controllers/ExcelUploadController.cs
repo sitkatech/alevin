@@ -91,12 +91,14 @@ namespace ProjectFirma.Web.Controllers
             return DoExcelImportForHttpPostedFile(httpPostedFileBase);
         }
 
-        public ActionResult DoExcelImportForHttpPostedFile(HttpPostedFileBase httpPostedFileBase)
+        [FirmaAdminFeature]
+        private ActionResult DoExcelImportForHttpPostedFile(HttpPostedFileBase httpPostedFileBase)
         {
             return DoExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
         }
 
-        public ActionResult DoExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
+        [FirmaAdminFeature]
+        private ActionResult DoExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
             List<BudgetStageImport> budgetStageImports;
             List<InvoiceStageImport> invoiceStageImports;
