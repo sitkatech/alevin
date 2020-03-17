@@ -21,6 +21,8 @@ namespace ProjectFirmaModels.Models
             this.DebitAmount = invoiceStageImport.DebitAmount;
             this.CreditAmount = invoiceStageImport.CreditAmount;
             this.DebitCreditTotal = invoiceStageImport.DebitCreditTotal;
+            this.CreatedOnKey = invoiceStageImport.CreatedOnKey;
+            this.PostingDateKey = invoiceStageImport.PostingDateKey;
         }
 
         public string GetAuditDescriptionString()

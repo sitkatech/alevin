@@ -23,12 +23,20 @@ namespace ProjectFirmaModels.Models
             this.GoodsReceipt = budgetStageImport.GoodsReceipt;
             this.Invoiced = budgetStageImport.Invoiced;
             this.Disbursed = budgetStageImport.Disbursed;
-            this.UnexpendedBalance = budgetStageImport.UnexpendedBalance;
+            // 3/17/2020 TK - This column is currently not included in our latest excel.
+            //this.UnexpendedBalance = budgetStageImport.UnexpendedBalance;
+
+            this.CreatedOnKey = budgetStageImport.CreatedOnKey;
+            this.DateOfUpdateKey = budgetStageImport.DateOfUpdateKey;
+            this.PostingDateKey = budgetStageImport.PostingDateKey;
+            this.PostingDatePerSplKey = budgetStageImport.PostingDatePerSplKey;
+            this.DocumentDateOfBlKey = budgetStageImport.DocumentDateOfBlKey;
         }
 
-        public string GetAuditDescriptionString()
-        {
-            return this.StageImpPayRecV3ID.ToString();
-        }
-    }
+public string GetAuditDescriptionString()
+{
+return this.StageImpPayRecV3ID.ToString();
 }
+}
+}
+ 
