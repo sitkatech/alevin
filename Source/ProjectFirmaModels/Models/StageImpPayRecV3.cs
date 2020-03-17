@@ -6,7 +6,6 @@ namespace ProjectFirmaModels.Models
     {
         public StageImpPayRecV3(BudgetStageImport budgetStageImport)
         {
-
             this.BusinessAreaKey = budgetStageImport.BusinessAreaKey;
             this.FABudgetActivityKey = budgetStageImport.FaBudgetActivityKey;
             this.FunctionalAreaText = budgetStageImport.FunctionalAreaText;
