@@ -27,7 +27,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using LtInfo.Common.Models;
+using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Vendor;
 
 namespace ProjectFirma.Web.Controllers
@@ -61,6 +61,26 @@ namespace ProjectFirma.Web.Controllers
             var vendor = vendorPrimaryKey.EntityObject;
             var viewData = new VendorDetailViewData(CurrentFirmaSession, vendor);
             return RazorView<VendorDetail, VendorDetailViewData>(viewData);
+        }
+
+        [VendorViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> VendorObligationItemInvoiceGridJsonData(VendorPrimaryKey vendorPrimaryKey)
+        {
+            var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
+            var vendor = vendorPrimaryKey.EntityObject;
+            var obligationItemInvoices = vendor.ObligationItems.SelectMany(oi => oi.WbsElementObligationItemInvoices).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [VendorViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> VendorObligationItemBudgetGridJsonData(VendorPrimaryKey vendorPrimaryKey)
+        {
+            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var vendor = vendorPrimaryKey.EntityObject;
+            var obligationItemBudgets = vendor.ObligationItems.SelectMany(oi => oi.WbsElementObligationItemBudgets).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
         }
 
     }

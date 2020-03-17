@@ -21,7 +21,9 @@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.Vendor.VendorDetail
 
 @section JavascriptAndStylesContent
@@ -51,6 +53,36 @@
                     <div class="col-xs-5 fieldLabel text-right">Vendor Name</div>
                     <div class="col-xs-7">@ViewDataTyped.Vendor.VendorText</div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    Obligation Item Invoices
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ObligationItemInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    Obligation Item Budgets
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>
