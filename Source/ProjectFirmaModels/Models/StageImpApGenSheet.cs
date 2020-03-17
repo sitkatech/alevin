@@ -1,4 +1,6 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using ProjectFirmaModels.Models.ExcelUpload;
+
+namespace ProjectFirmaModels.Models
 {
     public partial class StageImpApGenSheet : IAuditableEntity
     {

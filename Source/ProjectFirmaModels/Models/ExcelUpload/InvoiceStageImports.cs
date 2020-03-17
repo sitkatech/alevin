@@ -75,22 +75,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
 
         private static void EnsureWorksheetHasCorrectShape(DataTable dataTable)
         {
-            var columnNames = new Dictionary<string, string>
-                              {
-                                  {"A", "PO Number - Key"},
-                                  {"B", "Purch Ord Line Itm - Key"},
-                                  {"C", "Reference - Key"},
-                                  {"D", "Vendor - Key"},
-                                  {"E", "Vendor - Text"},
-                                  {"F", "Fund - Key"},
-                                  {"G", "Funded Program - Key"},
-                                  {"H", "WBS Element - Key"},
-                                  {"I", "WBS Element - Text"},
-                                  {"J", "Budget Object Class - Key"},
-                                  {"K", "Debit Amount"},
-                                  {"L", "Credit Amount" },
-                                  {"M", "Debit/Credit Total" }
-                              };
+            var columnNames = GetInvoiceColumnLetterToColumnNameDictionary();
 
             var dataRow = dataTable.Rows[0];
             var expectedColumns = columnNames.Values.ToList();
@@ -110,8 +95,49 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                 }
             }
 
-           
-           
+
+
+        }
+
+        public const string PurchaseOrderNumberKey = "PO Number - Key";
+        public const string PurchaseOrderLineItemKey = "Purch Ord Line Itm - Key";
+        public const string ReferenceKey = "Reference - Key";
+        public const string VendorKey = "Vendor - Key";
+        public const string VendorText = "Vendor - Text";
+        public const string FundKey = "Fund - Key";
+        public const string FundedProgramKey = "Funded Program - Key";
+        public const string WbsElementKey = "WBS Element - Key";
+        public const string WbsElementText = "WBS Element - Text";
+        public const string BudgetObjectClassKey = "Budget Object Class - Key";
+        public const string DebitAmount = "Debit Amount";
+        public const string CreditAmount = "Credit Amount";
+        public const string DebitCreditTotal = "Debit/Credit Total";
+
+        public static Dictionary<string, string> GetInvoiceColumnLetterToColumnNameDictionary()
+        {
+            return new Dictionary<string, string>
+            {
+                {"A", PurchaseOrderNumberKey},
+                {"B", PurchaseOrderLineItemKey},
+                {"C", ReferenceKey},
+                {"D", VendorKey},
+                {"E", VendorText},
+                {"F", FundKey},
+                {"G", FundedProgramKey},
+                {"H", WbsElementKey},
+                {"I", WbsElementText},
+                {"J", BudgetObjectClassKey},
+                {"K", DebitAmount},
+                {"L", CreditAmount},
+                {"M", DebitCreditTotal}
+            };
+        }
+
+        public static Dictionary<string, string> GetInvoiceColumnNameToColumnLetterDictionary()
+        {
+            var forwardDict = GetInvoiceColumnLetterToColumnNameDictionary();
+            var reverseDict = forwardDict.ToDictionary(g => g.Value, g => g.Key);
+            return reverseDict;
         }
 
     }

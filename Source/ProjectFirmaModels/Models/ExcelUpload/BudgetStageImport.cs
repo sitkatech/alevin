@@ -112,7 +112,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             //}
             //catch (Exception e)
             //{
-            //    throw new BudgetStageImportBadCellException("N", rowIndex, dr["N"].ToString(), "Problem parsing Goods Receipt", e);
+            //    throw new ExcelImportBadCellException("N", rowIndex, dr["N"].ToString(), "Problem parsing Goods Receipt", e);
             //}
 
             // Column O - Invoiced
@@ -137,7 +137,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             //}
             //catch (Exception e)
             //{
-            //    throw new BudgetStageImportBadCellException("Q", rowIndex, dr["Q"].ToString(), "Problem parsing Unexpended Balance", e);
+            //    throw new ExcelImportBadCellException("Q", rowIndex, dr["Q"].ToString(), "Problem parsing Unexpended Balance", e);
             //}
             
         }
@@ -155,7 +155,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             }
             catch (Exception e)
             {
-                throw new BudgetStageImportBadCellException(columnKeyLetterName, rowIndex,
+                throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex,
                     dr[columnKeyLetterName].ToString(),
                     $"Problem parsing Source {humanReadableNameOfColumn}", e);
             }
@@ -177,7 +177,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             }
             catch (Exception e)
             {
-                throw new BudgetStageImportBadCellException(columnKeyLetterName, rowIndex, dr[columnKeyLetterName].ToString(), $"Problem parsing {humanReadableNameOfColumn}", e);
+                throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex, dr[columnKeyLetterName].ToString(), $"Problem parsing {humanReadableNameOfColumn}", e);
             }
 
             return returnValue;
@@ -198,7 +198,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         //    }
         //    catch (Exception e)
         //    {
-        //        throw new BudgetStageImportBadCellException(columnKeyLetterName, rowIndex,
+        //        throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex,
         //            dr[columnKeyLetterName].ToString(),
         //            $"Problem parsing Source {columnNameKey}", e);
         //    }

@@ -84,7 +84,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             }
             catch (Exception e)
             {
-                throw new InvoiceStageImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
+                throw new ExcelImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
                     $"Problem parsing {displayString}", e);
             }
 
@@ -100,7 +100,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             }
             catch (Exception e)
             {
-                throw new InvoiceStageImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
+                throw new ExcelImportBadCellException(columnName, rowIndex, dr[columnName].ToString(),
                     $"Problem parsing Source {textOfSource}", e);
             }
 

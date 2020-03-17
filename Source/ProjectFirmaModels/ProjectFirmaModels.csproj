@@ -35,9 +35,8 @@
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Models\ExcelUpload\BudgetStageImportBadCellException.cs" />
+    <Compile Include="Models\ExcelUpload\ExcelImportBadCellException.cs" />
     <Compile Include="Models\ExcelUpload\BudgetStageImports.cs" />
-    <Compile Include="Models\ExcelUpload\InvoiceStageImportBadCellException.cs" />
     <Compile Include="Models\ExcelUpload\InvoiceStageImports.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayType.Binding.cs" />
     <Compile Include="Models\Generated\AccomplishmentsDashboardFundingDisplayTypePrimaryKey.Binding.cs" />
