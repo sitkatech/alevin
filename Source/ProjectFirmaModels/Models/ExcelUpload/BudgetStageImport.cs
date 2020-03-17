@@ -43,131 +43,88 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public readonly double? Obligation;
         public readonly double? GoodsReceipt;
         public readonly double? Invoiced;
-        public readonly double? Disbersed;
+        public readonly double? Disbursed;
         public readonly double? UnexpendedBalance;
+
+        public readonly DateTime? CreatedOnKey;
+        public readonly DateTime? DateOfUpdateKey;
+        public readonly DateTime? PostingDateKey;
+        public readonly DateTime? PostingDatePerSplKey;
+        public readonly DateTime? DocumentDateOfBlKey;
 
         public BudgetStageImport(KeyValuePair<int, DataRow> keyValuePair)
         {
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
-
-            //var columnNames =  BudgetStageImports.GetBudgetColumnLetterToColumnNameDictionary();
             var columnNameToLetterDict = BudgetStageImports.GetBudgetColumnNameToColumnLetterDictionary();
-
  
-            // Column A - Business Area Key
+            // Column - Business Area Key
             BusinessAreaKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BusinessAreaKey);
 
-            // Column B - FA Budget Activity Key
+            // Column - FA Budget Activity Key
             FaBudgetActivityKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FaBudgetActivityKey);
 
-            // Column C - Functional Area Text
+            // Column - Functional Area Text
             FunctionalAreaText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FunctionalAreaText);
 
-            // Column D - Obligation Number Key
+            // Column - Obligation Number Key
             ObligationNumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationNumberKey);
 
-            // Column E - Obligation Item Key
+            // Column - Obligation Item Key
             ObligationItemKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationItemKey);
 
-            // Column F - Fund Key
+            // Column - Fund Key
             FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundKey);
 
-            // Column G - Funded Program Key (Not Compunded)
+            // Column - Funded Program Key (Not Compunded)
             FundedProgramKeyNotCompounded = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundedProgramKey);
 
-            // Column H - WBS Element Key
+            // Column - WBS Element Key
             WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementKey);
 
-            // Column I - WBS Element Text
+            // Column - WBS Element Text
             WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementText);
 
-            // Column J - Budget Object Class Key
+            // Column - Budget Object Class Key
             BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BudgetObjectClassKey);
 
-            // Column K - Vendor Key
+            // Column - Vendor Key
             VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorKey);
 
-            // Column L - Vendor Key
+            // Column - Vendor Key
             VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorText);
 
-            // Column M - Obligation
+            // Column - Obligation
             Obligation = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Obligation);
 
-            // Column N - Goods Receipt
+            // Column - Goods Receipt
             GoodsReceipt = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.GoodsReceipt);
-            //try
-            //{
-            //    var isNullOrEmpty = string.IsNullOrWhiteSpace(dr["N"].ToString());
-            //    if (isNullOrEmpty)
-            //    {
-            //        GoodsReceipt = null;
-            //    }
-            //    else
-            //    {
-            //        GoodsReceipt = double.Parse(dr["N"].ToString());
-            //    }
 
-
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new ExcelImportBadCellException("N", rowIndex, dr["N"].ToString(), "Problem parsing Goods Receipt", e);
-            //}
-
-            // Column O - Invoiced
+            // Column - Invoiced
             Invoiced = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Invoiced);
 
-            // Column P - Disbursed
-            Disbersed = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Disbursed);
+            // Column - Disbursed
+            Disbursed = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Disbursed);
 
-            // Column Q - Unexpended Balance
-            //try
-            //{
-            //    var isNullOrWhitespace = string.IsNullOrWhiteSpace(dr["Q"].ToString());
-            //    if (isNullOrWhitespace)
-            //    {
-            //        UnexpendedBalance = null;
-            //    }
-            //    else
-            //    {
-            //        UnexpendedBalance = double.Parse(dr["Q"].ToString());
-            //    }
-                
-            //}
-            //catch (Exception e)
-            //{
-            //    throw new ExcelImportBadCellException("Q", rowIndex, dr["Q"].ToString(), "Problem parsing Unexpended Balance", e);
-            //}
-            
+            // Column - Created on - Key
+            CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.CreatedOnKey);
+
+            // Column - Date of Update - Key
+            DateOfUpdateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.DateOfUpdateKey);
+
+            // Column - Posting date - Key
+            PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.PostingDateKey);
+
+            // Column - Posting Date (Per SPL) - Key
+            PostingDatePerSplKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.PostingDatePerSplKey);
+
+            // Column - Document Date of BL - Key
+            DocumentDateOfBlKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.DocumentDateOfBlKey);
         }
-
-        //private static string GetStringDataValueForColumnName(DataRow dr, int rowIndex, string columnNameKey,)
-        //{
-        //    string columnKeyLetterName = columnNameToLetterDict[BudgetStageImports.BusinessAreaKey]
-
-        //    string dataValue;
-        //    try
-        //    {
-
-
-        //        dataValue = string.IsNullOrWhiteSpace(dr[columnKeyLetterName].ToString())
-        //            ? null
-        //            : dr[columnKeyLetterName].ToString();
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex,
-        //            dr[columnKeyLetterName].ToString(),
-        //            $"Problem parsing Source {columnNameKey}", e);
-        //    }
-
-        //    return dataValue;
-        //}
-
+        
 
         /// <summary>
-        /// Are all relevant colummns in this row blank?
+        /// Are all relevant columns in this row blank?
         /// </summary>
         /// <param name="dr"></param>
         /// <returns></returns>

@@ -22,7 +22,7 @@ namespace ProjectFirmaModels.Models
             this.Obligation = budgetStageImport.Obligation;
             this.GoodsReceipt = budgetStageImport.GoodsReceipt?.ToString();
             this.Invoiced = budgetStageImport.Invoiced;
-            this.Disbursed = budgetStageImport.Disbersed;
+            this.Disbursed = budgetStageImport.Disbursed;
             this.UnexpendedBalance = budgetStageImport.UnexpendedBalance;
         }
 

@@ -116,6 +116,8 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public const string DebitAmount = "Debit Amount";
         public const string CreditAmount = "Credit Amount";
         public const string DebitCreditTotal = "Debit/Credit Total";
+        public const string CreatedOnKey = "Created on - Key";
+        public const string PostingDateKey = "Posting date - Key";
 
         public static Dictionary<string, string> GetInvoiceColumnLetterToColumnNameDictionary()
         {
@@ -133,7 +135,9 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                 {"K", BudgetObjectClassKey},
                 {"L", DebitAmount},
                 {"M", CreditAmount},
-                {"N", DebitCreditTotal}
+                {"N", DebitCreditTotal},
+                {"O", CreatedOnKey },
+                {"P", PostingDateKey }
             };
         }
 

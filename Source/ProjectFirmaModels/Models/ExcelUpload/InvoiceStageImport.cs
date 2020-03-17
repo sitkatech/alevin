@@ -20,6 +20,8 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public readonly double? DebitAmount;
         public readonly double? CreditAmount;
         public readonly double? DebitCreditTotal;
+        public readonly DateTime? CreatedOnKey;
+        public readonly DateTime? PostingDateKey;
 
 
         public InvoiceStageImport(KeyValuePair<int, DataRow> keyValuePair)
@@ -28,57 +30,65 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             var dr = keyValuePair.Value;
             var columnNameToLetterDict = InvoiceStageImports.GetInvoiceColumnNameToColumnLetterDictionary();
 
-            // Column A - PO Number - Key
+            // Column - PO Number - Key
             PONumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.PurchaseOrderNumberKey);
 
-            // Column B - Purch Ord Line Itm - Key
+            // Column - Purch Ord Line Itm - Key
             PurchOrdLineItmKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.PurchaseOrderLineItemKey);
 
-            // Column C - Reference - Key
+            // Column - Reference - Key
             ReferenceKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.ReferenceKey);
 
-            // Column D - Vendor - Key
+            // Column - Vendor - Key
             VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.VendorKey);
 
-            // Column E - Vendor - Text
+            // Column - Vendor - Text
             VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.VendorText);
             
-            // Column F - Fund - Key
+            // Column - Fund - Key
             FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.FundKey);
 
-            // Column G - Funded Program - Key
+            // Column - Funded Program - Key
             FundedProgramKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.FundedProgramKey);
 
-            // Column H - Wbs Element - Key
+            // Column - Wbs Element - Key
             WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.WbsElementKey);
 
-            // Column I - Wbs Element - Text
+            // Column - Wbs Element - Text
             WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.WbsElementText);
 
-            // Column J - Budget Object Class - Key
+            // Column - Budget Object Class - Key
             BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.BudgetObjectClassKey);
 
-            // Column K - DebitAmount
+            // Column - DebitAmount
             DebitAmount = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.DebitAmount);
 
-            // Column L - CreditAmount
+            // Column - CreditAmount
             CreditAmount = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.CreditAmount);
 
-            // Column M - DebitCreditTotal
+            // Column - DebitCreditTotal
             DebitCreditTotal = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
                 InvoiceStageImports.DebitCreditTotal);
+
+            // Column - Created On - Key
+            CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.CreatedOnKey);
+
+            // Column - Posting Date Key
+            PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
+                InvoiceStageImports.PostingDateKey);
         }
 
         /// <summary>

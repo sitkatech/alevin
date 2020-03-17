@@ -47,5 +47,25 @@ namespace ProjectFirmaModels.Models.ExcelUpload
 
             return returnValue;
         }
+
+        public static DateTime? GetDateTimeDataValueForColumnName(DataRow dr, int rowIndex, Dictionary<string, string> columnNameToLetterDict, string humanReadableNameOfColumn)
+        {
+            string columnKeyLetterName = columnNameToLetterDict[humanReadableNameOfColumn];
+            DateTime? returnValue = null;
+            try
+            {
+                if (DateTime.TryParse(dr[columnKeyLetterName].ToString(), out DateTime dataValueAsDateTime))
+                {
+                    returnValue = dataValueAsDateTime;
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex, dr[columnKeyLetterName].ToString(), $"Problem parsing {humanReadableNameOfColumn}", e);
+            }
+
+            return returnValue;
+        }
     }
 }
