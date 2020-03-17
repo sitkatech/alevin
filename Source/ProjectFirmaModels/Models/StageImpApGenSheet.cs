@@ -1,4 +1,6 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using ProjectFirmaModels.Models.ExcelUpload;
+
+namespace ProjectFirmaModels.Models
 {
     public partial class StageImpApGenSheet : IAuditableEntity
     {
@@ -19,6 +21,8 @@
             this.DebitAmount = invoiceStageImport.DebitAmount;
             this.CreditAmount = invoiceStageImport.CreditAmount;
             this.DebitCreditTotal = invoiceStageImport.DebitCreditTotal;
+            this.CreatedOnKey = invoiceStageImport.CreatedOnKey;
+            this.PostingDateKey = invoiceStageImport.PostingDateKey;
         }
 
         public string GetAuditDescriptionString()

@@ -17,6 +17,8 @@ CREATE TABLE [dbo].[StageImpApGenSheet](
 	[DebitAmount] [float] NULL,
 	[CreditAmount] [float] NULL,
 	[DebitCreditTotal] [float] NULL,
+	[CreatedOnKey] [datetime] NULL,
+	[PostingDateKey] [datetime] NULL,
  CONSTRAINT [PK_StageImpApGenSheet_StageImpApGenSheetID] PRIMARY KEY CLUSTERED 
 (
 	[StageImpApGenSheetID] ASC

@@ -2,8 +2,6 @@ IF EXISTS(SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.pReclamati
     drop procedure dbo.pReclamationImportCreateSchema
 go
 
-
-
 create procedure dbo.pReclamationImportCreateSchema
 
 as

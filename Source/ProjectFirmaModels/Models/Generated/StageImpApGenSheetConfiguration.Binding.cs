@@ -29,6 +29,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.DebitAmount).HasColumnName(@"DebitAmount").HasColumnType("float").IsOptional();
             Property(x => x.CreditAmount).HasColumnName(@"CreditAmount").HasColumnType("float").IsOptional();
             Property(x => x.DebitCreditTotal).HasColumnName(@"DebitCreditTotal").HasColumnType("float").IsOptional();
+            Property(x => x.CreatedOnKey).HasColumnName(@"CreatedOnKey").HasColumnType("datetime").IsOptional();
+            Property(x => x.PostingDateKey).HasColumnName(@"PostingDateKey").HasColumnType("datetime").IsOptional();
 
         }
     }

@@ -1,10 +1,11 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using ProjectFirmaModels.Models.ExcelUpload;
+
+namespace ProjectFirmaModels.Models
 {
     public partial class StageImpPayRecV3 : IAuditableEntity
     {
         public StageImpPayRecV3(BudgetStageImport budgetStageImport)
         {
-
             this.BusinessAreaKey = budgetStageImport.BusinessAreaKey;
             this.FABudgetActivityKey = budgetStageImport.FaBudgetActivityKey;
             this.FunctionalAreaText = budgetStageImport.FunctionalAreaText;
@@ -18,15 +19,23 @@
             this.VendorKey = budgetStageImport.VendorKey;
             this.VendorText = budgetStageImport.VendorText;
             this.Obligation = budgetStageImport.Obligation;
-            this.GoodsReceipt = budgetStageImport.GoodsReceipt?.ToString();
+            this.GoodsReceipt = budgetStageImport.GoodsReceipt;
             this.Invoiced = budgetStageImport.Invoiced;
-            this.Disbursed = budgetStageImport.Disbersed;
-            this.UnexpendedBalance = budgetStageImport.UnexpendedBalance;
+            this.Disbursed = budgetStageImport.Disbursed;
+            // 3/17/2020 TK - This column is currently not included in our latest excel.
+            //this.UnexpendedBalance = budgetStageImport.UnexpendedBalance;
+
+            this.CreatedOnKey = budgetStageImport.CreatedOnKey;
+            this.DateOfUpdateKey = budgetStageImport.DateOfUpdateKey;
+            this.PostingDateKey = budgetStageImport.PostingDateKey;
+            this.PostingDatePerSplKey = budgetStageImport.PostingDatePerSplKey;
+            this.DocumentDateOfBlKey = budgetStageImport.DocumentDateOfBlKey;
         }
 
-        public string GetAuditDescriptionString()
-        {
-            return this.StageImpPayRecV3ID.ToString();
-        }
-    }
+public string GetAuditDescriptionString()
+{
+return this.StageImpPayRecV3ID.ToString();
 }
+}
+}
+ 

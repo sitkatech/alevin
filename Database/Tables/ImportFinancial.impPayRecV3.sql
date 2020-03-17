@@ -17,10 +17,15 @@ CREATE TABLE [ImportFinancial].[impPayRecV3](
 	[Vendor - Key] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Vendor - Text] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Obligation] [float] NULL,
-	[Goods Receipt] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Goods Receipt] [float] NULL,
 	[Invoiced] [float] NULL,
 	[Disbursed] [float] NULL,
 	[Unexpended Balance] [float] NULL,
+	[CreatedOnKey] [datetime] NULL,
+	[DateOfUpdateKey] [datetime] NULL,
+	[PostingDateKey] [datetime] NULL,
+	[PostingDatePerSplKey] [datetime] NULL,
+	[DocumentDateOfBlKey] [datetime] NULL,
  CONSTRAINT [PK_impPayRecV3_impPayRecV3ID] PRIMARY KEY CLUSTERED 
 (
 	[impPayRecV3ID] ASC

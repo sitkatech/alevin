@@ -17,10 +17,15 @@ CREATE TABLE [dbo].[StageImpPayRecV3](
 	[VendorKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[VendorText] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Obligation] [float] NULL,
-	[GoodsReceipt] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[GoodsReceipt] [float] NULL,
 	[Invoiced] [float] NULL,
 	[Disbursed] [float] NULL,
 	[UnexpendedBalance] [float] NULL,
+	[CreatedOnKey] [datetime] NULL,
+	[DateOfUpdateKey] [datetime] NULL,
+	[PostingDateKey] [datetime] NULL,
+	[PostingDatePerSplKey] [datetime] NULL,
+	[DocumentDateOfBlKey] [datetime] NULL,
  CONSTRAINT [PK_StageImpPayRecV3_StageImpPayRecV3ID] PRIMARY KEY CLUSTERED 
 (
 	[StageImpPayRecV3ID] ASC

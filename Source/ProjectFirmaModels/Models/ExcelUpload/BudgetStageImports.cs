@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ImportGdbFile.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BudgetStageImports.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,14 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
-using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ExcelUpload
+namespace ProjectFirmaModels.Models.ExcelUpload
 {
     public class BudgetStageImports : List<BudgetStageImport>
     {
@@ -49,7 +47,7 @@ namespace ProjectFirma.Web.Views.ExcelUpload
                 indexToRowDict.Add(rowNumber++, curDataRow);
             }
 
-            // Skip the first row (remove it)            
+            // Skip the first row (remove it)
             var indexesToRemove = new List<int> { 0 };
 
             // Remove any blank rows
@@ -77,27 +75,7 @@ namespace ProjectFirma.Web.Views.ExcelUpload
 
         private static void EnsureWorksheetHasCorrectShape(DataTable dataTable)
         {
-            var columnNames = new Dictionary<string, string>
-                              {
-                                  {"A", "Business area - Key"},
-                                  {"B", "FA Budget Activity - Key"},
-                                  {"C", "Functional area - Text"},
-                                  {"D", "Obligation Number - Key"},
-                                  {"E", "Obligation Item - Key"},
-                                  {"F", "Fund - Key"},
-                                  {"G", "Funded Program - Key (Not Compounded)"},
-                                  {"H", "WBS Element - Key"},
-                                  {"I", "WBS Element - Text"},
-                                  {"J", "Budget Object Class - Key"},
-                                  {"K", "Vendor - Key"},
-                                  {"L", "Vendor - Text" },
-                                  {"M", "Obligation" },
-                                  {"N", "Goods Receipt" },
-                                  {"O", "Invoiced" },
-                                  {"P", "Disbursed" },
-                                  {"Q", "Unexpended Balance" }
-                                  
-                              };
+            var columnNames = GetBudgetColumnLetterToColumnNameDictionary();
 
             var dataRow = dataTable.Rows[0];
             var expectedColumns = columnNames.Values.ToList();
@@ -108,6 +86,65 @@ namespace ProjectFirma.Web.Views.ExcelUpload
                                               string.Format("Expected columns [{0}]\n\nBut got columns [{1}].\n\nThese columns were missing: [{2}]", string.Join(", ", expectedColumns),
                                                             string.Join(", ", actualColumns), string.Join(", ", missingColumns)));
            
+        }
+
+
+        public const string BusinessAreaKey = "Business area - Key";
+        public const string FaBudgetActivityKey = "FA Budget Activity - Key";
+        public const string FunctionalAreaText = "Functional area - Text";
+        public const string ObligationNumberKey = "Obligation Number - Key";
+        public const string ObligationItemKey = "Obligation Item - Key";
+        public const string FundKey = "Fund - Key";
+        public const string FundedProgramKey = "Funded Program - Key (Not Compounded)";
+        public const string WbsElementKey = "WBS Element - Key";
+        public const string WbsElementText = "WBS Element - Text";
+        public const string BudgetObjectClassKey = "Budget Object Class - Key";
+        public const string VendorKey = "Vendor - Key";
+        public const string VendorText = "Vendor - Text";
+        public const string Obligation = "Obligation";
+        public const string GoodsReceipt = "Goods Receipt";
+        public const string Invoiced = "Invoiced";
+        public const string Disbursed = "Disbursed";
+        public const string CreatedOnKey = "Created on - Key";
+        public const string DateOfUpdateKey = "Date of Update - Key";
+        public const string PostingDateKey = "Posting date - Key";
+        public const string PostingDatePerSplKey = "Posting Date (Per SPL) - Key";
+        public const string DocumentDateOfBlKey = "Document Date of BL - Key";
+
+        public static Dictionary<string, string> GetBudgetColumnLetterToColumnNameDictionary()
+        {
+            return new Dictionary<string, string>
+            {
+                {"B", BusinessAreaKey},
+                {"C", FaBudgetActivityKey},
+                {"D", FunctionalAreaText},
+                {"E", ObligationNumberKey},
+                {"F", ObligationItemKey},
+                {"G", FundKey},
+                {"H", FundedProgramKey},
+                {"I", WbsElementKey},
+                {"J", WbsElementText},
+                {"K", BudgetObjectClassKey},
+                {"L", VendorKey},
+                {"M", VendorText },
+                {"N", Obligation },
+                {"O", GoodsReceipt },
+                {"P", Invoiced },
+                {"Q", Disbursed },
+                //{"R", "Unexpended Balance" }
+                {"R", CreatedOnKey },
+                {"S", DateOfUpdateKey },
+                {"T", PostingDateKey },
+                {"U", PostingDatePerSplKey },
+                {"V", DocumentDateOfBlKey }
+            };
+        }
+
+        public static Dictionary<string, string> GetBudgetColumnNameToColumnLetterDictionary()
+        {
+            var forwardDict = GetBudgetColumnLetterToColumnNameDictionary();
+            var reverseDict = forwardDict.ToDictionary(g => g.Value, g => g.Key);
+            return reverseDict;
         }
 
     }

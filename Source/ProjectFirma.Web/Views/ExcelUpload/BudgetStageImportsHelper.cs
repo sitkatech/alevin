@@ -21,20 +21,22 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.IO;
 using LtInfo.Common.ExcelWorkbookUtilities;
+using ProjectFirmaModels.Models;
+using ProjectFirmaModels.Models.ExcelUpload;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
     public class BudgetStageImportsHelper
     {
-        public static BudgetStageImports LoadFromXlsFile(Stream stream)
+        public static BudgetStageImports LoadFromXlsFile(Stream stream, int headerRowOffset)
         {
-            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(stream, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound);
+            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(stream, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
             return BudgetStageImports.LoadFromXlsFile(dataTable);
         }
 
-        public static BudgetStageImports LoadFromXlsFile(FileInfo file)
+        public static BudgetStageImports LoadFromXlsFile(FileInfo file, int headerRowOffset)
         {
-            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(file.FullName, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound);
+            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(file.FullName, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
             return BudgetStageImports.LoadFromXlsFile(dataTable);
         }
     }

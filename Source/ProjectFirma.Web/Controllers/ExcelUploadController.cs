@@ -35,12 +35,20 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ExcelUpload;
 using ProjectFirmaModels.Models;
+using ProjectFirmaModels.Models.ExcelUpload;
 using ProjectFirmaModels.UnitTestCommon;
 
 namespace ProjectFirma.Web.Controllers
 {
     public class ExcelUploadController : FirmaBaseController
     {
+        /// <summary>
+        /// this is the number of rows down the header appears in the imported excel file.
+        /// If this continues to move around, we can write a search for the first header column by text ( "business area - key" for example).
+        /// -- SLG & TK 3/16/2020
+        /// </summary>
+        public const int ExcelFileHeaderRowOffset = 3;
+
         [CrossAreaRoute]
         [HttpGet]
         [FirmaAdminFeature]
@@ -92,12 +100,12 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         private ActionResult DoExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
-            List<BudgetStageImport> budgetTransferBulks;
+            List<BudgetStageImport> budgetStageImports;
             List<InvoiceStageImport> invoiceStageImports;
             try
             {
-                budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream);
-                invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream);
+                budgetStageImports = BudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream, ExcelFileHeaderRowOffset);
+                invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, ExcelFileHeaderRowOffset);
             }
             catch (Exception ex)
             {
@@ -131,7 +139,7 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+            DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
 
             SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
             // This is the right thing to return, since this starts off in a modal dialog
@@ -139,14 +147,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
         public static void DoProcessingOnRecordsLoadedIntoPairedStagingTables(
-                                        List<BudgetStageImport> budgetTransferBulks,
+                                        List<BudgetStageImport> budgetStageImports,
                                         List<InvoiceStageImport> invoiceStageImports, 
                                         out int countAddedBudgets,
                                         out int countAddedInvoices,
                                         FirmaSession optionalCurrentFirmaSession)
         {
-            countAddedBudgets = budgetTransferBulks.Count;
-            var payrecs = budgetTransferBulks.Select(x => new StageImpPayRecV3(x)).ToList();
+            countAddedBudgets = budgetStageImports.Count;
+            var payrecs = budgetStageImports.Select(x => new StageImpPayRecV3(x)).ToList();
             var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);

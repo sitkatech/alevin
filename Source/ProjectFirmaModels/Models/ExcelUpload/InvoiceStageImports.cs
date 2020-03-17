@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ImportGdbFile.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="InvoiceStageImports.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,15 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using LtInfo.Common.DesignByContract;
-using MoreLinq;
-using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.ExcelUpload
+namespace ProjectFirmaModels.Models.ExcelUpload
 {
     public class InvoiceStageImports : List<InvoiceStageImport>
     {
@@ -78,24 +75,7 @@ namespace ProjectFirma.Web.Views.ExcelUpload
 
         private static void EnsureWorksheetHasCorrectShape(DataTable dataTable)
         {
-            var columnNames = new Dictionary<string, string>
-                              {
-                                  {"A", "PO Number - Key"},
-                                  {"B", "Purch Ord Line Itm - Key"},
-                                  {"C", "Reference - Key"},
-                                  {"D", "Vendor - Key"},
-                                  {"E", "Vendor - Text"},
-                                  {"F", "Fund - Key"},
-                                  {"G", "Funded Program - Key"},
-                                  {"H", "WBS Element - Key"},
-                                  {"I", "WBS Element - Text"},
-                                  {"J", "Budget Object Class - Key"},
-                                  {"K", "Debit Amount"},
-                                  {"L", "Credit Amount" },
-                                  {"M", "Debit/Credit Total" }
-
-                                  
-                              };
+            var columnNames = GetInvoiceColumnLetterToColumnNameDictionary();
 
             var dataRow = dataTable.Rows[0];
             var expectedColumns = columnNames.Values.ToList();
@@ -106,17 +86,66 @@ namespace ProjectFirma.Web.Views.ExcelUpload
                                               string.Format("Expected columns [{0}]\n\nBut got columns [{1}].\n\nThese columns were missing: [{2}]", string.Join(", ", expectedColumns),
                                                             string.Join(", ", actualColumns), string.Join(", ", missingColumns)));
 
-            foreach (var dataColumn in dataTable.Columns.Cast<DataColumn>())
-            {
-                var currentString = (string) dataRow[dataColumn];
-                if (!expectedColumns.Any(x => string.Equals(currentString, x)))
-                {
-                    dataTable.Columns.Remove(dataColumn);
-                }
-            }
+            // taking this out for now - we don't think we want it to be tolerant  of oddball formats. We'd wnat to know when things change.
+            // -- SLG 3/16/20 
 
-           
-           
+            //foreach (var dataColumn in dataTable.Columns.Cast<DataColumn>())
+            //{
+            //    var currentString = (string) dataRow[dataColumn];
+            //    // Remove unexpected columns?
+            //    if (!expectedColumns.Any(x => string.Equals(currentString, x)))
+            //    {
+            //        dataTable.Columns.Remove(dataColumn);
+            //    }
+            //}
+
+
+
+        }
+
+        public const string PurchaseOrderNumberKey = "PO Number - Key";
+        public const string PurchaseOrderLineItemKey = "Purch Ord Line Itm - Key";
+        public const string ReferenceKey = "Reference - Key";
+        public const string VendorKey = "Vendor - Key";
+        public const string VendorText = "Vendor - Text";
+        public const string FundKey = "Fund - Key";
+        public const string FundedProgramKey = "Funded Program - Key";
+        public const string WbsElementKey = "WBS Element - Key";
+        public const string WbsElementText = "WBS Element - Text";
+        public const string BudgetObjectClassKey = "Budget Object Class - Key";
+        public const string DebitAmount = "Debit Amount";
+        public const string CreditAmount = "Credit Amount";
+        public const string DebitCreditTotal = "Debit/Credit Total";
+        public const string CreatedOnKey = "Created on - Key";
+        public const string PostingDateKey = "Posting date - Key";
+
+        public static Dictionary<string, string> GetInvoiceColumnLetterToColumnNameDictionary()
+        {
+            return new Dictionary<string, string>
+            {
+                {"B", PurchaseOrderNumberKey},
+                {"C", PurchaseOrderLineItemKey},
+                {"D", ReferenceKey},
+                {"E", VendorKey},
+                {"F", VendorText},
+                {"G", FundKey},
+                {"H", FundedProgramKey},
+                {"I", WbsElementKey},
+                {"J", WbsElementText},
+                {"K", BudgetObjectClassKey},
+                {"L", DebitAmount},
+                {"M", CreditAmount},
+                {"N", DebitCreditTotal},
+                {"O", CreatedOnKey },
+                {"P", PostingDateKey }
+            };
+        }
+
+        public static Dictionary<string, string> GetInvoiceColumnNameToColumnLetterDictionary()
+        {
+            var forwardDict = GetInvoiceColumnLetterToColumnNameDictionary();
+            var reverseDict = forwardDict.ToDictionary(g => g.Value, g => g.Key);
+            return reverseDict;
         }
 
     }
