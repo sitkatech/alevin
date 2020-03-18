@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[StageImpApGenSheet]
+//  Source Table: [Staging].[StageImpApGenSheet]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
 {
     public class StageImpApGenSheetConfiguration : EntityTypeConfiguration<StageImpApGenSheet>
     {
-        public StageImpApGenSheetConfiguration() : this("dbo"){}
+        public StageImpApGenSheetConfiguration() : this("Staging"){}
 
         public StageImpApGenSheetConfiguration(string schema)
         {

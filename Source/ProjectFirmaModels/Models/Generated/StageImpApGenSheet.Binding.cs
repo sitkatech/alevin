@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[StageImpApGenSheet]
+//  Source Table: [Staging].[StageImpApGenSheet]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +15,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[StageImpApGenSheet] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[dbo].[StageImpApGenSheet]")]
+    // Table [Staging].[StageImpApGenSheet] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Staging].[StageImpApGenSheet]")]
     public partial class StageImpApGenSheet : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>

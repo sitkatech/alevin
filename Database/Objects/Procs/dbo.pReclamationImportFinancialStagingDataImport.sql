@@ -10,9 +10,9 @@ as
 begin
 
 if (
-    (not EXISTS(SELECT 1 FROM dbo.[StageImpApGenSheet]))
+    (not EXISTS(SELECT 1 FROM Staging.[StageImpApGenSheet]))
     OR 
-    (not EXISTS(SELECT 1 FROM dbo.[StageImpPayRecV3]))
+    (not EXISTS(SELECT 1 FROM Staging.[StageImpPayRecV3]))
     )
 begin
    raiserror('There is no data in at least one of the tables for publishing. Publishing halted.', 16,1)
@@ -55,7 +55,7 @@ end
           ,[DebitCreditTotal]
           ,[CreatedOnKey]
           ,[PostingDateKey]
-      FROM [dbo].[StageImpApGenSheet]
+      FROM Staging.[StageImpApGenSheet]
 
     delete from ImportFinancial.impPayRecV3
     INSERT INTO [ImportFinancial].[impPayRecV3]
@@ -106,7 +106,7 @@ end
           ,[PostingDateKey]
           ,[PostingDatePerSplKey]
           ,[DocumentDateOfBlKey]
-      FROM [dbo].[StageImpPayRecV3]
+      FROM Staging.[StageImpPayRecV3]
 
     delete from ImportFinancial.WbsElementObligationItemBudget;
     delete from ImportFinancial.WbsElementObligationItemInvoice;
