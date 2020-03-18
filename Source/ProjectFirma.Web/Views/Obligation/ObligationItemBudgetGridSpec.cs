@@ -47,6 +47,11 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Invoiced", ob => ob.Invoiced, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Disbursed", ob => ob.Disbursed, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Unexpended Balance", ob => ob.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency);
+            Add("Created On Date", ob => ob.CreatedOnKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
+            Add("Date Of Update", ob => ob.DateOfUpdateKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
+            Add("Document Date of Bl", ob => ob.DocumentDateOfBlKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
+            Add("Posting Date", ob => ob.PostingDateKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
+            Add("Posting Date Per Spl", ob => ob.PostingDatePerSplKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
         }
     }
 }
