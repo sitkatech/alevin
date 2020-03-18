@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, string goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID) : this()
+        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, string goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey) : this()
         {
             this.WbsElementObligationItemBudgetID = wbsElementObligationItemBudgetID;
             this.WbsElementID = wbsElementID;
@@ -41,6 +41,11 @@ namespace ProjectFirmaModels.Models
             this.Disbursed = disbursed;
             this.UnexpendedBalance = unexpendedBalance;
             this.CostAuthorityID = costAuthorityID;
+            this.CreatedOnKey = createdOnKey;
+            this.DateOfUpdateKey = dateOfUpdateKey;
+            this.PostingDateKey = postingDateKey;
+            this.PostingDatePerSplKey = postingDatePerSplKey;
+            this.DocumentDateOfBlKey = documentDateOfBlKey;
         }
 
         /// <summary>
@@ -124,6 +129,11 @@ namespace ProjectFirmaModels.Models
         public double? Disbursed { get; set; }
         public double? UnexpendedBalance { get; set; }
         public int CostAuthorityID { get; set; }
+        public DateTime? CreatedOnKey { get; set; }
+        public DateTime? DateOfUpdateKey { get; set; }
+        public DateTime? PostingDateKey { get; set; }
+        public DateTime? PostingDatePerSplKey { get; set; }
+        public DateTime? DocumentDateOfBlKey { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemBudgetID; } set { WbsElementObligationItemBudgetID = value; } }
 

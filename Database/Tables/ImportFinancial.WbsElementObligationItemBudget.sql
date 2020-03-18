@@ -12,6 +12,11 @@ CREATE TABLE [ImportFinancial].[WbsElementObligationItemBudget](
 	[Disbursed] [float] NULL,
 	[UnexpendedBalance] [float] NULL,
 	[CostAuthorityID] [int] NOT NULL,
+	[CreatedOnKey] [datetime] NULL,
+	[DateOfUpdateKey] [datetime] NULL,
+	[PostingDateKey] [datetime] NULL,
+	[PostingDatePerSplKey] [datetime] NULL,
+	[DocumentDateOfBlKey] [datetime] NULL,
  CONSTRAINT [PK_WbsElementObligationItemBudget_WbsElementObligationItemBudgetID] PRIMARY KEY CLUSTERED 
 (
 	[WbsElementObligationItemBudgetID] ASC

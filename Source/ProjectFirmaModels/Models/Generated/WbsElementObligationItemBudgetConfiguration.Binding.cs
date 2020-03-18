@@ -24,6 +24,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Disbursed).HasColumnName(@"Disbursed").HasColumnType("float").IsOptional();
             Property(x => x.UnexpendedBalance).HasColumnName(@"UnexpendedBalance").HasColumnType("float").IsOptional();
             Property(x => x.CostAuthorityID).HasColumnName(@"CostAuthorityID").HasColumnType("int").IsRequired();
+            Property(x => x.CreatedOnKey).HasColumnName(@"CreatedOnKey").HasColumnType("datetime").IsOptional();
+            Property(x => x.DateOfUpdateKey).HasColumnName(@"DateOfUpdateKey").HasColumnType("datetime").IsOptional();
+            Property(x => x.PostingDateKey).HasColumnName(@"PostingDateKey").HasColumnType("datetime").IsOptional();
+            Property(x => x.PostingDatePerSplKey).HasColumnName(@"PostingDatePerSplKey").HasColumnType("datetime").IsOptional();
+            Property(x => x.DocumentDateOfBlKey).HasColumnName(@"DocumentDateOfBlKey").HasColumnType("datetime").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.WbsElement).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.WbsElementID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_WbsElement_WbsElementID

@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID) : this()
+        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID, DateTime? createdOnKey, DateTime? postingDateKey) : this()
         {
             this.WbsElementObligationItemInvoiceID = wbsElementObligationItemInvoiceID;
             this.WbsElementID = wbsElementID;
@@ -39,6 +39,8 @@ namespace ProjectFirmaModels.Models
             this.CreditAmount = creditAmount;
             this.DebitCreditTotal = debitCreditTotal;
             this.CostAuthorityID = costAuthorityID;
+            this.CreatedOnKey = createdOnKey;
+            this.PostingDateKey = postingDateKey;
         }
 
         /// <summary>
@@ -120,6 +122,8 @@ namespace ProjectFirmaModels.Models
         public double? CreditAmount { get; set; }
         public double? DebitCreditTotal { get; set; }
         public int CostAuthorityID { get; set; }
+        public DateTime? CreatedOnKey { get; set; }
+        public DateTime? PostingDateKey { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemInvoiceID; } set { WbsElementObligationItemInvoiceID = value; } }
 

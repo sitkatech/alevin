@@ -10,6 +10,8 @@ CREATE TABLE [ImportFinancial].[WbsElementObligationItemInvoice](
 	[CreditAmount] [float] NULL,
 	[DebitCreditTotal] [float] NULL,
 	[CostAuthorityID] [int] NOT NULL,
+	[CreatedOnKey] [datetime] NULL,
+	[PostingDateKey] [datetime] NULL,
  CONSTRAINT [PK_WbsElementObligationItemInvoice_WbsElementObligationItemInvoiceID] PRIMARY KEY CLUSTERED 
 (
 	[WbsElementObligationItemInvoiceID] ASC

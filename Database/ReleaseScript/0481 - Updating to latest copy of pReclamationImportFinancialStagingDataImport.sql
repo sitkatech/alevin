@@ -1,3 +1,6 @@
+-- KEEP THIS UP TO DATE WITH THE ORIGINAL FILE PLEASE!!!
+-- SLG 3/18/2020
+
 IF EXISTS(SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.pReclamationImportFinancialStagingDataImport'))
     drop procedure dbo.pReclamationImportFinancialStagingDataImport
 go
