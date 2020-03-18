@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[StageImpPayRecV3]
+//  Source Table: [Staging].[StageImpPayRecV3]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
 {
     public class StageImpPayRecV3Configuration : EntityTypeConfiguration<StageImpPayRecV3>
     {
-        public StageImpPayRecV3Configuration() : this("dbo"){}
+        public StageImpPayRecV3Configuration() : this("Staging"){}
 
         public StageImpPayRecV3Configuration(string schema)
         {

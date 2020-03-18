@@ -164,8 +164,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new ReportTemplateConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
-            modelBuilder.Configurations.Add(new StageImpApGenSheetConfiguration());
-            modelBuilder.Configurations.Add(new StageImpPayRecV3Configuration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SubbasinLiasonConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
@@ -219,6 +217,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new SubbasinConfiguration());
             modelBuilder.Configurations.Add(new WorkbreakdownStructureConfiguration());
             modelBuilder.Configurations.Add(new WorkOrderConfiguration());
+            modelBuilder.Configurations.Add(new StageImpApGenSheetConfiguration());
+            modelBuilder.Configurations.Add(new StageImpPayRecV3Configuration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
