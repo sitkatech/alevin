@@ -48,6 +48,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Views.ActionItem;
+using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
@@ -136,7 +137,6 @@ namespace ProjectFirma.Web.Controllers
         [ProjectViewFeature]
         public ViewResult Detail(ProjectPrimaryKey projectPrimaryKey)
         {
-            
             var project = projectPrimaryKey.EntityObject;
             var activeProjectStages = GetActiveProjectStages(project);
 
@@ -150,7 +150,6 @@ namespace ProjectFirma.Web.Controllers
 
             // NEW permission for Project Agreement association editing
             var userHasProjectAgreementEditPermissions = new ProjectAgreementEditFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
-
 
             var editProjectCustomAttributesUrl = SitkaRoute<ProjectCustomAttributesController>.BuildUrlFromExpression(c => c.EditProjectCustomAttributesForProject(project));
             var editSimpleProjectLocationUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.EditProjectLocationSimple(project));
@@ -1083,6 +1082,27 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
                 var content = System.IO.File.ReadAllBytes(outputFile.FileInfo.FullName);
                 return File(content, "application/pdf", fileName);
             }
+        }
+
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
+            var project = projectPrimaryKey.EntityObject;
+            var obligationItemInvoices = project.CostAuthorityProjects.SelectMany(cap => cap.ReclamationCostAuthority.WbsElementObligationItemInvoices).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridJsonData(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var project = projectPrimaryKey.EntityObject;
+            var obligationItemBudgets = project.CostAuthorityProjects
+                .SelectMany(cap => cap.ReclamationCostAuthority.WbsElementObligationItemBudgets).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
         }
     }
 }

@@ -37,6 +37,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Views.ActionItem;
+using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
 
@@ -128,6 +129,15 @@ namespace ProjectFirma.Web.Views.Project
         public bool UserCanViewActionItems { get; }
 
         public List<ProjectEvaluation> ProjectEvaluationsUserHasAccessTo { get; }
+
+        //Obligations
+        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
+        public string ObligationItemInvoiceGridName { get; }
+        public string ObligationItemInvoiceGridDataUrl { get; }
+
+        public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
+        public string ObligationItemBudgetGridName { get; }
+        public string ObligationItemBudgetGridDataUrl { get; }
 
         public string UpdateStatusUrl { get; set; }
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
@@ -388,6 +398,15 @@ namespace ProjectFirma.Web.Views.Project
 
             ActionItemsDisplayViewData = actionItemsDisplayViewData;
             UserCanViewActionItems = userCanViewActionItems;
+
+            //Obligations:
+            ObligationItemInvoiceGridName = "obligationItemInvoices";
+            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
+            ObligationItemInvoiceGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ObligationItemInvoiceGridJsonData(project));
+
+            ObligationItemBudgetGridName = "obligationItemBudgets";
+            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
+            ObligationItemBudgetGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ObligationItemBudgetGridJsonData(project));
         }
     }
 }
