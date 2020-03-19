@@ -195,6 +195,8 @@ namespace ProjectFirmaModels.Models
         ReportAddReport = 79,
         ReleaseNotes = 80,
         ManageProjectFactSheet = 81,
+        ManageContactTypes = 82,
+        ManageOrganizationTypes = 83,
         AgreementList = 10000,
         CostAuthorityList = 10001,
         AgreementRequestList = 10002,
