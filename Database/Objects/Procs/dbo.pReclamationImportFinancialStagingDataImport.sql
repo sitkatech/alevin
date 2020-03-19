@@ -2,8 +2,6 @@ IF EXISTS(SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.pReclamati
     drop procedure dbo.pReclamationImportFinancialStagingDataImport
 go
 
-
-
 create procedure dbo.pReclamationImportFinancialStagingDataImport
 
 as
@@ -19,23 +17,40 @@ begin
    return -1
 end
 
+/*
+
+exec sp_rename 'ImportFinancial.impApGenSheet.PONumberKey', 'ImportFinancial.impApGenSheet.PONumberKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.PurchOrdLineItmKey', 'ImportFinancial.impApGenSheet.PurchOrdLineItmKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.ReferenceKey', 'ImportFinancial.impApGenSheet.ReferenceKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.VendorKey', 'ImportFinancial.impApGenSheet.VendorKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.VendorText', 'ImportFinancial.impApGenSheet.VendorText'
+exec sp_rename 'ImportFinancial.impApGenSheet.FundKey', 'ImportFinancial.impApGenSheet.FundKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.FundedProgramKey', 'ImportFinancial.impApGenSheet.FundedProgramKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.WBSElementKey', 'ImportFinancial.impApGenSheet.WBSElementKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.WBSElementText', 'ImportFinancial.impApGenSheet.WBSElementText'
+exec sp_rename 'ImportFinancial.impApGenSheet.BudgetObjectClassKey', 'ImportFinancial.impApGenSheet.BudgetObjectClassKey'
+exec sp_rename 'ImportFinancial.impApGenSheet.DebitAmount', 'ImportFinancial.impApGenSheet.DebitAmount'
+exec sp_rename 'ImportFinancial.impApGenSheet.CreditAmount', 'ImportFinancial.impApGenSheet.CreditAmount'
+exec sp_rename 'ImportFinancial.impApGenSheet.DebitCreditTotal', 'ImportFinancial.impApGenSheet.DebitCreditTotal'
+*/
+
     -- TODO: A sanity check that there are actually records to import
     delete from ImportFinancial.impApGenSheet
     INSERT INTO [ImportFinancial].[impApGenSheet]
                (
-                [PO Number - Key]
-               ,[Purch Ord Line Itm - Key]
-               ,[Reference - Key]
-               ,[Vendor - Key]
-               ,[Vendor - Text]
-               ,[Fund - Key]
-               ,[Funded Program - Key]
-               ,[WBS Element - Key]
-               ,[WBS Element - Text]
-               ,[Budget Object Class - Key]
-               ,[Debit Amount]
-               ,[Credit Amount]
-               ,[Debit/Credit Total]
+                PONumberKey
+               ,PurchOrdLineItmKey
+               ,ReferenceKey
+               ,VendorKey
+               ,VendorText
+               ,FundKey
+               ,FundedProgramKey
+               ,WBSElementKey
+               ,WBSElementText
+               ,BudgetObjectClassKey
+               ,DebitAmount
+               ,CreditAmount
+               ,DebitCreditTotal
                ,[CreatedOnKey]
                ,[PostingDateKey]
                )
@@ -57,31 +72,50 @@ end
           ,[PostingDateKey]
       FROM Staging.[StageImpApGenSheet]
 
+      /*
+      
+exec sp_rename 'ImportFinancial.impPayRecV3.BusinessAreaKey', 'BusinessAreaKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.FABudgetActivityKey', 'FABudgetActivityKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.FunctionalAreaText', 'FunctionalAreaText'
+exec sp_rename 'ImportFinancial.impPayRecV3.ObligationNumberKey', 'ObligationNumberKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.ObligationItemKey', 'ObligationItemKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.[Fund - Key]', 'FundKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.FundedProgramKey', 'FundedProgramKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.WBSElementKey', 'WBSElementKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.[WBS Element - Text]', 'WBSElementText'
+exec sp_rename 'ImportFinancial.impPayRecV3.[Budget Object Class - Key]', 'BudgetObjectClassKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.[Vendor - Key]', 'VendorKey'
+exec sp_rename 'ImportFinancial.impPayRecV3.[Vendor - Text]', 'VendorText'
+exec sp_rename 'ImportFinancial.impPayRecV3.GoodsReceipt', 'GoodsReceipt'
+exec sp_rename 'ImportFinancial.impPayRecV3.UnexpendedBalance', 'UnexpendedBalance'
+      */
+
+
     delete from ImportFinancial.impPayRecV3
     INSERT INTO [ImportFinancial].[impPayRecV3]
                (
-                [Business area - Key]
-               ,[FA Budget Activity - Key]
-               ,[Functional area - Text]
-               ,[Obligation Number - Key]
-               ,[Obligation Item - Key]
-               ,[Fund - Key]
-               ,[Funded Program - Key (Not Compounded)]
-               ,[WBS Element - Key]
-               ,[WBS Element - Text]
-               ,[Budget Object Class - Key]
-               ,[Vendor - Key]
-               ,[Vendor - Text]
-               ,[Obligation]
-               ,[Goods Receipt]
-               ,[Invoiced]
-               ,[Disbursed]
-               ,[Unexpended Balance]
-               ,[CreatedOnKey]
-               ,[DateOfUpdateKey]
-               ,[PostingDateKey]
-               ,[PostingDatePerSplKey]
-               ,[DocumentDateOfBlKey]
+                BusinessAreaKey
+               ,FABudgetActivityKey
+               ,FunctionalAreaText
+               ,ObligationNumberKey
+               ,ObligationItemKey
+               ,FundKey
+               ,FundedProgramKey
+               ,WBSElementKey
+               ,WBSElementText
+               ,BudgetObjectClassKey
+               ,VendorKey
+               ,VendorText
+               ,Obligation
+               ,GoodsReceipt
+               ,Invoiced
+               ,Disbursed
+               ,UnexpendedBalance
+               ,CreatedOnKey
+               ,DateOfUpdateKey
+               ,PostingDateKey
+               ,PostingDatePerSplKey
+               ,DocumentDateOfBlKey
                )
     SELECT
            [BusinessAreaKey]
@@ -119,13 +153,13 @@ end
 	insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
 	select 
 		distinct
-			coalesce(pr.[WBS Element - Key], ap.[WBS Element - Key]) as WbsElementKey,
-			coalesce(pr.[WBS Element - Text], ap.[WBS Element - Text]) as WbsElementText
+			coalesce(pr.WBSElementKey, ap.WBSElementKey) as WbsElementKey,
+			coalesce(pr.WBSElementText, ap.WBSElementText) as WbsElementText
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.[WBS Element - Key] = ap.[WBS Element - Key]
+		full outer join ImportFinancial.impApGenSheet as ap on pr.WBSElementKey = ap.WBSElementKey
 	where
-		pr.[WBS Element - Key] != '#'
+		pr.WBSElementKey != '#'
 
 	--insert missing WBS elements into the Reclamation.CostAuthority table
 	insert into Reclamation.CostAuthority(CostAuthorityWorkBreakdownStructure, AccountStructureDescription)  
@@ -148,22 +182,22 @@ values
 	insert into ImportFinancial.Vendor(VendorKey, VendorText)
 	select 
 		distinct
-			coalesce(pr.[Vendor - Key], ap.[Vendor - Key]) as VendorKey,
-			coalesce(pr.[Vendor - Text], ap.[Vendor - Text]) as VendorText
+			coalesce(pr.VendorKey, ap.VendorKey) as VendorKey,
+			coalesce(pr.VendorText, ap.VendorText) as VendorText
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.[Vendor - Key] = ap.[Vendor - Key]
+		full outer join ImportFinancial.impApGenSheet as ap on pr.VendorKey = ap.VendorKey
 	where
         -- These are unassigned/blank vendors; see above
-		pr.[Vendor - Key] != '#'
+		pr.VendorKey != '#'
 
 	insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
 	select 
 		distinct
-			coalesce(pr.[Obligation Number - Key] , ap.[PO Number - Key]) as ObligationNumberKey
+			coalesce(pr.ObligationNumberKey , ap.PONumberKey) as ObligationNumberKey
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.[Obligation Number - Key] = ap.[PO Number - Key]
+		full outer join ImportFinancial.impApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
 
     update ImportFinancial.ObligationNumber
     set ReclamationAgreementID = rca.AgreementID
@@ -173,13 +207,13 @@ values
 	insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID, VendorID)
 	select 
 		distinct
-			coalesce(pr.[Obligation Item - Key] , ap.[Purch Ord Line Itm - Key]) as ObligationItemKey,
-			(select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.[Obligation Number - Key]) as ObligationNumberID,
-            (coalesce((select VendorID from ImportFinancial.Vendor as v where v.VendorKey = pr.[Vendor - Key]),
-                      (select VendorID from ImportFinancial.Vendor as v where v.VendorKey = ap.[Vendor - Key]))) as VendorID
+			coalesce(pr.ObligationItemKey , ap.PurchOrdLineItmKey) as ObligationItemKey,
+			(select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.ObligationNumberKey) as ObligationNumberID,
+            (coalesce((select VendorID from ImportFinancial.Vendor as v where v.VendorKey = pr.VendorKey),
+                      (select VendorID from ImportFinancial.Vendor as v where v.VendorKey = ap.VendorKey))) as VendorID
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.[Obligation Number - Key] = ap.[PO Number - Key]
+		full outer join ImportFinancial.impApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
 
 
 	insert into ImportFinancial.WbsElementObligationItemBudget(
@@ -198,14 +232,14 @@ values
                                                                DocumentDateOfBlKey
                                                                )
 	select 
-		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.[WBS Element - Key]) as WbsElementID,
-		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.[WBS Element - Key]) as CostAuthorityID,
-		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.[Obligation Item - Key] and obn.ObligationNumberKey = pr.[Obligation Number - Key] and v.VendorKey = pr.[Vendor - Key]) as ObligationItemID,
+		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElementKey) as WbsElementID,
+		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.WBSElementKey) as CostAuthorityID,
+		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.ObligationItemKey and obn.ObligationNumberKey = pr.ObligationNumberKey and v.VendorKey = pr.VendorKey) as ObligationItemID,
 		pr.Obligation as Obligation,
-		pr.[Goods Receipt] as GoodsReceipt,
+		pr.GoodsReceipt as GoodsReceipt,
 		pr.Invoiced as Invoiced,
 		pr.Disbursed as Disbursed,
-		pr.[Unexpended Balance] as UnexpendedBalance,
+		pr.UnexpendedBalance as UnexpendedBalance,
         pr.CreatedOnKey as CreatedOnKey,
         pr.DateOfUpdateKey as DateOfUpdateKey,
         pr.PostingDateKey as PostingDateKey,
@@ -214,7 +248,7 @@ values
 	from
 		ImportFinancial.impPayRecV3 as pr
 	where 
-		pr.[WBS Element - Key] != '#'
+		pr.WBSElementKey != '#'
     order by ObligationItemID
 
     insert into ImportFinancial.WbsElementObligationItemInvoice(
@@ -238,24 +272,24 @@ values
     from
     (
        select 
-          (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.[WBS Element - Key]) as WbsElementID,
-          (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = ap.[WBS Element - Key]) as CostAuthorityID,
+          (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = ap.WBSElementKey) as WbsElementID,
+          (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = ap.WBSElementKey) as CostAuthorityID,
           (
                select obi.ObligationItemID from ImportFinancial.ObligationItem as obi 
                join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID 
                join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID 
-               where obi.ObligationItemKey = ap.[Purch Ord Line Itm - Key] and obn.ObligationNumberKey = ap.[PO Number - Key] and v.VendorKey = ap.[Vendor - Key]
+               where obi.ObligationItemKey = ap.PurchOrdLineItmKey and obn.ObligationNumberKey = ap.PONumberKey and v.VendorKey = ap.VendorKey
           )
           as ObligationItemID,
-          ap.[Debit Amount] as DebitAmount,
-          ap.[Credit Amount] as CreditAmount,
-          ap.[Debit/Credit Total] as DebitCreditTotal,
+          ap.DebitAmount as DebitAmount,
+          ap.CreditAmount as CreditAmount,
+          ap.DebitCreditTotal as DebitCreditTotal,
           ap.CreatedOnKey,
           ap.PostingDateKey
        from
           ImportFinancial.impApGenSheet as ap
        where
-         ap.[WBS Element - Key] != '#'
+         ap.WBSElementKey != '#'
     ) as q
     -- Has no Obligations on the AP-Gen tab
     where q.ObligationItemID is not null
@@ -284,9 +318,9 @@ GO
 
 /*
 
-		select * from dbo.impPayRecV3 as pr where pr.[WBS Element - Key] like '%#%'
+		select * from dbo.impPayRecV3 as pr where pr.WBSElementKey like '%#%'
 
-		select * from dbo.impPayRecV3 as pr where pr.[Unexpended Balance] = 3790.98
+		select * from dbo.impPayRecV3 as pr where pr.UnexpendedBalance = 3790.98
 
 		select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = 'RX.16786807.5001500'
 
