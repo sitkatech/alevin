@@ -180,7 +180,34 @@ values
 		full outer join ImportFinancial.impApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
 
 
-	insert into ImportFinancial.WbsElementObligationItemBudget(
+    -- Temp table to help with BOC FBMS years for impPayRecV3
+    IF OBJECT_ID('tempdb..#BudgetObjectCodesFbmsYear_impPayRecV3') IS NOT NULL DROP table #BudgetObjectCodesFbmsYear_impPayRecV3
+
+    select boc.BudgetObjectCodeID,
+           boc.BudgetObjectCodeName,
+           --boq.pr_CleanedBudgetObjectCode,
+           boq.PossiblyDirtyBudgetObjectClassKey,
+           boq.FbmsYear
+    into #BudgetObjectCodesFbmsYear_impPayRecV3
+    from
+    (
+        select
+                distinct
+                pr.BudgetObjectClassKey as pr_BudgetObjectCode,
+                pr.BudgetObjectClassKey as PossiblyDirtyBudgetObjectClassKey,
+                dbo.CleanBudgetObjectCode(pr.BudgetObjectClassKey) as pr_CleanedBudgetObjectCode,
+                dbo.GetMostAppropriateFbmsYearForBudgetObjectCodeName(dbo.CleanBudgetObjectCode(pr.BudgetObjectClassKey), pr.PostingDateKey) as FbmsYear 
+        from ImportFinancial.impPayRecV3 as pr
+    ) as boq
+    join Reclamation.BudgetObjectCode as boc on pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName
+    order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
+
+    -- select * from #BudgetObjectCodesFbmsYear_impPayRecV3
+
+
+
+
+    insert into ImportFinancial.WbsElementObligationItemBudget(
                                                                WbsElementID,
                                                                CostAuthorityID,
                                                                ObligationItemID,
@@ -194,7 +221,8 @@ values
                                                                PostingDateKey,
                                                                PostingDatePerSplKey,
                                                                DocumentDateOfBlKey,
-                                                               BudgetObjectCodeID
+                                                               BudgetObjectCodeID--,
+                                                               --FundID
                                                                )
 	select 
 		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElementKey) as WbsElementID,
@@ -210,21 +238,47 @@ values
         pr.PostingDateKey as PostingDateKey,
         pr.PostingDatePerSplKey as PostingDatePerSplKey,
         pr.DocumentDateOfBlKey as DocumentDateOfBlKey,
-        --pr.BudgetObjectClassKey,
-        --dbo.CleanBudgetObjectCode(pr.BudgetObjectClassKey) as CleanedBudgetObjectCode
         -- It seems we have data where we can't look up the BOC in the provided data. 
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
-        (select boc.BudgetObjectCodeID 
-         from Reclamation.BudgetObjectCode as boc 
-         where dbo.CleanBudgetObjectCode(pr.BudgetObjectClassKey) = boc.BudgetObjectCodeName 
-               and 
-               boc.FbmsYear = dbo.GetMostAppropriateFbmsYearForBudgetObjectCodeName(boc.BudgetObjectCodeName, pr.PostingDateKey)) as BudgetObjectCodeID
+        bocyear.BudgetObjectCodeID
+        --(select f.FundID from Reclamation.Fund as f where f.ReclamationFundNumber = pr.FundKey) as FundID
 	from
 		ImportFinancial.impPayRecV3 as pr
+        join #BudgetObjectCodesFbmsYear_impPayRecV3 as bocyear on YEAR(pr.PostingDateKey) = bocyear.FbmsYear and pr.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
 	where 
 		pr.WBSElementKey != '#'
     order by ObligationItemID
+
+
+
+    -- Temp table to help with BOC FBMS years for impApGenSheet
+    IF OBJECT_ID('tempdb..#BudgetObjectCodesFbmsYear_impApGenSheet') IS NOT NULL DROP table #BudgetObjectCodesFbmsYear_impApGenSheet
+
+    select boc.BudgetObjectCodeID,
+           boc.BudgetObjectCodeName,
+           --boq.pr_CleanedBudgetObjectCode,
+           boq.PossiblyDirtyBudgetObjectClassKey,
+           boq.FbmsYear
+    into #BudgetObjectCodesFbmsYear_impApGenSheet
+    from
+    (
+        select
+                distinct
+                pr.BudgetObjectClassKey as pr_BudgetObjectCode,
+                pr.BudgetObjectClassKey as PossiblyDirtyBudgetObjectClassKey,
+                dbo.CleanBudgetObjectCode(pr.BudgetObjectClassKey) as pr_CleanedBudgetObjectCode,
+                dbo.GetMostAppropriateFbmsYearForBudgetObjectCodeName(dbo.CleanBudgetObjectCode(pr.BudgetObjectClassKey), pr.PostingDateKey) as FbmsYear 
+        from ImportFinancial.impApGenSheet as pr
+    ) as boq
+    join Reclamation.BudgetObjectCode as boc on pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName
+    order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
+
+     select * from #BudgetObjectCodesFbmsYear_impApGenSheet
+
+
+
+
 
     insert into ImportFinancial.WbsElementObligationItemInvoice(
                                                                 WbsElementID,
@@ -266,13 +320,10 @@ values
         -- It seems we have data where we can't look up the BOC in the provided data. 
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
-          (select boc.BudgetObjectCodeID 
-           from Reclamation.BudgetObjectCode as boc 
-           where dbo.CleanBudgetObjectCode(ap.BudgetObjectClassKey) = boc.BudgetObjectCodeName 
-               and 
-               boc.FbmsYear = dbo.GetMostAppropriateFbmsYearForBudgetObjectCodeName(boc.BudgetObjectCodeName, ap.PostingDateKey)) as BudgetObjectCodeID
+           bocyear.BudgetObjectCodeID
        from
           ImportFinancial.impApGenSheet as ap
+          join #BudgetObjectCodesFbmsYear_impApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
        where
          ap.WBSElementKey != '#'
     ) as q
