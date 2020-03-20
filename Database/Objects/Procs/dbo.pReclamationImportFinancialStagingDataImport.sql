@@ -202,11 +202,6 @@ values
     join Reclamation.BudgetObjectCode as boc on pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName
     order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
 
-    -- select * from #BudgetObjectCodesFbmsYear_impPayRecV3
-
-
-
-
     insert into ImportFinancial.WbsElementObligationItemBudget(
                                                                WbsElementID,
                                                                CostAuthorityID,
@@ -221,8 +216,8 @@ values
                                                                PostingDateKey,
                                                                PostingDatePerSplKey,
                                                                DocumentDateOfBlKey,
-                                                               BudgetObjectCodeID--,
-                                                               --FundID
+                                                               BudgetObjectCodeID,
+                                                               FundID
                                                                )
 	select 
 		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElementKey) as WbsElementID,
@@ -241,11 +236,13 @@ values
         -- It seems we have data where we can't look up the BOC in the provided data. 
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
-        bocyear.BudgetObjectCodeID
-        --(select f.FundID from Reclamation.Fund as f where f.ReclamationFundNumber = pr.FundKey) as FundID
+        bocyear.BudgetObjectCodeID,
+        --pr.FundKey,
+        f.FundID as FundID
 	from
-		ImportFinancial.impPayRecV3 as pr
+        ImportFinancial.impPayRecV3 as pr
         join #BudgetObjectCodesFbmsYear_impPayRecV3 as bocyear on YEAR(pr.PostingDateKey) = bocyear.FbmsYear and pr.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
+        join Reclamation.Fund as f on dbo.StripFundPrefixFromFundName(pr.FundKey) = f.ReclamationFundNumber
 	where 
 		pr.WBSElementKey != '#'
     order by ObligationItemID
@@ -274,12 +271,6 @@ values
     join Reclamation.BudgetObjectCode as boc on pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName
     order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
 
-     select * from #BudgetObjectCodesFbmsYear_impApGenSheet
-
-
-
-
-
     insert into ImportFinancial.WbsElementObligationItemInvoice(
                                                                 WbsElementID,
                                                                 CostAuthorityID,
@@ -289,7 +280,8 @@ values
                                                                 DebitCreditTotal,
                                                                 CreatedOnKey,
                                                                 PostingDateKey,
-                                                                BudgetObjectCodeID
+                                                                BudgetObjectCodeID,
+                                                                FundID
                                                                 )
     select q.WbsElementID,
            q.CostAuthorityID,
@@ -299,7 +291,8 @@ values
            q.DebitCreditTotal,
            q.CreatedOnKey,
            q.PostingDateKey,
-           q.BudgetObjectCodeID
+           q.BudgetObjectCodeID,
+           q.FundID
     from
     (
        select 
@@ -320,10 +313,12 @@ values
         -- It seems we have data where we can't look up the BOC in the provided data. 
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
-           bocyear.BudgetObjectCodeID
+           bocyear.BudgetObjectCodeID,
+           f.FundID
        from
           ImportFinancial.impApGenSheet as ap
           join #BudgetObjectCodesFbmsYear_impApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
+          join Reclamation.Fund as f on dbo.StripFundPrefixFromFundName(ap.FundKey) = f.ReclamationFundNumber
        where
          ap.WBSElementKey != '#'
     ) as q
