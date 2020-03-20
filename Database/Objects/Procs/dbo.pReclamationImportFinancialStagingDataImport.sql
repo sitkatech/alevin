@@ -138,10 +138,10 @@ end
 -- We'd really prefer not to have an "Unassigned Vendor" but we feel we've been pushed into a corner for the moment.
 -- Fortunately it is very rare. -- SLG 3/13/2020
 
--- #    Not assigned
-insert into ImportFinancial.Vendor (VendorKey, VendorText)
-values
-('#', 'Not Assigned')
+--  #    Not assigned
+    insert into ImportFinancial.Vendor (VendorKey, VendorText)
+    values
+    ('#', 'Not Assigned')
 
 	insert into ImportFinancial.Vendor(VendorKey, VendorText)
 	select 
@@ -237,14 +237,13 @@ values
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
         bocyear.BudgetObjectCodeID,
-        --pr.FundKey,
         f.FundID as FundID
-	from
+    from
         ImportFinancial.impPayRecV3 as pr
         join #BudgetObjectCodesFbmsYear_impPayRecV3 as bocyear on YEAR(pr.PostingDateKey) = bocyear.FbmsYear and pr.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
-        join Reclamation.Fund as f on dbo.StripFundPrefixFromFundName(pr.FundKey) = f.ReclamationFundNumber
-	where 
-		pr.WBSElementKey != '#'
+        join Reclamation.Fund as f on REPLACE(pr.FundKey, '1400/', '') = f.ReclamationFundNumber
+    where 
+        pr.WBSElementKey != '#'
     order by ObligationItemID
 
 
@@ -318,7 +317,7 @@ values
        from
           ImportFinancial.impApGenSheet as ap
           join #BudgetObjectCodesFbmsYear_impApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
-          join Reclamation.Fund as f on dbo.StripFundPrefixFromFundName(ap.FundKey) = f.ReclamationFundNumber
+          join Reclamation.Fund as f on REPLACE(ap.FundKey, '1400/', '') = f.ReclamationFundNumber
        where
          ap.WBSElementKey != '#'
     ) as q
