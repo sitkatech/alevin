@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID, DateTime? createdOnKey, DateTime? postingDateKey) : this()
+        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID, DateTime? createdOnKey, DateTime? postingDateKey, int? budgetObjectCodeID) : this()
         {
             this.WbsElementObligationItemInvoiceID = wbsElementObligationItemInvoiceID;
             this.WbsElementID = wbsElementID;
@@ -41,6 +41,7 @@ namespace ProjectFirmaModels.Models
             this.CostAuthorityID = costAuthorityID;
             this.CreatedOnKey = createdOnKey;
             this.PostingDateKey = postingDateKey;
+            this.BudgetObjectCodeID = budgetObjectCodeID;
         }
 
         /// <summary>
@@ -124,12 +125,14 @@ namespace ProjectFirmaModels.Models
         public int CostAuthorityID { get; set; }
         public DateTime? CreatedOnKey { get; set; }
         public DateTime? PostingDateKey { get; set; }
+        public int? BudgetObjectCodeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemInvoiceID; } set { WbsElementObligationItemInvoiceID = value; } }
 
         public virtual WbsElement WbsElement { get; set; }
         public virtual ObligationItem ObligationItem { get; set; }
         public virtual CostAuthority CostAuthority { get; set; }
+        public virtual BudgetObjectCode BudgetObjectCode { get; set; }
 
         public static class FieldLengths
         {

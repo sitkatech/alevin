@@ -23,6 +23,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Reportable1099).HasColumnName(@"Reportable1099").HasColumnType("bit").IsOptional();
             Property(x => x.Explanation1099).HasColumnName(@"Explanation1099").HasColumnType("nvarchar").IsOptional().HasMaxLength(1000);
 
+            // Foreign keys
+
         }
     }
 }

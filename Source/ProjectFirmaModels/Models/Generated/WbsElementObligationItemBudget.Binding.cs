@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, string goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey) : this()
+        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, string goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey, int? budgetObjectCodeID) : this()
         {
             this.WbsElementObligationItemBudgetID = wbsElementObligationItemBudgetID;
             this.WbsElementID = wbsElementID;
@@ -46,6 +46,7 @@ namespace ProjectFirmaModels.Models
             this.PostingDateKey = postingDateKey;
             this.PostingDatePerSplKey = postingDatePerSplKey;
             this.DocumentDateOfBlKey = documentDateOfBlKey;
+            this.BudgetObjectCodeID = budgetObjectCodeID;
         }
 
         /// <summary>
@@ -134,12 +135,14 @@ namespace ProjectFirmaModels.Models
         public DateTime? PostingDateKey { get; set; }
         public DateTime? PostingDatePerSplKey { get; set; }
         public DateTime? DocumentDateOfBlKey { get; set; }
+        public int? BudgetObjectCodeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemBudgetID; } set { WbsElementObligationItemBudgetID = value; } }
 
         public virtual WbsElement WbsElement { get; set; }
         public virtual ObligationItem ObligationItem { get; set; }
         public virtual CostAuthority CostAuthority { get; set; }
+        public virtual BudgetObjectCode BudgetObjectCode { get; set; }
 
         public static class FieldLengths
         {
