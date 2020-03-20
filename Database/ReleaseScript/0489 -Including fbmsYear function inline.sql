@@ -1,9 +1,9 @@
 
-IF EXISTS (SELECT *
+IF EXISTS (
+           SELECT *
            FROM   sys.objects
            WHERE  object_id = OBJECT_ID(N'dbo.GetMostAppropriateFbmsYearForBudgetObjectCodeName')
-                  --AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' )
-                  )
+           )
   DROP FUNCTION dbo.GetMostAppropriateFbmsYearForBudgetObjectCodeName
 GO
 
@@ -11,7 +11,11 @@ GO
 CREATE FUNCTION dbo.GetMostAppropriateFbmsYearForBudgetObjectCodeName(@budgetObjectCodename VARCHAR(MAX), @dateOfTransaction datetime) RETURNS int
 AS
 BEGIN
-    -- HACK to start with 
-    return 2019
+    return COALESCE(
+                    -- If found, use appropriate, matching year
+                    (select distinct boc.FbmsYear from Reclamation.BudgetObjectCode as boc where boc.FbmsYear = YEAR(@dateOfTransaction)),
+                    -- Otherwise, default to the latest year
+                    (select MAX(boc.FbmsYear) from Reclamation.BudgetObjectCode as boc)
+                    )
 END
 GO
