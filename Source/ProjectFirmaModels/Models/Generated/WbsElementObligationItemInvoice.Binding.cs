@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID, DateTime? createdOnKey, DateTime? postingDateKey) : this()
+        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID, DateTime? createdOnKey, DateTime? postingDateKey, int? budgetObjectCodeID, int fundID) : this()
         {
             this.WbsElementObligationItemInvoiceID = wbsElementObligationItemInvoiceID;
             this.WbsElementID = wbsElementID;
@@ -41,12 +41,14 @@ namespace ProjectFirmaModels.Models
             this.CostAuthorityID = costAuthorityID;
             this.CreatedOnKey = createdOnKey;
             this.PostingDateKey = postingDateKey;
+            this.BudgetObjectCodeID = budgetObjectCodeID;
+            this.FundID = fundID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemInvoice(int wbsElementID, int obligationItemID, int costAuthorityID) : this()
+        public WbsElementObligationItemInvoice(int wbsElementID, int obligationItemID, int costAuthorityID, int fundID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementObligationItemInvoiceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -54,12 +56,13 @@ namespace ProjectFirmaModels.Models
             this.WbsElementID = wbsElementID;
             this.ObligationItemID = obligationItemID;
             this.CostAuthorityID = costAuthorityID;
+            this.FundID = fundID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public WbsElementObligationItemInvoice(WbsElement wbsElement, ObligationItem obligationItem, CostAuthority costAuthority) : this()
+        public WbsElementObligationItemInvoice(WbsElement wbsElement, ObligationItem obligationItem, CostAuthority costAuthority, Fund fund) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementObligationItemInvoiceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -72,14 +75,17 @@ namespace ProjectFirmaModels.Models
             this.CostAuthorityID = costAuthority.CostAuthorityID;
             this.CostAuthority = costAuthority;
             costAuthority.WbsElementObligationItemInvoices.Add(this);
+            this.FundID = fund.FundID;
+            this.Fund = fund;
+            fund.WbsElementObligationItemInvoices.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static WbsElementObligationItemInvoice CreateNewBlank(WbsElement wbsElement, ObligationItem obligationItem, CostAuthority costAuthority)
+        public static WbsElementObligationItemInvoice CreateNewBlank(WbsElement wbsElement, ObligationItem obligationItem, CostAuthority costAuthority, Fund fund)
         {
-            return new WbsElementObligationItemInvoice(wbsElement, obligationItem, costAuthority);
+            return new WbsElementObligationItemInvoice(wbsElement, obligationItem, costAuthority, fund);
         }
 
         /// <summary>
@@ -124,12 +130,16 @@ namespace ProjectFirmaModels.Models
         public int CostAuthorityID { get; set; }
         public DateTime? CreatedOnKey { get; set; }
         public DateTime? PostingDateKey { get; set; }
+        public int? BudgetObjectCodeID { get; set; }
+        public int FundID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemInvoiceID; } set { WbsElementObligationItemInvoiceID = value; } }
 
         public virtual WbsElement WbsElement { get; set; }
         public virtual ObligationItem ObligationItem { get; set; }
         public virtual CostAuthority CostAuthority { get; set; }
+        public virtual BudgetObjectCode BudgetObjectCode { get; set; }
+        public virtual Fund Fund { get; set; }
 
         public static class FieldLengths
         {

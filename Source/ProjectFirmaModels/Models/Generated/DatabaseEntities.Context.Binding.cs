@@ -192,6 +192,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AgreementRequestConfiguration());
             modelBuilder.Configurations.Add(new AgreementRequestSubmissionNoteConfiguration());
             modelBuilder.Configurations.Add(new BasinConfiguration());
+            modelBuilder.Configurations.Add(new BudgetObjectCodeConfiguration());
             modelBuilder.Configurations.Add(new ContractTypeConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityAgreementRequestConfiguration());
@@ -245,6 +246,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<AuditLog> AllAuditLogs { get; set; }
         public virtual IQueryable<AuditLog> AuditLogs { get { return AllAuditLogs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Basin> Basins { get; set; }
+        public virtual DbSet<BudgetObjectCode> BudgetObjectCodes { get; set; }
         public virtual DbSet<ClassificationPerformanceMeasure> AllClassificationPerformanceMeasures { get; set; }
         public virtual IQueryable<ClassificationPerformanceMeasure> ClassificationPerformanceMeasures { get { return AllClassificationPerformanceMeasures.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Classification> AllClassifications { get; set; }
@@ -609,6 +611,9 @@ namespace ProjectFirmaModels.Models
 
                 case "Basin":
                     return Basins.GetBasin(primaryKey);
+
+                case "BudgetObjectCode":
+                    return BudgetObjectCodes.GetBudgetObjectCode(primaryKey);
 
                 case "BudgetType":
                     var budgetType = BudgetType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);

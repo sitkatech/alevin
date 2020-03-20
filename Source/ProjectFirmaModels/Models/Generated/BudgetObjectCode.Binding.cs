@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [Reclamation].[Fund]
+//  Source Table: [Reclamation].[BudgetObjectCode]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [Reclamation].[Fund] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[Reclamation].[Fund]")]
-    public partial class Fund : IHavePrimaryKey, ICanDeleteFull
+    // Table [Reclamation].[BudgetObjectCode] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Reclamation].[BudgetObjectCode]")]
+    public partial class BudgetObjectCode : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected Fund()
+        protected BudgetObjectCode()
         {
             this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
             this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
@@ -31,21 +31,37 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Fund(int fundID, string reclamationFundNumber, string description) : this()
+        public BudgetObjectCode(int budgetObjectCodeID, string budgetObjectCodeName, string budgetObjectCodeItemDescription, string budgetObjectCodeDefinition, int fbmsYear, bool? reportable1099, string explanation1099) : this()
         {
-            this.FundID = fundID;
-            this.ReclamationFundNumber = reclamationFundNumber;
-            this.Description = description;
+            this.BudgetObjectCodeID = budgetObjectCodeID;
+            this.BudgetObjectCodeName = budgetObjectCodeName;
+            this.BudgetObjectCodeItemDescription = budgetObjectCodeItemDescription;
+            this.BudgetObjectCodeDefinition = budgetObjectCodeDefinition;
+            this.FbmsYear = fbmsYear;
+            this.Reportable1099 = reportable1099;
+            this.Explanation1099 = explanation1099;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.BudgetObjectCodeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            
+            this.BudgetObjectCodeName = budgetObjectCodeName;
+            this.BudgetObjectCodeItemDescription = budgetObjectCodeItemDescription;
+            this.FbmsYear = fbmsYear;
+        }
 
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Fund CreateNewBlank()
+        public static BudgetObjectCode CreateNewBlank()
         {
-            return new Fund();
+            return new BudgetObjectCode(default(string), default(string), default(int));
         }
 
         /// <summary>
@@ -60,7 +76,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Fund).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(BudgetObjectCode).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name};
 
 
         /// <summary>
@@ -68,7 +84,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.Funds.Remove(this);
+            dbContext.BudgetObjectCodes.Remove(this);
         }
         
         /// <summary>
@@ -97,19 +113,25 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int FundID { get; set; }
-        public string ReclamationFundNumber { get; set; }
-        public string Description { get; set; }
+        public int BudgetObjectCodeID { get; set; }
+        public string BudgetObjectCodeName { get; set; }
+        public string BudgetObjectCodeItemDescription { get; set; }
+        public string BudgetObjectCodeDefinition { get; set; }
+        public int FbmsYear { get; set; }
+        public bool? Reportable1099 { get; set; }
+        public string Explanation1099 { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return FundID; } set { FundID = value; } }
+        public int PrimaryKey { get { return BudgetObjectCodeID; } set { BudgetObjectCodeID = value; } }
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
         public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
 
         public static class FieldLengths
         {
-            public const int ReclamationFundNumber = 255;
-            public const int Description = 255;
+            public const int BudgetObjectCodeName = 6;
+            public const int BudgetObjectCodeItemDescription = 1000;
+            public const int BudgetObjectCodeDefinition = 1000;
+            public const int Explanation1099 = 1000;
         }
     }
 }
