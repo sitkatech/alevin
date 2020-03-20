@@ -21,7 +21,6 @@ AS
 BEGIN
     if (LEN(@bocToClean) < 6)
 	begin
-		--return RIGHT(@bocToClean + '0', 7)
 		 return @bocToClean + Replicate('0',6 - Len(@bocToClean))
 	end
 
