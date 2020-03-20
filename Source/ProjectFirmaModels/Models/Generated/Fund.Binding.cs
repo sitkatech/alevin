@@ -24,7 +24,8 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Fund()
         {
-
+            this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
+            this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
         }
 
         /// <summary>
@@ -53,13 +54,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Fund).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Fund).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name};
 
 
         /// <summary>
@@ -75,8 +76,24 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in WbsElementObligationItemBudgets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in WbsElementObligationItemInvoices.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -86,7 +103,8 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return FundID; } set { FundID = value; } }
 
-
+        public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
+        public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
 
         public static class FieldLengths
         {

@@ -19,6 +19,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ReclamationFundNumber).HasColumnName(@"ReclamationFundNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
 
+            // Foreign keys
+
         }
     }
 }

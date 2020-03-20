@@ -25,12 +25,14 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CreatedOnKey).HasColumnName(@"CreatedOnKey").HasColumnType("datetime").IsOptional();
             Property(x => x.PostingDateKey).HasColumnName(@"PostingDateKey").HasColumnType("datetime").IsOptional();
             Property(x => x.BudgetObjectCodeID).HasColumnName(@"BudgetObjectCodeID").HasColumnType("int").IsOptional();
+            Property(x => x.FundID).HasColumnName(@"FundID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.WbsElement).WithMany(b => b.WbsElementObligationItemInvoices).HasForeignKey(c => c.WbsElementID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemInvoice_WbsElement_WbsElementID
             HasRequired(a => a.ObligationItem).WithMany(b => b.WbsElementObligationItemInvoices).HasForeignKey(c => c.ObligationItemID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemInvoice_ObligationItem_ObligationItemID
             HasRequired(a => a.CostAuthority).WithMany(b => b.WbsElementObligationItemInvoices).HasForeignKey(c => c.CostAuthorityID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemInvoice_CostAuthority_CostAuthorityID
             HasOptional(a => a.BudgetObjectCode).WithMany(b => b.WbsElementObligationItemInvoices).HasForeignKey(c => c.BudgetObjectCodeID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemInvoice_BudgetObjectCode_BudgetObjectCodeID
+            HasRequired(a => a.Fund).WithMany(b => b.WbsElementObligationItemInvoices).HasForeignKey(c => c.FundID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemInvoice_Fund_FundID
         }
     }
 }
