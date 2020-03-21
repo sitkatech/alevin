@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Obligation
             //Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), obi => obi.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
             Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
             Add("Budget Object Code", ob => ob.BudgetObjectCode.BudgetObjectCodeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Fund Name", ob => ob.Fund.ReclamationFundNumber, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Fund Number", ob => UrlTemplate.MakeHrefString(ob.Fund.GetDetailUrl(), ob.Fund.ReclamationFundNumber), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             Add("Debit Amount", obi => obi.DebitAmount, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency);

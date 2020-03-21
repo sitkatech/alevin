@@ -62,6 +62,7 @@
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\ExcelUploadControllerTest.cs" />
+    <Compile Include="Controllers\FundController.cs" />
     <Compile Include="Controllers\ObligationController.cs" />
     <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ActionItemController.cs" />
@@ -106,6 +107,7 @@
     <Compile Include="Models\BoundingBoxJson.cs" />
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\FundModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
     <Compile Include="Models\VendorModelExtensions.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
@@ -266,6 +268,7 @@
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
+    <Compile Include="Security\FundViewFeature.cs" />
     <Compile Include="Security\VendorViewFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\ObligationViewFeature.cs" />
@@ -285,6 +288,11 @@
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\Fund\FundDetail.cs" />
+    <Compile Include="Views\Fund\FundDetailViewData.cs" />
+    <Compile Include="Views\Fund\FundGridSpec.cs" />
+    <Compile Include="Views\Fund\FundIndex.cs" />
+    <Compile Include="Views\Fund\FundIndexViewData.cs" />
     <Compile Include="Views\Obligation\ObligationDetail.cs" />
     <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />
     <Compile Include="Views\Obligation\ObligationItemBudgetGridSpec.cs" />
@@ -735,6 +743,8 @@
     <Content Include="Views\ExcelUpload\ImportEtlExcelFile.cshtml" />
     <Content Include="Views\Obligation\ObligationDetail.cshtml" />
     <Content Include="Views\Obligation\ObligationIndex.cshtml" />
+    <Content Include="Views\Fund\FundDetail.cshtml" />
+    <Content Include="Views\Fund\FundIndex.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
