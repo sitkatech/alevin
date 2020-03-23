@@ -44,9 +44,14 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             Add("FBMS Year", boc => boc.FbmsYear.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Reportable 1099", boc => boc.Reportable1099?.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Explanation 1099", boc => boc.Explanation1099?.ToString(), 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            // This is the right idea, but it is painfully slow. We'll need a proc I think. Plus this count is wrong? -- SLG 3/23/2020
-            Add("Obligation Item Budgets", boc => GetWbsElementObligationItemBudgetsCount(boc).ToString(), 300, DhtmlxGridColumnFilterType.Numeric);
-            Add("Obligation Item Invoices", boc => boc.WbsElementObligationItemInvoices.Count.ToString(), 300, DhtmlxGridColumnFilterType.Numeric);
+
+            // This is the right idea, but it is painfully slow. We'll need a proc I think.-- SLG 3/23/2020
+            //Add("Obligation Item Budgets", boc => GetWbsElementObligationItemBudgetsCount(boc).ToString(), 300, DhtmlxGridColumnFilterType.Numeric);
+            //Add("Obligation Item Invoices", boc => boc.WbsElementObligationItemInvoices.Count.ToString(), 300, DhtmlxGridColumnFilterType.Numeric);
+
+            // Is this performant? Nope, it also dogs. We'd definitely need a proc to do this.
+            //Add("Has Obligation Item Budgets", boc => boc.WbsElementObligationItemBudgets.Any().ToString(), 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            //Add("Has Obligation Item Invoices", boc => boc.WbsElementObligationItemInvoices.Any().ToString(), 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
 
         private static int GetWbsElementObligationItemBudgetsCount(ProjectFirmaModels.Models.BudgetObjectCode boc)
