@@ -1,6 +1,5 @@
 ﻿using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Fund;
 using ProjectFirmaModels.Models;
@@ -12,7 +11,6 @@ namespace ProjectFirma.Web.Controllers
 {
     public class FundController : FirmaBaseController
     {
-
         [FundViewFeature]
         public ViewResult FundIndex()
         {

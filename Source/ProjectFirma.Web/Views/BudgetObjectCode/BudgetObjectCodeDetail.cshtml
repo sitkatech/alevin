@@ -1,0 +1,126 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="BudgetObjectCodeDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@inherits ProjectFirma.Web.Views.BudgetObjectCode.BudgetObjectCodeDetail
+
+@functions 
+{
+    /*
+    private HtmlString MakeReclamationAgreementLink(Agreement agreement)
+    {
+        if (agreement == null)
+        {
+            return null;
+        }
+
+        return UrlTemplate.MakeHrefString(agreement.GetDetailUrl(), agreement.GetDisplayName());
+    }
+    */
+
+}
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+}
+
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.BudgetObjectCodeIndexUrl">
+        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
+        Back to all Budget Object Codes
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-10">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @*No edit for BudgetObjectCode to start with.*@
+                    @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit {0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)*@
+                    Basics
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Budget Object Code</div>
+                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeName</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Budget Object Code Item Description</div>
+                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeItemDescription</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Budget Object Code Definition</div>
+                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeDefinition</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">FBMS Year</div>
+                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.FbmsYear</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Reportable 1099</div>
+                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.Reportable1099</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Explanation 1099</div>
+                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.Explanation1099</div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    Obligation Item Invoices for Budget Object Code: @ViewDataTyped.BudgetObjectCode.GetDisplayName()
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ObligationItemInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    Obligation Item Budgets for Budget Object Code: @ViewDataTyped.BudgetObjectCode.GetDisplayName()
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+
+
