@@ -14,7 +14,7 @@ from(
 select po.ProjectUpdateBatchID 
 from dbo.ProjectOrganizationUpdate po 
 join dbo.OrganizationRelationshipType ort on po.OrganizationRelationshipTypeID = ort.OrganizationRelationshipTypeID
-where ort.CanOnlyBeRelatedOnceToAProject = 1
+where ort.IsOrganizationRelationshipTypeRequired = 1
 group by po.ProjectUpdateBatchID, ort.OrganizationRelationshipTypeID
 having count(*) > 1)
 x

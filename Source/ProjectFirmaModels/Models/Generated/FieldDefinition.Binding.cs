@@ -297,6 +297,8 @@ namespace ProjectFirmaModels.Models
         SelectedReportTemplate = 347,
         FactSheetCustomText = 348,
         FactSheetLogo = 349,
+        IsContactRelationshipTypeRequired = 350,
+        IsOrganizationRelationshipTypeRequired = 351,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
