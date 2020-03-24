@@ -42,6 +42,30 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ExcelUploadController : FirmaBaseController
     {
+        #region ManageExcelUploadsAndEtl
+
+        [CrossAreaRoute]
+        [HttpGet]
+        [FirmaAdminFeature]
+        public ViewResult ManageExcelUploadsAndEtl()
+        {
+            return ViewManageExcelUploadsAndEtl_Impl();
+        }
+
+        private ViewResult ViewManageExcelUploadsAndEtl_Impl()
+        {
+            var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
+            var formId = GenerateUploadFbmsFileUploadFormId();
+            var newFbmsExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
+            var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
+            var viewData = new ManageExcelUploadsAndEtlViewData(CurrentFirmaSession, firmaPage, newFbmsExcelFileUploadUrl, doPublishingProcessingPostUrl, formId);
+            var viewModel = new ManageExcelUploadsAndEtlViewModel();
+            return RazorView<ManageExcelUploadsAndEtl, ManageExcelUploadsAndEtlViewData, ManageExcelUploadsAndEtlViewModel>(viewData, viewModel);
+        }
+
+        #endregion ManageExcelUploadsAndEtl
+
+
         #region FBMSExcelUpload
 
         /// <summary>
@@ -51,24 +75,7 @@ namespace ProjectFirma.Web.Controllers
         /// </summary>
         public const int FbmsExcelFileHeaderRowOffset = 3;
 
-        [CrossAreaRoute]
-        [HttpGet]
-        [FirmaAdminFeature]
-        public ViewResult ManageFbmsUpload()
-        {
-            return ViewManageFbmsUpload_Impl();
-        }
 
-        private ViewResult ViewManageFbmsUpload_Impl()
-        {
-            var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
-            var formId = GenerateUploadFbmsFileUploadFormId();
-            var newExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
-            var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
-            var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newExcelFileUploadUrl, doPublishingProcessingPostUrl, formId);
-            var viewModel = new ManageFbmsUploadViewModel();
-            return RazorView<ManageFbmsUpload, ManageFbmsUploadViewData, ManageFbmsUploadViewModel>(viewData, viewModel);
-        }
 
         [HttpGet]
         [FirmaAdminFeature]
@@ -188,6 +195,155 @@ namespace ProjectFirma.Web.Controllers
 
         #endregion ETLExcelUpload
 
+        #region pnBudgetExcelUpload
+
+        /// <summary>
+        /// this is the number of rows down the header appears in the imported ETL excel file.
+        /// If this continues to move around, we can write a search for the first header column by text ( "business area - key" for example).
+        /// -- SLG & TK 3/16/2020
+        /// </summary>
+        public const int PnBudgetExcelFileHeaderRowOffset = 3;
+
+        /*
+        [CrossAreaRoute]
+        [HttpGet]
+        [FirmaAdminFeature]
+        public ViewResult ManageUpload()
+        {
+            return ViewManageExcelUploadsAndEtl_Impl();
+        }
+
+        private ViewResult ViewManageExcelUploadsAndEtl_Impl()
+        {
+            var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
+            var formId = GenerateUploadFbmsFileUploadFormId();
+            var newExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
+            var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
+            var viewData = new ManageExcelUploadsAndEtlViewData(CurrentFirmaSession, firmaPage, newExcelFileUploadUrl, doPublishingProcessingPostUrl, formId);
+            var viewModel = new ManageExcelUploadsAndEtlViewModel();
+            return RazorView<ManageExcelUploadsAndEtl, ManageExcelUploadsAndEtlViewData, ManageExcelUploadsAndEtlViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult ImportFbmsExcelFile()
+        {
+            var viewModel = new ImportFbmsExcelFileViewModel();
+            return ViewImportFbmsExcelFile(viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ImportFbmsExcelFile(ImportFbmsExcelFileViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewImportFbmsExcelFile(viewModel);
+            }
+
+            var httpPostedFileBase = viewModel.FileResourceData;
+
+            return DoFbmsExcelImportForHttpPostedFile(httpPostedFileBase);
+        }
+
+        [FirmaAdminFeature]
+        private ActionResult DoFbmsExcelImportForHttpPostedFile(HttpPostedFileBase httpPostedFileBase)
+        {
+            return DoFbmsExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
+        }
+
+        [FirmaAdminFeature]
+        private ActionResult DoFbmsExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
+        {
+            List<FbmsBudgetStageImport> budgetStageImports;
+            List<FbmsInvoiceStageImport> invoiceStageImports;
+            try
+            {
+                budgetStageImports = FbmsBudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
+                invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
+            }
+            catch (Exception ex)
+            {
+                string tempExcelFilename = Path.GetTempFileName() + ".xlsx";
+                using (var excelFileStream = System.IO.File.Create(tempExcelFilename))
+                {
+                    excelFileAsStream.Seek(0, SeekOrigin.Begin);
+                    excelFileAsStream.CopyTo(excelFileStream);
+
+                    // If this is something really weird...
+                    if (!(ex is SitkaDisplayErrorException))
+                    {
+                        // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
+                        var errorLogMessage = string.Format(
+                            "Unexpected exception while uploading Excel file by PersonID {0} ({1}). Original filename \"{4}\" File saved at \"{2}\".\r\nException Details:\r\n{3}",
+                            CurrentFirmaSession.PersonID,
+                            CurrentFirmaSession.Person.GetFullNameFirstLast(),
+                            tempExcelFilename,
+                            optionalOriginalFilename,
+                            ex);
+                        SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
+                    }
+
+                    var errorMessage = string.Format(
+                        "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No budget updates were saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
+                        optionalOriginalFilename, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
+                    SetErrorForDisplay(errorMessage);
+                }
+
+                // This is the right thing to return, since this starts off in a modal dialog
+                return new ModalDialogFormJsonResult();
+            }
+
+            DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+
+            SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
+            // This is the right thing to return, since this starts off in a modal dialog
+            return new ModalDialogFormJsonResult();
+        }
+
+        public static void DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(
+                                        List<FbmsBudgetStageImport> budgetStageImports,
+                                        List<FbmsInvoiceStageImport> invoiceStageImports,
+                                        out int countAddedBudgets,
+                                        out int countAddedInvoices,
+                                        FirmaSession optionalCurrentFirmaSession)
+        {
+            countAddedBudgets = budgetStageImports.Count;
+            var payrecs = budgetStageImports.Select(x => new StageImpPayRecV3(x)).ToList();
+            var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
+            existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
+
+            countAddedInvoices = invoiceStageImports.Count;
+            var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
+            var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
+            existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
+
+            if (optionalCurrentFirmaSession != null)
+            {
+                HttpRequestStorage.DatabaseEntities.SaveChanges(optionalCurrentFirmaSession.Person);
+            }
+            else
+            {
+                // This is most likely a test context anyhow
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
+            }
+        }
+
+        private PartialViewResult ViewImportFbmsExcelFile(ImportFbmsExcelFileViewModel viewModel)
+        {
+            var mapFormId = GenerateUploadFbmsFileUploadFormId();
+            var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile(null));
+            var viewData = new ImportFbmsExcelFileViewData(mapFormId, newGisUploadUrl);
+            return RazorPartialView<ImportFbmsExcelFile, ImportFbmsExcelFileViewData, ImportFbmsExcelFileViewModel>(viewData, viewModel);
+        }
+
+
+        */
+        #endregion pnBudgetExcelUpload
+
         #region Publishing
 
         [HttpGet]
@@ -199,7 +355,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [FirmaAdminFeature]
-        public ActionResult DoPublishingProcessing(ManageFbmsUploadViewModel viewModel)
+        public ActionResult DoPublishingProcessing(ManageExcelUploadsAndEtlViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
@@ -216,7 +372,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             SetMessageForDisplay($"Publishing Processing completed Successfully");
-            return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageFbmsUpload()));
+            return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageExcelUploadsAndEtl()));
         }
 
         public static void DoPublishingSql(ILog optionalLogger)
@@ -256,7 +412,7 @@ namespace ProjectFirma.Web.Controllers
         {
             return $"uploadFbmsFileUpload";
         }
-
+        
         #endregion Publishing
     }
 }

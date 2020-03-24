@@ -2,14 +2,14 @@
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class ManageFbmsUploadViewData : FirmaViewData
+    public class ManageExcelUploadsAndEtlViewData : FirmaViewData
     {
         public string UploadFbmsSpreadSheetUrl { get; set; }
         public string UploadFormID { get; set; }
 
         public string DoPublishingProcessingPostUrl { get; set; }
 
-        public ManageFbmsUploadViewData(FirmaSession currentFirmaSession, 
+        public ManageExcelUploadsAndEtlViewData(FirmaSession currentFirmaSession, 
                                        ProjectFirmaModels.Models.FirmaPage firmaPage,
                                        string uploadFbmsSpreadSheetUrl, 
                                        string doPublishingProcessingPostUrl, 

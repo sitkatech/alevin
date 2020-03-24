@@ -338,7 +338,7 @@
     <Compile Include="Views\Agreement\AgreementIndex.cs" />
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
-    <Compile Include="Views\ExcelUpload\ManageFbmsUploadViewModel.cs" />
+    <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtlViewModel.cs" />
     <Compile Include="Views\ExcelUpload\FbmsBudgetStageImportsHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportFbmsExcelFileViewModel.cs" />
     <Compile Include="Views\ExcelUpload\ImportFbmsExcelFileViewData.cs" />
@@ -391,8 +391,8 @@
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
-    <Compile Include="Views\ExcelUpload\ManageFbmsUpload.cs" />
-    <Compile Include="Views\ExcelUpload\ManageFbmsUploadViewData.cs" />
+    <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cs" />
+    <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtlViewData.cs" />
     <Compile Include="Views\Reports\Edit.cs" />
     <Compile Include="Views\Reports\EditViewData.cs" />
     <Compile Include="Views\Reports\EditViewModel.cs" />
@@ -1880,7 +1880,7 @@
     <Content Include="Views\Reports\Projects.cshtml" />
     <Content Include="Views\ActionItem\ActionItemsDisplay.cshtml" />
     <Content Include="Views\ActionItem\Edit.cshtml" />
-    <Content Include="Views\ExcelUpload\ManageFbmsUpload.cshtml" />
+    <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

@@ -21,11 +21,11 @@ Source code is available upon request via <support@sitkatech.com>.
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class ManageFbmsUploadViewModel 
+    public class ManageExcelUploadsAndEtlViewModel 
     {
         public string FakeDataToMakeFormPost;
 
-        public ManageFbmsUploadViewModel()
+        public ManageExcelUploadsAndEtlViewModel()
         {
             FakeDataToMakeFormPost = string.Empty;
         }
