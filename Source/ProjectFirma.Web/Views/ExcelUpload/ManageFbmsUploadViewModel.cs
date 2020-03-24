@@ -19,15 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using System.Web;
-using LtInfo.Common;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
     public class ManageFbmsUploadViewModel 

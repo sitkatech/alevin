@@ -243,6 +243,8 @@ namespace ProjectFirma.Web.Views
             // Group 4
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ExcelUploadController>(c => c.ManageFbmsUpload()), currentFirmaSession, $"Upload ETL Excel", "Group4"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ExcelUploadController>(c => c.ManageFbmsUpload()), currentFirmaSession, $"Upload PnBudget Excel", "Group4"));
+
             // todo: action item index here
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ActionItemController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()}", "Group4"));
 

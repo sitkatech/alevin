@@ -21,30 +21,23 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class ImportEtlExcelFileViewData
+    public class ImportFbmsExcelFileViewData
     {
         public readonly string SupportedFileExtensionsCommaSeparated;
         public readonly List<string> SupportedFileExtensions;
         public string UploadFormID { get; set; }
-        public readonly string NewEtlExcelUploadUrl;
+        public readonly string NewFbmsExcelUploadUrl;
         
-        public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForArcGISFileGeodatabase;
-        public readonly ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForKMLFile;
-
-        public ImportEtlExcelFileViewData(string uploadFormId, string newEtlExcelUploadUrl)
+        public ImportFbmsExcelFileViewData(string uploadFormId, string newFbmsExcelUploadUrl)
         {
             UploadFormID = uploadFormId;
-            NewEtlExcelUploadUrl = newEtlExcelUploadUrl;
+            NewFbmsExcelUploadUrl = newFbmsExcelUploadUrl;
 
             SupportedFileExtensions = new List<string> { "xlsx"};
             SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
-            FieldDefinitionForArcGISFileGeodatabase = FieldDefinitionEnum.ArcGISFileGeodatabase.ToType();
-            FieldDefinitionForKMLFile = FieldDefinitionEnum.KMLFile.ToType();
         }
     }
 }

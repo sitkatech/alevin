@@ -339,11 +339,11 @@
     <Compile Include="Views\Agreement\AgreementDetail.cs" />
     <Compile Include="Views\Agreement\AgreementDetailViewData.cs" />
     <Compile Include="Views\ExcelUpload\ManageFbmsUploadViewModel.cs" />
-    <Compile Include="Views\ExcelUpload\BudgetStageImportsHelper.cs" />
-    <Compile Include="Views\ExcelUpload\ImportEtlExcelFileViewModel.cs" />
-    <Compile Include="Views\ExcelUpload\ImportEtlExcelFileViewData.cs" />
-    <Compile Include="Views\ExcelUpload\ImportEtlExcelFile.cs" />
-    <Compile Include="Views\ExcelUpload\InvoiceStageImportsHelper.cs" />
+    <Compile Include="Views\ExcelUpload\FbmsBudgetStageImportsHelper.cs" />
+    <Compile Include="Views\ExcelUpload\ImportFbmsExcelFileViewModel.cs" />
+    <Compile Include="Views\ExcelUpload\ImportFbmsExcelFileViewData.cs" />
+    <Compile Include="Views\ExcelUpload\ImportFbmsExcelFile.cs" />
+    <Compile Include="Views\ExcelUpload\FbmsInvoiceStageImportsHelper.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewData.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewModel.cs" />
@@ -748,7 +748,7 @@
     <Content Include="Views\AgreementRequest\EditCostAuthorityAgreementRequest.cshtml" />
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-1.11.0.min.map" />
-    <Content Include="Views\ExcelUpload\ImportEtlExcelFile.cshtml" />
+    <Content Include="Views\ExcelUpload\ImportFbmsExcelFile.cshtml" />
     <Content Include="Views\Obligation\ObligationDetail.cshtml" />
     <Content Include="Views\Obligation\ObligationIndex.cshtml" />
     <Content Include="Views\Fund\FundDetail.cshtml" />

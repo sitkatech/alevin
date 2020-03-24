@@ -30,7 +30,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class ImportEtlExcelFileViewModel : IValidatableObject
+    public class ImportFbmsExcelFileViewModel : IValidatableObject
     {
         [Required]
         [DisplayName("Excel File to Upload")]

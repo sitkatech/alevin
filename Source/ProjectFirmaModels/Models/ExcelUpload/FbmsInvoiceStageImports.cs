@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="BudgetStageImports.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="InvoiceStageImports.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -26,15 +26,15 @@ using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models.ExcelUpload
 {
-    public class BudgetStageImports : List<BudgetStageImport>
+    public class FbmsInvoiceStageImports : List<FbmsInvoiceStageImport>
     {
-        public const string SheetName = "PayRec-v3";
+        public const string SheetName = "AP-Genl";
         /// <summary>
         /// If there is only a single worksheet in a file, try to use it, no matter what it is named
         /// </summary>
         public const bool UseExistingSheetNameIfSingleSheetFound = true;
 
-        public static BudgetStageImports LoadFromXlsFile(DataTable dataTable)
+        public static FbmsInvoiceStageImports LoadFromXlsFile(DataTable dataTable)
         {
             EnsureWorksheetHasCorrectShape(dataTable);
 
@@ -47,13 +47,13 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                 indexToRowDict.Add(rowNumber++, curDataRow);
             }
 
-            // Skip the first row (remove it)
+            // Skip the first row (remove it)            
             var indexesToRemove = new List<int> { 0 };
 
             // Remove any blank rows
             foreach (var kvp in indexToRowDict)
             {
-                if (BudgetStageImport.RowIsBlank(kvp.Value))
+                if (FbmsInvoiceStageImport.RowIsBlank(kvp.Value))
                 {
                     indexesToRemove.Add(kvp.Key);
                 }
@@ -66,16 +66,16 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             }
 
             // Turn all valid rows into BudgetTransferBulks
-            return new BudgetStageImports(indexToRowDict.Select(kvp => new BudgetStageImport(kvp)));
+            return new FbmsInvoiceStageImports(indexToRowDict.Select(kvp => new FbmsInvoiceStageImport(kvp)));
         }
 
-        public BudgetStageImports(IEnumerable<BudgetStageImport> collection) : base(collection)
+        public FbmsInvoiceStageImports(IEnumerable<FbmsInvoiceStageImport> collection) : base(collection)
         {
         }
 
         private static void EnsureWorksheetHasCorrectShape(DataTable dataTable)
         {
-            var columnNames = GetBudgetColumnLetterToColumnNameDictionary();
+            var columnNames = GetInvoiceColumnLetterToColumnNameDictionary();
 
             var dataRow = dataTable.Rows[0];
             var expectedColumns = columnNames.Values.ToList();
@@ -85,64 +85,65 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             Check.RequireThrowUserDisplayable(!missingColumns.Any(),
                                               string.Format("Expected columns [{0}]\n\nBut got columns [{1}].\n\nThese columns were missing: [{2}]", string.Join(", ", expectedColumns),
                                                             string.Join(", ", actualColumns), string.Join(", ", missingColumns)));
-           
+
+            // taking this out for now - we don't think we want it to be tolerant  of oddball formats. We'd want to know when things change.
+            // -- SLG 3/16/20 
+
+            //foreach (var dataColumn in dataTable.Columns.Cast<DataColumn>())
+            //{
+            //    var currentString = (string) dataRow[dataColumn];
+            //    // Remove unexpected columns?
+            //    if (!expectedColumns.Any(x => string.Equals(currentString, x)))
+            //    {
+            //        dataTable.Columns.Remove(dataColumn);
+            //    }
+            //}
+
+
+
         }
 
-
-        public const string BusinessAreaKey = "Business area - Key";
-        public const string FaBudgetActivityKey = "FA Budget Activity - Key";
-        public const string FunctionalAreaText = "Functional area - Text";
-        public const string ObligationNumberKey = "Obligation Number - Key";
-        public const string ObligationItemKey = "Obligation Item - Key";
+        public const string PurchaseOrderNumberKey = "PO Number - Key";
+        public const string PurchaseOrderLineItemKey = "Purch Ord Line Itm - Key";
+        public const string ReferenceKey = "Reference - Key";
+        public const string VendorKey = "Vendor - Key";
+        public const string VendorText = "Vendor - Text";
         public const string FundKey = "Fund - Key";
-        public const string FundedProgramKey = "Funded Program - Key (Not Compounded)";
+        public const string FundedProgramKey = "Funded Program - Key";
         public const string WbsElementKey = "WBS Element - Key";
         public const string WbsElementText = "WBS Element - Text";
         public const string BudgetObjectClassKey = "Budget Object Class - Key";
-        public const string VendorKey = "Vendor - Key";
-        public const string VendorText = "Vendor - Text";
-        public const string Obligation = "Obligation";
-        public const string GoodsReceipt = "Goods Receipt";
-        public const string Invoiced = "Invoiced";
-        public const string Disbursed = "Disbursed";
+        public const string DebitAmount = "Debit Amount";
+        public const string CreditAmount = "Credit Amount";
+        public const string DebitCreditTotal = "Debit/Credit Total";
         public const string CreatedOnKey = "Created on - Key";
-        public const string DateOfUpdateKey = "Date of Update - Key";
         public const string PostingDateKey = "Posting date - Key";
-        public const string PostingDatePerSplKey = "Posting Date (Per SPL) - Key";
-        public const string DocumentDateOfBlKey = "Document Date of BL - Key";
 
-        public static Dictionary<string, string> GetBudgetColumnLetterToColumnNameDictionary()
+        public static Dictionary<string, string> GetInvoiceColumnLetterToColumnNameDictionary()
         {
             return new Dictionary<string, string>
             {
-                {"B", BusinessAreaKey},
-                {"C", FaBudgetActivityKey},
-                {"D", FunctionalAreaText},
-                {"E", ObligationNumberKey},
-                {"F", ObligationItemKey},
+                {"B", PurchaseOrderNumberKey},
+                {"C", PurchaseOrderLineItemKey},
+                {"D", ReferenceKey},
+                {"E", VendorKey},
+                {"F", VendorText},
                 {"G", FundKey},
                 {"H", FundedProgramKey},
                 {"I", WbsElementKey},
                 {"J", WbsElementText},
                 {"K", BudgetObjectClassKey},
-                {"L", VendorKey},
-                {"M", VendorText },
-                {"N", Obligation },
-                {"O", GoodsReceipt },
-                {"P", Invoiced },
-                {"Q", Disbursed },
-                //{"R", "Unexpended Balance" }
-                {"R", CreatedOnKey },
-                {"S", DateOfUpdateKey },
-                {"T", PostingDateKey },
-                {"U", PostingDatePerSplKey },
-                {"V", DocumentDateOfBlKey }
+                {"L", DebitAmount},
+                {"M", CreditAmount},
+                {"N", DebitCreditTotal},
+                {"O", CreatedOnKey },
+                {"P", PostingDateKey }
             };
         }
 
-        public static Dictionary<string, string> GetBudgetColumnNameToColumnLetterDictionary()
+        public static Dictionary<string, string> GetInvoiceColumnNameToColumnLetterDictionary()
         {
-            var forwardDict = GetBudgetColumnLetterToColumnNameDictionary();
+            var forwardDict = GetInvoiceColumnLetterToColumnNameDictionary();
             var reverseDict = forwardDict.ToDictionary(g => g.Value, g => g.Key);
             return reverseDict;
         }

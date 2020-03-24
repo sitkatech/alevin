@@ -21,23 +21,22 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.IO;
 using LtInfo.Common.ExcelWorkbookUtilities;
-using ProjectFirmaModels.Models;
 using ProjectFirmaModels.Models.ExcelUpload;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class BudgetStageImportsHelper
+    public class FbmsBudgetStageImportsHelper
     {
-        public static BudgetStageImports LoadFromXlsFile(Stream stream, int headerRowOffset)
+        public static FbmsBudgetStageImports LoadFromXlsFile(Stream stream, int headerRowOffset)
         {
-            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(stream, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
-            return BudgetStageImports.LoadFromXlsFile(dataTable);
+            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(stream, FbmsBudgetStageImports.SheetName, FbmsBudgetStageImports.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
+            return FbmsBudgetStageImports.LoadFromXlsFile(dataTable);
         }
 
-        public static BudgetStageImports LoadFromXlsFile(FileInfo file, int headerRowOffset)
+        public static FbmsBudgetStageImports LoadFromXlsFile(FileInfo file, int headerRowOffset)
         {
-            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(file.FullName, BudgetStageImports.SheetName, BudgetStageImports.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
-            return BudgetStageImports.LoadFromXlsFile(dataTable);
+            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(file.FullName, FbmsBudgetStageImports.SheetName, FbmsBudgetStageImports.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
+            return FbmsBudgetStageImports.LoadFromXlsFile(dataTable);
         }
     }
 }

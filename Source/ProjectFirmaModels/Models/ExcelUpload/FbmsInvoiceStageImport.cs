@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace ProjectFirmaModels.Models.ExcelUpload
 {
-    public class InvoiceStageImport
+    public class FbmsInvoiceStageImport
     {
         public readonly string PONumberKey;
         public readonly string PurchOrdLineItmKey;
@@ -24,71 +24,71 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public readonly DateTime? PostingDateKey;
 
 
-        public InvoiceStageImport(KeyValuePair<int, DataRow> keyValuePair)
+        public FbmsInvoiceStageImport(KeyValuePair<int, DataRow> keyValuePair)
         {
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
-            var columnNameToLetterDict = InvoiceStageImports.GetInvoiceColumnNameToColumnLetterDictionary();
+            var columnNameToLetterDict = FbmsInvoiceStageImports.GetInvoiceColumnNameToColumnLetterDictionary();
 
             // Column - PO Number - Key
             PONumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.PurchaseOrderNumberKey);
+                FbmsInvoiceStageImports.PurchaseOrderNumberKey);
 
             // Column - Purch Ord Line Itm - Key
             PurchOrdLineItmKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.PurchaseOrderLineItemKey);
+                FbmsInvoiceStageImports.PurchaseOrderLineItemKey);
 
             // Column - Reference - Key
             ReferenceKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.ReferenceKey);
+                FbmsInvoiceStageImports.ReferenceKey);
 
             // Column - Vendor - Key
             VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.VendorKey);
+                FbmsInvoiceStageImports.VendorKey);
 
             // Column - Vendor - Text
             VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.VendorText);
+                FbmsInvoiceStageImports.VendorText);
             
             // Column - Fund - Key
             FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.FundKey);
+                FbmsInvoiceStageImports.FundKey);
 
             // Column - Funded Program - Key
             FundedProgramKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.FundedProgramKey);
+                FbmsInvoiceStageImports.FundedProgramKey);
 
             // Column - Wbs Element - Key
             WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.WbsElementKey);
+                FbmsInvoiceStageImports.WbsElementKey);
 
             // Column - Wbs Element - Text
             WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.WbsElementText);
+                FbmsInvoiceStageImports.WbsElementText);
 
             // Column - Budget Object Class - Key
             BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.BudgetObjectClassKey);
+                FbmsInvoiceStageImports.BudgetObjectClassKey);
 
             // Column - DebitAmount
             DebitAmount = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.DebitAmount);
+                FbmsInvoiceStageImports.DebitAmount);
 
             // Column - CreditAmount
             CreditAmount = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.CreditAmount);
+                FbmsInvoiceStageImports.CreditAmount);
 
             // Column - DebitCreditTotal
             DebitCreditTotal = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.DebitCreditTotal);
+                FbmsInvoiceStageImports.DebitCreditTotal);
 
             // Column - Created On - Key
             CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.CreatedOnKey);
+                FbmsInvoiceStageImports.CreatedOnKey);
 
             // Column - Posting Date Key
             PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                InvoiceStageImports.PostingDateKey);
+                FbmsInvoiceStageImports.PostingDateKey);
         }
 
         /// <summary>
@@ -98,7 +98,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         /// <returns></returns>
         public static bool RowIsBlank(DataRow dr)
         {
-            var columnsToCheck = InvoiceStageImports.GetInvoiceColumnLetterToColumnNameDictionary().Keys.ToList();
+            var columnsToCheck = FbmsInvoiceStageImports.GetInvoiceColumnLetterToColumnNameDictionary().Keys.ToList();
             var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[(string) col].ToString()));
             return allColumnsBlank;
         }

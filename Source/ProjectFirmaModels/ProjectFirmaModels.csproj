@@ -854,9 +854,9 @@
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
     <Compile Include="Models\ExcelUpload\ExcelColumnHelper.cs" />
     <Compile Include="Models\ExcelUpload\ExcelImportBadCellException.cs" />
-    <Compile Include="Models\ExcelUpload\BudgetStageImports.cs" />
-    <Compile Include="Models\ExcelUpload\InvoiceStageImports.cs" />
-    <Compile Include="Models\ExcelUpload\BudgetStageImport.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImports.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsInvoiceStageImports.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImport.cs" />
     <Compile Include="Models\FieldDefinitionTest.cs" />
     <Compile Include="Models\EvaluationCriteriaValue.cs" />
     <Compile Include="Models\EvaluationCriteria.cs" />
@@ -915,7 +915,7 @@
     <Compile Include="Models\GeospatialAreaPerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
-    <Compile Include="Models\ExcelUpload\InvoiceStageImport.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsInvoiceStageImport.cs" />
     <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\ISortingGroup.cs" />
     <Compile Include="Models\ExternalMapLayer.cs" />

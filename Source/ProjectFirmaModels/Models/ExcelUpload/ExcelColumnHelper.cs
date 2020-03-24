@@ -6,7 +6,6 @@ namespace ProjectFirmaModels.Models.ExcelUpload
 {
     public static class ExcelColumnHelper
     {
-
         public static string GetStringDataValueForColumnName(DataRow dr, int rowIndex, Dictionary<string, string> columnNameToLetterDict, string humanReadableNameOfColumn)
         {
             string columnKeyLetterName = columnNameToLetterDict[humanReadableNameOfColumn];

@@ -24,7 +24,6 @@ using System.IO;
 using log4net;
 using NUnit.Framework;
 using ProjectFirma.Web.Views.ExcelUpload;
-using ProjectFirmaModels.Models;
 using ProjectFirmaModels.Models.ExcelUpload;
 
 namespace ProjectFirma.Web.Controllers
@@ -42,10 +41,10 @@ namespace ProjectFirma.Web.Controllers
 
             FileStream excelFileStream = new FileStream(pathToSampleFbmsExcelFileThatWouldBeUploaded, FileMode.Open, FileAccess.Read);
 
-            List<BudgetStageImport> budgetTransferBulks = BudgetStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.ExcelFileHeaderRowOffset);
-            List<InvoiceStageImport> invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.ExcelFileHeaderRowOffset);
+            List<FbmsBudgetStageImport> budgetTransferBulks = FbmsBudgetStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
+            List<FbmsInvoiceStageImport> invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
 
-            ExcelUploadController.DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);
+            ExcelUploadController.DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);
         }
 
     }

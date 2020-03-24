@@ -42,12 +42,14 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ExcelUploadController : FirmaBaseController
     {
+        #region FBMSExcelUpload
+
         /// <summary>
-        /// this is the number of rows down the header appears in the imported excel file.
+        /// this is the number of rows down the header appears in the imported ETL excel file.
         /// If this continues to move around, we can write a search for the first header column by text ( "business area - key" for example).
         /// -- SLG & TK 3/16/2020
         /// </summary>
-        public const int ExcelFileHeaderRowOffset = 3;
+        public const int FbmsExcelFileHeaderRowOffset = 3;
 
         [CrossAreaRoute]
         [HttpGet]
@@ -61,7 +63,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
             var formId = GenerateUploadFbmsFileUploadFormId();
-            var newExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile());
+            var newExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
             var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
             var viewData = new ManageFbmsUploadViewData(CurrentFirmaSession, firmaPage, newExcelFileUploadUrl, doPublishingProcessingPostUrl, formId);
             var viewModel = new ManageFbmsUploadViewModel();
@@ -70,42 +72,42 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [FirmaAdminFeature]
-        public PartialViewResult ImportExcelFile()
+        public PartialViewResult ImportFbmsExcelFile()
         {
-            var viewModel = new ImportEtlExcelFileViewModel();
-            return ViewImportEtlExcelFile( viewModel);
+            var viewModel = new ImportFbmsExcelFileViewModel();
+            return ViewImportFbmsExcelFile( viewModel);
         }
 
         [HttpPost]
         [FirmaAdminFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ImportExcelFile(ImportEtlExcelFileViewModel viewModel)
+        public ActionResult ImportFbmsExcelFile(ImportFbmsExcelFileViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
-                return ViewImportEtlExcelFile(viewModel);
+                return ViewImportFbmsExcelFile(viewModel);
             }
 
             var httpPostedFileBase = viewModel.FileResourceData;
 
-            return DoExcelImportForHttpPostedFile(httpPostedFileBase);
+            return DoFbmsExcelImportForHttpPostedFile(httpPostedFileBase);
         }
 
         [FirmaAdminFeature]
-        private ActionResult DoExcelImportForHttpPostedFile(HttpPostedFileBase httpPostedFileBase)
+        private ActionResult DoFbmsExcelImportForHttpPostedFile(HttpPostedFileBase httpPostedFileBase)
         {
-            return DoExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
+            return DoFbmsExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
         }
 
         [FirmaAdminFeature]
-        private ActionResult DoExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
+        private ActionResult DoFbmsExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
-            List<BudgetStageImport> budgetStageImports;
-            List<InvoiceStageImport> invoiceStageImports;
+            List<FbmsBudgetStageImport> budgetStageImports;
+            List<FbmsInvoiceStageImport> invoiceStageImports;
             try
             {
-                budgetStageImports = BudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream, ExcelFileHeaderRowOffset);
-                invoiceStageImports = InvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, ExcelFileHeaderRowOffset);
+                budgetStageImports = FbmsBudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
+                invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
             }
             catch (Exception ex)
             {
@@ -139,16 +141,16 @@ namespace ProjectFirma.Web.Controllers
                 return new ModalDialogFormJsonResult();
             }
 
-            DoProcessingOnRecordsLoadedIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+            DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
 
             SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
         }
 
-        public static void DoProcessingOnRecordsLoadedIntoPairedStagingTables(
-                                        List<BudgetStageImport> budgetStageImports,
-                                        List<InvoiceStageImport> invoiceStageImports, 
+        public static void DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(
+                                        List<FbmsBudgetStageImport> budgetStageImports,
+                                        List<FbmsInvoiceStageImport> invoiceStageImports, 
                                         out int countAddedBudgets,
                                         out int countAddedInvoices,
                                         FirmaSession optionalCurrentFirmaSession)
@@ -176,13 +178,17 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-        private PartialViewResult ViewImportEtlExcelFile(ImportEtlExcelFileViewModel viewModel)
+        private PartialViewResult ViewImportFbmsExcelFile(ImportFbmsExcelFileViewModel viewModel)
         {
             var mapFormId = GenerateUploadFbmsFileUploadFormId();
-            var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportExcelFile(null));
-            var viewData = new ImportEtlExcelFileViewData(mapFormId, newGisUploadUrl);
-            return RazorPartialView<ImportEtlExcelFile, ImportEtlExcelFileViewData, ImportEtlExcelFileViewModel>(viewData, viewModel);
+            var newGisUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile(null));
+            var viewData = new ImportFbmsExcelFileViewData(mapFormId, newGisUploadUrl);
+            return RazorPartialView<ImportFbmsExcelFile, ImportFbmsExcelFileViewData, ImportFbmsExcelFileViewModel>(viewData, viewModel);
         }
+
+        #endregion ETLExcelUpload
+
+        #region Publishing
 
         [HttpGet]
         [FirmaAdminFeature]
@@ -246,10 +252,11 @@ namespace ProjectFirma.Web.Controllers
             return sqlConnection;
         }
 
-
         public static string GenerateUploadFbmsFileUploadFormId()
         {
             return $"uploadFbmsFileUpload";
         }
+
+        #endregion Publishing
     }
 }

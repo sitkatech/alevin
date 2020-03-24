@@ -5,24 +5,24 @@ namespace ProjectFirmaModels.Models
     public partial class StageImpApGenSheet : IAuditableEntity
     {
 
-        public StageImpApGenSheet(InvoiceStageImport invoiceStageImport)
+        public StageImpApGenSheet(FbmsInvoiceStageImport fbmsInvoiceStageImport)
         {
 
-            this.PONumberKey = invoiceStageImport.PONumberKey;
-            this.PurchOrdLineItmKey = invoiceStageImport.PurchOrdLineItmKey;
-            this.ReferenceKey = invoiceStageImport.ReferenceKey;
-            this.VendorKey = invoiceStageImport.VendorKey;
-            this.VendorText = invoiceStageImport.VendorText;
-            this.FundKey = invoiceStageImport.FundKey;
-            this.FundedProgramKey = invoiceStageImport.FundedProgramKey;
-            this.WBSElementKey = invoiceStageImport.WbsElementKey;
-            this.WBSElementText = invoiceStageImport.WbsElementText;
-            this.BudgetObjectClassKey = invoiceStageImport.BudgetObjectClassKey;
-            this.DebitAmount = invoiceStageImport.DebitAmount;
-            this.CreditAmount = invoiceStageImport.CreditAmount;
-            this.DebitCreditTotal = invoiceStageImport.DebitCreditTotal;
-            this.CreatedOnKey = invoiceStageImport.CreatedOnKey;
-            this.PostingDateKey = invoiceStageImport.PostingDateKey;
+            this.PONumberKey = fbmsInvoiceStageImport.PONumberKey;
+            this.PurchOrdLineItmKey = fbmsInvoiceStageImport.PurchOrdLineItmKey;
+            this.ReferenceKey = fbmsInvoiceStageImport.ReferenceKey;
+            this.VendorKey = fbmsInvoiceStageImport.VendorKey;
+            this.VendorText = fbmsInvoiceStageImport.VendorText;
+            this.FundKey = fbmsInvoiceStageImport.FundKey;
+            this.FundedProgramKey = fbmsInvoiceStageImport.FundedProgramKey;
+            this.WBSElementKey = fbmsInvoiceStageImport.WbsElementKey;
+            this.WBSElementText = fbmsInvoiceStageImport.WbsElementText;
+            this.BudgetObjectClassKey = fbmsInvoiceStageImport.BudgetObjectClassKey;
+            this.DebitAmount = fbmsInvoiceStageImport.DebitAmount;
+            this.CreditAmount = fbmsInvoiceStageImport.CreditAmount;
+            this.DebitCreditTotal = fbmsInvoiceStageImport.DebitCreditTotal;
+            this.CreatedOnKey = fbmsInvoiceStageImport.CreatedOnKey;
+            this.PostingDateKey = fbmsInvoiceStageImport.PostingDateKey;
         }
 
         public string GetAuditDescriptionString()

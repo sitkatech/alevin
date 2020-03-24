@@ -26,7 +26,7 @@ using System.Linq;
 
 namespace ProjectFirmaModels.Models.ExcelUpload
 {
-    public class BudgetStageImport
+    public class FbmsBudgetStageImport
     {
         public readonly string BusinessAreaKey;
         public readonly string FaBudgetActivityKey;
@@ -52,74 +52,74 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public readonly DateTime? PostingDatePerSplKey;
         public readonly DateTime? DocumentDateOfBlKey;
 
-        public BudgetStageImport(KeyValuePair<int, DataRow> keyValuePair)
+        public FbmsBudgetStageImport(KeyValuePair<int, DataRow> keyValuePair)
         {
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
-            var columnNameToLetterDict = BudgetStageImports.GetBudgetColumnNameToColumnLetterDictionary();
+            var columnNameToLetterDict = FbmsBudgetStageImports.GetBudgetColumnNameToColumnLetterDictionary();
  
             // Column - Business Area Key
-            BusinessAreaKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BusinessAreaKey);
+            BusinessAreaKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.BusinessAreaKey);
 
             // Column - FA Budget Activity Key
-            FaBudgetActivityKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FaBudgetActivityKey);
+            FaBudgetActivityKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.FaBudgetActivityKey);
 
             // Column - Functional Area Text
-            FunctionalAreaText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FunctionalAreaText);
+            FunctionalAreaText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.FunctionalAreaText);
 
             // Column - Obligation Number Key
-            ObligationNumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationNumberKey);
+            ObligationNumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.ObligationNumberKey);
 
             // Column - Obligation Item Key
-            ObligationItemKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.ObligationItemKey);
+            ObligationItemKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.ObligationItemKey);
 
             // Column - Fund Key
-            FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundKey);
+            FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.FundKey);
 
             // Column - Funded Program Key (Not Compunded)
-            FundedProgramKeyNotCompounded = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.FundedProgramKey);
+            FundedProgramKeyNotCompounded = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.FundedProgramKey);
 
             // Column - WBS Element Key
-            WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementKey);
+            WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.WbsElementKey);
 
             // Column - WBS Element Text
-            WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.WbsElementText);
+            WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.WbsElementText);
 
             // Column - Budget Object Class Key
-            BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.BudgetObjectClassKey);
+            BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.BudgetObjectClassKey);
 
             // Column - Vendor Key
-            VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorKey);
+            VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.VendorKey);
 
             // Column - Vendor Key
-            VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.VendorText);
+            VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.VendorText);
 
             // Column - Obligation
-            Obligation = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Obligation);
+            Obligation = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.Obligation);
 
             // Column - Goods Receipt
-            GoodsReceipt = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.GoodsReceipt);
+            GoodsReceipt = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.GoodsReceipt);
 
             // Column - Invoiced
-            Invoiced = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Invoiced);
+            Invoiced = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.Invoiced);
 
             // Column - Disbursed
-            Disbursed = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.Disbursed);
+            Disbursed = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.Disbursed);
 
             // Column - Created on - Key
-            CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.CreatedOnKey);
+            CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.CreatedOnKey);
 
             // Column - Date of Update - Key
-            DateOfUpdateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.DateOfUpdateKey);
+            DateOfUpdateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.DateOfUpdateKey);
 
             // Column - Posting date - Key
-            PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.PostingDateKey);
+            PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.PostingDateKey);
 
             // Column - Posting Date (Per SPL) - Key
-            PostingDatePerSplKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.PostingDatePerSplKey);
+            PostingDatePerSplKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.PostingDatePerSplKey);
 
             // Column - Document Date of BL - Key
-            DocumentDateOfBlKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, BudgetStageImports.DocumentDateOfBlKey);
+            DocumentDateOfBlKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImports.DocumentDateOfBlKey);
         }
         
 
@@ -130,7 +130,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         /// <returns></returns>
         public static bool RowIsBlank(DataRow dr)
         { 
-            var columnsToCheck = BudgetStageImports.GetBudgetColumnLetterToColumnNameDictionary().Keys.ToList();
+            var columnsToCheck = FbmsBudgetStageImports.GetBudgetColumnLetterToColumnNameDictionary().Keys.ToList();
             var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[col].ToString()));
             return allColumnsBlank;
         }

@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public abstract class ImportEtlExcelFile : LtInfo.Common.Mvc.TypedWebPartialViewPage<ImportEtlExcelFileViewData, ImportEtlExcelFileViewModel>
+    public abstract class ImportFbmsExcelFile : LtInfo.Common.Mvc.TypedWebPartialViewPage<ImportFbmsExcelFileViewData, ImportFbmsExcelFileViewModel>
     {
     }
 }
