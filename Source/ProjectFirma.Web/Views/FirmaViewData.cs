@@ -353,6 +353,8 @@ namespace ProjectFirma.Web.Views
             if (new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.Obligation.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationItemBudgetIndex()), currentFirmaSession, $"Full Obligation Item Budgets List", "Group2"));
+                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationItemInvoiceIndex()), currentFirmaSession, $"Full Obligation Item Invoices List", "Group2"));
             }
 
             // Adding the Cost Authorities to the Agreements menu for now.

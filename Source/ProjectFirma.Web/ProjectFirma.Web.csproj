@@ -303,6 +303,10 @@
     <Compile Include="Views\Fund\FundIndexViewData.cs" />
     <Compile Include="Views\Obligation\ObligationDetail.cs" />
     <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />
+    <Compile Include="Views\Obligation\ObligationItemInvoiceIndex.cs" />
+    <Compile Include="Views\Obligation\ObligationItemBudgetIndex.cs" />
+    <Compile Include="Views\Obligation\ObligationItemInvoiceIndexViewData.cs" />
+    <Compile Include="Views\Obligation\ObligationItemBudgetIndexViewData.cs" />
     <Compile Include="Views\Obligation\ObligationItemBudgetGridSpec.cs" />
     <Compile Include="Views\Obligation\ObligationItemInvoiceGridSpec.cs" />
     <Compile Include="Views\Obligation\ObligationGridSpec.cs" />
@@ -755,6 +759,8 @@
     <Content Include="Views\Fund\FundIndex.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeDetail.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cshtml" />
+    <Content Include="Views\Obligation\ObligationItemBudgetIndex.cshtml" />
+    <Content Include="Views\Obligation\ObligationItemInvoiceIndex.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
