@@ -296,6 +296,8 @@
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGridSpec.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexViewData.cs" />
+    <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewData.cs" />
+    <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewModel.cs" />
     <Compile Include="Views\Fund\FundDetail.cs" />
     <Compile Include="Views\Fund\FundDetailViewData.cs" />
     <Compile Include="Views\Fund\FundGridSpec.cs" />
