@@ -39,11 +39,10 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Obligation Number Key", ob => UrlTemplate.MakeHrefString(ob.ObligationItem.ObligationNumber.GetDetailUrl(), ob.ObligationItem.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
             Add("Obligation Item Key", ob => ob.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
             Add("Vendor", ob => ob.ObligationItem.Vendor.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            //Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), ob => ob.WbsElement.WbsElementKey, 150, DhtmlxGridColumnFilterType.Text);
             Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
-            Add("Budget Object Code", ob => ob.BudgetObjectCode.BudgetObjectCodeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Fund Number", ob => UrlTemplate.MakeHrefString(ob.Fund.GetDetailUrl(), ob.Fund.ReclamationFundNumber), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-
+            Add("Budget Object Code", ob => UrlTemplate.MakeHrefString(ob.BudgetObjectCode.GetDetailUrl(), ob.BudgetObjectCode.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Budget Object Code FBMS Year", ob => ob.BudgetObjectCode.FbmsYear.ToString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Fund Number", ob => UrlTemplate.MakeHrefString(ob.Fund.GetDetailUrl(), ob.Fund.ReclamationFundNumber), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Obligation", ob => ob.Obligation, 100, DhtmlxGridColumnFormatType.Currency);
             Add("Goods Receipt", ob => ob.GoodsReceipt, 100, DhtmlxGridColumnFilterType.Text);
             Add("Invoiced", ob => ob.Invoiced, 100, DhtmlxGridColumnFormatType.Currency);
