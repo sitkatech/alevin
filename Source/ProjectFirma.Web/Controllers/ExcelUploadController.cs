@@ -55,12 +55,33 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewManageExcelUploadsAndEtl_Impl()
         {
             var firmaPage = FirmaPageTypeEnum.UploadBudgetAndInvoiceExcel.GetFirmaPage();
-            var formId = GenerateUploadFbmsFileUploadFormId();
+            
+            var fbmsUploadFormID = GenerateUploadFbmsFileUploadFormId();
+            var pnBudgetsUploadFormID = GeneratePnBudgetsUploadFormID();
+
             var newFbmsExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
+            // WRONG
+            var newPnBudgetExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
             var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
-            var viewData = new ManageExcelUploadsAndEtlViewData(CurrentFirmaSession, firmaPage, newFbmsExcelFileUploadUrl, doPublishingProcessingPostUrl, formId);
+            var viewData = new ManageExcelUploadsAndEtlViewData(CurrentFirmaSession, 
+                                                                firmaPage, 
+                                                                newFbmsExcelFileUploadUrl,
+                                                                newPnBudgetExcelFileUploadUrl,
+                                                                doPublishingProcessingPostUrl, 
+                                                                fbmsUploadFormID,
+                                                                pnBudgetsUploadFormID);
             var viewModel = new ManageExcelUploadsAndEtlViewModel();
             return RazorView<ManageExcelUploadsAndEtl, ManageExcelUploadsAndEtlViewData, ManageExcelUploadsAndEtlViewModel>(viewData, viewModel);
+        }
+
+        public static string GenerateUploadFbmsFileUploadFormId()
+        {
+            return $"uploadFbmsFileUpload";
+        }
+
+        public static string GeneratePnBudgetsUploadFormID()
+        {
+            return $"uploadPnBudgetsFileUpload";
         }
 
         #endregion ManageExcelUploadsAndEtl
@@ -408,11 +429,8 @@ namespace ProjectFirma.Web.Controllers
             return sqlConnection;
         }
 
-        public static string GenerateUploadFbmsFileUploadFormId()
-        {
-            return $"uploadFbmsFileUpload";
-        }
-        
+
+
         #endregion Publishing
     }
 }

@@ -30,8 +30,9 @@
     @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
 </div>
 
+@* FBMS Excel File Upload Button *@
 <p>
-    <span style="margin-right:10px">Upload an excel file of the FBMS to update the data in the application</span>
+    <span style="margin-right:10px">Upload an FBMS Excel file to update the data in the application</span>
     @ModalDialogFormHelper.ModalDialogFormLink(null,
         "Upload FBMS Spreadsheet File",
         ViewDataTyped.UploadFbmsSpreadSheetUrl,
@@ -43,14 +44,34 @@
         new List<string>(){"btn", "btn-sm", "btn-firma"},
         null,
         null,
-        ViewDataTyped.UploadFormID,
+        ViewDataTyped.UploadFbmsFormID,
         null,
         ModalDialogFormHelper.DisabledState.NotDisabled)
 </p>
 
+@*PNBudget Excel File Upload Button*@
+<p>
+    <span style="margin-right:10px">Upload a PnBudgets Excel file to update the data in the application</span>
+    @ModalDialogFormHelper.ModalDialogFormLink(null,
+        "Upload PnBudgets Spreadsheet File",
+        ViewDataTyped.UploadPnBudgetsSpreadSheetUrl,
+        "Upload PnBudgets Spreadsheet File",
+        1000,
+        ModalDialogFormHelper.SaveButtonID,
+        "Approve Upload",
+        "Cancel",
+        new List<string>() { "btn", "btn-sm", "btn-firma" },
+        null,
+        null,
+        ViewDataTyped.UploadPnBudgetsFormID,
+        null,
+        ModalDialogFormHelper.DisabledState.NotDisabled)
+</p>
+
+
 <div>
     <form action="@ViewDataTyped.DoPublishingProcessingPostUrl" method="post">
         @Html.HiddenFor(x => x.FakeDataToMakeFormPost)
-        <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false">Do Publishing Processing</button>
+        <button type="submit" class="btn btn-xs btn-firma" title="Do Publishing Processing" value="false">Do Publishing Processing</button>
     </form>
 </div>
