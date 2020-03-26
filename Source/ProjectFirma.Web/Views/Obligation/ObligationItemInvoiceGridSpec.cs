@@ -44,9 +44,9 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Budget Object Code", ob => UrlTemplate.MakeHrefString(ob.BudgetObjectCode.GetDetailUrl(), ob.BudgetObjectCode.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Budget Object Code FBMS Year", ob => ob.BudgetObjectCode.FbmsYear.ToString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Fund Number", ob => UrlTemplate.MakeHrefString(ob.Fund.GetDetailUrl(), ob.Fund.ReclamationFundNumber), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Debit Amount", obi => obi.DebitAmount, 100, DhtmlxGridColumnFormatType.Currency);
-            Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency);
-            Add("Debit/Credit Total", obi => obi.DebitCreditTotal, 100, DhtmlxGridColumnFormatType.Currency);
+            Add("Debit Amount", obi => obi.DebitAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add("Debit/Credit Total", obi => obi.DebitCreditTotal, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add("Created On Date", ob => ob.CreatedOnKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
             Add("Posting Date", ob => ob.PostingDateKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
         }
