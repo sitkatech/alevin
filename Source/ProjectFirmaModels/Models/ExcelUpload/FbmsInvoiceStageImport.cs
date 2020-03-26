@@ -28,7 +28,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         {
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
-            var columnNameToLetterDict = FbmsInvoiceStageImports.GetInvoiceColumnNameToColumnLetterDictionary();
+            var columnNameToLetterDict = FbmsInvoiceStageImports.FbmsInvoice_GetInvoiceColumnNameToColumnLetterDictionary();
 
             // Column - PO Number - Key
             PONumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
@@ -98,7 +98,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         /// <returns></returns>
         public static bool RowIsBlank(DataRow dr)
         {
-            var columnsToCheck = FbmsInvoiceStageImports.GetInvoiceColumnLetterToColumnNameDictionary().Keys.ToList();
+            var columnsToCheck = FbmsInvoiceStageImports.FbmsInvoice_GetInvoiceColumnLetterToColumnNameDictionary().Keys.ToList();
             var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[(string) col].ToString()));
             return allColumnsBlank;
         }

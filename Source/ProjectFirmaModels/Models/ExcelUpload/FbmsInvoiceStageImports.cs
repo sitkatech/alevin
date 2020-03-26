@@ -75,7 +75,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
 
         private static void EnsureWorksheetHasCorrectShape(DataTable dataTable)
         {
-            var columnNames = GetInvoiceColumnLetterToColumnNameDictionary();
+            var columnNames = FbmsInvoice_GetInvoiceColumnLetterToColumnNameDictionary();
 
             var dataRow = dataTable.Rows[0];
             var expectedColumns = columnNames.Values.ToList();
@@ -119,7 +119,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public const string CreatedOnKey = "Created on - Key";
         public const string PostingDateKey = "Posting date - Key";
 
-        public static Dictionary<string, string> GetInvoiceColumnLetterToColumnNameDictionary()
+        public static Dictionary<string, string> FbmsInvoice_GetInvoiceColumnLetterToColumnNameDictionary()
         {
             return new Dictionary<string, string>
             {
@@ -141,9 +141,9 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             };
         }
 
-        public static Dictionary<string, string> GetInvoiceColumnNameToColumnLetterDictionary()
+        public static Dictionary<string, string> FbmsInvoice_GetInvoiceColumnNameToColumnLetterDictionary()
         {
-            var forwardDict = GetInvoiceColumnLetterToColumnNameDictionary();
+            var forwardDict = FbmsInvoice_GetInvoiceColumnLetterToColumnNameDictionary();
             var reverseDict = forwardDict.ToDictionary(g => g.Value, g => g.Key);
             return reverseDict;
         }

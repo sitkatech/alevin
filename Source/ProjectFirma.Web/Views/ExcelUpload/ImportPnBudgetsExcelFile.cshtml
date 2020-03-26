@@ -23,7 +23,7 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.ExcelUpload.ImportFbmsExcelFile
+@inherits ProjectFirma.Web.Views.ExcelUpload.ImportPnBudgetsExcelFile
 
 <div class="validationError">
     @Html.ValidationSummary()
@@ -36,7 +36,7 @@
                 <p>
                     Upload an xlsx file.
                 </p>
-                <form method="POST" id="@ViewDataTyped.FbmsUploadFormID" action="@ViewDataTyped.NewFbmsExcelUploadUrl">
+                <form method="POST" id="@ViewDataTyped.PnBudgetsUploadFormID" action="@ViewDataTyped.NewPnBudgetsExcelUploadUrl">
                 <div>
                     @Html.EditorFor(x => x.FileResourceData)@Html.ValidationMessageFor(x => x.FileResourceData)
                     <span class="smallExplanationText">

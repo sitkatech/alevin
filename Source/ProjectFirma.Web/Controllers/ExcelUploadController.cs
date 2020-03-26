@@ -60,9 +60,9 @@ namespace ProjectFirma.Web.Controllers
             var pnBudgetsUploadFormID = GeneratePnBudgetsUploadFormID();
 
             var newFbmsExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
-            // WRONG
-            var newPnBudgetExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportFbmsExcelFile());
+            var newPnBudgetExcelFileUploadUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.ImportPnBudgetsExcelFile());
             var doPublishingProcessingPostUrl = SitkaRoute<ExcelUploadController>.BuildUrlFromExpression(x => x.DoPublishingProcessing(null));
+
             var viewData = new ManageExcelUploadsAndEtlViewData(CurrentFirmaSession, 
                                                                 firmaPage, 
                                                                 newFbmsExcelFileUploadUrl,
@@ -136,39 +136,12 @@ namespace ProjectFirma.Web.Controllers
             }
             catch (Exception ex)
             {
-                string tempExcelFilename = Path.GetTempFileName() + ".xlsx";
-                using (var excelFileStream = System.IO.File.Create(tempExcelFilename))
-                {
-                    excelFileAsStream.Seek(0, SeekOrigin.Begin);
-                    excelFileAsStream.CopyTo(excelFileStream);
-
-                    // If this is something really weird...
-                    if (!(ex is SitkaDisplayErrorException))
-                    {
-                        // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
-                        var errorLogMessage = string.Format(
-                            "Unexpected exception while uploading Excel file by PersonID {0} ({1}). Original filename \"{4}\" File saved at \"{2}\".\r\nException Details:\r\n{3}",
-                            CurrentFirmaSession.PersonID,
-                            CurrentFirmaSession.Person.GetFullNameFirstLast(),
-                            tempExcelFilename,
-                            optionalOriginalFilename,
-                            ex);
-                        SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
-                    }
-
-                    var errorMessage = string.Format(
-                        "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No budget updates were saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
-                        optionalOriginalFilename, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
-                    SetErrorForDisplay(errorMessage);
-                }
-
-                // This is the right thing to return, since this starts off in a modal dialog
-                return new ModalDialogFormJsonResult();
+                return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
             DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
 
-            SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
+            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were Successfully saved to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
         }
@@ -220,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
         /// If this continues to move around, we can write a search for the first header column by text ( "business area - key" for example).
         /// -- SLG & TK 3/16/2020
         /// </summary>
-        public const int PnBudgetExcelFileHeaderRowOffset = 3;
+        public const int PnBudgetExcelFileHeaderRowOffset = 2;
 
         
         [HttpGet]
@@ -255,75 +228,34 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         private ActionResult DoPnBudgetsExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
-            /*
-            List<PnBudgetsBudgetStageImport> budgetStageImports;
-            List<PnBudgetsInvoiceStageImport> invoiceStageImports;
+            List<PnBudgetsStageImport> pnBudgetStageImports;
             try
             {
-                budgetStageImports = PnBudgetsBudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream, PnBudgetsExcelFileHeaderRowOffset);
-                invoiceStageImports = PnBudgetsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, PnBudgetsExcelFileHeaderRowOffset);
+                pnBudgetStageImports = PnBudgetStageImportsHelper.LoadFromXlsFile(excelFileAsStream, PnBudgetExcelFileHeaderRowOffset);
             }
             catch (Exception ex)
             {
-                string tempExcelFilename = Path.GetTempFileName() + ".xlsx";
-                using (var excelFileStream = System.IO.File.Create(tempExcelFilename))
-                {
-                    excelFileAsStream.Seek(0, SeekOrigin.Begin);
-                    excelFileAsStream.CopyTo(excelFileStream);
-
-                    // If this is something really weird...
-                    if (!(ex is SitkaDisplayErrorException))
-                    {
-                        // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
-                        var errorLogMessage = string.Format(
-                            "Unexpected exception while uploading Excel file by PersonID {0} ({1}). Original filename \"{4}\" File saved at \"{2}\".\r\nException Details:\r\n{3}",
-                            CurrentFirmaSession.PersonID,
-                            CurrentFirmaSession.Person.GetFullNameFirstLast(),
-                            tempExcelFilename,
-                            optionalOriginalFilename,
-                            ex);
-                        SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
-                    }
-
-                    var errorMessage = string.Format(
-                        "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>No budget updates were saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
-                        optionalOriginalFilename, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
-                    SetErrorForDisplay(errorMessage);
-                }
-
-                // This is the right thing to return, since this starts off in a modal dialog
-                return new ModalDialogFormJsonResult();
-
+                return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            DoEtlProcessingOnPnBudgetsRecordsLoadedIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+            DoEtlProcessingOnPnBudgetsRecordsLoadedIntoStagingTable(pnBudgetStageImports, out var countAddedPnBudgets, this.CurrentFirmaSession);
 
-            SetMessageForDisplay($"{countAddedBudgets} Budget records were Successfully saved to database. </br> {countAddedInvoices} Invoice records were Successfully saved to database.");
+            SetMessageForDisplay($"{countAddedPnBudgets.ToGroupedNumeric()} PnBudget records were successfully imported to database.");
+
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
-            */
-            return null;
         }
 
-        /*
-        public static void DoEtlProcessingOnPnBudgetsRecordsLoadedIntoPairedStagingTables(
-                                        List<PnBudgetsBudgetStageImport> budgetStageImports,
-                                        List<PnBudgetsInvoiceStageImport> invoiceStageImports,
-                                        out int countAddedBudgets,
-                                        out int countAddedInvoices,
+        public static void DoEtlProcessingOnPnBudgetsRecordsLoadedIntoStagingTable(
+                                        List<PnBudgetsStageImport> pnBudgetStageImports,
+                                        out int countAddedPnBudgets,
                                         FirmaSession optionalCurrentFirmaSession)
         {
-            countAddedBudgets = budgetStageImports.Count;
-            var payrecs = budgetStageImports.Select(x => new StageImpPayRecV3(x)).ToList();
-            var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.ToList();
-            existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.StageImpPayRecV3s.AddRange(payrecs);
-
-            countAddedInvoices = invoiceStageImports.Count;
-            var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
-            var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
-            existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
+            countAddedPnBudgets = pnBudgetStageImports.Count;
+            var stagePnBudgets = pnBudgetStageImports.Select(x => new StagePnBudget(x)).ToList();
+            var existingPnBudgets = HttpRequestStorage.DatabaseEntities.StagePnBudgets.ToList();
+            existingPnBudgets.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            HttpRequestStorage.DatabaseEntities.StagePnBudgets.AddRange(stagePnBudgets);
 
             if (optionalCurrentFirmaSession != null)
             {
@@ -335,7 +267,6 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
             }
         }
-        */
 
         private PartialViewResult ViewImportPnBudgetsExcelFile(ImportPnBudgetsExcelFileViewModel viewModel)
         {
@@ -346,6 +277,44 @@ namespace ProjectFirma.Web.Controllers
         }
 
         #endregion pnBudgetExcelUpload
+
+        #region CommonUploadStuff
+
+        private ActionResult Common_LoadFromXls_ExceptionHandler(Stream excelFileAsStream, 
+                                                                 string optionalOriginalFilename,
+                                                                 Exception ex)
+        {
+            string tempExcelFilename = Path.GetTempFileName() + ".xlsx";
+            using (var excelFileStream = System.IO.File.Create(tempExcelFilename))
+            {
+                excelFileAsStream.Seek(0, SeekOrigin.Begin);
+                excelFileAsStream.CopyTo(excelFileStream);
+
+                // If this is something really weird...
+                if (!(ex is SitkaDisplayErrorException))
+                {
+                    // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
+                    var errorLogMessage = string.Format(
+                        "Unexpected exception while uploading Excel file by PersonID {0} ({1}). Original filename \"{4}\" File saved at \"{2}\".\r\nException Details:\r\n{3}",
+                        CurrentFirmaSession.PersonID,
+                        CurrentFirmaSession.Person.GetFullNameFirstLast(),
+                        tempExcelFilename,
+                        optionalOriginalFilename,
+                        ex);
+                    SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
+                }
+
+                var errorMessage = string.Format(
+                    "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>Nothing was saved to the database</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
+                    optionalOriginalFilename, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
+                SetErrorForDisplay(errorMessage);
+            }
+
+            // This is the right thing to return, since this starts off in a modal dialog
+            return new ModalDialogFormJsonResult();
+        }
+
+        #endregion CommonUploadStuff
 
         #region Publishing
 

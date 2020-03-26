@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ImportGdbFileViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ImportGdbFile.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,25 +19,18 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
+using System.IO;
+using LtInfo.Common.ExcelWorkbookUtilities;
+using ProjectFirmaModels.Models.ExcelUpload;
 
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class ImportFbmsExcelFileViewData
+    public class PnBudgetStageImportsHelper
     {
-        public readonly string SupportedFileExtensionsCommaSeparated;
-        public readonly List<string> SupportedFileExtensions;
-        public string FbmsUploadFormID { get; set; }
-        public readonly string NewFbmsExcelUploadUrl;
-        
-        public ImportFbmsExcelFileViewData(string fbmsUploadFormID, string newFbmsExcelUploadUrl)
+        public static PnBudgetsStageImports LoadFromXlsFile(Stream stream, int headerRowOffset)
         {
-            FbmsUploadFormID = fbmsUploadFormID;
-            NewFbmsExcelUploadUrl = newFbmsExcelUploadUrl;
-
-            SupportedFileExtensions = new List<string> { "xlsx"};
-            SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
+            var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(stream, PnBudgetsStageImports.SheetName, PnBudgetsStageImports.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
+            return PnBudgetsStageImports.LoadFromXlsFile(dataTable);
         }
     }
 }

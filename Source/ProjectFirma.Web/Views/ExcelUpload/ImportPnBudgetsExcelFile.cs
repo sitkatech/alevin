@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ImportGdbFileViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ImportGdbFile.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,25 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Linq;
-
 namespace ProjectFirma.Web.Views.ExcelUpload
 {
-    public class ImportFbmsExcelFileViewData
+    public abstract class ImportPnBudgetsExcelFile : LtInfo.Common.Mvc.TypedWebPartialViewPage<ImportPnBudgetsExcelFileViewData, ImportPnBudgetsExcelFileViewModel>
     {
-        public readonly string SupportedFileExtensionsCommaSeparated;
-        public readonly List<string> SupportedFileExtensions;
-        public string FbmsUploadFormID { get; set; }
-        public readonly string NewFbmsExcelUploadUrl;
-        
-        public ImportFbmsExcelFileViewData(string fbmsUploadFormID, string newFbmsExcelUploadUrl)
-        {
-            FbmsUploadFormID = fbmsUploadFormID;
-            NewFbmsExcelUploadUrl = newFbmsExcelUploadUrl;
-
-            SupportedFileExtensions = new List<string> { "xlsx"};
-            SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
-        }
     }
 }

@@ -28,13 +28,13 @@ namespace ProjectFirma.Web.Views.ExcelUpload
     {
         public readonly string SupportedFileExtensionsCommaSeparated;
         public readonly List<string> SupportedFileExtensions;
-        public string UploadFormID { get; set; }
-        public readonly string NewFbmsExcelUploadUrl;
+        public string PnBudgetsUploadFormID { get; set; }
+        public readonly string NewPnBudgetsExcelUploadUrl;
         
-        public ImportPnBudgetsExcelFileViewData(string uploadFormId, string newFbmsExcelUploadUrl)
+        public ImportPnBudgetsExcelFileViewData(string pnBudgetsUploadFormID, string newPnBudgetsExcelUploadUrl)
         {
-            UploadFormID = uploadFormId;
-            NewFbmsExcelUploadUrl = newFbmsExcelUploadUrl;
+            PnBudgetsUploadFormID = pnBudgetsUploadFormID;
+            NewPnBudgetsExcelUploadUrl = newPnBudgetsExcelUploadUrl;
 
             SupportedFileExtensions = new List<string> { "xlsx"};
             SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));

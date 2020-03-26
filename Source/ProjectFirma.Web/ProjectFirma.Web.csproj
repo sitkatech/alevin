@@ -296,6 +296,8 @@
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGridSpec.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexViewData.cs" />
+    <Compile Include="Views\ExcelUpload\PnBudgetStageImportsHelper.cs" />
+    <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewData.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewModel.cs" />
     <Compile Include="Views\Fund\FundDetail.cs" />
@@ -757,6 +759,7 @@
     <Content Include="Views\Fund\FundIndex.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeDetail.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cshtml" />
+    <Content Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />

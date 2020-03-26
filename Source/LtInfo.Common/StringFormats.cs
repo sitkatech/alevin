@@ -40,10 +40,14 @@ namespace LtInfo.Common
         public static string Left(this string thisString, int length)
         {
             if (String.IsNullOrWhiteSpace(thisString))
+            {
                 return String.Empty;
+            }
 
             if (thisString.Length < length)
+            {
                 return thisString;
+            }
             
             return thisString.Substring(0, length);
         }
@@ -52,10 +56,12 @@ namespace LtInfo.Common
         {
             return value.HasValue ? value.Value.ToStringPercent() : "";
         }
+
         public static string ToStringPercent(this decimal value)
         {
             return value.ToString("0.00%");
         }
+
         public static string ToPercentWithNoSymbolOrBlank(this decimal? d)
         {
             return d.HasValue ? (d.Value * 100).ToString("0.00") : "";
