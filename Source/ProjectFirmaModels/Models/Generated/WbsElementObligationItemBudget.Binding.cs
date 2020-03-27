@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, string goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey, int? budgetObjectCodeID, int fundID) : this()
+        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, double? goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey, int? budgetObjectCodeID, int fundID) : this()
         {
             this.WbsElementObligationItemBudgetID = wbsElementObligationItemBudgetID;
             this.WbsElementID = wbsElementID;
@@ -130,7 +130,7 @@ namespace ProjectFirmaModels.Models
         public int WbsElementID { get; set; }
         public int ObligationItemID { get; set; }
         public double? Obligation { get; set; }
-        public string GoodsReceipt { get; set; }
+        public double? GoodsReceipt { get; set; }
         public double? Invoiced { get; set; }
         public double? Disbursed { get; set; }
         public double? UnexpendedBalance { get; set; }
@@ -153,7 +153,7 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-            public const int GoodsReceipt = 255;
+
         }
     }
 }

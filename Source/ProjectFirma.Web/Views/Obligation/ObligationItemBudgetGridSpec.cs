@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Budget Object Code FBMS Year", ob => ob.BudgetObjectCode.FbmsYear.ToString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Fund Number", ob => UrlTemplate.MakeHrefString(ob.Fund.GetDetailUrl(), ob.Fund.ReclamationFundNumber), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Obligation", ob => ob.Obligation, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add("Goods Receipt", ob => ob.GoodsReceipt, 100, DhtmlxGridColumnFilterType.Text);
+            Add("Goods Receipt", ob => ob.GoodsReceipt, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add("Invoiced", ob => ob.Invoiced, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add("Disbursed", ob => ob.Disbursed, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add("Unexpended Balance", ob => ob.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
