@@ -139,14 +139,14 @@ namespace ProjectFirma.Web.Controllers
                 return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+            LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
 
             SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were Successfully saved to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
         }
 
-        public static void DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(
+        public static void LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(
                                         List<FbmsBudgetStageImport> budgetStageImports,
                                         List<FbmsInvoiceStageImport> invoiceStageImports, 
                                         out int countAddedBudgets,
@@ -238,7 +238,7 @@ namespace ProjectFirma.Web.Controllers
                 return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            DoEtlProcessingOnPnBudgetsRecordsLoadedIntoStagingTable(pnBudgetStageImports, out var countAddedPnBudgets, this.CurrentFirmaSession);
+            LoadPnBudgetsRecordsFromExcelFileObjectsIntoStagingTable(pnBudgetStageImports, out var countAddedPnBudgets, this.CurrentFirmaSession);
 
             SetMessageForDisplay($"{countAddedPnBudgets.ToGroupedNumeric()} PnBudget records were successfully imported to database.");
 
@@ -246,7 +246,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        public static void DoEtlProcessingOnPnBudgetsRecordsLoadedIntoStagingTable(
+        public static void LoadPnBudgetsRecordsFromExcelFileObjectsIntoStagingTable(
                                         List<PnBudgetsStageImport> pnBudgetStageImports,
                                         out int countAddedPnBudgets,
                                         FirmaSession optionalCurrentFirmaSession)

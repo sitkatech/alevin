@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Controllers
             List<FbmsBudgetStageImport> budgetTransferBulks = FbmsBudgetStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
             List<FbmsInvoiceStageImport> invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
 
-            ExcelUploadController.DoEtlProcessingOnFbmsRecordsLoadedIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);
+            ExcelUploadController.LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);
         }
 
     }
