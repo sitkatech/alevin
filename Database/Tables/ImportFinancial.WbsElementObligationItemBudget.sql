@@ -7,7 +7,7 @@ CREATE TABLE [ImportFinancial].[WbsElementObligationItemBudget](
 	[WbsElementID] [int] NOT NULL,
 	[ObligationItemID] [int] NOT NULL,
 	[Obligation] [float] NULL,
-	[GoodsReceipt] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[GoodsReceipt] [float] NULL,
 	[Invoiced] [float] NULL,
 	[Disbursed] [float] NULL,
 	[UnexpendedBalance] [float] NULL,

@@ -19,7 +19,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.WbsElementID).HasColumnName(@"WbsElementID").HasColumnType("int").IsRequired();
             Property(x => x.ObligationItemID).HasColumnName(@"ObligationItemID").HasColumnType("int").IsRequired();
             Property(x => x.Obligation).HasColumnName(@"Obligation").HasColumnType("float").IsOptional();
-            Property(x => x.GoodsReceipt).HasColumnName(@"GoodsReceipt").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(255);
+            Property(x => x.GoodsReceipt).HasColumnName(@"GoodsReceipt").HasColumnType("float").IsOptional();
             Property(x => x.Invoiced).HasColumnName(@"Invoiced").HasColumnType("float").IsOptional();
             Property(x => x.Disbursed).HasColumnName(@"Disbursed").HasColumnType("float").IsOptional();
             Property(x => x.UnexpendedBalance).HasColumnName(@"UnexpendedBalance").HasColumnType("float").IsOptional();
