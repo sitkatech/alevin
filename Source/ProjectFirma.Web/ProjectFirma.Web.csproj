@@ -110,6 +110,7 @@
     <Compile Include="Models\BudgetObjectCodeModelExtensions.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\FundModelExtensions.cs" />
+    <Compile Include="Models\ObligationItemModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
     <Compile Include="Models\VendorModelExtensions.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
