@@ -203,6 +203,9 @@ end
                     (select MAX(boc.FbmsYear) from Reclamation.BudgetObjectCode as boc)
                     ) as FbmsYear
         from ImportFinancial.impPayRecV3 as pr
+        --where pr.BudgetObjectClassKey = '1215'
+        --and
+        --pr.Obligation = 418.52
     ) as boq
     join Reclamation.BudgetObjectCode as boc on boq.pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName and boq.FbmsYear = boc.FbmsYear
     order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
@@ -250,7 +253,6 @@ end
     where 
         pr.WBSElementKey != '#'
     order by ObligationItemID
-
 
 
     -- Temp table to help with BOC FBMS years for impApGenSheet

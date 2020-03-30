@@ -92,60 +92,15 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-
-
         [ObligationViewFeature]
         //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
         // Can we / should we use the ObligationNumber as the primary key string?
-        public ViewResult ObligationDetail(ObligationNumberPrimaryKey ObligationPrimaryKey)
+        public ViewResult ObligationDetail(ObligationNumberPrimaryKey obligationPrimaryKey)
         {
-            var Obligation = ObligationPrimaryKey.EntityObject;
-            var viewData = new ObligationDetailViewData(CurrentFirmaSession, Obligation);
+            var obligation = obligationPrimaryKey.EntityObject;
+            var viewData = new ObligationDetailViewData(CurrentFirmaSession, obligation);
             return RazorView<ObligationDetail, ObligationDetailViewData>(viewData);
         }
-
-
-
-
-        //[ObligationViewFeature]
-        //public GridJsonNetJObjectResult<Project> ObligationAgreementGridJsonData(ObligationNumberPrimaryKey obligationPrimaryKey)
-        //{
-        //    var reclamationObligation = obligationPrimaryKey.EntityObject;
-        //    /*
-        //    var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationObligation);
-        //    //var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-        //    var projectReclamationObligations = reclamationObligation.GetAssociatedProjects();
-        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationObligations, gridSpec);
-        //    return gridJsonNetJObjectResult;
-        //    */
-        //    return null;
-        //}
-
-
-
-
-        //[ObligationViewFeature]
-        //public GridJsonNetJObjectResult<Project> ObligationProjectsGridJsonData(ObligationNumberPrimaryKey reclamationObligationPrimaryKey)
-        //{
-        //    var reclamationObligation = reclamationObligationPrimaryKey.EntityObject;
-        //    var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationObligation);
-        //    //var projectTaxonomyBranches = taxonomyBranchPrimaryKey.EntityObject.GetAssociatedProjects(CurrentPerson);
-        //    var projectReclamationObligations = reclamationObligation.GetAssociatedProjects();
-        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationObligations, gridSpec);
-        //    return gridJsonNetJObjectResult;
-        //}
-
-        //[ObligationViewFeature]
-        //public GridJsonNetJObjectResult<CostAuthority> ObligationCostAuthorityGridJsonData(ObligationNumberPrimaryKey reclamationObligationPrimaryKey)
-        //{
-        //    var gridSpec = new BasicCostAuthorityGridSpec(CurrentPerson);
-        //    var projectReclamationObligations = reclamationObligationPrimaryKey.EntityObject.GetReclamationCostAuthorities();
-        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthority>(projectReclamationObligations, gridSpec);
-        //    return gridJsonNetJObjectResult;
-        //}
-
-
-
 
     }
 }
