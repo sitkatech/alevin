@@ -9,7 +9,7 @@ select
     2344 as TaxonomyLeafID,
     3 as ProjectStageID,
     rscawbsNeedingProjects.PacificNorthActivityName,
-    'XXXXX THIS IS A FRESHLY IMPORTED PROJECT XXXXX' as ProjectDescription,
+    'XXXXX THIS IS A NEW PROJECT -- IMPORTED ' + (select convert(varchar(10),getdate(),103)) as ProjectDescription,
     0 as IsFeatured,
     3 as ProjectLocationSimpleTypeID,
     3 as ProjectApprovalStatusID,
