@@ -571,6 +571,8 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\ActionItem\ActionItemsDisplayViewData.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalanceViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
@@ -1893,6 +1895,7 @@
     <Content Include="Views\ActionItem\ActionItemsDisplay.cshtml" />
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
+    <Content Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
