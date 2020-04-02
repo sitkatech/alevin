@@ -40,12 +40,12 @@
             @foreach (var prbRecord in ViewDataTyped.ProjectRunningBalanceRecords)
             {
             <tr>
-                <td>@prbRecord.Date</td>
-                <td>@prbRecord.TotalProjectedBudget</td>
-                <td>@prbRecord.ObligationItemBudgetObligation</td>
-                <td>@prbRecord.ObligationItemInvoiceDebit</td>
-                <td>@prbRecord.ProjectionMinusObligation</td>
-                <td>@prbRecord.ObligationMinusDebit</td>
+                <td>@prbRecord.Date.ToShortDateString()</td>
+                <td>@prbRecord.TotalProjectedBudget.ToStringCurrency()</td>
+                <td>@prbRecord.ObligationItemBudgetObligation.ToStringCurrency()</td>
+                <td>@prbRecord.ObligationItemInvoiceDebit.ToStringCurrency()</td>
+                <td>@prbRecord.ProjectionMinusObligation.ToStringCurrency()</td>
+                <td>@prbRecord.ObligationMinusDebit.ToStringCurrency()</td>
             </tr>
             }
             @*<tr>

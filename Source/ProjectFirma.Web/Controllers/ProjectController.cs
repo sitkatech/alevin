@@ -262,11 +262,13 @@ namespace ProjectFirma.Web.Controllers
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
             //Project Running Balance
-            //var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority);
-            //var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets);
-            //var projectRunningBalanceRecords = new List<ProjectRunningBalanceRecord>();
-            //projectRunningBalanceRecords.AddRange(obligationItemBudgetRecords);
-            var projectRunningBalanceViewData = new ProjectRunningBalanceViewData(new List<ProjectRunningBalanceRecord>());
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority);
+            var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).Select(x => new ProjectRunningBalanceRecord(x));
+            var obligationItemInvoiceRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).Select(x => new ProjectRunningBalanceRecord(x));
+            var projectRunningBalanceRecords = new List<ProjectRunningBalanceRecord>();
+            projectRunningBalanceRecords.AddRange(obligationItemBudgetRecords);
+            projectRunningBalanceRecords.AddRange(obligationItemInvoiceRecords);
+            var projectRunningBalanceViewData = new ProjectRunningBalanceViewData(projectRunningBalanceRecords);
             
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
