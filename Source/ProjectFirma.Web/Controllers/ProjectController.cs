@@ -262,18 +262,27 @@ namespace ProjectFirma.Web.Controllers
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
             //Project Running Balance
-            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority);
-            var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).Select(x => new ProjectRunningBalanceRecord(x));
-            var obligationItemInvoiceRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).Select(x => new ProjectRunningBalanceRecord(x));
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority).ToList();
+            var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
+            var obligationItemInvoiceRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
             var projectRunningBalanceRecords = new List<ProjectRunningBalanceRecord>();
             projectRunningBalanceRecords.AddRange(obligationItemBudgetRecords);
             projectRunningBalanceRecords.AddRange(obligationItemInvoiceRecords);
 
             // add dummy data for ProjectedBudget for now
-            var dateForProjectedBudgetFromBudgetRecords = obligationItemBudgetRecords.OrderBy(x=> x.Date).FirstOrDefault().Date.AddDays(-2);
-            projectRunningBalanceRecords.Add(new ProjectRunningBalanceRecord(1000000, dateForProjectedBudgetFromBudgetRecords));
-            var dateForProjectedBudgetFromInvoiceRecords = obligationItemInvoiceRecords.OrderBy(x => x.Date).FirstOrDefault().Date.AddDays(-2);
-            projectRunningBalanceRecords.Add(new ProjectRunningBalanceRecord(1000000, dateForProjectedBudgetFromInvoiceRecords));
+            if (obligationItemBudgetRecords.Any())
+            {
+                var dateForProjectedBudgetFromBudgetRecords = obligationItemBudgetRecords.OrderBy(x => x.Date).FirstOrDefault().Date.AddDays(-2);
+                projectRunningBalanceRecords.Add(new ProjectRunningBalanceRecord(1000000, dateForProjectedBudgetFromBudgetRecords));
+            }
+
+            if (obligationItemInvoiceRecords.Any())
+            {
+                var dateForProjectedBudgetFromInvoiceRecords = obligationItemInvoiceRecords.OrderBy(x => x.Date)
+                    .FirstOrDefault().Date.AddDays(-2);
+                projectRunningBalanceRecords.Add(new ProjectRunningBalanceRecord(1000000,
+                    dateForProjectedBudgetFromInvoiceRecords));
+            }
 
             var projectRunningBalanceViewData = new ProjectRunningBalanceViewData(projectRunningBalanceRecords);
             
