@@ -23,7 +23,7 @@ where ProjectID in
     and
     tl.TaxonomyLeafID = 2339
 )
--- TL # 2680 = Uknonwn
+-- TL # 2680 = Unknown
 
 /*
 -- Remaining questionables with no CostAuthority:
