@@ -22,8 +22,10 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CostCenter).HasColumnName(@"CostCenter").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.AgencyProjectType).HasColumnName(@"AgencyProjectType").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.ProjectNumber).HasColumnName(@"ProjectNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            Property(x => x.JobNumber).HasColumnName(@"JobNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.Authority).HasColumnName(@"Authority").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.Job).HasColumnName(@"Job").HasColumnType("nvarchar").IsOptional().HasMaxLength(3);
+            Property(x => x.Number).HasColumnName(@"Number").HasColumnType("nvarchar").IsOptional().HasMaxLength(4);
+            Property(x => x.JobNumber).HasColumnName(@"JobNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.WBSStatus).HasColumnName(@"WBSStatus").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.HCategoryLU).HasColumnName(@"HCategoryLU").HasColumnType("float").IsOptional();
             Property(x => x.WBSNoDot).HasColumnName(@"WBSNoDot").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
