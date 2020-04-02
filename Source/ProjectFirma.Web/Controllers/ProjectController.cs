@@ -51,6 +51,7 @@ using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -258,6 +259,9 @@ namespace ProjectFirma.Web.Controllers
 
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
+
+            //Project Running Balance
+            var projectRunningBalanceViewData = new ProjectRunningBalanceViewData(new List<ProjectRunningBalanceRecord>());
             
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
@@ -312,7 +316,8 @@ namespace ProjectFirma.Web.Controllers
                 projectEvaluationsUserHasAccessTo,
                 userHasStartUpdateWorkflowPermission,
                 actionItemsDisplayViewData,
-                userCanViewActionItems);
+                userCanViewActionItems,
+                projectRunningBalanceViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

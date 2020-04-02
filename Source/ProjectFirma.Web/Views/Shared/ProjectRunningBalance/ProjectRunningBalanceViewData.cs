@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Project;
@@ -28,11 +29,36 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance
 {
     public class ProjectRunningBalanceViewData : FirmaUserControlViewData
     {
+        private List<ProjectRunningBalanceRecord> ProjectRunningBalanceRecords { get; set; }
 
 
-        public ProjectRunningBalanceViewData()
+        public ProjectRunningBalanceViewData(List<ProjectRunningBalanceRecord> projectRunningBalanceRecords)
+        {
+            ProjectRunningBalanceRecords = projectRunningBalanceRecords;
+        }
+    }
+
+    public class ProjectRunningBalanceRecord
+    {
+        /// <summary>
+        /// Posting Date from Obligation Item Budget/Invoice
+        /// or Date from TotalProjectedBudget
+        /// </summary>
+        public DateTime Date { get; set; }
+
+        /// <summary>
+        /// Dummy data - eventually coming from user entered data in UI
+        /// </summary>
+        public float TotalProjectedBudget { get; set; }
+        public float ObligationItemBudgetObligation { get; set; }
+        public float ObligationItemInvoiceDebit { get; set; }
+        public float ProjectionMinusObligation => TotalProjectedBudget - ObligationItemBudgetObligation;
+        public float ObligationMinusDebit => ObligationItemBudgetObligation - ObligationItemInvoiceDebit;
+
+        public ProjectRunningBalanceRecord()
         {
 
         }
+
     }
 }
