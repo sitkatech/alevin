@@ -26,9 +26,12 @@
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectRunningBalance.ProjectRunningBalance
 
-
-    <div class="table-responsive tableFixHeader" style="max-height: 450px;">
-        <table class="table table-condensed table-bordered">
+<style>
+    .tableFixedHead tbody { overflow-y: auto; height: 300px; }
+    .tableFixedHead thead th { position: sticky; top: 0; background-color: #fff; }
+</style>
+    <div class="table-responsive" style="max-height: 450px;">
+        <table class="table table-condensed table-bordered tableFixedHead">
             <thead>
                 <tr>
                     <th scope="col">Date</th>
