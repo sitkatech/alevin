@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirmaModels.Models;
@@ -29,12 +31,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance
 {
     public class ProjectRunningBalanceViewData : FirmaUserControlViewData
     {
-        private List<ProjectRunningBalanceRecord> ProjectRunningBalanceRecords { get; set; }
+        public List<ProjectRunningBalanceRecord> ProjectRunningBalanceRecords { get; set; }
 
 
         public ProjectRunningBalanceViewData(List<ProjectRunningBalanceRecord> projectRunningBalanceRecords)
         {
-            ProjectRunningBalanceRecords = projectRunningBalanceRecords;
+            ProjectRunningBalanceRecords = projectRunningBalanceRecords.OrderBy(x => x.Date).ToList();
         }
     }
 
@@ -49,15 +51,29 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance
         /// <summary>
         /// Dummy data - eventually coming from user entered data in UI
         /// </summary>
-        public float TotalProjectedBudget { get; set; }
-        public float ObligationItemBudgetObligation { get; set; }
-        public float ObligationItemInvoiceDebit { get; set; }
-        public float ProjectionMinusObligation => TotalProjectedBudget - ObligationItemBudgetObligation;
-        public float ObligationMinusDebit => ObligationItemBudgetObligation - ObligationItemInvoiceDebit;
+        public double TotalProjectedBudget { get; set; }
+        public double ObligationItemBudgetObligation { get; set; }
+        public double ObligationItemInvoiceDebit { get; set; }
+        public double ProjectionMinusObligation => TotalProjectedBudget - ObligationItemBudgetObligation;
+        public double ObligationMinusDebit => ObligationItemBudgetObligation - ObligationItemInvoiceDebit;
 
         public ProjectRunningBalanceRecord()
         {
+            TotalProjectedBudget = 1000000;
+        }
 
+        public ProjectRunningBalanceRecord(WbsElementObligationItemBudget obligationItemBudget) : this()
+        {
+            Date = obligationItemBudget.PostingDateKey ?? DateTime.MinValue;
+            ObligationItemBudgetObligation = obligationItemBudget.Obligation ?? 0;
+            ObligationItemInvoiceDebit = 0;
+        }
+
+        public ProjectRunningBalanceRecord(WbsElementObligationItemInvoice obligationItemInvoice) : this()
+        {
+            Date = obligationItemInvoice.PostingDateKey ?? DateTime.MinValue;
+            ObligationItemBudgetObligation = 0;
+            ObligationItemInvoiceDebit = obligationItemInvoice.DebitAmount ?? 0;
         }
 
     }

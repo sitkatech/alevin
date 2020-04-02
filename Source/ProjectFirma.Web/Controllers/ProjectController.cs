@@ -46,6 +46,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using ApprovalUtilities.Utilities;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
@@ -261,6 +262,10 @@ namespace ProjectFirma.Web.Controllers
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
             //Project Running Balance
+            //var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority);
+            //var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets);
+            //var projectRunningBalanceRecords = new List<ProjectRunningBalanceRecord>();
+            //projectRunningBalanceRecords.AddRange(obligationItemBudgetRecords);
             var projectRunningBalanceViewData = new ProjectRunningBalanceViewData(new List<ProjectRunningBalanceRecord>());
             
             var viewData = new DetailViewData(CurrentFirmaSession,
