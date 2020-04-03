@@ -25,7 +25,6 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCreateSectionExpectedAccomplishments ExpectedAccomplishments = ProjectCreateSectionExpectedAccomplishments.Instance;
         public static readonly ProjectCreateSectionReportedAccomplishments ReportedAccomplishments = ProjectCreateSectionReportedAccomplishments.Instance;
         public static readonly ProjectCreateSectionBudget Budget = ProjectCreateSectionBudget.Instance;
-        public static readonly ProjectCreateSectionReportedExpenditures ReportedExpenditures = ProjectCreateSectionReportedExpenditures.Instance;
         public static readonly ProjectCreateSectionClassifications Classifications = ProjectCreateSectionClassifications.Instance;
         public static readonly ProjectCreateSectionAssessment Assessment = ProjectCreateSectionAssessment.Instance;
         public static readonly ProjectCreateSectionPhotos Photos = ProjectCreateSectionPhotos.Instance;
@@ -42,7 +41,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCreateSection()
         {
-            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, ReportedExpenditures, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation };
+            All = new List<ProjectCreateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ExpectedAccomplishments, ReportedAccomplishments, Budget, Classifications, Assessment, Photos, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCreateSection>(All.ToDictionary(x => x.ProjectCreateSectionID));
         }
 
@@ -146,8 +145,6 @@ namespace ProjectFirmaModels.Models
                     return Photos;
                 case ProjectCreateSectionEnum.ReportedAccomplishments:
                     return ReportedAccomplishments;
-                case ProjectCreateSectionEnum.ReportedExpenditures:
-                    return ReportedExpenditures;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -163,7 +160,6 @@ namespace ProjectFirmaModels.Models
         ExpectedAccomplishments = 6,
         ReportedAccomplishments = 7,
         Budget = 8,
-        ReportedExpenditures = 9,
         Classifications = 11,
         Assessment = 12,
         Photos = 13,
@@ -213,12 +209,6 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCreateSectionBudget(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectCreateSectionBudget Instance = new ProjectCreateSectionBudget(8, @"Budget", @"Budget", 80, false, 4);
-    }
-
-    public partial class ProjectCreateSectionReportedExpenditures : ProjectCreateSection
-    {
-        private ProjectCreateSectionReportedExpenditures(int projectCreateSectionID, string projectCreateSectionName, string projectCreateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectCreateSectionID, projectCreateSectionName, projectCreateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectCreateSectionReportedExpenditures Instance = new ProjectCreateSectionReportedExpenditures(9, @"ReportedExpenditures", @"Reported Expenditures", 90, true, 4);
     }
 
     public partial class ProjectCreateSectionClassifications : ProjectCreateSection

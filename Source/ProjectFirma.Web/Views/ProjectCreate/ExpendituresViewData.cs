@@ -39,7 +39,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             ViewDataForAngularClass viewDataForAngularClass,
-            ProposalSectionsStatus proposalSectionsStatus) : base(currentFirmaSession, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+            ProposalSectionsStatus proposalSectionsStatus) 
+            : base(currentFirmaSession, project, "OBSOLETE Reported Expenditures", proposalSectionsStatus)
+            //: base(currentFirmaSession, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName, proposalSectionsStatus)
         {
             ProjectID = project.ProjectID;
             ViewDataForAngular = viewDataForAngularClass;

@@ -586,25 +586,25 @@ namespace ProjectFirma.Web.Controllers
             return ViewExpenditures(project, viewModel);
         }
 
-        [HttpPost]
-        [ProjectCreateFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
+        //[HttpPost]
+        //[ProjectCreateFeature]
+        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        //public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
+        //    var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
 
-            if (!ModelState.IsValid)
-            {
+        //    if (!ModelState.IsValid)
+        //    {
 
-                return ViewExpenditures(project, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
-        }
+        //        return ViewExpenditures(project, viewModel);
+        //    }
+        //    HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
+        //    var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
+        //    viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
+        //    SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
+        //    return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
+        //}
 
         private ViewResult ViewExpenditures(Project project, ExpendituresViewModel viewModel)
         {
@@ -636,25 +636,25 @@ namespace ProjectFirma.Web.Controllers
             return ViewExpendituresByCostType(project, calendarYearRange, viewModel);
         }
 
-        [HttpPost]
-        [ProjectCreateFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
+        //[HttpPost]
+        //[ProjectCreateFeature]
+        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        //public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
 
-            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-            var calendarYearRange = project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
-            if (!ModelState.IsValid)
-            {
-                return ViewExpendituresByCostType(project, calendarYearRange, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            viewModel.UpdateModel(project, projectFundingSourceExpenditures, allProjectFundingSourceExpenditures);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
-        }
+        //    var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+        //    var calendarYearRange = project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return ViewExpendituresByCostType(project, calendarYearRange, viewModel);
+        //    }
+        //    HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
+        //    var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
+        //    viewModel.UpdateModel(project, projectFundingSourceExpenditures, allProjectFundingSourceExpenditures);
+        //    SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
+        //    return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
+        //}
 
         private ViewResult ViewExpendituresByCostType(Project project, List<int> calendarYearRange, ExpendituresByCostTypeViewModel viewModel)
         {

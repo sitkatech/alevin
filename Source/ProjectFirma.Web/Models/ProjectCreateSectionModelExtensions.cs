@@ -49,30 +49,30 @@ namespace ProjectFirma.Web.Models
                 case ProjectCreateSectionEnum.Budget:
                     // todo: more complicated than that.
                     return ProjectCreateSection.Basics.IsComplete(project);
-                case ProjectCreateSectionEnum.ReportedExpenditures:
-                    if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
-                    {
-                        var expectedYears =
-                            project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
-                        var missingYears = expectedYears.GetMissingYears(project.ProjectFundingSourceExpenditures.Select(x => x.CalendarYear)).ToList();
+                //case ProjectCreateSectionEnum.ReportedExpenditures:
+                //    if (MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType)
+                //    {
+                //        var expectedYears =
+                //            project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+                //        var missingYears = expectedYears.GetMissingYears(project.ProjectFundingSourceExpenditures.Select(x => x.CalendarYear)).ToList();
 
-                        // for expenditures by cost type, we are just validating that either they have any expenditures for the required year range or they have no expenditures but have an explanation
-                        return (project.ProjectFundingSourceExpenditures.Any() && !missingYears.Any() &&
-                                string.IsNullOrWhiteSpace(project.ExpendituresNote)) ||
-                               (!project.ProjectFundingSourceExpenditures.Any() &&
-                                !string.IsNullOrWhiteSpace(project.ExpendituresNote));
-                    }
-                    else
-                    {
-                        var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-                        var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
-                        var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
-                        var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditureBulks,
-                                    project)
-                                {ProjectID = project.ProjectID}
-                            .GetValidationResults();
-                        return !validationResults.Any();
-                    }
+                //        // for expenditures by cost type, we are just validating that either they have any expenditures for the required year range or they have no expenditures but have an explanation
+                //        return (project.ProjectFundingSourceExpenditures.Any() && !missingYears.Any() &&
+                //                string.IsNullOrWhiteSpace(project.ExpendituresNote)) ||
+                //               (!project.ProjectFundingSourceExpenditures.Any() &&
+                //                !string.IsNullOrWhiteSpace(project.ExpendituresNote));
+                //    }
+                //    else
+                //    {
+                //        var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+                //        var calendarYearRangeForExpenditures = projectFundingSourceExpenditures.CalculateCalendarYearRangeForExpenditures(project);
+                //        var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectFundingSourceExpenditures, calendarYearRangeForExpenditures);
+                //        var validationResults = new ExpendituresViewModel(projectFundingSourceExpenditureBulks,
+                //                    project)
+                //                {ProjectID = project.ProjectID}
+                //            .GetValidationResults();
+                //        return !validationResults.Any();
+                //    }
 
                 case ProjectCreateSectionEnum.Classifications:
                     var projectClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);
@@ -121,12 +121,12 @@ namespace ProjectFirma.Web.Models
                             : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID))
                         : null;
 
-                case ProjectCreateSectionEnum.ReportedExpenditures:
-                    return ProjectCreateSection.Basics.IsComplete(project) 
-                        ? MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
-                            ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project.ProjectID)) 
-                            : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID))
-                        : null;
+                //case ProjectCreateSectionEnum.ReportedExpenditures:
+                //    return ProjectCreateSection.Basics.IsComplete(project) 
+                //        ? MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
+                //            ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project.ProjectID)) 
+                //            : SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.Expenditures(project.ProjectID))
+                //        : null;
                 case ProjectCreateSectionEnum.Classifications:
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.EditClassifications(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Assessment:
