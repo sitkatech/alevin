@@ -95,13 +95,13 @@ select
     case when y.Job = '120' then y.MissingTaxonomyPrefix + ' Subbasin Service Contracts'
          when y.Job = '130' then y.MissingTaxonomyPrefix + ' Technical Site Visit'
          when y.Job = '140' then y.MissingTaxonomyPrefix + ' Reimbursable Service Agreement Team Coordination'
-         else y.Job + ' unknown'
+         else y.MissingTaxonomyPrefix + ' unknown'
          end
          as TaxonomyLeafName,
     case when y.Job = '120' then y.MissingTaxonomyPrefix + ' Subbasin Service Contracts'
          when y.Job = '130' then y.MissingTaxonomyPrefix + ' Technical Site Visit'
          when y.Job = '140' then y.MissingTaxonomyPrefix + ' Reimbursable Service Agreement Team Coordination'
-         else y.Job + ' unknown' 
+         else y.MissingTaxonomyPrefix + ' unknown' 
          end
          as TaxonomyLeafDescription,
     '#000000' as ThemeColor,
@@ -133,8 +133,8 @@ IF OBJECT_ID('tempdb..#YetMoreTaxonomyBranchesWeNeedToCreate') IS NOT NULL DROP 
 select
     12 as TenantID,
     (select tt.TaxonomyTrunkID from dbo.TaxonomyTrunk as tt where tt.TaxonomyTrunkName = 'Unknown') as TaxonomyTrunkID,
-    (y.Authority + '.' + y.Job + ' unknown') as TaxonomyBranchName,
-    (y.Authority + '.' + y.Job + ' unknown') as TaxonomyBranchDescription,
+    (y.Authority /*+ '.' + y.Job */ + ' unknown') as TaxonomyBranchName,
+    (y.Authority /*+ '.' + y.Job */+ ' unknown') as TaxonomyBranchDescription,
     '#000000' as ThemeColor,
     y.MissingTaxonomyPrefix,
     y.Authority,
@@ -177,6 +177,12 @@ select  tltc.TenantID,
         tltc.ThemeColor
 from #YetMoreTaxonomyLeavesWeNeedToCreate as tltc
 
+
+
+/*
+select * from  #YetMoreTaxonomyLeavesWeNeedToCreate
+
+
 begin tran
 
 select * from Reclamation.CostAuthority where TaxonomyLeafID is null
@@ -186,12 +192,100 @@ update Reclamation.CostAuthority
 set TaxonomyLeafID = (select tl.TaxonomyLeafID from TaxonomyLeaf as tl where tl.TaxonomyLeafName like Authority + '.' + Job + '%')
 where Reclamation.CostAuthority.TaxonomyLeafID is null
 
+-- ^^ Not working, try again
+
+update
+    rca
+set 
+    rca.TaxonomyLeafID = tl.TaxonomyLeafID
+from 
+    Reclamation.CostAuthority as rca
+    inner join dbo.TaxonomyLeaf as tl on  (select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where tl.TenantID = 12) = (rca.Authority + '.' + rca.Job)
+    where tl.TenantID = 12
+    and
+    rca.TaxonomyLeafID is null
+
+select *
+from 
+    Reclamation.CostAuthority as rca
+    inner join dbo.TaxonomyLeaf as tl on (select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where tl.TenantID = 12) = (rca.Authority + '.' + rca.Job)
+    where tl.TenantID = 12
+    and
+    rca.TaxonomyLeafID is null
+*/
+
+-- Splayed matcher driven update
+update
+    rca
+set 
+    rca.TaxonomyLeafID = splay.TaxonomyLeafID
+from
+    Reclamation.CostAuthority as rca
+    inner join
+    (
+        -- Splay out the choices
+        select rca.CostAuthorityID,
+               tl.TaxonomyLeafID,
+               (rca.Authority + '.' + rca.Job) as RcaSide,
+               SUBSTRING(tl.TaxonomyLeafName, 0, 9) as TaxonomySide
+               --*
+        from 
+            Reclamation.CostAuthority as rca
+            join dbo.TaxonomyLeaf as tl on SUBSTRING(tl.TaxonomyLeafName, 0, 9) =  (rca.Authority + '.' + rca.Job)
+        where
+            rca.TaxonomyLeafID is null
+        --order by 
+        --  rca.CostAuthorityID, tl.TaxonomyLeafID
+    ) as splay on (rca.Authority + '.' + rca.Job) = splay.RcaSide
+    where rca.TaxonomyLeafID is null
+
+-- At last, we can lock this down
+alter table Reclamation.CostAuthority
+alter column TaxonomyLeafID int not null
+GO
+
+
+/*
+select * from dbo.TaxonomyLeaf where TaxonomyL
+
+select *
+from 
+    Reclamation.CostAuthority as rca
+    inner join dbo.TaxonomyLeaf as tl on (select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where tl.TenantID = 12) = (rca.Authority + '.' + rca.Job)
+    where tl.TenantID = 12
+    and
+    rca.TaxonomyLeafID is null
+    and  SUBSTRING(tl.TaxonomyLeafName, 0, 9) not in ('6921.200','6922.100','6921.100')
+
+-- So yeah we have overlaps. Can we punt for just a second on them?
+
+
+
+
+
+    select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where TenantID = 12
+
+    select * 
+    from Reclamation.CostAuthority as rca
+    where (rca.Authority + '.' + rca.Job) = '6950.100'
+    and rca.TaxonomyLeafID is null
+
+
+    select * from dbo.TaxonomyLeaf as tl
+    where TenantID = 12
+    and tl.TaxonomyLeafID is null
+    and SUBSTRING(tl.TaxonomyLeafName, 0, 9) = '6950.100'
+
+    -- 6950	100
+
+
 select * from Reclamation.CostAuthority where TaxonomyLeafID is null
 select * from dbo.TaxonomyLeaf where TenantID = 12
 
 rollback tran
 
 --select * from Reclamation.CostAuthority where TaxonomyLeafID is null
+*/
 
 /*
 -- Problematic, duplicate leaves. We need to consolidate these.
