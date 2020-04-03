@@ -35,7 +35,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string jobNumber, string authority, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID) : this()
+        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string authority, string job, string number, string jobNumber, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID) : this()
         {
             this.CostAuthorityID = costAuthorityID;
             this.CostAuthorityWorkBreakdownStructure = costAuthorityWorkBreakdownStructure;
@@ -44,8 +44,10 @@ namespace ProjectFirmaModels.Models
             this.CostCenter = costCenter;
             this.AgencyProjectType = agencyProjectType;
             this.ProjectNumber = projectNumber;
-            this.JobNumber = jobNumber;
             this.Authority = authority;
+            this.Job = job;
+            this.Number = number;
+            this.JobNumber = jobNumber;
             this.WBSStatus = wBSStatus;
             this.HCategoryLU = hCategoryLU;
             this.WBSNoDot = wBSNoDot;
@@ -140,8 +142,10 @@ namespace ProjectFirmaModels.Models
         public string CostCenter { get; set; }
         public string AgencyProjectType { get; set; }
         public string ProjectNumber { get; set; }
-        public string JobNumber { get; set; }
         public string Authority { get; set; }
+        public string Job { get; set; }
+        public string Number { get; set; }
+        public string JobNumber { get; set; }
         public string WBSStatus { get; set; }
         public double? HCategoryLU { get; set; }
         public string WBSNoDot { get; set; }
@@ -169,8 +173,10 @@ namespace ProjectFirmaModels.Models
             public const int CostCenter = 255;
             public const int AgencyProjectType = 255;
             public const int ProjectNumber = 255;
-            public const int JobNumber = 255;
             public const int Authority = 255;
+            public const int Job = 3;
+            public const int Number = 4;
+            public const int JobNumber = 255;
             public const int WBSStatus = 255;
             public const int WBSNoDot = 255;
         }
