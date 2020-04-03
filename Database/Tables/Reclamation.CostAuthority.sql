@@ -20,6 +20,7 @@ CREATE TABLE [Reclamation].[CostAuthority](
 	[HabitatCategoryID] [int] NULL,
 	[BasinID] [int] NULL,
 	[SubbasinID] [int] NULL,
+	[TaxonomyLeafID] [int] NOT NULL,
  CONSTRAINT [PK_CostAuthority_CostAuthorityID] PRIMARY KEY CLUSTERED 
 (
 	[CostAuthorityID] ASC
@@ -41,3 +42,8 @@ ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_CostAu
 REFERENCES [Reclamation].[Subbasin] ([SubbasinID])
 GO
 ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_CostAuthority_Subbasin_SubbasinID]
+GO
+ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthority_TaxonomyLeaf_TaxonomyLeafID] FOREIGN KEY([TaxonomyLeafID])
+REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])
+GO
+ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_CostAuthority_TaxonomyLeaf_TaxonomyLeafID]

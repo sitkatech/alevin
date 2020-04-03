@@ -11,6 +11,9 @@ CREATE TABLE [dbo].[TaxonomyLeaf](
 	[TaxonomyLeafCode] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ThemeColor] [varchar](7) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[TaxonomyLeafSortOrder] [int] NULL,
+	[ReclamationAuthority] [nvarchar](4) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ReclamationJob] [nvarchar](3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ReclamationAuthorityJob] [nvarchar](8) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_TaxonomyLeaf_TaxonomyLeafID] PRIMARY KEY CLUSTERED 
 (
 	[TaxonomyLeafID] ASC

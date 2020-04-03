@@ -32,11 +32,13 @@ namespace ProjectFirmaModels.Models
             Property(x => x.HabitatCategoryID).HasColumnName(@"HabitatCategoryID").HasColumnType("int").IsOptional();
             Property(x => x.BasinID).HasColumnName(@"BasinID").HasColumnType("int").IsOptional();
             Property(x => x.SubbasinID).HasColumnName(@"SubbasinID").HasColumnType("int").IsOptional();
+            Property(x => x.TaxonomyLeafID).HasColumnName(@"TaxonomyLeafID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.HabitatCategory).WithMany(b => b.CostAuthoritiesWhereYouAreTheHabitatCategory).HasForeignKey(c => c.HabitatCategoryID).WillCascadeOnDelete(false); // FK_CostAuthority_HCategory_HabitatCategoryID_HCategoryID
             HasOptional(a => a.Basin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.BasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Basin_BasinID
             HasOptional(a => a.Subbasin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.SubbasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Subbasin_SubbasinID
+            HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_CostAuthority_TaxonomyLeaf_TaxonomyLeafID
         }
     }
 }

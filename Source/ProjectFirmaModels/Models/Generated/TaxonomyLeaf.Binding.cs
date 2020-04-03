@@ -27,12 +27,13 @@ namespace ProjectFirmaModels.Models
             this.Projects = new HashSet<Project>();
             this.SecondaryProjectTaxonomyLeafs = new HashSet<SecondaryProjectTaxonomyLeaf>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
+            this.CostAuthorities = new HashSet<CostAuthority>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public TaxonomyLeaf(int taxonomyLeafID, int taxonomyBranchID, string taxonomyLeafName, string taxonomyLeafDescription, string taxonomyLeafCode, string themeColor, int? taxonomyLeafSortOrder) : this()
+        public TaxonomyLeaf(int taxonomyLeafID, int taxonomyBranchID, string taxonomyLeafName, string taxonomyLeafDescription, string taxonomyLeafCode, string themeColor, int? taxonomyLeafSortOrder, string reclamationAuthority, string reclamationJob, string reclamationAuthorityJob) : this()
         {
             this.TaxonomyLeafID = taxonomyLeafID;
             this.TaxonomyBranchID = taxonomyBranchID;
@@ -41,6 +42,9 @@ namespace ProjectFirmaModels.Models
             this.TaxonomyLeafCode = taxonomyLeafCode;
             this.ThemeColor = themeColor;
             this.TaxonomyLeafSortOrder = taxonomyLeafSortOrder;
+            this.ReclamationAuthority = reclamationAuthority;
+            this.ReclamationJob = reclamationJob;
+            this.ReclamationAuthorityJob = reclamationAuthorityJob;
         }
 
         /// <summary>
@@ -82,13 +86,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any();
+            return Projects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any() || CostAuthorities.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TaxonomyLeafPerformanceMeasure).Name, typeof(CostAuthority).Name};
 
 
         /// <summary>
@@ -127,6 +131,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in CostAuthorities.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -144,12 +153,16 @@ namespace ProjectFirmaModels.Models
         public string TaxonomyLeafCode { get; set; }
         public string ThemeColor { get; set; }
         public int? TaxonomyLeafSortOrder { get; set; }
+        public string ReclamationAuthority { get; set; }
+        public string ReclamationJob { get; set; }
+        public string ReclamationAuthorityJob { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyLeafID; } set { TaxonomyLeafID = value; } }
 
         public virtual ICollection<Project> Projects { get; set; }
         public virtual ICollection<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get; set; }
         public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }
+        public virtual ICollection<CostAuthority> CostAuthorities { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual TaxonomyBranch TaxonomyBranch { get; set; }
 
@@ -158,6 +171,9 @@ namespace ProjectFirmaModels.Models
             public const int TaxonomyLeafName = 100;
             public const int TaxonomyLeafCode = 10;
             public const int ThemeColor = 7;
+            public const int ReclamationAuthority = 4;
+            public const int ReclamationJob = 3;
+            public const int ReclamationAuthorityJob = 8;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string authority, string job, string number, string jobNumber, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID) : this()
+        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string authority, string job, string number, string jobNumber, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID, int taxonomyLeafID) : this()
         {
             this.CostAuthorityID = costAuthorityID;
             this.CostAuthorityWorkBreakdownStructure = costAuthorityWorkBreakdownStructure;
@@ -54,16 +54,38 @@ namespace ProjectFirmaModels.Models
             this.HabitatCategoryID = habitatCategoryID;
             this.BasinID = basinID;
             this.SubbasinID = subbasinID;
+            this.TaxonomyLeafID = taxonomyLeafID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public CostAuthority(int taxonomyLeafID) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.CostAuthorityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            
+            this.TaxonomyLeafID = taxonomyLeafID;
+        }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public CostAuthority(TaxonomyLeaf taxonomyLeaf) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.CostAuthorityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TaxonomyLeafID = taxonomyLeaf.TaxonomyLeafID;
+            this.TaxonomyLeaf = taxonomyLeaf;
+            taxonomyLeaf.CostAuthorities.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static CostAuthority CreateNewBlank()
+        public static CostAuthority CreateNewBlank(TaxonomyLeaf taxonomyLeaf)
         {
-            return new CostAuthority();
+            return new CostAuthority(taxonomyLeaf);
         }
 
         /// <summary>
@@ -152,6 +174,7 @@ namespace ProjectFirmaModels.Models
         public int? HabitatCategoryID { get; set; }
         public int? BasinID { get; set; }
         public int? SubbasinID { get; set; }
+        public int TaxonomyLeafID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityID; } set { CostAuthorityID = value; } }
 
@@ -164,6 +187,7 @@ namespace ProjectFirmaModels.Models
         public virtual HCategory HabitatCategory { get; set; }
         public virtual Basin Basin { get; set; }
         public virtual Subbasin Subbasin { get; set; }
+        public virtual TaxonomyLeaf TaxonomyLeaf { get; set; }
 
         public static class FieldLengths
         {
