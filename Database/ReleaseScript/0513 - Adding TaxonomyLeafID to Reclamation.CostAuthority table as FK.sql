@@ -22,8 +22,253 @@ from dbo.TaxonomyLeaf as tl
 inner join Reclamation.CostAuthority as ca on substring(tl.TaxonomyLeafName, 1, 8) = (ca.Authority + '.' + ca.Job)
 where tl.TenantID = 12
 
+--- Noticed we have blank ProjectNumber where they seem obvious & knowable. Fix them up.
+update Reclamation.CostAuthority
+set ProjectNumber = SUBSTRING(rca.CostAuthorityWorkBreakdownStructure, 4, 4)
+from Reclamation.CostAuthority as rca
+where
+    rca.CostAuthorityWorkBreakdownStructure like 'R_.%'
+    and
+    rca.ProjectNumber is null
+
+
+/*
 -- What's left that we haven't hooked up?
 select * from Reclamation.CostAuthority where TaxonomyLeafID is null
+
+-- Problems with Authority column? Nope!
+select * from Reclamation.CostAuthority where Authority is null
+*/
+
+-- Make nullable labels for Taxonomy for Reclamation
+alter table Dbo.TaxonomyLeaf
+add ReclamationAuthority nvarchar(4) null
+GO
+
+alter table Dbo.TaxonomyLeaf
+add ReclamationJob nvarchar(3) null
+GO
+
+alter table Dbo.TaxonomyLeaf
+add ReclamationAuthorityJob nvarchar(8) null
+GO
+
+/*
+select tpm.MissingTaxonmyPrefixes as TaxonmyPrefix
+from
+(
+    select
+    distinct
+    (rca.Authority + '.' + rca.Job) as MissingTaxonmyPrefixes,
+    '>' + (rca.Authority + '.' + rca.Job)  + '<' as SpaceCheck
+    from Reclamation.CostAuthority as rca
+    --inner join
+    where rca.TaxonomyLeafID is null
+    --order by (rca.Authority + '.' + rca.Job)
+) as tpm
+
+except
+
+select tpae.AlreadyExistingTaxonmyPrefixes as TaxonmyPrefix
+from
+(
+    select 
+    distinct
+    (SUBSTRING(tl.TaxonomyLeafName, 1, 8)) as AlreadyExistingTaxonmyPrefixes,
+    '>' + (SUBSTRING(tl.TaxonomyLeafName, 1, 8))  + '<' as SpaceCheck
+    from dbo.TaxonomyLeaf as tl
+    where TenantID = 12
+) as tpae
+*/
+
+--select * from Reclamation.CostAuthority where TaxonomyLeafID is null
+
+
+--select * from dbo.TaxonomyLeaf where TenantID = 12
+--select * from dbo.TaxonomyBranch where TenantID = 12
+
+IF OBJECT_ID('tempdb..#YetMoreTaxonomyLeavesWeNeedToCreate') IS NOT NULL DROP table #YetMoreTaxonomyLeavesWeNeedToCreate
+
+select
+    y.TenantID,
+    (select tb.TaxonomyBranchID from dbo.TaxonomyBranch as tb where tb.TaxonomyBranchName like y.Authority + '%') as TaxonomyBranchID,
+    case when y.Job = '120' then y.MissingTaxonomyPrefix + ' Subbasin Service Contracts'
+         when y.Job = '130' then y.MissingTaxonomyPrefix + ' Technical Site Visit'
+         when y.Job = '140' then y.MissingTaxonomyPrefix + ' Reimbursable Service Agreement Team Coordination'
+         else y.Job + ' unknown'
+         end
+         as TaxonomyLeafName,
+    case when y.Job = '120' then y.MissingTaxonomyPrefix + ' Subbasin Service Contracts'
+         when y.Job = '130' then y.MissingTaxonomyPrefix + ' Technical Site Visit'
+         when y.Job = '140' then y.MissingTaxonomyPrefix + ' Reimbursable Service Agreement Team Coordination'
+         else y.Job + ' unknown' 
+         end
+         as TaxonomyLeafDescription,
+    '#000000' as ThemeColor,
+    y.MissingTaxonomyPrefix,
+    y.Authority,
+    y.Job
+into #YetMoreTaxonomyLeavesWeNeedToCreate
+from
+(
+    select
+    distinct
+    12 as TenantID,
+    (rca.Authority + '.' + rca.Job) as MissingTaxonomyPrefix,
+    rca.Authority as Authority,
+    rca.Job as Job
+    from Reclamation.CostAuthority as rca
+    where rca.TaxonomyLeafID is null
+) as y
+
+--select * from #YetMoreTaxonomyLeavesWeNeedToCreate
+
+-- Some of these will lack branches. Figure out what branches we'll need to create before we can insert the above leaves.
+-------------------------------------------------------------------------------------------------------------------------
+
+--select * from dbo.TaxonomyBranch where TenantID = 12
+
+IF OBJECT_ID('tempdb..#YetMoreTaxonomyBranchesWeNeedToCreate') IS NOT NULL DROP table #YetMoreTaxonomyBranchesWeNeedToCreate
+
+select
+    12 as TenantID,
+    (select tt.TaxonomyTrunkID from dbo.TaxonomyTrunk as tt where tt.TaxonomyTrunkName = 'Unknown') as TaxonomyTrunkID,
+    (y.Authority + '.' + y.Job + ' unknown') as TaxonomyBranchName,
+    (y.Authority + '.' + y.Job + ' unknown') as TaxonomyBranchDescription,
+    '#000000' as ThemeColor,
+    y.MissingTaxonomyPrefix,
+    y.Authority,
+    y.Job
+into #YetMoreTaxonomyBranchesWeNeedToCreate
+from
+(
+    select
+    tltc.Authority,
+    tltc.Job,
+    tltc.MissingTaxonomyPrefix
+    from
+    #YetMoreTaxonomyLeavesWeNeedToCreate as tltc
+    where TaxonomyBranchID is null
+) as y
+
+--select * from #YetMoreTaxonomyBranchesWeNeedToCreate
+
+-- Insert these TaxonomyBranches we need to create
+insert into dbo.TaxonomyBranch(TenantID, TaxonomyTrunkID, TaxonomyBranchName, TaxonomyBranchDescription, ThemeColor)
+select btc.TenantID, btc.TaxonomyTrunkID, btc.TaxonomyBranchName, btc.TaxonomyBranchDescription, btc.ThemeColor
+from #YetMoreTaxonomyBranchesWeNeedToCreate as btc
+
+-- We can now look up and repair the missing TaxonomyBranchIDs on our leaves to be inserted, since
+-- They should all now have corresponding branches.
+
+update #YetMoreTaxonomyLeavesWeNeedToCreate
+set TaxonomyBranchID = (select TaxonomyBranchID from dbo.TaxonomyBranch as tb where tb.TaxonomyBranchName like Authority + ' %')
+where TaxonomyBranchID is null
+
+-- Now we can insert the missing leaves. They should all now have corresponding branches
+--select * from dbo.TaxonomyLeaf where TenantID = 12
+--select * from #YetMoreTaxonomyLeavesWeNeedToCreate
+
+insert into dbo.TaxonomyLeaf(TenantID, TaxonomyBranchID, TaxonomyLeafName, TaxonomyLeafDescription, ThemeColor)
+select  tltc.TenantID,
+        tltc.TaxonomyBranchID,
+        tltc.TaxonomyLeafName,
+        tltc.TaxonomyLeafDescription,
+        tltc.ThemeColor
+from #YetMoreTaxonomyLeavesWeNeedToCreate as tltc
+
+begin tran
+
+select * from Reclamation.CostAuthority where TaxonomyLeafID is null
+
+-- At last, we can attempt to fill in the missing ~18 TaxonomyLeafIDs for these CostAuthorities
+update Reclamation.CostAuthority
+set TaxonomyLeafID = (select tl.TaxonomyLeafID from TaxonomyLeaf as tl where tl.TaxonomyLeafName like Authority + '.' + Job + '%')
+where Reclamation.CostAuthority.TaxonomyLeafID is null
+
+select * from Reclamation.CostAuthority where TaxonomyLeafID is null
+select * from dbo.TaxonomyLeaf where TenantID = 12
+
+rollback tran
+
+--select * from Reclamation.CostAuthority where TaxonomyLeafID is null
+
+/*
+-- Problematic, duplicate leaves. We need to consolidate these.
+select  substring(tl.TaxonomyLeafName, 0, 9) as AuthorityJob,
+        count(*) as AuthorityJobCount
+from dbo.TaxonomyLeaf as tl
+where TenantID = 12 
+group by  substring(tl.TaxonomyLeafName, 0, 9) 
+having count(*) > 1
+order by count(*) desc
+*/
+
+
+
+/*
+select
+    pcawbs.TaxonomyPrefix,
+    substring(pcawbs.TaxonomyPrefix, 1, 4) as TaxonomyBranch
+from 
+    #ProjectsWithCawbs as pcawbs
+where
+    pcawbs.TaxonomyPrefix is not null
+    and substring(pcawbs.TaxonomyPrefix, 1, 4) not in ( select left(tb.TaxonomyBranchName, 4) from dbo.TaxonomyBranch as tb where tb.TenantID = 12 )
+*/
+) as y
+
+
+
+
+
+
+/*
+ALTER TABLE dbo.TaxonomyLeaf
+ADD ReclamationAuthorityJobComputedForAK_NEW2 AS (CASE WHEN ReclamationAuthorityJob IS NULL THEN CAST('PK_' + CAST(TaxonomyLeafID AS NVARCHAR(10)) as NVARCHAR(MAX)) ELSE 'RAJ:' + ReclamationAuthorityJob + '_' + 'TEN:' + CAST(TenantID AS NVARCHAR(10)) END) PERSISTED;
+
+select * from dbo.TaxonomyLeaf
+where ReclamationAuthorityJob is not null
+
+ALTER  TABLE  dbo.TaxonomyLeaf WITH CHECK 
+ADD CONSTRAINT UQ_TaxonomyLeaf_ReclamationAuthorityJobComputedForAK_NEW UNIQUE (ReclamationAuthorityJobComputedForAK_NEW2)
+
+CREATE UNIQUE INDEX TEST_UQ_IND_1 ON TaxonomyLeaf (ReclamationAuthorityJobComputedForAK_NEW2)
+
+CREATE NONCLUSTERED INDEX IX_CompanyEmployees_BirthMonth
+ON dbo.TaxonomyLeaf (ReclamationAuthorityJobComputedForAK_NEW2)
+GO
+ 
+
+
+/****** Object:  Index [AK_TaxonomyLeaf_TaxonomyLeafID_TenantID]    Script Date: 4/2/2020 9:34:18 AM ******/
+ALTER TABLE [dbo].[TaxonomyLeaf] ADD  CONSTRAINT [AK_TaxonomyLeaf_ReclamationAuthorityJobComputedForAK_NEW] UNIQUE NONCLUSTERED 
+(
+    ReclamationAuthorityJobComputedForAK_NEW ASC
+) ON [PRIMARY]
+GO
+
+/****** Object:  Index [AK_TaxonomyLeaf_TaxonomyLeafID_TenantID]    Script Date: 4/2/2020 9:34:18 AM ******/
+ALTER TABLE [dbo].[TaxonomyLeaf] ADD  CONSTRAINT [AK_TaxonomyLeaf_ReclamationAuthorityJob_TenantID] UNIQUE NONCLUSTERED 
+(
+    ReclamationAuthorityJobComputedForAK_NEW ASC,
+    [TenantID] ASC
+) ON [PRIMARY]
+GO
+
+*/
+
+
+
+select * from dbo.TaxonomyLeaf
+where TenantID = 12
+
+
+
+
+
+
+
 
 -- What's left with non-goofy Authority numbers (only numeric)
 select * from Reclamation.CostAuthority where TaxonomyLeafID is null and ISNUMERIC(Authority) != 1
