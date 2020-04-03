@@ -54,6 +54,8 @@ add ReclamationAuthorityJob nvarchar(8) null
 GO
 
 /*
+-- It turns out that the except doesn't remove anything; everything we care about is covered in the top expression.
+
 select tpm.MissingTaxonmyPrefixes as TaxonmyPrefix
 from
 (
@@ -82,8 +84,6 @@ from
 */
 
 --select * from Reclamation.CostAuthority where TaxonomyLeafID is null
-
-
 --select * from dbo.TaxonomyLeaf where TenantID = 12
 --select * from dbo.TaxonomyBranch where TenantID = 12
 
@@ -177,41 +177,8 @@ select  tltc.TenantID,
         tltc.ThemeColor
 from #YetMoreTaxonomyLeavesWeNeedToCreate as tltc
 
-
-
 /*
 select * from  #YetMoreTaxonomyLeavesWeNeedToCreate
-
-
-begin tran
-
-select * from Reclamation.CostAuthority where TaxonomyLeafID is null
-
--- At last, we can attempt to fill in the missing ~18 TaxonomyLeafIDs for these CostAuthorities
-update Reclamation.CostAuthority
-set TaxonomyLeafID = (select tl.TaxonomyLeafID from TaxonomyLeaf as tl where tl.TaxonomyLeafName like Authority + '.' + Job + '%')
-where Reclamation.CostAuthority.TaxonomyLeafID is null
-
--- ^^ Not working, try again
-
-update
-    rca
-set 
-    rca.TaxonomyLeafID = tl.TaxonomyLeafID
-from 
-    Reclamation.CostAuthority as rca
-    inner join dbo.TaxonomyLeaf as tl on  (select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where tl.TenantID = 12) = (rca.Authority + '.' + rca.Job)
-    where tl.TenantID = 12
-    and
-    rca.TaxonomyLeafID is null
-
-select *
-from 
-    Reclamation.CostAuthority as rca
-    inner join dbo.TaxonomyLeaf as tl on (select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where tl.TenantID = 12) = (rca.Authority + '.' + rca.Job)
-    where tl.TenantID = 12
-    and
-    rca.TaxonomyLeafID is null
 */
 
 -- Splayed matcher driven update
@@ -244,49 +211,6 @@ alter table Reclamation.CostAuthority
 alter column TaxonomyLeafID int not null
 GO
 
-
-/*
-select * from dbo.TaxonomyLeaf where TaxonomyL
-
-select *
-from 
-    Reclamation.CostAuthority as rca
-    inner join dbo.TaxonomyLeaf as tl on (select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where tl.TenantID = 12) = (rca.Authority + '.' + rca.Job)
-    where tl.TenantID = 12
-    and
-    rca.TaxonomyLeafID is null
-    and  SUBSTRING(tl.TaxonomyLeafName, 0, 9) not in ('6921.200','6922.100','6921.100')
-
--- So yeah we have overlaps. Can we punt for just a second on them?
-
-
-
-
-
-    select SUBSTRING(tl.TaxonomyLeafName, 0, 9) from dbo.TaxonomyLeaf as tl where TenantID = 12
-
-    select * 
-    from Reclamation.CostAuthority as rca
-    where (rca.Authority + '.' + rca.Job) = '6950.100'
-    and rca.TaxonomyLeafID is null
-
-
-    select * from dbo.TaxonomyLeaf as tl
-    where TenantID = 12
-    and tl.TaxonomyLeafID is null
-    and SUBSTRING(tl.TaxonomyLeafName, 0, 9) = '6950.100'
-
-    -- 6950	100
-
-
-select * from Reclamation.CostAuthority where TaxonomyLeafID is null
-select * from dbo.TaxonomyLeaf where TenantID = 12
-
-rollback tran
-
---select * from Reclamation.CostAuthority where TaxonomyLeafID is null
-*/
-
 /*
 -- Problematic, duplicate leaves. We need to consolidate these.
 select  substring(tl.TaxonomyLeafName, 0, 9) as AuthorityJob,
@@ -296,266 +220,14 @@ where TenantID = 12
 group by  substring(tl.TaxonomyLeafName, 0, 9) 
 having count(*) > 1
 order by count(*) desc
-*/
 
 
 
-/*
-select
-    pcawbs.TaxonomyPrefix,
-    substring(pcawbs.TaxonomyPrefix, 1, 4) as TaxonomyBranch
-from 
-    #ProjectsWithCawbs as pcawbs
-where
-    pcawbs.TaxonomyPrefix is not null
-    and substring(pcawbs.TaxonomyPrefix, 1, 4) not in ( select left(tb.TaxonomyBranchName, 4) from dbo.TaxonomyBranch as tb where tb.TenantID = 12 )
-*/
-) as y
-
-
-
-
-
-
-/*
-ALTER TABLE dbo.TaxonomyLeaf
-ADD ReclamationAuthorityJobComputedForAK_NEW2 AS (CASE WHEN ReclamationAuthorityJob IS NULL THEN CAST('PK_' + CAST(TaxonomyLeafID AS NVARCHAR(10)) as NVARCHAR(MAX)) ELSE 'RAJ:' + ReclamationAuthorityJob + '_' + 'TEN:' + CAST(TenantID AS NVARCHAR(10)) END) PERSISTED;
-
-select * from dbo.TaxonomyLeaf
-where ReclamationAuthorityJob is not null
-
-ALTER  TABLE  dbo.TaxonomyLeaf WITH CHECK 
-ADD CONSTRAINT UQ_TaxonomyLeaf_ReclamationAuthorityJobComputedForAK_NEW UNIQUE (ReclamationAuthorityJobComputedForAK_NEW2)
-
-CREATE UNIQUE INDEX TEST_UQ_IND_1 ON TaxonomyLeaf (ReclamationAuthorityJobComputedForAK_NEW2)
-
-CREATE NONCLUSTERED INDEX IX_CompanyEmployees_BirthMonth
-ON dbo.TaxonomyLeaf (ReclamationAuthorityJobComputedForAK_NEW2)
-GO
- 
-
-
-/****** Object:  Index [AK_TaxonomyLeaf_TaxonomyLeafID_TenantID]    Script Date: 4/2/2020 9:34:18 AM ******/
-ALTER TABLE [dbo].[TaxonomyLeaf] ADD  CONSTRAINT [AK_TaxonomyLeaf_ReclamationAuthorityJobComputedForAK_NEW] UNIQUE NONCLUSTERED 
-(
-    ReclamationAuthorityJobComputedForAK_NEW ASC
-) ON [PRIMARY]
-GO
-
-/****** Object:  Index [AK_TaxonomyLeaf_TaxonomyLeafID_TenantID]    Script Date: 4/2/2020 9:34:18 AM ******/
-ALTER TABLE [dbo].[TaxonomyLeaf] ADD  CONSTRAINT [AK_TaxonomyLeaf_ReclamationAuthorityJob_TenantID] UNIQUE NONCLUSTERED 
-(
-    ReclamationAuthorityJobComputedForAK_NEW ASC,
-    [TenantID] ASC
-) ON [PRIMARY]
-GO
-
-*/
-
-
-
-select * from dbo.TaxonomyLeaf
-where TenantID = 12
-
-
-
-
-
-
-
-
--- What's left with non-goofy Authority numbers (only numeric)
-select * from Reclamation.CostAuthority where TaxonomyLeafID is null and ISNUMERIC(Authority) != 1
-
--- Numeric, non-controversial
-select * from Reclamation.CostAuthority where TaxonomyLeafID is null and    ISNUMERIC(Authority) = 1 and ISNUMERIC(Job) = 1 and Job != '1D4'
-
--- Here we need to make another batch of Unknown TB & TLs to attach these last ~18 lingering CostAuthorities to.
-IF OBJECT_ID('tempdb..#TaxonomyBranchesWeNeedToCreate') IS NOT NULL DROP table #TaxonomyBranchesWeNeedToCreate
-
-select
-    distinct
-    y.TaxonomyBranch
-into #TaxonomyBranchesWeNeedToCreate
-from
-(
-    select
-        --pcawbs.TaxonomyPrefix,
-        --substring(pcawbs.TaxonomyPrefix, 1, 4) as TaxonomyBranch
-        rca.Authority as TaxonomyBranch
-    from 
-       Reclamation.CostAuthority as rca
-    where
-       TaxonomyLeafID is null 
-       and 
-       CostAuthorityWorkBreakdownStructure like 'R_.%'
-       --and 
-       --ISNUMERIC(Authority) = 1
-       --and
-       --ISNUMERIC(Job) = 1 
-       --and
-       ---- Passes ISNUMERIC, but we don't think this is numeric for our purposes.
-       --Job != '1D4'
-) as y
-
---select * from #TaxonomyBranchesWeNeedToCreate
-
--- 2nd pass on branches to create to eliminate ones we actually already have created
-delete from #TaxonomyBranchesWeNeedToCreate
-where TaxonomyBranch in 
-(
-    -- Which BranchIDs actually already exist?
-    select TaxonomyBranch
-    from #TaxonomyBranchesWeNeedToCreate as tbtc
-    left join dbo.TaxonomyBranch as tb on tbtc.TaxonomyBranch + ' unknown' = tb.TaxonomyBranchName
-    where tb.TaxonomyBranchID is not null
-)
-
--- Retrieve root of the new "Unknown" part of the Taxonmy Trunk
-declare @unknownTaxonomyTrunkID int
-set @unknownTaxonomyTrunkID = 
-(
-    select tt.TaxonomyTrunkID
-    from dbo.TaxonomyTrunk as tt 
-    where 
-        tt.TaxonomyTrunkName = 'Unknown' 
-        and
-        tt.TaxonomyTrunkDescription = 'This is an authority to hold values that we are unsure of where they should go.'
-)
-
-insert into dbo.TaxonomyBranch(TenantID, TaxonomyTrunkID, TaxonomyBranchName, TaxonomyBranchDescription, ThemeColor)
-select 
-    12 as TenantID,
-    @unknownTaxonomyTrunkID as TaxonomyTrunkID,
-    tbwnc.TaxonomyBranch + ' unknown' as TaxonomyBranchName,
-    tbwnc.TaxonomyBranch + ' unknown' as TaxonomyBranchDescription,
-    '#000000' as ThemeColor
-from
-    #TaxonomyBranchesWeNeedToCreate as tbwnc
-
--- Insert taxonomy leaves we need to create
--------------------------------------------
-
-select * from Reclamation.CostAuthority where TaxonomyLeafID is null
-select * from #TaxonomyBranchesWeNeedToCreate
-
-IF OBJECT_ID('tempdb..#TaxonomyLeavesWeNeedToCreate') IS NOT NULL DROP table #TaxonomyLeavesWeNeedToCreate
-
-select
-    distinct
-    y.TaxonomyPrefix,
-    y.TaxonomyBranchID,
-    y.TaxonomyLeaf
-into #TaxonomyLeavesWeNeedToCreate
-from
-(
-    select
-        rca.Authority + '.' + rca.Job as TaxonomyPrefix,
-        (select tb.TaxonomyBranchID from dbo.TaxonomyBranch as tb where TenantID = 12 and left(tb.TaxonomyBranchName, 4) = rca.Authority and tb.TaxonomyBranchName like '%unknown%') as TaxonomyBranchID,
-        substring(rca.Authority + '.' + rca.Job, 6, 3) as TaxonomyLeaf
-    from 
-        Reclamation.CostAuthority as rca
-    where 
-        TaxonomyLeafID is null 
-        --and 
-        --ISNUMERIC(Authority) = 1
-        --and 
-        --ISNUMERIC(Job) = 1 
-        --and
-        ---- Passes ISNUMERIC, but we don't think this is numeric for our purposes.
-        --Job != '1D4'
-) as y
-
-select * from #TaxonomyLeavesWeNeedToCreate
-
-
-insert into dbo.TaxonomyLeaf(TenantID, TaxonomyBranchID, TaxonomyLeafName, TaxonomyLeafDescription, ThemeColor)
-select
-    12 as TenantID,
-    tlwbc.TaxonomyBranchID as TaxonomyBranchID,
-    case when tlwbc.TaxonomyLeaf = '120' then tlwbc.TaxonomyPrefix + ' Subbasin Service Contracts'
-         when tlwbc.TaxonomyLeaf = '130' then tlwbc.TaxonomyPrefix + ' Technical Site Visit'
-         when tlwbc.TaxonomyLeaf = '140' then tlwbc.TaxonomyPrefix + ' Reimbursable Service Agreement Team Coordination'
-         else tlwbc.TaxonomyPrefix + ' unknown' 
-         end
-         as TaxonomyLeafName,
-    case when tlwbc.TaxonomyLeaf = '120' then tlwbc.TaxonomyPrefix + ' Subbasin Service Contracts'
-         when tlwbc.TaxonomyLeaf = '130' then tlwbc.TaxonomyPrefix + ' Technical Site Visit'
-         when tlwbc.TaxonomyLeaf = '140' then tlwbc.TaxonomyPrefix + ' Reimbursable Service Agreement Team Coordination'
-         else tlwbc.TaxonomyPrefix + ' unknown' 
-         end
-         as TaxonomyLeafDescription,
-    '#000000' as ThemeColor
-from
-    #TaxonomyLeavesWeNeedToCreate as tlwbc
-where
-    TaxonomyBranchID is not null
-
--- Try to make these final associations with the new Unknowns we've rreated
-
--- What are we left with?
-select * from Reclamation.CostAuthority where TaxonomyLeafID is null
-
-
-select * from TaxonomyLeaf
-where TenantID = 12
-
-alter table Reclamation.CostAuthority
-alter column TaxonomyLeafID int not null
-GO
-
-rollback tran
-
-/*
-select ca.Job + '.' + ca.Number as JobNumberWithDot
-from Reclamation.CostAuthority as ca
-join Tax
-*/
-
-
---select * from dbo.TaxonomyLeaf where TenantID = 12
---select * from Reclamation.CostAuthority
---where JobNumber is null
-
-
-
-/*
-select * from dbo.TaxonomyLeaf
-where TenantID = 12
-
-select * from Reclamation.CostAuthority
-
-select JobNumber,
-       count(*) JobNumberCount
-from Reclamation.CostAuthority
-group by JobNumber
-order by count(*) desc
-
--- So, multiple 
-
-
-
-
-
-/*
-select (ca.Job + '.' + ca.Number)
-from Reclamation.CostAuthority as ca
-
-select substring(tl.TaxonomyLeafName, 1, 8)
+-- What do these potentially duplicate leaves look like?
+-- Hmm. Unsure exactly what's going on here...
+select tl.*
 from dbo.TaxonomyLeaf as tl
-where tl.TenantID = 12
+where substring(tl.TaxonomyLeafName, 0, 9) in ('6921.200', '6922.100', '6921.100')
 
 
-select * from dbo.TaxonomyLeaf where TenantID = 12
-select * from Reclamation.CostAuthority
-*/
-
-
-
-    --select tl.TaxonomyLeafID,
-    --       ca.CostAuthorityID,
-    --       (ca.Authority + '.' + ca.Job) as MatchingBit
-    --from dbo.TaxonomyLeaf as tl 
-    --inner join Reclamation.CostAuthority as ca on substring(tl.TaxonomyLeafName, 1, 8) = (ca.Authority + '.' + ca.Job)
-    --where tl.TenantID = 12
 */
