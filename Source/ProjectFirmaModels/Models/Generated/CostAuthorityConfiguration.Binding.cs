@@ -22,19 +22,23 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CostCenter).HasColumnName(@"CostCenter").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.AgencyProjectType).HasColumnName(@"AgencyProjectType").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.ProjectNumber).HasColumnName(@"ProjectNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            Property(x => x.JobNumber).HasColumnName(@"JobNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.Authority).HasColumnName(@"Authority").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.Job).HasColumnName(@"Job").HasColumnType("nvarchar").IsOptional().HasMaxLength(3);
+            Property(x => x.Number).HasColumnName(@"Number").HasColumnType("nvarchar").IsOptional().HasMaxLength(4);
+            Property(x => x.JobNumber).HasColumnName(@"JobNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.WBSStatus).HasColumnName(@"WBSStatus").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.HCategoryLU).HasColumnName(@"HCategoryLU").HasColumnType("float").IsOptional();
             Property(x => x.WBSNoDot).HasColumnName(@"WBSNoDot").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.HabitatCategoryID).HasColumnName(@"HabitatCategoryID").HasColumnType("int").IsOptional();
             Property(x => x.BasinID).HasColumnName(@"BasinID").HasColumnType("int").IsOptional();
             Property(x => x.SubbasinID).HasColumnName(@"SubbasinID").HasColumnType("int").IsOptional();
+            Property(x => x.TaxonomyLeafID).HasColumnName(@"TaxonomyLeafID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasOptional(a => a.HabitatCategory).WithMany(b => b.CostAuthoritiesWhereYouAreTheHabitatCategory).HasForeignKey(c => c.HabitatCategoryID).WillCascadeOnDelete(false); // FK_CostAuthority_HCategory_HabitatCategoryID_HCategoryID
             HasOptional(a => a.Basin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.BasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Basin_BasinID
             HasOptional(a => a.Subbasin).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.SubbasinID).WillCascadeOnDelete(false); // FK_CostAuthority_Subbasin_SubbasinID
+            HasRequired(a => a.TaxonomyLeaf).WithMany(b => b.CostAuthorities).HasForeignKey(c => c.TaxonomyLeafID).WillCascadeOnDelete(false); // FK_CostAuthority_TaxonomyLeaf_TaxonomyLeafID
         }
     }
 }

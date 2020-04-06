@@ -23,6 +23,9 @@ namespace ProjectFirmaModels.Models
             Property(x => x.TaxonomyLeafCode).HasColumnName(@"TaxonomyLeafCode").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(10);
             Property(x => x.ThemeColor).HasColumnName(@"ThemeColor").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(7);
             Property(x => x.TaxonomyLeafSortOrder).HasColumnName(@"TaxonomyLeafSortOrder").HasColumnType("int").IsOptional();
+            Property(x => x.ReclamationAuthority).HasColumnName(@"ReclamationAuthority").HasColumnType("nvarchar").IsOptional().HasMaxLength(4);
+            Property(x => x.ReclamationJob).HasColumnName(@"ReclamationJob").HasColumnType("nvarchar").IsOptional().HasMaxLength(3);
+            Property(x => x.ReclamationAuthorityJob).HasColumnName(@"ReclamationAuthorityJob").HasColumnType("nvarchar").IsOptional().HasMaxLength(8);
 
             // Foreign keys
             HasRequired(a => a.TaxonomyBranch).WithMany(b => b.TaxonomyLeafs).HasForeignKey(c => c.TaxonomyBranchID).WillCascadeOnDelete(false); // FK_TaxonomyLeaf_TaxonomyBranch_TaxonomyBranchID

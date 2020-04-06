@@ -35,7 +35,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string jobNumber, string authority, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID) : this()
+        public CostAuthority(int costAuthorityID, string costAuthorityWorkBreakdownStructure, string costAuthorityNumber, string accountStructureDescription, string costCenter, string agencyProjectType, string projectNumber, string authority, string job, string number, string jobNumber, string wBSStatus, double? hCategoryLU, string wBSNoDot, int? habitatCategoryID, int? basinID, int? subbasinID, int taxonomyLeafID) : this()
         {
             this.CostAuthorityID = costAuthorityID;
             this.CostAuthorityWorkBreakdownStructure = costAuthorityWorkBreakdownStructure;
@@ -44,24 +44,48 @@ namespace ProjectFirmaModels.Models
             this.CostCenter = costCenter;
             this.AgencyProjectType = agencyProjectType;
             this.ProjectNumber = projectNumber;
-            this.JobNumber = jobNumber;
             this.Authority = authority;
+            this.Job = job;
+            this.Number = number;
+            this.JobNumber = jobNumber;
             this.WBSStatus = wBSStatus;
             this.HCategoryLU = hCategoryLU;
             this.WBSNoDot = wBSNoDot;
             this.HabitatCategoryID = habitatCategoryID;
             this.BasinID = basinID;
             this.SubbasinID = subbasinID;
+            this.TaxonomyLeafID = taxonomyLeafID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
+        /// </summary>
+        public CostAuthority(int taxonomyLeafID) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.CostAuthorityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            
+            this.TaxonomyLeafID = taxonomyLeafID;
+        }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public CostAuthority(TaxonomyLeaf taxonomyLeaf) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.CostAuthorityID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.TaxonomyLeafID = taxonomyLeaf.TaxonomyLeafID;
+            this.TaxonomyLeaf = taxonomyLeaf;
+            taxonomyLeaf.CostAuthorities.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static CostAuthority CreateNewBlank()
+        public static CostAuthority CreateNewBlank(TaxonomyLeaf taxonomyLeaf)
         {
-            return new CostAuthority();
+            return new CostAuthority(taxonomyLeaf);
         }
 
         /// <summary>
@@ -140,14 +164,17 @@ namespace ProjectFirmaModels.Models
         public string CostCenter { get; set; }
         public string AgencyProjectType { get; set; }
         public string ProjectNumber { get; set; }
-        public string JobNumber { get; set; }
         public string Authority { get; set; }
+        public string Job { get; set; }
+        public string Number { get; set; }
+        public string JobNumber { get; set; }
         public string WBSStatus { get; set; }
         public double? HCategoryLU { get; set; }
         public string WBSNoDot { get; set; }
         public int? HabitatCategoryID { get; set; }
         public int? BasinID { get; set; }
         public int? SubbasinID { get; set; }
+        public int TaxonomyLeafID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityID; } set { CostAuthorityID = value; } }
 
@@ -160,6 +187,7 @@ namespace ProjectFirmaModels.Models
         public virtual HCategory HabitatCategory { get; set; }
         public virtual Basin Basin { get; set; }
         public virtual Subbasin Subbasin { get; set; }
+        public virtual TaxonomyLeaf TaxonomyLeaf { get; set; }
 
         public static class FieldLengths
         {
@@ -169,8 +197,10 @@ namespace ProjectFirmaModels.Models
             public const int CostCenter = 255;
             public const int AgencyProjectType = 255;
             public const int ProjectNumber = 255;
-            public const int JobNumber = 255;
             public const int Authority = 255;
+            public const int Job = 3;
+            public const int Number = 4;
+            public const int JobNumber = 255;
             public const int WBSStatus = 255;
             public const int WBSNoDot = 255;
         }

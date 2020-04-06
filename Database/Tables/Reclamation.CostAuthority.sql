@@ -10,14 +10,17 @@ CREATE TABLE [Reclamation].[CostAuthority](
 	[CostCenter] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[AgencyProjectType] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ProjectNumber] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[JobNumber] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Authority] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Job] [nvarchar](3) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[Number] [nvarchar](4) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[JobNumber] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[WBSStatus] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[HCategoryLU] [float] NULL,
 	[WBSNoDot] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[HabitatCategoryID] [int] NULL,
 	[BasinID] [int] NULL,
 	[SubbasinID] [int] NULL,
+	[TaxonomyLeafID] [int] NOT NULL,
  CONSTRAINT [PK_CostAuthority_CostAuthorityID] PRIMARY KEY CLUSTERED 
 (
 	[CostAuthorityID] ASC
@@ -39,3 +42,8 @@ ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_CostAu
 REFERENCES [Reclamation].[Subbasin] ([SubbasinID])
 GO
 ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_CostAuthority_Subbasin_SubbasinID]
+GO
+ALTER TABLE [Reclamation].[CostAuthority]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthority_TaxonomyLeaf_TaxonomyLeafID] FOREIGN KEY([TaxonomyLeafID])
+REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])
+GO
+ALTER TABLE [Reclamation].[CostAuthority] CHECK CONSTRAINT [FK_CostAuthority_TaxonomyLeaf_TaxonomyLeafID]
