@@ -159,7 +159,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             <thead>
                                 <tr>
                                     <th colspan="2"></th>
-                                    <th ng-repeat="calendarYear in calendarYearRange" colspan="2" style="text-align: center;">
+                                    <th ng-repeat="calendarYear in calendarYearRange" colspan="3" style="text-align: center;">
                                         <span class="glyphicon glyphicon-plus-sign blue" ng-click="addCalendarYear(calendarYear - 1)" ng-show="$first" title="Add Previous Year '{{calendarYear - 1}}'" alt="Add Previous Year '{{calendarYear - 1}}'" style="cursor: pointer"></span>
                                         <span class="glyphicon glyphicon-minus-sign blue" ng-click="deleteCalendarYear(calendarYear)" ng-show="$first && canDeleteCalendarYear(calendarYear)" title="Remove '{{calendarYear}}'" alt="Remove '{{calendarYear}}'" style="cursor: pointer"></span>
                                         <span ng-bind="calendarYear"></span>
@@ -175,6 +175,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right; vertical-align: top">
                                         <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
                                     </th>
+                                    <th>Expended Funding</th>
                                     <th ng-repeat-end class="targetedFunding" style="text-align: right; vertical-align: top;">
                                         <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
                                     </th>
@@ -185,15 +186,17 @@ Source code is available upon request via <support@sitkatech.com>.
                             <tbody ng-show="shouldShowFundingSources()" ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
                                 <tr class="fundingSourceHeaderRow">
                                     <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
-                                    <td colspan="{{(calendarYearRange.length *2) + 2}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
+                                    <td colspan="{{(calendarYearRange.length *2) + 3}}"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
                                 </tr>
                                 @* Budget Entry Rows *@
                                 <tr ng-repeat="projectFundingSourceBudget in getProjectFundingSourceBudgetRowsForFundingSource(fundingSourceID) | orderBy:[getFundingSourceName]">
                                     <td style="width: 30px; min-width: 30px;"></td>
                                     <td ng-bind="getCostTypeName(projectFundingSourceBudget)" />
                                     <td style="text-align: right;" ng-repeat-start="calendarYearBudget in getRelevantCalendarYearBudgets(projectFundingSourceBudget) | orderBy:'CalendarYear'">
-                                        <input type="text" ng-model="calendarYearBudget.SecuredAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                        @*<input type="text" ng-model="calendarYearBudget.SecuredAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />*@
+                                        {{calendarYearBudget.SecuredAmount}}
                                     </td>
+                                    <td>test</td>
                                     <td style="text-align: right;" ng-repeat-end>
                                         <input type="text" ng-model="calendarYearBudget.TargetedAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
@@ -208,6 +211,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <th style="text-align: right;" ng-repeat-start="calendarYear in calendarYearRange">
                                         <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, true) | currency:"$"}}</span>
                                     </th>
+                                    <th>test</th>
                                     <th class="targetedFunding" style="text-align: right;" ng-repeat-end>
                                         <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, false) | currency:"$"}}</span>
                                     </th>
@@ -219,6 +223,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <tr class="fundingSourceHeaderRow">
                                     <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
                                     <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'"></td>
+                                    <td>test</td>
                                     <td ng-repeat-end style="text-align: right">
                                         <input type="text" ng-model="calendarYearNoFunding.MonetaryAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
@@ -232,6 +237,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right">
                                         <span ng-show="shouldShowFundingSources()">{{getTotalSecuredForCalendarYear(calendarYear)  | currency:"$"}}</span>
                                     </th>
+                                    <td>test</td>
                                     <th class="targetedFunding" ng-repeat-end style="text-align: right"> {{getTotalTargetedForCalendarYear(true, calendarYear) | currency:"$"}}</th>
                                     <th style="text-align: right"> {{getTotalVariesByYear() | currency:"$"}}</th>
                                 </tr>
