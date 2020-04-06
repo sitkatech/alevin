@@ -32,8 +32,8 @@ namespace ProjectFirma.Web.Models
                     return projectUpdateBatch.AreReportedPerformanceMeasuresValid();
                 case ProjectUpdateSectionEnum.Budget:
                     return true;
-                case ProjectUpdateSectionEnum.Expenditures:
-                    return projectUpdateBatch.AreExpendituresValid();
+                //case ProjectUpdateSectionEnum.Expenditures:
+                //    return projectUpdateBatch.AreExpendituresValid();
                 case ProjectUpdateSectionEnum.Photos:
                     return true;
                 case ProjectUpdateSectionEnum.ExternalLinks:
@@ -78,10 +78,10 @@ namespace ProjectFirma.Web.Models
                     return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
                             ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFundingByCostType(project.ProjectID))
                             : SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID));
-                case ProjectUpdateSectionEnum.Expenditures:
-                    return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ?
-                        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project)) : 
-                        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));
+                //case ProjectUpdateSectionEnum.Expenditures:
+                //    return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ?
+                //        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project)) : 
+                //        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));
                 case ProjectUpdateSectionEnum.Photos:
                     return SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Photos(project));
                 case ProjectUpdateSectionEnum.ExternalLinks:

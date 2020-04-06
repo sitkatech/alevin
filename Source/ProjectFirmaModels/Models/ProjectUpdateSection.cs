@@ -45,13 +45,13 @@
         }
     }
 
-    public partial class ProjectUpdateSectionExpenditures
-    {
-        public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
-        {
-            return projectUpdateStatus.IsExpendituresUpdated;
-        }
-    }
+    //public partial class ProjectUpdateSectionExpenditures
+    //{
+    //    public override bool SectionIsUpdated(ProjectUpdateStatus projectUpdateStatus)
+    //    {
+    //        return projectUpdateStatus.IsExpendituresUpdated;
+    //    }
+    //}
 
     public partial class ProjectUpdateSectionPhotos
     {        

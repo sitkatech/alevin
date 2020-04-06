@@ -43,7 +43,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
 
         public ExpendituresByCostTypeViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, 
             ProjectExpendituresByCostTypeDetailViewData projectExpendituresByCostTypeDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
-            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
+            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, "OBSOLETE Expenditures")
+                //: base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
             ViewDataForAngular = viewDataForAngularClass;
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpenditures(projectUpdateBatch.Project));
