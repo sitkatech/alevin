@@ -9,7 +9,8 @@ CREATE TABLE Reclamation.BudgetObjectCodeGroup
     -- '10', '11', '11.1', etc.
     BudgetObjectCodeGroupPrefix nvarchar(5) not null,
     BudgetObjectCodeGroupName [nvarchar](100) not NULL,
-    BudgetObjectCodeGroupDefinition [nvarchar](500) null
+    BudgetObjectCodeGroupDefinition [nvarchar](500) null,
+    ParentBudgetObjectCodeGroupID int null constraint FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID foreign key references Reclamation.BudgetObjectCodeGroup(BudgetObjectCodeGroupID)
  CONSTRAINT [PK_BudgetObjectCodeGroup_BudgetObjectCodeGroupID] PRIMARY KEY CLUSTERED 
  (
     BudgetObjectCodeGroupID ASC
