@@ -70,7 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
         background-color: #f9f9f9;
     }
 
-    .targetedFunding {
+    .sourcedField {
         font-style: italic;
         color: #6e6e6e;
     }
@@ -172,12 +172,12 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <th style="white-space: nowrap" colspan="2">
                                         <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</span>
                                     </th>
-                                    <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right; vertical-align: top">
-                                        <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
-                                    </th>
-                                    <th>Expended Funding</th>
-                                    <th ng-repeat-end class="targetedFunding" style="text-align: right; vertical-align: top;">
+                                    <th ng-repeat-start="calendarYear in calendarYearRange">
                                         <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                                    </th>
+                                    <th class="sourcedField">Expended Funding</th>
+                                    <th ng-repeat-end class="sourcedField">
+                                        <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
                                     </th>
                                     <th style="text-align: right">Total</th>
                                 </tr>
@@ -194,11 +194,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <td ng-bind="getCostTypeName(projectFundingSourceBudget)" />
                                     <td style="text-align: right;" ng-repeat-start="calendarYearBudget in getRelevantCalendarYearBudgets(projectFundingSourceBudget) | orderBy:'CalendarYear'">
                                         @*<input type="text" ng-model="calendarYearBudget.SecuredAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />*@
-                                        {{calendarYearBudget.SecuredAmount}}
+                                        <input type="text" ng-model="calendarYearBudget.TargetedAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
                                     <td>test</td>
                                     <td style="text-align: right;" ng-repeat-end>
-                                        <input type="text" ng-model="calendarYearBudget.TargetedAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                        {{calendarYearBudget.SecuredAmount}}
                                     </td>
                                     <th style="text-align: right"> {{getBudgetTotalForRow(projectFundingSourceBudget) | currency:"$"}}</th>
                                 </tr>
@@ -209,11 +209,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                         All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
                                     </th>
                                     <th style="text-align: right;" ng-repeat-start="calendarYear in calendarYearRange">
-                                        <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, true) | currency:"$"}}</span>
+                                        <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, false) | currency:"$"}}</span>
                                     </th>
                                     <th>test</th>
                                     <th class="targetedFunding" style="text-align: right;" ng-repeat-end>
-                                        <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, false) | currency:"$"}}</span>
+                                        <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, true) | currency:"$"}}</span>
                                     </th>
                                     <th style="text-align: right"> {{getBudgetTotalForFundingSource(fundingSourceID) | currency:"$"}}</th>
                                 </tr>
@@ -222,11 +222,11 @@ Source code is available upon request via <support@sitkatech.com>.
                             <tbody style="border-top: 2px solid #ddd">
                                 <tr class="fundingSourceHeaderRow">
                                     <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
-                                    <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'"></td>
-                                    <td>test</td>
-                                    <td ng-repeat-end style="text-align: right">
+                                    <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'">
                                         <input type="text" ng-model="calendarYearNoFunding.MonetaryAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
+                                    <td></td>
+                                    <td ng-repeat-end></td>
                                     <th style="text-align: right"> {{getNoFundingSourceIdentifiedTotalForCalendarYear() | currency:"$"}}</th>
                                 </tr>
                             </tbody>
@@ -235,10 +235,13 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <tr>
                                     <td colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedTotalCost)</td>
                                     <th ng-repeat-start="calendarYear in calendarYearRange" style="text-align: right">
-                                        <span ng-show="shouldShowFundingSources()">{{getTotalSecuredForCalendarYear(calendarYear)  | currency:"$"}}</span>
+                                        {{getTotalTargetedForCalendarYear(true, calendarYear) | currency:"$"}}
+                                        
                                     </th>
-                                    <td>test</td>
-                                    <th class="targetedFunding" ng-repeat-end style="text-align: right"> {{getTotalTargetedForCalendarYear(true, calendarYear) | currency:"$"}}</th>
+                                    <th></th>
+                                    <th class="sourcedField" ng-repeat-end style="text-align: right">
+                                        <span ng-show="shouldShowFundingSources()">{{getTotalSecuredForCalendarYear(calendarYear) | currency:"$"}}</span>
+                                    </th>
                                     <th style="text-align: right"> {{getTotalVariesByYear() | currency:"$"}}</th>
                                 </tr>
                             </tbody>
@@ -269,10 +272,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <span ng-show="shouldShowFundingSources()"> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</span>
                                     </th>
                                     <th>
-                                        <span ng-show="shouldShowFundingSources()">Each Year @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
-                                    </th>
-                                    <th class="targetedFunding" >
                                         <span ng-show="shouldShowFundingSources()">Each Year @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                                    </th>
+                                    <th>Each Year Expended Funding</th>
+                                    <th class="sourcedField">
+                                        <span ng-show="shouldShowFundingSources()">Each Year @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
                                     </th>
                                     <th style="text-align: right">Total</th>
                                 </tr>
@@ -280,17 +284,19 @@ Source code is available upon request via <support@sitkatech.com>.
                             <tbody ng-show="shouldShowFundingSources()" ng-repeat="fundingSourceID in getAllUsedFundingSourceIds() | orderBy:[getFundingSourceNameById]" style="border-top: 2px solid #ddd">
                                 <tr class="fundingSourceHeaderRow">
                                     <td style="width: 30px; min-width: 30px;"><span class="glyphicon glyphicon-trash blue" title="Remove row" alt="Remove row" ng-click="deleteFundingSourceRow(fundingSourceID)" style="cursor: pointer;"></span></td>
-                                    <td colspan="4"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
+                                    <td colspan="5"><label class="control-label"><span ng-bind="getFundingSourceNameById(fundingSourceID)"></span></label></td>
                                 </tr>
                                 @* Budget Entry Rows *@
                                 <tr ng-repeat="projectFundingSourceBudget in getProjectFundingSourceBudgetRowsForFundingSource(fundingSourceID) | orderBy:[getFundingSourceName]">
                                     <td style="width: 30px; min-width: 30px;"></td>
                                     <td ng-bind="getCostTypeName(projectFundingSourceBudget)" />
                                     <td style="text-align: right;">
-                                        <input type="text" ng-model="projectFundingSourceBudget.SecuredAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
-                                    </td>
-                                    <td style="text-align: right;">
                                         <input type="text" ng-model="projectFundingSourceBudget.TargetedAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                        
+                                    </td>
+                                    <td>Expended funds</td>
+                                    <td style="text-align: right;">
+                                        {{projectFundingSourceBudget.SecuredAmount}}
                                     </td>
                                     <th style="text-align: right"> {{getBudgetTotalForRowSameEachYear(projectFundingSourceBudget) | currency:"$"}}</th>
                                 </tr>
@@ -301,10 +307,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                         All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
                                     </th>
                                     <th style="text-align: right;">
-                                        <span> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID, true) | currency:"$"}}</span>
-                                    </th>
-                                    <th class="targetedFunding" style="text-align: right;">
                                         <span> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID, false) | currency:"$"}}</span>
+                                    </th>
+                                    <th>Expended Funding</th>
+                                    <th class="sourcedField" style="text-align: right;">
+                                        <span> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID, true) | currency:"$"}}</span>
                                     </th>
                                     <th style="text-align: right"> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID) | currency:"$"}}</th>
                                 </tr>
@@ -313,10 +320,11 @@ Source code is available upon request via <support@sitkatech.com>.
                             <tbody style="border-top: 2px solid #ddd">
                                 <tr class="fundingSourceHeaderRow">
                                     <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
-                                    <td></td>
                                     <td style="text-align: right">
                                         <input type="text" ng-model="noFundingSourceIdentifiedSameEachYear.Value" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
+                                    <td></td>
+                                    <td></td>
                                     <th style="text-align: right"> {{noFundingSourceIdentifiedSameEachYear.Value | currency:"$"}}</th>
                                 </tr>
                             </tbody>
@@ -325,9 +333,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <tr>
                                     <td colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost)</td>
                                     <th style="text-align: right">
-                                        <span ng-show="shouldShowFundingSources()">{{getTotalSecuredSameEachYear()  | currency:"$"}}</span>
+                                        {{getTotalTargetedSameEachYear(true) | currency:"$"}}
+                                       
                                     </th>
-                                    <th class="targetedFunding" style="text-align: right"> {{getTotalTargetedSameEachYear(true) | currency:"$"}}</th>
+                                    <th>Expended Funds</th>
+                                    <th class="sourcedField" style="text-align: right"><span ng-show="shouldShowFundingSources()">{{getTotalSecuredSameEachYear() | currency:"$"}}</span> </th>
                                     <th style="text-align: right"> {{getTotalSameEachYear() | currency:"$"}}</th>
                                 </tr>
                             </tbody>
