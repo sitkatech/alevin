@@ -12,18 +12,18 @@ CREATE TABLE [Reclamation].[BudgetObjectCodeGroup](
 (
 	[BudgetObjectCodeGroupID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [UC_BudgetObjectCodeGroup_BudgetObjectCodeGroupName] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_BudgetObjectCodeGroup_BudgetObjectCodeGroupName] UNIQUE NONCLUSTERED 
 (
 	[BudgetObjectCodeGroupName] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [UC_BudgetObjectCodeGroup_BudgetObjectCodeGroupPrefix] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_BudgetObjectCodeGroup_BudgetObjectCodeGroupPrefix] UNIQUE NONCLUSTERED 
 (
 	[BudgetObjectCodeGroupPrefix] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[BudgetObjectCodeGroup]  WITH CHECK ADD  CONSTRAINT [FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID] FOREIGN KEY([ParentBudgetObjectCodeGroupID])
+ALTER TABLE [Reclamation].[BudgetObjectCodeGroup]  WITH CHECK ADD  CONSTRAINT [FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID_BudgetObjectCodeGroupID] FOREIGN KEY([ParentBudgetObjectCodeGroupID])
 REFERENCES [Reclamation].[BudgetObjectCodeGroup] ([BudgetObjectCodeGroupID])
 GO
-ALTER TABLE [Reclamation].[BudgetObjectCodeGroup] CHECK CONSTRAINT [FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID]
+ALTER TABLE [Reclamation].[BudgetObjectCodeGroup] CHECK CONSTRAINT [FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID_BudgetObjectCodeGroupID]

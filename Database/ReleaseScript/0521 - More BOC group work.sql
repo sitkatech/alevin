@@ -291,3 +291,8 @@ where BudgetObjectCodeID = 1683
 -- If all has gone well, we can finally lock this column down for good.
 alter table Reclamation.BudgetObjectCode
 alter column BudgetObjectCodeGroupID int not null
+
+-- repair some names
+exec sp_rename 'Reclamation.FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID', 'FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID_BudgetObjectCodeGroupID', 'OBJECT'
+exec sp_rename 'Reclamation.UC_BudgetObjectCodeGroup_BudgetObjectCodeGroupName', 'AK_BudgetObjectCodeGroup_BudgetObjectCodeGroupName', 'OBJECT'
+exec sp_rename 'Reclamation.UC_BudgetObjectCodeGroup_BudgetObjectCodeGroupPrefix', 'AK_BudgetObjectCodeGroup_BudgetObjectCodeGroupPrefix', 'OBJECT'
