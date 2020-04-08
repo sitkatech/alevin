@@ -152,45 +152,11 @@ from
 
 
 
--- What's left?
+-- What's left? These are projects which are still associated with the 'Unknown xx.xxxxx' category. Some of these can definitely be moved.
 select p.*
 from dbo.Project as p
 where p.TenantID = 12
 and p.TaxonomyLeafID = 2680
 
-
-/*
--- For testing the above update
-
-select *
-from
-    dbo.Project as p
-    inner join #ProjectNamePrefixToTaxonomyLeafNamePrefixMap as pm on p.ProjectName like pm.ProjectNamePrefix + '%'
-
--- Why aren't we seeing Grand Ronde flow?
-select * from dbo.Project as p where p.ProjectName like 'Grand
-*/
-
-
-/*
-select * 
-from
-    dbo.Project as p
-    inner join #ProjectNamePrefixToTaxonomyLeafNamePrefixMap as pm on p.ProjectName like pm.ProjectNamePrefix + '%'
-where
-    p.TenantID = 12
-    and
-    p.TaxonomyLeafID = 2680 -- xxx.xxxx 'Unknown'
-
-
-
-select p.*
-from dbo.Project as p
-where p.TenantID = 12
-and p.TaxonomyLeafID = 2680
-and p.ProjectName like 'Entiat Flow%' -- 6814.200
-
-select * from dbo.TaxonomyLeaf where SUBSTRING(TaxonomyLeafName,0,10) = '6814.200' and TenantID = 12
-*/
-
+-- We now have unknown codes with no projects in them. We can now clean these up in subsequent scripts.
 
