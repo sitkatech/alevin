@@ -22,9 +22,10 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FbmsYear).HasColumnName(@"FbmsYear").HasColumnType("int").IsRequired();
             Property(x => x.Reportable1099).HasColumnName(@"Reportable1099").HasColumnType("bit").IsOptional();
             Property(x => x.Explanation1099).HasColumnName(@"Explanation1099").HasColumnType("nvarchar").IsOptional().HasMaxLength(1000);
+            Property(x => x.BudgetObjectCodeGroupID).HasColumnName(@"BudgetObjectCodeGroupID").HasColumnType("int").IsRequired();
 
             // Foreign keys
-
+            HasRequired(a => a.BudgetObjectCodeGroup).WithMany(b => b.BudgetObjectCodes).HasForeignKey(c => c.BudgetObjectCodeGroupID).WillCascadeOnDelete(false); // FK_BudgetObjectCode_BudgetObjectCodeGroup_BudgetObjectCodeGroupID
         }
     }
 }

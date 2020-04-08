@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public BudgetObjectCode(int budgetObjectCodeID, string budgetObjectCodeName, string budgetObjectCodeItemDescription, string budgetObjectCodeDefinition, int fbmsYear, bool? reportable1099, string explanation1099) : this()
+        public BudgetObjectCode(int budgetObjectCodeID, string budgetObjectCodeName, string budgetObjectCodeItemDescription, string budgetObjectCodeDefinition, int fbmsYear, bool? reportable1099, string explanation1099, int budgetObjectCodeGroupID) : this()
         {
             this.BudgetObjectCodeID = budgetObjectCodeID;
             this.BudgetObjectCodeName = budgetObjectCodeName;
@@ -40,12 +40,13 @@ namespace ProjectFirmaModels.Models
             this.FbmsYear = fbmsYear;
             this.Reportable1099 = reportable1099;
             this.Explanation1099 = explanation1099;
+            this.BudgetObjectCodeGroupID = budgetObjectCodeGroupID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear) : this()
+        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear, int budgetObjectCodeGroupID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.BudgetObjectCodeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -53,15 +54,30 @@ namespace ProjectFirmaModels.Models
             this.BudgetObjectCodeName = budgetObjectCodeName;
             this.BudgetObjectCodeItemDescription = budgetObjectCodeItemDescription;
             this.FbmsYear = fbmsYear;
+            this.BudgetObjectCodeGroupID = budgetObjectCodeGroupID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear, BudgetObjectCodeGroup budgetObjectCodeGroup) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.BudgetObjectCodeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.BudgetObjectCodeName = budgetObjectCodeName;
+            this.BudgetObjectCodeItemDescription = budgetObjectCodeItemDescription;
+            this.FbmsYear = fbmsYear;
+            this.BudgetObjectCodeGroupID = budgetObjectCodeGroup.BudgetObjectCodeGroupID;
+            this.BudgetObjectCodeGroup = budgetObjectCodeGroup;
+            budgetObjectCodeGroup.BudgetObjectCodes.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static BudgetObjectCode CreateNewBlank()
+        public static BudgetObjectCode CreateNewBlank(BudgetObjectCodeGroup budgetObjectCodeGroup)
         {
-            return new BudgetObjectCode(default(string), default(string), default(int));
+            return new BudgetObjectCode(default(string), default(string), default(int), budgetObjectCodeGroup);
         }
 
         /// <summary>
@@ -120,11 +136,13 @@ namespace ProjectFirmaModels.Models
         public int FbmsYear { get; set; }
         public bool? Reportable1099 { get; set; }
         public string Explanation1099 { get; set; }
+        public int BudgetObjectCodeGroupID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return BudgetObjectCodeID; } set { BudgetObjectCodeID = value; } }
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
         public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
+        public virtual BudgetObjectCodeGroup BudgetObjectCodeGroup { get; set; }
 
         public static class FieldLengths
         {
