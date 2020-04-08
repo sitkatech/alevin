@@ -10,6 +10,7 @@ CREATE TABLE [Reclamation].[BudgetObjectCode](
 	[FbmsYear] [int] NOT NULL,
 	[Reportable1099] [bit] NULL,
 	[Explanation1099] [nvarchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[BudgetObjectCodeGroupID] [int] NOT NULL,
  CONSTRAINT [PK_BudgetObjectCode_BudgetObjectCodeID] PRIMARY KEY CLUSTERED 
 (
 	[BudgetObjectCodeID] ASC
@@ -25,3 +26,8 @@ CREATE UNIQUE NONCLUSTERED INDEX [UQ] ON [Reclamation].[BudgetObjectCode]
 	[BudgetObjectCodeName] ASC,
 	[FbmsYear] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+GO
+ALTER TABLE [Reclamation].[BudgetObjectCode]  WITH CHECK ADD  CONSTRAINT [FK_BudgetObjectCode_BudgetObjectCodeGroup_BudgetObjectCodeGroupID] FOREIGN KEY([BudgetObjectCodeGroupID])
+REFERENCES [Reclamation].[BudgetObjectCodeGroup] ([BudgetObjectCodeGroupID])
+GO
+ALTER TABLE [Reclamation].[BudgetObjectCode] CHECK CONSTRAINT [FK_BudgetObjectCode_BudgetObjectCodeGroup_BudgetObjectCodeGroupID]

@@ -30,7 +30,9 @@ set BudgetObjectCodeGroupID = (
                                 where SUBSTRING(Reclamation.BudgetObjectCode.BudgetObjectCodeName, 1, 3) = bocg.StrippedBudgetObjectCodeGroupPrefix
                                     --join Reclamation.BudgetObjectCode as boc on bocg.StrippedBudgetObjectCodeGroupPrefix = left(boc.BudgetObjectCodeName, 3)
                               )
+GO
 
+/*
 select boc.BudgetObjectCodeID,
        boc.BudgetObjectCodeName,
        bocg.BudgetObjectCodeGroupID,
@@ -39,7 +41,7 @@ select boc.BudgetObjectCodeID,
 from Reclamation.BudgetObjectCode as boc
 inner join Reclamation.BudgetObjectCodeGroup as bocg on boc.BudgetObjectCodeGroupID = bocg.BudgetObjectCodeGroupID
 GO
-
+*/
 
 -- Just which codes have problems up to here
 /*
@@ -269,20 +271,23 @@ where Reclamation.BudgetObjectCode.BudgetObjectCodeName = bocmap.BudgetObjectCod
 
 -- Do we have any still missing?
 -- If we do, locking down the column below will fail.
+/*
 select * from Reclamation.BudgetObjectCode
 where BudgetObjectCodeGroupID is null
+*/
+
+-- Manual fixup. This just looks wrong, so I'm fixing.
+update Reclamation.BudgetObjectCode
+set BudgetObjectCodeName = '118B00',
+    BudgetObjectCodeGroupID = 6
+where BudgetObjectCodeID = 356
+
+-- Another clearly wrong missing one
+update Reclamation.BudgetObjectCode
+set BudgetObjectCodeName = '252L00',
+    BudgetObjectCodeGroupID = 26
+where BudgetObjectCodeID = 1683
 
 -- If all has gone well, we can finally lock this column down for good.
--- NOPE, not yet!
 alter table Reclamation.BudgetObjectCode
 alter column BudgetObjectCodeGroupID int not null
-
-
---select * from Reclamation.BudgetObjectCodeGroup
---where BudgetObjectCodeGroupPrefix  like '%43%'
-
---select * from Reclamation.BudgetObjectCode
---where BudgetObjectCodeName = '7L0000'
---order by BudgetObjectCodeName
-
-
