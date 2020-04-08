@@ -1,7 +1,6 @@
 
 
 -- FK BudgetObjectCode ==> BudgetObjectCodeGroup
-
 alter table Reclamation.BudgetObjectCode
 add BudgetObjectCodeGroupID int null 
 constraint FK_BudgetObjectCode_BudgetObjectCodeGroup_BudgetObjectCodeGroupID 
@@ -22,20 +21,6 @@ update #TempBudgetObjectCodeStuff
 set StrippedBudgetObjectCodeGroupPrefix = LEFT(StrippedBudgetObjectCodeGroupPrefix + '00000',3)
 
 
-
-/*
-
-select * from #TempBudgetObjectCodeStuff
-
-select * from Reclamation.BudgetObjectCodeGroup
-select * from Reclamation.BudgetObjectCode
-
-*/
-
---begin tran
-
---select * from Reclamation.BudgetObjectCode
-
 update Reclamation.BudgetObjectCode
 set BudgetObjectCodeGroupID = (
                                 select
@@ -55,21 +40,11 @@ from Reclamation.BudgetObjectCode as boc
 inner join Reclamation.BudgetObjectCodeGroup as bocg on boc.BudgetObjectCodeGroupID = bocg.BudgetObjectCodeGroupID
 GO
 
---select boc.* from Reclamation.BudgetObjectCode as boc where BudgetObjectCodeGroupID is null
 
--- Just which codes have problems
---select distinct boc.BudgetObjectCodeName from Reclamation.BudgetObjectCode as boc where BudgetObjectCodeGroupID is null
-
-
-
-
-
-
-
-
-
-
-
+-- Just which codes have problems up to here
+/*
+select distinct boc.BudgetObjectCodeName from Reclamation.BudgetObjectCode as boc where BudgetObjectCodeGroupID is null
+*/
 
 -- Using the output above, we manually assign the following BOC to their groups. Dorothy said this is just the way things are,
 -- so we roll with it. This is one advantage of using a loose grouping rather than something more locked down.
@@ -274,14 +249,14 @@ from
 inner join Reclamation.BudgetObjectCodeGroup as bocg on bocmap.BudgetObjectCodeGroupPrefix = bocg.BudgetObjectCodeGroupPrefix
 */
 
--- Fill in the 
+-- Fill in the BudgetObjectCodeGroupIDs in the map
 update #BudgetObjectCodeToBudgetObjectCodeGroupManualMap
 set BudgetObjectCodeGroupID = bocg.BudgetObjectCodeGroupID
 from
 #BudgetObjectCodeToBudgetObjectCodeGroupManualMap as bocmap 
 inner join Reclamation.BudgetObjectCodeGroup as bocg on bocmap.BudgetObjectCodeGroupPrefix = bocg.BudgetObjectCodeGroupPrefix
 
--- Make sure we've successfully set all our BOC Group IDs; this will fail
+-- Make sure we've successfully set all our BOC Group IDs in our Map; this will fail
 -- if we failed to assign one, which happenend during development.
 alter table #BudgetObjectCodeToBudgetObjectCodeGroupManualMap
 alter column BudgetObjectCodeGroupID int not null
@@ -292,12 +267,10 @@ set BudgetObjectCodeGroupID = bocmap.BudgetObjectCodeGroupID
 from #BudgetObjectCodeToBudgetObjectCodeGroupManualMap as bocmap
 where Reclamation.BudgetObjectCode.BudgetObjectCodeName = bocmap.BudgetObjectCodeName
 
+-- Do we have any still missing?
+-- If we do, locking down the column below will fail.
 select * from Reclamation.BudgetObjectCode
 where BudgetObjectCodeGroupID is null
-
-
-
-
 
 -- If all has gone well, we can finally lock this column down for good.
 -- NOPE, not yet!
@@ -313,67 +286,3 @@ alter column BudgetObjectCodeGroupID int not null
 --order by BudgetObjectCodeName
 
 
-
-/*
-update #BudgetObjectCodeToBudgetObjectCodeGroupManualMap
-       set BudgetObjectCodeGroupID = bocg.BudgetObjectCodeGroupID
-from
-#BudgetObjectCodeToBudgetObjectCodeGroupManualMap as bocmap 
-inner join Reclamation.BudgetObjectCodeGroup as bocg on bocmap.BudgetObjectCodeGroupPrefix = bocmap.BudgetObjectCodeGroupPrefix
-
-
-
-
-select * from #BudgetObjectCodeToBudgetObjectCodeGroupManualMap
-
-
-rollback tran
-
-
-
-
-
-
-CREATE TABLE #BudgetObjectCodeToBudgetObjectCodeGroupManualMap
-(
-    BudgetObjectCodeName varchar(max) not null,
-    BudgetObjectCodeGroupPrefix varchar(max) not null,
-    BudgetObjectCodeGroupID int null -- Fix this up in second pass
-);
-GO
-
-
-
-
-
-
-alter table Reclamation.BudgetObjectCode
-alter column BudgetObjectCodeGroupID int not null
-
-GO
-
-rollback tran
-
-                                select
-                                    bocg.BudgetObjectCodeGroupID,
-                                    count(*) countOfBOCgroup
-                                from
-                                    #TempBudgetObjectCodeStuff as bocg
-                                    join Reclamation.BudgetObjectCode as boc on bocg.StrippedBudgetObjectCodeGroupPrefix = left(boc.BudgetObjectCodeName, 3)
-                                    group by bocg.BudgetObjectCodeGroupID
-                                    order by count(*) desc
-
-
-
-                                select
-                                    bocg.BudgetObjectCodeGroupID
-                                    --count(*) countOfBOCgroup
-                                from
-                                    #TempBudgetObjectCodeStuff as bocg
-                                    join Reclamation.BudgetObjectCode as boc on bocg.StrippedBudgetObjectCodeGroupPrefix = left(boc.BudgetObjectCodeName, 3)
-
-                                where
-                                    bocg.StrippedBudgetObjectCodeGroupPrefix = '110'
-                                    --group by bocg.BudgetObjectCodeGroupID
-                                    --order by count(*) desc
-*/
