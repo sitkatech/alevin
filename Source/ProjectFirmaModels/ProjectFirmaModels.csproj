@@ -856,6 +856,7 @@
     <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
+    <Compile Include="Models\BudgetObjectCodeGroup.cs" />
     <Compile Include="Models\ExcelUpload\PnBudgetsStageImports.cs" />
     <Compile Include="Models\ExcelUpload\PnBudgetsStageImport.cs" />
     <Compile Include="Models\ExcelUpload\ExcelColumnHelper.cs" />

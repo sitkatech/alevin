@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
             this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
             this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
-            this.BudgetObjectCodes = new HashSet<BudgetObjectCode>();
+            this.BudgetObjectCodesWhereYouAreTheOverrideCostType = new HashSet<BudgetObjectCode>();
             this.BudgetObjectCodeGroups = new HashSet<BudgetObjectCodeGroup>();
         }
 
@@ -69,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any() || BudgetObjectCodes.Any() || BudgetObjectCodeGroups.Any();
+            return ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any() || BudgetObjectCodesWhereYouAreTheOverrideCostType.Any() || BudgetObjectCodeGroups.Any();
         }
 
         /// <summary>
@@ -130,7 +130,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in BudgetObjectCodes.ToList())
+            foreach(var x in BudgetObjectCodesWhereYouAreTheOverrideCostType.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -154,7 +154,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
         public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
         public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
-        public virtual ICollection<BudgetObjectCode> BudgetObjectCodes { get; set; }
+        public virtual ICollection<BudgetObjectCode> BudgetObjectCodesWhereYouAreTheOverrideCostType { get; set; }
         public virtual ICollection<BudgetObjectCodeGroup> BudgetObjectCodeGroups { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 

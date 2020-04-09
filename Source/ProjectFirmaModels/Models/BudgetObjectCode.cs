@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="Project.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="BudgetObjectCode.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -28,5 +28,19 @@ namespace ProjectFirmaModels.Models
         public string GetAuditDescriptionString() => GetDisplayName();
 
         public string GetDisplayName() => $"{BudgetObjectCodeName} ({FbmsYear})";
+
+        /// <summary>
+        ///  This is a recursive function to get the CostType
+        /// </summary>
+        /// <returns></returns>
+        public CostType GetEffectiveCostType()
+        {
+            if (this.OverrideCostType != null)
+            {
+                return this.OverrideCostType;
+            }
+
+            return this.BudgetObjectCodeGroup.GetEffectiveCostType();
+        }
     }
 }

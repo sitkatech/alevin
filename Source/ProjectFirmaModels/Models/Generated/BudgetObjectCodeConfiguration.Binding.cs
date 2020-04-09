@@ -23,11 +23,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Reportable1099).HasColumnName(@"Reportable1099").HasColumnType("bit").IsOptional();
             Property(x => x.Explanation1099).HasColumnName(@"Explanation1099").HasColumnType("nvarchar").IsOptional().HasMaxLength(1000);
             Property(x => x.BudgetObjectCodeGroupID).HasColumnName(@"BudgetObjectCodeGroupID").HasColumnType("int").IsRequired();
-            Property(x => x.CostTypeID).HasColumnName(@"CostTypeID").HasColumnType("int").IsOptional();
+            Property(x => x.OverrideCostTypeID).HasColumnName(@"OverrideCostTypeID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasRequired(a => a.BudgetObjectCodeGroup).WithMany(b => b.BudgetObjectCodes).HasForeignKey(c => c.BudgetObjectCodeGroupID).WillCascadeOnDelete(false); // FK_BudgetObjectCode_BudgetObjectCodeGroup_BudgetObjectCodeGroupID
-            HasOptional(a => a.CostType).WithMany(b => b.BudgetObjectCodes).HasForeignKey(c => c.CostTypeID).WillCascadeOnDelete(false); // FK_BudgetObjectCode_CostType_CostTypeID
+            HasOptional(a => a.OverrideCostType).WithMany(b => b.BudgetObjectCodesWhereYouAreTheOverrideCostType).HasForeignKey(c => c.OverrideCostTypeID).WillCascadeOnDelete(false); // FK_BudgetObjectCode_CostType_OverrideCostTypeID_CostTypeID
         }
     }
 }

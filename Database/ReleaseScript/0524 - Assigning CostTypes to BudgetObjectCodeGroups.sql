@@ -45,12 +45,12 @@ where BudgetObjectCodeGroupID in (40);
 
 
 alter table Reclamation.BudgetObjectCode
-add CostTypeID int null constraint FK_BudgetObjectCode_CostType_CostTypeID foreign key references dbo.CostType(CostTypeID);
+add OverrideCostTypeID int null constraint FK_BudgetObjectCode_CostType_OverrideCostTypeID_CostTypeID foreign key references dbo.CostType(CostTypeID);
 GO
 
 --253D00, 253I00, 253S00 and 253Z00 are part of personnel & Benefits
 update Reclamation.BudgetObjectCode
-set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Personnel & Benefits')
+set OverrideCostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Personnel & Benefits')
 where BudgetObjectCodeName in ('253D00', '253I00', '253S00', '253Z00');
 
 

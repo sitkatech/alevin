@@ -11,7 +11,7 @@ CREATE TABLE [Reclamation].[BudgetObjectCode](
 	[Reportable1099] [bit] NULL,
 	[Explanation1099] [nvarchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[BudgetObjectCodeGroupID] [int] NOT NULL,
-	[CostTypeID] [int] NULL,
+	[OverrideCostTypeID] [int] NULL,
  CONSTRAINT [PK_BudgetObjectCode_BudgetObjectCodeID] PRIMARY KEY CLUSTERED 
 (
 	[BudgetObjectCodeID] ASC
@@ -33,7 +33,7 @@ REFERENCES [Reclamation].[BudgetObjectCodeGroup] ([BudgetObjectCodeGroupID])
 GO
 ALTER TABLE [Reclamation].[BudgetObjectCode] CHECK CONSTRAINT [FK_BudgetObjectCode_BudgetObjectCodeGroup_BudgetObjectCodeGroupID]
 GO
-ALTER TABLE [Reclamation].[BudgetObjectCode]  WITH CHECK ADD  CONSTRAINT [FK_BudgetObjectCode_CostType_CostTypeID] FOREIGN KEY([CostTypeID])
+ALTER TABLE [Reclamation].[BudgetObjectCode]  WITH CHECK ADD  CONSTRAINT [FK_BudgetObjectCode_CostType_OverrideCostTypeID_CostTypeID] FOREIGN KEY([OverrideCostTypeID])
 REFERENCES [dbo].[CostType] ([CostTypeID])
 GO
-ALTER TABLE [Reclamation].[BudgetObjectCode] CHECK CONSTRAINT [FK_BudgetObjectCode_CostType_CostTypeID]
+ALTER TABLE [Reclamation].[BudgetObjectCode] CHECK CONSTRAINT [FK_BudgetObjectCode_CostType_OverrideCostTypeID_CostTypeID]
