@@ -94,6 +94,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
             }
         </div>
+
         <div class="col-lg-7">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
@@ -111,7 +112,37 @@ Source code is available upon request via <support@sitkatech.com>.
                         <p class="systemText">No expenditures to report for this @(FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel()).</p>
                     }
                 </div>
-            </div>            
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>
+                        Obligation Item Invoices for @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.FundingSource.FundingSourceName
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.ObligationItemInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h2>
+                        Obligation Item Budgets for @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.FundingSource.FundingSourceName
+                    </h2>
+                </div>
+                <div class="panel-body">
+                    @Html.DhtmlxGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -138,5 +169,5 @@ Source code is available upon request via <support@sitkatech.com>.
             </div>
         </div>
     </div>
-    
+
 </div>

@@ -28,6 +28,7 @@ using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Views.Obligation;
 
 namespace ProjectFirma.Web.Views.FundingSource
 {
@@ -52,6 +53,16 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string ProjectFundingSourceBudgetGridName { get; }
         public string ProjectFundingSourceBudgetGridDataUrl { get; }
         public DisplayFundingSourceCustomAttributesViewData DisplayFundingSourceCustomAttributeTypesViewData { get; private set; }
+
+
+        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
+        public string ObligationItemInvoiceGridName { get; }
+        public string ObligationItemInvoiceGridDataUrl { get; }
+
+        public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
+        public string ObligationItemBudgetGridName { get; }
+        public string ObligationItemBudgetGridDataUrl { get; }
+
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgetGridSpec, DisplayFundingSourceCustomAttributesViewData displayFundingSourceCustomAttributeTypesViewData) 
             : base(currentFirmaSession)
@@ -86,6 +97,15 @@ namespace ProjectFirma.Web.Views.FundingSource
             ProjectFundingSourceBudgetGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectFundingSourceBudgetGridJsonData(fundingSource));
 
             DisplayFundingSourceCustomAttributeTypesViewData = displayFundingSourceCustomAttributeTypesViewData;
+
+
+            ObligationItemInvoiceGridName = "fundingSourceObligationItemInvoices";
+            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
+            ObligationItemInvoiceGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(fc => fc.ObligationItemInvoiceGridOnFundDetailJsonData(fundingSource));
+
+            ObligationItemBudgetGridName = "fundingSourceObligationItemBudgets";
+            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
+            ObligationItemBudgetGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(fc => fc.ObligationItemBudgetGridOnFundDetailJsonData(fundingSource));
         }
     }
 }

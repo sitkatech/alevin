@@ -222,7 +222,7 @@ end
                                                                PostingDatePerSplKey,
                                                                DocumentDateOfBlKey,
                                                                BudgetObjectCodeID,
-                                                               FundID
+                                                               FundingSourceID
                                                                )
 	select 
 		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElementKey) as WbsElementID,
@@ -242,11 +242,11 @@ end
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
         bocyear.BudgetObjectCodeID,
-        f.FundID as FundID
+        f.FundingSourceID as FundingSourceID
     from
         ImportFinancial.impPayRecV3 as pr
         join #BudgetObjectCodesFbmsYear_impPayRecV3 as bocyear on YEAR(pr.PostingDateKey) = bocyear.FbmsYear and pr.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
-        join Reclamation.Fund as f on REPLACE(pr.FundKey, '1400/', '') = f.ReclamationFundNumber
+        join dbo.FundingSource as f on REPLACE(pr.FundKey, '1400/', '') = f.FundingSourceName
     where 
         pr.WBSElementKey != '#'
     order by ObligationItemID
@@ -290,7 +290,7 @@ end
                                                                 CreatedOnKey,
                                                                 PostingDateKey,
                                                                 BudgetObjectCodeID,
-                                                                FundID
+                                                                FundingSourceID
                                                                 )
     select q.WbsElementID,
            q.CostAuthorityID,
@@ -301,7 +301,7 @@ end
            q.CreatedOnKey,
            q.PostingDateKey,
            q.BudgetObjectCodeID,
-           q.FundID
+           q.FundingSourceID
     from
     (
        select 
@@ -323,11 +323,11 @@ end
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
            bocyear.BudgetObjectCodeID,
-           f.FundID
+           f.FundingSourceID
        from
           ImportFinancial.impApGenSheet as ap
           join #BudgetObjectCodesFbmsYear_impApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
-          join Reclamation.Fund as f on REPLACE(ap.FundKey, '1400/', '') = f.ReclamationFundNumber
+          join dbo.FundingSource as f on REPLACE(ap.FundKey, '1400/', '') = f.FundingSourceName
        where
          ap.WBSElementKey != '#'
     ) as q

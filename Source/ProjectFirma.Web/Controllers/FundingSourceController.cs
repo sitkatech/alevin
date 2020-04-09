@@ -34,6 +34,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Obligation;
 using Detail = ProjectFirma.Web.Views.FundingSource.Detail;
 using DetailViewData = ProjectFirma.Web.Views.FundingSource.DetailViewData;
 using Edit = ProjectFirma.Web.Views.FundingSource.Edit;
@@ -250,6 +251,26 @@ namespace ProjectFirma.Web.Controllers
             });
             var gridSpec = new ProjectFundingSourceBudgetGridSpec();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectFundingSourceBudget>(projectFundingSourceBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [FundingSourceViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridOnFundDetailJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
+        {
+            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var fundingSource = fundingSourcePrimaryKey.EntityObject;
+            var obligationItemBudgets = fundingSource.WbsElementObligationItemBudgets.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [FundingSourceViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemInvoiceGridOnFundDetailJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
+        {
+            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var fundingSource = fundingSourcePrimaryKey.EntityObject;
+            var obligationItemBudgets = fundingSource.WbsElementObligationItemBudgets.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
     }
