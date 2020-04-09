@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, double? goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey, int? budgetObjectCodeID, int fundID) : this()
+        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, double? goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey, int? budgetObjectCodeID, int fundID, int? fundingSourceID) : this()
         {
             this.WbsElementObligationItemBudgetID = wbsElementObligationItemBudgetID;
             this.WbsElementID = wbsElementID;
@@ -48,6 +48,7 @@ namespace ProjectFirmaModels.Models
             this.DocumentDateOfBlKey = documentDateOfBlKey;
             this.BudgetObjectCodeID = budgetObjectCodeID;
             this.FundID = fundID;
+            this.FundingSourceID = fundingSourceID;
         }
 
         /// <summary>
@@ -142,6 +143,7 @@ namespace ProjectFirmaModels.Models
         public DateTime? DocumentDateOfBlKey { get; set; }
         public int? BudgetObjectCodeID { get; set; }
         public int FundID { get; set; }
+        public int? FundingSourceID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemBudgetID; } set { WbsElementObligationItemBudgetID = value; } }
 
@@ -150,6 +152,7 @@ namespace ProjectFirmaModels.Models
         public virtual CostAuthority CostAuthority { get; set; }
         public virtual BudgetObjectCode BudgetObjectCode { get; set; }
         public virtual Fund Fund { get; set; }
+        public virtual FundingSource FundingSource { get; set; }
 
         public static class FieldLengths
         {

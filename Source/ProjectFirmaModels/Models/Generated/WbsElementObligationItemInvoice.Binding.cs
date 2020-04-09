@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID, DateTime? createdOnKey, DateTime? postingDateKey, int? budgetObjectCodeID, int fundID) : this()
+        public WbsElementObligationItemInvoice(int wbsElementObligationItemInvoiceID, int wbsElementID, int obligationItemID, double? debitAmount, double? creditAmount, double? debitCreditTotal, int costAuthorityID, DateTime? createdOnKey, DateTime? postingDateKey, int? budgetObjectCodeID, int fundID, int? fundingSourceID) : this()
         {
             this.WbsElementObligationItemInvoiceID = wbsElementObligationItemInvoiceID;
             this.WbsElementID = wbsElementID;
@@ -43,6 +43,7 @@ namespace ProjectFirmaModels.Models
             this.PostingDateKey = postingDateKey;
             this.BudgetObjectCodeID = budgetObjectCodeID;
             this.FundID = fundID;
+            this.FundingSourceID = fundingSourceID;
         }
 
         /// <summary>
@@ -132,6 +133,7 @@ namespace ProjectFirmaModels.Models
         public DateTime? PostingDateKey { get; set; }
         public int? BudgetObjectCodeID { get; set; }
         public int FundID { get; set; }
+        public int? FundingSourceID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return WbsElementObligationItemInvoiceID; } set { WbsElementObligationItemInvoiceID = value; } }
 
@@ -140,6 +142,7 @@ namespace ProjectFirmaModels.Models
         public virtual CostAuthority CostAuthority { get; set; }
         public virtual BudgetObjectCode BudgetObjectCode { get; set; }
         public virtual Fund Fund { get; set; }
+        public virtual FundingSource FundingSource { get; set; }
 
         public static class FieldLengths
         {
