@@ -31,13 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public BudgetObjectCodeGroup(int budgetObjectCodeGroupID, string budgetObjectCodeGroupPrefix, string budgetObjectCodeGroupName, string budgetObjectCodeGroupDefinition, int? parentBudgetObjectCodeGroupID) : this()
+        public BudgetObjectCodeGroup(int budgetObjectCodeGroupID, string budgetObjectCodeGroupPrefix, string budgetObjectCodeGroupName, string budgetObjectCodeGroupDefinition, int? parentBudgetObjectCodeGroupID, int? costTypeID) : this()
         {
             this.BudgetObjectCodeGroupID = budgetObjectCodeGroupID;
             this.BudgetObjectCodeGroupPrefix = budgetObjectCodeGroupPrefix;
             this.BudgetObjectCodeGroupName = budgetObjectCodeGroupName;
             this.BudgetObjectCodeGroupDefinition = budgetObjectCodeGroupDefinition;
             this.ParentBudgetObjectCodeGroupID = parentBudgetObjectCodeGroupID;
+            this.CostTypeID = costTypeID;
         }
 
         /// <summary>
@@ -115,12 +116,14 @@ namespace ProjectFirmaModels.Models
         public string BudgetObjectCodeGroupName { get; set; }
         public string BudgetObjectCodeGroupDefinition { get; set; }
         public int? ParentBudgetObjectCodeGroupID { get; set; }
+        public int? CostTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return BudgetObjectCodeGroupID; } set { BudgetObjectCodeGroupID = value; } }
 
         public virtual ICollection<BudgetObjectCode> BudgetObjectCodes { get; set; }
         public virtual ICollection<BudgetObjectCodeGroup> BudgetObjectCodeGroupsWhereYouAreTheParentBudgetObjectCodeGroup { get; set; }
         public virtual BudgetObjectCodeGroup ParentBudgetObjectCodeGroup { get; set; }
+        public virtual CostType CostType { get; set; }
 
         public static class FieldLengths
         {
