@@ -8,21 +8,61 @@ alter table Reclamation.BudgetObjectCodeGroup
 add CostTypeID int null constraint FK_BudgetObjectCodeGroup_CostType_CostTypeID foreign key references dbo.CostType(CostTypeID);
 GO
 
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 15 where BudgetObjectCodeGroupID = 1;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 13 where BudgetObjectCodeGroupID = 12;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 13 where BudgetObjectCodeGroupID = 18;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 11 where BudgetObjectCodeGroupID = 19;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 11 where BudgetObjectCodeGroupID = 23;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 12 where BudgetObjectCodeGroupID = 24;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 11 where BudgetObjectCodeGroupID = 33;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 14 where BudgetObjectCodeGroupID = 34;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 11 where BudgetObjectCodeGroupID = 39;
-update Reclamation.BudgetObjectCodeGroup set CostTypeID = 11 where BudgetObjectCodeGroupID = 44;
+insert into dbo.CostType(TenantID, CostTypeName)
+values
+(12, 'Lands & Real Estate'),
+(12, 'Grants & Agreements');
+
+
+update Reclamation.BudgetObjectCodeGroup 
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Personnel & Benefits') --15
+where BudgetObjectCodeGroupID in (1);
+
+update Reclamation.BudgetObjectCodeGroup 
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Travel') --13 
+where BudgetObjectCodeGroupID in (12, 18);
+
+update Reclamation.BudgetObjectCodeGroup 
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Other') --11 
+where BudgetObjectCodeGroupID in (19, 23, 39, 44);
+
+update Reclamation.BudgetObjectCodeGroup 
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Contractual') --12 
+where BudgetObjectCodeGroupID in (11,24);
+
+update Reclamation.BudgetObjectCodeGroup 
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Supplies') --14 
+where BudgetObjectCodeGroupID in (33, 34);
+
+update Reclamation.BudgetObjectCodeGroup 
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Lands & Real Estate') --?? 
+where BudgetObjectCodeGroupID in (36, 38);
+
+update Reclamation.BudgetObjectCodeGroup 
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Grants & Agreements') --?? 
+where BudgetObjectCodeGroupID in (40);
+
+
+
+alter table Reclamation.BudgetObjectCode
+add CostTypeID int null constraint FK_BudgetObjectCode_CostType_CostTypeID foreign key references dbo.CostType(CostTypeID);
+GO
+
+--253D00, 253I00, 253S00 and 253Z00 are part of personnel & Benefits
+update Reclamation.BudgetObjectCode
+set CostTypeID = (select CostTypeID from dbo.CostType where TenantID = 12 and CostTypeName = 'Personnel & Benefits')
+where BudgetObjectCodeName in ('253D00', '253I00', '253S00', '253Z00');
+
 
 
 
 
 /*
+
+
+select * from Reclamation.BudgetObjectCodeGroup as bocg left join dbo.CostType as ct on bocg.CostTypeID = ct.CostTypeID
+
+
 
 1	10	Personnel Compensation and Benefits	NULL	15	Personnel & Benefits	
 12	21	Travel and Transportation of Persons	11	13	Travel	
