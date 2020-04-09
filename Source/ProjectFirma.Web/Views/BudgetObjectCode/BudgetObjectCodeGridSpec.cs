@@ -23,6 +23,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -42,8 +43,11 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             Add("Budget Object Code Definition", boc => boc.BudgetObjectCodeDefinition, 300, DhtmlxGridColumnFilterType.Text);
             Add("Budget Object Code Description" , boc => boc.BudgetObjectCodeItemDescription, 300, DhtmlxGridColumnFilterType.Text);
             Add("FBMS Year", boc => boc.FbmsYear.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.CostType.ToType().ToGridHeaderString(), x => x.GetEffectiveCostType().CostTypeName,
+                80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Reportable 1099", boc => boc.Reportable1099?.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Explanation 1099", boc => boc.Explanation1099?.ToString(), 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            
 
             // This is the right idea, but it is painfully slow. We'll need a proc I think.-- SLG 3/23/2020
             //Add("Obligation Item Budgets", boc => GetWbsElementObligationItemBudgetsCount(boc).ToString(), 300, DhtmlxGridColumnFilterType.Numeric);
