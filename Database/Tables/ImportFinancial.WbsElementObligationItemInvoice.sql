@@ -13,7 +13,6 @@ CREATE TABLE [ImportFinancial].[WbsElementObligationItemInvoice](
 	[CreatedOnKey] [datetime] NULL,
 	[PostingDateKey] [datetime] NULL,
 	[BudgetObjectCodeID] [int] NULL,
-	[FundID] [int] NOT NULL,
 	[FundingSourceID] [int] NOT NULL,
  CONSTRAINT [PK_WbsElementObligationItemInvoice_WbsElementObligationItemInvoiceID] PRIMARY KEY CLUSTERED 
 (
@@ -31,11 +30,6 @@ ALTER TABLE [ImportFinancial].[WbsElementObligationItemInvoice]  WITH CHECK ADD 
 REFERENCES [Reclamation].[CostAuthority] ([CostAuthorityID])
 GO
 ALTER TABLE [ImportFinancial].[WbsElementObligationItemInvoice] CHECK CONSTRAINT [FK_WbsElementObligationItemInvoice_CostAuthority_CostAuthorityID]
-GO
-ALTER TABLE [ImportFinancial].[WbsElementObligationItemInvoice]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementObligationItemInvoice_Fund_FundID] FOREIGN KEY([FundID])
-REFERENCES [Reclamation].[Fund] ([FundID])
-GO
-ALTER TABLE [ImportFinancial].[WbsElementObligationItemInvoice] CHECK CONSTRAINT [FK_WbsElementObligationItemInvoice_Fund_FundID]
 GO
 ALTER TABLE [ImportFinancial].[WbsElementObligationItemInvoice]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementObligationItemInvoice_FundingSource_FundingSourceID] FOREIGN KEY([FundingSourceID])
 REFERENCES [dbo].[FundingSource] ([FundingSourceID])

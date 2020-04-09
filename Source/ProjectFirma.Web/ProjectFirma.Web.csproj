@@ -63,7 +63,6 @@
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Controllers\ExcelUploadControllerTest.cs" />
     <Compile Include="Controllers\BudgetObjectCodeController.cs" />
-    <Compile Include="Controllers\FundController.cs" />
     <Compile Include="Controllers\ObligationController.cs" />
     <Compile Include="Controllers\AttachmentTypeController.cs" />
     <Compile Include="Controllers\ActionItemController.cs" />
@@ -109,7 +108,6 @@
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\BudgetObjectCodeModelExtensions.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
-    <Compile Include="Models\FundModelExtensions.cs" />
     <Compile Include="Models\ObligationItemModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
     <Compile Include="Models\VendorModelExtensions.cs" />
@@ -272,7 +270,6 @@
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
-    <Compile Include="Security\FundViewFeature.cs" />
     <Compile Include="Security\VendorViewFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\ObligationViewFeature.cs" />
@@ -301,11 +298,6 @@
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewData.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewModel.cs" />
-    <Compile Include="Views\Fund\FundDetail.cs" />
-    <Compile Include="Views\Fund\FundDetailViewData.cs" />
-    <Compile Include="Views\Fund\FundGridSpec.cs" />
-    <Compile Include="Views\Fund\FundIndex.cs" />
-    <Compile Include="Views\Fund\FundIndexViewData.cs" />
     <Compile Include="Views\Obligation\ObligationDetail.cs" />
     <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />
     <Compile Include="Views\Obligation\ObligationItemInvoiceIndex.cs" />
@@ -762,8 +754,6 @@
     <Content Include="Views\ExcelUpload\ImportFbmsExcelFile.cshtml" />
     <Content Include="Views\Obligation\ObligationDetail.cshtml" />
     <Content Include="Views\Obligation\ObligationIndex.cshtml" />
-    <Content Include="Views\Fund\FundDetail.cshtml" />
-    <Content Include="Views\Fund\FundIndex.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeDetail.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cshtml" />
     <Content Include="Views\Obligation\ObligationItemBudgetIndex.cshtml" />

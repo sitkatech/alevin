@@ -201,7 +201,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new DeliverableConfiguration());
             modelBuilder.Configurations.Add(new DeliverableTypeConfiguration());
             modelBuilder.Configurations.Add(new DepartmentCodeConfiguration());
-            modelBuilder.Configurations.Add(new FundConfiguration());
             modelBuilder.Configurations.Add(new HCategoryConfiguration());
             modelBuilder.Configurations.Add(new LocationConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityListConfiguration());
@@ -308,7 +307,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FundingSourceCustomAttributeValue> FundingSourceCustomAttributeValues { get { return AllFundingSourceCustomAttributeValues.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FundingSource> AllFundingSources { get; set; }
         public virtual IQueryable<FundingSource> FundingSources { get { return AllFundingSources.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<Fund> Funds { get; set; }
         public virtual DbSet<GeospatialAreaImage> AllGeospatialAreaImages { get; set; }
         public virtual IQueryable<GeospatialAreaImage> GeospatialAreaImages { get { return AllGeospatialAreaImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<GeospatialAreaPerformanceMeasureFixedTarget> AllGeospatialAreaPerformanceMeasureFixedTargets { get; set; }
@@ -768,9 +766,6 @@ namespace ProjectFirmaModels.Models
                     var fundingType = FundingType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(fundingType, "FundingType", primaryKey);
                     return fundingType;
-
-                case "Fund":
-                    return Funds.GetFund(primaryKey);
 
                 case "GeospatialAreaImage":
                     return GeospatialAreaImages.GetGeospatialAreaImage(primaryKey);

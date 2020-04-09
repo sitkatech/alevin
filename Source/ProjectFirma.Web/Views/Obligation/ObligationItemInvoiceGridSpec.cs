@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
 
@@ -43,7 +44,7 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Cost Authority", ob => ob.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
             Add("Budget Object Code", ob => UrlTemplate.MakeHrefString(ob.BudgetObjectCode.GetDetailUrl(), ob.BudgetObjectCode.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Budget Object Code FBMS Year", ob => ob.BudgetObjectCode.FbmsYear.ToString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Fund Number", ob => UrlTemplate.MakeHrefString(ob.Fund.GetDetailUrl(), ob.Fund.ReclamationFundNumber), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), ob => UrlTemplate.MakeHrefString(ob.FundingSource.GetDetailUrl(), ob.FundingSource.FundingSourceName), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Debit Amount", obi => obi.DebitAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add("Debit/Credit Total", obi => obi.DebitCreditTotal, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
