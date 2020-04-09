@@ -19,7 +19,7 @@ CREATE TABLE [ImportFinancial].[WbsElementObligationItemBudget](
 	[DocumentDateOfBlKey] [datetime] NULL,
 	[BudgetObjectCodeID] [int] NULL,
 	[FundID] [int] NOT NULL,
-	[FundingSourceID] [int] NULL,
+	[FundingSourceID] [int] NOT NULL,
  CONSTRAINT [PK_WbsElementObligationItemBudget_WbsElementObligationItemBudgetID] PRIMARY KEY CLUSTERED 
 (
 	[WbsElementObligationItemBudgetID] ASC

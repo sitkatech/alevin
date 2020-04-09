@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.DocumentDateOfBlKey).HasColumnName(@"DocumentDateOfBlKey").HasColumnType("datetime").IsOptional();
             Property(x => x.BudgetObjectCodeID).HasColumnName(@"BudgetObjectCodeID").HasColumnType("int").IsOptional();
             Property(x => x.FundID).HasColumnName(@"FundID").HasColumnType("int").IsRequired();
-            Property(x => x.FundingSourceID).HasColumnName(@"FundingSourceID").HasColumnType("int").IsOptional();
+            Property(x => x.FundingSourceID).HasColumnName(@"FundingSourceID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.WbsElement).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.WbsElementID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_WbsElement_WbsElementID
@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
             HasRequired(a => a.CostAuthority).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.CostAuthorityID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_CostAuthority_CostAuthorityID
             HasOptional(a => a.BudgetObjectCode).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.BudgetObjectCodeID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_BudgetObjectCode_BudgetObjectCodeID
             HasRequired(a => a.Fund).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.FundID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_Fund_FundID
-            HasOptional(a => a.FundingSource).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.FundingSourceID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_FundingSource_FundingSourceID
+            HasRequired(a => a.FundingSource).WithMany(b => b.WbsElementObligationItemBudgets).HasForeignKey(c => c.FundingSourceID).WillCascadeOnDelete(false); // FK_WbsElementObligationItemBudget_FundingSource_FundingSourceID
         }
     }
 }
