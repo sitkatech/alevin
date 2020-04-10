@@ -176,6 +176,20 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             });
     };
 
+    $scope.getObligationValue = function (calendarYear, fundingSourceID, costTypeID)
+    {
+        //ObligationItemBudgetRollUps
+        var item = _.find($scope.AngularViewData.ObligationItemBudgetRollUps, function(o) {
+             return o.CalendarYear == calendarYear && o.FundingSourceID == fundingSourceID && o.CostTypeID == costTypeID;
+        });
+
+        if (item) {
+            return item.Amount;
+        }
+
+        return 0;
+    }
+
     // Hide or show ProjectFundingSourceBudgets based on selected Cost Types; create a new row if needed
     $scope.addHideOrShowFundingSourceRow = function (fundingSourceId) {
         for (var i = 0; i < $scope.AngularModel.ProjectRelevantCostTypes.length; ++i) {

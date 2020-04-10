@@ -193,10 +193,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <td style="width: 30px; min-width: 30px;"></td>
                                     <td ng-bind="getCostTypeName(projectFundingSourceBudget)" />
                                     <td style="text-align: right;" ng-repeat-start="calendarYearBudget in getRelevantCalendarYearBudgets(projectFundingSourceBudget) | orderBy:'CalendarYear'">
-                                        @*<input type="text" ng-model="calendarYearBudget.SecuredAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />*@
+
                                         <input type="text" ng-model="calendarYearBudget.TargetedAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
-                                    <td style="text-align: right">{{calendarYearBudget.SecuredAmount}}</td>
+                                    <td style="text-align: right"> {{getObligationValue(calendarYearBudget.CalendarYear, fundingSourceID, projectFundingSourceBudget.CostTypeID) | currency:"$"}}</td>
                                     <td style="text-align: right;" ng-repeat-end>
                                         test
                                     </td>

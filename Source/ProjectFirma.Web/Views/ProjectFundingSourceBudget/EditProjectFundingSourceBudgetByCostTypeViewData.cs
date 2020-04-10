@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
-            public List<ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemBudgetRollUp { get; }
+            public List<ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemBudgetRollUps { get; }
             // Actually a ProjectID
             public int ProjectID { get; }
             public int MaxYear { get; }
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 ProjectID = project.ProjectID;
                 FundingTypes = fundingTypes;
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
-                ObligationItemBudgetRollUp = project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();
+                ObligationItemBudgetRollUps = project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();
             }
         }
 

@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Models
     {
         public int FundingSourceID { get; set; }
         public int CostTypeID { get; set; }
-        public int Year { get; set; }
+        public int CalendarYear { get; set; }
         public double Amount { get; set; }
 
         /// <summary>
@@ -22,15 +22,15 @@ namespace ProjectFirma.Web.Models
         {
             this.FundingSourceID = projectFundingSourceBudget.FundingSourceID;
             this.CostTypeID = projectFundingSourceBudget.CostTypeID.Value;
-            this.Year = projectFundingSourceBudget.CalendarYear.Value;
+            this.CalendarYear = projectFundingSourceBudget.CalendarYear.Value;
             this.Amount = wbsElementObligationItemBudgets.Sum(obi => obi.Obligation ?? 0);
         }
 
-        public ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple(int fundingSourceID, int costTypeId, int year, double amount)
+        public ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple(int fundingSourceID, int costTypeId, int calendarYear, double amount)
         {
             FundingSourceID = fundingSourceID;
             CostTypeID = costTypeId;
-            Year = year;
+            CalendarYear = calendarYear;
             Amount = amount;
         }
     }
