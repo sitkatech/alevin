@@ -214,7 +214,6 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, false) | currency:"$"}}</span>
                                     </th>
                                     <th class="sourcedField" style="text-align: right">
-                                        @*<span> {{ getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, true) | currency:"$"}}</span>*@
                                         <span>{{getObligationTotalForFundingSourceAndCalendarYear(calendarYear, fundingSourceID) | currency:"$"}}</span>
                                     </th>
                                     <th class="sourcedField" style="text-align: right;" ng-repeat-end>
@@ -244,7 +243,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         
                                     </th>
                                     <th class="sourcedField" style="text-align: right">
-                                        <span ng-show="shouldShowFundingSources()">{{getTotalSecuredForCalendarYear(calendarYear) | currency:"$"}}</span>
+                                        <span ng-show="shouldShowFundingSources()">{{getObligationTotalForCalendarYear(calendarYear) | currency:"$"}}</span>
                                     </th>
                                     <th class="sourcedField" ng-repeat-end style="text-align: right">
                                         
