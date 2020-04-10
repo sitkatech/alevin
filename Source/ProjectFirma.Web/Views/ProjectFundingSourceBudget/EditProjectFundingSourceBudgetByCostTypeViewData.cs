@@ -80,31 +80,10 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 ProjectID = project.ProjectID;
                 FundingTypes = fundingTypes;
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
-                //ObligationItemBudgetRollUp = project.
+                ObligationItemBudgetRollUp = project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();
             }
         }
 
-        public class ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple
-        {
-            public int FundingSourceID { get; set; }
-            public int CostTypeID { get; set; }
-            public int Year { get; set; }
-            public double Amount { get; set; }
-
-            /// <summary>
-            /// Needed by ModelBinder
-            /// </summary>
-            public ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple()
-            {
-            }
-
-            public ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple(int fundingSourceID, int costTypeId, int year, double amount)
-            {
-                FundingSourceID = fundingSourceID;
-                CostTypeID = costTypeId;
-                Year = year;
-                Amount = amount;
-            }
-        }
+        
     }
 }

@@ -108,6 +108,7 @@
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\BudgetObjectCodeModelExtensions.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple.cs" />
     <Compile Include="Models\ObligationItemModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
     <Compile Include="Models\VendorModelExtensions.cs" />
@@ -391,6 +392,7 @@
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
     <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cs" />
     <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtlViewData.cs" />
