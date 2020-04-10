@@ -175,7 +175,9 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <th ng-repeat-start="calendarYear in calendarYearRange">
                                         <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
                                     </th>
-                                    <th class="sourcedField"><span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span></th>
+                                    <th class="sourcedField">
+                                        <span> @ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()</span>
+                                    </th>
                                     <th ng-repeat-end class="sourcedField">
                                         Expended Funding
                                     </th>
@@ -211,7 +213,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <th style="text-align: right;" ng-repeat-start="calendarYear in calendarYearRange">
                                         <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, false) | currency:"$"}}</span>
                                     </th>
-                                    <th class="sourcedField" style="text-align: right"><span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, true) | currency:"$"}}</span></th>
+                                    <th class="sourcedField" style="text-align: right">
+                                        @*<span> {{ getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, true) | currency:"$"}}</span>*@
+                                        <span>{{getObligationTotalForFundingSourceAndCalendarYear(calendarYear, fundingSourceID) | currency:"$"}}</span>
+                                    </th>
                                     <th class="sourcedField" style="text-align: right;" ng-repeat-end>
                                         test
                                     </th>
