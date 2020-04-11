@@ -149,8 +149,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             .filter(function (pfse) {
                 return pfse.ProjectID == projectFundingSourceBudget.ProjectID &&
                     pfse.FundingSourceID == projectFundingSourceBudget.FundingSourceID &&
-                    pfse.CostTypeID ==
-                    projectFundingSourceBudget.CostTypeID;
+                    pfse.CostTypeID == projectFundingSourceBudget.CostTypeID;
             }).map("CalendarYearBudgets").flatten().value();
         return $scope.calculateBudgetTotal(_.filter(calendarYearBudgetsAsFlattenedArray, function (f) { return f.IsRelevant; }));
     };
@@ -176,9 +175,9 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             });
     };
 
+    //Obligations
     $scope.getObligationValue = function (calendarYear, fundingSourceID, costTypeID)
     {
-        //ObligationItemBudgetRollUps
         var item = _.find($scope.AngularViewData.ObligationItemBudgetRollUps, function(o) {
              return o.CalendarYear == calendarYear && o.FundingSourceID == fundingSourceID && o.CostTypeID == costTypeID;
         });
@@ -192,13 +191,11 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
     $scope.getObligationTotalForFundingSourceAndCalendarYear = function (calendarYear, fundingSourceID)
     {
-        //ObligationItemBudgetRollUps
         var items = _.filter($scope.AngularViewData.ObligationItemBudgetRollUps, function (o) {
             return o.CalendarYear == calendarYear && o.FundingSourceID == fundingSourceID;
         });
 
         if (items) {
-            //return _.sum(items, function (i) { return i.Amount; });
             return _(items)
                 .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
                 .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
@@ -208,19 +205,126 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     }
 
     $scope.getObligationTotalForCalendarYear = function (calendarYear) {
-        //ObligationItemBudgetRollUps
         var items = _.filter($scope.AngularViewData.ObligationItemBudgetRollUps, function (o) {
             return o.CalendarYear == calendarYear;
         });
 
         if (items) {
-            //return _.sum(items, function (i) { return i.Amount; });
             return _(items)
                 .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
                 .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
         }
 
         return 0;
+    }
+
+    $scope.getObligationTotalForRow = function (fundingSourceID, costTypeID) {
+        var items = _.filter($scope.AngularViewData.ObligationItemBudgetRollUps, function (o) {
+            return o.CostTypeID == costTypeID && o.FundingSourceID == fundingSourceID;
+        });
+
+        if (items) {
+            return _(items)
+                .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+                .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
+        }
+
+        return 0;
+    }
+
+    $scope.getObligationTotalForFundingSource = function (fundingSourceID) {
+        var items = _.filter($scope.AngularViewData.ObligationItemBudgetRollUps, function (o) {
+            return o.FundingSourceID == fundingSourceID;
+        });
+
+        if (items) {
+            return _(items)
+                .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+                .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
+        }
+
+        return 0;
+    }
+
+    $scope.getObligationTotalVariesByYear = function () {
+        return _($scope.AngularViewData.ObligationItemBudgetRollUps)
+                .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+                .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
+    }
+
+    //Expenditures
+    $scope.getExpenditureValue = function (calendarYear, fundingSourceID, costTypeID) {
+        var item = _.find($scope.AngularViewData.ObligationItemInvoiceRollUps, function (o) {
+            return o.CalendarYear == calendarYear && o.FundingSourceID == fundingSourceID && o.CostTypeID == costTypeID;
+        });
+
+        if (item) {
+            return item.Amount;
+        }
+
+        return 0;
+    }
+
+    $scope.getExpenditureTotalForFundingSourceAndCalendarYear = function (calendarYear, fundingSourceID) {
+        var items = _.filter($scope.AngularViewData.ObligationItemInvoiceRollUps, function (o) {
+            return o.CalendarYear == calendarYear && o.FundingSourceID == fundingSourceID;
+        });
+
+        if (items) {
+            return _(items)
+                .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+                .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
+        }
+
+        return 0;
+    }
+
+    $scope.getExpenditureTotalForCalendarYear = function (calendarYear) {
+        var items = _.filter($scope.AngularViewData.ObligationItemInvoiceRollUps, function (o) {
+            return o.CalendarYear == calendarYear;
+        });
+
+        if (items) {
+            return _(items)
+                .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+                .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
+        }
+
+        return 0;
+    }
+
+    $scope.getExpenditureTotalForRow = function (fundingSourceID, costTypeID) {
+        var items = _.filter($scope.AngularViewData.ObligationItemInvoiceRollUps, function (o) {
+            return o.CostTypeID == costTypeID && o.FundingSourceID == fundingSourceID;
+        });
+
+        if (items) {
+            return _(items)
+                .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+                .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
+        }
+
+        return 0;
+    }
+
+    $scope.getExpenditureTotalForFundingSource = function (fundingSourceID) {
+        var items = _.filter($scope.AngularViewData.ObligationItemInvoiceRollUps, function (o) {
+            return o.FundingSourceID == fundingSourceID;
+        });
+
+        if (items) {
+            return _(items)
+                .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+                .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
+        }
+
+        return 0;
+    }
+
+    $scope.getExpenditureTotalVariesByYear = function () {
+        return _($scope.AngularViewData.ObligationItemInvoiceRollUps)
+            .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+            .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
     }
 
     // Hide or show ProjectFundingSourceBudgets based on selected Cost Types; create a new row if needed
@@ -430,11 +534,11 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     };
 
     $scope.getBudgetTotalForRowSameEachYear = function (projectFundingSourceBudget) {
-        return Number(projectFundingSourceBudget.SecuredAmount) + Number(projectFundingSourceBudget.TargetedAmount);
+        return Number(projectFundingSourceBudget.TargetedAmount); //Number(projectFundingSourceBudget.SecuredAmount) + 
     };
 
     $scope.calculateBudgetTotal = function (budgets) {
-        return $scope.calculateBudgetSecuredTotal(budgets) + $scope.calculateBudgetTargetedTotal(budgets);
+        return $scope.calculateBudgetTargetedTotal(budgets); //$scope.calculateBudgetSecuredTotal(budgets) + 
     };
 
     $scope.calculateBudgetSecuredTotal = function (budgets) {

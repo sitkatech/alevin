@@ -981,17 +981,12 @@ namespace ProjectFirma.Web.Models
         }
 
 
-        public static List<ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple>
+        public static List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>
             GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
         {
             var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority).ToList();
 
             var obligationItemBudgets = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).ToList();
-
-            var fundingSources = obligationItemBudgets.Select(oib => oib.FundingSource).ToList();
-
-            //var projectFundingSourceBudgets = fundingSources.SelectMany(fs => fs.ProjectFundingSourceBudgets)
-            //    .Where(pfsb => pfsb.ProjectID == project.ProjectID).ToList();
 
             var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
 
@@ -1008,11 +1003,40 @@ namespace ProjectFirma.Web.Models
                 dictProjectFundingSourceBudgetToObligationItemBudget.Add(projectFundingSourceBudget, budgetsWhereYearCostTypeAndFundingSourceMatch);
             }
 
-            var obligationItemBudgetSimples = new List<ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple>();
+            var obligationItemBudgetSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
 
-            obligationItemBudgetSimples.AddRange(dictProjectFundingSourceBudgetToObligationItemBudget.Select(dict => new ObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimple(dict.Key, dict.Value)));
+            obligationItemBudgetSimples.AddRange(dictProjectFundingSourceBudgetToObligationItemBudget.Select(dict => new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(dict.Key, dict.Value)));
 
             return obligationItemBudgetSimples;
+        }
+
+        public static List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>
+            GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
+        {
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority).ToList();
+
+            var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).ToList();
+
+            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+
+            var dictProjectFundingSourceBudgetToObligationItemInvoice = new Dictionary<ProjectFundingSourceBudget, List<WbsElementObligationItemInvoice>>();
+            foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
+            {
+
+                var budgetsWhereYearCostTypeAndFundingSourceMatch =
+                    obligationItemInvoices.Where(oib =>
+                        oib.PostingDateKey.Value.Year == projectFundingSourceBudget.CalendarYear &&
+                        oib.BudgetObjectCode.GetEffectiveCostType().CostTypeID == projectFundingSourceBudget.CostTypeID &&
+                        oib.FundingSourceID == projectFundingSourceBudget.FundingSourceID).ToList();
+
+                dictProjectFundingSourceBudgetToObligationItemInvoice.Add(projectFundingSourceBudget, budgetsWhereYearCostTypeAndFundingSourceMatch);
+            }
+
+            var obligationItemInvoiceSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
+
+            obligationItemInvoiceSimples.AddRange(dictProjectFundingSourceBudgetToObligationItemInvoice.Select(dict => new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(dict.Key, dict.Value)));
+
+            return obligationItemInvoiceSimples;
         }
 
     }
