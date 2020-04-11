@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Models
     {
         public int FundingSourceID { get; set; }
         public int CostTypeID { get; set; }
-        public int CalendarYear { get; set; }
+        public int? CalendarYear { get; set; }
         public double Amount { get; set; }
 
         /// <summary>
@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Models
         {
             this.FundingSourceID = projectFundingSourceBudget.FundingSourceID;
             this.CostTypeID = projectFundingSourceBudget.CostTypeID.Value;
-            this.CalendarYear = projectFundingSourceBudget.CalendarYear.Value;
+            this.CalendarYear = projectFundingSourceBudget.CalendarYear;
             this.Amount = wbsElementObligationItemBudgets.Sum(oib => oib.Obligation ?? 0);
         }
 
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Models
         {
             this.FundingSourceID = projectFundingSourceBudget.FundingSourceID;
             this.CostTypeID = projectFundingSourceBudget.CostTypeID.Value;
-            this.CalendarYear = projectFundingSourceBudget.CalendarYear.Value;
+            this.CalendarYear = projectFundingSourceBudget.CalendarYear;
             this.Amount = wbsElementObligationItemInvoices.Sum(oii => oii.DebitAmount ?? 0);
         }
 
