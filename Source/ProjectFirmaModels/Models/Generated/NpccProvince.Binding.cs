@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected NpccProvince()
         {
-
+            this.NpccSubbasinProvinces = new HashSet<NpccSubbasinProvince>();
         }
 
         /// <summary>
@@ -64,13 +64,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return false;
+            return NpccSubbasinProvinces.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(NpccProvince).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(NpccProvince).Name, typeof(NpccSubbasinProvince).Name};
 
 
         /// <summary>
@@ -86,8 +86,19 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteFull(DatabaseEntities dbContext)
         {
-            
+            DeleteChildren(dbContext);
             Delete(dbContext);
+        }
+        /// <summary>
+        /// Dependent type names of this entity
+        /// </summary>
+        public void DeleteChildren(DatabaseEntities dbContext)
+        {
+
+            foreach(var x in NpccSubbasinProvinces.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -105,6 +116,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return NpccProvinceID; } set { NpccProvinceID = value; } }
 
+        public virtual ICollection<NpccSubbasinProvince> NpccSubbasinProvinces { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

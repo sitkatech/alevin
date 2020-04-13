@@ -339,6 +339,18 @@ namespace ProjectFirma.Web.Models
             return project.ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(project.ImplementationStartYear.Value) : null;
         }
 
+        public static string GetNPCCProvince(this Project project)
+        {
+            var subbasin = project.GetProjectGeospatialAreas().FirstOrDefault(x => x.GeospatialAreaTypeID == 25);
+            if(subbasin != null)
+            {
+                var subbasinProvince = subbasin.NpccSubbasinProvincesWhereYouAreTheSubbasin.FirstOrDefault();
+                var province = subbasinProvince.NpccProvince;
+                return province.NpccProvinceName;
+            }
+            return "n/a";
+        }
+
         public static int? StartYearForTotalCostCalculations(this IProject project)
         {
             return project.ImplementationStartYear.HasValue && project.ImplementationStartYear < DateTime.Now.Year

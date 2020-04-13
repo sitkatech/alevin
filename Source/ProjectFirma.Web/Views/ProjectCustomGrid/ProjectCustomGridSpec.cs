@@ -178,6 +178,9 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         Add(FieldDefinitionEnum.ProjectCategory.ToType().ToGridHeaderString(), x => x.ProjectCategory.ProjectCategoryDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     }
                     break;
+                case ProjectCustomGridColumnEnum.NPCCProvince:
+                    Add("NPCC Province", x => x.GetNPCCProvince(), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    break;
                 default:
                     throw new ArgumentOutOfRangeException();
             }

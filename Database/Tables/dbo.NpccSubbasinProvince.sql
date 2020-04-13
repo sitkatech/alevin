@@ -34,6 +34,16 @@ REFERENCES [dbo].[GeospatialArea] ([GeospatialAreaID], [TenantID])
 GO
 ALTER TABLE [dbo].[NpccSubbasinProvince] CHECK CONSTRAINT [FK_NpccSubbasinProvince_GeospatialArea_SubbasinID_GeospatialAreaID_TenantID]
 GO
+ALTER TABLE [dbo].[NpccSubbasinProvince]  WITH CHECK ADD  CONSTRAINT [FK_NpccSubbasinProvince_NpccProvince_NpccProvinceID] FOREIGN KEY([NpccProvinceID])
+REFERENCES [dbo].[NpccProvince] ([NpccProvinceID])
+GO
+ALTER TABLE [dbo].[NpccSubbasinProvince] CHECK CONSTRAINT [FK_NpccSubbasinProvince_NpccProvince_NpccProvinceID]
+GO
+ALTER TABLE [dbo].[NpccSubbasinProvince]  WITH CHECK ADD  CONSTRAINT [FK_NpccSubbasinProvince_NpccProvince_NpccProvinceID_TenantID] FOREIGN KEY([NpccProvinceID], [TenantID])
+REFERENCES [dbo].[NpccProvince] ([NpccProvinceID], [TenantID])
+GO
+ALTER TABLE [dbo].[NpccSubbasinProvince] CHECK CONSTRAINT [FK_NpccSubbasinProvince_NpccProvince_NpccProvinceID_TenantID]
+GO
 ALTER TABLE [dbo].[NpccSubbasinProvince]  WITH CHECK ADD  CONSTRAINT [FK_NpccSubbasinProvince_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
