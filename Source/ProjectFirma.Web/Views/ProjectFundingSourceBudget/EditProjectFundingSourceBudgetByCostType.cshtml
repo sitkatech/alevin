@@ -367,10 +367,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <span> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID, false) | currency:"$"}}</span>
                                     </th>
                                     <th class="sourcedField" style="text-align: right">
-                                        <span> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID, true) | currency:"$"}}</span>
+                                        <span> {{getObligationTotalForFundingSource(fundingSourceID) | currency:"$"}}</span>
                                     </th>
                                     <th class="sourcedField" style="text-align: right;">
-                                        Expended
+                                        <span> {{getExpenditureTotalForFundingSource(fundingSourceID) | currency:"$"}}</span>
                                     </th>
                                     @* 4/10/2020 TK - I am not sure totals are wanted since there are not multiple years in this grid and we are not summing across funding type dollars *@
                                     @*<th style="text-align: right"> {{getBudgetTotalForFundingSourceSameEachYear(fundingSourceID) | currency:"$"}}</th>*@
@@ -395,13 +395,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <td colspan="2">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost)</td>
                                     <th style="text-align: right">
                                         {{getTotalTargetedSameEachYear(true) | currency:"$"}}
-
                                     </th>
                                     <th class="sourcedField" style="text-align: right">
-                                        <span ng-show="shouldShowFundingSources()">{{getTotalSecuredSameEachYear() | currency:"$"}}</span>
                                     </th>
                                     <th class="sourcedField" style="text-align: right">
-                                        Expended Funds
                                     </th>
                                     @* 4/10/2020 TK - I am not sure totals are wanted since there are not multiple years in this grid and we are not summing across funding type dollars *@
                                     @*<th style="text-align: right"> {{getTotalSameEachYear() | currency:"$"}}</th>*@
