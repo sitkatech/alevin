@@ -291,8 +291,11 @@
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeDetail.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeDetailViewData.cs" />
+    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeTreeGridSpecV2.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGridSpec.cs" />
+    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexV2.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cs" />
+    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexV2ViewData.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexViewData.cs" />
     <Compile Include="Views\ExcelUpload\PnBudgetStageImportsHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cs" />
@@ -617,6 +620,11 @@
     </Content>
     <Content Include="Content\Bootstrap\firma\bor.theme.less" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.js.map" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\treegrid.css" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\treegrid.js" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\license.txt" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\readme.txt" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\whatsnew.txt" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\fancybox\blank.gif" />
     <Content Include="Content\fancybox\fancybox_buttons.png" />
@@ -675,6 +683,13 @@
     <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.pdf" />
     <Content Include="Content\Training\ProjectFirma-Reports-Example-Report.docx" />
     <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide.pdf" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-bold-webfont.woff" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-bold-webfont.woff2" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-medium-webfont.woff" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-medium-webfont.woff2" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-regular-webfont.woff" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-regular-webfont.woff2" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\package.json" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -759,6 +774,7 @@
     <Content Include="Views\Obligation\ObligationItemBudgetIndex.cshtml" />
     <Content Include="Views\Obligation\ObligationItemInvoiceIndex.cshtml" />
     <Content Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cshtml" />
+    <Content Include="Views\BudgetObjectCode\BudgetObjectCodeIndexV2.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />

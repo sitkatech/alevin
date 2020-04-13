@@ -1,0 +1,82 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="BudgetObjectCodeIndex.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@*@using LtInfo.Common.DhtmlWrappers*@
+
+@*Standalone:*@
+
+<link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.css" />
+<script type="text/javascript" src="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.js"></script>
+
+
+@inherits ProjectFirma.Web.Views.BudgetObjectCode.BudgetObjectCodeIndexV2
+
+@section JavascriptAndStylesContent
+{
+    @*@{ DhtmlxGridIncludes.RenderPartialView(Html); }*@
+}
+
+<div class="row">
+
+    <div class="col-xs-12">
+        @*@Html.DhtmlxGrid(ViewDataTyped.BudgetObjectCodeGridSpec, ViewDataTyped.BudgetObjectCodeGridName, ViewDataTyped.BudgetObjectCodeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)*@
+    </div>
+
+    <div>This is the DHTMLXTreeGrid</div>
+    <div id="treegrid_container"></div>
+</div>
+
+<script type="text/javascript">
+
+    var dataset = [
+        {
+            "id": 0,
+            "a": 1,
+            "b": "Linwood Long long long",
+            "c": "Petersen",
+            "d": "Dahlgreen Place"
+        },
+        {
+            "id": 1,
+            "parent": 0,
+            "a": 2,
+            "b": "Edenburg",
+            "c": "Agnes",
+            "d": "Gem Street"
+        }
+        // more columns
+    ];
+
+    // creating dhtmlxTreeGrid
+    var treegrid = new dhx.TreeGrid("treegrid_container", {
+        columns: [
+            { width: 100, id: "a", header: [{ text: "#" }] },
+            { width: 100, id: "b", header: [{ text: "Title" }] },
+            { width: 200, id: "c", header: [{ text: "Name" }] },
+            { width: 200, id: "d", header: [{ text: "Address" }] }
+        ],
+        headerRowHeight: 50,
+        data: dataset
+    });
+
+    alert('Hello!');
+</script>

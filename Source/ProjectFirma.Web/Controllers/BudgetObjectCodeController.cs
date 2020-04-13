@@ -41,7 +41,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<BudgetObjectCodeDetail, BudgetObjectCodeDetailViewData>(viewData);
         }
 
-
         [BudgetObjectCodeViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridOnBudgetObjectCodeDetailJsonData(BudgetObjectCodePrimaryKey budgetObjectCodePrimaryKey)
         {
@@ -61,5 +60,30 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+
+        #region TreeGrid_BOC_Index
+
+        [BudgetObjectCodeViewFeature]
+        public ViewResult BudgetObjectCodeIndexV2()
+        {
+            return BudgetObjectCodeIndexImplV2();
+        }
+
+        private ViewResult BudgetObjectCodeIndexImplV2()
+        {
+            var viewData = new BudgetObjectCodeIndexV2ViewData(CurrentFirmaSession);
+            return RazorView<BudgetObjectCodeIndexV2, BudgetObjectCodeIndexV2ViewData>(viewData);
+        }
+
+        [BudgetObjectCodeViewFeature]
+        public GridJsonNetJObjectResult<BudgetObjectCode> BudgetObjectCodeGridJsonDataV2()
+        {
+            var gridSpec = new BudgetObjectCodeGridSpec(CurrentFirmaSession);
+            var budgetObjectCodes = HttpRequestStorage.DatabaseEntities.BudgetObjectCodes.ToList().OrderBy(x => x.GetDisplayName()).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BudgetObjectCode>(budgetObjectCodes, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+        #endregion TreeGrid_BOC_Index
     }
 }

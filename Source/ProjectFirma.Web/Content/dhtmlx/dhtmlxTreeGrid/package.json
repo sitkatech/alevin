@@ -1,0 +1,13 @@
+{
+  "name": "dhx-treegrid-package",
+  "version": "6.4.2",
+  "description": "dhtmlxTreeGrid widget",
+  "homepage": "https://docs.dhtmlx.com/treegrid",
+  "private": true,
+  "bugs": {
+    "url": "https://forum.dhtmlx.com",
+    "email": "support@dhtmlx.com"
+  },
+  "main": "codebase/treegrid.js",
+  "types": "codebase/treegrid.d.ts"
+}
