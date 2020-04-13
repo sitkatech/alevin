@@ -218,7 +218,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         return 0;
     }
 
-    $scope.getObligationTotalForRow = function (fundingSourceID, costTypeID) {
+    $scope.getObligationTotalForFundingSourceAndCostType = function (fundingSourceID, costTypeID) {
         var items = _.filter($scope.AngularViewData.ObligationItemBudgetRollUps, function (o) {
             return o.CostTypeID == costTypeID && o.FundingSourceID == fundingSourceID;
         });
@@ -293,7 +293,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         return 0;
     }
 
-    $scope.getExpenditureTotalForRow = function (fundingSourceID, costTypeID) {
+    $scope.getExpenditureTotalForFundingSourceAndCostType = function (fundingSourceID, costTypeID) {
         var items = _.filter($scope.AngularViewData.ObligationItemInvoiceRollUps, function (o) {
             return o.CostTypeID == costTypeID && o.FundingSourceID == fundingSourceID;
         });

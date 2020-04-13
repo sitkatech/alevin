@@ -225,10 +225,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                         {{getBudgetTotalForRow(projectFundingSourceBudget) | currency:"$"}}
                                     </th>
                                     <th class="sourcedField" style="text-align: right">
-                                        {{getObligationTotalForRow(fundingSourceID, projectFundingSourceBudget.CostTypeID) | currency:"$"}}
+                                        {{getObligationTotalForFundingSourceAndCostType(fundingSourceID, projectFundingSourceBudget.CostTypeID) | currency:"$"}}
                                     </th>
                                     <th class="sourcedField" style="text-align: right;">
-                                        {{getExpenditureTotalForRow(fundingSourceID, projectFundingSourceBudget.CostTypeID) | currency:"$"}}
+                                        {{getExpenditureTotalForFundingSourceAndCostType(fundingSourceID, projectFundingSourceBudget.CostTypeID) | currency:"$"}}
                                     </th>
                                 </tr>
                                 @* Sum of budgets for funding source*@
@@ -326,10 +326,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <span ng-show="shouldShowFundingSources()">Each Year @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
                                     </th>
                                     <th class="sourcedField">
-                                        <span ng-show="shouldShowFundingSources()">Each Year Obligated Funding</span>
+                                        <span ng-show="shouldShowFundingSources()">Total Reported Obligated Funding</span>
                                     </th>
                                     <th class="sourcedField">
-                                        Each Year Expended Funding
+                                        Total Reported Expended Funding
                                     </th>
                                     @* 4/10/2020 TK - I am not sure totals are wanted since there are not multiple years in this grid and we are not summing across funding type dollars *@
                                     @*<th style="text-align: right">Total</th>*@
@@ -349,10 +349,10 @@ Source code is available upon request via <support@sitkatech.com>.
                                         
                                     </td>
                                     <td style="text-align: right">
-                                        {{projectFundingSourceBudget.SecuredAmount}}
+                                        {{getObligationTotalForFundingSourceAndCostType(fundingSourceID, projectFundingSourceBudget.CostTypeID) | currency:"$"}}
                                     </td>
                                     <td style="text-align: right;">
-                                        Expended Funds
+                                        {{getExpenditureTotalForFundingSourceAndCostType(fundingSourceID, projectFundingSourceBudget.CostTypeID) | currency:"$"}}
                                     </td>
                                     @* 4/10/2020 TK - I am not sure totals are wanted since there are not multiple years in this grid and we are not summing across funding type dollars *@
                                     @*<th style="text-align: right"> {{getBudgetTotalForRowSameEachYear(projectFundingSourceBudget) | currency:"$"}}</th>*@
