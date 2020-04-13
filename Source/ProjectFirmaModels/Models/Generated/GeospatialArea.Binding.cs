@@ -28,6 +28,7 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaPerformanceMeasureFixedTargets = new HashSet<GeospatialAreaPerformanceMeasureFixedTarget>();
             this.GeospatialAreaPerformanceMeasureNoTargets = new HashSet<GeospatialAreaPerformanceMeasureNoTarget>();
             this.GeospatialAreaPerformanceMeasureReportingPeriodTargets = new HashSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
+            this.NpccSubbasinProvincesWhereYouAreTheSubbasin = new HashSet<NpccSubbasinProvince>();
             this.PersonStewardGeospatialAreas = new HashSet<PersonStewardGeospatialArea>();
             this.ProjectGeospatialAreas = new HashSet<ProjectGeospatialArea>();
             this.ProjectGeospatialAreaUpdates = new HashSet<ProjectGeospatialAreaUpdate>();
@@ -85,13 +86,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return GeospatialAreaImages.Any() || GeospatialAreaPerformanceMeasureFixedTargets.Any() || GeospatialAreaPerformanceMeasureNoTargets.Any() || GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any() || SubbasinLiasons.Any();
+            return GeospatialAreaImages.Any() || GeospatialAreaPerformanceMeasureFixedTargets.Any() || GeospatialAreaPerformanceMeasureNoTargets.Any() || GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || NpccSubbasinProvincesWhereYouAreTheSubbasin.Any() || PersonStewardGeospatialAreas.Any() || ProjectGeospatialAreas.Any() || ProjectGeospatialAreaUpdates.Any() || SubbasinLiasons.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name, typeof(GeospatialAreaPerformanceMeasureNoTarget).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(SubbasinLiason).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialArea).Name, typeof(GeospatialAreaImage).Name, typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name, typeof(GeospatialAreaPerformanceMeasureNoTarget).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(NpccSubbasinProvince).Name, typeof(PersonStewardGeospatialArea).Name, typeof(ProjectGeospatialArea).Name, typeof(ProjectGeospatialAreaUpdate).Name, typeof(SubbasinLiason).Name};
 
 
         /// <summary>
@@ -132,6 +133,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in NpccSubbasinProvincesWhereYouAreTheSubbasin.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -177,6 +183,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<GeospatialAreaPerformanceMeasureFixedTarget> GeospatialAreaPerformanceMeasureFixedTargets { get; set; }
         public virtual ICollection<GeospatialAreaPerformanceMeasureNoTarget> GeospatialAreaPerformanceMeasureNoTargets { get; set; }
         public virtual ICollection<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
+        public virtual ICollection<NpccSubbasinProvince> NpccSubbasinProvincesWhereYouAreTheSubbasin { get; set; }
         public virtual ICollection<PersonStewardGeospatialArea> PersonStewardGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialArea> ProjectGeospatialAreas { get; set; }
         public virtual ICollection<ProjectGeospatialAreaUpdate> ProjectGeospatialAreaUpdates { get; set; }
