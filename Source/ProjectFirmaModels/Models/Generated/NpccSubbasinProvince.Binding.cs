@@ -52,22 +52,24 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public NpccSubbasinProvince(GeospatialArea subbasin, int npccProvinceID) : this()
+        public NpccSubbasinProvince(GeospatialArea subbasin, NpccProvince npccProvince) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.NpccSubbasinProvinceID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.SubbasinID = subbasin.GeospatialAreaID;
             this.Subbasin = subbasin;
             subbasin.NpccSubbasinProvincesWhereYouAreTheSubbasin.Add(this);
-            this.NpccProvinceID = npccProvinceID;
+            this.NpccProvinceID = npccProvince.NpccProvinceID;
+            this.NpccProvince = npccProvince;
+            npccProvince.NpccSubbasinProvinces.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static NpccSubbasinProvince CreateNewBlank(GeospatialArea subbasin)
+        public static NpccSubbasinProvince CreateNewBlank(GeospatialArea subbasin, NpccProvince npccProvince)
         {
-            return new NpccSubbasinProvince(subbasin, default(int));
+            return new NpccSubbasinProvince(subbasin, npccProvince);
         }
 
         /// <summary>
@@ -112,6 +114,7 @@ namespace ProjectFirmaModels.Models
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual GeospatialArea Subbasin { get; set; }
+        public virtual NpccProvince NpccProvince { get; set; }
 
         public static class FieldLengths
         {

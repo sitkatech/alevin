@@ -29,4 +29,5 @@ values
 (24, 'ProjectLastUpdated', 'Last Updated', 1),
 (25, 'ProjectStatus', 'Status', 1),
 (26, 'FinalStatusUpdateStatus', 'Final Status Update', 1),
-(27, 'ProjectCategory', 'Project Category', 1)
+(27, 'ProjectCategory', 'Project Category', 1),
+(28, 'NPCCProvince', 'NPCC Province', 1)

@@ -22,6 +22,7 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasRequired(a => a.Subbasin).WithMany(b => b.NpccSubbasinProvincesWhereYouAreTheSubbasin).HasForeignKey(c => c.SubbasinID).WillCascadeOnDelete(false); // FK_NpccSubbasinProvince_GeospatialArea_SubbasinID_GeospatialAreaID
+            HasRequired(a => a.NpccProvince).WithMany(b => b.NpccSubbasinProvinces).HasForeignKey(c => c.NpccProvinceID).WillCascadeOnDelete(false); // FK_NpccSubbasinProvince_NpccProvince_NpccProvinceID
         }
     }
 }
