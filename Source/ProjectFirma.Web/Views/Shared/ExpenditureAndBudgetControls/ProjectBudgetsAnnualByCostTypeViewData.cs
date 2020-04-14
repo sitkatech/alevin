@@ -37,6 +37,8 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public List<int> CalendarYears { get; }
         public List<ProjectFundingSourceCostTypeAmount> ProjectFundingSourceCostTypeAmounts { get; set; }
         public string ExpectedFundingUpdateNote { get; }
+        public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemBudgetRollUps { get; }
+        public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemInvoiceRollUps { get; }
 
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
@@ -65,6 +67,8 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             CalendarYears = calendarYears;
 
             ExpectedFundingUpdateNote = expectedFundingUpdateNote;
+            ObligationItemBudgetRollUps = project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();
+            ObligationItemInvoiceRollUps = project.GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples();
         }
     }
 }
