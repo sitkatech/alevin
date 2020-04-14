@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
     public class EditProjectFundingSourceBudgetByCostTypeViewData : FirmaUserControlViewData
     {
-        public ViewDataForAngularClass ViewDataForAngular { get; }
+        public EditProjectFundingSourceBudgetByCostTypeViewDataForAngular ViewDataForAngular { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
@@ -41,9 +41,9 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
 
-        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewData.ViewDataForAngularClass viewDataForAngularClass)
+        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular)
         {
-            ViewDataForAngular = viewDataForAngularClass;
+            ViewDataForAngular = editProjectFundingSourceBudgetByCostTypeViewDataForAngular;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             FieldDefinitionForEstimatedAnnualOperatingCost = FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType();
         }
 
-        public class ViewDataForAngularClass
+        public class EditProjectFundingSourceBudgetByCostTypeViewDataForAngular
         {
             public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
@@ -69,7 +69,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
             public IEnumerable<SelectListItem> FundingTypes { get; }
 
-            public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
+            public EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
                 List<int> requiredCalendarYearRange,

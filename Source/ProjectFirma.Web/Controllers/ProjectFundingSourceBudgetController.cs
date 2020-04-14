@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var allCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Select(x => new CostTypeSimple(x)).OrderBy(p => p.CostTypeName).ToList();
             var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            var viewDataForAngularEditor = new EditProjectFundingSourceBudgetByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
+            var viewDataForAngularEditor = new EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
             var viewData = new EditProjectFundingSourceBudgetByCostTypeViewData(viewDataForAngularEditor);
             return RazorPartialView<EditProjectFundingSourceBudgetByCostType, EditProjectFundingSourceBudgetByCostTypeViewData, EditProjectFundingSourceBudgetByCostTypeViewModel>(viewData, viewModel);
         }
