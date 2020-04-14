@@ -1,0 +1,439 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+
+    <title>AlevinBOR   | Budget Object Codes V2</title>
+
+    <link rel="apple-touch-icon" sizes="57x57" href=/Content/img/BureauOfReclamation/apple-icon-57x57.png>
+    <link rel="apple-touch-icon" sizes="57x57" href=/Content/img/BureauOfReclamation/apple-icon-60x60.png>
+    <link rel="apple-touch-icon" sizes="57x57" href=/Content/img/BureauOfReclamation/apple-icon-72x72.png>
+    <link rel="apple-touch-icon" sizes="57x57" href=/Content/img/BureauOfReclamation/apple-icon-76x76.png>
+    <link rel="apple-touch-icon" sizes="57x57" href=/Content/img/BureauOfReclamation/apple-icon-114x114.png>
+    <link rel="apple-touch-icon" sizes="57x57" href=/Content/img/BureauOfReclamation/apple-icon-120x120.png>
+    <link rel="icon" type="image/png" sizes="57x57" href=/Content/img/BureauOfReclamation/favicon-32x32.png>
+    <link rel="icon" type="image/png" sizes="57x57" href=/Content/img/BureauOfReclamation/favicon-96x96.png>
+    <link rel="icon" type="image/png" sizes="57x57" href=/Content/img/BureauOfReclamation/favicon-16x16.png>
+
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-134855355-1"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-134855355-1');
+gtag('config', 'UA-148723662-1');</script>
+
+<link href="/Content/themes/base/all.css" rel="stylesheet" type="text/css" />
+<link href="/Content/css/jquery.ui.firma.min.css" rel="stylesheet" type="text/css" />
+<link href="/Content/jquery.fancybox.css" rel="stylesheet" type="text/css" />
+<link href="/Content/qtip/jquery.qtip.min.css" rel="stylesheet" type="text/css" />
+<link href="/Content/qtip/jquery.qtip.firma.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/Content/Bootstrap/firma/bootstrap.firma.base.min.css" rel="stylesheet" type="text/css" />
+<link href="/Content/Bootstrap/firma/glyphicons-filetypes.min.css" rel="stylesheet" type="text/css" />
+<link href="/Content/Bootstrap/firma/glyphicons-regular.min.css" rel="stylesheet" type="text/css" />
+
+<link href="/Content/bootstrap-file-input/css/fileinput.min.css" rel="stylesheet" type="text/css" />
+
+<link href='/Content/css/google-chart-config-overrides.css' rel='stylesheet' type='text/css' media='all' />
+
+<script src="/Scripts/jquery-1.11.0.min.js" type="text/javascript"></script>
+<script src="/Content/lodash/lodash.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery-ui-1.11.4.min.js" type="text/javascript"></script>
+<script src="/Content/JQuery/jquery.ui.autocomplete.html.min.js" type="text/javascript"></script>
+<script src="/Content/JQuery/jquery.blockUI.min.js" type="text/javascript"></script>
+<script src="/Scripts/modernizr-2.8.3.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.validate.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.validate.unobtrusive.min.js" type="text/javascript"></script>
+<script src="/Content/Bootstrap/bootstrap-3.3.7/dist/js/bootstrap.min.js" type="text/javascript"></script>
+<script src="/Content/Bootstrap/bootstrap-hover-dropdown.min.js" type="text/javascript"></script>
+
+<script src="/Scripts/jquery.fancybox.pack.js" type="text/javascript"></script>
+<script src="/Content/qtip/jquery.qtip.min.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/sitka.min.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/sitkaAjax.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/unsavedChanges.js" type="text/javascript"></script>
+<script src="/Content/angular/angular.min.js" type="text/javascript"></script>
+<script src="/Content/angular/ng-currency.js" type="text/javascript"></script>
+<script src="/Content/angular/directives/serverValidate.js" type="text/javascript"></script>
+<script src="/Content/angular/directives/ui-bootstrap-tpls-0.12.1.min.js" type="text/javascript"></script>
+
+<script src="/Content/angular/ProjectFirmaApp.js" type="text/javascript"></script>
+
+<script src="/ScriptsCustom/qtippopuphelper.min.js" type="text/javascript"></script>
+<script src="/Scripts/ckeditor/ckeditor.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/bootstrap-ckeditor-fix.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script type="text/javascript" src="/Views/Shared/GoogleCharts.js"></script>
+
+<script src="/Content/bootstrap-file-input/js/fileinput.min.js" type="text/javascript"></script>
+
+<script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+<link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+
+
+    <link href="/Content/Bootstrap/firma/base.theme.min.css" rel="stylesheet" type="text/css" />
+    
+
+    <link href="/Content/style-BureauOfReclamation.css" rel="stylesheet" type="text/css" />
+    
+    <script src="/Content/bootstrap-typeahead/bootstrap3-typeahead.js" type="text/javascript"></script>
+
+    
+    
+    
+
+
+
+
+</head>
+<body>
+    <div class="expandToFillScreen">
+        <div class="header">
+            <div class="optionalContainer">
+                <div class="row">
+                    <div class="headerText col-sm-12 col-md-8">
+                            <a href="/">
+                                <img class="headerLogo" src="/FileResource/DisplayResource/72a175ae-0b20-496b-9aab-ab305e346dec" alt="ESA Database" /><span id="headerTenantShortDisplayName">AlevinBOR</span>
+                            </a>
+                    </div>
+                    <div class="col-sm-12 col-md-4">
+                        <form id="searchForm" data-action="'\/Project\/Search\/UrlTemplateParameter1String'" role="search" style="display: flex; margin-top: 17px;">
+                            <label for="searchCriteria" class="sr-only">Search</label>
+                            <input id="searchCriteria" type="text" class="form-control"
+                                   name="searchCriteria" maxlength="200" onkeypress="return submitFormWithEnter(this, event, 1)"
+                                   placeholder="Project Name or Description"
+                                   style="margin-right: -5px; max-width: 300px; margin-left: auto;"/>
+                            <button id="searchButton" type="button" class="btn btn-default">
+                                <span class="sr-only">Search</span>
+                                <span class="glyphicon glyphicon-search"></span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+
+        <script type="text/javascript">
+            // <![CDATA[
+            function submitFormWithEnter(myfield, e, numMinChars) {
+                var keycode;
+                if (window.event) {
+                    keycode = window.event.keyCode;
+                }
+                else if (e) {
+                    keycode = e.which;
+                }
+                else {
+                    return true;
+                }
+
+                if (keycode == 13) {
+                    if (myfield.value.trim().length >= numMinChars) {
+                        var searchUrlTemplate = new Sitka.UrlTemplate('\/Project\/Search\/UrlTemplateParameter1String');
+                        document.location = searchUrlTemplate
+                            .ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                    }
+                    return false;
+                }
+                else {
+                    return true;
+                }
+            }
+
+            function search(myfield, numMinChars)
+            {
+                if (myfield.value.trim().length >= numMinChars) {
+                    var searchUrlTemplate = new Sitka.UrlTemplate('\/Project\/Search\/UrlTemplateParameter1String');
+                    document.location = searchUrlTemplate.ParameterReplace("?searchCriteria=" + encodeURIComponent(myfield.value.trim()));
+                }
+            }
+
+            jQuery(document).ready(function () {
+
+                var pfFinder = jQuery("#searchCriteria");
+                jQuery("#searchButton").click(function()
+                {
+                    search(pfFinder[0], 1);
+                });
+
+                jQuery("#searchCriteria")
+                    .autocomplete({
+                        source: "/Project/Find",
+                        minLength: 1,
+                        position: { my: "right top", at: "right bottom" },
+                        select: function (event, ui) {
+                            document.location = ui.item.value;
+                            event.preventDefault();
+                        },
+                        html: true
+                    });
+            });
+            // ]]>
+        </script>
+
+        <div id="mainnavandcontent">
+
+            <nav class="navbar projectFirmaNavbar">
+                <div class="optionalContainer">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                                data-target="#firma-collapse-navbar" aria-expanded="false">
+                            <span class="sr-only">Toggle navigation</span>
+                            <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        </button>
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="firma-collapse-navbar">
+                        <ul class="nav navbar-nav navbar-left">
+    <li class="dropdown">
+    <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="false">Projects <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li class=""><a title="" href="/Results/ProjectMap"   class="navigation-dropdown-item">Project Map</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/Project/Index"   class="navigation-dropdown-item">Full Project List</a></li>
+            <li class=""><a title="" href="/Project/MyOrganizationsProjects"   class="navigation-dropdown-item">My Organization's Projects</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/Project/Proposed"   class="navigation-dropdown-item">Proposals</a></li>
+            <li class=""><a title="" href="/Project/Pending"   class="navigation-dropdown-item">Pending Projects</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/ProjectAttachment/ProjectAttachmentIndex"   class="navigation-dropdown-item">Project Attachments</a></li>
+        </ul>
+    
+    </li>    <li class="dropdown">
+    <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="false">Agreements <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li class=""><a title="" href="/Agreement/AgreementIndex"   class="navigation-dropdown-item">Full Agreement List</a></li>
+            <li class=""><a title="" href="/AgreementRequest/AgreementRequestIndex"   class="navigation-dropdown-item">Full Agreement Request List</a></li>
+            <li class=""><a title="" href="/Obligation/ObligationIndex"   class="navigation-dropdown-item">Full Obligation List</a></li>
+            <li class=""><a title="" href="/Obligation/ObligationItemBudgetIndex"   class="navigation-dropdown-item">Full Obligation Item Budgets List</a></li>
+            <li class=""><a title="" href="/Obligation/ObligationItemInvoiceIndex"   class="navigation-dropdown-item">Full Obligation Item Invoices List</a></li>
+            <li class=""><a title="" href="/CostAuthority/CostAuthorityIndex"   class="navigation-dropdown-item">Full Cost Authority Work Breakdown Structure List</a></li>
+        </ul>
+    
+    </li>    <li class="dropdown">
+    <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="false">Program Info <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li class=""><a title="" href="/ProgramInfo/Taxonomy"   class="navigation-dropdown-item">Work Breakdown Structure</a></li>
+            <li class=""><a title="" href="/ProgramInfo/ClassificationSystem/14"   class="navigation-dropdown-item">Focal Species</a></li>
+            <li class=""><a title="" href="/ProgramInfo/ClassificationSystem/15"   class="navigation-dropdown-item">Project Goals</a></li>
+            <li class=""><a title="" href="/PerformanceMeasure/Index"   class="navigation-dropdown-item">Metrics</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/GeospatialArea/Index/20"   class="navigation-dropdown-item">Watersheds</a></li>
+            <li class=""><a title="" href="/GeospatialArea/Index/21"   class="navigation-dropdown-item">Chinook, Salmon ESU</a></li>
+            <li class=""><a title="" href="/GeospatialArea/Index/22"   class="navigation-dropdown-item">Steelhead DPS</a></li>
+            <li class=""><a title="" href="/GeospatialArea/Index/23"   class="navigation-dropdown-item">Chinook, Salmon Populations</a></li>
+            <li class=""><a title="" href="/GeospatialArea/Index/24"   class="navigation-dropdown-item">Steelhead Populations</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/Organization/Index"   class="navigation-dropdown-item">Organizations</a></li>
+            <li class=""><a title="" href="/Vendor/Index"   class="navigation-dropdown-item">Vendors</a></li>
+            <li class=""><a title="" href="/FundingSource/Index"   class="navigation-dropdown-item">Funding Sources</a></li>
+            <li class=""><a title="" href="/BudgetObjectCode/BudgetObjectCodeIndex"   class="navigation-dropdown-item">Budget Object Codes</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/WebServices/Index"   class="navigation-dropdown-item">Web Services</a></li>
+        </ul>
+    
+    </li>    <li class="dropdown">
+    <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="false">Results <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li class=""><a title="" href="/Results/AccomplishmentsDashboard"   class="navigation-dropdown-item">Accomplishments Dashboard</a></li>
+        </ul>
+    
+    </li>    <li class="dropdown">
+    <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="false">Reports <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li class=""><a title="" href="/Reports/Projects"   class="navigation-dropdown-item">Projects</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/Reports/Index"   class="navigation-dropdown-item">Manage Report Templates</a></li>
+        </ul>
+    
+    </li>    <li class="dropdown">
+    <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="false">Manage <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li class=""><a title="" href="/TaxonomyTrunk/Manage"   class="navigation-dropdown-item">Authority Types</a></li>
+            <li class=""><a title="" href="/TaxonomyBranch/Manage"   class="navigation-dropdown-item">Authorities</a></li>
+            <li class=""><a title="" href="/TaxonomyLeaf/Manage"   class="navigation-dropdown-item">Jobs</a></li>
+            <li class=""><a title="" href="/Classification/Index/14"   class="navigation-dropdown-item">Focal Species</a></li>
+            <li class=""><a title="" href="/Classification/Index/15"   class="navigation-dropdown-item">Project Goals</a></li>
+            <li class=""><a title="" href="/PerformanceMeasure/Manage"   class="navigation-dropdown-item">Metrics</a></li>
+            <li class=""><a title="" href="/Evaluation/Index"   class="navigation-dropdown-item">Project Evaluations</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/Project/FeaturedList"   class="navigation-dropdown-item">Featured Projects</a></li>
+            <li class=""><a title="" href="/Home/ManageHomePageImages"   class="navigation-dropdown-item">Homepage Images</a></li>
+            <li class=""><a title="" href="/CustomPage/Index"   class="navigation-dropdown-item">About Pages</a></li>
+            <li class=""><a title="" href="/FieldDefinition/Index"   class="navigation-dropdown-item">Labels & Definitions</a></li>
+            <li class=""><a title="" href="/ProjectFactSheet/Manage"   class="navigation-dropdown-item">Project Fact Sheets</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/Tag/Index"   class="navigation-dropdown-item">Project Tags</a></li>
+            <li class=""><a title="" href="/ProjectUpdate/Manage"   class="navigation-dropdown-item">Project Updates</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/User/Index"   class="navigation-dropdown-item">Users</a></li>
+            <li class=""><a title="" href="/ExcelUpload/ManageExcelUploadsAndEtl"   class="navigation-dropdown-item">Upload Excel Files / ETL</a></li>
+            <li class=""><a title="" href="/ActionItem/Index"   class="navigation-dropdown-item">Action Items</a></li>
+        </ul>
+    
+    </li>    <li class="dropdown">
+    <a href="#" class="dropdown-toggle navigation-root-item" data-toggle="dropdown" role="button" aria-expanded="false">Configure <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+            <li class=""><a title="" href="/ProjectCustomAttributeType/Manage"   class="navigation-dropdown-item">Project Custom Attributes</a></li>
+            <li class=""><a title="" href="/ProjectCustomAttributeGroup/Manage"   class="navigation-dropdown-item">Project Custom Attribute Groups</a></li>
+            <li class=""><a title="" href="/ProjectCustomGrid/ManageProjectCustomGrids"   class="navigation-dropdown-item">Project Custom Grids</a></li>
+            <li class=""><a title="" href="/ProjectStatus/Manage"   class="navigation-dropdown-item">Project Status</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/FundingSourceCustomAttributeType/Manage"   class="navigation-dropdown-item">Funding Source Custom Attributes</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/AttachmentType/Index"   class="navigation-dropdown-item">Attachment Types</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/ExternalMapLayer/Index"   class="navigation-dropdown-item">External Map Layers</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/OrganizationTypeAndOrganizationRelationshipType/Index"   class="navigation-dropdown-item">Organization Types</a></li>
+            <li class=""><a title="" href="/ContactRelationshipType/Index"   class="navigation-dropdown-item">Contact Types</a></li>
+            <li class=""><a title="" href="/Tenant/Detail"   class="navigation-dropdown-item">Tenant Configuration</a></li>
+            <li class=""><a title="" href="/Home/StyleGuide"   class="navigation-dropdown-item">Style Guide</a></li>
+            <li class="divider"></li>
+            <li class=""><a title="" href="/SiteMonitor/SiteMonitor"   class="navigation-dropdown-item">Site Monitor (Health Checks)</a></li>
+        </ul>
+    
+    </li>                        </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                                <li class="dropdown">
+                                    <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span>Welcome&nbsp;Stewart Loving-Gibbard</span>
+                                        <span class="glyphicon glyphicon-menu-down"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuUser">
+                                        <li><a href="/User/Detail/5519">View Account</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="https://bor.localhost.projectfirma.com/Account/LogOff?returnUrl=https%3a%2f%2fbor.localhost.projectfirma.com%2fBudgetObjectCode%2fBudgetObjectCodeIndexV2">Log Out</a></li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Help <span class="glyphicon glyphicon-menu-down"></span></a>
+        <ul class="dropdown-menu" role="menu">
+<li><a data-cancel-button-text="Cancel" data-dialog-title="Request Support" data-dialog-width="800" data-dismiss="modal" data-save-button-id="ltinfo-modal-dialog-save-button-id" data-save-button-text="Submit Request" data-skip-ajax="False" href="/Help/Support" onclick="return modalDialogLink(this, null, null);">Request Support</a></li>
+            <li class=""><a title="" href="/Home/Training">Training</a></li>
+            <li class=""><a title="" href="/Home/InternalSetupNotes">Internal Setup Notes</a></li>
+            <li class=""><a title="" href="/Home/ReleaseNotes">Release Notes</a></li>
+            <li class="divider"></li>
+<li><a href='http://www.sitkatech.com/products/ProjectFirma/projectfirma-faqs/' target='_blank'>About ProjectFirma <span class='glyphicon glyphicon-new-window'></span></a></li>
+        </ul>
+    
+    </li>
+                        </ul>
+                    </div><!-- /.navbar-collapse -->
+                </div><!-- /.container-fluid -->
+            </nav>
+            
+            
+    
+
+
+            
+
+
+
+
+<div class="container firmaContent">
+    <div class="rightFloatingInfo">
+        
+    </div>
+
+    <h2 class="pageTitle">Budget Object Codes V2 --- HACKED MANUAL FILE</h2>
+
+                
+    
+
+
+
+
+
+
+<link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.css" />
+<script type="text/javascript" src="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.js"></script>
+
+
+
+
+
+    <div class="col-xs-12">
+        
+    </div>
+
+    <div>This is the DHTMLXTreeGrid</div>
+    <div id="treegrid_container"></div>
+
+
+<script type="text/javascript">
+
+    var treeGrid = new dhx.TreeGrid("treegrid_container", {
+        columns: [
+            { width: 260, id: "name", header: [{ text: "Name" }] },
+            { width: 260, id: "native", type: "string", header: [{ text: "Native name" }] },
+            { width: 200, id: "capital", type: "string", header: [{ text: "Capital" }] },
+            { width: 200, id: "currency", type: "string", header: [{ text: "Currency" }] }
+        ]
+    });
+    //<a href="http://localhost:57753/Content/dhtmlx/dhtmlxTreeGrid/samples/common/dataset.json">
+    //    http://localhost:57753/Content/dhtmlx/dhtmlxTreeGrid/samples/common/dataset.json</a>
+    //If this works, the filename is just a total hack
+    //treeGrid.data.load("../Content/dhtmlx/dhtmlxTreeGrid/samples/common/dataset.json.txt.css");
+    treeGrid.data.load("/BudgetObjectCode/BudgetObjectCodeGridJsonDataV2_JSON_SAMPLE");
+
+    alert('Hello!');
+</script>
+</div>
+
+        </div>
+    </div>
+
+<footer id="footer">
+    <div class="container">
+        <div class="text-center">
+
+    <div class="firmaPageContent" style="position: relative; min-height: 30px;">
+        <div class="hoverEditButton">
+            <div style="margin-top: 10px">
+                <a class="btn-firma btn-xs" data-cancel-button-text="Cancel" data-dialog-title="Edit Content for Custom Footer" data-dialog-width="900" data-dismiss="modal" data-save-button-id="ltinfo-modal-dialog-save-button-id" data-save-button-text="Save" data-skip-ajax="False" href="/FirmaPage/EditInDialog/505" onclick="return modalDialogLink(this, null, null);">Edit</a>
+            </div>
+        </div>
+            <div class="hoverEmptySpace"></div>
+    </div>
+
+        </div>
+    </div>
+    <div class="container">
+        <p class="text-center">
+            <a href="http://sitkatech.com/products/ProjectFirma/">ProjectFirma</a> is a service provided by Sitka Technology Group, which builds on the Tahoe Regional Planning Agency's <a href="https://eip.laketahoeinfo.org">EIP Project Tracker</a>.
+            This program is free software; you can redistribute it and/or modify it under the terms of the <a href="https://www.gnu.org/licenses/agpl-3.0.html">GNU Affero General Public License</a> as published by the <a href="https://www.fsf.org/">Free Software Foundation</a>.
+            Source code is available on <a href="https://github.com/sitkatech/projectfirma">GitHub</a>.
+        </p>
+        <p class="text-center">
+            Copyright (C) 2020 <a href="http://trpa.org">Tahoe Regional Planning Agency</a> and <a href="http://www.sitkatech.com">Sitka Technology Group</a> | Version 1.0.0.0 | Compiled 2020-04-14 09:19:09 | PID 25120
+        </p>
+
+    </div>
+</footer>
+
+
+<script src="/ScriptsCustom/SitkaFileExtensionsValidation.min.js" type="text/javascript"></script>
+<script src="/Scripts/jquery.form.min.js" type="text/javascript" charset="utf-8"></script>
+<script src="/ScriptsCustom/ModalDialogForm.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/BootstrapModalAlert.min.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/FancyboxReady.min.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/DatePickerReady.min.js" type="text/javascript"></script>
+<script src="/ScriptsCustom/CkEditorReady.min.js" type="text/javascript"></script>
+<script src="/Content/qtip/jquery.qtip.validation.min.js" type="text/javascript"></script>
+
+
+</body>
+</html>
+
