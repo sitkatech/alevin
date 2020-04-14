@@ -21,7 +21,8 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             NewUrl = "NO_URL_FOR_THIS_PROBABLY_WILL_NEVER_BE_ONE";
 
             BudgetObjectCodeGridName = "BudgetObjectCodesGrid";
-            BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeGridJsonData());
+            //BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeGridJsonData());
+            BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeGridJsonDataV2_JSON_SAMPLE());
             //BudgetObjectCodeIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
         }
     }

@@ -624,6 +624,11 @@
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\treegrid.js" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\license.txt" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\readme.txt" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\samples\common\books_dataset.js" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\samples\common\dataset.js" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\samples\common\dhx_samples.css" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\samples\common\index.css" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\samples\common\treegrid.css" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\whatsnew.txt" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js" />
     <Content Include="Content\fancybox\blank.gif" />
@@ -690,6 +695,8 @@
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-regular-webfont.woff" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-regular-webfont.woff2" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\package.json" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\samples\common\dataset.json" />
+    <Content Include="Content\dhtmlx\dhtmlxTreeGrid\samples\common\dataset.json.txt" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="phantomjs-license.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
