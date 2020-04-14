@@ -26,6 +26,9 @@
 
 <link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.css" />
 <script type="text/javascript" src="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.js"></script>
+<!-- Following example from working samples; web site doc examples are missing these: -->
+<link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/samples/common/index.css?v=6.4.2">
+<link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/samples/common/treegrid.css?v=6.4.2">		
 
 
 @inherits ProjectFirma.Web.Views.BudgetObjectCode.BudgetObjectCodeIndexV2
@@ -42,7 +45,10 @@
     </div>
 
     <div>This is the DHTMLXTreeGrid</div>
-    <div id="treegrid_container"></div>
+    <!-- Section stuff seems required, at least when we follow the examples in the Samples folder -->
+    <section class="dhx_sample-container dhx_sample-container--treegrid">
+        <div class="dhx_sample-container__widget" id="treegrid_container"></div>
+    </section>	
 @*</div>*@
 
 <script type="text/javascript">
@@ -59,7 +65,10 @@
     //    http://localhost:57753/Content/dhtmlx/dhtmlxTreeGrid/samples/common/dataset.json</a>
     //If this works, the filename is just a total hack
     //treeGrid.data.load("../Content/dhtmlx/dhtmlxTreeGrid/samples/common/dataset.json.txt.css");
-    treeGrid.data.load("@ViewDataTyped.BudgetObjectCodeGridDataUrl");
+
+    //treeGrid.data.load("@ViewDataTyped.BudgetObjectCodeGridDataUrl");
+
+    treeGrid.data.load("/BudgetObjectCode/BudgetObjectCodeGridJsonDataV2_JSON_SAMPLE");
 
     alert('Hello!');
 </script>
