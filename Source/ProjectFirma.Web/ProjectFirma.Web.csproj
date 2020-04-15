@@ -453,7 +453,6 @@
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
     <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
-    <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewModel.cs" />
     <Compile Include="Views\Agreement\AgreementGridSpec.cs" />
     <Compile Include="Views\Agreement\AgreementIndexViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostType.cs" />
@@ -709,7 +708,6 @@
     <Content Include="Views\Home\ReleaseNotes.cshtml" />
     <Content Include="Views\OrganizationTypeAndOrganizationRelationshipType\EditOrganizationRelationshipTypeController.js" />
     <Content Include="Views\Shared\EditPerformanceMeasureTargetsController.js" />
-    <Content Include="Views\ProjectCreate\ExpectedFundingByCostTypeController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostTypeController.js" />
     <Content Include="Views\ProjectCustomGrid\EditProjectCustomGridController.js" />
     <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetByCostTypeController.js" />

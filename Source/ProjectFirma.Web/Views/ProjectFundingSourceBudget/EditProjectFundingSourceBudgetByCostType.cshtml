@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 @using Newtonsoft.Json.Linq
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ProjectFundingSourceBudget
 @inherits ProjectFirma.Web.Views.ProjectFundingSourceBudget.EditProjectFundingSourceBudgetByCostType
 <script type="text/javascript">
     // <![CDATA[
@@ -89,7 +90,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </div>
 <div class="row">
     <div class="col-xs-12">
-        <div ng-app="ProjectFirmaApp" id="EditFundingSourceBudgetsApp" ng-controller="ProjectFundingSourceBudgetByCostTypeController" style="max-height: 600px;">
+        <div @*ng-app="ProjectFirmaApp"*@ id="EditFundingSourceBudgetsApp" ng-controller="ProjectFundingSourceBudgetByCostTypeController">
             @using (Html.BeginForm())
             {
                 <div class="form-group">
@@ -454,6 +455,19 @@ Source code is available upon request via <support@sitkatech.com>.
                 </div>
 
                 <input type="hidden" name="@Html.NameFor(x => x.FundingTypeID)" value="{{selectedFundingTypeID}}" />
+
+
+                if (ViewDataTyped.ViewEnum == ProjectFundingSourceBudgetViewEnum.Create)
+                {
+                    <div class="row">
+                        <hr/>
+                        <div style="text-align: right; white-space: nowrap">
+                            <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" value="false" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save</button>
+                            <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" value="true" name="@Html.NameFor(x => x.AutoAdvance)" ng-disabled="pmForm.$invalid">Save &amp; Continue<span class="glyphicon glyphicon-chevron-right"></span></button>
+                        </div>
+                    </div>
+                }
+
             }
         </div>
     </div>

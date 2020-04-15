@@ -27,8 +27,14 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
+    public enum ProjectFundingSourceBudgetViewEnum
+    {
+        Edit,
+        Create
+    }
     public class EditProjectFundingSourceBudgetByCostTypeViewData : FirmaUserControlViewData
     {
+        public ProjectFundingSourceBudgetViewEnum ViewEnum { get; }
         public EditProjectFundingSourceBudgetByCostTypeViewDataForAngular ViewDataForAngular { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
@@ -41,8 +47,9 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
 
-        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular)
+        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular, ProjectFundingSourceBudgetViewEnum viewEnum)
         {
+            ViewEnum = ProjectFundingSourceBudgetViewEnum.Create;
             ViewDataForAngular = editProjectFundingSourceBudgetByCostTypeViewDataForAngular;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
