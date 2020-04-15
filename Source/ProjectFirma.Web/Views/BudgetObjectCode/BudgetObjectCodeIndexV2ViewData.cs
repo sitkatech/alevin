@@ -1,4 +1,5 @@
-﻿using ProjectFirma.Web.Common;
+﻿using System.Collections.Generic;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
@@ -22,10 +23,30 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
 
             BudgetObjectCodeGridName = "BudgetObjectCodesGrid";
             //BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeGridJsonData());
-            BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeGridJsonDataV2_JSON_SAMPLE());
+            BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeTreeGridJsonDataV2());
             //BudgetObjectCodeIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
         }
     }
+
+    /*
+     *
+     * 	{
+		"id": "SA",
+		"name": "South America"
+	},
+	{
+		"name": "Andorra",
+		"native": "Andorra",
+		"phone": "376",
+		"continent": "EU",
+		"capital": "Andorra la Vella",
+		"currency": "EUR",
+		"languages": [
+			"ca"
+		],
+		"parent": "EU"   <= ID
+	},
+     */
 }
 
 

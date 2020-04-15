@@ -87,15 +87,23 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [BudgetObjectCodeViewFeature]
-        public GridJsonNetJObjectResult<BudgetObjectCode> BudgetObjectCodeGridJsonDataV2()
+        public ActionResult BudgetObjectCodeTreeGridJsonDataV2()
         {
-            //var gridSpec = new BudgetObjectCodeGridSpec(CurrentFirmaSession);
-            //var budgetObjectCodes = HttpRequestStorage.DatabaseEntities.BudgetObjectCodes.ToList().OrderBy(x => x.GetDisplayName()).ToList();
-            //var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BudgetObjectCode>(budgetObjectCodes, gridSpec);
-            //return gridJsonNetJObjectResult;
-            //return SampleTreeGridJson();
-			throw new NotImplementedException("Hey, this isn't done yet. Maybe won't be.");
+            string budgetObjectCodeTreeGridJsonString =  BudgetObjectCodeJsonBuilder.GetBudgetObjectGroupHierarchyAsJson();
+            return  Content(budgetObjectCodeTreeGridJsonString, "application/json");
         }
+
+        /*
+
+            { width: 260, id: "boc_or_bocg_id", header: [{ text: "Budget Object Code" }] },
+            { width: 260, id: "name_or_description", type: "string", header: [{ text: "Name" }] },
+            { width: 200, id: "definition", type: "string", header: [{ text: "Definition" }] },
+            { width: 200, id: "fbms_year", type: "string", header: [{ text: "FBMS Year" }] },
+            { width: 200, id: "reportable_1099", type: "string", header: [{ text: "Reportable 1099" }] },
+            { width: 200, id: "explanation_1099", type: "string", header: [{ text: "Explanation 1099" }] }
+
+        */
+
 
         [BudgetObjectCodeViewFeature]
         public ActionResult BudgetObjectCodeGridJsonDataV2_JSON_SAMPLE()

@@ -55,10 +55,12 @@
 
     var treeGrid = new dhx.TreeGrid("treegrid_container", {
         columns: [
-            { width: 260, id: "name", header: [{ text: "Name" }] },
-            { width: 260, id: "native", type: "string", header: [{ text: "Native name" }] },
-            { width: 200, id: "capital", type: "string", header: [{ text: "Capital" }] },
-            { width: 200, id: "currency", type: "string", header: [{ text: "Currency" }] }
+            { width: 260, id: "boc_or_bocg_id", header: [{ text: "Budget Object Code" }] },
+            { width: 260, id: "name_or_description", type: "string", header: [{ text: "Name" }] },
+            { width: 200, id: "definition", type: "string", header: [{ text: "Definition" }] },
+            { width: 200, id: "fbms_year", type: "string", header: [{ text: "FBMS Year" }] },
+            { width: 200, id: "reportable_1099", type: "string", header: [{ text: "Reportable 1099" }] },
+            { width: 200, id: "explanation_1099", type: "string", header: [{ text: "Explanation 1099" }] }
         ]
     });
     //<a href="http://localhost:57753/Content/dhtmlx/dhtmlxTreeGrid/samples/common/dataset.json">
@@ -66,9 +68,7 @@
     //If this works, the filename is just a total hack
     //treeGrid.data.load("../Content/dhtmlx/dhtmlxTreeGrid/samples/common/dataset.json.txt.css");
 
-    //treeGrid.data.load("@ViewDataTyped.BudgetObjectCodeGridDataUrl");
-
-    treeGrid.data.load("/BudgetObjectCode/BudgetObjectCodeGridJsonDataV2_JSON_SAMPLE");
+    treeGrid.data.load("@ViewDataTyped.BudgetObjectCodeGridDataUrl");
 
     alert('Hello!');
 </script>

@@ -291,6 +291,9 @@
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeDetail.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeDetailViewData.cs" />
+    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGroupTreeGridBudgetObjectCodeGroupJson.cs" />
+    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGroupTreeGridBudgetObjectCodeLeafJson.cs" />
+    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeJsonBuilder.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeTreeGridSpecV2.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGridSpec.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexV2.cs" />
