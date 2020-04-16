@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectFundingSourceBudgetByCostType.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectFundingSourceBudgetByCostTypeContainer.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,16 +19,10 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common.HtmlHelperExtensions;
-using System.Web.Mvc;
-
 namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
-    public abstract class EditProjectFundingSourceBudgetByCostType : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditProjectFundingSourceBudgetByCostTypeViewData, EditProjectFundingSourceBudgetByCostTypeViewModel>
+    public abstract class EditProjectFundingSourceBudgetByCostTypeContainer : LtInfo.Common.Mvc.TypedWebViewPage<EditProjectFundingSourceBudgetByCostTypeContainerViewData>
     {
-        public static void RenderPartialView(HtmlHelper html, EditProjectFundingSourceBudgetByCostTypeViewData viewData, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
-        {
-            html.RenderRazorSitkaPartial<EditProjectFundingSourceBudgetByCostType, EditProjectFundingSourceBudgetByCostTypeViewData, EditProjectFundingSourceBudgetByCostTypeViewModel>(viewData, viewModel);
-        }
+        
     }
 }

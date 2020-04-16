@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExpectedFundingViewData.cs" company="Tahoe Regional Planning Agency">
+<copyright file="EditProjectFundingSourceBudgetByCostTypeContainerViewData.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,32 +18,28 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectCreate;
 using ProjectFirmaModels.Models;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
 
-namespace ProjectFirma.Web.Views.ProjectCreate
+namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
-    public class ExpectedFundingByCostTypeViewData : ProjectCreateViewData
+    public class EditProjectFundingSourceBudgetByCostTypeContainerViewData : FirmaViewData
     {
-        public string RequestFundingSourceUrl { get; }
         public EditProjectFundingSourceBudgetByCostTypeViewData ViewDataForPartial { get; }
         public EditProjectFundingSourceBudgetByCostTypeViewModel ViewModelForPartial { get; }
 
-
-        public ExpectedFundingByCostTypeViewData(FirmaSession currentFirmaSession,
+        public EditProjectFundingSourceBudgetByCostTypeContainerViewData(
+            FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
-            ProposalSectionsStatus proposalSectionsStatus,
             EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular viewDataForAngularClass,
             EditProjectFundingSourceBudgetByCostTypeViewModel viewModelForPartial
-        ) : base(currentFirmaSession, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName, proposalSectionsStatus)
+        ) : base(currentFirmaSession)
         {
-            RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
-            ViewDataForPartial = new EditProjectFundingSourceBudgetByCostTypeViewData(viewDataForAngularClass, ProjectFundingSourceBudgetViewEnum.Create);
+            PageTitle = $"Edit Projected Funding For {project.ProjectName}";
+            ViewDataForPartial = new EditProjectFundingSourceBudgetByCostTypeViewData(viewDataForAngularClass, ProjectFundingSourceBudgetViewEnum.Edit);
             ViewModelForPartial = viewModelForPartial;
         }
 

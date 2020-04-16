@@ -392,6 +392,8 @@
     <Compile Include="Views\ProjectFactSheet\ManageViewData.cs" />
     <Compile Include="Views\ProjectCreate\PhotoViewModel.cs" />
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeContainer.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeContainerViewData.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
     <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cs" />
     <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtlViewData.cs" />
@@ -904,6 +906,7 @@
     <Content Include="Views\ProjectFactSheet\Manage.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditFactSheetLogo.cshtml" />
     <Content Include="Views\ProjectFactSheet\EditBasics.cshtml" />
+    <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeContainer.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

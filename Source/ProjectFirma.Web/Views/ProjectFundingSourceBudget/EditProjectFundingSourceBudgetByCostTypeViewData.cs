@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
 
-        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular, ProjectFundingSourceBudgetViewEnum viewEnum)
+        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular, ProjectFundingSourceBudgetViewEnum viewEnum)
         {
             ViewEnum = ProjectFundingSourceBudgetViewEnum.Create;
             ViewDataForAngular = editProjectFundingSourceBudgetByCostTypeViewDataForAngular;

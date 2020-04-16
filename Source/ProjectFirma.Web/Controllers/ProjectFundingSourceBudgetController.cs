@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ProjectEditAsAdminFeature]
-        public PartialViewResult EditProjectFundingSourceBudgetByCostTypeForProject(ProjectPrimaryKey projectPrimaryKey)
+        public ViewResult EditProjectFundingSourceBudgetByCostTypeForProject(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
             var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
@@ -109,14 +109,15 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditProjectFundingSourceBudgetByCostType(Project project, List<int> calendarYearRange, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
+        private ViewResult ViewEditProjectFundingSourceBudgetByCostType(Project project, List<int> calendarYearRange, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var allCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Select(x => new CostTypeSimple(x)).OrderBy(p => p.CostTypeName).ToList();
             var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             var viewDataForAngularEditor = new EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
-            var viewData = new EditProjectFundingSourceBudgetByCostTypeViewData(viewDataForAngularEditor, ProjectFundingSourceBudgetViewEnum.Edit);
-            return RazorPartialView<EditProjectFundingSourceBudgetByCostType, EditProjectFundingSourceBudgetByCostTypeViewData, EditProjectFundingSourceBudgetByCostTypeViewModel>(viewData, viewModel);
+
+            var containerViewData = new EditProjectFundingSourceBudgetByCostTypeContainerViewData(CurrentFirmaSession, project, viewDataForAngularEditor, viewModel);
+            return RazorView<EditProjectFundingSourceBudgetByCostTypeContainer, EditProjectFundingSourceBudgetByCostTypeContainerViewData>(containerViewData);
         }
 
     }
