@@ -65,19 +65,7 @@ namespace ProjectFirma.Web.Controllers
         #region BudgetObjectCodeGroupingsTreeGrid 
 
         [BudgetObjectCodeViewFeature]
-        public ViewResult BudgetObjectCodeIndexV2()
-        {
-            return BudgetObjectCodeIndexImplV2();
-        }
-
-        private ViewResult BudgetObjectCodeIndexImplV2()
-        {
-            var viewData = new BudgetObjectCodeIndexV2ViewData(CurrentFirmaSession);
-            return RazorView<BudgetObjectCodeIndexV2, BudgetObjectCodeIndexV2ViewData>(viewData);
-        }
-
-        [BudgetObjectCodeViewFeature]
-        public ActionResult BudgetObjectCodeTreeGridJsonDataV2()
+        public ActionResult BudgetObjectCodeTreeGridJsonData()
         {
             string budgetObjectCodeTreeGridJsonString =  BudgetObjectCodeJsonBuilder.GetBudgetObjectGroupHierarchyAsJson();
             return Content(budgetObjectCodeTreeGridJsonString, "application/json");

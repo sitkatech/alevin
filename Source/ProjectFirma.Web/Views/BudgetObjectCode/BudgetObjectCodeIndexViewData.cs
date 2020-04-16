@@ -22,7 +22,7 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
 
             BudgetObjectCodeGridName = "BudgetObjectCodesGrid";
             BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeGridJsonData());
-            BudgetObjectCodeGridTreeDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeTreeGridJsonDataV2());
+            BudgetObjectCodeGridTreeDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeTreeGridJsonData());
         }
     }
 }

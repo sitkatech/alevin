@@ -294,11 +294,8 @@
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGroupTreeGridBudgetObjectCodeGroupJson.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGroupTreeGridBudgetObjectCodeLeafJson.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeJsonBuilder.cs" />
-    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeTreeGridSpecV2.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeGridSpec.cs" />
-    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexV2.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cs" />
-    <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexV2ViewData.cs" />
     <Compile Include="Views\BudgetObjectCode\BudgetObjectCodeIndexViewData.cs" />
     <Compile Include="Views\ExcelUpload\PnBudgetStageImportsHelper.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cs" />
@@ -784,7 +781,6 @@
     <Content Include="Views\Obligation\ObligationItemBudgetIndex.cshtml" />
     <Content Include="Views\Obligation\ObligationItemInvoiceIndex.cshtml" />
     <Content Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cshtml" />
-    <Content Include="Views\BudgetObjectCode\BudgetObjectCodeIndexV2.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
