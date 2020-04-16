@@ -1,4 +1,5 @@
-﻿using LtInfo.Common.MvcResults;
+﻿using System;
+using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.BudgetObjectCode;
@@ -41,7 +42,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<BudgetObjectCodeDetail, BudgetObjectCodeDetailViewData>(viewData);
         }
 
-
         [BudgetObjectCodeViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridOnBudgetObjectCodeDetailJsonData(BudgetObjectCodePrimaryKey budgetObjectCodePrimaryKey)
         {
@@ -61,5 +61,16 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        #region BudgetObjectCodeGroupingsTreeGrid 
+
+        [BudgetObjectCodeViewFeature]
+        public ActionResult BudgetObjectCodeTreeGridJsonData()
+        {
+            string budgetObjectCodeTreeGridJsonString =  BudgetObjectCodeJsonBuilder.GetBudgetObjectGroupHierarchyAsJson();
+            return Content(budgetObjectCodeTreeGridJsonString, "application/json");
+        }
+
+        #endregion BudgetObjectCodeGroupingsTreeGrid
     }
 }
