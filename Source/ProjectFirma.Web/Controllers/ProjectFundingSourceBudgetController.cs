@@ -100,13 +100,20 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult EditProjectFundingSourceBudgetByCostTypeForProject(ProjectPrimaryKey projectPrimaryKey, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
-            var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
-            if (!ModelState.IsValid)
+            // if user pressed save button, save their changes before returning them to the project detail page
+            if (viewModel.ShouldSaveChanges)
             {
-                return ViewEditProjectFundingSourceBudgetByCostType(project, calendarYearRange, viewModel);
+                var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+                if (!ModelState.IsValid)
+                {
+                    return ViewEditProjectFundingSourceBudgetByCostType(project, calendarYearRange, viewModel);
+                }
+
+                viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities);
+                SetMessageForDisplay($"Projected Funding updated for {project.ProjectName}.");
             }
-            viewModel.UpdateModel(project, HttpRequestStorage.DatabaseEntities);
-            return new ModalDialogFormJsonResult();
+
+            return Redirect(project.GetDetailUrl() + "#financials-1");
         }
 
         private ViewResult ViewEditProjectFundingSourceBudgetByCostType(Project project, List<int> calendarYearRange, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)

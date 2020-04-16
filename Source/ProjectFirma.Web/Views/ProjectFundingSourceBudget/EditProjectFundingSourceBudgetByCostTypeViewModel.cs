@@ -45,6 +45,8 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
 
+        public bool ShouldSaveChanges { get; set; }
+
 
         /// <summary>
         /// Needed by the ModelBinder

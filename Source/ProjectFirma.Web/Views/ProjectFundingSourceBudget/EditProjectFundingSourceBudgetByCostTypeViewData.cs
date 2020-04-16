@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
         public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular, ProjectFundingSourceBudgetViewEnum viewEnum)
         {
-            ViewEnum = ProjectFundingSourceBudgetViewEnum.Create;
+            ViewEnum = viewEnum;
             ViewDataForAngular = editProjectFundingSourceBudgetByCostTypeViewDataForAngular;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
