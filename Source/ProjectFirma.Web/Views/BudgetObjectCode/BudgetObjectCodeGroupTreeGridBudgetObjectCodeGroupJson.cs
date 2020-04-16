@@ -4,6 +4,9 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
 {
     public class BudgetObjectCodeGroupTreeGridBudgetObjectCodeGroupJson
     {
+        // Our names need to match what dhtmxl GridTree expects
+        // ReSharper disable InconsistentNaming
+
         // ID of Budget Object Code Group 
         public int id;
 
@@ -15,6 +18,7 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
         // BudgetObjectCodeGroupName
         public string name_or_description;
         // BudgetObjectCodeGroupDefinition
+        public string definition;
 
         public BudgetObjectCodeGroupTreeGridBudgetObjectCodeGroupJson(BudgetObjectCodeGroup budgetObjectCodeGroup)
         {
@@ -22,7 +26,7 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             this.id = budgetObjectCodeGroup.BudgetObjectCodeGroupID;
             this.boc_or_bocg_id = budgetObjectCodeGroup.BudgetObjectCodeGroupPrefix;
             this.name_or_description = budgetObjectCodeGroup.BudgetObjectCodeGroupName;
-            this.name_or_description = budgetObjectCodeGroup.BudgetObjectCodeGroupDefinition;
+            this.definition = budgetObjectCodeGroup.BudgetObjectCodeGroupDefinition;
         }
     }
 }

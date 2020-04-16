@@ -24,6 +24,11 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             BudgetObjectCodeGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeGridJsonData());
             BudgetObjectCodeGridTreeDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeTreeGridJsonData());
         }
+
+        public static string WrapHeaderTextWithCssSpan(string headerCellText)
+        {
+            return $"\"<span class='firma_style_grid_header_cell'>{headerCellText}</span>\"";
+        }
     }
 }
 

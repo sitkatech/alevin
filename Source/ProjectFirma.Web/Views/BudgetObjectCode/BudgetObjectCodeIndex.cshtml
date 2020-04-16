@@ -21,7 +21,13 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Views.BudgetObjectCode
 @inherits ProjectFirma.Web.Views.BudgetObjectCode.BudgetObjectCodeIndex
+
+@functions {
+
+
+}
 
 @section JavascriptAndStylesContent
 {
@@ -51,12 +57,21 @@
    </section>
 </div>
 
+<style>
+   .firma_style_grid_header_cell {
+      background-color: #666666;
+   }
+
+</style>
+
 @*Load our TreeGrid up*@
 <script type="text/javascript">
    var treeGrid = new dhx.TreeGrid("treegrid_container", {
       columns: [
+         //Closer to working, but not quite right
+         @*{ width: 260, id: "boc_or_bocg_id", header: [{ text: @Html.Raw(BudgetObjectCodeIndexViewData.WrapHeaderTextWithCssSpan("Budget Object Code")) }], resizable: true },*@
          { width: 260, id: "boc_or_bocg_id", header: [{ text: "Budget Object Code" }], resizable: true },
-         { width: 260, id: "name_or_description", type: "string", header: [{ text: "Name" }], resizable: true },
+         { width: 260, id: "name_or_description", type: "string", header: [{ text: "Description" }], resizable: true },
          { width: 200, id: "definition", type: "string", header: [{ text: "Definition" }], resizable: true },
          { width: 200, id: "fbms_year", type: "string", header: [{ text: "FBMS Year" }], resizable: true },
          { width: 200, id: "reportable_1099", type: "string", header: [{ text: "Reportable 1099" }], resizable: true },
