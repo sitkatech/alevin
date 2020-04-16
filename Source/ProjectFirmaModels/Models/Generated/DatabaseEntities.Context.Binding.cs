@@ -84,6 +84,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
+            modelBuilder.Configurations.Add(new NpccProvinceConfiguration());
+            modelBuilder.Configurations.Add(new NpccSubbasinProvinceConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new OrganizationBoundaryStagingConfiguration());
             modelBuilder.Configurations.Add(new OrganizationRelationshipTypeConfiguration());
@@ -327,6 +329,10 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
         public virtual IQueryable<Notification> Notifications { get { return AllNotifications.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<NpccProvince> AllNpccProvinces { get; set; }
+        public virtual IQueryable<NpccProvince> NpccProvinces { get { return AllNpccProvinces.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<NpccSubbasinProvince> AllNpccSubbasinProvinces { get; set; }
+        public virtual IQueryable<NpccSubbasinProvince> NpccSubbasinProvinces { get { return AllNpccSubbasinProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ObligationItem> ObligationItems { get; set; }
         public virtual DbSet<ObligationNumber> ObligationNumbers { get; set; }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
@@ -814,6 +820,12 @@ namespace ProjectFirmaModels.Models
                     var notificationType = NotificationType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(notificationType, "NotificationType", primaryKey);
                     return notificationType;
+
+                case "NpccProvince":
+                    return NpccProvinces.GetNpccProvince(primaryKey);
+
+                case "NpccSubbasinProvince":
+                    return NpccSubbasinProvinces.GetNpccSubbasinProvince(primaryKey);
 
                 case "ObligationItem":
                     return ObligationItems.GetObligationItem(primaryKey);

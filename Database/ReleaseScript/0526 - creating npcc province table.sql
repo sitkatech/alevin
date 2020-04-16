@@ -1,0 +1,34 @@
+
+
+CREATE TABLE [dbo].[NpccProvince](
+	[NpccProvinceID] [int] IDENTITY(1,1) NOT NULL,
+	[TenantID] [int] NOT NULL,
+	[NpccProvinceName] [varchar](150) NOT NULL,
+	[NpccProvinceFeature] [geometry] NULL,
+	[NpccProvinceDescriptionContent] [dbo].[html] NULL,
+ CONSTRAINT [PK_NpccProvince_NpccProvinceID] PRIMARY KEY CLUSTERED 
+(
+	[NpccProvinceID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_NpccProvince_NpccProvinceID_TenantID] UNIQUE NONCLUSTERED 
+(
+	[NpccProvinceID] ASC,
+	[TenantID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [AK_NpccProvince_TenantID_NpccProvinceName] UNIQUE NONCLUSTERED 
+(
+	[TenantID] ASC,
+	[NpccProvinceName] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+
+
+
+ALTER TABLE [dbo].[NpccProvince]  WITH CHECK ADD  CONSTRAINT [FK_NpccProvince_Tenant_TenantID] FOREIGN KEY([TenantID])
+REFERENCES [dbo].[Tenant] ([TenantID])
+GO
+
+ALTER TABLE [dbo].[NpccProvince] CHECK CONSTRAINT [FK_NpccProvince_Tenant_TenantID]
+GO
+

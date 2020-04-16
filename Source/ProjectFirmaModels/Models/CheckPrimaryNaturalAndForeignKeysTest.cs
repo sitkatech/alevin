@@ -55,7 +55,9 @@ namespace ProjectFirmaModels.Models
             sqlQueryString = sqlQueryString.Replace("[[REPLACE_WITH_COMMA_SCHEMAS]]",  exemptSchemasCommaDelimitedWithSingleQuotes);
             var result = ExecAdHocSql(sqlQueryString);
             Approvals.Verify(result.TableToHumanReadableString());
-        }
+        }		
+		
+		
 
         [Test]
         [UseReporter(typeof(DiffReporter))]

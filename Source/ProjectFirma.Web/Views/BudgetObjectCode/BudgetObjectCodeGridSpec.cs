@@ -40,8 +40,11 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             SaveFiltersInCookie = true;
 
             Add("Budget Object Code", boc => UrlTemplate.MakeHrefString(boc.GetDetailUrl(), boc.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
-            Add("Budget Object Code Definition", boc => boc.BudgetObjectCodeDefinition, 300, DhtmlxGridColumnFilterType.Text);
             Add("Budget Object Code Description" , boc => boc.BudgetObjectCodeItemDescription, 300, DhtmlxGridColumnFilterType.Text);
+            Add("Budget Object Code Definition", boc => boc.BudgetObjectCodeDefinition, 300, DhtmlxGridColumnFilterType.Text);
+
+            Add("Parent BOC Group", boc =>   boc.BudgetObjectCodeGroup.GetDisplayName(), 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
             Add("FBMS Year", boc => boc.FbmsYear.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.CostType.ToType().ToGridHeaderString(), x => x.GetEffectiveCostType().CostTypeName,
                 80, DhtmlxGridColumnFilterType.SelectFilterStrict);

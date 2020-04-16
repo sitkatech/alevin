@@ -45,6 +45,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnProjectStatus ProjectStatus = ProjectCustomGridColumnProjectStatus.Instance;
         public static readonly ProjectCustomGridColumnFinalStatusUpdateStatus FinalStatusUpdateStatus = ProjectCustomGridColumnFinalStatusUpdateStatus.Instance;
         public static readonly ProjectCustomGridColumnProjectCategory ProjectCategory = ProjectCustomGridColumnProjectCategory.Instance;
+        public static readonly ProjectCustomGridColumnNPCCProvince NPCCProvince = ProjectCustomGridColumnNPCCProvince.Instance;
 
         public static readonly List<ProjectCustomGridColumn> All;
         public static readonly ReadOnlyDictionary<int, ProjectCustomGridColumn> AllLookupDictionary;
@@ -54,7 +55,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory, NPCCProvince };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -142,6 +143,8 @@ namespace ProjectFirmaModels.Models
                     return ImplementationStartYear;
                 case ProjectCustomGridColumnEnum.NoFundingSourceIdentified:
                     return NoFundingSourceIdentified;
+                case ProjectCustomGridColumnEnum.NPCCProvince:
+                    return NPCCProvince;
                 case ProjectCustomGridColumnEnum.NumberOfPhotos:
                     return NumberOfPhotos;
                 case ProjectCustomGridColumnEnum.NumberOfReportedExpenditures:
@@ -214,7 +217,8 @@ namespace ProjectFirmaModels.Models
         ProjectLastUpdated = 24,
         ProjectStatus = 25,
         FinalStatusUpdateStatus = 26,
-        ProjectCategory = 27
+        ProjectCategory = 27,
+        NPCCProvince = 28
     }
 
     public partial class ProjectCustomGridColumnProjectName : ProjectCustomGridColumn
@@ -377,5 +381,11 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectCustomGridColumnProjectCategory(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
         public static readonly ProjectCustomGridColumnProjectCategory Instance = new ProjectCustomGridColumnProjectCategory(27, @"ProjectCategory", @"Project Category", true);
+    }
+
+    public partial class ProjectCustomGridColumnNPCCProvince : ProjectCustomGridColumn
+    {
+        private ProjectCustomGridColumnNPCCProvince(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnNPCCProvince Instance = new ProjectCustomGridColumnNPCCProvince(28, @"NPCCProvince", @"NPCC Province", true);
     }
 }

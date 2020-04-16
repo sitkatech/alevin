@@ -4,6 +4,8 @@ namespace ProjectFirmaModels.Models
 {
     public partial class BudgetObjectCodeGroup 
     {
+		public string GetDisplayName() => $"{this.BudgetObjectCodeGroupPrefix} - {this.BudgetObjectCodeGroupName}";
+
         /// <summary>
         ///  This is a recursive function to figure out the CostType
         /// </summary>
