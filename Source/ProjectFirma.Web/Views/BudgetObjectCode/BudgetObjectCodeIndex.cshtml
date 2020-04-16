@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="BudgetObjectCodeIndex.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-    <author>Sitka Technology Group</author>
-    </copyright>
+   <copyright file="BudgetObjectCodeIndex.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+   Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+   <author>Sitka Technology Group</author>
+   </copyright>
 
-    <license>
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+   <license>
+   This program is free software: you can redistribute it and/or modify
+   it under the terms of the GNU Affero General Public License as published by
+   the Free Software Foundation, either version 3 of the License, or
+   (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+   This program is distributed in the hope that it will be useful,
+   but WITHOUT ANY WARRANTY; without even the implied warranty of
+   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+   GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-    Source code is available upon request via <support@sitkatech.com>.
-    </license>
-    -----------------------------------------------------------------------*@
+   Source code is available upon request via <support@sitkatech.com>.
+   </license>
+   -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
@@ -25,12 +25,45 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+   @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
 <div class="row">
-
-    <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.BudgetObjectCodeGridSpec, ViewDataTyped.BudgetObjectCodeGridName, ViewDataTyped.BudgetObjectCodeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-    </div>
+   <div class="col-xs-12">
+      @Html.DhtmlxGrid(ViewDataTyped.BudgetObjectCodeGridSpec, ViewDataTyped.BudgetObjectCodeGridName, ViewDataTyped.BudgetObjectCodeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+   </div>
 </div>
+
+<link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.css" />
+<script type="text/javascript" src="../../Content/dhtmlx/dhtmlxTreeGrid/codebase/treegrid.js"></script>
+<!-- Following example from working samples; web site doc examples are missing these: -->
+<link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/samples/common/index.css?v=6.4.2">
+<link rel="stylesheet" href="../../Content/dhtmlx/dhtmlxTreeGrid/samples/common/treegrid.css?v=6.4.2">
+
+<br/>
+
+<!-- Section stuff seems required, at least when we follow the examples in the Samples folder -->
+<h2 class="pageTitle">Budget Object Code Groups</h2>
+
+<div id="BudgetObjectCodesGridTreeMetaDivID" style="width: 1138.17px;">
+   <section class="dhx_sample-container dhx_sample-container--treegrid">
+      <div class="dhx_sample-container__widget" id="treegrid_container"></div>
+   </section>
+</div>
+
+@*Load our TreeGrid up*@
+<script type="text/javascript">
+   var treeGrid = new dhx.TreeGrid("treegrid_container", {
+      columns: [
+         { width: 260, id: "boc_or_bocg_id", header: [{ text: "Budget Object Code" }] },
+         { width: 260, id: "name_or_description", type: "string", header: [{ text: "Name" }] },
+         { width: 200, id: "definition", type: "string", header: [{ text: "Definition" }] },
+         { width: 200, id: "fbms_year", type: "string", header: [{ text: "FBMS Year" }] },
+         { width: 200, id: "reportable_1099", type: "string", header: [{ text: "Reportable 1099" }] },
+         { width: 200, id: "explanation_1099", type: "string", header: [{ text: "Explanation 1099" }] }
+      ]
+   });
+
+   treeGrid.data.load("@ViewDataTyped.BudgetObjectCodeGridTreeDataUrl");
+
+</script>

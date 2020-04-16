@@ -465,7 +465,9 @@ h1,h2,h3,h4,h5 {
 }
 
 .dhx_sample-container--treegrid{
-	max-width: 938px;
+   /*max-width: 938px;*/	
+   /* This is the Sitka width */
+   max-width: 1138px;
 }
 
 .dhx_sample-nav ol {
