@@ -12,7 +12,6 @@
         // These are the columns to be displayed
 
         // "Budget Object Code"
-
         public string boc_or_bocg_id;
         public string name_or_description;
         public string definition;
