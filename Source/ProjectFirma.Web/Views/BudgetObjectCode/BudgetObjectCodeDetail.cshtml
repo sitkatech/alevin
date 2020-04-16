@@ -71,11 +71,17 @@
                     <div class="col-xs-5 fieldLabel text-right">Budget Object Code Item Description</div>
                     <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeItemDescription</div>
                 </div>
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">Budget Object Code Definition</div>
-                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeDefinition</div>
-                </div>
-                <div class="row">
+               <div class="row">
+                  <div class="col-xs-5 fieldLabel text-right">Budget Object Code Definition</div>
+                  <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeDefinition</div>
+               </div>
+               
+               <div class="row">
+                  <div class="col-xs-5 fieldLabel text-right">Parent Budget Object Group</div>
+                  <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeGroup.GetDisplayName()</div>
+               </div>
+
+               <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">FBMS Year</div>
                     <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.FbmsYear</div>
                 </div>
