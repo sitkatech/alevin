@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public abstract class ExpectedFundingByCostType : LtInfo.Common.Mvc.TypedWebViewPage<ExpectedFundingByCostTypeViewData, ExpectedFundingByCostTypeViewModel>
+    public abstract class ExpectedFundingByCostType : LtInfo.Common.Mvc.TypedWebViewPage<ExpectedFundingByCostTypeViewData>
     {
         
     }
