@@ -46,5 +46,18 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             this.reportable_1099 = budgetObjectCode.Reportable1099.ToString();
             this.explanation_1099 = budgetObjectCode.Explanation1099;
         }
+
+        // Grouping version 2
+        public BudgetObjectCodeGroupTreeGridBudgetObjectCodeLeafJson(ProjectFirmaModels.Models.BudgetObjectCode budgetObjectCode, string relevantFbmsYearLinks)
+        {
+            this.parent = budgetObjectCode.BudgetObjectCodeGroupID;
+
+            this.boc_or_bocg_id = budgetObjectCode.BudgetObjectCodeName;
+            this.name_or_description = budgetObjectCode.BudgetObjectCodeItemDescription;
+            this.definition = budgetObjectCode.BudgetObjectCodeDefinition;
+            this.fbms_year = relevantFbmsYearLinks;
+            this.reportable_1099 = budgetObjectCode.Reportable1099.ToString();
+            this.explanation_1099 = budgetObjectCode.Explanation1099;
+        }
     }
 }

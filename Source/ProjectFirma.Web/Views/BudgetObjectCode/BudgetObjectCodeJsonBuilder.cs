@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.BudgetObjectCode
 {
@@ -27,20 +31,14 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             var bocNamesToBocDictionary = GetBocToYearsDictionary(budgetObjectCodes);
             foreach (var currentBocDictEntry in bocNamesToBocDictionary)
             {
-                // We take the one from the latest year; this isn't perfect but seems most likely to be
-                // what the user expects to see for the prototype of this BOC.
+                // We take the one from the latest year as the one whose details we display.
+                // This isn't perfect but seems most likely to be what the user expects to see for the prototype of this BOC.
                 var currentBoc = currentBocDictEntry.Value.First();
-                var relevantYears = currentBocDictEntry.Value.Select(boc => boc.FbmsYear).ToList();
-                budgetObjectsToSerialize.Add(new BudgetObjectCodeGroupTreeGridBudgetObjectCodeLeafJson(currentBoc, relevantYears));
-            }
 
-            /*
-             // Original
-            foreach (var currentBudgetObjectCode in budgetObjectCodes)
-            {
-                budgetObjectsToSerialize.Add(new BudgetObjectCodeGroupTreeGridBudgetObjectCodeLeafJson(currentBudgetObjectCode));
+                // Make an individual link for each FBMS Year variant, so the user can drill down to the details if they want to.
+                string relevantYearsAsListOfHtmlLinks = MakeBocConjoinedLinkString(currentBocDictEntry);
+                budgetObjectsToSerialize.Add(new BudgetObjectCodeGroupTreeGridBudgetObjectCodeLeafJson(currentBoc, relevantYearsAsListOfHtmlLinks));
             }
-            */
 
             string resultingJson = LtInfo.Common.JsonTools.SerializeObject(budgetObjectsToSerialize);
             return resultingJson;
@@ -49,9 +47,16 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
         public static Dictionary<string, List<ProjectFirmaModels.Models.BudgetObjectCode>> 
                             GetBocToYearsDictionary(List<ProjectFirmaModels.Models.BudgetObjectCode> budgetObjectCodes)
         {
-            // First, build a list of Possible BOC name prefixes to the specific BOC records.
+            // Build a list of Possible BOC name prefixes to the specific BOC records.
             var bocNameToBocRecords = budgetObjectCodes.GroupBy(boc => boc.BudgetObjectCodeName).ToDictionary(g => g.Key, g => g.ToList());
             return bocNameToBocRecords;
+        }
+
+        public static String MakeBocConjoinedLinkString(KeyValuePair<string, List<ProjectFirmaModels.Models.BudgetObjectCode>> currentBocDictEntry)
+        {
+            List<HtmlString> htmlLinks = currentBocDictEntry.Value
+                .Select(boc => UrlTemplate.MakeHrefString(boc.GetDetailUrl(), boc.FbmsYear.ToString())).ToList();
+            return String.Join(", ", htmlLinks);
         }
     }
 }
