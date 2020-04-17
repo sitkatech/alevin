@@ -397,6 +397,7 @@
     <Compile Include="Views\ProjectCreate\AttachmentsAndNotesViewModel.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeContainer.cs" />
     <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeContainerViewData.cs" />
+    <Compile Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceByCostTypeViewDataHelper.cs" />
     <Compile Include="Views\Project\UserProjectGridSpec.cs" />
     <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cs" />
     <Compile Include="Views\ExcelUpload\ManageExcelUploadsAndEtlViewData.cs" />

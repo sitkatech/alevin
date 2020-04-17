@@ -59,7 +59,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectBudgetSummaryViewData = projectBudgetSummaryViewData;
             ProjectBudgetsAnnualByCostTypeViewData = projectBudgetsAnnualByCostTypeViewData;
 
-            bool showApproveAndReturnButton = projectUpdateBatch.IsSubmitted() && new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession, Project).HasPermission;
+
+            bool showApproveAndReturnButton =
+                ProjectFundingSourceByCostTypeViewDataHelper.ShowApproveAndReturnButtonForUpdateWorkflow(projectUpdateBatch,
+                    currentFirmaSession);
             ViewDataForPartial = new EditProjectFundingSourceBudgetByCostTypeViewData(viewDataForAngularClass, ProjectFundingSourceBudgetViewEnum.Update, projectUpdateBatch, projectUpdateStatus.IsBudgetsUpdated, showApproveAndReturnButton);
             ViewModelForPartial = viewModelForPartial;
 
