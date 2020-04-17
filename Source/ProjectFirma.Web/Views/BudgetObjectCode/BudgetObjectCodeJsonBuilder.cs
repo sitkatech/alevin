@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             {
                 // We take the one from the latest year as the one whose details we display.
                 // This isn't perfect but seems most likely to be what the user expects to see for the prototype of this BOC.
-                var currentBoc = currentBocDictEntry.Value.First();
+                var currentBoc = currentBocDictEntry.Value.OrderBy(boc => boc.FbmsYear).Last();
 
                 // Make an individual link for each FBMS Year variant, so the user can drill down to the details if they want to.
                 string relevantYearsAsListOfHtmlLinks = MakeBocConjoinedLinkString(currentBocDictEntry);
