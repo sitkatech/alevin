@@ -262,7 +262,7 @@ namespace ProjectFirma.Web.Controllers
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
             //Project Running Balance
-            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority).ToList();
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
             var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
             var obligationItemInvoiceRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
             var projectRunningBalanceRecords = new List<ProjectRunningBalanceRecord>();
@@ -1117,7 +1117,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         {
             var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
             var project = projectPrimaryKey.EntityObject;
-            var obligationItemInvoices = project.CostAuthorityProjects.SelectMany(cap => cap.ReclamationCostAuthority.WbsElementObligationItemInvoices).ToList();
+            var obligationItemInvoices = project.CostAuthorityProjects.SelectMany(cap => cap.CostAuthority.WbsElementObligationItemInvoices).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -1128,7 +1128,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
             var project = projectPrimaryKey.EntityObject;
             var obligationItemBudgets = project.CostAuthorityProjects
-                .SelectMany(cap => cap.ReclamationCostAuthority.WbsElementObligationItemBudgets).ToList();
+                .SelectMany(cap => cap.CostAuthority.WbsElementObligationItemBudgets).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }

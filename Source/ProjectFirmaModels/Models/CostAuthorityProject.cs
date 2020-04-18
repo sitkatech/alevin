@@ -4,7 +4,7 @@
     {
         public string GetAuditDescriptionString()
         {
-            return $"CostAuthorityProject --CostAuthorityProjectID: {CostAuthorityProjectID} - ReclamationCostAuthorityID: {this.ReclamationCostAuthorityID} = {this.ReclamationCostAuthority?.GetAuditDescriptionString()} - ProjectID: {this.ProjectID} = {this.Project?.GetAuditDescriptionString()}";
+            return $"CostAuthorityProject --CostAuthorityProjectID: {CostAuthorityProjectID} - ReclamationCostAuthorityID: {this.CostAuthorityID} = {this.CostAuthority?.GetAuditDescriptionString()} - ProjectID: {this.ProjectID} = {this.Project?.GetAuditDescriptionString()}";
         }
     }
 }

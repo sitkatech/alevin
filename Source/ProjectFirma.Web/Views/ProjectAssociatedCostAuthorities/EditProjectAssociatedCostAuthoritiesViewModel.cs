@@ -48,8 +48,8 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         public EditProjectAssociatedCostAuthoritiesViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
             SelectedReclamationCostAuthorityIDs = project.CostAuthorityProjects
-                .Select(x => x.ReclamationCostAuthorityID).ToList();
-            PrimaryReclamationCostAuthorityID = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthorityID;
+                .Select(x => x.CostAuthorityID).ToList();
+            PrimaryReclamationCostAuthorityID = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.CostAuthorityID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
@@ -69,8 +69,8 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
             // from it. We'd like to do better, but aren't sure how. -- SLG & TK 2/14/2020
             if (updatedCostAuthorityIDs.Any())
             {
-                var projectReclamationCostAuthoritiesUpdatedIds = updatedCostAuthorityIDs.Select(x => x.ReclamationCostAuthorityID).ToList();
-                var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.CostAuthorityProjects.Where(x => x.ProjectID == project.ProjectID && projectReclamationCostAuthoritiesUpdatedIds.Contains(x.ReclamationCostAuthorityID) && x.IsPrimaryProjectCawbs).ToList();
+                var projectReclamationCostAuthoritiesUpdatedIds = updatedCostAuthorityIDs.Select(x => x.CostAuthorityID).ToList();
+                var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.CostAuthorityProjects.Where(x => x.ProjectID == project.ProjectID && projectReclamationCostAuthoritiesUpdatedIds.Contains(x.CostAuthorityID) && x.IsPrimaryProjectCawbs).ToList();
                 onDiskRecordsToTemporarilyUpdate.ForEach(odr => odr.IsPrimaryProjectCawbs = false);
                 HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(MultiTenantHelpers.GetTenantAttribute().TenantID);
             }
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
             project.CostAuthorityProjects.Merge(
                 updatedCostAuthorityIDs,
                 allProjectReclamationCostAuthoritiesInDatabase.Local,  
-                (x, y) => x.ProjectID == y.ProjectID && x.ReclamationCostAuthorityID == y.ReclamationCostAuthorityID, 
+                (x, y) => x.ProjectID == y.ProjectID && x.CostAuthorityID == y.CostAuthorityID, 
                 (x, y) => x.IsPrimaryProjectCawbs = y.IsPrimaryProjectCawbs,
                 HttpRequestStorage.DatabaseEntities);
         }
