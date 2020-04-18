@@ -43,13 +43,13 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForNoFundingSourceIdentified { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForSecuredFunding { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTargetedFunding { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPlanningDesignStartYear { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
-
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProjectedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForObligatedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForExpendedFunding { get; }
 
         //The following fields are only for the Update workflow
         public string RefreshUrl { get; }
@@ -67,12 +67,14 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
             FieldDefinitionForNoFundingSourceIdentified = FieldDefinitionEnum.NoFundingSourceIdentified.ToType();
-            FieldDefinitionForSecuredFunding = FieldDefinitionEnum.SecuredFunding.ToType();
-            FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
             FieldDefinitionForPlanningDesignStartYear = FieldDefinitionEnum.PlanningDesignStartYear.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
             FieldDefinitionForEstimatedTotalCost = FieldDefinitionEnum.EstimatedTotalCost.ToType();
             FieldDefinitionForEstimatedAnnualOperatingCost = FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType();
+            FieldDefinitionForProjectedFunding = FieldDefinitionEnum.ProjectedFunding.ToType();
+            FieldDefinitionForObligatedFunding = FieldDefinitionEnum.ObligatedFunding.ToType();
+            FieldDefinitionForExpendedFunding = FieldDefinitionEnum.ExpendedFunding.ToType();
+
         }
 
         public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular, ProjectFundingSourceBudgetViewEnum viewEnum, ProjectUpdateBatch projectUpdateBatch, bool projectUpdateStatusIsBudgetsUpdated, bool updateShowApproveAndReturnButton) : this(editProjectFundingSourceBudgetByCostTypeViewDataForAngular, viewEnum)

@@ -43,10 +43,11 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForSecuredFunding { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTargetedFunding { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProjectedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForObligatedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForExpendedFunding { get; }
 
         public ProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentFirmaSession)
         {
@@ -54,10 +55,11 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
-            FieldDefinitionForSecuredFunding = FieldDefinitionEnum.SecuredFunding.ToType();
-            FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
             FieldDefinitionForEstimatedTotalCost = FieldDefinitionEnum.EstimatedTotalCost.ToType();
             FieldDefinitionForEstimatedAnnualOperatingCost = FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType();
+            FieldDefinitionForProjectedFunding = FieldDefinitionEnum.ProjectedFunding.ToType();
+            FieldDefinitionForObligatedFunding = FieldDefinitionEnum.ObligatedFunding.ToType();
+            FieldDefinitionForExpendedFunding = FieldDefinitionEnum.ExpendedFunding.ToType();
 
             ProjectFundingSourceCostTypeAmounts = projectFundingSourceCostTypeAmounts;
             var calendarYears = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();

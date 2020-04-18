@@ -178,29 +178,29 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</span>
                                     </th>
                                     <th ng-repeat-start="calendarYear in calendarYearRange">
-                                        <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                                        <span> @ViewDataTyped.FieldDefinitionForProjectedFunding.GetFieldDefinitionLabel()</span>
                                     </th>
                                     <th class="sourcedField">
                                         <span>
-                                            @*@ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()*@
-                                            Obligated Funding
+                                            @ViewDataTyped.FieldDefinitionForObligatedFunding.GetFieldDefinitionLabel()
                                         </span>
                                     </th>
                                     <th ng-repeat-end class="sourcedField">
-                                        Expended Funding
+                                        <span>
+                                            @ViewDataTyped.FieldDefinitionForObligatedFunding.GetFieldDefinitionLabel()
+                                        </span>
                                     </th>
                                     @*Repeat for the Totals Section*@
                                     <th>
-                                        <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                                        <span> @ViewDataTyped.FieldDefinitionForProjectedFunding.GetFieldDefinitionLabel()</span>
                                     </th>
                                     <th class="sourcedField">
                                         <span>
-                                            @*@ViewDataTyped.FieldDefinitionForSecuredFunding.GetFieldDefinitionLabel()*@
-                                            Obligated Funding
+                                            @ViewDataTyped.FieldDefinitionForObligatedFunding.GetFieldDefinitionLabel()
                                         </span>
                                     </th>
                                     <th class="sourcedField">
-                                        <span>Expended Funding</span>
+                                        <span>@ViewDataTyped.FieldDefinitionForExpendedFunding.GetFieldDefinitionLabel()</span>
                                     </th>
                                 </tr>
                             </thead>
@@ -333,13 +333,19 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <span ng-show="shouldShowFundingSources()"> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource)</span>
                                     </th>
                                     <th>
-                                        <span ng-show="shouldShowFundingSources()">Each Year @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                                        <span ng-show="shouldShowFundingSources()">
+                                            Each Year @ViewDataTyped.FieldDefinitionForProjectedFunding.GetFieldDefinitionLabel()
+                                        </span>
                                     </th>
                                     <th class="sourcedField">
-                                        <span ng-show="shouldShowFundingSources()">Total Reported Obligated Funding</span>
+                                        <span ng-show="shouldShowFundingSources()">
+                                            Total Reported @ViewDataTyped.FieldDefinitionForObligatedFunding.GetFieldDefinitionLabel()
+                                        </span>
                                     </th>
                                     <th class="sourcedField">
-                                        Total Reported Expended Funding
+                                        <span ng-show="shouldShowFundingSources()">
+                                            Total Reported @ViewDataTyped.FieldDefinitionForExpendedFunding.GetFieldDefinitionLabel()
+                                        </span>
                                     </th>
                                     @* 4/10/2020 TK - I am not sure totals are wanted since there are not multiple years in this grid and we are not summing across funding type dollars *@
                                     @*<th style="text-align: right">Total</th>*@
@@ -441,7 +447,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <div style="margin-left: 20px; margin-right: 20px;">
                             <table class="table table-bordered table-condensed" style="overflow: scroll;">
                                 <tr class="summaryTableHeader">
-                                    <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForTargetedFunding)</th>
+                                    <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForProjectedFunding)</th>
                                     <th>@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</th>
                                     <th ng-if="budgetVariesByYear()">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedTotalCost, "TOTAL")</th>
                                     <th ng-if="budgetSameEachYear()">@Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForEstimatedAnnualOperatingCost, "TOTAL")</th>

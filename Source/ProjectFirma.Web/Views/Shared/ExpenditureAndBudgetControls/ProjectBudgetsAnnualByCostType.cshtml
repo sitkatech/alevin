@@ -66,24 +66,24 @@
                         @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
                         {
                             <th class="text-right">
-                                <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                                <span> @ViewDataTyped.FieldDefinitionForProjectedFunding.GetFieldDefinitionLabel()</span>
                             </th>
                             <th class="sourcedField text-right">
-                                <span> Obligated Funding</span>
+                                <span> @ViewDataTyped.FieldDefinitionForObligatedFunding.GetFieldDefinitionLabel()</span>
                             </th>
                             <th class="sourcedField text-right">
-                                <span> Expended Funding</span>
+                                <span> @ViewDataTyped.FieldDefinitionForExpendedFunding.GetFieldDefinitionLabel()</span>
                             </th>
                         }
                         @* For the Totals section*@
                         <th class="text-right">
-                            <span> @ViewDataTyped.FieldDefinitionForTargetedFunding.GetFieldDefinitionLabel()</span>
+                            <span> @ViewDataTyped.FieldDefinitionForProjectedFunding.GetFieldDefinitionLabel()</span>
                         </th>
                         <th class="sourcedField text-right">
-                            <span> Obligated Funding</span>
+                            <span> @ViewDataTyped.FieldDefinitionForObligatedFunding.GetFieldDefinitionLabel()</span>
                         </th>
                         <th class="sourcedField text-right">
-                            <span> Expended Funding</span>
+                            <span> @ViewDataTyped.FieldDefinitionForExpendedFunding.GetFieldDefinitionLabel()</span>
                         </th>
                     </tr>
                     </thead>
@@ -167,13 +167,13 @@
                             <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType)</span>
                         </th>
                         <th class="text-right">
-                            <span>Per Year Projected Funding</span>
+                            <span>Per Year @ViewDataTyped.FieldDefinitionForProjectedFunding.GetFieldDefinitionLabel()</span>
                         </th>
                         <th class="sourcedField text-right">
-                            <span>Total Reported Obligated Funding</span>
+                            <span>Total Reported @ViewDataTyped.FieldDefinitionForObligatedFunding.GetFieldDefinitionLabel()</span>
                         </th>
                         <th class="sourcedField text-right">
-                            <span>Total Reported Expended Funding</span>
+                            <span>Total Reported @ViewDataTyped.FieldDefinitionForExpendedFunding.GetFieldDefinitionLabel()</span>
                         </th>
                     </tr>
                     </thead>
