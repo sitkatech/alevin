@@ -28,7 +28,7 @@ namespace ProjectFirmaModels.Models
             this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
             this.AgreementCostAuthorities = new HashSet<AgreementCostAuthority>();
             this.CostAuthorityAgreementRequests = new HashSet<CostAuthorityAgreementRequest>();
-            this.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority = new HashSet<CostAuthorityProject>();
+            this.CostAuthorityProjects = new HashSet<CostAuthorityProject>();
             this.ReclamationStagingCostAuthorityAgreements = new HashSet<ReclamationStagingCostAuthorityAgreement>();
         }
 
@@ -94,7 +94,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || AgreementCostAuthorities.Any() || CostAuthorityAgreementRequests.Any() || CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Any() || ReclamationStagingCostAuthorityAgreements.Any();
+            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || AgreementCostAuthorities.Any() || CostAuthorityAgreementRequests.Any() || CostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreements.Any();
         }
 
         /// <summary>
@@ -145,7 +145,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.ToList())
+            foreach(var x in CostAuthorityProjects.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -182,7 +182,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ICollection<AgreementCostAuthority> AgreementCostAuthorities { get; set; }
         public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequests { get; set; }
-        public virtual ICollection<CostAuthorityProject> CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority { get; set; }
+        public virtual ICollection<CostAuthorityProject> CostAuthorityProjects { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
         public virtual HCategory HabitatCategory { get; set; }
         public virtual Basin Basin { get; set; }

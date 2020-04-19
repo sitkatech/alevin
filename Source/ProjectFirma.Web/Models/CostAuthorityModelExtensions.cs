@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static List<Project> GetAssociatedProjects(this CostAuthority costAuthority)
         {
-            var projects = costAuthority.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Select(x => x.Project).ToList();
+            var projects = costAuthority.CostAuthorityProjects.Select(cap => cap.Project).ToList();
             return projects;
         }
 
