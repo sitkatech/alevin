@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Results
                         case TaxonomyLevelEnum.Branch:
                             return x.Project.TaxonomyLeaf.TaxonomyBranchID;
                         case TaxonomyLevelEnum.Leaf:
-                            return x.Project.TaxonomyLeafID;
+                            return x.Project.TaxonomyLeaf.TaxonomyLeafID;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }

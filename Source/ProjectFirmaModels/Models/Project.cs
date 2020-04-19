@@ -33,6 +33,17 @@ namespace ProjectFirmaModels.Models
 
         public string GetDisplayName() => ProjectName;
 
+        /// <summary>
+        /// In normal 
+        /// </summary>
+        public TaxonomyLeaf TaxonomyLeaf
+        {
+            get
+            {
+                return this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.TaxonomyLeaf;
+            }
+        }
+
         public Organization GetPrimaryContactOrganization()
         {
             return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;

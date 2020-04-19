@@ -224,8 +224,7 @@ namespace ProjectFirma.Web.Controllers
             // To keep a 100% consistent time, we snapshot it so it doesn't change between calls
             var now = DateTime.Now;
 
-            var project = new Project(viewModel.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID,
-                viewModel.ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID,
+            var project = new Project(viewModel.ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,

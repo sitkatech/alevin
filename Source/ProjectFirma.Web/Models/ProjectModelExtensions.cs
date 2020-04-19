@@ -658,7 +658,7 @@ namespace ProjectFirma.Web.Models
             {
                 feature.Properties.Add("ProjectID", project.ProjectID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("TaxonomyBranchID", project.TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("TaxonomyLeafID", project.TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyLeafID", project.TaxonomyLeaf.TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", String.Join(",", project.ProjectClassifications.Select(x => x.ClassificationID)));
 
                 if (useDetailedCustomPopup)
