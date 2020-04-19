@@ -46,7 +46,8 @@ namespace ProjectFirmaModels.Models
 
         public List<Project> GetProjects()
         {
-            var costAuthorityProjects = this.CostAuthorities.Select(ca => ca.CostAuthorityProjects.Single(cap => cap.IsPrimaryProjectCawbs));
+            // Notice we do NOT filter by IsPrimaryProjectCawbs when navigating in this direction.
+            var costAuthorityProjects = this.CostAuthorities.SelectMany(ca => ca.CostAuthorityProjects).ToList();
             var projects = costAuthorityProjects.Select(cap => cap.Project).ToList();
             return projects;
         }

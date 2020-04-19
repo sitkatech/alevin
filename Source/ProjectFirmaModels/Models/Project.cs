@@ -35,7 +35,8 @@ namespace ProjectFirmaModels.Models
 
         public TaxonomyLeaf GetTaxonomyLeaf()
         {
-            return this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.TaxonomyLeaf;
+            var primaryCostAuthorityProject = this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs);
+            return primaryCostAuthorityProject?.CostAuthority?.TaxonomyLeaf;
         }
 
         public Organization GetPrimaryContactOrganization()

@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
         }
 
-        public ProjectTaxonomyViewData(ProjectFirmaModels.Models.Project project, TaxonomyLevel taxonomyLevel) : this(project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunk, project.GetTaxonomyLeaf().TaxonomyBranch, project.GetTaxonomyLeaf(), project, taxonomyLevel)
+        public ProjectTaxonomyViewData(ProjectFirmaModels.Models.Project project, TaxonomyLevel taxonomyLevel) : this(project.GetTaxonomyLeaf()?.TaxonomyBranch.TaxonomyTrunk, project.GetTaxonomyLeaf()?.TaxonomyBranch, project.GetTaxonomyLeaf(), project, taxonomyLevel)
         {
         }
 
