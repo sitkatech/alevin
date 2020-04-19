@@ -51,8 +51,13 @@ inner join #ProjectCostAuthorityTaxonomyLeafTemp as pcat on p.ProjectID = pcat.P
 where pcat.TaxonomyLeafID is not null
 
 -- These are the missing CAWBS we've never encountered before, and would need definitions to add.
--- We'll have to get back to these
+-- We'll have to get back to these.
 /*
 select * from #ProjectCostAuthorityTaxonomyLeafTemp
 where CostAuthorityID is  null
 */
+
+
+
+
+

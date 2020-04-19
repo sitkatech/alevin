@@ -16,4 +16,22 @@ WHERE ProjectName in (
 'x Research, Monitoring & Evaluation - Col/Snk FCRP'
 )
 
+-- Left column ("field1" in the reference spreadsheet) deletes
+DELETE from dbo.Project
+WHERE ProjectName in (
+'General Habitat Colville Water Acq Proposed Proj',
+'Methow General Technical Assistance USGS Proposed',
+'R M E John Day Basin Pilot Detailed Needs Asment'
+)
+
+-- This one needs a little extra elbow grease.
+delete from Reclamation.CostAuthorityProject
+where ProjectID = (select ProjectID from dbo.Project where ProjectName = '3248 READY TO USE')
+
+delete from dbo.Project
+where ProjectName = '3248 READY TO USE'
+
+
+--rollback tran
+
 --ROLLBACK tran
