@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this TaxonomyTrunk taxonomyTrunk, Person currentPerson)
         {
-            return taxonomyTrunk.TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.Projects)).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
+            return taxonomyTrunk.TaxonomyBranches.SelectMany(x => x.TaxonomyLeafs.SelectMany(y => y.GetProjects())).ToList().GetActiveProjectsAndProposals(currentPerson.CanViewProposals());
         }
 
         public static FancyTreeNode ToFancyTreeNode(this TaxonomyTrunk taxonomyTrunk, FirmaSession currentFirmaSession)

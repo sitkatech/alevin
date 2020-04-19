@@ -44,14 +44,11 @@ namespace ProjectFirmaModels.Models
             return TaxonomyLeafPerformanceMeasures.GroupBy(x => x.PerformanceMeasure).ToList();
         }
 
-        public List<Project> Projects
+        public List<Project> GetProjects()
         {
-            get
-            {
-                var costAuthorityProjects = this.CostAuthorities.Select(ca => ca.CostAuthorityProjects.Single(cap => cap.IsPrimaryProjectCawbs));
-                var projects = costAuthorityProjects.Select(cap => cap.Project).ToList();
-                return projects;
-            }
+            var costAuthorityProjects = this.CostAuthorities.Select(ca => ca.CostAuthorityProjects.Single(cap => cap.IsPrimaryProjectCawbs));
+            var projects = costAuthorityProjects.Select(cap => cap.Project).ToList();
+            return projects;
         }
     }
 }

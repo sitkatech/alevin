@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
 
-            var primaryTaxonomyLeafProjects = taxonomyLeaf.Projects.ToList()
+            var primaryTaxonomyLeafProjects = taxonomyLeaf.GetProjects().ToList()
                 .GetActiveProjectsAndProposals(currentPersonCanViewProposals)
                 .Where(x => x.ProjectStage.ShouldShowOnMap())
                 .ToList();

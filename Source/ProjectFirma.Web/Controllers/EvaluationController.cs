@@ -333,7 +333,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsThatAreNotSelectedAlready = projectsThatAreNotSelectedAlready.Select(x => x.ProjectID).ToList();
             var projectSimples = projectsThatAreNotSelectedAlready.Select(x => new ProjectSimple(x)).ToList();
 
-            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.Projects.Any(y => projectIDsThatAreNotSelectedAlready.Contains(y.ProjectID))).ToList();
+            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.GetProjects().Any(y => projectIDsThatAreNotSelectedAlready.Contains(y.ProjectID))).ToList();
             var taxonomyLeafSimples = taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
             var taxonomyBranches = taxonomyLeaves.Select(x => x.TaxonomyBranch).Distinct();
