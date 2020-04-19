@@ -60,7 +60,7 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.CompletionYear.ToType().GetFieldDefinitionLabel(), x => x.CompletionYear);
 
 
-            AddColumn($"Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}", x => x.TaxonomyLeaf.GetDisplayName());
+            AddColumn($"Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}", x => x.GetTaxonomyLeaf().GetDisplayName());
             var enableSecondaryProjectTaxonomyLeaf = MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf;
             if (enableSecondaryProjectTaxonomyLeaf)
             {

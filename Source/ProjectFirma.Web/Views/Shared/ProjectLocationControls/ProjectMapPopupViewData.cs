@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             KeyPhoto = project.GetKeyPhoto();
             Duration = project.GetDuration();
             ProjectStage = project.ProjectStage;
-            TaxonomyLeaf = project.TaxonomyLeaf;
+            TaxonomyLeaf = project.GetTaxonomyLeaf();
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "Unknown";
             
             var dict = new Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string>();

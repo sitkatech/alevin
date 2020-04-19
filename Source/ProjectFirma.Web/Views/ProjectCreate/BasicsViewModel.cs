@@ -88,7 +88,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         public BasicsViewModel(ProjectFirmaModels.Models.Project project)
         {
-            TaxonomyLeafID = project.TaxonomyLeaf.TaxonomyLeafID;
+            TaxonomyLeafID = project.GetTaxonomyLeaf().TaxonomyLeafID;
             SecondaryProjectTaxonomyLeafIDs = project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeafID);
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
             project.ProposingPersonID = currentFirmaSession.PersonID;
-            project.TaxonomyLeaf.TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
+            project.GetTaxonomyLeaf().TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;

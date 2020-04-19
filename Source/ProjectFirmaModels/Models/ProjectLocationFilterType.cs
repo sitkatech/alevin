@@ -34,7 +34,7 @@ namespace ProjectFirmaModels.Models
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID);
+            return project => filterValues.Contains(project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunkID);
         }
     }
 
@@ -42,7 +42,7 @@ namespace ProjectFirmaModels.Models
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyBranchID);
+            return project => filterValues.Contains(project.GetTaxonomyLeaf().TaxonomyBranchID);
         }
     }
 
@@ -50,7 +50,7 @@ namespace ProjectFirmaModels.Models
     {
         public override Expression<Func<Project, bool>> GetFilterFunction(List<int> filterValues)
         {
-            return project => filterValues.Contains(project.TaxonomyLeaf.TaxonomyLeafID);
+            return project => filterValues.Contains(project.GetTaxonomyLeaf().TaxonomyLeafID);
         }
     }
 

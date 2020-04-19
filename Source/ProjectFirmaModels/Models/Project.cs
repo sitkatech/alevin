@@ -33,15 +33,9 @@ namespace ProjectFirmaModels.Models
 
         public string GetDisplayName() => ProjectName;
 
-        /// <summary>
-        /// In normal 
-        /// </summary>
-        public TaxonomyLeaf TaxonomyLeaf
+        public TaxonomyLeaf GetTaxonomyLeaf()
         {
-            get
-            {
-                return this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.TaxonomyLeaf;
-            }
+            return this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.TaxonomyLeaf;
         }
 
         public Organization GetPrimaryContactOrganization()
@@ -188,7 +182,7 @@ namespace ProjectFirmaModels.Models
 
         public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()
         {
-            return TaxonomyLeaf.TaxonomyBranch;
+            return GetTaxonomyLeaf().TaxonomyBranch;
         }
 
         public List<GeospatialArea> GetCanStewardProjectsGeospatialAreas()

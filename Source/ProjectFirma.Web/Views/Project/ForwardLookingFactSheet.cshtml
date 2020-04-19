@@ -307,10 +307,10 @@
             <div class="projectTaxonomy">
                 @if (MultiTenantHelpers.GetTaxonomyLevel() != TaxonomyLevel.Leaf)
                 {
-                    @ViewDataTyped.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName
+                    @ViewDataTyped.Project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyBranchName
                     <span class="glyphicon glyphicon-chevron-right"></span>
                 }
-                @ViewDataTyped.Project.TaxonomyLeaf.TaxonomyLeafName
+                @ViewDataTyped.Project.GetTaxonomyLeaf().TaxonomyLeafName
             </div>
         </div>
     </div>
