@@ -103,8 +103,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
                 (x, y) =>
                 {
-                    x.SecuredAmount = y.SecuredAmount;
-                    x.TargetedAmount = y.TargetedAmount;
+                    x.ProjectedAmount = y.ProjectedAmount;
                 }, HttpRequestStorage.DatabaseEntities);
 
             if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
@@ -149,7 +148,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
             foreach (var projectFundingSourceBudget in ViewModelForAngular.ProjectFundingSourceBudgets)
             {
-                if (projectFundingSourceBudget.AnyValueIsNull())
+                if (projectFundingSourceBudget.IsProjectedAmountValueNull())
                 {
                     var fundingSource =
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>

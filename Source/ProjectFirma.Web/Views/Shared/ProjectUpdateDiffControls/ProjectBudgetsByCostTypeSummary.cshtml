@@ -184,14 +184,18 @@
                                 @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                                 {
                                     <td class="@calendarYear.DisplayCssClass" style="text-align: right">
-                                        <span class="normalDollars @calendarYear.DisplayCssClass">@(currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear) != null ? currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear).SecuredAmount.ToIntString() : string.Empty)</span>
+                                        <span class="normalDollars @calendarYear.DisplayCssClass">
+                                            @*@(currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear) != null ? currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear).SecuredAmount.ToIntString() : string.Empty)*@
+                                        </span>
                                     </td>
                                     <td class="@calendarYear.DisplayCssClass" style="text-align: right">
-                                        <span class="normalDollars @calendarYear.DisplayCssClass">@(currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear) != null ? currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear).TargetedAmount.ToIntString() : string.Empty)</span>
+                                        <span class="normalDollars @calendarYear.DisplayCssClass">@(currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear) != null ? currentCostType.CalendarYearBudgetAmounts.SingleOrDefault(x => x.CalendarYear == calendarYear.CalendarYear).ProjectedAmount.ToIntString() : string.Empty)</span>
                                     </td>
                                 }
                                 <th style="text-align: right">
-                                    <span class="normalDollars">@currentCostType.CalendarYearBudgetAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount).ToIntString()</span>
+                                    <span class="normalDollars">
+                                        @*@currentCostType.CalendarYearBudgetAmounts.Sum(x => x.SecuredAmount + x.ProjectedAmount).ToIntString()*@
+                                    </span>
                                 </th>
                             </tr>
                         }
@@ -202,14 +206,18 @@
                         @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear).ToList())
                         {
                             <th class="@calendarYear.DisplayCssClass" style="text-align: right">
-                                <span class="normalDollars @calendarYear.DisplayCssClass">@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.SecuredAmount).ToIntString()</span>
+                                <span class="normalDollars @calendarYear.DisplayCssClass">
+                                    @*@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.SecuredAmount).ToIntString()*@
+                                </span>
                             </th>
                             <th class="@calendarYear.DisplayCssClass" style="text-align: right">
-                                <span class="normalDollars @calendarYear.DisplayCssClass">@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.TargetedAmount).ToIntString()</span>
+                                <span class="normalDollars @calendarYear.DisplayCssClass">@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.ProjectedAmount).ToIntString()</span>
                             </th>
                         }
                         <th colspan="@(ViewDataTyped.CalendarYears.Count + 1)" style="text-align: right">
-                            <span class="normalDollars">@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.Sum(x => x.CalendarYearBudgetAmounts.Sum(y => y.SecuredAmount + y.TargetedAmount)).ToIntString()</span>
+                            <span class="normalDollars">
+                                @*@projectBudgetByCostType.ProjectCostTypeCalendarYearBudgetAmounts.Sum(x => x.CalendarYearBudgetAmounts.Sum(y => y.SecuredAmount + y.ProjectedAmount)).ToIntString()*@
+                            </span>
                         </th>
                     </tr>
                 }
@@ -218,14 +226,18 @@
                     @foreach (var calendarYear in ViewDataTyped.CalendarYears.OrderBy(x => x.CalendarYear))
                     {
                         <th style="text-align: right">
-                            <span class="normalDollars">@(ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.SecuredAmount).ToIntString())</span>
+                            <span class="normalDollars">
+                                @*@(ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.SecuredAmount).ToIntString())*@
+                            </span>
                         </th>
                         <th style="text-align: right">
-                            <span class="normalDollars">@(ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.TargetedAmount).ToIntString())</span>
+                            <span class="normalDollars">@(ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Where(x => x.CalendarYear == calendarYear.CalendarYear).Sum(x => x.ProjectedAmount).ToIntString())</span>
                         </th>
                     }
                     <th style="text-align: right">
-                        <span class="normalDollars">@ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Sum(x => x.SecuredAmount + x.TargetedAmount).ToIntString()</span>
+                        <span class="normalDollars">
+                            @*@ViewDataTyped.ProjectBudgetByCostTypes.SelectMany(x => x.ProjectCostTypeCalendarYearBudgetAmounts.SelectMany(y => y.CalendarYearBudgetAmounts)).Sum(x => x.SecuredAmount + x.ProjectedAmount).ToIntString()*@
+                        </span>
                     </th>
                 </tr>
             </table>

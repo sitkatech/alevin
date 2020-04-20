@@ -97,8 +97,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID,
                 (x, y) =>
                 {
-                    x.SecuredAmount = y.SecuredAmount;
-                    x.TargetedAmount = y.TargetedAmount;
+                    x.ProjectedAmount = y.ProjectedAmount;
                 }, HttpRequestStorage.DatabaseEntities);
         }
 
@@ -133,7 +132,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
             foreach (var projectFundingSourceBudget in ViewModelForAngular.ProjectFundingSourceBudgets)
             {
-                if (projectFundingSourceBudget.AnyValueIsNull())
+                if (projectFundingSourceBudget.IsProjectedAmountValueNull())
                 {
                     var fundingSource =
                         HttpRequestStorage.DatabaseEntities.FundingSources.Single(x =>

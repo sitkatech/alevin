@@ -154,7 +154,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             currentProjectFundingSourceBudgets.Merge(projectFundingSourceBudgetsUpdated,
                 allProjectFundingSourceBudgets,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
-                (x, y) => x.SetSecuredAndTargetedAmounts(y.SecuredAmount, y.TargetedAmount), databaseEntities);
+                (x, y) => x.SetProjectedAmount(y.ProjectedAmount), databaseEntities);
 
             // set if funding type is "Same Each Year", null out otherwise
             project.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;
@@ -210,7 +210,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             currentProjectFundingSourceBudgetUpdates.Merge(projectFundingSourceBudgetUpdatesUpdated,
                 allProjectFundingSourceBudgetUpdates,
                 (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
-                (x, y) => x.SetSecuredAndTargetedAmounts(y.SecuredAmount, y.TargetedAmount), databaseEntities);
+                (x, y) => x.SetProjectedAmount(y.ProjectedAmount), databaseEntities);
 
             // Set NoNoFundingSourceIdentifiedYet on ProjectUpdate, will be null if budget varies by year
             projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;

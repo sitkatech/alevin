@@ -24,14 +24,14 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected CostType()
         {
-            this.ProjectFundingSourceBudgets = new HashSet<ProjectFundingSourceBudget>();
-            this.ProjectFundingSourceBudgetUpdates = new HashSet<ProjectFundingSourceBudgetUpdate>();
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
             this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
             this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
             this.BudgetObjectCodesWhereYouAreTheOverrideCostType = new HashSet<BudgetObjectCode>();
             this.BudgetObjectCodeGroups = new HashSet<BudgetObjectCodeGroup>();
+            this.ProjectFundingSourceBudgets = new HashSet<ProjectFundingSourceBudget>();
+            this.ProjectFundingSourceBudgetUpdates = new HashSet<ProjectFundingSourceBudgetUpdate>();
         }
 
         /// <summary>
@@ -69,13 +69,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any() || BudgetObjectCodesWhereYouAreTheOverrideCostType.Any() || BudgetObjectCodeGroups.Any();
+            return ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any() || BudgetObjectCodesWhereYouAreTheOverrideCostType.Any() || BudgetObjectCodeGroups.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(BudgetObjectCode).Name, typeof(BudgetObjectCodeGroup).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(BudgetObjectCode).Name, typeof(BudgetObjectCodeGroup).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name};
 
 
         /// <summary>
@@ -99,16 +99,6 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteChildren(DatabaseEntities dbContext)
         {
-
-            foreach(var x in ProjectFundingSourceBudgets.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in ProjectFundingSourceBudgetUpdates.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
 
             foreach(var x in ProjectFundingSourceExpenditures.ToList())
             {
@@ -139,6 +129,16 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ProjectFundingSourceBudgets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectFundingSourceBudgetUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -148,14 +148,14 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return CostTypeID; } set { CostTypeID = value; } }
 
-        public virtual ICollection<ProjectFundingSourceBudget> ProjectFundingSourceBudgets { get; set; }
-        public virtual ICollection<ProjectFundingSourceBudgetUpdate> ProjectFundingSourceBudgetUpdates { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
         public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
         public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
         public virtual ICollection<BudgetObjectCode> BudgetObjectCodesWhereYouAreTheOverrideCostType { get; set; }
         public virtual ICollection<BudgetObjectCodeGroup> BudgetObjectCodeGroups { get; set; }
+        public virtual ICollection<ProjectFundingSourceBudget> ProjectFundingSourceBudgets { get; set; }
+        public virtual ICollection<ProjectFundingSourceBudgetUpdate> ProjectFundingSourceBudgetUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

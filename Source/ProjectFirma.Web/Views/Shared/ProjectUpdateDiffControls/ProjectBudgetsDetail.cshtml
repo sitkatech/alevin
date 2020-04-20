@@ -73,22 +73,14 @@ Source code is available upon request via <support@sitkatech.com>.
     </tr>
     @foreach (var fundingSourceRequestAmount in ViewDataTyped.FundingSourceRequestAmounts.OrderBy(x => x.FundingSource.FundingSourceName))
     {
+
         <tr class="@fundingSourceRequestAmount.DisplayCssClass">
             <td>
                 <span>@fundingSourceRequestAmount.FundingSource.GetDisplayNameAsUrl()</span>
-                <span style="font-style: italic"> - @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</span>
+                <span style="font-style: italic"> - @FieldDefinitionEnum.ProjectedFunding.ToType().GetFieldDefinitionLabel()</span>
             </td>
             <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
-                <span >@fundingSourceRequestAmount.SecuredAmount.ToStringCurrency()</span>
-            </td>
-        </tr>
-        <tr class="@fundingSourceRequestAmount.DisplayCssClass">
-            <td>
-                <span>@fundingSourceRequestAmount.FundingSource.GetDisplayNameAsUrl()</span>
-                <span style="font-style: italic"> - @FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel()</span>
-            </td>
-            <td class="@fundingSourceRequestAmount.DisplayCssClass" style="text-align: right">
-                <span >@fundingSourceRequestAmount.TargetedAmount.ToStringCurrency()</span>
+                <span >@fundingSourceRequestAmount.ProjectedAmount.ToStringCurrency()</span>
             </td>
         </tr>
     }
@@ -97,7 +89,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <tr>
             <th>Total</th>
             <th style="text-align: right">
-                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount).ToStringCurrency()</span>
+                <span >@ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.ProjectedAmount).ToStringCurrency()</span>
             </th>
         </tr>
     }
@@ -115,14 +107,14 @@ Source code is available upon request via <support@sitkatech.com>.
     {
         <tr>
             <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedTotalCost.ToType())</td>
-            <td>@((ViewDataTyped.NoFundingSourceIdentifiedYet + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount)).ToStringCurrency())</td>
+            <td>@((ViewDataTyped.NoFundingSourceIdentifiedYet + ViewDataTyped.FundingSourceRequestAmounts.Sum(x =>  x.ProjectedAmount)).ToStringCurrency())</td>
         </tr>
     }
     @if (ViewDataTyped.FundingTypeID == 2)
     {
         <tr>
             <td>@Html.LabelWithSugarFor(FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType())</td>
-            <td>@((ViewDataTyped.NoFundingSourceIdentifiedYet + ViewDataTyped.FundingSourceRequestAmounts.Sum(x => x.SecuredAmount + x.TargetedAmount)).ToStringCurrency())</td>
+            <td>@((ViewDataTyped.NoFundingSourceIdentifiedYet + ViewDataTyped.FundingSourceRequestAmounts.Sum(x =>  x.ProjectedAmount)).ToStringCurrency())</td>
         </tr>
     }
 

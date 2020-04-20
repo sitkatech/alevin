@@ -243,8 +243,7 @@ namespace ProjectFirma.Web.Controllers
                     }
                     else
                     {
-                        aggregateProjectFundingSourceBudget.SecuredAmount += x.SecuredAmount;
-                        aggregateProjectFundingSourceBudget.TargetedAmount += x.TargetedAmount;
+                        aggregateProjectFundingSourceBudget.ProjectedAmount += x.ProjectedAmount;
                     }
                 });
                 projectFundingSourceBudgets.Add(aggregateProjectFundingSourceBudget);

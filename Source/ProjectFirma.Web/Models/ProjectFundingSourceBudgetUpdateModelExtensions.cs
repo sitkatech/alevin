@@ -23,19 +23,16 @@ namespace ProjectFirma.Web.Models
             {
                 projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
                     projectFundingSourceBudget =>
-                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CalendarYear,
-                            projectFundingSourceBudget.SecuredAmount ?? 0, projectFundingSourceBudget.TargetedAmount ?? 0, projectFundingSourceBudget.CostTypeID)
+                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.ProjectedAmount ?? 0, projectFundingSourceBudget.CostTypeID)
                 ).ToList();
             }
             else
             {
                 projectUpdateBatch.ProjectFundingSourceBudgetUpdates = project.ProjectFundingSourceBudgets.Select(
                     projectFundingSourceBudget =>
-                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch,
-                            projectFundingSourceBudget.FundingSource)
+                        new ProjectFundingSourceBudgetUpdate(projectUpdateBatch, projectFundingSourceBudget.FundingSource)
                         {
-                            SecuredAmount = projectFundingSourceBudget.SecuredAmount,
-                            TargetedAmount = projectFundingSourceBudget.TargetedAmount
+                            ProjectedAmount = projectFundingSourceBudget.ProjectedAmount
                         }
                 ).ToList();
             }
@@ -51,15 +48,13 @@ namespace ProjectFirma.Web.Models
             project.FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingTypeID;
             var projectFundingSourceExpectedFundingFromProjectUpdate = projectUpdateBatch
                 .ProjectFundingSourceBudgetUpdates
-                .Select(x => new ProjectFundingSourceBudget(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), project.ProjectID, x.FundingSource.FundingSourceID, 
-                        x.SecuredAmount, x.TargetedAmount, x.CalendarYear, x.CostTypeID)
+                .Select(x => new ProjectFundingSourceBudget(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), project.ProjectID, x.FundingSource.FundingSourceID, x.ProjectedAmount, x.CalendarYear, x.CostTypeID)
                 ).ToList();
             project.ProjectFundingSourceBudgets.Merge(projectFundingSourceExpectedFundingFromProjectUpdate,
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) =>
-                {
-                    x.SecuredAmount = y.SecuredAmount;
-                    x.TargetedAmount = y.TargetedAmount;
+                { 
+                    x.ProjectedAmount = y.ProjectedAmount;
                 }, databaseEntities);
         }
     }

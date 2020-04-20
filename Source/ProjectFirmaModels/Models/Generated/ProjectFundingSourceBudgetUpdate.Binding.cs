@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectFundingSourceBudgetUpdate]
+//  Source Table: [Reclamation].[ProjectFundingSourceBudgetUpdate]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +15,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectFundingSourceBudgetUpdate] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[ProjectFundingSourceBudgetUpdate]")]
+    // Table [Reclamation].[ProjectFundingSourceBudgetUpdate] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[Reclamation].[ProjectFundingSourceBudgetUpdate]")]
     public partial class ProjectFundingSourceBudgetUpdate : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
@@ -30,13 +30,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceBudgetUpdate(int projectFundingSourceBudgetUpdateID, int projectUpdateBatchID, int fundingSourceID, decimal? securedAmount, decimal? targetedAmount, int? calendarYear, int? costTypeID) : this()
+        public ProjectFundingSourceBudgetUpdate(int projectFundingSourceBudgetUpdateID, int projectUpdateBatchID, int fundingSourceID, decimal? projectedAmount, int? calendarYear, int? costTypeID) : this()
         {
             this.ProjectFundingSourceBudgetUpdateID = projectFundingSourceBudgetUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.FundingSourceID = fundingSourceID;
-            this.SecuredAmount = securedAmount;
-            this.TargetedAmount = targetedAmount;
+            this.ProjectedAmount = projectedAmount;
             this.CalendarYear = calendarYear;
             this.CostTypeID = costTypeID;
         }
@@ -113,8 +112,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int FundingSourceID { get; set; }
-        public decimal? SecuredAmount { get; set; }
-        public decimal? TargetedAmount { get; set; }
+        public decimal? ProjectedAmount { get; set; }
         public int? CalendarYear { get; set; }
         public int? CostTypeID { get; set; }
         [NotMapped]

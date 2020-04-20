@@ -28,29 +28,27 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"Project: {ProjectID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
+            return $"Project: {ProjectID}, Funding Source: {FundingSourceID}, Request Amount: {ProjectedAmount.ToStringCurrency()}";
         }
 
-        public decimal? GetMonetaryAmount(bool isSecured)
+        public decimal? GetProjectedAmount()
         {
-            return isSecured ? SecuredAmount : TargetedAmount;
+            return ProjectedAmount;
         }
 
-        public ProjectFundingSourceBudget(int projectID, int fundingSourceID, int? calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
+        public ProjectFundingSourceBudget(int projectID, int fundingSourceID, int? calendarYear, decimal projectedAmount, int? costTypeID) : this()
         {
             ProjectFundingSourceBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             ProjectID = projectID;
             FundingSourceID = fundingSourceID;
             CalendarYear = calendarYear;
-            SecuredAmount = securedAmount;
-            TargetedAmount = targetedAmount;
+            ProjectedAmount = projectedAmount;
             CostTypeID = costTypeID;
         }
 
-        public void SetSecuredAndTargetedAmounts(decimal? securedAmount, decimal? targetedAmount)
+        public void SetProjectedAmount(decimal? projectedAmount)
         {
-            SecuredAmount = securedAmount;
-            TargetedAmount = targetedAmount;
+            ProjectedAmount = projectedAmount;
         }
     }
 }

@@ -32,17 +32,11 @@ namespace ProjectFirmaModels.Models
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
         public int ProjectCategoryID => ProjectUpdateBatch.Project.ProjectCategoryID;
 
-        public decimal GetSecuredFunding()
-        {
-            return ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any()
-                ? ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Sum(x => x.SecuredAmount.GetValueOrDefault())
-                : 0;
-        }
 
-        public decimal GetTargetedFunding()
+        public decimal GetProjectedFunding()
         {
             return ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Any()
-                ? ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Sum(x => x.TargetedAmount.GetValueOrDefault())
+                ? ProjectUpdateBatch.ProjectFundingSourceBudgetUpdates.Sum(x => x.ProjectedAmount.GetValueOrDefault())
                 : 0;
         }
 
@@ -57,10 +51,9 @@ namespace ProjectFirmaModels.Models
 
         public decimal? GetEstimatedTotalRegardlessOfFundingType()
         {
-            var securedFunding = GetSecuredFunding();
-            var targetedFunding = GetTargetedFunding();
+            var targetedFunding = GetProjectedFunding();
             var noFundingSourceIdentified = GetNoFundingSourceIdentifiedAmount();
-            return (noFundingSourceIdentified ?? 0) + securedFunding + targetedFunding;
+            return (noFundingSourceIdentified ?? 0) + targetedFunding;
         }
 
 

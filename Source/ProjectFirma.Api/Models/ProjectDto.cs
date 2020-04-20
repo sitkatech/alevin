@@ -42,8 +42,7 @@ namespace ProjectFirma.Api.Models
             LeadEntities = project.ProjectGeospatialAreas.Any() ? leadEntities.Select(x => x.GeospatialArea.GeospatialAreaName).OrderBy(x => x).ToList() : new List<string>();
             DetailUrl = $"/Project/Detail/{project.ProjectID}";
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType();
-            SecuredFunding = project.GetSecuredFunding();
-            TargetedFunding = project.GetTargetedFunding();
+            ProjectedFunding = project.GetProjectedFunding();
             NoFundingSourceIdentifiedFunding = project.GetNoFundingSourceIdentifiedAmount();
             TotalExpenditures = project.TotalExpenditures;
             if (project.ProjectLocationPoint != null)
@@ -58,12 +57,9 @@ namespace ProjectFirma.Api.Models
         public ProjectDto(Project project, List<int> fundingSourceIDs) : this(project)
         {
             // SecuredFunding and TargetingFunding are the amounts provided by the specified funding sources. The funding provided by other funding sources is considered Leveraged Funds
-            var securedFundingForFundingSources = project.GetSecuredFundingForFundingSources(fundingSourceIDs);
             var targetedFundingForFundingSources = project.GetTargetedFundingForFundingSources(fundingSourceIDs);
-            SecuredFundingLeveragedFunds = SecuredFunding - securedFundingForFundingSources;
-            TargetedFundingLeveragedFunds = TargetedFunding - targetedFundingForFundingSources;
-            SecuredFunding = securedFundingForFundingSources;
-            TargetedFunding = targetedFundingForFundingSources;
+            ProjectedFundingLeveragedFunds = ProjectedFunding - targetedFundingForFundingSources;
+            ProjectedFunding = targetedFundingForFundingSources;
 
             var projectFundingSourceIDs = new List<int>();
             projectFundingSourceIDs.AddRange(project.ProjectFundingSourceBudgets.Select(x => x.FundingSourceID));
@@ -94,10 +90,8 @@ namespace ProjectFirma.Api.Models
         public string DetailUrl { get; set; }
         public decimal? NoFundingSourceIdentifiedFunding { get; set; }
 
-        public decimal? SecuredFunding { get; set; }
-        public decimal? TargetedFunding { get; set; }
-        public decimal? SecuredFundingLeveragedFunds { get; set; }
-        public decimal? TargetedFundingLeveragedFunds { get; set; }
+        public decimal? ProjectedFunding { get; set; }
+        public decimal? ProjectedFundingLeveragedFunds { get; set; }
 
         public decimal? EstimatedTotalCost { get; set; }
         public decimal? TotalExpenditures { get; set; }

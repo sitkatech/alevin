@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectFundingSourceBudgetUpdate]
+//  Source Table: [Reclamation].[ProjectFundingSourceBudgetUpdate]
 using System.Collections.Generic;
 using System.Linq;
 using LtInfo.Common;

@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Models
                             new ProjectBudgetByCostType(x.FundingSourceID,
                                 x.FundingSourceName,
                                 distinctCostTypes.Select(
-                                    y => new ProjectCostTypeCalendarYearBudgetAmount(y, calendarYears.Select(calendarYear => new CalendarYearBudgetAmounts(calendarYear, null, null)).ToList())).ToList(),
+                                    y => new ProjectCostTypeCalendarYearBudgetAmount(y, calendarYears.Select(calendarYear => new CalendarYearBudgetAmounts(calendarYear, null)).ToList())).ToList(),
                                 null)).ToList();
 
                 foreach (var projectFundingSourceBudget in costTypeFundingSourceBudgets.GroupBy(x => x.FundingSource.FundingSourceID))
@@ -50,8 +50,7 @@ namespace ProjectFirma.Web.Models
                             foreach (var calendarYear in calendarYears)
                             {
                                 var budgetAmounts = current.CalendarYearBudgetAmounts.Single(x => x.CalendarYear == calendarYear);
-                                budgetAmounts.SecuredAmount = budgets.Where(x => x.CalendarYear == calendarYear).Sum(x => x.GetMonetaryAmount(true));
-                                budgetAmounts.TargetedAmount = budgets.Where(x => x.CalendarYear == calendarYear).Sum(x => x.GetMonetaryAmount(false));
+                                budgetAmounts.ProjectedAmount = budgets.Where(x => x.CalendarYear == calendarYear).Sum(x => x.GetProjectedAmount());
                             }
                         }
                     }
@@ -68,7 +67,7 @@ namespace ProjectFirma.Web.Models
             return new ProjectBudgetByCostType(fundingSourceCalendarYearBudgetToDiff.FundingSourceID,
                 fundingSourceCalendarYearBudgetToDiff.FundingSourceName,
                 fundingSourceCalendarYearBudgetToDiff.ProjectCostTypeCalendarYearBudgetAmounts.Select(
-                    x => new ProjectCostTypeCalendarYearBudgetAmount(x.CostType, x.CalendarYearBudgetAmounts.Select(y => new CalendarYearBudgetAmounts(y.CalendarYear, y.SecuredAmount, y.TargetedAmount)).ToList())).ToList(),
+                    x => new ProjectCostTypeCalendarYearBudgetAmount(x.CostType, x.CalendarYearBudgetAmounts.Select(y => new CalendarYearBudgetAmounts(y.CalendarYear, y.ProjectedAmount)).ToList())).ToList(),
                 displayCssClass);
         }
     }

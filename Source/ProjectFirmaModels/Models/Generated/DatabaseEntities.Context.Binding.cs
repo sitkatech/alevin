@@ -133,8 +133,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkUpdateConfiguration());
-            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetConfiguration());
-            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectFundingSourceExpenditureConfiguration());
             modelBuilder.Configurations.Add(new ProjectFundingSourceExpenditureUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectGeospatialAreaConfiguration());
@@ -208,6 +206,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityStatusConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityTypeConfiguration());
+            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetConfiguration());
+            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetUpdateConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingAgreementStatusTableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingContractStatusConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingContractTrackingTableConfiguration());

@@ -192,8 +192,12 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project, bool excludeTargetedFunders)
         {
+            // 4/20/20 TK - "Funding Orgs" seems like a bad relationship type now that there is no "secured" funding
+            //var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
+            //    .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders && x.SecuredAmount > 0) || !excludeTargetedFunders).Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
+            //    .Select(x => new ProjectOrganizationRelationship(project, x, OrganizationRelationshipTypeModelExtensions.OrganizationRelationshipTypeNameFunder));
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders && x.SecuredAmount > 0) || !excludeTargetedFunders).Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
+                .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders) || !excludeTargetedFunders).Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
                 .Select(x => new ProjectOrganizationRelationship(project, x, OrganizationRelationshipTypeModelExtensions.OrganizationRelationshipTypeNameFunder));
             return fundingOrganizations.ToList();
         }
@@ -393,19 +397,16 @@ namespace ProjectFirma.Web.Models
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
 
-            var securedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.SecuredAmount > 0)
+            var projectedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.ProjectedAmount > 0)
                 .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.SecuredAmount));
-            var targetedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.TargetedAmount > 0)
-                .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.TargetedAmount));
+                .ToDictionary(x => x.Key, x => x.Sum(y => y.ProjectedAmount));
 
             var securedColorHsl = new { hue = 96.0, sat = 60.0 };
             var targetedColorHsl = new { hue = 33.3, sat = 240.0 };
 
-            var showFullName = (securedAmountsDictionary.Count + targetedAmountsDictionary.Count) <= 2;
+            var showFullName = (projectedAmountsDictionary.Count) <= 2;
 
-            var securedPieChartSlices = securedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
+            var projectedPieChartSlices = projectedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
@@ -413,26 +414,11 @@ namespace ProjectFirma.Web.Models
                     ? fundingSource.GetDisplayName()
                     : fundingSource.GetFixedLengthDisplayName();
 
-                var luminosity = 100.0 * (securedAmountsDictionary.Count - index - 1) / securedAmountsDictionary.Count + 120;
-                var color = ColorTranslator.ToHtml(new HslColor(securedColorHsl.hue, securedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice(@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
-
-            }).ToList();
-            googlePieChartSlices.AddRange(securedPieChartSlices);
-
-            var targetedPieChartSlices = targetedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
-            {
-                var fundingSource = fundingSourceDictionaryItem.Key;
-                var fundingAmount = fundingSourceDictionaryItem.Value;
-                var displayName = showFullName
-                    ? fundingSource.GetDisplayName()
-                    : fundingSource.GetFixedLengthDisplayName();
-
-                var luminosity = 100.0 * (targetedAmountsDictionary.Count - index - 1) / targetedAmountsDictionary.Count + 120;
+                var luminosity = 100.0 * (projectedAmountsDictionary.Count - index - 1) / projectedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(targetedColorHsl.hue, targetedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.ProjectedFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
             }).ToList();
-            googlePieChartSlices.AddRange(targetedPieChartSlices);
+            googlePieChartSlices.AddRange(projectedPieChartSlices);
 
             return googlePieChartSlices;
         }
@@ -818,22 +804,13 @@ namespace ProjectFirma.Web.Models
             return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
-        public static decimal GetSecuredFundingForAllProjects()
-        {
-            decimal securedAmount = 0;
-            foreach (Project project in HttpRequestStorage.DatabaseEntities.Projects)
-            {
-                securedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount) ?? 0);
-            }
-            return securedAmount;
-        }
 
-        public static decimal GetTargetedFundingForAllProjects()
+        public static decimal GetProjectedFundingForAllProjects()
         {
             decimal targetedAmount = 0;
             foreach (Project project in HttpRequestStorage.DatabaseEntities.Projects)
             {
-                targetedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount) ?? 0);
+                targetedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount) ?? 0);
             }
             return targetedAmount;
         }
@@ -867,8 +844,7 @@ namespace ProjectFirma.Web.Models
                 int projectCount = 0;
                 typeToProjectOrg.ForEach(x =>
                 {
-                    securedAmount += x.Project.GetSecuredFunding() ?? 0;
-                    targetedAmount += x.Project.GetTargetedFunding() ?? 0;
+                    targetedAmount += x.Project.GetProjectedFunding() ?? 0;
                     noFundingSourceAmount += x.Project.GetNoFundingSourceIdentifiedAmountOrZero();
                     projectCount++;
                 });
@@ -936,8 +912,7 @@ namespace ProjectFirma.Web.Models
         {
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
-            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetSecuredFundingForAllProjects()), sortOrder++, "#C6B42F"));
-            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetTargetedFundingForAllProjects()), sortOrder++, "#007C8A"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetProjectedFundingForAllProjects()), sortOrder++, "#007C8A"));
             googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetNoFundingSourceIdentifiedYetForAllProjects()), sortOrder, "#D34727"));
             return googlePieChartSlices;
         }

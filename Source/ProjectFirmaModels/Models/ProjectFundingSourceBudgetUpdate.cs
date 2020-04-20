@@ -28,20 +28,19 @@ namespace ProjectFirmaModels.Models
     {
         public string GetAuditDescriptionString()
         {
-            return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {TargetedAmount.ToStringCurrency()}";
+            return $"ProjectUpdateBatch: {ProjectUpdateBatchID}, Funding Source: {FundingSourceID}, Request Amount: {ProjectedAmount.ToStringCurrency()}";
         }
-        public decimal? GetMonetaryAmount(bool isSecured)
+        public decimal? GetProjectedAmount()
         {
-            return isSecured ? SecuredAmount : TargetedAmount;
+            return ProjectedAmount;
         }
 
-        public void SetSecuredAndTargetedAmounts(decimal? securedAmount, decimal? targetedAmount)
+        public void SetProjectedAmount(decimal? projectedAmount)
         {
-            SecuredAmount = securedAmount;
-            TargetedAmount = targetedAmount;
+            ProjectedAmount = projectedAmount;
         }
 
-        public ProjectFundingSourceBudgetUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource, int? calendarYear, decimal securedAmount, decimal targetedAmount, int? costTypeID) : this()
+        public ProjectFundingSourceBudgetUpdate(ProjectUpdateBatch projectUpdateBatch, FundingSource fundingSource, int? calendarYear, decimal targetedAmount, int? costTypeID) : this()
         {
             ProjectFundingSourceBudgetUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
@@ -49,8 +48,7 @@ namespace ProjectFirmaModels.Models
             FundingSourceID = fundingSource.FundingSourceID;
             FundingSource = fundingSource;
             CalendarYear = calendarYear;
-            SecuredAmount = securedAmount;
-            TargetedAmount = targetedAmount;
+            ProjectedAmount = targetedAmount;
             CostTypeID = costTypeID;
         }
     }

@@ -54,8 +54,8 @@ namespace ProjectFirma.Web.Models
             // Get Secured and Targeted amounts for each FundingSource/CostType/Year
             foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
             {
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(true), true, true));
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetMonetaryAmount(false), true, false));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetProjectedAmount(), true, true));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudget.FundingSource, projectFundingSourceBudget.CostType, projectFundingSourceBudget.CalendarYear, projectFundingSourceBudget.GetProjectedAmount(), true, false));
             }
             return projectFundingSourceCostTypeAmounts;
         }
@@ -65,8 +65,8 @@ namespace ProjectFirma.Web.Models
             // Get Secured and Targeted amounts for each FundingSource/CostType/Year
             foreach (var projectFundingSourceBudgetUpdate in projectFundingSourceBudgetUpdates)
             {
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource, projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(true), true, true));
-                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource, projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetMonetaryAmount(false), true, false));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource, projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetProjectedAmount(), true, true));
+                projectFundingSourceCostTypeAmounts.Add(new ProjectFundingSourceCostTypeAmount(projectFundingSourceBudgetUpdate.FundingSource, projectFundingSourceBudgetUpdate.CostType, projectFundingSourceBudgetUpdate.CalendarYear, projectFundingSourceBudgetUpdate.GetProjectedAmount(), true, false));
             }
             return projectFundingSourceCostTypeAmounts;
         }

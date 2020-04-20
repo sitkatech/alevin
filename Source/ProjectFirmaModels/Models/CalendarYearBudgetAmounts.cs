@@ -29,24 +29,21 @@ namespace ProjectFirmaModels.Models
         {
         }
 
-        public CalendarYearBudgetAmounts(int calendarYear, decimal? securedAmount, decimal? targetedAmount)
+        public CalendarYearBudgetAmounts(int calendarYear, decimal? projectedAmount)
         {
             CalendarYear = calendarYear;
-            SecuredAmount = securedAmount;
-            TargetedAmount = targetedAmount;
+            ProjectedAmount = projectedAmount;
         }
 
-        public CalendarYearBudgetAmounts(int calendarYear, decimal? securedAmount, decimal? targetedAmount, bool isRelevant)
+        public CalendarYearBudgetAmounts(int calendarYear, decimal? projectedAmount, bool isRelevant)
         {
             CalendarYear = calendarYear;
-            SecuredAmount = securedAmount;
-            TargetedAmount = targetedAmount;
+            ProjectedAmount = projectedAmount;
             IsRelevant = isRelevant;
         }
 
         public int CalendarYear { get; set; }
-        public decimal? SecuredAmount { get; set; }
-        public decimal? TargetedAmount { get; set; }
+        public decimal? ProjectedAmount { get; set; }
         // Only used by ExpectedFundingByCostType pages
         public bool? IsRelevant { get; set; }
 

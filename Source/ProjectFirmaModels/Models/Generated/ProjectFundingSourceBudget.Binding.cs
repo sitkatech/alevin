@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [dbo].[ProjectFundingSourceBudget]
+//  Source Table: [Reclamation].[ProjectFundingSourceBudget]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,8 +15,8 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [dbo].[ProjectFundingSourceBudget] is multi-tenant, so is attributed as IHaveATenantID
-    [Table("[dbo].[ProjectFundingSourceBudget]")]
+    // Table [Reclamation].[ProjectFundingSourceBudget] is multi-tenant, so is attributed as IHaveATenantID
+    [Table("[Reclamation].[ProjectFundingSourceBudget]")]
     public partial class ProjectFundingSourceBudget : IHavePrimaryKey, IHaveATenantID
     {
         /// <summary>
@@ -30,13 +30,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectFundingSourceBudget(int projectFundingSourceBudgetID, int projectID, int fundingSourceID, decimal? securedAmount, decimal? targetedAmount, int? calendarYear, int? costTypeID) : this()
+        public ProjectFundingSourceBudget(int projectFundingSourceBudgetID, int projectID, int fundingSourceID, decimal? projectedAmount, int? calendarYear, int? costTypeID) : this()
         {
             this.ProjectFundingSourceBudgetID = projectFundingSourceBudgetID;
             this.ProjectID = projectID;
             this.FundingSourceID = fundingSourceID;
-            this.SecuredAmount = securedAmount;
-            this.TargetedAmount = targetedAmount;
+            this.ProjectedAmount = projectedAmount;
             this.CalendarYear = calendarYear;
             this.CostTypeID = costTypeID;
         }
@@ -113,8 +112,7 @@ namespace ProjectFirmaModels.Models
         public int TenantID { get; set; }
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
-        public decimal? SecuredAmount { get; set; }
-        public decimal? TargetedAmount { get; set; }
+        public decimal? ProjectedAmount { get; set; }
         public int? CalendarYear { get; set; }
         public int? CostTypeID { get; set; }
         [NotMapped]
