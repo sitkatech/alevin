@@ -44,13 +44,13 @@ namespace ProjectFirma.Web.Views.ProjectFunding
             UserHasProjectAgreementManagePermissions = userHasProjectAgreementManagePermissions;
             AddNewAgreementUrl = "NO_URL_YET";
 
-            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority)
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority)
                 .ToList();
 
             ReclamationAgreements = costAuthorities.SelectMany(ca => ca.AgreementCostAuthorities.Select(rarca => rarca.Agreement)).ToList();
 
-            SecondaryReclamationCostAuthorityWorkBreakdownStructures = project.CostAuthorityProjects.Where(x => !x.IsPrimaryProjectCawbs).Select(rcap => rcap.ReclamationCostAuthority).ToList();
-            PrimaryCostAuthorityWorkBreakdownStructure = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.ReclamationCostAuthority;
+            SecondaryReclamationCostAuthorityWorkBreakdownStructures = project.CostAuthorityProjects.Where(x => !x.IsPrimaryProjectCawbs).Select(rcap => rcap.CostAuthority).ToList();
+            PrimaryCostAuthorityWorkBreakdownStructure = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.CostAuthority;
 
         }
     }

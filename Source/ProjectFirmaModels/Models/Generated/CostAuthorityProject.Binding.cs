@@ -30,10 +30,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthorityProject(int costAuthorityProjectID, int reclamationCostAuthorityID, int projectID, bool isPrimaryProjectCawbs, string primaryProjectCawbsUniqueString) : this()
+        public CostAuthorityProject(int costAuthorityProjectID, int costAuthorityID, int projectID, bool isPrimaryProjectCawbs, string primaryProjectCawbsUniqueString) : this()
         {
             this.CostAuthorityProjectID = costAuthorityProjectID;
-            this.ReclamationCostAuthorityID = reclamationCostAuthorityID;
+            this.CostAuthorityID = costAuthorityID;
             this.ProjectID = projectID;
             this.IsPrimaryProjectCawbs = isPrimaryProjectCawbs;
             this.PrimaryProjectCawbsUniqueString = primaryProjectCawbsUniqueString;
@@ -42,12 +42,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthorityProject(int reclamationCostAuthorityID, int projectID, bool isPrimaryProjectCawbs) : this()
+        public CostAuthorityProject(int costAuthorityID, int projectID, bool isPrimaryProjectCawbs) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.CostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.ReclamationCostAuthorityID = reclamationCostAuthorityID;
+            this.CostAuthorityID = costAuthorityID;
             this.ProjectID = projectID;
             this.IsPrimaryProjectCawbs = isPrimaryProjectCawbs;
         }
@@ -55,13 +55,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public CostAuthorityProject(CostAuthority reclamationCostAuthority, Project project, bool isPrimaryProjectCawbs) : this()
+        public CostAuthorityProject(CostAuthority costAuthority, Project project, bool isPrimaryProjectCawbs) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.CostAuthorityProjectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.ReclamationCostAuthorityID = reclamationCostAuthority.CostAuthorityID;
-            this.ReclamationCostAuthority = reclamationCostAuthority;
-            reclamationCostAuthority.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Add(this);
+            this.CostAuthorityID = costAuthority.CostAuthorityID;
+            this.CostAuthority = costAuthority;
+            costAuthority.CostAuthorityProjects.Add(this);
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.CostAuthorityProjects.Add(this);
@@ -71,9 +71,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static CostAuthorityProject CreateNewBlank(CostAuthority reclamationCostAuthority, Project project)
+        public static CostAuthorityProject CreateNewBlank(CostAuthority costAuthority, Project project)
         {
-            return new CostAuthorityProject(reclamationCostAuthority, project, default(bool));
+            return new CostAuthorityProject(costAuthority, project, default(bool));
         }
 
         /// <summary>
@@ -110,14 +110,14 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int CostAuthorityProjectID { get; set; }
-        public int ReclamationCostAuthorityID { get; set; }
+        public int CostAuthorityID { get; set; }
         public int ProjectID { get; set; }
         public bool IsPrimaryProjectCawbs { get; set; }
         public string PrimaryProjectCawbsUniqueString { get; private set; }
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityProjectID; } set { CostAuthorityProjectID = value; } }
 
-        public virtual CostAuthority ReclamationCostAuthority { get; set; }
+        public virtual CostAuthority CostAuthority { get; set; }
         public virtual Project Project { get; set; }
 
         public static class FieldLengths

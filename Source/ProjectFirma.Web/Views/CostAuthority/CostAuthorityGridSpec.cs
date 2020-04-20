@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.CostAuthority
 
         private static HtmlString GetProjectHrefsString(ProjectFirmaModels.Models.CostAuthority costAuthority)
         {
-            var projects = costAuthority.CostAuthorityProjectsWhereYouAreTheReclamationCostAuthority.Select(rcap => rcap.Project)
+            var projects = costAuthority.CostAuthorityProjects.Select(cap => cap.Project)
                 .ToList();
             List<HtmlString> projectsHrefHtmlStrings = projects.Select(p => UrlTemplate.MakeHrefString(p.GetDetailUrl(), p.GetDisplayName())).ToList();
 

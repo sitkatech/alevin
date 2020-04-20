@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.Project
             {
                 Add($"Is {costAuthorityWorkBreakdownStructure.GetDisplayName()} Primary or Secondary CAWBS for this project?",
                     x => x.CostAuthorityProjects.Any(rcap =>
-                        rcap.IsPrimaryProjectCawbs && rcap.ReclamationCostAuthorityID ==
+                        rcap.IsPrimaryProjectCawbs && rcap.CostAuthorityID ==
                         costAuthorityWorkBreakdownStructure.CostAuthorityID)
                         ? "Primary"
                         : "Secondary", 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -83,9 +83,9 @@ namespace ProjectFirma.Web.Views.Project
 
             if (agreement != null)
             {
-                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.CostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.ReclamationCostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.CostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Html);
 
-                Add(FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), x => GetSecondaryReclamationCostAuthorityAsCommaDelimitedList(x), 200, DhtmlxGridColumnFilterType.Text);
+                Add(FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), x => GetSecondaryCostAuthorityAsCommaDelimitedList(x), 200, DhtmlxGridColumnFilterType.Text);
             }
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
@@ -134,10 +134,10 @@ namespace ProjectFirma.Web.Views.Project
             }
         }
 
-        private static HtmlString GetSecondaryReclamationCostAuthorityAsCommaDelimitedList(ProjectFirmaModels.Models.Project project)
+        private static HtmlString GetSecondaryCostAuthorityAsCommaDelimitedList(ProjectFirmaModels.Models.Project project)
         {
-            var reclamationCostAuthorities = project.CostAuthorityProjects.Where(rcap => !rcap.IsPrimaryProjectCawbs).Select(x => x.ReclamationCostAuthority);
-            var costAuthorityWorkBreakdownStructures = reclamationCostAuthorities.Select(rca => rca.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()).ToList();
+            var costAuthorities = project.CostAuthorityProjects.Where(cap => !cap.IsPrimaryProjectCawbs).Select(x => x.CostAuthority);
+            var costAuthorityWorkBreakdownStructures = costAuthorities.Select(rca => rca.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()).ToList();
             return new HtmlString(string.Join(", ", costAuthorityWorkBreakdownStructures));
         }
     }
