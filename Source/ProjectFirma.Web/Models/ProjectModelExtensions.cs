@@ -996,7 +996,7 @@ namespace ProjectFirma.Web.Models
         public static List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>
             GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
         {
-            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority).ToList();
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
             var obligationItemBudgets = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).ToList();
 
             //var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
@@ -1028,7 +1028,7 @@ namespace ProjectFirma.Web.Models
         public static List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>
             GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
         {
-            var costAuthorities = project.CostAuthorityProjects.Select(x => x.ReclamationCostAuthority).ToList();
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
             var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).ToList();
 
             //var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
