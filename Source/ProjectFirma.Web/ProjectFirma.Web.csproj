@@ -893,7 +893,7 @@
     <Compile Include="Views\ProjectStewardOrganization\Index.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexGridSpec.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\ExpectedFundingValidationResult.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectFundingSourceBudgetByCostTypeValidationResult.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />

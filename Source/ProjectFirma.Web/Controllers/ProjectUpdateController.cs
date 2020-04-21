@@ -801,7 +801,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
             var viewDataForAngularEditor = new EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(projectUpdateBatch, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
 
-            var expectedFundingUpdateValidationResult = new ExpectedFundingValidationResult();
+            var expectedFundingUpdateValidationResult = new EditProjectFundingSourceBudgetByCostTypeValidationResult();
             var reportFinancialsByCostType = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType;
             var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentFirmaSession, projectUpdateBatch);
             var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch) : null;

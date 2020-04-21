@@ -43,9 +43,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ProjectBudgetSummaryViewData projectBudgetSummaryViewData,
             ProjectBudgetsAnnualByCostTypeViewData projectBudgetsAnnualByCostTypeViewData,
             ProjectUpdateStatus projectUpdateStatus,
-            ExpectedFundingValidationResult expectedFundingValidationResult,
+            EditProjectFundingSourceBudgetByCostTypeValidationResult editProjectFundingSourceBudgetByCostTypeValidationResult,
             EditProjectFundingSourceBudgetByCostTypeViewModel viewModelForPartial
-        ) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expectedFundingValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
+        ) : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, editProjectFundingSourceBudgetByCostTypeValidationResult.GetWarningMessages(), ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName)
         {
             
 

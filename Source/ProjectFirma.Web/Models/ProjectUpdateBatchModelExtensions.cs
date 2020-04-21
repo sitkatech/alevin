@@ -463,9 +463,9 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateExpenditures();
         }
 
-        public static ExpectedFundingValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceBudgetSimple> newProjectFundingSourceBudgets)
+        public static EditProjectFundingSourceBudgetByCostTypeValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceBudgetSimple> newProjectFundingSourceBudgets)
         {
-            return new ExpectedFundingValidationResult();
+            return new EditProjectFundingSourceBudgetByCostTypeValidationResult();
         }
 
         public static List<string> ValidateExpenditures(this ProjectUpdateBatch projectUpdateBatch)
