@@ -250,6 +250,11 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
+            return GetValidationResults();
+        }
+
+        public IEnumerable<ValidationResult> GetValidationResults()
+        {
             var errors = new List<ValidationResult>();
             if (ProjectFundingSourceBudgets == null)
             {

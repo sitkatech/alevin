@@ -142,17 +142,32 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
-        public static List<ProjectRelevantCostType> GetBudgetsRelevantCostTypes(this Project project)
+        public static List<ProjectRelevantCostTypeSimple> GetAllProjectRelevantCostTypesAsSimples(this Project project, ProjectRelevantCostTypeGroup projectRelevantCostTypeGroup)
+        {
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+            var projectRelevantCostTypes = project.GetRelevantCostTypesByCostTypeGroup(projectRelevantCostTypeGroup).Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
+            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+            projectRelevantCostTypes.AddRange(
+                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
+                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
+            return projectRelevantCostTypes;
+        }
+
+        public static List<ProjectRelevantCostType> GetRelevantCostTypesByCostTypeGroup(this Project project, 
+                                                    ProjectRelevantCostTypeGroup projectRelevantCostTypeGroup)
         {
             return project.ProjectRelevantCostTypes
-                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
+                .Where(x => x.ProjectRelevantCostTypeGroup == projectRelevantCostTypeGroup)
                 .OrderBy(x => x.CostTypeID).ToList();
+        }
+
+        public static List<ProjectRelevantCostType> GetBudgetsRelevantCostTypes(this Project project)
+        {
+            return GetRelevantCostTypesByCostTypeGroup(project, ProjectRelevantCostTypeGroup.Budgets);
         }
         public static List<ProjectRelevantCostType> GetExpendituresRelevantCostTypes(this Project project)
         {
-            return project.ProjectRelevantCostTypes
-                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
-                .OrderBy(x => x.CostTypeID).ToList();
+            return GetRelevantCostTypesByCostTypeGroup(project, ProjectRelevantCostTypeGroup.Expenditures);
         }
 
         private static List<int> GetYearRangesImpl(IProject projectUpdate, int? startYear)

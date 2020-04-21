@@ -882,9 +882,6 @@
     <Compile Include="Views\ProjectCreate\ProjectTypeSelection.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectTypeSelectionViewModel.cs" />
-    <Compile Include="Views\ProjectCreate\ExpectedFunding.cs" />
-    <Compile Include="Views\ProjectCreate\ExpectedFundingViewData.cs" />
-    <Compile Include="Views\ProjectCreate\ExpectedFundingViewModel.cs" />
     <Compile Include="Views\ProjectCreate\Expenditures.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresViewModel.cs" />
@@ -1827,7 +1824,6 @@
     <Compile Include="Views\GeospatialArea\IndexViewData.cs" />
     <Compile Include="Views\GeospatialArea\Detail.cs" />
     <Compile Include="Views\GeospatialArea\DetailViewData.cs" />
-    <Content Include="Views\ProjectCreate\ExpectedFundingController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresController.js" />
     <Content Include="Views\ProjectCreate\PerformanceMeasuresController.js" />
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationController.js" />
@@ -1848,7 +1844,6 @@
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreas.cshtml" />
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetail.cshtml" />
-    <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />
     <Content Include="Views\Project\ForwardLookingFactSheet.cshtml" />
     <Content Include="Views\ProjectStewardOrganization\Index.cshtml" />
