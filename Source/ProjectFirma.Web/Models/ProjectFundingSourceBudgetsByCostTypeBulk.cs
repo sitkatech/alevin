@@ -31,9 +31,9 @@ namespace ProjectFirma.Web.Models
     {
         public int ProjectID { get; set; }
         public int FundingSourceID { get; set; }
-        // Only used by ExpectedFundingByCostType pages
+        // Only used by EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainer pages
         public bool? IsRelevant { get; set; }
-        // Only used by ExpectedFundingByCostType pages
+        // Only used by EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainer pages
         public int? CostTypeID { get; set; }
 
         public List<CalendarYearBudgetAmounts> CalendarYearBudgets { get; set; }

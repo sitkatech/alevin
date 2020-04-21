@@ -457,8 +457,8 @@
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributes.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewData.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCustomAttributesViewModel.cs" />
-    <Compile Include="Views\ProjectCreate\ExpectedFundingByCostType.cs" />
-    <Compile Include="Views\ProjectCreate\ExpectedFundingByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectCreate\EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainer.cs" />
+    <Compile Include="Views\ProjectCreate\EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainerViewData.cs" />
     <Compile Include="Views\Agreement\AgreementGridSpec.cs" />
     <Compile Include="Views\Agreement\AgreementIndexViewData.cs" />
     <Compile Include="Views\ProjectCreate\ExpendituresByCostType.cs" />
@@ -750,7 +750,7 @@
     <Content Include="Views\ContactRelationshipType\EditContactRelationshipType.cshtml" />
     <Content Include="Views\ContactRelationshipType\Index.cshtml" />
     <Content Include="Views\ProjectCreate\ExpendituresByCostType.cshtml" />
-    <Content Include="Views\ProjectCreate\ExpectedFundingByCostType.cshtml" />
+    <Content Include="Views\ProjectCreate\EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainer.cshtml" />
     <Content Include="Views\ProjectCreate\AttachmentsAndNotes.cshtml" />
     <Content Include="Views\ProjectAttachment\ProjectAttachmentIndex.cshtml" />
     <Content Include="Views\GeospatialArea\EditGeospatialAreaDescription.cshtml" />

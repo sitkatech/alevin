@@ -20,22 +20,19 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-using System.Collections.Generic;
-using System.Web.Mvc;
 using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
-    public class ExpectedFundingByCostTypeViewData : ProjectCreateViewData
+    public class EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainerViewData : ProjectCreateViewData
     {
         public string RequestFundingSourceUrl { get; }
         public EditProjectFundingSourceBudgetByCostTypeViewData ViewDataForPartial { get; }
         public EditProjectFundingSourceBudgetByCostTypeViewModel ViewModelForPartial { get; }
 
 
-        public ExpectedFundingByCostTypeViewData(FirmaSession currentFirmaSession,
+        public EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainerViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Project project,
             ProposalSectionsStatus proposalSectionsStatus,
             EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular viewDataForAngularClass,

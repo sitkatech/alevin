@@ -65,8 +65,6 @@ using Contacts = ProjectFirma.Web.Views.ProjectCreate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectCreate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectCreate.ContactsViewModel;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
-using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostType;
-using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingByCostTypeViewData;
 using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewData;
 using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectCreate.Expenditures;
@@ -582,8 +580,8 @@ namespace ProjectFirma.Web.Controllers
             var viewDataForAngularEditor = new EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
 
 
-            var viewData = new ExpectedFundingByCostTypeViewData(CurrentFirmaSession, project, GetProposalSectionsStatus(project), viewDataForAngularEditor, viewModel);
-            return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData>(viewData);
+            var viewData = new EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainerViewData(CurrentFirmaSession, project, GetProposalSectionsStatus(project), viewDataForAngularEditor, viewModel);
+            return RazorView<EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainer, EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainerViewData>(viewData);
         }
 
         [HttpGet]
