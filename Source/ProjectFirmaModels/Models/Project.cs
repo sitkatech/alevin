@@ -51,6 +51,19 @@ namespace ProjectFirmaModels.Models
             return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
         }
 
+
+		// Brought over from Mainline-- should this be trashed? --- SLG 4/21/2020
+        //public decimal? GetSecuredFundingForFundingSources(List<int> fundingSourceIDs)
+        //{
+        //    return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
+        //}
+
+        //public decimal? GetTargetedFunding()
+        //{
+        //    return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
+        //}
+		// Brought over from Mainline-- should this be trashed? --- SLG 4/21/2020
+
         public decimal? GetTargetedFundingForFundingSources(List<int> fundingSourceIDs)
         {
             return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
