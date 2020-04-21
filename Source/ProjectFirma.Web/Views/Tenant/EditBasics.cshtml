@@ -116,13 +116,14 @@
     <div ng-app="ProjectFirmaApp" ng-controller="EditBudgetTypeController" ng-cloak>
         <div class="form-group">
             <div class="col-md-4 text-right">@Html.LabelWithSugarFor(m => m.BudgetTypeID)</div>
-            <div class="col-md-8">
+            <div class="col-md-4">
                 <select class="form-control"
                         style="width: auto"
                         id="BudgetTypeID"
                         name="BudgetTypeID"
                         ng-model="model.selectedBudgetTypeID"
-                        ng-required="true">
+                        ng-required="true"
+                        ng-disabled="true">
                     <option value="">&lt;Choose one&gt;</option>
                     <option ng-repeat="budgetType in AngularViewData.BudgetTypes"
                             ng-selected="isSelected(budgetType)"
@@ -131,6 +132,9 @@
                         {{budgetType}}
                     </option>
                 </select>
+            </div>
+            <div class="col-md-4">
+                <span class="smallExplanationText">This option is disabled because the Reclamation branch has modified the cost type version of budgets extensively. Switching budget types will not work.</span>
             </div>
             @Html.ValidationMessageFor(x => x.BudgetTypeID)
         </div>
