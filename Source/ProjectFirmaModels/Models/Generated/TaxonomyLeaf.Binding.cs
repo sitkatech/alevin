@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected TaxonomyLeaf()
         {
+            this.ProjectsWhereYouAreTheOverrideTaxonomyLeaf = new HashSet<Project>();
             this.SecondaryProjectTaxonomyLeafs = new HashSet<SecondaryProjectTaxonomyLeaf>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
             this.CostAuthorities = new HashSet<CostAuthority>();
@@ -85,13 +86,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any() || CostAuthorities.Any();
+            return ProjectsWhereYouAreTheOverrideTaxonomyLeaf.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any() || CostAuthorities.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TaxonomyLeafPerformanceMeasure).Name, typeof(CostAuthority).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(TaxonomyLeaf).Name, typeof(Project).Name, typeof(SecondaryProjectTaxonomyLeaf).Name, typeof(TaxonomyLeafPerformanceMeasure).Name, typeof(CostAuthority).Name};
 
 
         /// <summary>
@@ -115,6 +116,11 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteChildren(DatabaseEntities dbContext)
         {
+
+            foreach(var x in ProjectsWhereYouAreTheOverrideTaxonomyLeaf.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
 
             foreach(var x in SecondaryProjectTaxonomyLeafs.ToList())
             {
@@ -153,6 +159,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyLeafID; } set { TaxonomyLeafID = value; } }
 
+        public virtual ICollection<Project> ProjectsWhereYouAreTheOverrideTaxonomyLeaf { get; set; }
         public virtual ICollection<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get; set; }
         public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }
         public virtual ICollection<CostAuthority> CostAuthorities { get; set; }

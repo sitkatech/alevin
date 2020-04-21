@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models
 {
@@ -36,7 +37,16 @@ namespace ProjectFirmaModels.Models
         public TaxonomyLeaf GetTaxonomyLeaf()
         {
             var primaryCostAuthorityProject = this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs);
-            return primaryCostAuthorityProject?.CostAuthority?.TaxonomyLeaf;
+            TaxonomyLeaf taxonomyLeafViaCostAuthority = primaryCostAuthorityProject?.CostAuthority?.TaxonomyLeaf;
+            TaxonomyLeaf taxonomyLeafViaOverrideOnProject = this.OverrideTaxonomyLeaf;
+
+            // Override should only be used when there is no TaxonomyLeaf available via the CostAuthority relationship,
+            // so we should never see both of these set. For the moment we'll crash if this actually happens. It seems
+            // likely this will prove too brittle but we'll soon see.
+            //-- SLG 4/20/2020
+            Check.Ensure(taxonomyLeafViaCostAuthority == null || taxonomyLeafViaOverrideOnProject == null);
+
+            return taxonomyLeafViaOverrideOnProject ?? taxonomyLeafViaCostAuthority;
         }
 
         public Organization GetPrimaryContactOrganization()

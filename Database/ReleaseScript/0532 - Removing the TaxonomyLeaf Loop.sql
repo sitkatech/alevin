@@ -4,6 +4,10 @@
 --
 -- Project => CostAuthorityProject (If is Primary) =>  CostAuthority => TaxonomyLeafID
 
+-- Commenting out long enough to write a test to verify things work correctly. Afterwards, we'll
+-- take this back out again. -- SLG 4/20/2020
+/*
+
 alter table dbo.Project
 drop constraint FK_Project_TaxonomyLeaf_TaxonomyLeafID
 GO
@@ -16,3 +20,11 @@ alter table dbo.Project
 drop column TaxonomyLeafID
 GO
 
+*/
+
+-- Trying to make this into an override and salvage it
+alter table dbo.Project
+alter column TaxonomyLeafID int null
+GO
+
+sp_rename 'dbo.project.TaxonomyLeafID', 'OverrideTaxonomyLeafID'

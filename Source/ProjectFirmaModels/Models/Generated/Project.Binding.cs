@@ -59,9 +59,10 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, decimal? noFundingSourceIdentifiedYet, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment) : this()
+        public Project(int projectID, int? overrideTaxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, decimal? noFundingSourceIdentifiedYet, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment) : this()
         {
             this.ProjectID = projectID;
+            this.OverrideTaxonomyLeafID = overrideTaxonomyLeafID;
             this.ProjectStageID = projectStageID;
             this.ProjectName = projectName;
             this.ProjectDescription = projectDescription;
@@ -339,6 +340,7 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int ProjectID { get; set; }
         public int TenantID { get; set; }
+        public int? OverrideTaxonomyLeafID { get; set; }
         public int ProjectStageID { get; set; }
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
@@ -414,6 +416,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; set; }
         public virtual ICollection<CostAuthorityProject> CostAuthorityProjects { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual TaxonomyLeaf OverrideTaxonomyLeaf { get; set; }
         public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
         public ProjectLocationSimpleType ProjectLocationSimpleType { get { return ProjectLocationSimpleType.AllLookupDictionary[ProjectLocationSimpleTypeID]; } }
         public FundingType FundingType { get { return FundingTypeID.HasValue ? FundingType.AllLookupDictionary[FundingTypeID.Value] : null; } }

@@ -582,6 +582,7 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
+    <Compile Include="Views\TaxonomyBranch\TaxonomyBranchReclamationBiDirectionalVerificationDifferenceTests.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
