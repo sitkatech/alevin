@@ -892,9 +892,6 @@
     <Compile Include="Views\ProjectCreate\PerformanceMeasuresViewData.cs" />
     <Compile Include="Views\ProjectCreate\PerformanceMeasuresViewModel.cs" />
     <Compile Include="Views\ProjectCreate\ProjectCreateHelper.cs" />
-    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudget.cs" />
-    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetViewData.cs" />
-    <Compile Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetViewModel.cs" />
     <Compile Include="Views\ProjectStewardOrganization\Index.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexGridSpec.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexViewData.cs" />
@@ -1835,7 +1832,6 @@
     <Content Include="Views\ProjectCreate\ExpectedFundingController.js" />
     <Content Include="Views\ProjectCreate\ExpendituresController.js" />
     <Content Include="Views\ProjectCreate\PerformanceMeasuresController.js" />
-    <Content Include="Views\ProjectFundingSourceBudget\ProjectFundingSourceBudgetController.js" />
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationController.js" />
     <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
@@ -1854,7 +1850,6 @@
     <Compile Include="Views\ProjectUpdate\GeospatialAreaValidationResult.cs" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreas.cshtml" />
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
-    <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudget.cshtml" />
     <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />

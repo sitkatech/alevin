@@ -35,49 +35,7 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ProjectFundingSourceBudgetController : FirmaBaseController
     {
-        [HttpGet]
-        [ProjectEditAsAdminFeature]
-        public PartialViewResult EditProjectFundingSourceBudgetsForProject(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var currentProjectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            var viewModel = new EditProjectFundingSourceBudgetViewModel(project, currentProjectFundingSourceBudgets);
-            return ViewEditProjectFundingSourceBudgets(project, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectEditAsAdminFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditProjectFundingSourceBudgetsForProject(ProjectPrimaryKey projectPrimaryKey, EditProjectFundingSourceBudgetViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var currentProjectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            if (!ModelState.IsValid)
-            {
-                return ViewEditProjectFundingSourceBudgets(project, viewModel);
-            }
-            return UpdateProjectFundingSourceBudgets(viewModel, project, currentProjectFundingSourceBudgets);
-        }
-
-        private static ActionResult UpdateProjectFundingSourceBudgets(EditProjectFundingSourceBudgetViewModel viewModel,
-            Project project,
-             List<ProjectFundingSourceBudget> currentProjectFundingSourceBudgets)
-        {
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
-            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            viewModel.UpdateModel(project, currentProjectFundingSourceBudgets, allProjectFundingSourceBudgets);
-
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewEditProjectFundingSourceBudgets(Project project, EditProjectFundingSourceBudgetViewModel viewModel)
-        {
-            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var fundingTypes = FundingType.All.ToList();
-            var viewData = new EditProjectFundingSourceBudgetViewData(new ProjectSimple(project), fundingTypes, allFundingSources, project.PlanningDesignStartYear, project.CompletionYear);
-            return RazorPartialView<EditProjectFundingSourceBudget, EditProjectFundingSourceBudgetViewData, EditProjectFundingSourceBudgetViewModel>(viewData, viewModel);
-        }
-
+        
         [HttpGet]
         [ProjectEditAsAdminFeature]
         public ViewResult EditProjectFundingSourceBudgetByCostTypeForProject(ProjectPrimaryKey projectPrimaryKey)
