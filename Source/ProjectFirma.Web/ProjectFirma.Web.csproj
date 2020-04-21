@@ -61,6 +61,7 @@
     <Compile Include="Common\SitkaController.cs" />
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
+    <Compile Include="Common\UnsupportedBudgetMode.cs" />
     <Compile Include="Controllers\ExcelUploadControllerTest.cs" />
     <Compile Include="Controllers\BudgetObjectCodeController.cs" />
     <Compile Include="Controllers\ObligationController.cs" />
@@ -895,10 +896,7 @@
     <Compile Include="Views\ProjectStewardOrganization\Index.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexGridSpec.cs" />
     <Compile Include="Views\ProjectStewardOrganization\IndexViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\ExpectedFunding.cs" />
     <Compile Include="Views\ProjectUpdate\ExpectedFundingValidationResult.cs" />
-    <Compile Include="Views\ProjectUpdate\ExpectedFundingViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\ExpectedFundingViewModel.cs" />
     <Content Include="Views\ProjectUpdate\ExpectedPerformanceMeasures.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnual.cshtml" />
     <Content Include="Views\ProjectUpdate\TechnicalAssistanceRequests.cshtml" />
@@ -1833,7 +1831,6 @@
     <Content Include="Views\ProjectCreate\ExpendituresController.js" />
     <Content Include="Views\ProjectCreate\PerformanceMeasuresController.js" />
     <Content Include="Views\Shared\ProjectOrganization\ProjectOrganizationController.js" />
-    <Content Include="Views\ProjectUpdate\ExpectedFundingController.js" />
     <Content Include="Views\Shared\ProjectLocationControls\ProjectLocationSimpleController.js" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreasController.js" />
     <Content Include="Views\Shared\UserStewardshipAreas\EditUserStewardshipAreasController.js" />
@@ -1850,7 +1847,6 @@
     <Compile Include="Views\ProjectUpdate\GeospatialAreaValidationResult.cs" />
     <Content Include="Views\Shared\ProjectGeospatialAreaControls\EditProjectGeospatialAreas.cshtml" />
     <Content Include="Views\Shared\ViewGoogleChart.cshtml" />
-    <Content Include="Views\ProjectUpdate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\ProjectUpdateDiffControls\ProjectBudgetsDetail.cshtml" />
     <Content Include="Views\ProjectCreate\ExpectedFunding.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWholeNumber.cshtml" />

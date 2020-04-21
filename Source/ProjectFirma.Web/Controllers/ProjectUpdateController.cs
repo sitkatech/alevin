@@ -62,9 +62,6 @@ using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
 using Contacts = ProjectFirma.Web.Views.ProjectUpdate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewModel;
-using ExpectedFunding = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFunding;
-using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewData;
-using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
 using ExpendituresByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostType;
 using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostTypeViewData;
@@ -751,106 +748,6 @@ namespace ProjectFirma.Web.Controllers
         //    return RazorView<ExpendituresByCostType, ExpendituresByCostTypeViewData, ExpendituresByCostTypeViewModel>(viewData, viewModel);
         //}
 
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
-            var viewModel = new ExpectedFundingViewModel(projectUpdateBatch, projectFundingSourceBudgetUpdates,
-                projectUpdateBatch.ExpectedFundingComment);
-            return ViewExpectedFunding(projectUpdateBatch, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            if (!ModelState.IsValid)
-            {
-                return ViewExpectedFunding(projectUpdateBatch, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgetUpdates.Load();
-            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
-            var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgetUpdates.Local;
-            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceBudgetUpdates, allProjectFundingSourceExpectedFunding);
-            if (projectUpdateBatch.IsSubmitted())
-            {
-                projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
-            }
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully saved.");
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
-        }
-
-        private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)
-        {
-            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            var expectedFundingValidationResult = projectUpdateBatch.ValidateExpectedFunding(viewModel.ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples);
-
-            var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(projectUpdateBatch,
-                allFundingSources,
-                fundingTypes,
-                projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear,
-                projectUpdateBatch.ProjectUpdate.CompletionYear);
-            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentFirmaSession, projectUpdateBatch);
-            var projectBudgetsAnnualViewData = new ProjectBudgetsAnnualViewData(CurrentFirmaSession, projectUpdateBatch);
-
-
-            var viewData = new ExpectedFundingViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);
-            return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
-        }
-
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
-            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshExpectedFunding(viewModel);
-        }
-
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
-            projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
-            // refresh data
-            ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            // Need to revert project-level budget data too
-            projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
-            projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
-
-            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully reverted.");
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewRefreshExpectedFunding(ConfirmDialogFormViewModel viewModel)
-        {
-            var viewData =
-                new ConfirmDialogFormViewData(
-                    $"Are you sure you want to refresh the budget for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
-            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
-        }
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]

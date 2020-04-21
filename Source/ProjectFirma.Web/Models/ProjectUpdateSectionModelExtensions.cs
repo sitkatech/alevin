@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
                 case ProjectUpdateSectionEnum.Budget:
                     return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
                             ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFundingByCostType(project.ProjectID))
-                            : SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFunding(project.ProjectID));
+                            : UnsupportedBudgetMode.UnsupportedBudgetModeWarning;
                 //case ProjectUpdateSectionEnum.Expenditures:
                 //    return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ?
                 //        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project)) : 
