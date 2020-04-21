@@ -19,20 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Common;
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-using System.Collections.Generic;
-using System.Web.Mvc;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
-using ProjectFirma.Web.Views.ProjectFundingSourceExpenditure;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ExpectedFundingByCostTypeViewData : ProjectUpdateViewData
+    public class EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData : ProjectUpdateViewData
     {
 
 
@@ -44,7 +37,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public EditProjectFundingSourceBudgetByCostTypeViewData ViewDataForPartial { get; }
         public EditProjectFundingSourceBudgetByCostTypeViewModel ViewModelForPartial { get; }
 
-        public ExpectedFundingByCostTypeViewData(FirmaSession currentFirmaSession,
+        public EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData(FirmaSession currentFirmaSession,
             ProjectUpdateBatch projectUpdateBatch,
             EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular viewDataForAngularClass,
             ProjectBudgetSummaryViewData projectBudgetSummaryViewData,

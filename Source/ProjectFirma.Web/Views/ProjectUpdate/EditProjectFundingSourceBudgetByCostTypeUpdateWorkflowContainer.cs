@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ExpectedFundingByCostType.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainer.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public abstract class ExpectedFundingByCostType : LtInfo.Common.Mvc.TypedWebViewPage<ExpectedFundingByCostTypeViewData>
+    public abstract class EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainer : LtInfo.Common.Mvc.TypedWebViewPage<EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData>
     {
         
     }

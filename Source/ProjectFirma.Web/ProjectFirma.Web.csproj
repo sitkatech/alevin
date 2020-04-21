@@ -527,8 +527,8 @@
     <Compile Include="Views\ProjectUpdate\Contacts.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ContactsViewModel.cs" />
-    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostType.cs" />
-    <Compile Include="Views\ProjectUpdate\ExpectedFundingByCostTypeViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainer.cs" />
+    <Compile Include="Views\ProjectUpdate\EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostType.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewData.cs" />
     <Compile Include="Views\ProjectUpdate\ExpendituresByCostTypeViewModel.cs" />
@@ -909,7 +909,7 @@
     <Content Include="Views\ProjectUpdate\ExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceExpenditure\EditProjectFundingSourceExpendituresByCostType.cshtml" />
     <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostType.cshtml" />
-    <Content Include="Views\ProjectUpdate\ExpectedFundingByCostType.cshtml" />
+    <Content Include="Views\ProjectUpdate\EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainer.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetSummary.cshtml" />
     <Content Include="Views\Shared\ExpenditureAndBudgetControls\ProjectBudgetsAnnualByCostType.cshtml" />
     <Content Include="Views\ProjectUpdate\AttachmentsAndNotes.cshtml" />

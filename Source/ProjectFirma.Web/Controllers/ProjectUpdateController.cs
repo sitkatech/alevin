@@ -63,8 +63,6 @@ using Contacts = ProjectFirma.Web.Views.ProjectUpdate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewModel;
 using ExpectedFunding = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFunding;
-using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostType;
-using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostTypeViewData;
 using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewData;
 using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
@@ -917,8 +915,8 @@ namespace ProjectFirma.Web.Controllers
             var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch) : null;
 
 
-            var viewData = new ExpectedFundingByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualByCostTypeViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingUpdateValidationResult, viewModel);
-            return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData>(viewData);
+            var viewData = new EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualByCostTypeViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingUpdateValidationResult, viewModel);
+            return RazorView<EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainer, EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData>(viewData);
         }
 
         private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch)
