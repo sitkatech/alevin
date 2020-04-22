@@ -1,0 +1,5 @@
+exec sp_rename 'Reclamation.AK_CostAuthorityProject_ReclamationCostAuthorityID_ProjectID', 'AK_CostAuthorityProject_CostAuthorityID_ProjectID', 'OBJECT'
+GO
+
+exec sp_rename 'Reclamation.FK_CostAuthorityProject_CostAuthority_ReclamationCostAuthorityID_CostAuthorityID', 'FK_CostAuthorityProject_CostAuthority_CostAuthorityID', 'OBJECT'
+GO

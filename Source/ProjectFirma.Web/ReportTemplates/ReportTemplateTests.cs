@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -13,6 +14,8 @@ namespace ProjectFirma.Web.ReportTemplates
         [Test]
         public void AllExistingProjectModelReportTemplatesAreValid()
         {
+            SitkaLogger.RegisterLogger(new FirmaLogger());
+
             List<ReportTemplateTestFailedReportTemplate> failedReportTemplates = new List<ReportTemplateTestFailedReportTemplate>();
             //var reportTemplates = HttpRequestStorageForTest.DatabaseEntities.AllReportTemplates.ToList();
             var reportTemplatesGroupedByTenantID = HttpRequestStorageForTest.DatabaseEntities.AllReportTemplates.GroupBy(x => x.TenantID, (key, rt) => new { TenantID = key, ReportTemplates = rt.ToList() }).ToList();
