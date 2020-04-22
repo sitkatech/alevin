@@ -26,49 +26,49 @@ CREATE TABLE [Reclamation].[ObligationRequest](
 	[DateSentForDeptReview] [datetime] NULL,
 	[DCApprovalDate] [datetime] NULL,
 	[ActualAwardDate] [datetime] NULL,
- CONSTRAINT [PK_AgreementRequest_AgreementRequestID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_ObligationRequest_ObligationRequestID] PRIMARY KEY CLUSTERED 
 (
 	[ObligationRequestID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
 GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID] FOREIGN KEY([AgreementID])
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Agreement_AgreementID] FOREIGN KEY([AgreementID])
 REFERENCES [Reclamation].[Agreement] ([AgreementID])
 GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_Agreement_AgreementID]
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Agreement_AgreementID]
 GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_AgreementRequestFundingPriority_ReclamationAgreementRequestFundingPriorityID_AgreementRequestFundingPriority] FOREIGN KEY([ReclamationObligationRequestFundingPriorityID])
-REFERENCES [Reclamation].[ObligationRequestFundingPriority] ([ObligationRequestFundingPriorityID])
-GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_AgreementRequestFundingPriority_ReclamationAgreementRequestFundingPriorityID_AgreementRequestFundingPriority]
-GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_AgreementRequestStatus_AgreementRequestStatusID] FOREIGN KEY([ObligationRequestStatusID])
-REFERENCES [Reclamation].[ObligationRequestStatus] ([ObligationRequestStatusID])
-GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_AgreementRequestStatus_AgreementRequestStatusID]
-GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID] FOREIGN KEY([ContractTypeID])
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_ContractType_ContractTypeID] FOREIGN KEY([ContractTypeID])
 REFERENCES [Reclamation].[ContractType] ([ContractTypeID])
 GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_ContractType_ContractTypeID]
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ContractType_ContractTypeID]
 GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Organization_RecipientOrganizationID_OrganizationID] FOREIGN KEY([RecipientOrganizationID])
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_ObligationRequestFundingPriority_ReclamationObligationRequestFundingPriorityID_ObligationRequestFundingPrio] FOREIGN KEY([ReclamationObligationRequestFundingPriorityID])
+REFERENCES [Reclamation].[ObligationRequestFundingPriority] ([ObligationRequestFundingPriorityID])
+GO
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ObligationRequestFundingPriority_ReclamationObligationRequestFundingPriorityID_ObligationRequestFundingPrio]
+GO
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_ObligationRequestStatus_ObligationRequestStatusID] FOREIGN KEY([ObligationRequestStatusID])
+REFERENCES [Reclamation].[ObligationRequestStatus] ([ObligationRequestStatusID])
+GO
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ObligationRequestStatus_ObligationRequestStatusID]
+GO
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Organization_RecipientOrganizationID_OrganizationID] FOREIGN KEY([RecipientOrganizationID])
 REFERENCES [dbo].[Organization] ([OrganizationID])
 GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_Organization_RecipientOrganizationID_OrganizationID]
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Organization_RecipientOrganizationID_OrganizationID]
 GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Person_CreatePersonID_PersonID] FOREIGN KEY([CreatePersonID])
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Person_CreatePersonID_PersonID] FOREIGN KEY([CreatePersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_Person_CreatePersonID_PersonID]
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Person_CreatePersonID_PersonID]
 GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Person_TechnicalRepresentativePersonID_PersonID] FOREIGN KEY([TechnicalRepresentativePersonID])
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Person_TechnicalRepresentativePersonID_PersonID] FOREIGN KEY([TechnicalRepresentativePersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_Person_TechnicalRepresentativePersonID_PersonID]
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Person_TechnicalRepresentativePersonID_PersonID]
 GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_AgreementRequest_Person_UpdatePersonID_PersonID] FOREIGN KEY([UpdatePersonID])
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Person_UpdatePersonID_PersonID] FOREIGN KEY([UpdatePersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_AgreementRequest_Person_UpdatePersonID_PersonID]
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Person_UpdatePersonID_PersonID]
