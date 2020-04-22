@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.UnitTestCommon
                 // Using object rather than ID based constructors. Failure to do this will result in a half-baked object later, where IDs work, but not Object accessors interior to the
                 // Project.
                 var project = new Project(/*taxonomyLeaf,*/ projectStage, testProjectName, testProjectDescription, isFeatured, ProjectLocationSimpleType.None, ProjectApprovalStatus.Approved, DateTime.Now, ProjectCategory.Normal);
-
+                project.OverrideTaxonomyLeaf = taxonomyLeaf;
                 return project;
             }
         }

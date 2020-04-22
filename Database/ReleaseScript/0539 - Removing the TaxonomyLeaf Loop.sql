@@ -28,3 +28,10 @@ alter column TaxonomyLeafID int null
 GO
 
 sp_rename 'dbo.project.TaxonomyLeafID', 'OverrideTaxonomyLeafID'
+GO
+
+exec sp_rename 'dbo.FK_Project_TaxonomyLeaf_TaxonomyLeafID', 'FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID', 'OBJECT'
+GO
+
+exec sp_rename 'dbo.FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID', 'FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TenantID_TaxonomyLeafID_TenantID', 'OBJECT'
+GO
