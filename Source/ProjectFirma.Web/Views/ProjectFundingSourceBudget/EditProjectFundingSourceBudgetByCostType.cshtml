@@ -248,7 +248,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         All @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized()
                                     </th>
                                     <th style="text-align: right;" ng-repeat-start="calendarYear in calendarYearRange">
-                                        <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear, false) | currency:"$"}}</span>
+                                        <span> {{getBudgetTotalForFundingSourceAndCalendarYear(fundingSourceID, calendarYear) | currency:"$"}}</span>
                                     </th>
                                     <th class="sourcedField" style="text-align: right">
                                         <span>{{getObligationTotalForFundingSourceAndCalendarYear(calendarYear, fundingSourceID) | currency:"$"}}</span>

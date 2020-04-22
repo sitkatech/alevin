@@ -364,8 +364,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             FundingSourceID: fundingSourceId,
             CostTypeID: costTypeId,
             IsRelevant: isRelevant,
-            SecuredAmount: 0,
-            TargetedAmount: 0,
+            ProjectedAmount: 0,
             CalendarYearBudgets: _.map(calendarYearsToAdd, $scope.createNewCalendarYearBudgetRow)
         };
         return newProjectFundingSourceBudget;
@@ -392,8 +391,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     $scope.createNewCalendarYearBudgetRow = function (calendarYear) {
         return {
             CalendarYear: calendarYear,
-            SecuredAmount: 0,
-            TargetedAmount: 0,
+            ProjectedAmount: 0,
             IsRelevant: true
         };
     };
@@ -484,7 +482,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         return $scope.calculateNoFundingSourceIdentifiedTotal(calendarYearNoFundingSourceIdentifiedArray);
     };
 
-    $scope.getBudgetTotalForFundingSourceAndCalendarYear = function (fundingSourceId, calendarYear, isSecured) {
+    $scope.getBudgetTotalForFundingSourceAndCalendarYear = function (fundingSourceId, calendarYear) {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         var calendarYearBudgetsAsFlattenedArray = _($scope.AngularModel.ProjectFundingSourceBudgets)
             .filter(function (pfse) {
@@ -495,11 +493,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
                 return cye.CalendarYear == calendarYear;
             }).value();
 
-        if (isSecured) {
-            return $scope.calculateBudgetSecuredTotal(calendarYearBudgetsAsFlattenedArray);
-        } else {
-            return $scope.calculateBudgetTargetedTotal(calendarYearBudgetsAsFlattenedArray);
-        }
+        return $scope.calculateBudgetTargetedTotal(calendarYearBudgetsAsFlattenedArray);
+        
     };
 
     $scope.getBudgetTotalForFundingSource = function (fundingSourceId) {
@@ -534,7 +529,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     };
 
     $scope.getBudgetTotalForRowSameEachYear = function (projectFundingSourceBudget) {
-        return Number(projectFundingSourceBudget.TargetedAmount); //Number(projectFundingSourceBudget.SecuredAmount) + 
+        return Number(projectFundingSourceBudget.ProjectedAmount); //Number(projectFundingSourceBudget.SecuredAmount) + 
     };
 
     $scope.calculateBudgetTotal = function (budgets) {
@@ -549,8 +544,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
     $scope.calculateBudgetTargetedTotal = function (budgets) {
         return _(budgets)
-            .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.TargetedAmount); })
-            .reduce(function (m, x) { return Number(m) + Number(x.TargetedAmount); }, 0);
+            .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.ProjectedAmount); })
+            .reduce(function (m, x) { return Number(m) + Number(x.ProjectedAmount); }, 0);
     };
 
     $scope.calculateNoFundingSourceIdentifiedTotal = function (noFundingSourceIdentifieds) {
@@ -593,11 +588,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             // make sure secured and targeted funding is pre-populated with zeros
             _.each($scope.AngularModel.ProjectFundingSourceBudgets,
                 function (pfsb) {
-                    if (pfsb.SecuredAmount == null) {
-                        pfsb.SecuredAmount = 0;
-                    }
-                    if (pfsb.TargetedAmount == null) {
-                        pfsb.TargetedAmount = 0;
+                    if (pfsb.ProjectedAmount == null) {
+                        pfsb.ProjectedAmount = 0;
                     }
                 });
         }
