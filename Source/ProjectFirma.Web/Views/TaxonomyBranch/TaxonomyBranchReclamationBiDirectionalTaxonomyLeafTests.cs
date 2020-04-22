@@ -8,25 +8,16 @@ using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
 {
+    /// <summary>
+    /// We might also consider checking these sorts of things in a health check as well.
+    /// </summary>
     [TestFixture]
-    public class TaxonomyBranchReclamationBiDirectionalVerificationDifferenceTests
+    public class TaxonomyBranchReclamationBiDirectionalTaxonomyLeafTests
     {
-        //private readonly DatabaseEntities _databaseEntitiesForTest = new DatabaseEntities(ProjectFirmaModels.Models.Tenant.BureauOfReclamation.TenantID, "AlevinDB");
-        //private readonly DatabaseEntities _databaseEntitiesForTest = new DatabaseEntities(ProjectFirmaModels.Models.Tenant.BureauOfReclamation.TenantID, "AlevinDB");
-
         public class TaxonomyLeafFromBothDirections
         {
             public ProjectFirmaModels.Models.TaxonomyLeaf TaxonomyLeafOverrideOffProject;
             public ProjectFirmaModels.Models.TaxonomyLeaf TaxonomyLeafRoundaboutViaPrimaryCawbs;
-
-            /*
-            public TaxonomyLeafFromBothDirections(ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeafDirectlyOffProject, 
-                                                  ProjectFirmaModels.Models.TaxonomyLeaf taxonomyLeafRoundaboutViaPrimaryCawbs)
-            {
-                TaxonomyLeafOverrideOffProject = taxonomyLeafDirectlyOffProject;
-                TaxonomyLeafRoundaboutViaPrimaryCawbs = taxonomyLeafRoundaboutViaPrimaryCawbs;
-            }
-            */
 
             public TaxonomyLeafFromBothDirections(ProjectFirmaModels.Models.Project theProject)
             {
@@ -89,9 +80,8 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             }
         }
 
-
-
-        [Ignore("This test was useful for debugging, but now that the code has been restructured isn't really a valid test any more. Retained for context and as a starting point for further debugging.")]
+        [Ignore("This test was useful for debugging, but now that the code has been restructured isn't really a valid test any more. " +
+                      "Retained for context and as a starting point for further debugging, should it be needed.")]
         [Test]
         public void TaxonomyBranchIsCorrectlyLinkedInNewVersusOldStrategy()
         {

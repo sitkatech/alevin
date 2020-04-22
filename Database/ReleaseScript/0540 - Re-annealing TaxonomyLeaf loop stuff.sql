@@ -48,7 +48,9 @@ inner join dbo.TaxonomyLeaf as tl on ca.TaxonomyLeafID = tl.TaxonomyLeafID
 where p.ProjectID = 13698
 */
 
--- These don't have primary bit set. Which tells me my check is also faulty, bummer!
+-- These don't have primary bit set. Remember, our goofy index only ensures we don't 
+-- have MORE than one primary - NOT that we have AT LEAST one primary. I've resorted to
+-- tests & run-time exceptions to limit that.
 update Reclamation.CostAuthorityProject
 set IsPrimaryProjectCawbs = 1
 where CostAuthorityProjectID in
