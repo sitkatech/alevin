@@ -72,6 +72,25 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             }
         }
 
+        [Test]
+        public void EnsureOneAndOnlyOnePrimaryCawbsPerProjectCostAuthorityProjectsGroup()
+        {
+            // Other tests also exercise this requirement indirectly, but I thought it useful to spell it out directly.
+            var allProjects = HttpRequestStorage.DatabaseEntities.AllProjects
+                .Where(p => p.TenantID == ProjectFirmaModels.Models.Tenant.BureauOfReclamation.TenantID).ToList();
+            foreach (var project in allProjects)
+            {
+                var costAuthorityProjects = project.CostAuthorityProjects.ToList();
+                if (costAuthorityProjects.Any())
+                {
+                    var countOfPrimaryCawbsForProject = costAuthorityProjects.Count(cap => cap.IsPrimaryProjectCawbs);
+                    Check.Assert(countOfPrimaryCawbsForProject == 1, $"Found {countOfPrimaryCawbsForProject} set to IsPrimaryProjectCawbs for Project {project.ProjectID} {project.ProjectName}. Should be one and only one Primary CAWBS per project.");
+                }
+            }
+        }
+
+
+
         [Ignore("This test was useful for debugging, but now that the code has been restructured isn't really a valid test any more. Retained for context and as a starting point for further debugging.")]
         [Test]
         public void TaxonomyBranchIsCorrectlyLinkedInNewVersusOldStrategy()

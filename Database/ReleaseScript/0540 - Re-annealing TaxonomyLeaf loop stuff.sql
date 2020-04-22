@@ -1,3 +1,71 @@
+DROP TABLE IF EXISTS #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
+GO
+
+select distinct p.ProjectID
+into #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
+from dbo.Project as p
+left join Reclamation.CostAuthorityProject as cap on p.ProjectID = cap.ProjectID
+where
+cap.ProjectID is not null
+and
+p.OverrideTaxonomyLeafID is not null
+and
+p.TenantID = 12
+
+--select * from #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
+
+-- Remove overrides if we have an indirect of some kind
+update dbo.Project
+set OverrideTaxonomyLeafID = null
+where ProjectID in 
+(
+    select ProjectID from #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
+)
+and TenantID = 12
+
+/*
+
+-- Turns out some of our indirects did not have IsPrimaryProjectCawbs selected.
+
+-- Code for examining problematic CAP groups, to help guide
+-- manual IsPrimaryProjectCawbs as done below.
+
+select p.ProjectID,
+       p.ProjectName,
+       cap.CostAuthorityProjectID,
+       cap.IsPrimaryProjectCawbs,
+       cap.PrimaryProjectCawbsUniqueString,
+       cap.CostAuthorityID,
+       ca.CostAuthorityNumber,
+       ca.CostAuthorityWorkBreakdownStructure,
+       tl.TaxonomyLeafID,
+       tl.TaxonomyLeafName
+from 
+dbo.Project as p
+inner join Reclamation.CostAuthorityProject as cap on p.ProjectID = cap.ProjectID
+inner join Reclamation.CostAuthority as ca on cap.CostAuthorityID = ca.CostAuthorityID
+inner join dbo.TaxonomyLeaf as tl on ca.TaxonomyLeafID = tl.TaxonomyLeafID
+where p.ProjectID = 13698
+*/
+
+-- These don't have primary bit set. Which tells me my check is also faulty, bummer!
+update Reclamation.CostAuthorityProject
+set IsPrimaryProjectCawbs = 1
+where CostAuthorityProjectID in
+(
+-- ProjectID: 
+442,
+-- ProjectID: 13624
+522,
+-- ProjectID: 13698
+465
+)
+
+
+
+
+
+-- Older notes
 
 -- Example issue:
 --ProjectID:13726 Project Name:Grande Ronde Geom CC RA 4
@@ -64,61 +132,4 @@ select * from #ProjectsWithNeitherDirectNorIndirectTaxonomyLeafs
 
 */
 
--- At last, the ones we really need to fix
 
-DROP TABLE IF EXISTS #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
-GO
-
-select distinct p.ProjectID
-into #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
-from dbo.Project as p
-left join Reclamation.CostAuthorityProject as cap on p.ProjectID = cap.ProjectID
-where
-cap.ProjectID is not null
-and
-p.OverrideTaxonomyLeafID is not null
-and
-p.TenantID = 12
-
---select * from #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
-
--- Remove overrides if we have an indirect of some kind
-update dbo.Project
-set OverrideTaxonomyLeafID = null
-where ProjectID in 
-(
-    select ProjectID from #ProjectsWithBothIndirectAndDirectTaxonomyLeafs
-)
-and TenantID = 12
-
-/*
-select p.ProjectID,
-       p.ProjectName,
-       cap.CostAuthorityProjectID,
-       cap.IsPrimaryProjectCawbs,
-       cap.PrimaryProjectCawbsUniqueString,
-       cap.CostAuthorityID,
-       ca.CostAuthorityNumber,
-       ca.CostAuthorityWorkBreakdownStructure,
-       tl.TaxonomyLeafID,
-       tl.TaxonomyLeafName
-from 
-dbo.Project as p
-inner join Reclamation.CostAuthorityProject as cap on p.ProjectID = cap.ProjectID
-inner join Reclamation.CostAuthority as ca on cap.CostAuthorityID = ca.CostAuthorityID
-inner join dbo.TaxonomyLeaf as tl on ca.TaxonomyLeafID = tl.TaxonomyLeafID
-where p.ProjectID = 13698
-*/
-
--- These don't have primary bit set. Which tells me my check is also faulty, bummer!
-update Reclamation.CostAuthorityProject
-set IsPrimaryProjectCawbs = 1
-where CostAuthorityProjectID in
-(
--- ProjectID: 
-442,
--- ProjectID: 13624
-522,
--- ProjectID: 13698
-465
-)
