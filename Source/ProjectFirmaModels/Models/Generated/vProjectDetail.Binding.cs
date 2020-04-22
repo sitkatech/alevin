@@ -25,7 +25,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount) : this()
+        public vProjectDetail(int projectID, int primaryKey, int tenantID, string projectName, int? primaryContactOrganizationID, string primaryContactOrganizationDisplayName, int? primaryContactPersonID, string primaryContactPersonFullNameFirstLast, string primaryContactPersonEmail, int? performanceMeasureActualCount, int? projectImageCount, int? canStewardProjectsOrganizationID, string canStewardProjectsOrganizationDisplayName, int? taxonomyLeafID, string taxonomyLeafDisplayName, string finalStatusReportStatusDescription, int? projectFundingSourceExpenditureCount) : this()
         {
             this.ProjectID = projectID;
             this.PrimaryKey = primaryKey;
@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models
         public int? ProjectImageCount { get; set; }
         public int? CanStewardProjectsOrganizationID { get; set; }
         public string CanStewardProjectsOrganizationDisplayName { get; set; }
-        public int TaxonomyLeafID { get; set; }
+        public int? TaxonomyLeafID { get; set; }
         public string TaxonomyLeafDisplayName { get; set; }
         public string FinalStatusReportStatusDescription { get; set; }
         public int? ProjectFundingSourceExpenditureCount { get; set; }

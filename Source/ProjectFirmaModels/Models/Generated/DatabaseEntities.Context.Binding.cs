@@ -229,6 +229,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new vGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vProjectCustomAttributeValueConfiguration());
             modelBuilder.Configurations.Add(new vProjectDetailConfiguration());
+            modelBuilder.Configurations.Add(new vProjectEffectiveTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new vProjectFunctionallyCompleteConfiguration());
         }
         public virtual DbSet<ActionItem> AllActionItems { get; set; }
@@ -555,6 +556,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<vGeospatialArea> vGeospatialAreas { get; set; }
         public virtual DbSet<vProjectCustomAttributeValue> vProjectCustomAttributeValues { get; set; }
         public virtual DbSet<vProjectDetail> vProjectDetails { get; set; }
+        public virtual DbSet<vProjectEffectiveTaxonomyLeaf> vProjectEffectiveTaxonomyLeafs { get; set; }
         public virtual DbSet<vProjectFunctionallyComplete> vProjectFunctionallyCompletes { get; set; }
 
         public object LoadType(Type type, int primaryKey)
