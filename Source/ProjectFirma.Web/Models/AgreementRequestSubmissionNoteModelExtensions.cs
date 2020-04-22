@@ -4,17 +4,17 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class AgreementRequestSubmissionNoteModelExtensions
+    public static class ObligationRequestSubmissionNoteModelExtensions
     {
-        public static string GetDeleteUrl(this AgreementRequestSubmissionNote agreementRequestSubmissionNote)
+        public static string GetDeleteUrl(this ObligationRequestSubmissionNote obligationRequestSubmissionNote)
         {
-            return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c =>
-                c.DeleteReclamationAgreementRequestSubmissionNote(agreementRequestSubmissionNote.AgreementRequestSubmissionNoteID));
+            return SitkaRoute<ObligationRequestSubmissionNotesController>.BuildUrlFromExpression(c =>
+                c.DeleteReclamationObligationRequestSubmissionNote(obligationRequestSubmissionNote.ObligationRequestSubmissionNoteID));
         }
 
-        public static string GetEditUrl(this AgreementRequestSubmissionNote agreementRequestSubmissionNote)
+        public static string GetEditUrl(this ObligationRequestSubmissionNote obligationRequestSubmissionNote)
         {
-            return SitkaRoute<AgreementRequestSubmissionNotesController>.BuildUrlFromExpression(c => c.Edit(agreementRequestSubmissionNote.AgreementRequestSubmissionNoteID));
+            return SitkaRoute<ObligationRequestSubmissionNotesController>.BuildUrlFromExpression(c => c.Edit(obligationRequestSubmissionNote.ObligationRequestSubmissionNoteID));
         }
     }
 }

@@ -27,7 +27,7 @@ namespace ProjectFirmaModels.Models
             this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
             this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
             this.AgreementCostAuthorities = new HashSet<AgreementCostAuthority>();
-            this.CostAuthorityAgreementRequests = new HashSet<CostAuthorityAgreementRequest>();
+            this.CostAuthorityObligationRequests = new HashSet<CostAuthorityObligationRequest>();
             this.CostAuthorityProjects = new HashSet<CostAuthorityProject>();
             this.ReclamationStagingCostAuthorityAgreements = new HashSet<ReclamationStagingCostAuthorityAgreement>();
         }
@@ -94,13 +94,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || AgreementCostAuthorities.Any() || CostAuthorityAgreementRequests.Any() || CostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreements.Any();
+            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || AgreementCostAuthorities.Any() || CostAuthorityObligationRequests.Any() || CostAuthorityProjects.Any() || ReclamationStagingCostAuthorityAgreements.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthority).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(AgreementCostAuthority).Name, typeof(CostAuthorityAgreementRequest).Name, typeof(CostAuthorityProject).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostAuthority).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(AgreementCostAuthority).Name, typeof(CostAuthorityObligationRequest).Name, typeof(CostAuthorityProject).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
 
 
         /// <summary>
@@ -140,7 +140,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in CostAuthorityAgreementRequests.ToList())
+            foreach(var x in CostAuthorityObligationRequests.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -181,7 +181,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
         public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ICollection<AgreementCostAuthority> AgreementCostAuthorities { get; set; }
-        public virtual ICollection<CostAuthorityAgreementRequest> CostAuthorityAgreementRequests { get; set; }
+        public virtual ICollection<CostAuthorityObligationRequest> CostAuthorityObligationRequests { get; set; }
         public virtual ICollection<CostAuthorityProject> CostAuthorityProjects { get; set; }
         public virtual ICollection<ReclamationStagingCostAuthorityAgreement> ReclamationStagingCostAuthorityAgreements { get; set; }
         public virtual HCategory HabitatCategory { get; set; }
