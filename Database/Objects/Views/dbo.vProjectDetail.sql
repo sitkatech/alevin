@@ -28,8 +28,8 @@ p.ProjectID
 , coalesce(pfse.ProjectFundingSourceExpenditureCount,0) as ProjectFundingSourceExpenditureCount
 
  from dbo.Project p
- -- TOO SIMPLISTIC! Must follow C# code here -- TODO
- join dbo.TaxonomyLeaf tl on p.OverrideTaxonomyLeafID = tl.TaxonomyLeafID
+ left join dbo.vProjectEffectiveTaxonomyLeaf as petl on p.ProjectID = petl.ProjectID
+ left join dbo.TaxonomyLeaf tl on petl.EffectiveTaxonomyLeafID = tl.TaxonomyLeafID
  join dbo.vProjectFunctionallyComplete pendingCompletedBatch on pendingCompletedBatch.ProjectID = p.ProjectID
  left join dbo.Person person on p.PrimaryContactPersonID = person.PersonID
 left join (select 
@@ -53,7 +53,7 @@ left join (select
                     from    dbo.ProjectOrganization po
                     join    dbo.OrganizationRelationshipType ot on po.OrganizationRelationshipTypeID = ot.OrganizationRelationshipTypeID
                     join    dbo.Organization o on po.OrganizationID = o.OrganizationID
-                    where ot.CanStewardProjects = 1)                  
+                    where ot.CanStewardProjects = 1)
    pso on p.ProjectID = pso.ProjectID
 
 
@@ -70,4 +70,9 @@ left join (select pfse.ProjectID, count(*) as ProjectFundingSourceExpenditureCou
 
 go
 
--- select * from dbo.vProjectDetail
+/*
+
+select * from dbo.vProjectDetail
+where ProjectID = 13698
+
+*/
