@@ -118,11 +118,11 @@
                                     <span>@groupedByCostType.Where(x => x.IsSecured == false).Sum(x => x.MonetaryAmount).ToStringCurrency()</span>
                                 </td>
                                 @* total obligated for row *@
-                                <td class="text-right">
+                                <td class="sourcedField text-right">
                                     <span>@ViewDataTyped.ObligationItemBudgetRollUps.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID && x.CostTypeID == currentCostType.CostTypeID).Sum(x => x.Amount).ToStringCurrency()</span>
                                 </td>
                                 @* total expenditure for row *@
-                                <td class="text-right">
+                                <td class="sourcedField text-right">
                                     <span>@ViewDataTyped.ObligationItemInvoiceRollUps.Where(x => x.FundingSourceID == currentFundingSource.FundingSourceID && x.CostTypeID == currentCostType.CostTypeID).Sum(x => x.Amount).ToStringCurrency()</span>
                                 </td>
                             </tr>
