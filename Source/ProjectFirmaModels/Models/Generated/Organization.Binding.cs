@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
             this.Agreements = new HashSet<Agreement>();
-            this.AgreementRequestsWhereYouAreTheRecipientOrganization = new HashSet<AgreementRequest>();
+            this.ObligationRequestsWhereYouAreTheRecipientOrganization = new HashSet<ObligationRequest>();
         }
 
         /// <summary>
@@ -99,13 +99,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any() || Agreements.Any() || AgreementRequestsWhereYouAreTheRecipientOrganization.Any();
+            return FundingSources.Any() || OrganizationBoundaryStagings.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any() || Agreements.Any() || ObligationRequestsWhereYouAreTheRecipientOrganization.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name, typeof(Agreement).Name, typeof(AgreementRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(OrganizationBoundaryStaging).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name, typeof(Agreement).Name, typeof(ObligationRequest).Name};
 
 
         /// <summary>
@@ -165,7 +165,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementRequestsWhereYouAreTheRecipientOrganization.ToList())
+            foreach(var x in ObligationRequestsWhereYouAreTheRecipientOrganization.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -200,7 +200,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get; set; }
         public virtual ICollection<Agreement> Agreements { get; set; }
-        public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheRecipientOrganization { get; set; }
+        public virtual ICollection<ObligationRequest> ObligationRequestsWhereYouAreTheRecipientOrganization { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResource LogoFileResource { get; set; }

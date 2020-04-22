@@ -1,7 +1,7 @@
 ﻿using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.AgreementRequest;
+using ProjectFirma.Web.Views.ObligationRequest;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 

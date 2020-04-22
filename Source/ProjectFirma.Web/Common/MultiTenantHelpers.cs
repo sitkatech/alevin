@@ -100,14 +100,14 @@ namespace ProjectFirma.Web.Common
             return PluralizationService.Pluralize(GetAgreementName());
         }
 
-        public static string GetAgreementRequestNamePluralized()
+        public static string GetObligationRequestNamePluralized()
         {
-            return PluralizationService.Pluralize(GetAgreementRequestName());
+            return PluralizationService.Pluralize(GetObligationRequestName());
         }
 
-        public static string GetAgreementRequestName()
+        public static string GetObligationRequestName()
         {
-            return FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel();
+            return FieldDefinitionEnum.ObligationRequest.ToType().GetFieldDefinitionLabel();
         }
 
         public static string GetCostAuthorityName()

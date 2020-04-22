@@ -189,20 +189,20 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new AgreementConfiguration());
             modelBuilder.Configurations.Add(new AgreementCostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new AgreementPacificNorthActivityConfiguration());
-            modelBuilder.Configurations.Add(new AgreementRequestConfiguration());
-            modelBuilder.Configurations.Add(new AgreementRequestSubmissionNoteConfiguration());
             modelBuilder.Configurations.Add(new BasinConfiguration());
             modelBuilder.Configurations.Add(new BudgetObjectCodeConfiguration());
             modelBuilder.Configurations.Add(new BudgetObjectCodeGroupConfiguration());
             modelBuilder.Configurations.Add(new ContractTypeConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityConfiguration());
-            modelBuilder.Configurations.Add(new CostAuthorityAgreementRequestConfiguration());
+            modelBuilder.Configurations.Add(new CostAuthorityObligationRequestConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityProjectConfiguration());
             modelBuilder.Configurations.Add(new DeliverableConfiguration());
             modelBuilder.Configurations.Add(new DeliverableTypeConfiguration());
             modelBuilder.Configurations.Add(new DepartmentCodeConfiguration());
             modelBuilder.Configurations.Add(new HCategoryConfiguration());
             modelBuilder.Configurations.Add(new LocationConfiguration());
+            modelBuilder.Configurations.Add(new ObligationRequestConfiguration());
+            modelBuilder.Configurations.Add(new ObligationRequestSubmissionNoteConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityStatusConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityTypeConfiguration());
@@ -235,8 +235,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ActionItem> ActionItems { get { return AllActionItems.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<AgreementCostAuthority> AgreementCostAuthorities { get; set; }
         public virtual DbSet<AgreementPacificNorthActivity> AgreementPacificNorthActivities { get; set; }
-        public virtual DbSet<AgreementRequest> AgreementRequests { get; set; }
-        public virtual DbSet<AgreementRequestSubmissionNote> AgreementRequestSubmissionNotes { get; set; }
         public virtual DbSet<Agreement> Agreements { get; set; }
         public virtual DbSet<AssessmentGoal> AllAssessmentGoals { get; set; }
         public virtual IQueryable<AssessmentGoal> AssessmentGoals { get { return AllAssessmentGoals.Where(x => x.TenantID == TenantID); } }
@@ -265,7 +263,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ContactRelationshipType> ContactRelationshipTypes { get { return AllContactRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ContractType> ContractTypes { get; set; }
         public virtual DbSet<CostAuthority> CostAuthorities { get; set; }
-        public virtual DbSet<CostAuthorityAgreementRequest> CostAuthorityAgreementRequests { get; set; }
+        public virtual DbSet<CostAuthorityObligationRequest> CostAuthorityObligationRequests { get; set; }
         public virtual DbSet<CostAuthorityProject> CostAuthorityProjects { get; set; }
         public virtual DbSet<CostType> AllCostTypes { get; set; }
         public virtual IQueryable<CostType> CostTypes { get { return AllCostTypes.Where(x => x.TenantID == TenantID); } }
@@ -339,6 +337,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<NpccSubbasinProvince> NpccSubbasinProvinces { get { return AllNpccSubbasinProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ObligationItem> ObligationItems { get; set; }
         public virtual DbSet<ObligationNumber> ObligationNumbers { get; set; }
+        public virtual DbSet<ObligationRequest> ObligationRequests { get; set; }
+        public virtual DbSet<ObligationRequestSubmissionNote> ObligationRequestSubmissionNotes { get; set; }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
         public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationRelationshipType> AllOrganizationRelationshipTypes { get; set; }
@@ -580,22 +580,6 @@ namespace ProjectFirmaModels.Models
                 case "AgreementPacificNorthActivity":
                     return AgreementPacificNorthActivities.GetAgreementPacificNorthActivity(primaryKey);
 
-                case "AgreementRequestFundingPriority":
-                    var agreementRequestFundingPriority = AgreementRequestFundingPriority.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(agreementRequestFundingPriority, "AgreementRequestFundingPriority", primaryKey);
-                    return agreementRequestFundingPriority;
-
-                case "AgreementRequest":
-                    return AgreementRequests.GetAgreementRequest(primaryKey);
-
-                case "AgreementRequestStatus":
-                    var agreementRequestStatus = AgreementRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(agreementRequestStatus, "AgreementRequestStatus", primaryKey);
-                    return agreementRequestStatus;
-
-                case "AgreementRequestSubmissionNote":
-                    return AgreementRequestSubmissionNotes.GetAgreementRequestSubmissionNote(primaryKey);
-
                 case "Agreement":
                     return Agreements.GetAgreement(primaryKey);
 
@@ -657,8 +641,8 @@ namespace ProjectFirmaModels.Models
                 case "CostAuthority":
                     return CostAuthorities.GetCostAuthority(primaryKey);
 
-                case "CostAuthorityAgreementRequest":
-                    return CostAuthorityAgreementRequests.GetCostAuthorityAgreementRequest(primaryKey);
+                case "CostAuthorityObligationRequest":
+                    return CostAuthorityObligationRequests.GetCostAuthorityObligationRequest(primaryKey);
 
                 case "CostAuthorityProject":
                     return CostAuthorityProjects.GetCostAuthorityProject(primaryKey);
@@ -840,6 +824,22 @@ namespace ProjectFirmaModels.Models
 
                 case "ObligationNumber":
                     return ObligationNumbers.GetObligationNumber(primaryKey);
+
+                case "ObligationRequestFundingPriority":
+                    var obligationRequestFundingPriority = ObligationRequestFundingPriority.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(obligationRequestFundingPriority, "ObligationRequestFundingPriority", primaryKey);
+                    return obligationRequestFundingPriority;
+
+                case "ObligationRequest":
+                    return ObligationRequests.GetObligationRequest(primaryKey);
+
+                case "ObligationRequestStatus":
+                    var obligationRequestStatus = ObligationRequestStatus.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(obligationRequestStatus, "ObligationRequestStatus", primaryKey);
+                    return obligationRequestStatus;
+
+                case "ObligationRequestSubmissionNote":
+                    return ObligationRequestSubmissionNotes.GetObligationRequestSubmissionNote(primaryKey);
 
                 case "OrganizationBoundaryStaging":
                     return OrganizationBoundaryStagings.GetOrganizationBoundaryStaging(primaryKey);

@@ -1,10 +1,10 @@
 ﻿namespace ProjectFirmaModels.Models
 {
-    public partial class CostAuthorityAgreementRequest : IAuditableEntity
+    public partial class CostAuthorityObligationRequest : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {
-            return $"CostAuthorityAgreementRequest: {this.CostAuthorityAgreementRequestID}";
+            return $"CostAuthorityObligationRequest: {this.CostAuthorityObligationRequestID}";
         }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Manage {0}", FieldDefinitionEnum.AgreementRequest)]
-    public class AgreementRequestManageFeature : FirmaAdminFeature
+    [SecurityFeatureDescription("Manage {0}", FieldDefinitionEnum.ObligationRequest)]
+    public class ObligationRequestManageFeature : FirmaAdminFeature
     {
         public override bool HasPermissionByPerson(Person person)
         {

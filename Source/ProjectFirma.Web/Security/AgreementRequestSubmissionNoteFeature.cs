@@ -3,10 +3,10 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Can create, read, edit and delete notes for an agreement request")]
-    public class AgreementRequestSubmissionNoteFeature : FirmaFeature
+    [SecurityFeatureDescription("Can create, read, edit and delete notes for an obligation request")]
+    public class ObligationRequestSubmissionNoteFeature : FirmaFeature
     {
-        public AgreementRequestSubmissionNoteFeature()
+        public ObligationRequestSubmissionNoteFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }

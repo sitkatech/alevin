@@ -25,7 +25,7 @@ namespace ProjectFirmaModels.Models
         protected ContractType()
         {
             this.Agreements = new HashSet<Agreement>();
-            this.AgreementRequests = new HashSet<AgreementRequest>();
+            this.ObligationRequests = new HashSet<ObligationRequest>();
         }
 
         /// <summary>
@@ -54,13 +54,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Agreements.Any() || AgreementRequests.Any();
+            return Agreements.Any() || ObligationRequests.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ContractType).Name, typeof(Agreement).Name, typeof(AgreementRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ContractType).Name, typeof(Agreement).Name, typeof(ObligationRequest).Name};
 
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementRequests.ToList())
+            foreach(var x in ObligationRequests.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -104,7 +104,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ContractTypeID; } set { ContractTypeID = value; } }
 
         public virtual ICollection<Agreement> Agreements { get; set; }
-        public virtual ICollection<AgreementRequest> AgreementRequests { get; set; }
+        public virtual ICollection<ObligationRequest> ObligationRequests { get; set; }
 
         public static class FieldLengths
         {

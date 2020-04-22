@@ -353,9 +353,9 @@ namespace ProjectFirma.Web.Views
         {
             var agreementsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabelPluralized()}");
             agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementController>(c => c.AgreementIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()} List", "Group2"));
-            if (new AgreementRequestIndexViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            if (new ObligationRequestIndexViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
-                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AgreementRequestController>(c => c.AgreementRequestIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.AgreementRequest.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationRequestController>(c => c.ObligationRequestIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.ObligationRequest.ToType().GetFieldDefinitionLabel()} List", "Group2"));
             }
             // Obligations treated as part of Agreements for now.
             if (new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession))

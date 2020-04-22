@@ -5,24 +5,24 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
 {
-    public static class CostAuthorityAgreementRequestModelExtensions
+    public static class CostAuthorityObligationRequestModelExtensions
     {
         
 
         public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(
-            SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t => t.DeleteCostAuthority(UrlTemplate.Parameter1Int)));
+            SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(t => t.DeleteCostAuthority(UrlTemplate.Parameter1Int)));
 
-        public static string GetDeleteUrl(this CostAuthorityAgreementRequest costAuthorityAgreementRequest)
+        public static string GetDeleteUrl(this CostAuthorityObligationRequest costAuthorityObligationRequest)
         {
-            return DeleteUrlTemplate.ParameterReplace(costAuthorityAgreementRequest.PrimaryKey);
+            return DeleteUrlTemplate.ParameterReplace(costAuthorityObligationRequest.PrimaryKey);
         }
 
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(
-            SitkaRoute<AgreementRequestController>.BuildUrlFromExpression(t => t.EditCostAuthorityAgreementRequest(UrlTemplate.Parameter1Int)));
+            SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(t => t.EditCostAuthorityObligationRequest(UrlTemplate.Parameter1Int)));
 
-        public static string GetEditUrl(this CostAuthorityAgreementRequest costAuthorityAgreementRequest)
+        public static string GetEditUrl(this CostAuthorityObligationRequest costAuthorityObligationRequest)
         {
-            return EditUrlTemplate.ParameterReplace(costAuthorityAgreementRequest.PrimaryKey);
+            return EditUrlTemplate.ParameterReplace(costAuthorityObligationRequest.PrimaryKey);
         }
     }
 }

@@ -4,9 +4,9 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("Has a ProjectFirma role")]
-    public class AgreementRequestCreateFeature : FirmaFeature
+    public class ObligationRequestCreateFeature : FirmaFeature
     {
-        public AgreementRequestCreateFeature()
+        public ObligationRequestCreateFeature()
             : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
         {
         }

@@ -83,9 +83,9 @@ insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeD
 values
 (10000, 'AgreementList', 'Agreement List', 1),
 (10001, 'CostAuthorityList', 'Cost Authority List', 1),
-(10002, 'AgreementRequestList', 'Agreement Request List', 1),
-(10003, 'AgreementRequestFromGridDialog', 'Agreement Request Grid Dialog', 2),
-(10004, 'AddCostAuthorityToAgreementRequest', 'Add one or many CAWBS and their projected obligations to this Agreement Request.', 2),
+(10002, 'ObligationRequestList', 'Obligation Request List', 1),
+(10003, 'ObligationRequestFromGridDialog', 'Obligation Request Grid Dialog', 2),
+(10004, 'AddCostAuthorityToObligationRequest', 'Add one or many CAWBS and their projected obligations to this Obligation Request.', 2),
 (10005, 'ActionItemEditDialog', 'Action Item Edit Dialog', 2),
 (10006, 'ActionItemIndexList', 'Action Item Index List', 1),
 (10007, 'UploadBudgetAndInvoiceExcel', 'Upload Budget And Invoice Excel', 1),

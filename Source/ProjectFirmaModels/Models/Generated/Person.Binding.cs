@@ -63,12 +63,12 @@ namespace ProjectFirmaModels.Models
             this.TechnicalAssistanceRequests = new HashSet<TechnicalAssistanceRequest>();
             this.TechnicalAssistanceRequestUpdates = new HashSet<TechnicalAssistanceRequestUpdate>();
             this.TenantAttributesWhereYouAreThePrimaryContactPerson = new HashSet<TenantAttribute>();
-            this.AgreementRequestsWhereYouAreTheCreatePerson = new HashSet<AgreementRequest>();
-            this.AgreementRequestsWhereYouAreTheTechnicalRepresentativePerson = new HashSet<AgreementRequest>();
-            this.AgreementRequestsWhereYouAreTheUpdatePerson = new HashSet<AgreementRequest>();
-            this.AgreementRequestSubmissionNotesWhereYouAreTheCreatePerson = new HashSet<AgreementRequestSubmissionNote>();
-            this.AgreementRequestSubmissionNotesWhereYouAreTheUpdatePerson = new HashSet<AgreementRequestSubmissionNote>();
             this.Deliverables = new HashSet<Deliverable>();
+            this.ObligationRequestsWhereYouAreTheCreatePerson = new HashSet<ObligationRequest>();
+            this.ObligationRequestsWhereYouAreTheTechnicalRepresentativePerson = new HashSet<ObligationRequest>();
+            this.ObligationRequestsWhereYouAreTheUpdatePerson = new HashSet<ObligationRequest>();
+            this.ObligationRequestSubmissionNotesWhereYouAreTheCreatePerson = new HashSet<ObligationRequestSubmissionNote>();
+            this.ObligationRequestSubmissionNotesWhereYouAreTheUpdatePerson = new HashSet<ObligationRequestSubmissionNote>();
         }
 
         /// <summary>
@@ -153,13 +153,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ActionItemsWhereYouAreTheAssignedToPerson.Any() || AuditLogs.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SubbasinLiasons.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any() || AgreementRequestsWhereYouAreTheCreatePerson.Any() || AgreementRequestsWhereYouAreTheTechnicalRepresentativePerson.Any() || AgreementRequestsWhereYouAreTheUpdatePerson.Any() || AgreementRequestSubmissionNotesWhereYouAreTheCreatePerson.Any() || AgreementRequestSubmissionNotesWhereYouAreTheUpdatePerson.Any() || Deliverables.Any();
+            return ActionItemsWhereYouAreTheAssignedToPerson.Any() || AuditLogs.Any() || EvaluationsWhereYouAreTheCreatePerson.Any() || FileResourcesWhereYouAreTheCreatePerson.Any() || FirmaSessions.Any() || FirmaSessionsWhereYouAreTheOriginalPerson.Any() || ImportExternalProjectStagingsWhereYouAreTheCreatePerson.Any() || Notifications.Any() || OrganizationsWhereYouAreThePrimaryContactPerson.Any() || PerformanceMeasureNotesWhereYouAreTheCreatePerson.Any() || PerformanceMeasureNotesWhereYouAreTheUpdatePerson.Any() || PersonStewardGeospatialAreas.Any() || PersonStewardOrganizations.Any() || PersonStewardTaxonomyBranches.Any() || ProjectsWhereYouAreThePrimaryContactPerson.Any() || ProjectsWhereYouAreTheProposingPerson.Any() || ProjectsWhereYouAreTheReviewedByPerson.Any() || ProjectContactsWhereYouAreTheContact.Any() || ProjectContactUpdatesWhereYouAreTheContact.Any() || ProjectInternalNotesWhereYouAreTheCreatePerson.Any() || ProjectInternalNotesWhereYouAreTheUpdatePerson.Any() || ProjectLocationStagings.Any() || ProjectLocationStagingUpdates.Any() || ProjectNotesWhereYouAreTheCreatePerson.Any() || ProjectNotesWhereYouAreTheUpdatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheCreatePerson.Any() || ProjectNoteUpdatesWhereYouAreTheUpdatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusCreatePerson.Any() || ProjectProjectStatusesWhereYouAreTheProjectProjectStatusLastEditedPerson.Any() || ProjectUpdatesWhereYouAreThePrimaryContactPerson.Any() || ProjectUpdateBatchesWhereYouAreTheLastUpdatePerson.Any() || ProjectUpdateHistoriesWhereYouAreTheUpdatePerson.Any() || ReleaseNotesWhereYouAreTheCreatePerson.Any() || ReleaseNotesWhereYouAreTheUpdatePerson.Any() || SubbasinLiasons.Any() || SupportRequestLogsWhereYouAreTheRequestPerson.Any() || TechnicalAssistanceRequests.Any() || TechnicalAssistanceRequestUpdates.Any() || TenantAttributesWhereYouAreThePrimaryContactPerson.Any() || Deliverables.Any() || ObligationRequestsWhereYouAreTheCreatePerson.Any() || ObligationRequestsWhereYouAreTheTechnicalRepresentativePerson.Any() || ObligationRequestsWhereYouAreTheUpdatePerson.Any() || ObligationRequestSubmissionNotesWhereYouAreTheCreatePerson.Any() || ObligationRequestSubmissionNotesWhereYouAreTheUpdatePerson.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(ActionItem).Name, typeof(AuditLog).Name, typeof(Evaluation).Name, typeof(FileResource).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReleaseNote).Name, typeof(SubbasinLiason).Name, typeof(SupportRequestLog).Name, typeof(TechnicalAssistanceRequest).Name, typeof(TechnicalAssistanceRequestUpdate).Name, typeof(TenantAttribute).Name, typeof(AgreementRequest).Name, typeof(AgreementRequestSubmissionNote).Name, typeof(Deliverable).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Person).Name, typeof(ActionItem).Name, typeof(AuditLog).Name, typeof(Evaluation).Name, typeof(FileResource).Name, typeof(FirmaSession).Name, typeof(ImportExternalProjectStaging).Name, typeof(Notification).Name, typeof(Organization).Name, typeof(PerformanceMeasureNote).Name, typeof(PersonStewardGeospatialArea).Name, typeof(PersonStewardOrganization).Name, typeof(PersonStewardTaxonomyBranch).Name, typeof(Project).Name, typeof(ProjectContact).Name, typeof(ProjectContactUpdate).Name, typeof(ProjectInternalNote).Name, typeof(ProjectLocationStaging).Name, typeof(ProjectLocationStagingUpdate).Name, typeof(ProjectNote).Name, typeof(ProjectNoteUpdate).Name, typeof(ProjectProjectStatus).Name, typeof(ProjectUpdate).Name, typeof(ProjectUpdateBatch).Name, typeof(ProjectUpdateHistory).Name, typeof(ReleaseNote).Name, typeof(SubbasinLiason).Name, typeof(SupportRequestLog).Name, typeof(TechnicalAssistanceRequest).Name, typeof(TechnicalAssistanceRequestUpdate).Name, typeof(TenantAttribute).Name, typeof(Deliverable).Name, typeof(ObligationRequest).Name, typeof(ObligationRequestSubmissionNote).Name};
 
 
         /// <summary>
@@ -379,32 +379,32 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in AgreementRequestsWhereYouAreTheCreatePerson.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in AgreementRequestsWhereYouAreTheTechnicalRepresentativePerson.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in AgreementRequestsWhereYouAreTheUpdatePerson.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in AgreementRequestSubmissionNotesWhereYouAreTheCreatePerson.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in AgreementRequestSubmissionNotesWhereYouAreTheUpdatePerson.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
             foreach(var x in Deliverables.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ObligationRequestsWhereYouAreTheCreatePerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ObligationRequestsWhereYouAreTheTechnicalRepresentativePerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ObligationRequestsWhereYouAreTheUpdatePerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ObligationRequestSubmissionNotesWhereYouAreTheCreatePerson.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ObligationRequestSubmissionNotesWhereYouAreTheUpdatePerson.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -474,12 +474,12 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; set; }
         public virtual ICollection<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get; set; }
         public virtual ICollection<TenantAttribute> TenantAttributesWhereYouAreThePrimaryContactPerson { get; set; }
-        public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheCreatePerson { get; set; }
-        public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheTechnicalRepresentativePerson { get; set; }
-        public virtual ICollection<AgreementRequest> AgreementRequestsWhereYouAreTheUpdatePerson { get; set; }
-        public virtual ICollection<AgreementRequestSubmissionNote> AgreementRequestSubmissionNotesWhereYouAreTheCreatePerson { get; set; }
-        public virtual ICollection<AgreementRequestSubmissionNote> AgreementRequestSubmissionNotesWhereYouAreTheUpdatePerson { get; set; }
         public virtual ICollection<Deliverable> Deliverables { get; set; }
+        public virtual ICollection<ObligationRequest> ObligationRequestsWhereYouAreTheCreatePerson { get; set; }
+        public virtual ICollection<ObligationRequest> ObligationRequestsWhereYouAreTheTechnicalRepresentativePerson { get; set; }
+        public virtual ICollection<ObligationRequest> ObligationRequestsWhereYouAreTheUpdatePerson { get; set; }
+        public virtual ICollection<ObligationRequestSubmissionNote> ObligationRequestSubmissionNotesWhereYouAreTheCreatePerson { get; set; }
+        public virtual ICollection<ObligationRequestSubmissionNote> ObligationRequestSubmissionNotesWhereYouAreTheUpdatePerson { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public Role Role { get { return Role.AllLookupDictionary[RoleID]; } }
         public virtual Organization Organization { get; set; }
