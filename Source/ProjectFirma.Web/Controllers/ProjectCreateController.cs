@@ -51,16 +51,23 @@ using System.Linq;
 using System.Net;
 using System.Text.RegularExpressions;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
+using ProjectFirma.Web.Views.ProjectUpdate;
+using AttachmentsAndNotes = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotes;
+using AttachmentsAndNotesViewData = ProjectFirma.Web.Views.ProjectCreate.AttachmentsAndNotesViewData;
 using Basics = ProjectFirma.Web.Views.ProjectCreate.Basics;
 using BasicsViewData = ProjectFirma.Web.Views.ProjectCreate.BasicsViewData;
 using BasicsViewModel = ProjectFirma.Web.Views.ProjectCreate.BasicsViewModel;
+using BulkSetSpatialInformation = ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformation;
+using BulkSetSpatialInformationViewData = ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformationViewData;
+using BulkSetSpatialInformationViewModel = ProjectFirma.Web.Views.ProjectCreate.BulkSetSpatialInformationViewModel;
 using Contacts = ProjectFirma.Web.Views.ProjectCreate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectCreate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectCreate.ContactsViewModel;
-using ExpectedFunding = ProjectFirma.Web.Views.ProjectCreate.ExpectedFunding;
-using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewData;
-using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectCreate.Expenditures;
+using ExpendituresByCostType = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostType;
+using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewData;
+using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
@@ -79,6 +86,8 @@ using PerformanceMeasuresViewData = ProjectFirma.Web.Views.ProjectCreate.Perform
 using PerformanceMeasuresViewModel = ProjectFirma.Web.Views.ProjectCreate.PerformanceMeasuresViewModel;
 using Photos = ProjectFirma.Web.Views.ProjectCreate.Photos;
 using ProjectCustomAttributes = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributes;
+using ProjectCustomAttributesViewData = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesViewData;
+using ProjectCustomAttributesViewModel = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesViewModel;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -487,45 +496,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<PerformanceMeasures, PerformanceMeasuresViewData, PerformanceMeasuresViewModel>(viewData, viewModel);
         }
 
-        [HttpGet]
-        [ProjectCreateFeature]
-        public ViewResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var viewModel = new ExpectedFundingViewModel(project);
-            return ViewExpectedFunding(project, viewModel);
-        }
-
-        private ViewResult ViewExpectedFunding(Project project, ExpectedFundingViewModel viewModel)
-        {
-            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(project, allFundingSources, fundingTypes);
-            var proposalSectionsStatus = GetProposalSectionsStatus(project);
-            proposalSectionsStatus.IsExpectedFundingSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
-
-
-            var viewData = new ExpectedFundingViewData(CurrentFirmaSession, project, proposalSectionsStatus, viewDataForAngularEditor);
-            return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectCreateFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            if (!ModelState.IsValid)
-            {
-                return ViewExpectedFunding(project, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets.Load();
-            var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            var allProjectFundingSourceBudgets = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgets.Local;
-            viewModel.UpdateModel(project, projectFundingSourceBudgets, allProjectFundingSourceBudgets);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
-        }
 
         [HttpGet]
         [ProjectCreateFeature]
@@ -534,20 +504,15 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
 
             var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
-            var projectRelevantCostTypes = project.GetBudgetsRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
-            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
-            projectRelevantCostTypes.AddRange(
-                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
-                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
-            var viewModel = new ExpectedFundingByCostTypeViewModel(project, calendarYearRange, projectRelevantCostTypes);
+            var projectRelevantCostTypes = project.GetAllProjectRelevantCostTypesAsSimples(ProjectRelevantCostTypeGroup.Budgets);
+            var viewModel = new EditProjectFundingSourceBudgetByCostTypeViewModel(project, calendarYearRange, projectRelevantCostTypes);
             return ViewExpectedFundingByCostType(project, calendarYearRange, viewModel);
         }
 
         [HttpPost]
         [ProjectCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingByCostTypeViewModel viewModel)
+        public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
 
@@ -561,16 +526,16 @@ namespace ProjectFirma.Web.Controllers
             return GoToNextSection(viewModel, project, ProjectCreateSection.Budget.ProjectCreateSectionDisplayName);
         }
 
-        private ViewResult ViewExpectedFundingByCostType(Project project, List<int> calendarYearRange, ExpectedFundingByCostTypeViewModel viewModel)
+        private ViewResult ViewExpectedFundingByCostType(Project project, List<int> calendarYearRange, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var allCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Select(x => new CostTypeSimple(x)).OrderBy(p => p.CostTypeName).ToList();
             var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            var viewDataForAngularEditor = new ExpectedFundingByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
+            var viewDataForAngularEditor = new EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(project, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
 
 
-            var viewData = new ExpectedFundingByCostTypeViewData(CurrentFirmaSession, project, GetProposalSectionsStatus(project), viewDataForAngularEditor);
-            return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData, ExpectedFundingByCostTypeViewModel>(viewData, viewModel);
+            var viewData = new EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainerViewData(CurrentFirmaSession, project, GetProposalSectionsStatus(project), viewDataForAngularEditor, viewModel);
+            return RazorView<EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainer, EditProjectFundingSourceBudgetByCostTypeCreateWorkflowContainerViewData>(viewData);
         }
 
         [HttpGet]
@@ -587,25 +552,25 @@ namespace ProjectFirma.Web.Controllers
             return ViewExpenditures(project, viewModel);
         }
 
-        [HttpPost]
-        [ProjectCreateFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
+        //[HttpPost]
+        //[ProjectCreateFeature]
+        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        //public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
+        //    var projectFundingSourceExpenditureUpdates = project.ProjectFundingSourceExpenditures.ToList();
 
-            if (!ModelState.IsValid)
-            {
+        //    if (!ModelState.IsValid)
+        //    {
 
-                return ViewExpenditures(project, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
-        }
+        //        return ViewExpenditures(project, viewModel);
+        //    }
+        //    HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
+        //    var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
+        //    viewModel.UpdateModel(project, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
+        //    SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
+        //    return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
+        //}
 
         private ViewResult ViewExpenditures(Project project, ExpendituresViewModel viewModel)
         {
@@ -626,36 +591,31 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
 
             var calendarYearRange = project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
-            var projectRelevantCostTypes = project.GetExpendituresRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
-            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
-            projectRelevantCostTypes.AddRange(
-                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
-                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
-
+            var projectRelevantCostTypes =
+                project.GetAllProjectRelevantCostTypesAsSimples(ProjectRelevantCostTypeGroup.Expenditures);
             var viewModel = new ExpendituresByCostTypeViewModel(project, calendarYearRange, projectRelevantCostTypes);
             return ViewExpendituresByCostType(project, calendarYearRange, viewModel);
         }
 
-        [HttpPost]
-        [ProjectCreateFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
+        //[HttpPost]
+        //[ProjectCreateFeature]
+        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        //public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
 
-            var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
-            var calendarYearRange = project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
-            if (!ModelState.IsValid)
-            {
-                return ViewExpendituresByCostType(project, calendarYearRange, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
-            viewModel.UpdateModel(project, projectFundingSourceExpenditures, allProjectFundingSourceExpenditures);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
-            return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
-        }
+        //    var projectFundingSourceExpenditures = project.ProjectFundingSourceExpenditures.ToList();
+        //    var calendarYearRange = project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return ViewExpendituresByCostType(project, calendarYearRange, viewModel);
+        //    }
+        //    HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditures.Load();
+        //    var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditures.Local;
+        //    viewModel.UpdateModel(project, projectFundingSourceExpenditures, allProjectFundingSourceExpenditures);
+        //    SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Expenditures successfully saved.");
+        //    return GoToNextSection(viewModel, project, ProjectCreateSection.ReportedExpenditures.ProjectCreateSectionDisplayName);
+        //}
 
         private ViewResult ViewExpendituresByCostType(Project project, List<int> calendarYearRange, ExpendituresByCostTypeViewModel viewModel)
         {

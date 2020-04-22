@@ -346,6 +346,9 @@ namespace ProjectFirmaModels.Models
         PrimaryCostAuthorityWorkBreakdownStructure = 10046,
         SecondaryCostAuthorityWorkBreakdownStructure = 10047,
         Obligation = 10048,
-        Vendor = 10049
+        Vendor = 10049,
+        ProjectedFunding = 10050,
+        ObligatedFunding = 10051,
+        ExpendedFunding = 10052
     }
 }

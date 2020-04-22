@@ -36,26 +36,6 @@ namespace ProjectFirma.Api.Controllers
         // These tests are intended to ensure expected API behavior for dependent applications
         // Do make changes to this test to resolve any test failures without assessing the impact to these applications
         // Dependent applications: PS Info
-        [Test]
-        [Ignore]
-        public void GetProjectCalendarYearBudgetsByFundingSource_ReturnsValidResult()
-        {
-            var testFundingSource = _databaseEntities.FundingSources.FirstOrDefault(x => x.ProjectFundingSourceBudgets.Count() > 1);
-            if (testFundingSource != null)
-            {
-                var groupedBudgets = testFundingSource.ProjectFundingSourceBudgets.GroupBy(x => x.Project);
-                var firstProjectGroup = groupedBudgets.First();
-                var lastProjectGroup = groupedBudgets.Last();
-                var firstTotal = firstProjectGroup.Sum(x => x.SecuredAmount);
-                var lastTotal = lastProjectGroup.Sum(x => x.SecuredAmount);
-                var controller = new FundingSourcesController();
-                var result = controller.GetProjectCalendarYearBudgetsForAFundingSource(FirmaWebApiConfiguration.PsInfoApiKey, testFundingSource.FundingSourceID) as OkNegotiatedContentResult<List<ProjectCalendarYearBudgetsDto>>;
-                var firstResultTotal = result.Content.Single(x => x.ProjectDto.ProjectID == firstProjectGroup.Key.ProjectID).CalendarYearBudgets.Sum(x => x.Value);
-                Assert.That(firstResultTotal, Is.EqualTo(firstTotal));
-                var lastResultTotal = result.Content.Single(x => x.ProjectDto.ProjectID == lastProjectGroup.Key.ProjectID).CalendarYearBudgets.Sum(x => x.Value);
-                Assert.That(lastResultTotal, Is.EqualTo(lastTotal));
-            }
-        }
 
         [Test]
         [Ignore]

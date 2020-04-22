@@ -40,6 +40,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.ProjectExternalLink;
+using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls;
@@ -61,12 +62,6 @@ using BasicsViewModel = ProjectFirma.Web.Views.ProjectUpdate.BasicsViewModel;
 using Contacts = ProjectFirma.Web.Views.ProjectUpdate.Contacts;
 using ContactsViewData = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewData;
 using ContactsViewModel = ProjectFirma.Web.Views.ProjectUpdate.ContactsViewModel;
-using ExpectedFunding = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFunding;
-using ExpectedFundingByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostType;
-using ExpectedFundingByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostTypeViewData;
-using ExpectedFundingByCostTypeViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingByCostTypeViewModel;
-using ExpectedFundingViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewData;
-using ExpectedFundingViewModel = ProjectFirma.Web.Views.ProjectUpdate.ExpectedFundingViewModel;
 using Expenditures = ProjectFirma.Web.Views.ProjectUpdate.Expenditures;
 using ExpendituresByCostType = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostType;
 using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectUpdate.ExpendituresByCostTypeViewData;
@@ -585,73 +580,72 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
-            var calendarYearRangeForExpenditures = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
-            var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearRangeForExpenditures);
+        //[HttpGet]
+        //[ProjectUpdateCreateEditSubmitFeature]
+        //public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
+        //    var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+        //    if (projectUpdateBatch == null)
+        //    {
+        //        return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+        //    }
+        //    var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+        //    var calendarYearRangeForExpenditures = projectFundingSourceExpenditureUpdates.CalculateCalendarYearRangeForExpenditures(projectUpdateBatch.ProjectUpdate);
+        //    var projectFundingSourceExpenditureBulks = ProjectFundingSourceExpenditureBulk.MakeFromList(projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList(), calendarYearRangeForExpenditures);
 
-            var viewModel = new ExpendituresViewModel(projectUpdateBatch, projectFundingSourceExpenditureBulks);
-            return ViewExpenditures(projectUpdateBatch, viewModel);
-        }
+        //    var viewModel = new ExpendituresViewModel(projectUpdateBatch, projectFundingSourceExpenditureBulks);
+        //    return ViewExpenditures(projectUpdateBatch, viewModel);
+        //}
 
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
-            if (!ModelState.IsValid)
-            {
-                return ViewExpenditures(projectUpdateBatch, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
-            var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditureUpdates.Local;
-            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
-            if (projectUpdateBatch.IsSubmitted())
-            {
-                projectUpdateBatch.ExpendituresComment = viewModel.Comments;
-            }
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
-        }
+        //[HttpPost]
+        //[ProjectUpdateCreateEditSubmitFeature]
+        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        //public ActionResult Expenditures(ProjectPrimaryKey projectPrimaryKey, ExpendituresViewModel viewModel)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
+        //    var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+        //    if (projectUpdateBatch == null)
+        //    {
+        //        return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+        //    }
+        //    var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return ViewExpenditures(projectUpdateBatch, viewModel);
+        //    }
+        //    HttpRequestStorage.DatabaseEntities.ProjectFundingSourceExpenditureUpdates.Load();
+        //    var allProjectFundingSourceExpenditures = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceExpenditureUpdates.Local;
+        //    viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceExpenditureUpdates, allProjectFundingSourceExpenditures);
+        //    if (projectUpdateBatch.IsSubmitted())
+        //    {
+        //        projectUpdateBatch.ExpendituresComment = viewModel.Comments;
+        //    }
+        //    SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
+        //    return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
+        //}
 
-        private ViewResult ViewExpenditures(ProjectUpdateBatch projectUpdateBatch, ExpendituresViewModel viewModel)
-        {
-            var project = projectUpdateBatch.Project;
-            var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+        //private ViewResult ViewExpenditures(ProjectUpdateBatch projectUpdateBatch, ExpendituresViewModel viewModel)
+        //{
+        //    var project = projectUpdateBatch.Project;
+        //    var projectFundingSourceExpenditureUpdates = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
 
-            var requiredCalendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+        //    var requiredCalendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
 
-            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var expendituresValidationResult = projectUpdateBatch.ValidateExpenditures();
+        //    var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+        //    var expendituresValidationResult = projectUpdateBatch.ValidateExpenditures();
 
-            var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project, allFundingSources, requiredCalendarYearRange);
-            var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
-                new List<IFundingSourceExpenditure>(projectFundingSourceExpenditureUpdates),
-                requiredCalendarYearRange);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(
-                fromFundingSourcesAndCalendarYears, requiredCalendarYearRange.Select(x => new CalendarYearString(x)).ToList(),
-                projectUpdateBatch.ExpendituresNote);
+        //    var viewDataForAngularEditor = new ExpendituresViewData.ViewDataForAngularClass(project, allFundingSources, requiredCalendarYearRange);
+        //    var fromFundingSourcesAndCalendarYears = FundingSourceCalendarYearExpenditure.CreateFromFundingSourcesAndCalendarYears(
+        //        new List<IFundingSourceExpenditure>(projectFundingSourceExpenditureUpdates),
+        //        requiredCalendarYearRange);
+        //    var projectExpendituresSummaryViewData = new ProjectExpendituresDetailViewData(
+        //        fromFundingSourcesAndCalendarYears, requiredCalendarYearRange.Select(x => new CalendarYearString(x)).ToList(),
+        //        projectUpdateBatch.ExpendituresNote);
 
-            var viewData = new ExpendituresViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
-            return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
-        }
+        //    var viewData = new ExpendituresViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
+        //    return RazorView<Expenditures, ExpendituresViewData, ExpendituresViewModel>(viewData, viewModel);
+        //}
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
@@ -690,171 +684,70 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
 
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            var calendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
-            var projectRelevantCostTypes = projectUpdateBatch.GetExpendituresRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
-            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
-            projectRelevantCostTypes.AddRange(
-                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
-                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x.CostTypeID, x.CostTypeName)));
+        //[HttpGet]
+        //[ProjectUpdateCreateEditSubmitFeature]
+        //public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
+        //    var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+        //    if (projectUpdateBatch == null)
+        //    {
+        //        return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+        //    }
+        //    var calendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+        //    var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+        //    var projectRelevantCostTypes = projectUpdateBatch.GetExpendituresRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
+        //    var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+        //    projectRelevantCostTypes.AddRange(
+        //        costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
+        //            .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), projectUpdateBatch.ProjectUpdateBatchID, x.CostTypeID, x.CostTypeName)));
 
-            var viewModel = new ExpendituresByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectRelevantCostTypes);
-            return ViewExpendituresByCostType(projectUpdateBatch, calendarYearRange, viewModel);
-        }
+        //    var viewModel = new ExpendituresByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectRelevantCostTypes);
+        //    return ViewExpendituresByCostType(projectUpdateBatch, calendarYearRange, viewModel);
+        //}
 
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            if (!ModelState.IsValid)
-            {
-                var calendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
-                return ViewExpendituresByCostType(projectUpdateBatch, calendarYearRange, viewModel);
-            }
-            viewModel.UpdateModel(projectUpdateBatch, HttpRequestStorage.DatabaseEntities);
-            if (projectUpdateBatch.IsSubmitted())
-            {
-                projectUpdateBatch.ExpendituresComment = viewModel.Comments;
-            }
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
-        }
+        //[HttpPost]
+        //[ProjectUpdateCreateEditSubmitFeature]
+        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        //public ActionResult ExpendituresByCostType(ProjectPrimaryKey projectPrimaryKey, ExpendituresByCostTypeViewModel viewModel)
+        //{
+        //    var project = projectPrimaryKey.EntityObject;
+        //    var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
+        //    if (projectUpdateBatch == null)
+        //    {
+        //        return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
+        //    }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        var calendarYearRange = projectUpdateBatch.ProjectUpdate.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+        //        return ViewExpendituresByCostType(projectUpdateBatch, calendarYearRange, viewModel);
+        //    }
+        //    viewModel.UpdateModel(projectUpdateBatch, HttpRequestStorage.DatabaseEntities);
+        //    if (projectUpdateBatch.IsSubmitted())
+        //    {
+        //        projectUpdateBatch.ExpendituresComment = viewModel.Comments;
+        //    }
+        //    SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} successfully saved.");
+        //    return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName);
+        //}
 
-        private ViewResult ViewExpendituresByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpendituresByCostTypeViewModel viewModel)
-        {
-            var project = projectUpdateBatch.Project;
-            var showNoExpendituresExplanation = !projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.Any();
-            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var expendituresValidationResult = projectUpdateBatch.ValidateExpendituresByCostType();
+        //private ViewResult ViewExpendituresByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpendituresByCostTypeViewModel viewModel)
+        //{
+        //    var project = projectUpdateBatch.Project;
+        //    var showNoExpendituresExplanation = !projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.Any();
+        //    var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
+        //    var expendituresValidationResult = projectUpdateBatch.ValidateExpendituresByCostType();
 
-            var viewDataForAngularEditor = new ExpendituresByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange, showNoExpendituresExplanation);
-            var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
-            var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
-            var projectExpendituresSummaryViewData = new ProjectExpendituresByCostTypeDetailViewData(projectUpdateBatch.ExpendituresNote,
-                projectFundingSourceCostTypeExpenditureAmounts);
-            var viewData = new ExpendituresByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, 
-                GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
-            return RazorView<ExpendituresByCostType, ExpendituresByCostTypeViewData, ExpendituresByCostTypeViewModel>(viewData, viewModel);
-        }
+        //    var viewDataForAngularEditor = new ExpendituresByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, calendarYearRange, showNoExpendituresExplanation);
+        //    var projectFundingSourceExpenditures = projectUpdateBatch.ProjectFundingSourceExpenditureUpdates.ToList();
+        //    var projectFundingSourceCostTypeExpenditureAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceExpenditures(projectFundingSourceExpenditures);
+        //    var projectExpendituresSummaryViewData = new ProjectExpendituresByCostTypeDetailViewData(projectUpdateBatch.ExpendituresNote,
+        //        projectFundingSourceCostTypeExpenditureAmounts);
+        //    var viewData = new ExpendituresByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectExpendituresSummaryViewData, 
+        //        GetUpdateStatus(projectUpdateBatch), expendituresValidationResult);
+        //    return RazorView<ExpendituresByCostType, ExpendituresByCostTypeViewData, ExpendituresByCostTypeViewModel>(viewData, viewModel);
+        //}
 
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
-            var viewModel = new ExpectedFundingViewModel(projectUpdateBatch, projectFundingSourceBudgetUpdates,
-                projectUpdateBatch.ExpectedFundingComment);
-            return ViewExpectedFunding(projectUpdateBatch, viewModel);
-        }
-
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
-            if (projectUpdateBatch == null)
-            {
-                return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
-            }
-            if (!ModelState.IsValid)
-            {
-                return ViewExpectedFunding(projectUpdateBatch, viewModel);
-            }
-            HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgetUpdates.Load();
-            var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
-            var allProjectFundingSourceExpectedFunding = HttpRequestStorage.DatabaseEntities.AllProjectFundingSourceBudgetUpdates.Local;
-            viewModel.UpdateModel(projectUpdateBatch, projectFundingSourceBudgetUpdates, allProjectFundingSourceExpectedFunding);
-            if (projectUpdateBatch.IsSubmitted())
-            {
-                projectUpdateBatch.ExpectedFundingComment = viewModel.Comments;
-            }
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully saved.");
-            return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch,
-                ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
-        }
-
-        private ViewResult ViewExpectedFunding(ProjectUpdateBatch projectUpdateBatch, ExpectedFundingViewModel viewModel)
-        {
-            var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
-            var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            var expectedFundingValidationResult = projectUpdateBatch.ValidateExpectedFunding(viewModel.ViewModelForAngular.ProjectFundingSourceBudgetUpdateSimples);
-
-            var viewDataForAngularEditor = new ExpectedFundingViewData.ViewDataForAngularClass(projectUpdateBatch,
-                allFundingSources,
-                fundingTypes,
-                projectUpdateBatch.ProjectUpdate.PlanningDesignStartYear,
-                projectUpdateBatch.ProjectUpdate.CompletionYear);
-            var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentFirmaSession, projectUpdateBatch);
-            var projectBudgetsAnnualViewData = new ProjectBudgetsAnnualViewData(CurrentFirmaSession, projectUpdateBatch);
-
-
-            var viewData = new ExpectedFundingViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingValidationResult);
-            return RazorView<ExpectedFunding, ExpectedFundingViewData, ExpectedFundingViewModel>(viewData, viewModel);
-        }
-
-        [HttpGet]
-        [ProjectUpdateCreateEditSubmitFeature]
-        public PartialViewResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
-            var viewModel = new ConfirmDialogFormViewModel(projectUpdateBatch.ProjectUpdateBatchID);
-            return ViewRefreshExpectedFunding(viewModel);
-        }
-
-        [HttpPost]
-        [ProjectUpdateCreateEditSubmitFeature]
-        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult RefreshExpectedFunding(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var projectUpdateBatch = GetLatestNotApprovedProjectUpdateBatchAndThrowIfNoneFound(project);
-            projectUpdateBatch.DeleteProjectFundingSourceBudgetUpdates();
-            // refresh data
-            ProjectFundingSourceBudgetUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            ProjectNoFundingSourceIdentifiedUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
-            // Need to revert project-level budget data too
-            projectUpdateBatch.ProjectUpdate.FundingTypeID = project.FundingTypeID;
-            projectUpdateBatch.ProjectUpdate.NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
-
-            projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Budget successfully reverted.");
-            return new ModalDialogFormJsonResult();
-        }
-
-        private PartialViewResult ViewRefreshExpectedFunding(ConfirmDialogFormViewModel viewModel)
-        {
-            var viewData =
-                new ConfirmDialogFormViewData(
-                    $"Are you sure you want to refresh the budget for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}? This will pull the most recently approved information for the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}. Any updates made in this section will be lost.");
-            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
-        }
 
         [HttpGet]
         [ProjectUpdateCreateEditSubmitFeature]
@@ -869,20 +762,15 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var calendarYearRange = projectUpdateBatch.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
-            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
-            var projectUpdateRelevantCostTypes = projectUpdateBatch.GetBudgetsRelevantCostTypes().Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
-            var currentRelevantCostTypeIDs = projectUpdateRelevantCostTypes.Select(x => x.CostTypeID).ToList();
-            projectUpdateRelevantCostTypes.AddRange(
-                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
-                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
-            var viewModel = new ExpectedFundingByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectUpdateRelevantCostTypes);
+            var projectUpdateRelevantCostTypes = projectUpdateBatch.GetAllProjectRelevantCostTypesAsSimples(ProjectRelevantCostTypeGroup.Budgets);
+            var viewModel = new EditProjectFundingSourceBudgetByCostTypeViewModel(projectUpdateBatch, calendarYearRange, projectUpdateRelevantCostTypes);
             return ViewExpectedFundingByCostType(projectUpdateBatch, calendarYearRange, viewModel);
         }
 
         [HttpPost]
         [ProjectUpdateCreateEditSubmitFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, ExpectedFundingByCostTypeViewModel viewModel)
+        public ActionResult ExpectedFundingByCostType(ProjectPrimaryKey projectPrimaryKey, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
         {
             var project = projectPrimaryKey.EntityObject;
             var projectUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
@@ -906,25 +794,21 @@ namespace ProjectFirma.Web.Controllers
                 ProjectUpdateSection.Budget.ProjectUpdateSectionDisplayName);
         }
 
-        private ViewResult ViewExpectedFundingByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, ExpectedFundingByCostTypeViewModel viewModel)
+        private ViewResult ViewExpectedFundingByCostType(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearRange, EditProjectFundingSourceBudgetByCostTypeViewModel viewModel)
         {
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var allCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Select(x => new CostTypeSimple(x)).OrderBy(p => p.CostTypeName).ToList();
             var fundingTypes = FundingType.All.ToList().ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            var viewDataForAngularEditor = new ExpectedFundingByCostTypeViewData.ViewDataForAngularClass(projectUpdateBatch, 
-                allFundingSources, 
-                allCostTypes, 
-                calendarYearRange, 
-                fundingTypes);
+            var viewDataForAngularEditor = new EditProjectFundingSourceBudgetByCostTypeViewData.EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(projectUpdateBatch, allFundingSources, allCostTypes, calendarYearRange, fundingTypes);
 
-            var expectedFundingUpdateValidationResult = new ExpectedFundingValidationResult();
+            var expectedFundingUpdateValidationResult = new EditProjectFundingSourceBudgetByCostTypeValidationResult();
             var reportFinancialsByCostType = MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType;
             var projectBudgetSummaryViewData = new ProjectBudgetSummaryViewData(CurrentFirmaSession, projectUpdateBatch);
             var projectBudgetsAnnualByCostTypeViewData = reportFinancialsByCostType ? BuildProjectBudgetsAnnualByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch) : null;
 
 
-            var viewData = new ExpectedFundingByCostTypeViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualByCostTypeViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingUpdateValidationResult);
-            return RazorView<ExpectedFundingByCostType, ExpectedFundingByCostTypeViewData, ExpectedFundingByCostTypeViewModel>(viewData, viewModel);
+            var viewData = new EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData(CurrentFirmaSession, projectUpdateBatch, viewDataForAngularEditor, projectBudgetSummaryViewData, projectBudgetsAnnualByCostTypeViewData, GetUpdateStatus(projectUpdateBatch), expectedFundingUpdateValidationResult, viewModel);
+            return RazorView<EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainer, EditProjectFundingSourceBudgetByCostTypeUpdateWorkflowContainerViewData>(viewData);
         }
 
         private static ProjectBudgetsAnnualByCostTypeViewData BuildProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch)
@@ -2758,7 +2642,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingSourcesOnlyInOriginal = fundingSourcesInOriginal.Where(x => !fundingSourcesInUpdated.Contains(x)).ToList();
             var fundingSourceRequestAmounts = projectFundingSourceBudgetsOriginal.Select(x => new FundingSourceBudgetAmount(x)).ToList();
             fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsUpdated.Where(x => !fundingSourcesInOriginal.Contains(x.FundingSource.FundingSourceID)).Select(x =>
-                new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassAddedElement)));
+                new FundingSourceBudgetAmount(x.FundingSource, x.ProjectedAmount, HtmlDiffContainer.DisplayCssClassAddedElement)));
             fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInOriginal.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassDeletedElement);
             return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdOriginal, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetOriginal, planningDesignStartYear, completionYear, expectedFundingUpdateNote);
         }
@@ -2771,7 +2655,7 @@ namespace ProjectFirma.Web.Controllers
             var fundingSourcesOnlyInUpdated = fundingSourcesInUpdated.Where(x => !fundingSourcesInOriginal.Contains(x)).ToList();
             var fundingSourceRequestAmounts = projectFundingSourceBudgetsUpdated.Select(x => new FundingSourceBudgetAmount(x)).ToList();
             fundingSourceRequestAmounts.AddRange(projectFundingSourceBudgetsOriginal.Where(x => !fundingSourcesInUpdated.Contains(x.FundingSource.FundingSourceID)).Select(x =>
-                new FundingSourceBudgetAmount(x.FundingSource, x.SecuredAmount, x.TargetedAmount, HtmlDiffContainer.DisplayCssClassDeletedElement)));
+                new FundingSourceBudgetAmount(x.FundingSource, x.ProjectedAmount, HtmlDiffContainer.DisplayCssClassDeletedElement)));
             fundingSourceRequestAmounts.Where(x => fundingSourcesOnlyInUpdated.Contains(x.FundingSourceID)).ToList().ForEach(x => x.DisplayCssClass = HtmlDiffContainer.DisplayCssClassAddedElement);
             return GeneratePartialViewForExpectedFundingAsString(fundingTypeIdUpdated, fundingTypeDisplayName, fundingSourceRequestAmounts, noFundingSourceIdentifiedYetUpdated, planningDesignStartYear, completionYear, expectedFundingUpdateNote);
         }

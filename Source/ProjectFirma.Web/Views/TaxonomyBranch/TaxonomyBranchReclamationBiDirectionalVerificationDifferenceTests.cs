@@ -4,7 +4,6 @@ using System.Linq;
 using LtInfo.Common.DesignByContract;
 using NUnit.Framework;
 using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 
 
 namespace ProjectFirma.Web.Views.TaxonomyBranch
@@ -35,7 +34,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 TaxonomyLeafRoundaboutViaPrimaryCawbs = theProject.GetTaxonomyLeaf();
             }
 
-            public bool AreSameTaxonomyLeaf => TaxonomyLeafOverrideOffProject?.TaxonomyLeafID ==  TaxonomyLeafRoundaboutViaPrimaryCawbs?.TaxonomyLeafID;
+            public bool AreSameTaxonomyLeaf => TaxonomyLeafOverrideOffProject?.TaxonomyLeafID == TaxonomyLeafRoundaboutViaPrimaryCawbs?.TaxonomyLeafID;
         }
 
         private void WriteSpacerLine()
@@ -54,7 +53,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             {
                 // This should not crash
                 var currentProjects = taxonomyLeaf.GetProjects();
-                Console.WriteLine($"Taxonomy Leaf: {taxonomyLeaf.TaxonomyLeafName}: ProjectIDs: { String.Join(", ",currentProjects.Select(p => p.ProjectID))}");
+                Console.WriteLine($"Taxonomy Leaf: {taxonomyLeaf.TaxonomyLeafName}: ProjectIDs: { String.Join(", ", currentProjects.Select(p => p.ProjectID))}");
             }
         }
 

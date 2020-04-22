@@ -28,6 +28,7 @@ using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -80,8 +81,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ReturnUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Return(Project));
             ProvideFeedbackUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.UpdateFeedback());
             TrainingUrl = SitkaRoute<HomeController>.BuildUrlFromExpression(x => x.Training());
-            var isApprover = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession, Project).HasPermission;
-            ShowApproveAndReturnButton = projectUpdateBatch.IsSubmitted() && isApprover;
+            ShowApproveAndReturnButton = ProjectFundingSourceByCostTypeViewDataHelper.ShowApproveAndReturnButtonForUpdateWorkflow(projectUpdateBatch,
+                    currentFirmaSession);
             IsEditable = projectUpdateBatch.InEditableState() || ShowApproveAndReturnButton;
             IsReadyToApprove = projectUpdateBatch.IsReadyToApprove();
             AreProjectBasicsValid = projectUpdateBatch.AreProjectBasicsValid();

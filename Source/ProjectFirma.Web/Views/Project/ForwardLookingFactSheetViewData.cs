@@ -51,9 +51,9 @@ namespace ProjectFirma.Web.Views.Project
         public string EstimatedTotalCostLabel { get; }
         public string NoFundingSourceIdentifiedLabel { get; }
         public string NoFundingSourceIdentified { get; }
-        public string SecuredFunding { get; }
-        public string TargetedFundingLabel { get; }
-        public string TargetedFunding { get; }
+
+        public string ProjectedFundingLabel { get; }
+        public string ProjectedFunding { get; }
 
         public string FundingBudget { get; }
         public int CalculatedChartHeight { get; }
@@ -141,11 +141,10 @@ namespace ProjectFirma.Web.Views.Project
                     : FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel();
             NoFundingSourceIdentifiedLabel = FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel();
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
-            SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
-            TargetedFundingLabel = FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel();
-            TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
+            ProjectedFundingLabel = FieldDefinitionEnum.ProjectedFunding.ToType().GetFieldDefinitionLabel();
+            ProjectedFunding = Project.GetProjectedFunding().ToStringCurrency();
 
-            FundingBudget = project.ProjectFundingSourceBudgets.Any() ? project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount).ToStringCurrency() : ViewUtilities.Unknown;
+            FundingBudget = project.ProjectFundingSourceBudgets.Any() ? project.ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount).ToStringCurrency() : ViewUtilities.Unknown;
             CustomFactSheetTextViewData = new ViewPageContentViewData(firmaPageFactSheetCustomText, false);
             TechnicalAssistanceParameters = technicalAssistanceParameters;
             TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();

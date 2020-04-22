@@ -38,8 +38,7 @@ namespace ProjectFirma.Web.Views.Project
     {
         public string EstimatedTotalCost { get; }
         public string NoFundingSourceIdentified { get; }
-        public string SecuredFunding { get; }
-        public string TargetedFunding { get; }
+        public string ProjectedFunding { get; }
         public List<IGrouping<ProjectFirmaModels.Models.PerformanceMeasure, PerformanceMeasureReportedValue>> PerformanceMeasureReportedValues { get; }
         public List<GooglePieChartSlice> ExpenditureGooglePieChartSlices { get; }
         public string ChartID { get; }
@@ -83,8 +82,7 @@ namespace ProjectFirma.Web.Views.Project
 
             EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "";
             NoFundingSourceIdentified = project.GetNoFundingSourceIdentifiedAmount() != null ? Project.GetNoFundingSourceIdentifiedAmount().ToStringCurrency() : "";
-            SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
-            TargetedFunding = Project.GetTargetedFunding() != null ? Project.GetTargetedFunding().ToStringCurrency() : "";
+            ProjectedFunding = Project.GetProjectedFunding() != null ? Project.GetProjectedFunding().ToStringCurrency() : "";
            
             PerformanceMeasureReportedValues =
                 project.GetPerformanceMeasureReportedValues().GroupBy(x => x.PerformanceMeasure).OrderBy(x => x.Key.PerformanceMeasureSortOrder).ThenBy(x => x.Key.PerformanceMeasureDisplayName).ToList();

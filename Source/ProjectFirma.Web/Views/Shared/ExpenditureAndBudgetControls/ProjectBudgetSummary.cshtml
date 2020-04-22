@@ -36,22 +36,14 @@
                 @ViewDataTyped.Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency()
             </div>
         </div>
-        @* Secured Funding *@
+
+        @* Projected Funding *@
         <div class="row">
             <div class="col-xs-3">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectedFunding.ToType())
             </div>
             <div class="col-xs-9">
-                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency()
-            </div>
-        </div>
-        @* Targeted Funding *@
-        <div class="row">
-            <div class="col-xs-3">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())
-            </div>
-            <div class="col-xs-9">
-                @ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency()
+                @ViewDataTyped.Project.GetProjectedFunding().ToStringCurrency()
             </div>
         </div>
         @* No Funding Source Identified *@
@@ -93,22 +85,14 @@
                 </div>
             }
         </div>
-        @* Secured Funding *@
+
+        @* Projected Funding *@
         <div class="row">
             <div class="col-xs-3">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.SecuredFunding.ToType())
+                @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectedFunding.ToType())
             </div>
             <div class="col-xs-9">
-                @ViewDataTyped.Project.GetSecuredFunding().ToStringCurrency() per year
-            </div>
-        </div>
-        @* Targeted Funding *@
-        <div class="row">
-            <div class="col-xs-3">
-                @Html.LabelWithSugarFor(FieldDefinitionEnum.TargetedFunding.ToType())
-            </div>
-            <div class="col-xs-9">
-                @ViewDataTyped.Project.GetTargetedFunding().ToStringCurrency() per year
+                @ViewDataTyped.Project.GetProjectedFunding().ToStringCurrency() per year
             </div>
         </div>
         @* No Funding Source Identified *@

@@ -1,7 +1,28 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using System;
+
+namespace ProjectFirmaModels.Models
 {
-    public partial class BudgetObjectCodeGroup
+    public partial class BudgetObjectCodeGroup 
     {
-        public string GetDisplayName() => $"{this.BudgetObjectCodeGroupPrefix} - {this.BudgetObjectCodeGroupName}";
+		public string GetDisplayName() => $"{this.BudgetObjectCodeGroupPrefix} - {this.BudgetObjectCodeGroupName}";
+
+        /// <summary>
+        ///  This is a recursive function to figure out the CostType
+        /// </summary>
+        /// <returns></returns>
+        public CostType GetEffectiveCostType()
+        {
+            if (CostType != null)
+            {
+                return this.CostType;
+            }
+
+            if (this.ParentBudgetObjectCodeGroup != null)
+            {
+                return this.ParentBudgetObjectCodeGroup.GetEffectiveCostType();
+            }
+
+            throw new Exception($"No CostType for BudgetObjectCodeGroup: {this.BudgetObjectCodeGroupName}");
+        }
     }
 }

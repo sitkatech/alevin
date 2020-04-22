@@ -23,17 +23,17 @@ using System.Linq;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
-    public class ExpectedFundingValidationResult
+    public class EditProjectFundingSourceBudgetByCostTypeValidationResult
     {
         private readonly List<string> _warningMessages;
 
-        public ExpectedFundingValidationResult()
+        public EditProjectFundingSourceBudgetByCostTypeValidationResult()
         {
             _warningMessages = new List<string>();
         }
 
 
-        public ExpectedFundingValidationResult(string customErrorMessage)
+        public EditProjectFundingSourceBudgetByCostTypeValidationResult(string customErrorMessage)
         {
             _warningMessages = new List<string> {customErrorMessage};
         }

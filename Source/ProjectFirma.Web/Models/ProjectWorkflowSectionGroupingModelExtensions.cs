@@ -42,16 +42,16 @@ namespace ProjectFirma.Web.Models
                     }
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForAdditionalData, ignoreStatus);
                 case ProjectWorkflowSectionGroupingEnum.Financials:
-                    var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Budget, ProjectCreateSection.ReportedExpenditures }).ToList();
+                    var projectCreateSectionsForExpenditures = projectWorkflowSectionGrouping.ProjectCreateSections.Except(new List<ProjectCreateSection> { ProjectCreateSection.Budget }).ToList();
                     if (project != null && project.IsExpectedFundingRelevant())
                     {
                         projectCreateSectionsForExpenditures.Add(ProjectCreateSection.Budget);
                     }
 
-                    if (project != null && project.AreReportedExpendituresRelevant())
-                    {
-                        projectCreateSectionsForExpenditures.Add(ProjectCreateSection.ReportedExpenditures);
-                    }
+                    //if (project != null && project.AreReportedExpendituresRelevant())
+                    //{
+                    //    projectCreateSectionsForExpenditures.Add(ProjectCreateSection.ReportedExpenditures);
+                    //}
                     return GetProjectCreateSectionsImpl(project, projectCreateSectionsForExpenditures, ignoreStatus);
 
                 case ProjectWorkflowSectionGroupingEnum.Accomplishments:

@@ -1,4 +1,5 @@
-﻿using LtInfo.Common;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -12,5 +13,7 @@ namespace ProjectFirma.Web.Models
         {
             return FundDetailUrlTemplate.ParameterReplace(budgetObjectCode.PrimaryKey);
         }
+
+
     }
 }

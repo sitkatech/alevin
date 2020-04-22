@@ -25,18 +25,32 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
-        public static List<ProjectRelevantCostTypeUpdate> GetExpendituresRelevantCostTypes(this ProjectUpdateBatch project)
+        public static List<ProjectRelevantCostTypeSimple> GetAllProjectRelevantCostTypesAsSimples(this ProjectUpdateBatch projectUpdateBatch, ProjectRelevantCostTypeGroup projectRelevantCostTypeGroup)
         {
-            return project.ProjectRelevantCostTypeUpdates
-                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+            var projectRelevantCostTypes = projectUpdateBatch.GetRelevantCostTypesByCostTypeGroup(projectRelevantCostTypeGroup).Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
+            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+            projectRelevantCostTypes.AddRange(
+                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
+                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), projectUpdateBatch.ProjectID, x.CostTypeID, x.CostTypeName)));
+            return projectRelevantCostTypes;
+        }
+
+        public static List<ProjectRelevantCostTypeUpdate> GetRelevantCostTypesByCostTypeGroup(this ProjectUpdateBatch projectUpdateBatch, ProjectRelevantCostTypeGroup projectRelevantCostTypeGroup)
+        {
+            return projectUpdateBatch.ProjectRelevantCostTypeUpdates
+                .Where(x => x.ProjectRelevantCostTypeGroup == projectRelevantCostTypeGroup)
                 .OrderBy(x => x.CostType.CostTypeName).ToList();
+        }
+
+        public static List<ProjectRelevantCostTypeUpdate> GetExpendituresRelevantCostTypes(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            return projectUpdateBatch.GetRelevantCostTypesByCostTypeGroup(ProjectRelevantCostTypeGroup.Expenditures);
         }
 
         public static List<ProjectRelevantCostTypeUpdate> GetBudgetsRelevantCostTypes(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.ProjectRelevantCostTypeUpdates
-                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
-                .OrderBy(x => x.CostType.CostTypeName).ToList();
+            return projectUpdateBatch.GetRelevantCostTypesByCostTypeGroup(ProjectRelevantCostTypeGroup.Budgets);
         }
 
         public static ProjectUpdateBatch GetLatestNotApprovedProjectUpdateBatchOrCreateNew(Project project, FirmaSession currentFirmaSession)
@@ -449,9 +463,9 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateExpenditures();
         }
 
-        public static ExpectedFundingValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceBudgetSimple> newProjectFundingSourceBudgets)
+        public static EditProjectFundingSourceBudgetByCostTypeValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceBudgetSimple> newProjectFundingSourceBudgets)
         {
-            return new ExpectedFundingValidationResult();
+            return new EditProjectFundingSourceBudgetByCostTypeValidationResult();
         }
 
         public static List<string> ValidateExpenditures(this ProjectUpdateBatch projectUpdateBatch)
@@ -732,7 +746,9 @@ namespace ProjectFirma.Web.Models
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
         {
             var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
-            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
+            // projectUpdateBatch.AreExpendituresValid() &&
+            // 4/17/20 TK - we removed the ability to edit expenditures. no longer need to check for valid on them
+            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
                    areAllProjectGeospatialAreasValid;
         }
 

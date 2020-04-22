@@ -133,8 +133,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ProjectExemptReportingYearUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkConfiguration());
             modelBuilder.Configurations.Add(new ProjectExternalLinkUpdateConfiguration());
-            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetConfiguration());
-            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectFundingSourceExpenditureConfiguration());
             modelBuilder.Configurations.Add(new ProjectFundingSourceExpenditureUpdateConfiguration());
             modelBuilder.Configurations.Add(new ProjectGeospatialAreaConfiguration());
@@ -208,6 +206,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new PacificNorthActivityListConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityStatusConfiguration());
             modelBuilder.Configurations.Add(new PacificNorthActivityTypeConfiguration());
+            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetConfiguration());
+            modelBuilder.Configurations.Add(new ProjectFundingSourceBudgetUpdateConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingAgreementStatusTableConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingContractStatusConfiguration());
             modelBuilder.Configurations.Add(new ReclamationStagingContractTrackingTableConfiguration());
@@ -226,6 +226,10 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
+            modelBuilder.Configurations.Add(new vGeospatialAreaConfiguration());
+            modelBuilder.Configurations.Add(new vProjectCustomAttributeValueConfiguration());
+            modelBuilder.Configurations.Add(new vProjectDetailConfiguration());
+            modelBuilder.Configurations.Add(new vProjectFunctionallyCompleteConfiguration());
         }
         public virtual DbSet<ActionItem> AllActionItems { get; set; }
         public virtual IQueryable<ActionItem> ActionItems { get { return AllActionItems.Where(x => x.TenantID == TenantID); } }
@@ -548,6 +552,10 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<vGeoServerGeospatialArea> vGeoServerGeospatialAreas { get; set; }
         public virtual DbSet<vGeoServerProjectDetailedLocations> vGeoServerProjectDetailedLocations { get; set; }
         public virtual DbSet<vGeoServerProjectSimpleLocations> vGeoServerProjectSimpleLocations { get; set; }
+        public virtual DbSet<vGeospatialArea> vGeospatialAreas { get; set; }
+        public virtual DbSet<vProjectCustomAttributeValue> vProjectCustomAttributeValues { get; set; }
+        public virtual DbSet<vProjectDetail> vProjectDetails { get; set; }
+        public virtual DbSet<vProjectFunctionallyComplete> vProjectFunctionallyCompletes { get; set; }
 
         public object LoadType(Type type, int primaryKey)
         {

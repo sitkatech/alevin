@@ -35,6 +35,7 @@ using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
@@ -141,17 +142,32 @@ namespace ProjectFirma.Web.Models
                 .OrderBy(x => x.CalendarYear).ToList();
         }
 
-        public static List<ProjectRelevantCostType> GetBudgetsRelevantCostTypes(this Project project)
+        public static List<ProjectRelevantCostTypeSimple> GetAllProjectRelevantCostTypesAsSimples(this Project project, ProjectRelevantCostTypeGroup projectRelevantCostTypeGroup)
+        {
+            var costTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList();
+            var projectRelevantCostTypes = project.GetRelevantCostTypesByCostTypeGroup(projectRelevantCostTypeGroup).Select(x => new ProjectRelevantCostTypeSimple(x)).ToList();
+            var currentRelevantCostTypeIDs = projectRelevantCostTypes.Select(x => x.CostTypeID).ToList();
+            projectRelevantCostTypes.AddRange(
+                costTypes.Where(x => !currentRelevantCostTypeIDs.Contains(x.CostTypeID))
+                    .Select((x, index) => new ProjectRelevantCostTypeSimple(-(index + 1), project.ProjectID, x.CostTypeID, x.CostTypeName)));
+            return projectRelevantCostTypes;
+        }
+
+        public static List<ProjectRelevantCostType> GetRelevantCostTypesByCostTypeGroup(this Project project, 
+                                                    ProjectRelevantCostTypeGroup projectRelevantCostTypeGroup)
         {
             return project.ProjectRelevantCostTypes
-                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Budgets)
+                .Where(x => x.ProjectRelevantCostTypeGroup == projectRelevantCostTypeGroup)
                 .OrderBy(x => x.CostTypeID).ToList();
+        }
+
+        public static List<ProjectRelevantCostType> GetBudgetsRelevantCostTypes(this Project project)
+        {
+            return GetRelevantCostTypesByCostTypeGroup(project, ProjectRelevantCostTypeGroup.Budgets);
         }
         public static List<ProjectRelevantCostType> GetExpendituresRelevantCostTypes(this Project project)
         {
-            return project.ProjectRelevantCostTypes
-                .Where(x => x.ProjectRelevantCostTypeGroup == ProjectRelevantCostTypeGroup.Expenditures)
-                .OrderBy(x => x.CostTypeID).ToList();
+            return GetRelevantCostTypesByCostTypeGroup(project, ProjectRelevantCostTypeGroup.Expenditures);
         }
 
         private static List<int> GetYearRangesImpl(IProject projectUpdate, int? startYear)
@@ -191,8 +207,12 @@ namespace ProjectFirma.Web.Models
         /// <returns></returns>
         public static List<ProjectOrganizationRelationship> GetFundingOrganizations(this Project project, bool excludeTargetedFunders)
         {
+            // 4/20/20 TK - "Funding Orgs" seems like a bad relationship type now that there is no "secured" funding
+            //var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
+            //    .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders && x.SecuredAmount > 0) || !excludeTargetedFunders).Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
+            //    .Select(x => new ProjectOrganizationRelationship(project, x, OrganizationRelationshipTypeModelExtensions.OrganizationRelationshipTypeNameFunder));
             var fundingOrganizations = project.ProjectFundingSourceExpenditures.Select(x => x.FundingSource.Organization)
-                .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders && x.SecuredAmount > 0) || !excludeTargetedFunders).Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
+                .Union(project.ProjectFundingSourceBudgets.Where(x => (excludeTargetedFunders) || !excludeTargetedFunders).Select(x => x.FundingSource.Organization), new HavePrimaryKeyComparer<Organization>())
                 .Select(x => new ProjectOrganizationRelationship(project, x, OrganizationRelationshipTypeModelExtensions.OrganizationRelationshipTypeNameFunder));
             return fundingOrganizations.ToList();
         }
@@ -392,19 +412,16 @@ namespace ProjectFirma.Web.Models
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
 
-            var securedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.SecuredAmount > 0)
+            var projectedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.ProjectedAmount > 0)
                 .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.SecuredAmount));
-            var targetedAmountsDictionary = project.ProjectFundingSourceBudgets.Where(x => x.TargetedAmount > 0)
-                .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.TargetedAmount));
+                .ToDictionary(x => x.Key, x => x.Sum(y => y.ProjectedAmount));
 
             var securedColorHsl = new { hue = 96.0, sat = 60.0 };
             var targetedColorHsl = new { hue = 33.3, sat = 240.0 };
 
-            var showFullName = (securedAmountsDictionary.Count + targetedAmountsDictionary.Count) <= 2;
+            var showFullName = (projectedAmountsDictionary.Count) <= 2;
 
-            var securedPieChartSlices = securedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
+            var projectedPieChartSlices = projectedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
             {
                 var fundingSource = fundingSourceDictionaryItem.Key;
                 var fundingAmount = fundingSourceDictionaryItem.Value;
@@ -412,26 +429,11 @@ namespace ProjectFirma.Web.Models
                     ? fundingSource.GetDisplayName()
                     : fundingSource.GetFixedLengthDisplayName();
 
-                var luminosity = 100.0 * (securedAmountsDictionary.Count - index - 1) / securedAmountsDictionary.Count + 120;
-                var color = ColorTranslator.ToHtml(new HslColor(securedColorHsl.hue, securedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice(@FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
-
-            }).ToList();
-            googlePieChartSlices.AddRange(securedPieChartSlices);
-
-            var targetedPieChartSlices = targetedAmountsDictionary.OrderBy(x => x.Key.FundingSourceName).Select((fundingSourceDictionaryItem, index) =>
-            {
-                var fundingSource = fundingSourceDictionaryItem.Key;
-                var fundingAmount = fundingSourceDictionaryItem.Value;
-                var displayName = showFullName
-                    ? fundingSource.GetDisplayName()
-                    : fundingSource.GetFixedLengthDisplayName();
-
-                var luminosity = 100.0 * (targetedAmountsDictionary.Count - index - 1) / targetedAmountsDictionary.Count + 120;
+                var luminosity = 100.0 * (projectedAmountsDictionary.Count - index - 1) / projectedAmountsDictionary.Count + 120;
                 var color = ColorTranslator.ToHtml(new HslColor(targetedColorHsl.hue, targetedColorHsl.sat, luminosity));
-                return new GooglePieChartSlice(@FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
+                return new GooglePieChartSlice(@FieldDefinitionEnum.ProjectedFunding.ToType().GetFieldDefinitionLabel() + ": " + displayName, Convert.ToDouble(fundingAmount), sortOrder++, color);
             }).ToList();
-            googlePieChartSlices.AddRange(targetedPieChartSlices);
+            googlePieChartSlices.AddRange(projectedPieChartSlices);
 
             return googlePieChartSlices;
         }
@@ -631,6 +633,36 @@ namespace ProjectFirma.Web.Models
             }
         }
 
+        public static string GetProjectCustomAttributesValue(this Project project, ProjectCustomAttributeType projectCustomAttributeType, Dictionary<int, List<vProjectCustomAttributeValue>> projectCustomAttributeDictionary)
+        {
+            var listExists = projectCustomAttributeDictionary.ContainsKey(project.ProjectID);
+            var projectCustomAttribute = listExists ? projectCustomAttributeDictionary[project.ProjectID].SingleOrDefault(x => x.ProjectCustomAttributeTypeID == projectCustomAttributeType.ProjectCustomAttributeTypeID) : null;
+           
+            if (projectCustomAttribute != null)
+            {
+                if (projectCustomAttributeType.ProjectCustomAttributeDataType == ProjectCustomAttributeDataType.DateTime)
+                {
+                    return DateTime.TryParse(projectCustomAttribute.ProjectCustomAttributeValuesConcatenated, out var date) ? date.ToShortDateString() : null;
+                }
+                else
+                {
+                    return projectCustomAttribute.ProjectCustomAttributeValuesConcatenated;
+                }
+            }
+            else if (projectCustomAttributeType.ProjectCustomAttributeGroup.ProjectCustomAttributeGroupProjectCategories.All(x => x.ProjectCategoryID != project.ProjectCategoryID))
+            {
+                //This ProjectCustomAttributeType is not applicable to this Project Type, therefore it is Not Applicable(N/A)
+                return "N/A";
+            }
+            else
+            {
+                //This just has no value
+                return "None";
+            }
+        }
+
+
+
 
         public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType)
         {
@@ -639,6 +671,17 @@ namespace ProjectFirma.Web.Models
                 ? String.Join(", ", projectGeospatialAreas.OrderBy(x => x.GeospatialArea.GeospatialAreaName).Select(x => x.GeospatialArea.GetDisplayNameAsUrl()))
                 : ViewUtilities.NaString);
         }
+
+        public static HtmlString GetProjectGeospatialAreaNamesAsHyperlinks(this Project project, GeospatialAreaType geospatialAreaType, Dictionary<int,vGeospatialArea> geospatialDictionary, Dictionary<int, List<ProjectGeospatialArea>> projectGeospatialAreaDictionary)
+        {
+            var areThereAny = projectGeospatialAreaDictionary.ContainsKey(project.ProjectID);
+            var projectGeospatialAreas = areThereAny ? projectGeospatialAreaDictionary[project.ProjectID].Where(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).ToList() : new List<ProjectGeospatialArea>();
+            return new HtmlString(projectGeospatialAreas.Any()
+                ? String.Join(", ", projectGeospatialAreas.OrderBy(x => geospatialDictionary[x.GeospatialAreaID].GeospatialAreaName).Select(x => geospatialDictionary[x.GeospatialAreaID].GetDisplayNameAsUrl()))
+                : ViewUtilities.NaString);
+        }
+
+
 
         public static List<PerformanceMeasureReportedValue> GetNonVirtualPerformanceMeasureReportedValues(this Project project)
         {
@@ -831,22 +874,13 @@ namespace ProjectFirma.Web.Models
             return attachmentTypes;
         }
 
-        public static decimal GetSecuredFundingForAllProjects()
-        {
-            decimal securedAmount = 0;
-            foreach (Project project in HttpRequestStorage.DatabaseEntities.Projects)
-            {
-                securedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount) ?? 0);
-            }
-            return securedAmount;
-        }
 
-        public static decimal GetTargetedFundingForAllProjects()
+        public static decimal GetProjectedFundingForAllProjects()
         {
             decimal targetedAmount = 0;
             foreach (Project project in HttpRequestStorage.DatabaseEntities.Projects)
             {
-                targetedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount) ?? 0);
+                targetedAmount += (project.ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount) ?? 0);
             }
             return targetedAmount;
         }
@@ -880,8 +914,7 @@ namespace ProjectFirma.Web.Models
                 int projectCount = 0;
                 typeToProjectOrg.ForEach(x =>
                 {
-                    securedAmount += x.Project.GetSecuredFunding() ?? 0;
-                    targetedAmount += x.Project.GetTargetedFunding() ?? 0;
+                    targetedAmount += x.Project.GetProjectedFunding() ?? 0;
                     noFundingSourceAmount += x.Project.GetNoFundingSourceIdentifiedAmountOrZero();
                     projectCount++;
                 });
@@ -949,8 +982,7 @@ namespace ProjectFirma.Web.Models
         {
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
-            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetSecuredFundingForAllProjects()), sortOrder++, "#C6B42F"));
-            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetTargetedFundingForAllProjects()), sortOrder++, "#007C8A"));
+            googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetProjectedFundingForAllProjects()), sortOrder++, "#007C8A"));
             googlePieChartSlices.Add(new GooglePieChartSlice(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), Convert.ToDouble(GetNoFundingSourceIdentifiedYetForAllProjects()), sortOrder, "#D34727"));
             return googlePieChartSlices;
         }
@@ -1004,5 +1036,71 @@ namespace ProjectFirma.Web.Models
         {
             return new ProjectCustomAttributesValidationResult(project);
         }
+
+
+        public static List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>
+            GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
+        {
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
+            var obligationItemBudgets = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).ToList();
+
+            //var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            //var dictProjectFundingSourceBudgetToObligationItemBudget = new Dictionary<ProjectFundingSourceBudget, List<WbsElementObligationItemBudget>>();
+            //foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
+            //{
+
+            //    var budgetsWhereYearCostTypeAndFundingSourceMatch = 
+            //        obligationItemBudgets.Where(oib =>
+            //        oib.PostingDateKey.Value.Year == projectFundingSourceBudget.CalendarYear &&
+            //        oib.BudgetObjectCode.GetEffectiveCostType().CostTypeID == projectFundingSourceBudget.CostTypeID &&
+            //        oib.FundingSourceID == projectFundingSourceBudget.FundingSourceID).ToList();
+
+            //    dictProjectFundingSourceBudgetToObligationItemBudget.Add(projectFundingSourceBudget, budgetsWhereYearCostTypeAndFundingSourceMatch);
+            //}
+
+            var obligationItemBudgetSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
+            foreach (var itemBudget in obligationItemBudgets)
+            {
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, itemBudget.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemBudget.PostingDateKey.Value.Year, itemBudget.Obligation ?? 0);
+                obligationItemBudgetSimples.Add(simple);
+            }
+
+            //obligationItemBudgetSimples.AddRange(dictProjectFundingSourceBudgetToObligationItemBudget.Select(dict => new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(dict.Key, dict.Value)));
+
+            return obligationItemBudgetSimples;
+        }
+
+        public static List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>
+            GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
+        {
+            var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
+            var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).ToList();
+
+            //var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
+            //var dictProjectFundingSourceBudgetToObligationItemInvoice = new Dictionary<ProjectFundingSourceBudget, List<WbsElementObligationItemInvoice>>();
+            //foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
+            //{
+
+            //    var budgetsWhereYearCostTypeAndFundingSourceMatch =
+            //        obligationItemInvoices.Where(oib =>
+            //            oib.PostingDateKey.Value.Year == projectFundingSourceBudget.CalendarYear &&
+            //            oib.BudgetObjectCode.GetEffectiveCostType().CostTypeID == projectFundingSourceBudget.CostTypeID &&
+            //            oib.FundingSourceID == projectFundingSourceBudget.FundingSourceID).ToList();
+
+            //    dictProjectFundingSourceBudgetToObligationItemInvoice.Add(projectFundingSourceBudget, budgetsWhereYearCostTypeAndFundingSourceMatch);
+            //}
+
+            var obligationItemInvoiceSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
+            foreach (var itemInvoice in obligationItemInvoices)
+            {
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemInvoice.FundingSourceID, itemInvoice.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemInvoice.PostingDateKey.Value.Year, itemInvoice.DebitAmount ?? 0);
+                obligationItemInvoiceSimples.Add(simple);
+            }
+
+            //obligationItemInvoiceSimples.AddRange(dictProjectFundingSourceBudgetToObligationItemInvoice.Select(dict => new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(dict.Key, dict.Value)));
+
+            return obligationItemInvoiceSimples;
+        }
+
     }
 }

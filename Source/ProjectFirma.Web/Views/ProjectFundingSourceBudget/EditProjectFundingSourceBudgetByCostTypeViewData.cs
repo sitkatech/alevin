@@ -22,52 +22,87 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Collections.Generic;
 using System.Web.Mvc;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 {
+    public enum ProjectFundingSourceBudgetViewEnum
+    {
+        Edit,
+        Create,
+        Update
+    }
     public class EditProjectFundingSourceBudgetByCostTypeViewData : FirmaUserControlViewData
     {
-        public ViewDataForAngularClass ViewDataForAngular { get; }
+        public ProjectFundingSourceBudgetViewEnum ViewEnum { get; }
+        public EditProjectFundingSourceBudgetByCostTypeViewDataForAngular ViewDataForAngular { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForFundingSource { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostType { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForNoFundingSourceIdentified { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForSecuredFunding { get; }
-        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForTargetedFunding { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForPlanningDesignStartYear { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedTotalCost { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForEstimatedAnnualOperatingCost { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProjectedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForObligatedFunding { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForExpendedFunding { get; }
 
-        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewData.ViewDataForAngularClass viewDataForAngularClass)
+        //The following fields are only for the Update workflow
+        public string RefreshUrl { get; }
+        public string DiffUrl { get; }
+        public string RequestFundingSourceUrl { get; }
+        public SectionCommentsViewData SectionCommentsViewData { get; }
+        public bool ProjectUpdateStatusIsBudgetsUpdated { get; }
+        public bool UpdateShowApproveAndReturnButton { get; }
+
+        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular, ProjectFundingSourceBudgetViewEnum viewEnum)
         {
-            ViewDataForAngular = viewDataForAngularClass;
+            ViewEnum = viewEnum;
+            ViewDataForAngular = editProjectFundingSourceBudgetByCostTypeViewDataForAngular;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForFundingSource = FieldDefinitionEnum.FundingSource.ToType();
             FieldDefinitionForCostType = FieldDefinitionEnum.CostType.ToType();
             FieldDefinitionForNoFundingSourceIdentified = FieldDefinitionEnum.NoFundingSourceIdentified.ToType();
-            FieldDefinitionForSecuredFunding = FieldDefinitionEnum.SecuredFunding.ToType();
-            FieldDefinitionForTargetedFunding = FieldDefinitionEnum.TargetedFunding.ToType();
             FieldDefinitionForPlanningDesignStartYear = FieldDefinitionEnum.PlanningDesignStartYear.ToType();
             FieldDefinitionForCompletionYear = FieldDefinitionEnum.CompletionYear.ToType();
             FieldDefinitionForEstimatedTotalCost = FieldDefinitionEnum.EstimatedTotalCost.ToType();
             FieldDefinitionForEstimatedAnnualOperatingCost = FieldDefinitionEnum.EstimatedAnnualOperatingCost.ToType();
+            FieldDefinitionForProjectedFunding = FieldDefinitionEnum.ProjectedFunding.ToType();
+            FieldDefinitionForObligatedFunding = FieldDefinitionEnum.ObligatedFunding.ToType();
+            FieldDefinitionForExpendedFunding = FieldDefinitionEnum.ExpendedFunding.ToType();
+
         }
 
-        public class ViewDataForAngularClass
+        public EditProjectFundingSourceBudgetByCostTypeViewData(EditProjectFundingSourceBudgetByCostTypeViewDataForAngular editProjectFundingSourceBudgetByCostTypeViewDataForAngular, ProjectFundingSourceBudgetViewEnum viewEnum, ProjectUpdateBatch projectUpdateBatch, bool projectUpdateStatusIsBudgetsUpdated, bool updateShowApproveAndReturnButton) : this(editProjectFundingSourceBudgetByCostTypeViewDataForAngular, viewEnum)
+        {
+            SectionCommentsViewData = new SectionCommentsViewData(projectUpdateBatch.ExpectedFundingComment, projectUpdateBatch.IsReturned());
+            ProjectUpdateStatusIsBudgetsUpdated = projectUpdateStatusIsBudgetsUpdated;
+            UpdateShowApproveAndReturnButton = updateShowApproveAndReturnButton;
+
+            RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
+            RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFundingByCostType(projectUpdateBatch.Project));
+            DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedFundingByCostType(projectUpdateBatch.Project));
+            
+        }
+
+        public class EditProjectFundingSourceBudgetByCostTypeViewDataForAngular
         {
             public List<int> RequiredCalendarYearRange { get; }
             public List<FundingSourceSimple> AllFundingSources { get; }
             public List<CostTypeSimple> AllCostTypes { get; }
+            public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemBudgetRollUps { get; }
+            public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemInvoiceRollUps { get; }
             // Actually a ProjectID
             public int ProjectID { get; }
             public int MaxYear { get; }
 
             public IEnumerable<SelectListItem> FundingTypes { get; }
 
-            public ViewDataForAngularClass(ProjectFirmaModels.Models.Project project,
+            public EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(ProjectFirmaModels.Models.Project project,
                 List<FundingSourceSimple> allFundingSources,
                 List<CostTypeSimple> allCostTypes,
                 List<int> requiredCalendarYearRange,
@@ -79,7 +114,27 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 ProjectID = project.ProjectID;
                 FundingTypes = fundingTypes;
                 MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
+                ObligationItemBudgetRollUps = project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();
+                ObligationItemInvoiceRollUps = project.GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples();
+            }
+
+            public EditProjectFundingSourceBudgetByCostTypeViewDataForAngular(ProjectFirmaModels.Models.ProjectUpdateBatch projectUpdateBatch,
+                List<FundingSourceSimple> allFundingSources,
+                List<CostTypeSimple> allCostTypes,
+                List<int> requiredCalendarYearRange,
+                IEnumerable<SelectListItem> fundingTypes)
+            {
+                RequiredCalendarYearRange = requiredCalendarYearRange;
+                AllFundingSources = allFundingSources;
+                AllCostTypes = allCostTypes;
+                ProjectID = projectUpdateBatch.ProjectID;
+                FundingTypes = fundingTypes;
+                MaxYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
+                ObligationItemBudgetRollUps = projectUpdateBatch.Project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();
+                ObligationItemInvoiceRollUps = projectUpdateBatch.Project.GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples();
             }
         }
+
+        
     }
 }

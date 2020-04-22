@@ -238,4 +238,7 @@ VALUES
 (10046, N'PrimaryCostAuthorityWorkBreakdownStructure', N'Primary Cost Authority Work Breakdown Structure'),
 (10047, N'SecondaryCostAuthorityWorkBreakdownStructure', N'Secondary Cost Authority Work Breakdown Structure'),
 (10048, N'Obligation', N'Obligation'),
-(10049, N'Vendor', N'Vendor')
+(10049, N'Vendor', N'Vendor'),
+(10050, N'ProjectedFunding', N'Projected Funding'),
+(10051, N'ObligatedFunding', N'Obligated Funding'),
+(10052, N'ExpendedFunding', N'Expended Funding')

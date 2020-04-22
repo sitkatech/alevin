@@ -27,7 +27,7 @@ and
 p.TenantID = 12
 
 
-select * from #ProjectsWithDirectButNoIndirectTaxonomyLeafs
+--select * from #ProjectsWithDirectButNoIndirectTaxonomyLeafs
 
 
 /*
@@ -48,7 +48,7 @@ order by p.ProjectID
 
 */
 
-
+/*
 update dbo.Project
 set OverrideTaxonomyLeafID = null
 where ProjectID not in 
@@ -56,7 +56,7 @@ where ProjectID not in
     select ProjectID from #ProjectsWithDirectButNoIndirectTaxonomyLeafs
 )
 and TenantID = 12
-
+*/
 
 
 
@@ -70,3 +70,20 @@ inner join Reclamation.CostAuthorityProject as cap on p.ProjectID = cap.ProjectI
 
 select 
 */
+
+
+DROP TABLE IF EXISTS #ProjectsWithNeitherDirectNorIndirectTaxonomyLeafs
+GO
+
+select p.ProjectID
+into #ProjectsWithNeitherDirectNorIndirectTaxonomyLeafs
+from dbo.Project as p
+left join Reclamation.CostAuthorityProject as cap on p.ProjectID = cap.ProjectID
+where
+cap.ProjectID is null
+and
+p.OverrideTaxonomyLeafID is null
+and
+p.TenantID = 12
+
+select * from #ProjectsWithNeitherDirectNorIndirectTaxonomyLeafs

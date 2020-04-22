@@ -69,11 +69,12 @@ namespace ProjectFirma.Web.Views.Project
             AddColumn(FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel(), x => x.ProjectDescription);
             AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType?.FundingTypeName);
             AddColumn(FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(), x => x.GetEstimatedTotalRegardlessOfFundingType());
-            AddColumn(FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel(), x => x.GetSecuredFunding());
-            AddColumn(FieldDefinitionEnum.TargetedFunding.ToType().GetFieldDefinitionLabel(), x => x.GetTargetedFunding());
+            AddColumn(FieldDefinitionEnum.ProjectedFunding.ToType().GetFieldDefinitionLabel(), x => x.GetProjectedFunding());
             AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
             AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
+            AddColumn("Latitude", x => x.ProjectLocationPoint?.YCoordinate);
+            AddColumn("Longitude", x => x.ProjectLocationPoint?.XCoordinate);
         }
     }
 

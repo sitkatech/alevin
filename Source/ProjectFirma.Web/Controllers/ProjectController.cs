@@ -166,8 +166,7 @@ namespace ProjectFirma.Web.Controllers
                 SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostType(project)) :
                 SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpenditures(project));
             var editExpectedFundingUrl = reportFinancialsByCostType ?
-                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetByCostTypeForProject(project)) :
-                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetsForProject(project));
+                SitkaRoute<ProjectFundingSourceBudgetController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceBudgetByCostTypeForProject(project)) : UnsupportedBudgetMode.UnsupportedBudgetModeWarning;
 
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 

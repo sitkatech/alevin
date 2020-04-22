@@ -43,7 +43,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCompletionYear { get; }
 
         public ExpendituresViewData(FirmaSession currentFirmaSession, ProjectUpdateBatch projectUpdateBatch, ViewDataForAngularClass viewDataForAngularClass, ProjectExpendituresDetailViewData projectExpendituresDetailViewData, ProjectUpdateStatus projectUpdateStatus, List<string> expendituresValidationErrors)
-            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
+            : base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, "OBSOLETE Expenditures") 
+                //: base(currentFirmaSession, projectUpdateBatch, projectUpdateStatus, expendituresValidationErrors, ProjectUpdateSection.Expenditures.ProjectUpdateSectionDisplayName)
         {
             ProjectID = projectUpdateBatch.ProjectID;
             ViewDataForAngular = viewDataForAngularClass;

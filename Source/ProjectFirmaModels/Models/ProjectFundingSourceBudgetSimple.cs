@@ -15,43 +15,36 @@
         {
             ProjectID = projectFundingSourceBudget.ProjectID;
             FundingSourceID = projectFundingSourceBudget.FundingSourceID;
-            TargetedAmount = projectFundingSourceBudget.TargetedAmount;
-            SecuredAmount = projectFundingSourceBudget.SecuredAmount;
+            ProjectedAmount = projectFundingSourceBudget.ProjectedAmount;
         }
 
         public ProjectFundingSourceBudgetSimple(ProjectFundingSourceBudgetUpdate projectFundingSourceBudgetUpdate)
         {
             ProjectUpdateBatchID = projectFundingSourceBudgetUpdate.ProjectUpdateBatchID;
             FundingSourceID = projectFundingSourceBudgetUpdate.FundingSourceID;
-            TargetedAmount = projectFundingSourceBudgetUpdate.TargetedAmount;
-            SecuredAmount = projectFundingSourceBudgetUpdate.SecuredAmount;
+            ProjectedAmount = projectFundingSourceBudgetUpdate.ProjectedAmount;
         }
 
         public ProjectFundingSourceBudget ToProjectFundingSourceBudget()
         {
-            return new ProjectFundingSourceBudget(ProjectID, FundingSourceID) { SecuredAmount = SecuredAmount, TargetedAmount = TargetedAmount };
+            return new ProjectFundingSourceBudget(ProjectID, FundingSourceID) { ProjectedAmount = ProjectedAmount };
         }
 
         public int ProjectID { get; set; }
         public int ProjectUpdateBatchID { get; set; }
         public int FundingSourceID { get; set; }
-        public decimal? SecuredAmount { get; set; }
-        public decimal? TargetedAmount { get; set; }
+        public decimal? ProjectedAmount { get; set; }
 
         public ProjectFundingSourceBudgetUpdate ToProjectFundingSourceBudgetUpdate()
         {
-            return new ProjectFundingSourceBudgetUpdate(ProjectUpdateBatchID, FundingSourceID) { SecuredAmount = SecuredAmount, TargetedAmount = TargetedAmount };
+            return new ProjectFundingSourceBudgetUpdate(ProjectUpdateBatchID, FundingSourceID) { ProjectedAmount = ProjectedAmount };
         }
 
-        public bool AreBothValuesZero()
-        {
-            return
-                SecuredAmount == 0 && TargetedAmount == 0;
-        }
 
-        public bool AnyValueIsNull()
+
+        public bool IsProjectedAmountValueNull()
         {
-            return SecuredAmount == null || TargetedAmount == null;
+            return ProjectedAmount == null;
         }
     }
 }

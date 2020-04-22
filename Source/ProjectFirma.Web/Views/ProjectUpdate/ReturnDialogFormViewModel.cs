@@ -38,9 +38,9 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                     case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.Basics:
                         projectUpdateBatch.BasicsComment = SectionComments;
                         break;
-                    case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.Expenditures:
-                        projectUpdateBatch.ExpendituresComment = SectionComments;
-                        break;
+                    //case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.Expenditures:
+                    //    projectUpdateBatch.ExpendituresComment = SectionComments;
+                    //    break;
                     case ProjectFirmaModels.Models.ProjectUpdateSectionEnum.ReportedAccomplishments:
                         projectUpdateBatch.ReportedPerformanceMeasuresComment = SectionComments;
                         break;

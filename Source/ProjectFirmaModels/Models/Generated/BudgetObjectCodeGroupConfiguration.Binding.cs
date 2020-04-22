@@ -20,9 +20,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.BudgetObjectCodeGroupName).HasColumnName(@"BudgetObjectCodeGroupName").HasColumnType("nvarchar").IsRequired().HasMaxLength(100);
             Property(x => x.BudgetObjectCodeGroupDefinition).HasColumnName(@"BudgetObjectCodeGroupDefinition").HasColumnType("nvarchar").IsOptional().HasMaxLength(500);
             Property(x => x.ParentBudgetObjectCodeGroupID).HasColumnName(@"ParentBudgetObjectCodeGroupID").HasColumnType("int").IsOptional();
+            Property(x => x.CostTypeID).HasColumnName(@"CostTypeID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.ParentBudgetObjectCodeGroup).WithMany(b => b.BudgetObjectCodeGroupsWhereYouAreTheParentBudgetObjectCodeGroup).HasForeignKey(c => c.ParentBudgetObjectCodeGroupID).WillCascadeOnDelete(false); // FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID_BudgetObjectCodeGroupID
+            HasOptional(a => a.CostType).WithMany(b => b.BudgetObjectCodeGroups).HasForeignKey(c => c.CostTypeID).WillCascadeOnDelete(false); // FK_BudgetObjectCodeGroup_CostType_CostTypeID
         }
     }
 }

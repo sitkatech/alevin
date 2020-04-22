@@ -25,6 +25,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -96,10 +97,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             // Performance Measure section
             IsPerformanceMeasureSectionComplete = IsBasicsSectionComplete;
 
-            // Expected Funding section
-            var expectedFundingValidationResults = new ExpectedFundingViewModel(project)
-                .GetValidationResults();
-            IsExpectedFundingSectionComplete = !expectedFundingValidationResults.Any();
+            // Project FundingSource Budget and Cost Type section
+            var calendarYearRange = project.CalculateCalendarYearRangeForBudgetsWithoutAccountingForExistingYears();
+            var allProjectRelevantCostTypesAsSimples = project.GetAllProjectRelevantCostTypesAsSimples(ProjectRelevantCostTypeGroup.Budgets);
+            var budgetValidationResults =
+                new EditProjectFundingSourceBudgetByCostTypeViewModel(project, calendarYearRange,
+                    allProjectRelevantCostTypesAsSimples).GetValidationResults();
+            IsExpectedFundingSectionComplete = !budgetValidationResults.Any();
 
             // Classifications section
             var proposalClassificationSimples = ProjectCreateController.GetProjectClassificationSimples(project);

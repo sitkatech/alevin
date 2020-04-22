@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string FundingType { get; set; }
         public string EstimatedTotalCost { get; set; }
         public string SecuredFunding { get; set; }
-        public string TargetedFunding { get; set; }
+        public string ProjectedFunding { get; set; }
         public string NoFundingSourceIdentified { get; set; }
         public string ProjectDescription { get; set; }
         public int ProjectID { get; set; }
@@ -63,8 +63,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             NumberOfReportedExpenditures = Project.ProjectFundingSourceExpenditures.Count;
             FundingType = Project.FundingType?.FundingTypeDisplayName;
             EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType()?.ToStringCurrency();
-            SecuredFunding = Project.GetSecuredFunding().ToStringCurrency();
-            TargetedFunding = Project.GetTargetedFunding().ToStringCurrency();
+            ProjectedFunding = Project.GetProjectedFunding().ToStringCurrency();
             NoFundingSourceIdentified = Project.GetNoFundingSourceIdentifiedAmount()?.ToStringCurrency();
             ProjectDescription = Project.ProjectDescription;
             ProjectID = Project.ProjectID;

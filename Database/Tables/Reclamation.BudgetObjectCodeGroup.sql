@@ -8,6 +8,7 @@ CREATE TABLE [Reclamation].[BudgetObjectCodeGroup](
 	[BudgetObjectCodeGroupName] [nvarchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[BudgetObjectCodeGroupDefinition] [nvarchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ParentBudgetObjectCodeGroupID] [int] NULL,
+	[CostTypeID] [int] NULL,
  CONSTRAINT [PK_BudgetObjectCodeGroup_BudgetObjectCodeGroupID] PRIMARY KEY CLUSTERED 
 (
 	[BudgetObjectCodeGroupID] ASC
@@ -27,3 +28,8 @@ ALTER TABLE [Reclamation].[BudgetObjectCodeGroup]  WITH CHECK ADD  CONSTRAINT [F
 REFERENCES [Reclamation].[BudgetObjectCodeGroup] ([BudgetObjectCodeGroupID])
 GO
 ALTER TABLE [Reclamation].[BudgetObjectCodeGroup] CHECK CONSTRAINT [FK_BudgetObjectCodeGroup_BudgetObjectCodeGroup_ParentBudgetObjectCodeGroupID_BudgetObjectCodeGroupID]
+GO
+ALTER TABLE [Reclamation].[BudgetObjectCodeGroup]  WITH CHECK ADD  CONSTRAINT [FK_BudgetObjectCodeGroup_CostType_CostTypeID] FOREIGN KEY([CostTypeID])
+REFERENCES [dbo].[CostType] ([CostTypeID])
+GO
+ALTER TABLE [Reclamation].[BudgetObjectCodeGroup] CHECK CONSTRAINT [FK_BudgetObjectCodeGroup_CostType_CostTypeID]

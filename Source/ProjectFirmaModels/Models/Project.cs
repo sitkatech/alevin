@@ -43,8 +43,12 @@ namespace ProjectFirmaModels.Models
             // Override should only be used when there is no TaxonomyLeaf available via the CostAuthority relationship,
             // so we should never see both of these set. For the moment we'll crash if this actually happens. It seems
             // likely this will prove too brittle but we'll soon see.
+            //
+            // Additionally, we expect to have AT LEAST one of these work. We don't want it unset.
+            //
             //-- SLG 4/20/2020
-            Check.Ensure(taxonomyLeafViaCostAuthority == null || taxonomyLeafViaOverrideOnProject == null);
+            //Check.Ensure(taxonomyLeafViaCostAuthority == null || taxonomyLeafViaOverrideOnProject == null);
+            Check.Ensure(taxonomyLeafViaCostAuthority == null ^ taxonomyLeafViaOverrideOnProject == null, $"Project: {this.ProjectName} ProjectID: {this.ProjectID} taxonomyLeafViaCostAuthority = {taxonomyLeafViaCostAuthority}, taxonomyLeafViaOverrideOnProject = {taxonomyLeafViaOverrideOnProject}");
 
             return taxonomyLeafViaOverrideOnProject ?? taxonomyLeafViaCostAuthority;
         }
@@ -62,24 +66,27 @@ namespace ProjectFirmaModels.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal? GetSecuredFunding()
+        public decimal? GetProjectedFunding()
         {
-            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
         }
 
-        public decimal? GetSecuredFundingForFundingSources(List<int> fundingSourceIDs)
-        {
-            return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
-        }
 
-        public decimal? GetTargetedFunding()
-        {
-            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
-        }
+		// Brought over from Mainline-- should this be trashed? --- SLG 4/21/2020
+        //public decimal? GetSecuredFundingForFundingSources(List<int> fundingSourceIDs)
+        //{
+        //    return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
+        //}
+
+        //public decimal? GetTargetedFunding()
+        //{
+        //    return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
+        //}
+		// Brought over from Mainline-- should this be trashed? --- SLG 4/21/2020
 
         public decimal? GetTargetedFundingForFundingSources(List<int> fundingSourceIDs)
         {
-            return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
         }
 
         public decimal? GetNoFundingSourceIdentifiedAmount()
@@ -93,14 +100,13 @@ namespace ProjectFirmaModels.Models
 
         public decimal? GetEstimatedTotalRegardlessOfFundingType()
         {
-            var securedFunding = GetSecuredFunding();
-            var targetedFunding = GetTargetedFunding();
+            var targetedFunding = GetProjectedFunding();
             var noFundingSourceIdentified = GetNoFundingSourceIdentifiedAmount();
-            if (securedFunding == null && targetedFunding == null && noFundingSourceIdentified == null)
+            if (targetedFunding == null && noFundingSourceIdentified == null)
             {
                 return null;
             }
-            return (noFundingSourceIdentified ?? 0) + (securedFunding ?? 0) + (targetedFunding ?? 0);
+            return (noFundingSourceIdentified ?? 0) + (targetedFunding ?? 0);
         }
 
         public decimal GetNoFundingSourceIdentifiedAmountOrZero()

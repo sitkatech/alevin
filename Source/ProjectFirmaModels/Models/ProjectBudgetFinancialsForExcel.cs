@@ -39,8 +39,7 @@ namespace ProjectFirmaModels.Models
         {
             Project = projectFundingSourceBudget.Project;
             FundingSource = projectFundingSourceBudget.FundingSource;
-            SecuredAmount = projectFundingSourceBudget.SecuredAmount;
-            TargetedAmount = projectFundingSourceBudget.TargetedAmount;
+            TargetedAmount = projectFundingSourceBudget.ProjectedAmount;
             CalendarYear = calendarYear ?? projectFundingSourceBudget.CalendarYear;
             if (reportFinancialsByCostType)
             {
