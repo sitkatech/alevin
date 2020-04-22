@@ -694,14 +694,14 @@ namespace ProjectFirma.Web.Models
         public static Feature MakePointFeatureWithRelevantProperties(this Project project, DbGeometry projectLocationPoint, bool addProjectProperties, bool useDetailedCustomPopup)
         {
             var feature = DbGeometryToGeoJsonHelper.FromDbGeometry(projectLocationPoint);
-            feature.Properties.Add("TaxonomyTrunkID", project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture));
+            feature.Properties.Add("TaxonomyTrunkID", project.GetTaxonomyLeaf()?.TaxonomyBranch.TaxonomyTrunkID.ToString(CultureInfo.InvariantCulture));
             feature.Properties.Add("ProjectStageID", project.ProjectStageID.ToString(CultureInfo.InvariantCulture));
             feature.Properties.Add("Info", project.GetDisplayName());
             if (addProjectProperties)
             {
                 feature.Properties.Add("ProjectID", project.ProjectID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("TaxonomyBranchID", project.TaxonomyLeaf.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
-                feature.Properties.Add("TaxonomyLeafID", project.TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyBranchID", project.GetTaxonomyLeaf()?.TaxonomyBranchID.ToString(CultureInfo.InvariantCulture));
+                feature.Properties.Add("TaxonomyLeafID", project.GetTaxonomyLeaf().TaxonomyLeafID.ToString(CultureInfo.InvariantCulture));
                 feature.Properties.Add("ClassificationID", String.Join(",", project.ProjectClassifications.Select(x => x.ClassificationID)));
 
                 if (useDetailedCustomPopup)
@@ -755,7 +755,13 @@ namespace ProjectFirma.Web.Models
                 titleHtml = UrlTemplate.MakeHrefString(factSheetUrl, project.ProjectName, project.ProjectName);
             }
 
-            var fancyTreeNode = new FancyTreeNode(titleHtml, project.ProjectID.ToString(), false) { ThemeColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor, MapUrl = null };
+            var taxonomyLeaf = project.GetTaxonomyLeaf();
+            var taxonomyTrunkThemeColor = taxonomyLeaf != null ? taxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor : string.Empty;
+            var fancyTreeNode = new FancyTreeNode(titleHtml, project.ProjectID.ToString(), false)
+            {
+                ThemeColor = taxonomyTrunkThemeColor, 
+                MapUrl = null
+            };
             return fancyTreeNode;
         }
 
@@ -847,7 +853,7 @@ namespace ProjectFirma.Web.Models
 
         public static TaxonomyTrunk GetTaxonomyTrunk(this Project project)
         {
-            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk;
+            return project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunk;
         }
 
         public static IEnumerable<AttachmentType> GetValidAttachmentTypesForForms(this Project project)
@@ -857,7 +863,15 @@ namespace ProjectFirma.Web.Models
 
         public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this Project project)
         {
-            return project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
+            //return project.GetTaxonomyLeaf()?.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
+
+            var attachmentTypes = new List<AttachmentType>();
+            var taxonomyLeaf = project.GetTaxonomyLeaf();
+            if (taxonomyLeaf != null)
+            {
+                attachmentTypes.AddRange(taxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType));
+            }
+            return attachmentTypes;
         }
 
 

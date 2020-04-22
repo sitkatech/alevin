@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             PlanningDesignStartYear = ProjectModelExtensions.GetPlanningDesignStartYear(Project);
             ImplementationStartYear = ProjectModelExtensions.GetImplementationStartYear(Project);
             CompletionYear = ProjectModelExtensions.GetCompletionYear(Project);
-            PrimaryTaxonomyLeaf = Project.TaxonomyLeaf?.GetDisplayName();
+            PrimaryTaxonomyLeaf = project.GetTaxonomyLeaf()?.GetDisplayName();
             NumberOfReportedExpenditures = Project.ProjectFundingSourceExpenditures.Count;
             FundingType = Project.FundingType?.FundingTypeDisplayName;
             EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType()?.ToStringCurrency();

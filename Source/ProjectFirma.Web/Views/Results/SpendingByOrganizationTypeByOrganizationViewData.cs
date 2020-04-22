@@ -46,11 +46,11 @@ namespace ProjectFirma.Web.Views.Results
                     switch (tenantAttribute.TaxonomyLevel.ToEnum)
                     {
                         case TaxonomyLevelEnum.Trunk:
-                            return x.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunkID;
+                            return x.Project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunkID;
                         case TaxonomyLevelEnum.Branch:
-                            return x.Project.TaxonomyLeaf.TaxonomyBranchID;
+                            return x.Project.GetTaxonomyLeaf().TaxonomyBranchID;
                         case TaxonomyLevelEnum.Leaf:
-                            return x.Project.TaxonomyLeafID;
+                            return x.Project.GetTaxonomyLeaf().TaxonomyLeafID;
                         default:
                             throw new ArgumentOutOfRangeException();
                     }

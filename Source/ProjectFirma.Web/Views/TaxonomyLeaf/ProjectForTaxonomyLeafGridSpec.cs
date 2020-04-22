@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Views.TaxonomyLeaf
             if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
             {
                 Add($"Relationship to {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}",
-                    x => x.TaxonomyLeafID == taxonomyLeaf.TaxonomyLeafID ? "Primary" : "Secondary",
+                    x => x.GetTaxonomyLeaf().TaxonomyLeafID == taxonomyLeaf.TaxonomyLeafID ? "Primary" : "Secondary",
                     100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             }
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())

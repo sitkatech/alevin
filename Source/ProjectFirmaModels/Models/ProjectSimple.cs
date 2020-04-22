@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         {
             ProjectID = project.ProjectID;
             DisplayName = project.GetDisplayName();
-            TaxonomyLeafID = project.TaxonomyLeafID;
+            TaxonomyLeafID = project.GetTaxonomyLeaf().TaxonomyLeafID;
             ProjectStageID = project.ProjectStageID;
         }
 

@@ -78,7 +78,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         public EditProjectViewModel(ProjectFirmaModels.Models.Project project, bool hasExistingProjectUpdate)
         {
-            TaxonomyLeafID = project.TaxonomyLeafID;
+            TaxonomyLeafID = project.GetTaxonomyLeaf().TaxonomyLeafID;
             SecondaryProjectTaxonomyLeafIDs = project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeafID);
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
+            project.GetTaxonomyLeaf().TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectStageID = ProjectStageID;
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;

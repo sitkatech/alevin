@@ -78,7 +78,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <table style="color: #000" class="summaryLayout">
                                     <tr>
                                         <th>@FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()</th>
-                                        <td>@featuredProject.TaxonomyLeaf.TaxonomyLeafName</td>
+                                        <td>@featuredProject.GetTaxonomyLeaf().TaxonomyLeafName</td>
                                     </tr>
                                     @if (featuredProject.GetPrimaryContactOrganization() != null)
                                     {

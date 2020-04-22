@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models
 {
@@ -32,6 +33,25 @@ namespace ProjectFirmaModels.Models
         public string GetAuditDescriptionString() => ProjectName;
 
         public string GetDisplayName() => ProjectName;
+
+        public TaxonomyLeaf GetTaxonomyLeaf()
+        {
+            var primaryCostAuthorityProject = this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs);
+            TaxonomyLeaf taxonomyLeafViaCostAuthority = primaryCostAuthorityProject?.CostAuthority?.TaxonomyLeaf;
+            TaxonomyLeaf taxonomyLeafViaOverrideOnProject = this.OverrideTaxonomyLeaf;
+
+            // Override should only be used when there is no TaxonomyLeaf available via the CostAuthority relationship,
+            // so we should never see both of these set. For the moment we'll crash if this actually happens. It seems
+            // likely this will prove too brittle but we'll soon see.
+            //
+            // Additionally, we expect to have AT LEAST one of these work. We don't want it unset.
+            //
+            //-- SLG 4/20/2020
+            //Check.Ensure(taxonomyLeafViaCostAuthority == null || taxonomyLeafViaOverrideOnProject == null);
+            Check.Ensure(taxonomyLeafViaCostAuthority == null ^ taxonomyLeafViaOverrideOnProject == null, $"Project: {this.ProjectName} ProjectID: {this.ProjectID} taxonomyLeafViaCostAuthority = {taxonomyLeafViaCostAuthority}, taxonomyLeafViaOverrideOnProject = {taxonomyLeafViaOverrideOnProject}");
+
+            return taxonomyLeafViaOverrideOnProject ?? taxonomyLeafViaCostAuthority;
+        }
 
         public Organization GetPrimaryContactOrganization()
         {
@@ -179,7 +199,7 @@ namespace ProjectFirmaModels.Models
 
         public TaxonomyBranch GetCanStewardProjectsTaxonomyBranch()
         {
-            return TaxonomyLeaf.TaxonomyBranch;
+            return GetTaxonomyLeaf().TaxonomyBranch;
         }
 
         public List<GeospatialArea> GetCanStewardProjectsGeospatialAreas()

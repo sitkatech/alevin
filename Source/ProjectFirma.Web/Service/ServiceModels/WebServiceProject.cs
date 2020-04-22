@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Service.ServiceModels
         {
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
-            TaxonomyTrunk = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName;
-            TaxonomyBranch = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyBranchName;
-            TaxonomyLeaf = project.TaxonomyLeaf.TaxonomyLeafName;
+            TaxonomyTrunk = project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunk.TaxonomyTrunkName;
+            TaxonomyBranch = project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyBranchName;
+            TaxonomyLeaf = project.GetTaxonomyLeaf().TaxonomyLeafName;
             ProjectDescription = project.ProjectDescription;
 
             PlanningStartDate = project.PlanningDesignStartYear;

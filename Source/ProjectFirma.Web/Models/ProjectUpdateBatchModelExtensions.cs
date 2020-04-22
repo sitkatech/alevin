@@ -759,7 +759,7 @@ namespace ProjectFirma.Web.Models
 
         public static IEnumerable<AttachmentType> GetAllAttachmentTypes(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return projectUpdateBatch.Project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
+            return projectUpdateBatch.Project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunk.AttachmentTypeTaxonomyTrunks.Select(x => x.AttachmentType);
         }
 
 

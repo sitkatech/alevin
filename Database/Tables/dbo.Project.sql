@@ -5,7 +5,7 @@ GO
 CREATE TABLE [dbo].[Project](
 	[ProjectID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
-	[TaxonomyLeafID] [int] NOT NULL,
+	[OverrideTaxonomyLeafID] [int] NULL,
 	[ProjectStageID] [int] NOT NULL,
 	[ProjectName] [varchar](140) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ProjectDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -69,7 +69,7 @@ SET ANSI_PADDING ON
 GO
 CREATE NONCLUSTERED INDEX [IDX_Project_TaxonomyLeaf] ON [dbo].[Project]
 (
-	[TaxonomyLeafID] ASC
+	[OverrideTaxonomyLeafID] ASC
 )
 INCLUDE ( 	[TenantID],
 	[ProjectName],
@@ -132,15 +132,15 @@ REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
 GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID] FOREIGN KEY([TaxonomyLeafID])
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID] FOREIGN KEY([OverrideTaxonomyLeafID])
 REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])
 GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID]
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID]
 GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID] FOREIGN KEY([TaxonomyLeafID], [TenantID])
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TenantID_TaxonomyLeafID_TenantID] FOREIGN KEY([OverrideTaxonomyLeafID], [TenantID])
 REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID], [TenantID])
 GO
-ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID_TenantID]
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TenantID_TaxonomyLeafID_TenantID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

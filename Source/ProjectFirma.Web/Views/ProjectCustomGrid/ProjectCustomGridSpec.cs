@@ -119,6 +119,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         ? FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()
                         : FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString();
                     Add(gridHeaderString, x => UrlTemplate.MakeHrefString(TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID), projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName), 240, DhtmlxGridColumnFilterType.Html);
+                    Add(gridHeaderString, x => x.GetTaxonomyLeaf().GetDisplayNameAsUrl(), 240, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)

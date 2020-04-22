@@ -20,7 +20,7 @@ p.ProjectID
 , coalesce(pim.ProjectImageCount, 0) as ProjectImageCount
 , pso.OrganizationID as CanStewardProjectsOrganizationID
 , pso.DisplayName as CanStewardProjectsOrganizationDisplayName
-, tl.TaxonomyLeafID 
+, tl.TaxonomyLeafID
 , case when tl.TaxonomyLeafCode is not null and tl.TaxonomyLeafCode != '' then tl.TaxonomyLeafCode + ': ' + tl.TaxonomyLeafName else tl.TaxonomyLeafName end as TaxonomyLeafDisplayName
 , case when coalesce(pps.FinalStatusUpdateCount, 0) > 0 and pendingCompletedBatch.FunctionallyComplete = 1 then 'Submitted'
        when coalesce(pps.FinalStatusUpdateCount, 0) = 0 and pendingCompletedBatch.FunctionallyComplete = 1 then 'Not Submitted'
@@ -28,7 +28,8 @@ p.ProjectID
 , coalesce(pfse.ProjectFundingSourceExpenditureCount,0) as ProjectFundingSourceExpenditureCount
 
  from dbo.Project p
- join dbo.TaxonomyLeaf tl on p.TaxonomyLeafID = tl.TaxonomyLeafID
+ left join dbo.vProjectEffectiveTaxonomyLeaf as petl on p.ProjectID = petl.ProjectID
+ left join dbo.TaxonomyLeaf tl on petl.EffectiveTaxonomyLeafID = tl.TaxonomyLeafID
  join dbo.vProjectFunctionallyComplete pendingCompletedBatch on pendingCompletedBatch.ProjectID = p.ProjectID
  left join dbo.Person person on p.PrimaryContactPersonID = person.PersonID
 left join (select 
@@ -52,7 +53,7 @@ left join (select
                     from    dbo.ProjectOrganization po
                     join    dbo.OrganizationRelationshipType ot on po.OrganizationRelationshipTypeID = ot.OrganizationRelationshipTypeID
                     join    dbo.Organization o on po.OrganizationID = o.OrganizationID
-                    where ot.CanStewardProjects = 1)                  
+                    where ot.CanStewardProjects = 1)
    pso on p.ProjectID = pso.ProjectID
 
 
@@ -69,4 +70,9 @@ left join (select pfse.ProjectID, count(*) as ProjectFundingSourceExpenditureCou
 
 go
 
--- select * from dbo.vProjectDetail
+/*
+
+select * from dbo.vProjectDetail
+where ProjectID = 13698
+
+*/

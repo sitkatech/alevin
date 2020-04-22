@@ -233,7 +233,8 @@ namespace ProjectFirma.Web.Controllers
             // To keep a 100% consistent time, we snapshot it so it doesn't change between calls
             var now = DateTime.Now;
 
-            var project = new Project(viewModel.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID,
+            var project = new Project(
+                /*viewModel.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID, */  // This is NOT working, just here to get it to compile !!!! -- SLG 4/20/2020
                 viewModel.ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,

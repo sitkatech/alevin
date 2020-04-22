@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             var latestNotApprovedUpdateBatch = project.GetLatestNotApprovedUpdateBatch();
             var viewModel = new EditProjectViewModel(project, latestNotApprovedUpdateBatch != null);
-            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
+            return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.GetTaxonomyLeaf().GetDisplayName(), project.TotalExpenditures);
         }
 
         [HttpPost]
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.TaxonomyLeaf.GetDisplayName(), project.TotalExpenditures);
+                return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.GetTaxonomyLeaf().GetDisplayName(), project.TotalExpenditures);
             }
             viewModel.UpdateModel(project, CurrentFirmaSession);
             return new ModalDialogFormJsonResult();

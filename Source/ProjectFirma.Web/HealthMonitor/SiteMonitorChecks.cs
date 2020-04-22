@@ -13,6 +13,7 @@ namespace ProjectFirma.Web.HealthMonitor
             // Here's the list of checks to run
             results.Add(WhtmlToPdfIsAvailableAndRunningExpectedVersion.Run());
             results.Add(SqlServerSpatialDllSeemsToWork.Run());
+            results.Add(BidirectionalTaxonomyLeafsHaveValidValues.Run());
             return results;
         }
     }

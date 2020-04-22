@@ -19,19 +19,19 @@ namespace ProjectFirma.Api.Models
             ProjectStage = project.ProjectStage.ProjectStageDisplayName;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
-            var taxonomyTrunks = new List<string> { project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName() };
+            var taxonomyTrunks = new List<string> { project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunk.GetDisplayName() };
             if (project.SecondaryProjectTaxonomyLeafs.Any())
             {
                 taxonomyTrunks.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.GetDisplayName()));
             }
             TaxonomyTrunks = taxonomyTrunks.Distinct(StringComparer.InvariantCultureIgnoreCase).OrderBy(x => x).ToList();
-            var taxonomyLeafs = new List<string> {project.TaxonomyLeaf.GetDisplayName()};
+            var taxonomyLeafs = new List<string> {project.GetTaxonomyLeaf().GetDisplayName()};
             if (project.SecondaryProjectTaxonomyLeafs.Any())
             {
                 taxonomyLeafs.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.GetDisplayName()));
             }
             TaxonomyLeafs = taxonomyLeafs.OrderBy(x => x).ToList();
-            var taxonomyLeafsShortened = new List<string> {project.TaxonomyLeaf.TaxonomyLeafCode};
+            var taxonomyLeafsShortened = new List<string> {project.GetTaxonomyLeaf().TaxonomyLeafCode};
             if (project.SecondaryProjectTaxonomyLeafs.Any())
             {
                 taxonomyLeafsShortened.AddRange(project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf.TaxonomyLeafCode));

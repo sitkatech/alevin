@@ -83,7 +83,7 @@ namespace ProjectFirma.Web.Controllers
             var taxonomyLeaf = taxonomyLeafPrimaryKey.EntityObject;
             var currentPersonCanViewProposals = CurrentPerson.CanViewProposals();
 
-            var primaryTaxonomyLeafProjects = taxonomyLeaf.Projects.ToList()
+            var primaryTaxonomyLeafProjects = taxonomyLeaf.GetProjects().ToList()
                 .GetActiveProjectsAndProposals(currentPersonCanViewProposals)
                 .Where(x => x.ProjectStage.ShouldShowOnMap())
                 .ToList();
@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
             var primaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
                 new List<int> {taxonomyLeaf.TaxonomyLeafID}, ProjectColorByType.ProjectStage);
             var secondaryProjectMapCustomization = new ProjectMapCustomization(ProjectLocationFilterType.TaxonomyLeaf,
-                secondaryTaxonomyLeafProjects.Select(x => x.TaxonomyLeafID).Union(new List<int> {taxonomyLeaf.TaxonomyLeafID}).ToList(),
+                secondaryTaxonomyLeafProjects.Select(x => x.GetTaxonomyLeaf().TaxonomyLeafID).Union(new List<int> {taxonomyLeaf.TaxonomyLeafID}).ToList(),
                 ProjectColorByType.ProjectStage);
 
             var primaryProjectLocationsLayerGeoJson =

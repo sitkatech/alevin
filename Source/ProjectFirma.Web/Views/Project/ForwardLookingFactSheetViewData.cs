@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Views.Project
             FactSheetPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetPdf(project));
             FactSheetWithCustomAttributesPdfUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.FactSheetWithCustomAttributesPdf(project));
 
-            if (project.TaxonomyLeaf == null)
+            if (project.GetTaxonomyLeaf() == null)
             {
                 TaxonomyColor = "blue";
             }
@@ -119,19 +119,19 @@ namespace ProjectFirma.Web.Views.Project
                 switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
                 {
                     case TaxonomyLevelEnum.Leaf:
-                        TaxonomyColor = project.TaxonomyLeaf.ThemeColor;
+                        TaxonomyColor = project.GetTaxonomyLeaf().ThemeColor;
                         break;
                     case TaxonomyLevelEnum.Branch:
-                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.ThemeColor;
+                        TaxonomyColor = project.GetTaxonomyLeaf().TaxonomyBranch.ThemeColor;
                         break;
                     case TaxonomyLevelEnum.Trunk:
-                        TaxonomyColor = project.TaxonomyLeaf.TaxonomyBranch.TaxonomyTrunk.ThemeColor;
+                        TaxonomyColor = project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunk.ThemeColor;
                         break;
                 }
             }
 
-            TaxonomyLeafName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.GetDisplayName();
-            TaxonomyBranchName = project.TaxonomyLeaf == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.TaxonomyLeaf.TaxonomyBranch.GetDisplayName();
+            TaxonomyLeafName = project.GetTaxonomyLeaf() == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.GetTaxonomyLeaf().GetDisplayName();
+            TaxonomyBranchName = project.GetTaxonomyLeaf() == null ? $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Taxonomy Not Set" : project.GetTaxonomyLeaf().TaxonomyBranch.GetDisplayName();
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
 
             EstimatedTotalCost = Project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? Project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "";

@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models
 {
@@ -42,6 +43,27 @@ namespace ProjectFirmaModels.Models
         public List<IGrouping<PerformanceMeasure, TaxonomyLeafPerformanceMeasure>> GetTaxonomyTierPerformanceMeasures()
         {
             return TaxonomyLeafPerformanceMeasures.GroupBy(x => x.PerformanceMeasure).ToList();
+        }
+
+        public List<Project> GetProjects()
+        {
+            // Notice we do NOT filter by IsPrimaryProjectCawbs when navigating in this direction.
+            var costAuthorityProjects = this.CostAuthorities.SelectMany(ca => ca.CostAuthorityProjects).ToList();
+            var projectsViaCostAuthorities = costAuthorityProjects.Select(cap => cap.Project).Distinct().ToList();
+
+            // Also navigate looking for overrides
+            var projectsViaOverrides = this.ProjectsWhereYouAreTheOverrideTaxonomyLeaf.Distinct().ToList();
+
+            // We think there should be no overlap between these two sets! If there is, we something is wrong and we need 
+            // to have a look.
+            var costAuthorityProjectIDs = projectsViaCostAuthorities.Select(p => p.ProjectID).ToList();
+            var overrideProjectIDs = projectsViaOverrides.Select(p => p.ProjectID).ToList();
+            bool hasUnexpectedOverlap = costAuthorityProjectIDs.Intersect(overrideProjectIDs).Any();
+            Check.Ensure(!hasUnexpectedOverlap, "Unexpected overlap between routes for Taxonomy leafs.");
+
+            // Return the complete set
+            var allRelevantProjects = projectsViaCostAuthorities.Union(projectsViaOverrides).ToList();
+            return allRelevantProjects;
         }
     }
 }

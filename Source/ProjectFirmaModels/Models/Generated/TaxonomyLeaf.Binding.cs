@@ -24,7 +24,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected TaxonomyLeaf()
         {
-            this.Projects = new HashSet<Project>();
+            this.ProjectsWhereYouAreTheOverrideTaxonomyLeaf = new HashSet<Project>();
             this.SecondaryProjectTaxonomyLeafs = new HashSet<SecondaryProjectTaxonomyLeaf>();
             this.TaxonomyLeafPerformanceMeasures = new HashSet<TaxonomyLeafPerformanceMeasure>();
             this.CostAuthorities = new HashSet<CostAuthority>();
@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return Projects.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any() || CostAuthorities.Any();
+            return ProjectsWhereYouAreTheOverrideTaxonomyLeaf.Any() || SecondaryProjectTaxonomyLeafs.Any() || TaxonomyLeafPerformanceMeasures.Any() || CostAuthorities.Any();
         }
 
         /// <summary>
@@ -117,7 +117,7 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
-            foreach(var x in Projects.ToList())
+            foreach(var x in ProjectsWhereYouAreTheOverrideTaxonomyLeaf.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -159,7 +159,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return TaxonomyLeafID; } set { TaxonomyLeafID = value; } }
 
-        public virtual ICollection<Project> Projects { get; set; }
+        public virtual ICollection<Project> ProjectsWhereYouAreTheOverrideTaxonomyLeaf { get; set; }
         public virtual ICollection<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get; set; }
         public virtual ICollection<TaxonomyLeafPerformanceMeasure> TaxonomyLeafPerformanceMeasures { get; set; }
         public virtual ICollection<CostAuthority> CostAuthorities { get; set; }

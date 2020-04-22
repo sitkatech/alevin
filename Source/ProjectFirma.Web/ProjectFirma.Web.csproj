@@ -95,6 +95,7 @@
     <Compile Include="Controllers\SiteMonitorController.cs" />
     <Compile Include="Controllers\TechnicalAssistanceRequestController.cs" />
     <Compile Include="Controllers\ReleaseNoteController.cs" />
+    <Compile Include="HealthMonitor\BidirectionalTaxonomyLeafsHaveValidValues.cs" />
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
@@ -586,6 +587,7 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
+    <Compile Include="Views\TaxonomyBranch\TaxonomyBranchReclamationBiDirectionalTaxonomyLeafTests.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
