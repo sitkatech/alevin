@@ -57,8 +57,8 @@ select compareQuery.* from
 (
 	select 
 	  fd.FieldDefinitionID as fieldDefinitionDefinitionID
-	, fd.FieldDefinitionDisplayName as DefaultSystemFieldDefinitionDisplayName	
-	, fddata.FieldDefinitionID as dataFieldDefinitionID
+	, fd.FieldDefinitionDisplayName as DefaultSystemFieldDefinitionDisplayName
+	, fddata.FieldDefinitionID as dataFieldFieldDefinitionID
 	, fddata.FieldDefinitionDataID 
 	, fddata.TenantID
 	, fddata.FieldDefinitionLabel as TenantOverriddenFieldDefinitionDisplayName
@@ -71,7 +71,7 @@ where
 ) as compareQuery
 where 
 --TenantID = 11 and
-fieldDefinitionDefinitionID != dataFieldDefinitionID and DefaultSystemFieldDefinitionDisplayName = TenantOverriddenFieldDefinitionDisplayName
+fieldDefinitionDefinitionID != dataFieldFieldDefinitionID and DefaultSystemFieldDefinitionDisplayName = TenantOverriddenFieldDefinitionDisplayName
 order by TenantID";
             var result = ExecAdHocSql(sqlQueryString);
             Approvals.Verify(result.TableToHumanReadableString());
