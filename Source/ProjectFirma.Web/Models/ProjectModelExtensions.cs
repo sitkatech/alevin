@@ -53,6 +53,11 @@ namespace ProjectFirma.Web.Models
             return DetailUrlTemplate.ParameterReplace(project.ProjectID);
         }
 
+        public static string GetProjectDetailUrl(this vProjectAttachment projectAttachment)
+        {
+            return DetailUrlTemplate.ParameterReplace(projectAttachment.ProjectID);
+        }
+
         public static string GetDetailAbsoluteUrl(this Project project)
         {
             return DetailAbsoluteUrlTemplate.ParameterReplace(project.ProjectID);
@@ -736,7 +741,7 @@ namespace ProjectFirma.Web.Models
         public static string GetProjectOrganizationNamesForFactSheet(this Project project)
         {
             // get the list of funders so we can exclude any that have other project associations
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var fundingOrganizations = project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).Select(x => x.Organization.OrganizationID);
             // Don't use GetAssociatedOrganizations because we don't care about funders for this list.
             var associatedOrganizations = project.ProjectOrganizations
@@ -751,7 +756,7 @@ namespace ProjectFirma.Web.Models
 
         public static string GetFundingOrganizationNamesForFactSheet(this Project project)
         {
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             return String.Join(", ",
                 project.GetFundingOrganizations(tenantAttribute.ExcludeTargetedFundingOrganizations).OrderBy(x => x.Organization.OrganizationName)
                     .Select(x => x.Organization.OrganizationName));

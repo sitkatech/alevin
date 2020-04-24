@@ -124,14 +124,14 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.GetCompletionYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.PrimaryTaxonomyLeaf:
-                    var gridHeaderString = MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf
+                    var gridHeaderString = MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf
                         ? FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()
                         : FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString();
                     Add(gridHeaderString, x => UrlTemplate.MakeHrefString(TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID ?? 0), projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName), 240, DhtmlxGridColumnFilterType.Html);
                     Add(gridHeaderString, x => x.GetTaxonomyLeaf().GetDisplayNameAsUrl(), 240, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
-                    if (MultiTenantHelpers.GetTenantAttribute().EnableSecondaryProjectTaxonomyLeaf)
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf)
                     {
                         Add(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().ToGridHeaderStringPlural()
                             , x => new HtmlString(string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => taxonomyLeafDictionary[y.TaxonomyLeafID].GetDisplayNameAsUrl().ToString()))), 300, DhtmlxGridColumnFilterType.Html);
@@ -165,7 +165,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.ProjectLastUpdated.ToType().ToGridHeaderString(), x => x.LastUpdatedDate, 140);
                     break;
                 case ProjectCustomGridColumnEnum.ProjectStatus:
-                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString()
                             , x => MakeProjectStatusAddLinkAndText(x, currentFirmaSession, projectDetailsDictionary[x.ProjectID], projectLabel, hasProjectApprovalPermissionBySession, statusUpdateLabel)
@@ -175,7 +175,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.FinalStatusUpdateStatus:
-                    if (MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline && userHasEditProjectAsAdminPermissions)
                     {
                         Add(FieldDefinitionEnum.FinalStatusUpdateStatus.ToType().ToGridHeaderString()
                             , x => projectDetailsDictionary[x.ProjectID].FinalStatusReportStatusDescription
@@ -189,7 +189,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 case ProjectCustomGridColumnEnum.CustomAttribute:
                     break;
                 case ProjectCustomGridColumnEnum.ProjectCategory:
-                    if (MultiTenantHelpers.GetTenantAttribute().EnableProjectCategories)
+                    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableProjectCategories)
                     {
                         Add(FieldDefinitionEnum.ProjectCategory.ToType().ToGridHeaderString(), x => x.ProjectCategory.ProjectCategoryDisplayName, 140, DhtmlxGridColumnFilterType.SelectFilterStrict);
                     }

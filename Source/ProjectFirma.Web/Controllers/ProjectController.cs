@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Controllers
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(project));
             var editPerformanceMeasureActualsUrl = SitkaRoute<PerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(project));
             // Use a different editor for Budget and Reported Expenditures if the Tenant's selected BudgetType is Budget by Year and Cost Type
-            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
+            var budgetType = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType;
             var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
             var editReportedExpendituresUrl = reportFinancialsByCostType ?
                 SitkaRoute<ProjectFundingSourceExpenditureController>.BuildUrlFromExpression(c => c.EditProjectFundingSourceExpendituresByCostType(project)) :
@@ -178,7 +178,7 @@ namespace ProjectFirma.Web.Controllers
             var projectLocationSummaryViewData = new ProjectLocationSummaryViewData(project, projectLocationSummaryMapInitJson, dictionaryGeoNotes, geospatialAreaTypes, geospatialAreas, geospatialAreas.GetSubbasinLiasonList());
 
             var taxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
-            var tenantAttribute = MultiTenantHelpers.GetTenantAttribute();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
             var projectBasicsViewData = new ProjectBasicsViewData(project, false, taxonomyLevel, tenantAttribute);
             var projectBasicsTagsViewData = new ProjectBasicsTagsViewData(project, new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList()));
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(project.PerformanceMeasureExpecteds.OrderBy(x=>x.PerformanceMeasure.PerformanceMeasureSortOrder)));
@@ -690,7 +690,7 @@ namespace ProjectFirma.Web.Controllers
                 $"Reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}", performanceMeasureActualExcelSpec, performanceMeasureActuals);
             workSheets.Add(wsPerformanceMeasureActuals);
 
-            var budgetType = MultiTenantHelpers.GetTenantAttribute().BudgetType;
+            var budgetType = MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType;
             var reportFinancialsByCostType = budgetType == BudgetType.AnnualBudgetByCostType;
             var fundingSourceCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.FundingSourceCustomAttributeTypes.ToList();
 
@@ -787,7 +787,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var gridSpec = new AuditLogsGridSpec();
-            var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject).OrderByDescending(x => x.AuditLogDate).ToList();
+            var auditLogs = new List<AuditLog>();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
         }
