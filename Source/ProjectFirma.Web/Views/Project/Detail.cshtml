@@ -524,8 +524,7 @@
                     </div>
                 }
 
-
-                @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttribute().UseProjectTimeline)
+                @if (ViewDataTyped.UserHasProjectTimelinePermissions && MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
                 {
                     <h2 class="sectionHeader">Timeline</h2>
                     <div class="panel panelFirma">

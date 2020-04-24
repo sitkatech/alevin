@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
                 var projectReclamationCostAuthoritiesUpdatedIds = updatedCostAuthorityIDs.Select(x => x.CostAuthorityID).ToList();
                 var onDiskRecordsToTemporarilyUpdate = HttpRequestStorage.DatabaseEntities.CostAuthorityProjects.Where(x => x.ProjectID == project.ProjectID && projectReclamationCostAuthoritiesUpdatedIds.Contains(x.CostAuthorityID) && x.IsPrimaryProjectCawbs).ToList();
                 onDiskRecordsToTemporarilyUpdate.ForEach(odr => odr.IsPrimaryProjectCawbs = false);
-                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(MultiTenantHelpers.GetTenantAttribute().TenantID);
+                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(MultiTenantHelpers.GetTenantAttributeFromCache().TenantID);
             }
 
             // Now we can do the merge again, and this time we keep the new IsPrimaryProjectCawbs.

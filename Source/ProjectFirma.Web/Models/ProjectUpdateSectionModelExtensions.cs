@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Models
                             ? SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpectedFundingByCostType(project.ProjectID))
                             : UnsupportedBudgetMode.UnsupportedBudgetModeWarning;
                 //case ProjectUpdateSectionEnum.Expenditures:
-                //    return MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType ?
+                //    return MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType ?
                 //        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.ExpendituresByCostType(project)) : 
                 //        SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.Expenditures(project));
                 case ProjectUpdateSectionEnum.Photos:
