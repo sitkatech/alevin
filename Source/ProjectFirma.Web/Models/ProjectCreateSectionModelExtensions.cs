@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Models
                     return ProjectCreateSection.Basics.IsComplete(project) ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.PerformanceMeasures(project.ProjectID)) : null;
                 case ProjectCreateSectionEnum.Budget:
                     return ProjectCreateSection.Basics.IsComplete(project)
-                        ? MultiTenantHelpers.GetTenantAttribute().BudgetType == BudgetType.AnnualBudgetByCostType
+                        ? MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType
                             ? SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(x => x.ExpectedFundingByCostType(project.ProjectID))
                             : UnsupportedBudgetMode.UnsupportedBudgetModeWarning
                         : null;
