@@ -70,6 +70,7 @@ using ExpendituresByCostTypeViewData = ProjectFirma.Web.Views.ProjectCreate.Expe
 using ExpendituresByCostTypeViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresByCostTypeViewModel;
 using ExpendituresViewData = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewData;
 using ExpendituresViewModel = ProjectFirma.Web.Views.ProjectCreate.ExpendituresViewModel;
+using GeospatialArea = ProjectFirma.Web.Views.ProjectCreate.GeospatialArea;
 using GeospatialAreaViewData = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewData;
 using GeospatialAreaViewModel = ProjectFirma.Web.Views.ProjectCreate.GeospatialAreaViewModel;
 using LocationDetailed = ProjectFirma.Web.Views.ProjectCreate.LocationDetailed;
@@ -234,20 +235,18 @@ namespace ProjectFirma.Web.Controllers
             var now = DateTime.Now;
 
             var project = new Project(
-                /*viewModel.TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID, */  // This is NOT working, just here to get it to compile !!!! -- SLG 4/20/2020
                 viewModel.ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID,
                 viewModel.ProjectName,
                 viewModel.ProjectDescription,
                 false,
                 ProjectLocationSimpleType.None.ProjectLocationSimpleTypeID,
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
-                now, 
-                ProjectCategory.Normal.ProjectCategoryID)
-            {
-
-                ProposingPerson = CurrentFirmaSession.Person,
-                ProposingDate = now
-            };
+                now,
+                ProjectCategory.Normal.ProjectCategoryID);
+            project.OverrideTaxonomyLeafID = viewModel.TaxonomyLeafID;
+            project.OverrideTaxonomyLeaf = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.GetTaxonomyLeaf(project.OverrideTaxonomyLeafID.Value);
+            project.ProposingPerson = CurrentFirmaSession.Person;
+            project.ProposingDate = now;
 
             return SaveProjectAndCreateAuditEntry(project, viewModel);
         }
@@ -375,7 +374,7 @@ namespace ProjectFirma.Web.Controllers
             var proposalSectionsStatus = GetProposalSectionsStatus(project);
             proposalSectionsStatus.IsPerformanceMeasureSectionComplete = ModelState.IsValid && proposalSectionsStatus.IsPerformanceMeasureSectionComplete;
 
-            var configurePerformanceMeasuresUrl = string.Empty;
+            var configurePerformanceMeasuresUrl = String.Empty;
 
             if (new PerformanceMeasureManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession))
             {
@@ -620,7 +619,7 @@ namespace ProjectFirma.Web.Controllers
         private ViewResult ViewExpendituresByCostType(Project project, List<int> calendarYearRange, ExpendituresByCostTypeViewModel viewModel)
         {
 
-            var showNoExpendituresExplanation = !string.IsNullOrWhiteSpace(project.ExpendituresNote);
+            var showNoExpendituresExplanation = !String.IsNullOrWhiteSpace(project.ExpendituresNote);
             var allFundingSources = HttpRequestStorage.DatabaseEntities.FundingSources.ToList().Select(x => new FundingSourceSimple(x)).OrderBy(p => p.DisplayName).ToList();
             var allCostTypes = HttpRequestStorage.DatabaseEntities.CostTypes.ToList().Select(x => new CostTypeSimple(x)).OrderBy(p => p.CostTypeName).ToList();
             var viewDataForAngularEditor = new ExpendituresByCostTypeViewData.ViewDataForAngularClass(project, allFundingSources, allCostTypes, calendarYearRange, showNoExpendituresExplanation);
@@ -1003,7 +1002,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new GeospatialAreaViewData(CurrentFirmaSession, project, geospatialAreaType, proposalSectionsStatus, editProjectLocationViewData);
 
-            return RazorView<Views.ProjectCreate.GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
+            return RazorView<GeospatialArea, GeospatialAreaViewData, GeospatialAreaViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
@@ -1021,7 +1020,7 @@ namespace ProjectFirma.Web.Controllers
             var allProjectGeospatialAreas = HttpRequestStorage.DatabaseEntities.AllProjectGeospatialAreas.Local;
             viewModel.UpdateModel(project, currentProjectGeospatialAreas, allProjectGeospatialAreas);
             var projectGeospatialAreaTypeNote = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
-            if (!string.IsNullOrWhiteSpace(viewModel.ProjectGeospatialAreaNotes))
+            if (!String.IsNullOrWhiteSpace(viewModel.ProjectGeospatialAreaNotes))
             {
                 if (projectGeospatialAreaTypeNote == null)
                 {
