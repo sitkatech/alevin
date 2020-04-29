@@ -299,6 +299,7 @@ namespace ProjectFirmaModels.Models
         FactSheetLogo = 349,
         IsContactRelationshipTypeRequired = 350,
         IsOrganizationRelationshipTypeRequired = 351,
+        SyncWithKeystoneOnSave = 352,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
