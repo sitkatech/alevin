@@ -1,2 +1,0 @@
-alter table ImportFinancial.WbsElementObligationItemBudget
-alter column GoodsReceipt float null
