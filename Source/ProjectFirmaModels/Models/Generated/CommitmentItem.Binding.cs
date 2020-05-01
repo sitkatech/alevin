@@ -30,21 +30,21 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CommitmentItem(int commitmentItemID, string commitmentItem) : this()
+        public CommitmentItem(int commitmentItemID, string commitmentItemName) : this()
         {
             this.CommitmentItemID = commitmentItemID;
-            this.CommitmentItem = commitmentItem;
+            this.CommitmentItemName = commitmentItemName;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CommitmentItem(string commitmentItem) : this()
+        public CommitmentItem(string commitmentItemName) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.CommitmentItemID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
-            this.CommitmentItem = commitmentItem;
+            this.CommitmentItemName = commitmentItemName;
         }
 
 
@@ -101,7 +101,7 @@ namespace ProjectFirmaModels.Models
 
         [Key]
         public int CommitmentItemID { get; set; }
-        public string CommitmentItem { get; set; }
+        public string CommitmentItemName { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CommitmentItemID; } set { CommitmentItemID = value; } }
 
@@ -109,7 +109,7 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-            public const int CommitmentItem = 100;
+            public const int CommitmentItemName = 100;
         }
     }
 }

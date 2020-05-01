@@ -80,7 +80,7 @@ ImportFinancial.CommitmentItem
 CREATE TABLE ImportFinancial.CommitmentItem
 (
     CommitmentItemID [int] IDENTITY(1,1) NOT NULL,
-    CommitmentItem [varchar](100) NOT NULL
+    CommitmentItemName [varchar](100) NOT NULL
  CONSTRAINT [PK_CommitmentItem_CommitmentItemID] PRIMARY KEY CLUSTERED 
 (
     CommitmentItemID ASC
@@ -88,7 +88,7 @@ CREATE TABLE ImportFinancial.CommitmentItem
 ) ON [PRIMARY]
 GO
 
-insert ImportFinancial.CommitmentItem(CommitmentItem)
+insert ImportFinancial.CommitmentItem(CommitmentItemName)
 values
 ('211P00'),
 ('ALLOBJ'),

@@ -4,7 +4,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [ImportFinancial].[CommitmentItem](
 	[CommitmentItemID] [int] IDENTITY(1,1) NOT NULL,
-	[CommitmentItem] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[CommitmentItemName] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_CommitmentItem_CommitmentItemID] PRIMARY KEY CLUSTERED 
 (
 	[CommitmentItemID] ASC

@@ -16,7 +16,7 @@ namespace ProjectFirmaModels.Models
             ToTable("CommitmentItem", schema);
             HasKey(x => x.CommitmentItemID);
             Property(x => x.CommitmentItemID).HasColumnName(@"CommitmentItemID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(x => x.CommitmentItem).HasColumnName(@"CommitmentItem").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
+            Property(x => x.CommitmentItemName).HasColumnName(@"CommitmentItemName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
 
             // Foreign keys
 
