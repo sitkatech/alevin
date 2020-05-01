@@ -91,7 +91,7 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
                     case FundingTypeEnum.BudgetSameEachYear:
                         ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, new List<int>());
-                        NoFundingSourceIdentifiedYet = project.NoFundingSourceIdentifiedYet;
+                        NoFundingSourceIdentifiedYet = project.ProjectNoFundingSourceIdentifieds.FirstOrDefault()?.NoFundingSourceIdentifiedYet;
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -156,10 +156,13 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
                 (x, y) => x.SetProjectedAmount(y.ProjectedAmount), databaseEntities);
 
-            // set if funding type is "Same Each Year", null out otherwise
-            project.NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet;
             var projectNoFundingSourceAmountsUpdated = new List<ProjectNoFundingSourceIdentified>();
-            if (NoFundingSourceAmounts != null)
+            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && NoFundingSourceIdentifiedYet != null)
+            {
+                // Completely rebuild the list
+                projectNoFundingSourceAmountsUpdated.Add(new ProjectNoFundingSourceIdentified(project.ProjectID) { NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet });
+            }
+            else if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && NoFundingSourceAmounts != null)
             {
                 // Completely rebuild the list
                 projectNoFundingSourceAmountsUpdated = NoFundingSourceAmounts.Where(x => x.MonetaryAmount.HasValue)
