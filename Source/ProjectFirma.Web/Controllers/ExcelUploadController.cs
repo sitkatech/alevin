@@ -254,12 +254,12 @@ namespace ProjectFirma.Web.Controllers
             // Count how many PNBudgets are being uploaded
             countAddedPnBudgets = pnBudgetStageImports.Count;
             // Get the PNBudgets database objects prepared for import
-            var stagePnBudgetsBeingLoaded = pnBudgetStageImports.Select(x => new StagePnBudget(x)).ToList();
+            var stagePnBudgetsBeingLoaded = pnBudgetStageImports.Select(x => new StageImpPnBudget(x)).ToList();
             // Clear out the existing PNBudgets from the database
-            var existingPnBudgets = HttpRequestStorage.DatabaseEntities.StagePnBudgets.ToList();
+            var existingPnBudgets = HttpRequestStorage.DatabaseEntities.StageImpPnBudgets.ToList();
             existingPnBudgets.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             // Put in the new PNBudgets in their place
-            HttpRequestStorage.DatabaseEntities.StagePnBudgets.AddRange(stagePnBudgetsBeingLoaded);
+            HttpRequestStorage.DatabaseEntities.StageImpPnBudgets.AddRange(stagePnBudgetsBeingLoaded);
 
             if (optionalCurrentFirmaSession != null)
             {
