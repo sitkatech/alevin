@@ -766,10 +766,10 @@
     <Compile Include="Models\Generated\StageImpPayRecV3.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StageImpPayRecV3Configuration.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPayRecV3PrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\StagePnBudget.Binding.cs" />
-    <Compile Include="Models\Generated\StagePnBudget.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\StagePnBudgetConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\StagePnBudgetPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpPnBudget.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpPnBudget.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\StageImpPnBudgetConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpPnBudgetPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StateProvinceConfiguration.Binding.cs" />

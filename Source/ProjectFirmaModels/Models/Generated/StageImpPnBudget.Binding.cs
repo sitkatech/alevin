@@ -1,7 +1,7 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [Staging].[StagePnBudget]
+//  Source Table: [Staging].[StageImpPnBudget]
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -15,14 +15,14 @@ using LtInfo.Common.Models;
 
 namespace ProjectFirmaModels.Models
 {
-    // Table [Staging].[StagePnBudget] is NOT multi-tenant, so is attributed as ICanDeleteFull
-    [Table("[Staging].[StagePnBudget]")]
-    public partial class StagePnBudget : IHavePrimaryKey, ICanDeleteFull
+    // Table [Staging].[StageImpPnBudget] is NOT multi-tenant, so is attributed as ICanDeleteFull
+    [Table("[Staging].[StageImpPnBudget]")]
+    public partial class StageImpPnBudget : IHavePrimaryKey, ICanDeleteFull
     {
         /// <summary>
         /// Default Constructor; only used by EF
         /// </summary>
-        protected StagePnBudget()
+        protected StageImpPnBudget()
         {
 
         }
@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public StagePnBudget(int stagePnBudgetID, string fundedProgram, string fundType, string fund, string fundsCenter, string fiscalYearPeriod, string commitmentItem, string fiDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
+        public StageImpPnBudget(int stageImpPnBudgetID, string fundedProgram, string fundType, string fund, string fundsCenter, string fiscalYearPeriod, string commitmentItem, string fiDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
         {
-            this.StagePnBudgetID = stagePnBudgetID;
+            this.StageImpPnBudgetID = stageImpPnBudgetID;
             this.FundedProgram = fundedProgram;
             this.FundType = fundType;
             this.Fund = fund;
@@ -52,9 +52,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static StagePnBudget CreateNewBlank()
+        public static StageImpPnBudget CreateNewBlank()
         {
-            return new StagePnBudget();
+            return new StageImpPnBudget();
         }
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(StagePnBudget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(StageImpPnBudget).Name};
 
 
         /// <summary>
@@ -77,7 +77,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void Delete(DatabaseEntities dbContext)
         {
-            dbContext.StagePnBudgets.Remove(this);
+            dbContext.StageImpPnBudgets.Remove(this);
         }
         
         /// <summary>
@@ -90,7 +90,7 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int StagePnBudgetID { get; set; }
+        public int StageImpPnBudgetID { get; set; }
         public string FundedProgram { get; set; }
         public string FundType { get; set; }
         public string Fund { get; set; }
@@ -104,7 +104,7 @@ namespace ProjectFirmaModels.Models
         public double? TotalExpenditures { get; set; }
         public double? UndeliveredOrders { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return StagePnBudgetID; } set { StagePnBudgetID = value; } }
+        public int PrimaryKey { get { return StageImpPnBudgetID; } set { StageImpPnBudgetID = value; } }
 
 
 

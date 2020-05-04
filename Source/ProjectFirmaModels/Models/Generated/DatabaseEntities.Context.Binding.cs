@@ -226,7 +226,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new WorkOrderConfiguration());
             modelBuilder.Configurations.Add(new StageImpApGenSheetConfiguration());
             modelBuilder.Configurations.Add(new StageImpPayRecV3Configuration());
-            modelBuilder.Configurations.Add(new StagePnBudgetConfiguration());
+            modelBuilder.Configurations.Add(new StageImpPnBudgetConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
@@ -521,7 +521,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StageImpApGenSheet> StageImpApGenSheets { get; set; }
         public virtual DbSet<StageImpPayRecV3> StageImpPayRecV3s { get; set; }
-        public virtual DbSet<StagePnBudget> StagePnBudgets { get; set; }
+        public virtual DbSet<StageImpPnBudget> StageImpPnBudgets { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SubbasinLiason> AllSubbasinLiasons { get; set; }
@@ -1264,8 +1264,8 @@ namespace ProjectFirmaModels.Models
                 case "StageImpPayRecV3":
                     return StageImpPayRecV3s.GetStageImpPayRecV3(primaryKey);
 
-                case "StagePnBudget":
-                    return StagePnBudgets.GetStagePnBudget(primaryKey);
+                case "StageImpPnBudget":
+                    return StageImpPnBudgets.GetStageImpPnBudget(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);

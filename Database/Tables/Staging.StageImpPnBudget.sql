@@ -2,8 +2,8 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [Staging].[StagePnBudget](
-	[StagePnBudgetID] [int] IDENTITY(1,1) NOT NULL,
+CREATE TABLE [Staging].[StageImpPnBudget](
+	[StageImpPnBudgetID] [int] IDENTITY(1,1) NOT NULL,
 	[FundedProgram] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[FundType] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Fund] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -18,6 +18,6 @@ CREATE TABLE [Staging].[StagePnBudget](
 	[UndeliveredOrders] [float] NULL,
  CONSTRAINT [PK_StagePnBudget_StagePnBudgetID] PRIMARY KEY CLUSTERED 
 (
-	[StagePnBudgetID] ASC
+	[StageImpPnBudgetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]

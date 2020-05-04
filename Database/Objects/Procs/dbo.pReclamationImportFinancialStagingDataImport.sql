@@ -8,9 +8,11 @@ as
 begin
 
 if (
-    (not EXISTS(SELECT 1 FROM Staging.[StageImpApGenSheet]))
+    (not EXISTS(SELECT 1 FROM Staging.StageImpApGenSheet))
     OR 
-    (not EXISTS(SELECT 1 FROM Staging.[StageImpPayRecV3]))
+    (not EXISTS(SELECT 1 FROM Staging.StageImpPayRecV3))
+    OR
+    (not EXISTS(SELECT 1 FROM Staging.StagePnBudget))
     )
 begin
    raiserror('There is no data in at least one of the tables for publishing. Publishing halted.', 16,1)

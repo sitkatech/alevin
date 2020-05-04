@@ -1,21 +1,21 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [Staging].[StagePnBudget]
+//  Source Table: [Staging].[StageImpPnBudget]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace ProjectFirmaModels.Models
 {
-    public class StagePnBudgetConfiguration : EntityTypeConfiguration<StagePnBudget>
+    public class StageImpPnBudgetConfiguration : EntityTypeConfiguration<StageImpPnBudget>
     {
-        public StagePnBudgetConfiguration() : this("Staging"){}
+        public StageImpPnBudgetConfiguration() : this("Staging"){}
 
-        public StagePnBudgetConfiguration(string schema)
+        public StageImpPnBudgetConfiguration(string schema)
         {
-            ToTable("StagePnBudget", schema);
-            HasKey(x => x.StagePnBudgetID);
-            Property(x => x.StagePnBudgetID).HasColumnName(@"StagePnBudgetID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            ToTable("StageImpPnBudget", schema);
+            HasKey(x => x.StageImpPnBudgetID);
+            Property(x => x.StageImpPnBudgetID).HasColumnName(@"StageImpPnBudgetID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.FundedProgram).HasColumnName(@"FundedProgram").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.FundType).HasColumnName(@"FundType").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.Fund).HasColumnName(@"Fund").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
