@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Views.PnBudget
             Add(FieldDefinitionEnum.PnBudget.ToType().ToGridHeaderString(), pnb => pnb.WbsElementPnBudgetID.ToString(), 100, DhtmlxGridColumnFilterType.Text);
             Add("Cost Authority", pnb => pnb.CostAuthority?.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
             Add("Fund Type", pnb => pnb.PnBudgetFundType.PnBudgetFundTypeDisplayName, 125, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Funding Source", pnb => pnb.FundingSource.FundingSourceName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), pnb => UrlTemplate.MakeHrefString(pnb.FundingSource.GetDetailUrl(), pnb.FundingSource.GetDisplayName()), 320, DhtmlxGridColumnFilterType.Html);
             Add("Funds Center", pnb => pnb.FundsCenter, 100, DhtmlxGridColumnFilterType.Text);
             Add("Fiscal Quarter", pnb => pnb.FiscalQuarter.FiscalQuarterDisplayName, 125, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Fiscal Year", pnb => pnb.FiscalYear.ToString(), 50, DhtmlxGridColumnFilterType.SelectFilterStrict);
