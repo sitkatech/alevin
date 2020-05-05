@@ -16,8 +16,9 @@ begin
    return -1
 end
 
-    -- TODO: A sanity check that there are actually records to import
-    delete from ImportFinancial.ImpPnBudget
+
+    delete from ImportFinancial.ImpPnBudget;
+
     INSERT INTO ImportFinancial.ImpPnBudget
                (
                     FundedProgram,
@@ -48,67 +49,14 @@ end
                     UndeliveredOrders
       FROM Staging.StageImpPnBudget
 
-/*
-
-select * from ImportFinancial.ImpPnBudget
-
-*/
-
-
-
-/*
-select wbs.WbsElementKey,
-       ipn.*
-from ImportFinancial.ImpPnBudget as ipn
-left join ImportFinancial.WbsElement as wbs on ipn.FundedProgram = replace(wbs.WbsElementKey,'.','')
-where wbs.WbsElementKey is null
-and
-ipn.FundedProgram != 'FPDEFAULT'
-*/
-
-select * from ImportFinancial.WbsElement
-
 --These are WBS Elements referenced by the incoming PnBudget table that we 
 --need to add to the WbsElement table. Since we don't know their WbsElementText,
---we put in something of a placeholder, and link with a back pointer to ImpPnBudget
---for forensics.
+--we put in something of a placeholder. Likely we will need to do better in the future.
 DROP TABLE IF EXISTS #PreviouslyUnknownWbsElements
-GO
 
-
-/*
--- This is not the most efficient way to get this done, but I'm missing something and stuck
--- and trying to make headway somehow. So going about the problem in a roundabout way and
--- hoping to find my problem.
-
--- Putting *ALL* matchups into a table
-select
-distinct
-    ipn.FundedProgram as ipnFundedProgram,
-    SUBSTRING(ipn.FundedProgram, 1, 2) + '.' + SUBSTRING(ipn.FundedProgram, 3, 8) + '.' + SUBSTRING(ipn.FundedProgram, 10, 99) as WbsElementKey,
-    '[From ImpPnBudget -- need more info]' as WbsElementText,
-    replace(ipn.FundedProgram, '.', '') as ipnFundedProgramDotStripped,
-    replace(wbs.WbsElementKey,'.','') as wbsElementKeyDotStripped
-into #PreviouslyUnknownWbsElements
-from ImportFinancial.ImpPnBudget as ipn
-left join ImportFinancial.WbsElement as wbs on replace(ipn.FundedProgram, '.', '') = replace(wbs.WbsElementKey,'.','')
-GO
-
-
-select * 
-from #PreviouslyUnknownWbsElements as puwbs
-inner join ImportFinancial.WbsElement as wbs on puwbs.WbsElementKey = wbs.WbsElementKey
-where wbsElementKeyDotStripped is null
-*/
-
-
-
--- 22 out of 188 unknown so far.
+-- 22 out of 188 unknown on first run.
 -- We do the best we can to import these, but it's not perfect.
 -- 'FPDEFAULT' comes along for the ride here on the first pass, but I don't know what to do with it otherwise.
-
-DROP TABLE IF EXISTS #PreviouslyUnknownWbsElements
-GO
 
 select
 distinct
@@ -121,114 +69,21 @@ into #PreviouslyUnknownWbsElements
 from ImportFinancial.ImpPnBudget as ipn
 full outer join ImportFinancial.WbsElement as wbs on ipn.FundedProgram = replace(wbs.WbsElementKey,'.','')
 where wbs.WbsElementKey is null
-GO
 
--- I did make this mistake before
+
+-- I make sure we really did the above correctly
 if exists(
     select * from #PreviouslyUnknownWbsElements 
     where ipnFundedProgram != replace(WbsElementKey, '.', '')
     ) 
 raiserror('Problem in join; should never happen', 16, 1)
 
-
+-- Insert new WBS elements
 insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
 select new_wbs.WbsElementKey, new_wbs.WbsElementText
 from #PreviouslyUnknownWbsElements as new_wbs
-GO
-
-
-
-
-select * from  #PreviouslyUnknownWbsElements where WbsElementKey = 'RX.16786801.11300000'
-
-select * from ImportFinancial.ImpPnBudget as ipn
-select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = 'RX.16786801.11300000'
-
-/*
-select * from ImportFinancial.WbsElement where WbsElementKey = 'RR.16786821.13008580'
-select * from #PreviouslyUnknownWbsElements where WbsElementKey = 'RR.16786821.13008580'
-*/
-
-select
-distinct
-    ipn.FundedProgram as ipnFundedProgram,
-    SUBSTRING(ipn.FundedProgram, 1, 2) + '.' + SUBSTRING(ipn.FundedProgram, 3, 8) + '.' + SUBSTRING(ipn.FundedProgram, 10, 99) as WbsElementKey,
-    '[From ImpPnBudget -- need more info]' as WbsElementText,
-    replace(ipn.FundedProgram, '.', '') as ipnFundedProgramDotStripped,
-    replace(wbs.WbsElementKey,'.','') as wbsElementKeyDotStripped
-into #PreviouslyUnknownWbsElements
-from ImportFinancial.ImpPnBudget as ipn
-left join ImportFinancial.WbsElement as wbs on replace(ipn.FundedProgram, '.', '') = replace(wbs.WbsElementKey,'.','')
-where wbs.WbsElementKey is null
-
-
-
-select * from
-(
-    select
-    distinct
-        ipn.FundedProgram as ipnFundedProgram,
-        SUBSTRING(ipn.FundedProgram, 1, 2) + '.' + SUBSTRING(ipn.FundedProgram, 3, 8) + '.' + SUBSTRING(ipn.FundedProgram, 10, 99) as WbsElementKey,
-        '[From ImpPnBudget -- need more info]' as WbsElementText,
-        replace(ipn.FundedProgram, '.', '') as ipnFundedProgramDotStripped,
-        replace(wbs.WbsElementKey,'.','') as wbsElementKeyDotStripped
-    from ImportFinancial.ImpPnBudget as ipn
-    left join ImportFinancial.WbsElement as wbs on replace(ipn.FundedProgram, '.', '') = replace(wbs.WbsElementKey,'.','')
-) as x
-order by x.WbsElementKey
-
-where
-wbs.WbsElementKey like '%16786812%'
-
-
-select * from ImportFinancial.WbsElement where WbsElementKey = 'RX.16786802.21000000'
-
-
-
-
-
-
-insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
-select new_wbs.WbsElementKey, new_wbs.WbsElementText
-from #PreviouslyUnknownWbsElements as new_wbs
-GO
-
-
-
-
-
-
-
-
-select wbs.*
-from ImportFinancial.WbsElement as wbs
-where WbsElementKey = 'RR.16786821.13008580'
-
-select
-distinct
-    ipn.FundedProgram as ipnFundedProgram,
-    SUBSTRING(ipn.FundedProgram, 1, 2) + '.' + SUBSTRING(ipn.FundedProgram, 3, 8) + '.' + SUBSTRING(ipn.FundedProgram, 10, 99) as WbsElementKey,
-    '[From ImpPnBudget -- need more info]' as WbsElementText,
-    replace(ipn.FundedProgram, '.', '') as ipnFundedProgramDotStripped,
-    replace(wbs.WbsElementKey,'.','') as wbsElementKeyDotStripped
-into #PreviouslyUnknownWbsElements
-from ImportFinancial.ImpPnBudget as ipn
-left join ImportFinancial.WbsElement as wbs on replace(ipn.FundedProgram, '.', '') = replace(wbs.WbsElementKey,'.','')
---where wbs.WbsElementKey is not null
-where wbs.WbsElementKey = 'RR.16786821.13008580'
-GO
-
-select * from #PreviouslyUnknownWbsElements
-
-
-
-
 
 drop table #PreviouslyUnknownWbsElements
-GO
-
-
-
 
 
 -- Clean out the target table
@@ -248,57 +103,38 @@ insert into ImportFinancial.WbsElementPnBudget (WbsElementID,
                                                 TotalObligations,
                                                 TotalExpenditures,
                                                 UndeliveredOrders)
-
-
+-- 17,994 rows
 select
     wbs.WbsElementID,
-    wbs.WbsElementKey,
+    --wbs.WbsElementKey,
     pnft.PnBudgetFundTypeID,
-    pnft.PnBudgetFundTypeName
+    --pnft.PnBudgetFundTypeName
+    fs.FundingSourceID,
+    --fs.FundingSourceName
+    ipn.FundsCenter,
+    --ipn.FiscalYearPeriod,
+    fq.FiscalQuarterID,
+    substring(ipn.FiscalYearPeriod, 5, 4) as FiscalYear,
+    ci.CommitmentItemID,
+    ipn.FiDocNumber,
+    ipn.Recoveries,
+    ipn.CommittedButNotObligated,
+    ipn.TotalObligations,
+    ipn.TotalExpenditures,
+    ipn.UndeliveredOrders
 from ImportFinancial.ImpPnBudget as ipn
 inner join ImportFinancial.WbsElement as wbs on ipn.FundedProgram = replace(wbs.WbsElementKey,'.','')
 inner join ImportFinancial.PnBudgetFundType as pnft on ipn.FundType = pnft.PnBudgetFundTypeDisplayName
+inner join dbo.FundingSource as fs on ipn.Fund = fs.FundingSourceName
+inner join ImportFinancial.FiscalQuarter as fq on convert(INT, substring(ipn.FiscalYearPeriod, 3, 1)) + 1 = fq.FiscalQuarterNumber
+inner join ImportFinancial.CommitmentItem as ci on ipn.CommitmentItem = ci.CommitmentItemName
 
-select * from ImportFinancial.ImpPnBudget as ipn
-select * from ImportFinancial.PnBudgetFundType
-
-
-/*
-
-
-select *  
-from ImportFinancial.ImpPnBudget as ipn
-
--- Anything like RX167868141000000?
-select * from
-ImportFinancial.WbsElement as wbs
-where wbs.WbsElementKey like
-'%16786814%'
-
-select * from ImportFinancial.ImpPnBudget
-
-*/
-
-/*
-
-select * from ImportFinancial.WbsElement as wbs
-where wbs.WbsElementKey like '%16786821%'
-
-select ipn.*
-from ImportFinancial.ImpPnBudget as ipn
-where ipn.FundedProgram = 'FPDEFAULT'
-
-
-
-select * from ImportFinancial.WbsElement
-where WbsElementKey like '%16786%'
-
-select ipn.*
-from ImportFinancial.ImpPnBudget as ipn
 
 end
-GO
-*/
+--select * from ImportFinancial.ImpPnBudget as ipn
+--select * from ImportFinancial.PnBudgetFundType
+--select * from dbo.FundingSource where TenantID = 12
+--select * from ImportFinancial.CommitmentItem
 
 /*
 
