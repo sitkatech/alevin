@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 
         public List<int> CalendarYears { get; }
         public List<ProjectFundingSourceCostTypeAmount> ProjectFundingSourceCostTypeAmounts { get; set; }
+        public List<ProjectNoFundingSourceCostTypeAmount> ProjectNoFundingSourceCostTypeAmounts { get; set; }
         public string ExpectedFundingUpdateNote { get; }
         public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemBudgetRollUps { get; }
         public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemInvoiceRollUps { get; }
