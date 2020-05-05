@@ -181,7 +181,7 @@ end
 
 
     -- Temp table to help with BOC FBMS years for impPayRecV3
-    IF OBJECT_ID('tempdb..#BudgetObjectCodesFbmsYear_impPayRecV3') IS NOT NULL DROP table #BudgetObjectCodesFbmsYear_impPayRecV3
+    DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_impPayRecV3
 
     select boc.BudgetObjectCodeID,
            boc.BudgetObjectCodeName,
@@ -254,7 +254,7 @@ end
 
 
     -- Temp table to help with BOC FBMS years for impApGenSheet
-    IF OBJECT_ID('tempdb..#BudgetObjectCodesFbmsYear_impApGenSheet') IS NOT NULL DROP table #BudgetObjectCodesFbmsYear_impApGenSheet
+    DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_impApGenSheet
 
     select boc.BudgetObjectCodeID,
            boc.BudgetObjectCodeName,
