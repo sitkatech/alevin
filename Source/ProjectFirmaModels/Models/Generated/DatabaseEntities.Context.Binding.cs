@@ -182,6 +182,9 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new CommitmentItemConfiguration());
             modelBuilder.Configurations.Add(new FiscalQuarterConfiguration());
+            modelBuilder.Configurations.Add(new ImpApGenSheetConfiguration());
+            modelBuilder.Configurations.Add(new ImpPayrecV3Configuration());
+            modelBuilder.Configurations.Add(new ImpPnBudgetConfiguration());
             modelBuilder.Configurations.Add(new ObligationItemConfiguration());
             modelBuilder.Configurations.Add(new ObligationNumberConfiguration());
             modelBuilder.Configurations.Add(new PnBudgetFundTypeConfiguration());
@@ -332,8 +335,11 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<HCategory> HCategories { get; set; }
+        public virtual DbSet<ImpApGenSheet> ImpApGenSheets { get; set; }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ImpPayrecV3> ImpPayrecV3s { get; set; }
+        public virtual DbSet<ImpPnBudget> ImpPnBudgets { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
@@ -809,8 +815,17 @@ namespace ProjectFirmaModels.Models
                 case "HCategory":
                     return HCategories.GetHCategory(primaryKey);
 
+                case "ImpApGenSheet":
+                    return ImpApGenSheets.GetImpApGenSheet(primaryKey);
+
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "ImpPayrecV3":
+                    return ImpPayrecV3s.GetImpPayrecV3(primaryKey);
+
+                case "ImpPnBudget":
+                    return ImpPnBudgets.GetImpPnBudget(primaryKey);
 
                 case "Location":
                     return Locations.GetLocation(primaryKey);
