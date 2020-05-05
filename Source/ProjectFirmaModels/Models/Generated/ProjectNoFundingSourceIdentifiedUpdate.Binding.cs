@@ -30,43 +30,48 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectNoFundingSourceIdentifiedUpdate(int projectNoFundingSourceIdentifiedUpdateID, int projectUpdateBatchID, int? calendarYear, decimal? noFundingSourceIdentifiedYet) : this()
+        public ProjectNoFundingSourceIdentifiedUpdate(int projectNoFundingSourceIdentifiedUpdateID, int projectUpdateBatchID, int? calendarYear, decimal? noFundingSourceIdentifiedYet, int costTypeID) : this()
         {
             this.ProjectNoFundingSourceIdentifiedUpdateID = projectNoFundingSourceIdentifiedUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
             this.CalendarYear = calendarYear;
             this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
+            this.CostTypeID = costTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectNoFundingSourceIdentifiedUpdate(int projectUpdateBatchID) : this()
+        public ProjectNoFundingSourceIdentifiedUpdate(int projectUpdateBatchID, int costTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoFundingSourceIdentifiedUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectUpdateBatchID = projectUpdateBatchID;
+            this.CostTypeID = costTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectNoFundingSourceIdentifiedUpdate(ProjectUpdateBatch projectUpdateBatch) : this()
+        public ProjectNoFundingSourceIdentifiedUpdate(ProjectUpdateBatch projectUpdateBatch, CostType costType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoFundingSourceIdentifiedUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectUpdateBatchID = projectUpdateBatch.ProjectUpdateBatchID;
             this.ProjectUpdateBatch = projectUpdateBatch;
             projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Add(this);
+            this.CostTypeID = costType.CostTypeID;
+            this.CostType = costType;
+            costType.ProjectNoFundingSourceIdentifiedUpdates.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectNoFundingSourceIdentifiedUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch)
+        public static ProjectNoFundingSourceIdentifiedUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, CostType costType)
         {
-            return new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch);
+            return new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch, costType);
         }
 
         /// <summary>
@@ -107,11 +112,13 @@ namespace ProjectFirmaModels.Models
         public int ProjectUpdateBatchID { get; set; }
         public int? CalendarYear { get; set; }
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
+        public int CostTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectNoFundingSourceIdentifiedUpdateID; } set { ProjectNoFundingSourceIdentifiedUpdateID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual ProjectUpdateBatch ProjectUpdateBatch { get; set; }
+        public virtual CostType CostType { get; set; }
 
         public static class FieldLengths
         {

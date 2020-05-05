@@ -30,43 +30,48 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectNoFundingSourceIdentified(int projectNoFundingSourceIdentifiedID, int projectID, int? calendarYear, decimal? noFundingSourceIdentifiedYet) : this()
+        public ProjectNoFundingSourceIdentified(int projectNoFundingSourceIdentifiedID, int projectID, int? calendarYear, decimal? noFundingSourceIdentifiedYet, int costTypeID) : this()
         {
             this.ProjectNoFundingSourceIdentifiedID = projectNoFundingSourceIdentifiedID;
             this.ProjectID = projectID;
             this.CalendarYear = calendarYear;
             this.NoFundingSourceIdentifiedYet = noFundingSourceIdentifiedYet;
+            this.CostTypeID = costTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectNoFundingSourceIdentified(int projectID) : this()
+        public ProjectNoFundingSourceIdentified(int projectID, int costTypeID) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoFundingSourceIdentifiedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
+            this.CostTypeID = costTypeID;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectNoFundingSourceIdentified(Project project) : this()
+        public ProjectNoFundingSourceIdentified(Project project, CostType costType) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectNoFundingSourceIdentifiedID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.ProjectNoFundingSourceIdentifieds.Add(this);
+            this.CostTypeID = costType.CostTypeID;
+            this.CostType = costType;
+            costType.ProjectNoFundingSourceIdentifieds.Add(this);
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static ProjectNoFundingSourceIdentified CreateNewBlank(Project project)
+        public static ProjectNoFundingSourceIdentified CreateNewBlank(Project project, CostType costType)
         {
-            return new ProjectNoFundingSourceIdentified(project);
+            return new ProjectNoFundingSourceIdentified(project, costType);
         }
 
         /// <summary>
@@ -107,11 +112,13 @@ namespace ProjectFirmaModels.Models
         public int ProjectID { get; set; }
         public int? CalendarYear { get; set; }
         public decimal? NoFundingSourceIdentifiedYet { get; set; }
+        public int CostTypeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectNoFundingSourceIdentifiedID; } set { ProjectNoFundingSourceIdentifiedID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
+        public virtual CostType CostType { get; set; }
 
         public static class FieldLengths
         {

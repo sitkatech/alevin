@@ -26,6 +26,8 @@ namespace ProjectFirmaModels.Models
         {
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
+            this.ProjectNoFundingSourceIdentifieds = new HashSet<ProjectNoFundingSourceIdentified>();
+            this.ProjectNoFundingSourceIdentifiedUpdates = new HashSet<ProjectNoFundingSourceIdentifiedUpdate>();
             this.ProjectRelevantCostTypes = new HashSet<ProjectRelevantCostType>();
             this.ProjectRelevantCostTypeUpdates = new HashSet<ProjectRelevantCostTypeUpdate>();
             this.BudgetObjectCodesWhereYouAreTheOverrideCostType = new HashSet<BudgetObjectCode>();
@@ -69,13 +71,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any() || BudgetObjectCodesWhereYouAreTheOverrideCostType.Any() || BudgetObjectCodeGroups.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any();
+            return ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || ProjectNoFundingSourceIdentifieds.Any() || ProjectNoFundingSourceIdentifiedUpdates.Any() || ProjectRelevantCostTypes.Any() || ProjectRelevantCostTypeUpdates.Any() || BudgetObjectCodesWhereYouAreTheOverrideCostType.Any() || BudgetObjectCodeGroups.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(BudgetObjectCode).Name, typeof(BudgetObjectCodeGroup).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectNoFundingSourceIdentified).Name, typeof(ProjectNoFundingSourceIdentifiedUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(BudgetObjectCode).Name, typeof(BudgetObjectCodeGroup).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name};
 
 
         /// <summary>
@@ -106,6 +108,16 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in ProjectFundingSourceExpenditureUpdates.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectNoFundingSourceIdentifieds.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in ProjectNoFundingSourceIdentifiedUpdates.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -150,6 +162,8 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
+        public virtual ICollection<ProjectNoFundingSourceIdentified> ProjectNoFundingSourceIdentifieds { get; set; }
+        public virtual ICollection<ProjectNoFundingSourceIdentifiedUpdate> ProjectNoFundingSourceIdentifiedUpdates { get; set; }
         public virtual ICollection<ProjectRelevantCostType> ProjectRelevantCostTypes { get; set; }
         public virtual ICollection<ProjectRelevantCostTypeUpdate> ProjectRelevantCostTypeUpdates { get; set; }
         public virtual ICollection<BudgetObjectCode> BudgetObjectCodesWhereYouAreTheOverrideCostType { get; set; }

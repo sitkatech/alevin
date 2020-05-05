@@ -160,14 +160,14 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && NoFundingSourceIdentifiedYet != null)
             {
                 // Completely rebuild the list
-                projectNoFundingSourceAmountsUpdated.Add(new ProjectNoFundingSourceIdentified(project.ProjectID) { NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet });
+                projectNoFundingSourceAmountsUpdated.Add(new ProjectNoFundingSourceIdentified(project.ProjectID, MultiTenantHelpers.GetDefaultCostTypeID()) { NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet });
             }
             else if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && NoFundingSourceAmounts != null)
             {
                 // Completely rebuild the list
                 projectNoFundingSourceAmountsUpdated = NoFundingSourceAmounts.Where(x => x.MonetaryAmount.HasValue)
                     .Select(x =>
-                        new ProjectNoFundingSourceIdentified(project.ProjectID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
+                        new ProjectNoFundingSourceIdentified(project.ProjectID, MultiTenantHelpers.GetDefaultCostTypeID()) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
                     .ToList();
             }
             // set if funding type is "Varies By Year", delete rows otherwise
@@ -219,14 +219,14 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && NoFundingSourceIdentifiedYet != null)
             {
                 // Completely rebuild the list
-                projectNoFundingSourceIdentifiedUpdatesUpdated.Add(new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID) { NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet });
+                projectNoFundingSourceIdentifiedUpdatesUpdated.Add(new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID, MultiTenantHelpers.GetDefaultCostTypeID()) { NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet });
             }
             else if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && NoFundingSourceAmounts != null)
             {
                 // Completely rebuild the list
                 projectNoFundingSourceIdentifiedUpdatesUpdated = NoFundingSourceAmounts.Where(x => x.MonetaryAmount.HasValue)
                     .Select(x =>
-                        new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
+                        new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID, MultiTenantHelpers.GetDefaultCostTypeID()) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.MonetaryAmount.Value })
                     .ToList();
             }
             currentProjectNoFundingSourceIdentifiedUpdates.Merge(projectNoFundingSourceIdentifiedUpdatesUpdated,
