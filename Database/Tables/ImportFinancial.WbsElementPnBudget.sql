@@ -5,6 +5,7 @@ GO
 CREATE TABLE [ImportFinancial].[WbsElementPnBudget](
 	[WbsElementPnBudgetID] [int] IDENTITY(1,1) NOT NULL,
 	[WbsElementID] [int] NOT NULL,
+	[CostAuthorityID] [int] NULL,
 	[PnBudgetFundTypeID] [int] NOT NULL,
 	[FundingSourceID] [int] NOT NULL,
 	[FundsCenter] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -48,3 +49,8 @@ ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [
 REFERENCES [ImportFinancial].[WbsElement] ([WbsElementID])
 GO
 ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudget_WbsElement_WbsElementID]
+GO
+ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementPnBudgett_CostAuthority_CostAuthorityID] FOREIGN KEY([CostAuthorityID])
+REFERENCES [Reclamation].[CostAuthority] ([CostAuthorityID])
+GO
+ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudgett_CostAuthority_CostAuthorityID]

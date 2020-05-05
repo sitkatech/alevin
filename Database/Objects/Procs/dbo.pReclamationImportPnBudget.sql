@@ -91,6 +91,7 @@ delete from ImportFinancial.WbsElementPnBudget
 
 -- Load up the target table
 insert into ImportFinancial.WbsElementPnBudget (WbsElementID,
+                                                CostAuthorityID,
                                                 PnBudgetFundTypeID,
                                                 FundingSourceID,
                                                 FundsCenter,
@@ -106,6 +107,7 @@ insert into ImportFinancial.WbsElementPnBudget (WbsElementID,
 -- 17,994 rows
 select
     wbs.WbsElementID,
+    ca.CostAuthorityID,
     --wbs.WbsElementKey,
     pnft.PnBudgetFundTypeID,
     --pnft.PnBudgetFundTypeName
@@ -124,10 +126,15 @@ select
     ipn.UndeliveredOrders
 from ImportFinancial.ImpPnBudget as ipn
 inner join ImportFinancial.WbsElement as wbs on ipn.FundedProgram = replace(wbs.WbsElementKey,'.','')
+--Nullable for now; we'd like to close this up if we can.
+left join Reclamation.CostAuthority as ca on wbs.WbsElementKey = ca.CostAuthorityWorkBreakdownStructure
 inner join ImportFinancial.PnBudgetFundType as pnft on ipn.FundType = pnft.PnBudgetFundTypeDisplayName
 inner join dbo.FundingSource as fs on ipn.Fund = fs.FundingSourceName
 inner join ImportFinancial.FiscalQuarter as fq on convert(INT, substring(ipn.FiscalYearPeriod, 3, 1)) + 1 = fq.FiscalQuarterNumber
 inner join ImportFinancial.CommitmentItem as ci on ipn.CommitmentItem = ci.CommitmentItemName
+
+--select * from Reclamation.CostAuthority
+--select * from ImportFinancial.WbsElement
 
 
 end

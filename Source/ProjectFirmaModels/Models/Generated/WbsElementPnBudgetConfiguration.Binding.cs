@@ -17,6 +17,7 @@ namespace ProjectFirmaModels.Models
             HasKey(x => x.WbsElementPnBudgetID);
             Property(x => x.WbsElementPnBudgetID).HasColumnName(@"WbsElementPnBudgetID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.WbsElementID).HasColumnName(@"WbsElementID").HasColumnType("int").IsRequired();
+            Property(x => x.CostAuthorityID).HasColumnName(@"CostAuthorityID").HasColumnType("int").IsOptional();
             Property(x => x.PnBudgetFundTypeID).HasColumnName(@"PnBudgetFundTypeID").HasColumnType("int").IsRequired();
             Property(x => x.FundingSourceID).HasColumnName(@"FundingSourceID").HasColumnType("int").IsRequired();
             Property(x => x.FundsCenter).HasColumnName(@"FundsCenter").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(10);
@@ -32,6 +33,7 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasRequired(a => a.WbsElement).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.WbsElementID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_WbsElement_WbsElementID
+            HasOptional(a => a.CostAuthority).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.CostAuthorityID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_CostAuthority_CostAuthorityID
             HasRequired(a => a.PnBudgetFundType).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.PnBudgetFundTypeID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_PnBudgetFundType_PnBudgetFundTypeID
             HasRequired(a => a.FundingSource).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.FundingSourceID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_FundingSource_FundingSourceID
             HasRequired(a => a.FiscalQuarter).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.FiscalQuarterID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_FiscalQuarter_FiscalQuarterID

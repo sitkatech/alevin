@@ -19,8 +19,8 @@ namespace ProjectFirma.Web.Views.PnBudget
             // ObligationNumber as link
             //Add(FieldDefinitionEnum.PnBudget.ToType().ToGridHeaderString(), ob => UrlTemplate.MakeHrefString(ob?.GetDetailUrl(), ob?.ObligationNumberKey), 100, DhtmlxGridColumnFilterType.Text);
             Add(FieldDefinitionEnum.PnBudget.ToType().ToGridHeaderString(), pnb => pnb.WbsElementPnBudgetID.ToString(), 100, DhtmlxGridColumnFilterType.Text);
-            // Agreement
-            //Add(FieldDefinitionEnum.Agreement.ToType().ToGridHeaderStringPlural(), ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.GetDetailUrl(), ra.ReclamationAgreement?.GetDisplayName()), 300, DhtmlxGridColumnFilterType.Html);
+            Add("Cost Authority", pnb => pnb.CostAuthority?.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
+            Add("Fund Type", pnb => pnb.PnBudgetFundType.PnBudgetFundTypeDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

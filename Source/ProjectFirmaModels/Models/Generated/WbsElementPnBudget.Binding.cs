@@ -30,10 +30,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int commitmentItemID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
+        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int? costAuthorityID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int commitmentItemID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
         {
             this.WbsElementPnBudgetID = wbsElementPnBudgetID;
             this.WbsElementID = wbsElementID;
+            this.CostAuthorityID = costAuthorityID;
             this.PnBudgetFundTypeID = pnBudgetFundTypeID;
             this.FundingSourceID = fundingSourceID;
             this.FundsCenter = fundsCenter;
@@ -136,6 +137,7 @@ namespace ProjectFirmaModels.Models
         [Key]
         public int WbsElementPnBudgetID { get; set; }
         public int WbsElementID { get; set; }
+        public int? CostAuthorityID { get; set; }
         public int PnBudgetFundTypeID { get; set; }
         public int FundingSourceID { get; set; }
         public string FundsCenter { get; set; }
@@ -152,6 +154,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return WbsElementPnBudgetID; } set { WbsElementPnBudgetID = value; } }
 
         public virtual WbsElement WbsElement { get; set; }
+        public virtual CostAuthority CostAuthority { get; set; }
         public virtual PnBudgetFundType PnBudgetFundType { get; set; }
         public virtual FundingSource FundingSource { get; set; }
         public virtual FiscalQuarter FiscalQuarter { get; set; }

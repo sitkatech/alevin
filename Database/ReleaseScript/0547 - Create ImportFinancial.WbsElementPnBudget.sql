@@ -196,6 +196,8 @@ CREATE TABLE ImportFinancial.WbsElementPnBudget
 (
     WbsElementPnBudgetID int IDENTITY(1,1) NOT NULL,
     WbsElementID int NOT NULL,
+    -- Would like this to be non-nullable, but can't for now.
+    CostAuthorityID int  null,
     PnBudgetFundTypeID int NOT NULL,
     FundingSourceID int not null,
     FundsCenter varchar(10) not null,
@@ -219,6 +221,12 @@ GO
 ALTER TABLE [ImportFinancial].WbsElementPnBudget  WITH CHECK ADD  
 CONSTRAINT [FK_WbsElementPnBudget_WbsElement_WbsElementID] FOREIGN KEY([WbsElementID])
 REFERENCES [ImportFinancial].[WbsElement] ([WbsElementID])
+GO
+
+-- FK -- CostAuthorityID
+ALTER TABLE [ImportFinancial].WbsElementPnBudget  WITH CHECK ADD  
+CONSTRAINT [FK_WbsElementPnBudgett_CostAuthority_CostAuthorityID] FOREIGN KEY([CostAuthorityID])
+REFERENCES Reclamation.CostAuthority ([CostAuthorityID])
 GO
 
 -- FK -- PnBudgetFundTypeID
