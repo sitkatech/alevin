@@ -251,7 +251,9 @@ end
         pr.WBSElementKey != '#'
     order by ObligationItemID
 
-
+    --select distinct CostAuthorityWorkBreakdownStructure, count(*) from Reclamation.CostAuthority group by CostAuthorityWorkBreakdownStructure order by count(*) desc
+    --select * from Reclamation.CostAuthority where CostAuthorityWorkBreakdownStructure = 'RX.16786820.3000100'
+    
 
     -- Temp table to help with BOC FBMS years for impApGenSheet
     DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_impApGenSheet
