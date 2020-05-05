@@ -107,18 +107,42 @@ where wbsElementKeyDotStripped is null
 -- We do the best we can to import these, but it's not perfect.
 -- 'FPDEFAULT' comes along for the ride here on the first pass, but I don't know what to do with it otherwise.
 
+DROP TABLE IF EXISTS #PreviouslyUnknownWbsElements
+GO
+
 select
 distinct
     ipn.FundedProgram as ipnFundedProgram,
-    SUBSTRING(ipn.FundedProgram, 1, 2) + '.' + SUBSTRING(ipn.FundedProgram, 3, 8) + '.' + SUBSTRING(ipn.FundedProgram, 10, 99) as WbsElementKey,
+    SUBSTRING(ipn.FundedProgram, 1, 2) + '.' + SUBSTRING(ipn.FundedProgram, 3, 8) + '.' + SUBSTRING(ipn.FundedProgram, 11, datalength(ipn.FundedProgram)) as WbsElementKey,
     '[From ImpPnBudget -- need more info]' as WbsElementText,
     replace(ipn.FundedProgram, '.', '') as ipnFundedProgramDotStripped,
     replace(wbs.WbsElementKey,'.','') as wbsElementKeyDotStripped
 into #PreviouslyUnknownWbsElements
 from ImportFinancial.ImpPnBudget as ipn
-left join ImportFinancial.WbsElement as wbs on replace(ipn.FundedProgram, '.', '') = replace(wbs.WbsElementKey,'.','')
+full outer join ImportFinancial.WbsElement as wbs on ipn.FundedProgram = replace(wbs.WbsElementKey,'.','')
 where wbs.WbsElementKey is null
 GO
+
+-- I did make this mistake before
+if exists(
+    select * from #PreviouslyUnknownWbsElements 
+    where ipnFundedProgram != replace(WbsElementKey, '.', '')
+    ) 
+raiserror('Problem in join; should never happen', 16, 1)
+
+
+insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
+select new_wbs.WbsElementKey, new_wbs.WbsElementText
+from #PreviouslyUnknownWbsElements as new_wbs
+GO
+
+
+
+
+select * from  #PreviouslyUnknownWbsElements where WbsElementKey = 'RX.16786801.11300000'
+
+select * from ImportFinancial.ImpPnBudget as ipn
+select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = 'RX.16786801.11300000'
 
 /*
 select * from ImportFinancial.WbsElement where WbsElementKey = 'RR.16786821.13008580'
