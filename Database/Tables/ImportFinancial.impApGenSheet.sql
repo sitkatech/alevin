@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [ImportFinancial].[impApGenSheet](
+CREATE TABLE [ImportFinancial].[ImpApGenSheet](
 	[impApGenSheetID] [int] IDENTITY(1,1) NOT NULL,
 	[PONumberKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PurchOrdLineItmKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

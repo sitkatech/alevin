@@ -2,7 +2,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
-CREATE TABLE [ImportFinancial].[impPayRecV3](
+CREATE TABLE [ImportFinancial].[ImpPayrecV3](
 	[impPayRecV3ID] [int] IDENTITY(1,1) NOT NULL,
 	[BusinessAreaKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[FABudgetActivityKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,

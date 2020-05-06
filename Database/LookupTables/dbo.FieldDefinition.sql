@@ -190,7 +190,7 @@ VALUES
 (10004, N'ContractType', 'Contract Type'),
 (10005, N'ProjectApprovalDate', 'Project Approval Date'),
 (10006, N'ObligationRequest', 'Obligation Request'),
-(10007, N'IsModification', N'Is this request a modification to an existing Obligation'),
+(10007, N'IsModification', N'Is this request a modification to an existing Agreement'),
 (10008, N'RequestStatus', N'Request Status'),
 (10009, N'DescriptionOfNeed', N'Description of Need'),
 (10010, N'FundingPriority', N'Funding Priority'),
@@ -236,4 +236,5 @@ VALUES
 (10050, N'ProjectedFunding', N'Projected Funding'),
 (10051, N'ObligatedFunding', N'Obligated Funding'),
 (10052, N'ExpendedFunding', N'Expended Funding'),
-(10053, N'BudgetObjectCode', N'Budget Object Code')
+(10053, N'PnBudget', N'PnBudget'),
+(10054, N'BudgetObjectCode', N'Budget Object Code')

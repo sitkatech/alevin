@@ -69,6 +69,7 @@
     <Compile Include="Controllers\ActionItemController.cs" />
     <Compile Include="Controllers\ObligationRequestController.cs" />
     <Compile Include="Controllers\ObligationRequestSubmissionNotesController.cs" />
+    <Compile Include="Controllers\PnBudgetController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
@@ -273,6 +274,7 @@
     <Compile Include="Security\ContactRelationshipTypeManageFeature.cs" />
     <Compile Include="Security\ContactRelationshipTypeViewFeature.cs" />
     <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
+    <Compile Include="Security\PnBudgetViewFeature.cs" />
     <Compile Include="Security\VendorViewFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\ObligationViewFeature.cs" />
@@ -352,6 +354,9 @@
     <Compile Include="Views\ExcelUpload\ImportFbmsExcelFileViewData.cs" />
     <Compile Include="Views\ExcelUpload\ImportFbmsExcelFile.cs" />
     <Compile Include="Views\ExcelUpload\FbmsInvoiceStageImportsHelper.cs" />
+    <Compile Include="Views\PnBudget\PnBudgetIndex.cs" />
+    <Compile Include="Views\PnBudget\PnBudgetGridSpec.cs" />
+    <Compile Include="Views\PnBudget\PnBudgetIndexViewData.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthorities.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewData.cs" />
     <Compile Include="Views\ProjectAssociatedCostAuthorities\EditProjectAssociatedCostAuthoritiesViewModel.cs" />
@@ -785,6 +790,7 @@
     <Content Include="Views\Obligation\ObligationItemBudgetIndex.cshtml" />
     <Content Include="Views\Obligation\ObligationItemInvoiceIndex.cshtml" />
     <Content Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cshtml" />
+    <Content Include="Views\PnBudget\PnBudgetIndex.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
