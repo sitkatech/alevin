@@ -46,6 +46,16 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public string CostAuthorityObligationRequestNote { get; set; }
 
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.BudgetObjectCode)]
+        public int? BudgetObjectCodeID { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.RecipientOrganization)]
+        public int? RecipientOgranizationID { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TechnicalRepresentative)]
+        public int? TechnicalRepresentativeID { get; set; }
+
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -61,12 +71,18 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             AccountStructureDescription = costAuthorityObligationRequest.CostAuthority.AccountStructureDescription;
             ProjectedObligation = costAuthorityObligationRequest.ProjectedObligation;
             CostAuthorityObligationRequestNote = costAuthorityObligationRequest.CostAuthorityObligationRequestNote;
+            TechnicalRepresentativeID = costAuthorityObligationRequest.TechnicalRepresentativePersonID;
+            RecipientOgranizationID = costAuthorityObligationRequest.RecipientOrganizationID;
+            BudgetObjectCodeID = costAuthorityObligationRequest.BudgetObjectCodeID;
         }
 
         public void UpdateModel(CostAuthorityObligationRequest costAuthorityObligationRequest, FirmaSession currentFirmaSession)
         {
             costAuthorityObligationRequest.ProjectedObligation = ProjectedObligation;
             costAuthorityObligationRequest.CostAuthorityObligationRequestNote = CostAuthorityObligationRequestNote;
+            costAuthorityObligationRequest.RecipientOrganizationID = RecipientOgranizationID;
+            costAuthorityObligationRequest.TechnicalRepresentativePersonID = TechnicalRepresentativeID;
+            costAuthorityObligationRequest.BudgetObjectCodeID = BudgetObjectCodeID;
 
 
         }

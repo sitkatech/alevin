@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ObligationRequest(int obligationRequestID, bool isModification, int? agreementID, int contractTypeID, int obligationRequestStatusID, string descriptionOfNeed, int? reclamationObligationRequestFundingPriorityID, int? recipientOrganizationID, int? technicalRepresentativePersonID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
+        public ObligationRequest(int obligationRequestID, bool isModification, int? agreementID, int contractTypeID, int obligationRequestStatusID, string descriptionOfNeed, int? reclamationObligationRequestFundingPriorityID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
         {
             this.ObligationRequestID = obligationRequestID;
             this.IsModification = isModification;
@@ -40,8 +40,6 @@ namespace ProjectFirmaModels.Models
             this.ObligationRequestStatusID = obligationRequestStatusID;
             this.DescriptionOfNeed = descriptionOfNeed;
             this.ReclamationObligationRequestFundingPriorityID = reclamationObligationRequestFundingPriorityID;
-            this.RecipientOrganizationID = recipientOrganizationID;
-            this.TechnicalRepresentativePersonID = technicalRepresentativePersonID;
             this.TargetAwardDate = targetAwardDate;
             this.PALT = pALT;
             this.TargetSubmittalDate = targetSubmittalDate;
@@ -157,8 +155,6 @@ namespace ProjectFirmaModels.Models
         public int ObligationRequestStatusID { get; set; }
         public string DescriptionOfNeed { get; set; }
         public int? ReclamationObligationRequestFundingPriorityID { get; set; }
-        public int? RecipientOrganizationID { get; set; }
-        public int? TechnicalRepresentativePersonID { get; set; }
         public DateTime? TargetAwardDate { get; set; }
         public int? PALT { get; set; }
         public DateTime? TargetSubmittalDate { get; set; }
@@ -182,9 +178,7 @@ namespace ProjectFirmaModels.Models
         public virtual ContractType ContractType { get; set; }
         public ObligationRequestStatus ObligationRequestStatus { get { return ObligationRequestStatus.AllLookupDictionary[ObligationRequestStatusID]; } }
         public ObligationRequestFundingPriority ReclamationObligationRequestFundingPriority { get { return ReclamationObligationRequestFundingPriorityID.HasValue ? ObligationRequestFundingPriority.AllLookupDictionary[ReclamationObligationRequestFundingPriorityID.Value] : null; } }
-        public virtual Organization RecipientOrganization { get; set; }
         public virtual Person CreatePerson { get; set; }
-        public virtual Person TechnicalRepresentativePerson { get; set; }
         public virtual Person UpdatePerson { get; set; }
 
         public static class FieldLengths

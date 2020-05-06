@@ -31,30 +31,6 @@
 @using ProjectFirma.Web.Views.Shared.TextControls
 @inherits ProjectFirma.Web.Views.ObligationRequest.ObligationRequestDetail
 
-@functions
-{
-    private string GetOrganizationDisplayName()
-    {
-        // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
-        if (ViewDataTyped.ObligationRequest.RecipientOrganization == null)
-        {
-            return string.Empty;
-        }
-        return ViewDataTyped.ObligationRequest.RecipientOrganization.GetDisplayName();
-    }
-
-    private string GetTechnicalRepresentativeDisplayName()
-    {
-        // Tried to do this inline with chained ? operators, but told "C# 6.0 language feature". No time to investigate. -- SLG 9/10/2019
-        if (ViewDataTyped.ObligationRequest.TechnicalRepresentativePerson == null)
-        {
-            return string.Empty;
-        }
-        return ViewDataTyped.ObligationRequest.TechnicalRepresentativePerson.GetFullNameFirstLast();
-    }
-
-}
-
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
@@ -145,16 +121,6 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RecipientOrganization.ToType())</div>
-                    <div class="col-xs-7">@GetOrganizationDisplayName()</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TechnicalRepresentative.ToType())</div>
-                    <div class="col-xs-7">@GetTechnicalRepresentativeDisplayName()</div>
-                </div>
-
-                <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetSubmittalDate.ToType())</div>
                     <div class="col-xs-7">@ViewDataTyped.ObligationRequest.TargetSubmittalDate.ToStringDate()</div>
                 </div>
@@ -176,7 +142,7 @@
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2 class="project-detail-heading">
-            PROJECTED OBLIGATIONS
+            PROJECTED OBLIGATION ITEM BUDGETS
         </h2>
     </div>
     <div class="rightFloatingInfo" style="margin-right: 20px;">

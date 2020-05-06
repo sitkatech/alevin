@@ -63,12 +63,6 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             // Projected Obligation
             Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), a => a.ProjectedObligation, 100, DhtmlxGridColumnFormatType.Currency);
 
-            // Recipient Organization
-            Add(FieldDefinitionEnum.RecipientOrganization.ToType().ToGridHeaderString(), a => a.RecipientOrganization?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
-
-            // Technical Representative
-            Add(FieldDefinitionEnum.TechnicalRepresentative.ToType().ToGridHeaderString(), a => a.TechnicalRepresentativePerson?.GetFullNameFirstLast(), 120, DhtmlxGridColumnFilterType.Text);
-
             // Target Award Date
             Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetAwardDate, 120);
 

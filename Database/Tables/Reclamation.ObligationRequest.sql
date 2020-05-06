@@ -10,8 +10,6 @@ CREATE TABLE [Reclamation].[ObligationRequest](
 	[ObligationRequestStatusID] [int] NOT NULL,
 	[DescriptionOfNeed] [nvarchar](250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[ReclamationObligationRequestFundingPriorityID] [int] NULL,
-	[RecipientOrganizationID] [int] NULL,
-	[TechnicalRepresentativePersonID] [int] NULL,
 	[TargetAwardDate] [datetime] NULL,
 	[PALT] [int] NULL,
 	[TargetSubmittalDate] [datetime] NULL,
@@ -53,20 +51,10 @@ REFERENCES [Reclamation].[ObligationRequestStatus] ([ObligationRequestStatusID])
 GO
 ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ObligationRequestStatus_ObligationRequestStatusID]
 GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Organization_RecipientOrganizationID_OrganizationID] FOREIGN KEY([RecipientOrganizationID])
-REFERENCES [dbo].[Organization] ([OrganizationID])
-GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Organization_RecipientOrganizationID_OrganizationID]
-GO
 ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Person_CreatePersonID_PersonID] FOREIGN KEY([CreatePersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
 ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Person_CreatePersonID_PersonID]
-GO
-ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Person_TechnicalRepresentativePersonID_PersonID] FOREIGN KEY([TechnicalRepresentativePersonID])
-REFERENCES [dbo].[Person] ([PersonID])
-GO
-ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_Person_TechnicalRepresentativePersonID_PersonID]
 GO
 ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Person_UpdatePersonID_PersonID] FOREIGN KEY([UpdatePersonID])
 REFERENCES [dbo].[Person] ([PersonID])

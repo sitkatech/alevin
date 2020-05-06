@@ -30,13 +30,16 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public CostAuthorityObligationRequest(int costAuthorityObligationRequestID, int costAuthorityID, int obligationRequestID, decimal? projectedObligation, string costAuthorityObligationRequestNote) : this()
+        public CostAuthorityObligationRequest(int costAuthorityObligationRequestID, int costAuthorityID, int obligationRequestID, decimal? projectedObligation, string costAuthorityObligationRequestNote, int? technicalRepresentativePersonID, int? recipientOrganizationID, int? budgetObjectCodeID) : this()
         {
             this.CostAuthorityObligationRequestID = costAuthorityObligationRequestID;
             this.CostAuthorityID = costAuthorityID;
             this.ObligationRequestID = obligationRequestID;
             this.ProjectedObligation = projectedObligation;
             this.CostAuthorityObligationRequestNote = costAuthorityObligationRequestNote;
+            this.TechnicalRepresentativePersonID = technicalRepresentativePersonID;
+            this.RecipientOrganizationID = recipientOrganizationID;
+            this.BudgetObjectCodeID = budgetObjectCodeID;
         }
 
         /// <summary>
@@ -112,11 +115,17 @@ namespace ProjectFirmaModels.Models
         public int ObligationRequestID { get; set; }
         public decimal? ProjectedObligation { get; set; }
         public string CostAuthorityObligationRequestNote { get; set; }
+        public int? TechnicalRepresentativePersonID { get; set; }
+        public int? RecipientOrganizationID { get; set; }
+        public int? BudgetObjectCodeID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityObligationRequestID; } set { CostAuthorityObligationRequestID = value; } }
 
         public virtual CostAuthority CostAuthority { get; set; }
         public virtual ObligationRequest ObligationRequest { get; set; }
+        public virtual Person TechnicalRepresentativePerson { get; set; }
+        public virtual Organization RecipientOrganization { get; set; }
+        public virtual BudgetObjectCode BudgetObjectCode { get; set; }
 
         public static class FieldLengths
         {

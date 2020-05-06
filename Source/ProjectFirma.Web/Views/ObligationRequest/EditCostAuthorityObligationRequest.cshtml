@@ -79,6 +79,39 @@
                     </div>
                 </div>
 
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.BudgetObjectCodeID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.BudgetObjectCodeID, ViewDataTyped.BudgetObjectCodes, new { @class = "form-control selectpicker technical-representative-class", @data_container = ".modal-content", @data_live_search = "true" })
+                        @Html.ValidationMessageFor(m => m.BudgetObjectCodeID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.RecipientOgranizationID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.RecipientOgranizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class", @data_container = ".modal-content", @data_live_search = "true" })
+                        @Html.ValidationMessageFor(m => m.RecipientOgranizationID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.TechnicalRepresentativeID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.TechnicalRepresentativeID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class", @data_container = ".modal-content", @data_live_search = "true" })
+                        @Html.ValidationMessageFor(m => m.TechnicalRepresentativeID)
+                    </div>
+                </div>
+
+
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(m => m.CostAuthorityObligationRequestNote, "Note", false)
@@ -106,6 +139,8 @@
             jQuery("#@Html.IdFor(x => x.CostAuthorityObligationRequestNote)").prop("title", "You cannot edit this Projected Obligation because the Obligation Request is not in Draft");
             jQuery("#@(ModalDialogFormHelper.SaveButtonID)").hide();
         }
+
+        jQuery(".selectpicker").selectpicker();
     });
     </script>
 

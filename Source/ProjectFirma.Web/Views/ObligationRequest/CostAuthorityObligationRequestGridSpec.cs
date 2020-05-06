@@ -36,11 +36,11 @@ namespace ProjectFirma.Web.Views.ObligationRequest
 {
     public class CostAuthorityObligationRequestGridSpec : GridSpec<ProjectFirmaModels.Models.CostAuthorityObligationRequest>
     {
-        public CostAuthorityObligationRequestGridSpec(FirmaSession currentFirmaSession, bool isInDraft, List<int> costAuthorityIDListOnAgreement)
+        public CostAuthorityObligationRequestGridSpec(FirmaSession currentFirmaSession, bool isInDraft, List<int> costAuthorityIDListOnObligation)
         {
             Add(string.Empty
                 , x => !isInDraft ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is in draft'><span class='sr-only'>You cannot delete this because it is in draft</span></span>")  
-                    : costAuthorityIDListOnAgreement.Contains(x.CostAuthorityID) ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is on the Agreement'><span class='sr-only'>You cannot delete this because it is on the Agreement</span></span>")
+                    : costAuthorityIDListOnObligation.Contains(x.CostAuthorityID) ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is on the Obligation'><span class='sr-only'>You cannot delete this because it is on the Obligation</span></span>")
                     : ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete This Projected Obligation", true)
                 , 30
                 , DhtmlxGridColumnFilterType.None);
@@ -48,6 +48,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 300, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.AccountStructureDescription.ToType().ToGridHeaderString(), x => x.CostAuthority.AccountStructureDescription, 300, DhtmlxGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 300, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.BudgetObjectCode.ToType().ToGridHeaderString(), a => a.BudgetObjectCode?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.RecipientOrganization.ToType().ToGridHeaderString(), a => a.RecipientOrganization?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.TechnicalRepresentative.ToType().ToGridHeaderString(), a => a.TechnicalRepresentativePerson?.GetFullNameFirstLast(), 120, DhtmlxGridColumnFilterType.Text);
             Add(FieldDefinitionEnum.CostAuthorityObligationRequestNote.ToType().ToGridHeaderString("Notes"), x => x.CostAuthorityObligationRequestNote, 300, DhtmlxGridColumnFilterType.Text);
             
         }

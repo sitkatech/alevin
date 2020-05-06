@@ -39,13 +39,18 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public IEnumerable<SelectListItem> CostAuthorities { get; }
         public CostAuthorityJsonList CostAuthorityJsonList { get; }
         public ViewPageContentViewData EditCostAuthorityObligationRequestsFirmaPage { get; }
-        
+        public IEnumerable<SelectListItem> Organizations { get; }
+        public IEnumerable<SelectListItem> People { get; }
+        public IEnumerable<SelectListItem> BudgetObjectCodes { get; }
 
         public EditCostAuthorityObligationRequestsViewData(
              ProjectFirmaModels.Models.FirmaPage editCostAuthorityObligationRequestsFirmaPage
             , FirmaSession currentFirmaSession
             , List<ProjectFirmaModels.Models.CostAuthority> allCostAuthorities
             , ProjectFirmaModels.Models.ObligationRequest obligationRequest
+             , List<ProjectFirmaModels.Models.Organization> allOrganizations
+             , List<Person> allPeople
+             , List<ProjectFirmaModels.Models.BudgetObjectCode> allBudgetObjectCodes
             ) : base(currentFirmaSession, editCostAuthorityObligationRequestsFirmaPage)
         {
             var costAuthoritiesToOmit =
@@ -57,6 +62,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                 .ToSelectListWithEmptyFirstRow(x => x.CostAuthorityID.ToString(), x => x.CostAuthorityWorkBreakdownStructure, "Select CAWBS");
             CostAuthorityJsonList = new CostAuthorityJsonList(reclamationCostAuthoritiesToUse.Select(x => new CostAuthorityJson(x)).ToList());
             EditCostAuthorityObligationRequestsFirmaPage = new ViewPageContentViewData(editCostAuthorityObligationRequestsFirmaPage, currentFirmaSession);
+            Organizations = allOrganizations.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.GetDisplayName());
+            People = allPeople.OrderBy(x => x.GetFullNameFirstLast()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLast());
+            BudgetObjectCodes = allBudgetObjectCodes.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.BudgetObjectCodeID.ToString(), x => x.GetDisplayName());
         }
     }
 
@@ -74,6 +82,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
     public class CostAuthorityJson
     {
         public int ReclamationCostAuthorityID { get; set; }
+        public int? TechnicalRepresentativePersonID { get; set; }
+        public int? RecipientOrganizationID { get; set; }
+        public int? BudgetObjectCodeID { get; set; }
         public string CostAuthorityWorkBreakdownStructure { get; set; }
         public string AccountStructureDescription { get; set; }
         public string Note { get; set; }
@@ -101,7 +112,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             AccountStructureDescription = costAuthorityObligationRequest.CostAuthority.AccountStructureDescription;
             Note = costAuthorityObligationRequest.CostAuthorityObligationRequestNote;
             ProjectedObligation = costAuthorityObligationRequest.ProjectedObligation;
-
+            RecipientOrganizationID = costAuthorityObligationRequest.RecipientOrganizationID;
+            TechnicalRepresentativePersonID = costAuthorityObligationRequest.TechnicalRepresentativePersonID;
+            BudgetObjectCodeID = costAuthorityObligationRequest.BudgetObjectCodeID;
         }
     }
 
