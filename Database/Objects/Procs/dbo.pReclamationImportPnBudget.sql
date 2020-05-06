@@ -133,18 +133,7 @@ inner join dbo.FundingSource as fs on ipn.Fund = fs.FundingSourceName
 inner join ImportFinancial.FiscalQuarter as fq on convert(INT, substring(ipn.FiscalYearPeriod, 3, 1)) + 1 = fq.FiscalQuarterNumber
 
 
---inner join ImportFinancial.CommitmentItem as ci on ipn.CommitmentItem = ci.CommitmentItemName
-
-
---select * from Reclamation.CostAuthority
---select * from ImportFinancial.WbsElement
-
-
 end
---select * from ImportFinancial.ImpPnBudget as ipn
---select * from ImportFinancial.PnBudgetFundType
---select * from dbo.FundingSource where TenantID = 12
---select * from ImportFinancial.CommitmentItem
 
 /*
 

@@ -1,6 +1,3 @@
---begin tran
-
---select * from ImportFinancial.WbsElementPnBudget 
 
 update ImportFinancial.WbsElementPnBudget 
 set ImportFinancial.WbsElementPnBudget.BudgetObjectCodeID = boc.BudgetObjectCodeID
@@ -19,18 +16,4 @@ GO
 
 drop table ImportFinancial.CommitmentItem
 GO
---select * from ImportFinancial.WbsElementPnBudget 
-
---select distinct ci.CommitmentItemID,
---       ci.CommitmentItemName
-----       pnb.*
---from ImportFinancial.WbsElementPnBudget as pnb
---inner join ImportFinancial.CommitmentItem as ci on pnb.CommitmentItemID = ci.CommitmentItemID
---where pnb.BudgetObjectCodeID is null
-
---select *  
---from ImportFinancial.WbsElementPnBudget as pnb
---where pnb.CommitmentItemID in (2,12, 48, 52,59)
-
---rollback tran
 
