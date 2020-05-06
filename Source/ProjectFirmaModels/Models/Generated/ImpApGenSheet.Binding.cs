@@ -32,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public ImpApGenSheet(int impApGenSheetID, string pONumberKey, string purchOrdLineItmKey, string referenceKey, string vendorKey, string vendorText, string fundKey, string fundedProgramKey, string wBSElementKey, string wBSElementText, string budgetObjectClassKey, double? debitAmount, double? creditAmount, double? debitCreditTotal, DateTime? createdOnKey, DateTime? postingDateKey) : this()
         {
-            this.impApGenSheetID = impApGenSheetID;
+            this.ImpApGenSheetID = impApGenSheetID;
             this.PONumberKey = pONumberKey;
             this.PurchOrdLineItmKey = purchOrdLineItmKey;
             this.ReferenceKey = referenceKey;
@@ -93,7 +93,7 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int impApGenSheetID { get; set; }
+        public int ImpApGenSheetID { get; set; }
         public string PONumberKey { get; set; }
         public string PurchOrdLineItmKey { get; set; }
         public string ReferenceKey { get; set; }
@@ -110,7 +110,7 @@ namespace ProjectFirmaModels.Models
         public DateTime? CreatedOnKey { get; set; }
         public DateTime? PostingDateKey { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return impApGenSheetID; } set { impApGenSheetID = value; } }
+        public int PrimaryKey { get { return ImpApGenSheetID; } set { ImpApGenSheetID = value; } }
 
 
 

@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public ImpPayrecV3Configuration(string schema)
         {
             ToTable("ImpPayrecV3", schema);
-            HasKey(x => x.impPayRecV3ID);
-            Property(x => x.impPayRecV3ID).HasColumnName(@"impPayRecV3ID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.ImpPayrecV3ID);
+            Property(x => x.ImpPayrecV3ID).HasColumnName(@"ImpPayrecV3ID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.BusinessAreaKey).HasColumnName(@"BusinessAreaKey").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.FABudgetActivityKey).HasColumnName(@"FABudgetActivityKey").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.FunctionalAreaText).HasColumnName(@"FunctionalAreaText").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);

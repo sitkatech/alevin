@@ -13,19 +13,19 @@ namespace ProjectFirmaModels.Models
 {
     public static partial class DatabaseContextExtensions
     {
-        public static ImpPayrecV3 GetImpPayrecV3(this IQueryable<ImpPayrecV3> impPayrecV3s, int impPayRecV3ID)
+        public static ImpPayrecV3 GetImpPayrecV3(this IQueryable<ImpPayrecV3> impPayrecV3s, int impPayrecV3ID)
         {
-            var impPayrecV3 = impPayrecV3s.SingleOrDefault(x => x.impPayRecV3ID == impPayRecV3ID);
-            Check.RequireNotNullThrowNotFound(impPayrecV3, "ImpPayrecV3", impPayRecV3ID);
+            var impPayrecV3 = impPayrecV3s.SingleOrDefault(x => x.ImpPayrecV3ID == impPayrecV3ID);
+            Check.RequireNotNullThrowNotFound(impPayrecV3, "ImpPayrecV3", impPayrecV3ID);
             return impPayrecV3;
         }
 
         // Delete using an IDList (Firma style)
-        public static void DeleteImpPayrecV3(this IQueryable<ImpPayrecV3> impPayrecV3s, List<int> impPayRecV3IDList)
+        public static void DeleteImpPayrecV3(this IQueryable<ImpPayrecV3> impPayrecV3s, List<int> impPayrecV3IDList)
         {
-            if(impPayRecV3IDList.Any())
+            if(impPayrecV3IDList.Any())
             {
-                impPayrecV3s.Where(x => impPayRecV3IDList.Contains(x.impPayRecV3ID)).Delete();
+                impPayrecV3s.Where(x => impPayrecV3IDList.Contains(x.ImpPayrecV3ID)).Delete();
             }
         }
 
@@ -34,14 +34,14 @@ namespace ProjectFirmaModels.Models
         {
             if(impPayrecV3sToDelete.Any())
             {
-                var impPayRecV3IDList = impPayrecV3sToDelete.Select(x => x.impPayRecV3ID).ToList();
-                impPayrecV3s.Where(x => impPayRecV3IDList.Contains(x.impPayRecV3ID)).Delete();
+                var impPayrecV3IDList = impPayrecV3sToDelete.Select(x => x.ImpPayrecV3ID).ToList();
+                impPayrecV3s.Where(x => impPayrecV3IDList.Contains(x.ImpPayrecV3ID)).Delete();
             }
         }
 
-        public static void DeleteImpPayrecV3(this IQueryable<ImpPayrecV3> impPayrecV3s, int impPayRecV3ID)
+        public static void DeleteImpPayrecV3(this IQueryable<ImpPayrecV3> impPayrecV3s, int impPayrecV3ID)
         {
-            DeleteImpPayrecV3(impPayrecV3s, new List<int> { impPayRecV3ID });
+            DeleteImpPayrecV3(impPayrecV3s, new List<int> { impPayrecV3ID });
         }
 
         public static void DeleteImpPayrecV3(this IQueryable<ImpPayrecV3> impPayrecV3s, ImpPayrecV3 impPayrecV3ToDelete)

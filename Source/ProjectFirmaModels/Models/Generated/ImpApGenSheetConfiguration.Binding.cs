@@ -14,8 +14,8 @@ namespace ProjectFirmaModels.Models
         public ImpApGenSheetConfiguration(string schema)
         {
             ToTable("ImpApGenSheet", schema);
-            HasKey(x => x.impApGenSheetID);
-            Property(x => x.impApGenSheetID).HasColumnName(@"impApGenSheetID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            HasKey(x => x.ImpApGenSheetID);
+            Property(x => x.ImpApGenSheetID).HasColumnName(@"ImpApGenSheetID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.PONumberKey).HasColumnName(@"PONumberKey").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.PurchOrdLineItmKey).HasColumnName(@"PurchOrdLineItmKey").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.ReferenceKey).HasColumnName(@"ReferenceKey").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);

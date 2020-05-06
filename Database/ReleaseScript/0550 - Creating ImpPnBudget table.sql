@@ -4,7 +4,14 @@
 
 exec sp_rename 'ImportFinancial.impApGenSheet', 'ImpApGenSheet'
 GO
-exec sp_rename 'ImportFinancial.impPayRecV3', 'ImpPayrecV3'
+
+exec sp_rename 'ImportFinancial.ImpApGenSheet.impApGenSheetID', 'ImpApGenSheetID'
+GO
+
+exec sp_rename 'ImportFinancial.impPayrecV3', 'ImpPayrecV3'
+GO
+
+exec sp_rename 'ImportFinancial.ImpPayrecV3.impPayrecV3ID', 'ImpPayrecV3ID'
 GO
 
 --rollback tran

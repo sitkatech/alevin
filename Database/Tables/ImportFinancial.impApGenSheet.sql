@@ -19,7 +19,7 @@ CREATE TABLE [ImportFinancial].[ImpApGenSheet](
 	[DebitCreditTotal] [float] NULL,
 	[CreatedOnKey] [datetime] NULL,
 	[PostingDateKey] [datetime] NULL,
- CONSTRAINT [PK_ImpApGenSheet_ImpApGenSheetID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_impApGenSheet_impApGenSheetID] PRIMARY KEY CLUSTERED 
 (
 	[ImpApGenSheetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]

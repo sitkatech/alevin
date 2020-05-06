@@ -15,7 +15,7 @@ namespace ProjectFirmaModels.Models
     {
         public static ImpApGenSheet GetImpApGenSheet(this IQueryable<ImpApGenSheet> impApGenSheets, int impApGenSheetID)
         {
-            var impApGenSheet = impApGenSheets.SingleOrDefault(x => x.impApGenSheetID == impApGenSheetID);
+            var impApGenSheet = impApGenSheets.SingleOrDefault(x => x.ImpApGenSheetID == impApGenSheetID);
             Check.RequireNotNullThrowNotFound(impApGenSheet, "ImpApGenSheet", impApGenSheetID);
             return impApGenSheet;
         }
@@ -25,7 +25,7 @@ namespace ProjectFirmaModels.Models
         {
             if(impApGenSheetIDList.Any())
             {
-                impApGenSheets.Where(x => impApGenSheetIDList.Contains(x.impApGenSheetID)).Delete();
+                impApGenSheets.Where(x => impApGenSheetIDList.Contains(x.ImpApGenSheetID)).Delete();
             }
         }
 
@@ -34,8 +34,8 @@ namespace ProjectFirmaModels.Models
         {
             if(impApGenSheetsToDelete.Any())
             {
-                var impApGenSheetIDList = impApGenSheetsToDelete.Select(x => x.impApGenSheetID).ToList();
-                impApGenSheets.Where(x => impApGenSheetIDList.Contains(x.impApGenSheetID)).Delete();
+                var impApGenSheetIDList = impApGenSheetsToDelete.Select(x => x.ImpApGenSheetID).ToList();
+                impApGenSheets.Where(x => impApGenSheetIDList.Contains(x.ImpApGenSheetID)).Delete();
             }
         }
 

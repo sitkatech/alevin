@@ -30,9 +30,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ImpPayrecV3(int impPayRecV3ID, string businessAreaKey, string fABudgetActivityKey, string functionalAreaText, string obligationNumberKey, string obligationItemKey, string fundKey, string fundedProgramKey, string wBSElementKey, string wBSElementText, string budgetObjectClassKey, string vendorKey, string vendorText, double? obligation, double? goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey) : this()
+        public ImpPayrecV3(int impPayrecV3ID, string businessAreaKey, string fABudgetActivityKey, string functionalAreaText, string obligationNumberKey, string obligationItemKey, string fundKey, string fundedProgramKey, string wBSElementKey, string wBSElementText, string budgetObjectClassKey, string vendorKey, string vendorText, double? obligation, double? goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey) : this()
         {
-            this.impPayRecV3ID = impPayRecV3ID;
+            this.ImpPayrecV3ID = impPayrecV3ID;
             this.BusinessAreaKey = businessAreaKey;
             this.FABudgetActivityKey = fABudgetActivityKey;
             this.FunctionalAreaText = functionalAreaText;
@@ -100,7 +100,7 @@ namespace ProjectFirmaModels.Models
         }
 
         [Key]
-        public int impPayRecV3ID { get; set; }
+        public int ImpPayrecV3ID { get; set; }
         public string BusinessAreaKey { get; set; }
         public string FABudgetActivityKey { get; set; }
         public string FunctionalAreaText { get; set; }
@@ -124,7 +124,7 @@ namespace ProjectFirmaModels.Models
         public DateTime? PostingDatePerSplKey { get; set; }
         public DateTime? DocumentDateOfBlKey { get; set; }
         [NotMapped]
-        public int PrimaryKey { get { return impPayRecV3ID; } set { impPayRecV3ID = value; } }
+        public int PrimaryKey { get { return ImpPayrecV3ID; } set { ImpPayrecV3ID = value; } }
 
 
 
