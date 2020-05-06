@@ -1,1 +1,1 @@
---exec dbo.pReclamationImportFinancialStagingDataImport
+exec dbo.pReclamationImportFinancialStagingDataImport
