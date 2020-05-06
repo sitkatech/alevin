@@ -57,12 +57,6 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         [FieldDefinitionDisplay(FieldDefinitionEnum.FundingPriority)]
         public int? ReclamationObligationRequestFundingPriorityID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.RecipientOrganization)]
-        public int? RecipientOrganizationID { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TechnicalRepresentative)]
-        public int? TechnicalRepresentativePersonID { get; set; }
-
         [FieldDefinitionDisplay(FieldDefinitionEnum.TargetAwardDate)]
         public DateTime? TargetAwardDate { get; set; }
 
@@ -93,8 +87,6 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             ObligationRequestStatusID = obligationRequest.ObligationRequestStatusID;
             DescriptionOfNeed = obligationRequest.DescriptionOfNeed;
             ReclamationObligationRequestFundingPriorityID = obligationRequest.ReclamationObligationRequestFundingPriorityID;
-            RecipientOrganizationID = obligationRequest.RecipientOrganizationID;
-            TechnicalRepresentativePersonID = obligationRequest.TechnicalRepresentativePersonID;
             TargetAwardDate = obligationRequest.TargetAwardDate;
             Palt = obligationRequest.PALT;
             TargetSubmittalDate = obligationRequest.TargetSubmittalDate;
@@ -116,8 +108,6 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             obligationRequest.ObligationRequestStatusID = ObligationRequestStatusID;
             obligationRequest.DescriptionOfNeed = DescriptionOfNeed;
             obligationRequest.ReclamationObligationRequestFundingPriorityID = ReclamationObligationRequestFundingPriorityID;
-            obligationRequest.RecipientOrganizationID = RecipientOrganizationID;
-            obligationRequest.TechnicalRepresentativePersonID = TechnicalRepresentativePersonID;
             obligationRequest.TargetAwardDate = TargetAwardDate;
             obligationRequest.PALT = Palt;
             obligationRequest.TargetSubmittalDate = TargetSubmittalDate;

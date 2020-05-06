@@ -40,9 +40,6 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public IEnumerable<SelectListItem> ContractTypes { get; }
         public IEnumerable<SelectListItem> ObligationRequestStatuses { get; }
         public IEnumerable<SelectListItem> FundingPriorities { get; }
-        public IEnumerable<SelectListItem> Organizations { get; }
-        public IEnumerable<SelectListItem> People { get; }
-
         public AgreementJsonList AgreementJsonList { get; }
         public ViewPageContentViewData ProjectStatusFirmaPage { get; }
         
@@ -53,16 +50,12 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             , List<ProjectFirmaModels.Models.Agreement> allAgreements
             , List<ContractType> allContractTypes
             , List<ObligationRequestStatus> allObligationRequestStatuses
-            , List<ObligationRequestFundingPriority> allFundingPriorities
-            , List<ProjectFirmaModels.Models.Organization> allOrganizations
-            , List<Person> allPeople) : base(currentFirmaSession)
+            , List<ObligationRequestFundingPriority> allFundingPriorities) : base(currentFirmaSession)
         {
             Agreements = allAgreements.OrderBy(x => x.AgreementNumber).ToSelectListWithEmptyFirstRow(x => x.AgreementID.ToString(), x => $"{x.AgreementNumber} - {x.Organization?.GetDisplayName()}");
             ContractTypes = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);
             ObligationRequestStatuses = allObligationRequestStatuses.OrderBy(x => x.ObligationRequestStatusID).ToSelectListWithEmptyFirstRow(x => x.ObligationRequestStatusID.ToString(), x => x.ObligationRequestStatusDisplayName);
             FundingPriorities = allFundingPriorities.OrderBy(x => x.ObligationRequestFundingPriorityID).ToSelectListWithEmptyFirstRow(x => x.ObligationRequestFundingPriorityID.ToString(), x => x.ObligationRequestFundingPriorityDisplayName);
-            Organizations = allOrganizations.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.GetDisplayName());
-            People = allPeople.OrderBy(x => x.GetFullNameFirstLast()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLast());
             AgreementJsonList = new AgreementJsonList(allAgreements.Select(x => new AgreementJson(x)).ToList());
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
         }

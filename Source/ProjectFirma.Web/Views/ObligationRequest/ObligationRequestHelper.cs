@@ -54,16 +54,16 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         }
 
         private static string MakeProjectNewObligationsText() =>
-            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Project new Obligations";
+            $"{BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-plus")} Create New Obligation Item Budget Projections";
 
         public static HtmlString EditCostAuthorityObligationRequestsButton(this ProjectFirmaModels.Models.ObligationRequest obligationRequest)
         {
             var disabledState = obligationRequest.ObligationRequestStatus != ObligationRequestStatus.Draft ? ModalDialogFormHelper.DisabledState.Disabled : ModalDialogFormHelper.DisabledState.NotDisabled;
             var disabledHoverText = disabledState == ModalDialogFormHelper.DisabledState.Disabled
-                ? "You cannot Add Projected Obligations because this Obligation Request is not in a Draft state."
+                ? "You cannot Add Obligation Item Budget Projections because this Obligation Request is not in a Draft state."
                 : null;
             return ModalDialogFormHelper.ModalDialogFormLink(MakeProjectNewObligationsText(), EditCostAuthorityObligationRequestsUrl(obligationRequest),
-                $"Project new Obligations by CAWBS", 900, "Save",
+                $"Create new Obligation Item Budget Projections", 1100, "Save",
                 "Cancel",
                 new List<string> { "btn", "btn-firma" }, null, null, disabledState, disabledHoverText);
         }

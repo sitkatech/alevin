@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         {
             this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
             this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
+            this.CostAuthorityObligationRequests = new HashSet<CostAuthorityObligationRequest>();
         }
 
         /// <summary>
@@ -87,13 +88,13 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any();
+            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || CostAuthorityObligationRequests.Any();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(BudgetObjectCode).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(BudgetObjectCode).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(CostAuthorityObligationRequest).Name};
 
 
         /// <summary>
@@ -127,6 +128,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in CostAuthorityObligationRequests.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -144,6 +150,7 @@ namespace ProjectFirmaModels.Models
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
         public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
+        public virtual ICollection<CostAuthorityObligationRequest> CostAuthorityObligationRequests { get; set; }
         public virtual BudgetObjectCodeGroup BudgetObjectCodeGroup { get; set; }
         public virtual CostType OverrideCostType { get; set; }
 
