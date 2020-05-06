@@ -16,7 +16,7 @@ CREATE TABLE [Staging].[StageImpPnBudget](
 	[TotalObligations] [float] NULL,
 	[TotalExpenditures] [float] NULL,
 	[UndeliveredOrders] [float] NULL,
- CONSTRAINT [PK_StagePnBudget_StagePnBudgetID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_StageImpPnBudget_StageImpPnBudgetID] PRIMARY KEY CLUSTERED 
 (
 	[StageImpPnBudgetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
