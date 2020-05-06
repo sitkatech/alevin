@@ -30,6 +30,11 @@ REFERENCES [Reclamation].[BudgetObjectCode] ([BudgetObjectCodeID])
 GO
 ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudget_BudgetObjectCode_BudgetObjectCodeID]
 GO
+ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementPnBudget_CostAuthority_CostAuthorityID] FOREIGN KEY([CostAuthorityID])
+REFERENCES [Reclamation].[CostAuthority] ([CostAuthorityID])
+GO
+ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudget_CostAuthority_CostAuthorityID]
+GO
 ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementPnBudget_FiscalQuarter_FiscalQuarterID] FOREIGN KEY([FiscalQuarterID])
 REFERENCES [ImportFinancial].[FiscalQuarter] ([FiscalQuarterID])
 GO
@@ -49,8 +54,3 @@ ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [
 REFERENCES [ImportFinancial].[WbsElement] ([WbsElementID])
 GO
 ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudget_WbsElement_WbsElementID]
-GO
-ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementPnBudgett_CostAuthority_CostAuthorityID] FOREIGN KEY([CostAuthorityID])
-REFERENCES [Reclamation].[CostAuthority] ([CostAuthorityID])
-GO
-ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudgett_CostAuthority_CostAuthorityID]
