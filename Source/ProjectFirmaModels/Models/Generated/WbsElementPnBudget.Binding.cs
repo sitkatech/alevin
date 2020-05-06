@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int? costAuthorityID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int commitmentItemID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
+        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int? costAuthorityID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int? commitmentItemID, int? budgetObjectCodeID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
         {
             this.WbsElementPnBudgetID = wbsElementPnBudgetID;
             this.WbsElementID = wbsElementID;
@@ -41,6 +41,7 @@ namespace ProjectFirmaModels.Models
             this.FiscalQuarterID = fiscalQuarterID;
             this.FiscalYear = fiscalYear;
             this.CommitmentItemID = commitmentItemID;
+            this.BudgetObjectCodeID = budgetObjectCodeID;
             this.FIDocNumber = fIDocNumber;
             this.Recoveries = recoveries;
             this.CommittedButNotObligated = committedButNotObligated;
@@ -52,7 +53,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementPnBudget(int wbsElementID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int commitmentItemID, string fIDocNumber) : this()
+        public WbsElementPnBudget(int wbsElementID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, string fIDocNumber) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementPnBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -63,14 +64,13 @@ namespace ProjectFirmaModels.Models
             this.FundsCenter = fundsCenter;
             this.FiscalQuarterID = fiscalQuarterID;
             this.FiscalYear = fiscalYear;
-            this.CommitmentItemID = commitmentItemID;
             this.FIDocNumber = fIDocNumber;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public WbsElementPnBudget(WbsElement wbsElement, PnBudgetFundType pnBudgetFundType, FundingSource fundingSource, string fundsCenter, FiscalQuarter fiscalQuarter, int fiscalYear, CommitmentItem commitmentItem, string fIDocNumber) : this()
+        public WbsElementPnBudget(WbsElement wbsElement, PnBudgetFundType pnBudgetFundType, FundingSource fundingSource, string fundsCenter, FiscalQuarter fiscalQuarter, int fiscalYear, string fIDocNumber) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementPnBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -88,18 +88,15 @@ namespace ProjectFirmaModels.Models
             this.FiscalQuarter = fiscalQuarter;
             fiscalQuarter.WbsElementPnBudgets.Add(this);
             this.FiscalYear = fiscalYear;
-            this.CommitmentItemID = commitmentItem.CommitmentItemID;
-            this.CommitmentItem = commitmentItem;
-            commitmentItem.WbsElementPnBudgets.Add(this);
             this.FIDocNumber = fIDocNumber;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static WbsElementPnBudget CreateNewBlank(WbsElement wbsElement, PnBudgetFundType pnBudgetFundType, FundingSource fundingSource, FiscalQuarter fiscalQuarter, CommitmentItem commitmentItem)
+        public static WbsElementPnBudget CreateNewBlank(WbsElement wbsElement, PnBudgetFundType pnBudgetFundType, FundingSource fundingSource, FiscalQuarter fiscalQuarter)
         {
-            return new WbsElementPnBudget(wbsElement, pnBudgetFundType, fundingSource, default(string), fiscalQuarter, default(int), commitmentItem, default(string));
+            return new WbsElementPnBudget(wbsElement, pnBudgetFundType, fundingSource, default(string), fiscalQuarter, default(int), default(string));
         }
 
         /// <summary>
@@ -143,7 +140,8 @@ namespace ProjectFirmaModels.Models
         public string FundsCenter { get; set; }
         public int FiscalQuarterID { get; set; }
         public int FiscalYear { get; set; }
-        public int CommitmentItemID { get; set; }
+        public int? CommitmentItemID { get; set; }
+        public int? BudgetObjectCodeID { get; set; }
         public string FIDocNumber { get; set; }
         public double? Recoveries { get; set; }
         public double? CommittedButNotObligated { get; set; }
@@ -159,6 +157,7 @@ namespace ProjectFirmaModels.Models
         public virtual FundingSource FundingSource { get; set; }
         public virtual FiscalQuarter FiscalQuarter { get; set; }
         public virtual CommitmentItem CommitmentItem { get; set; }
+        public virtual BudgetObjectCode BudgetObjectCode { get; set; }
 
         public static class FieldLengths
         {

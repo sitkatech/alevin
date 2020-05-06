@@ -97,7 +97,7 @@ insert into ImportFinancial.WbsElementPnBudget (WbsElementID,
                                                 FundsCenter,
                                                 FiscalQuarterID,
                                                 FiscalYear,
-                                                CommitmentItemID,
+                                                BudgetObjectCodeID,
                                                 FIDocNumber,
                                                 Recoveries,
                                                 CommittedButNotObligated,
@@ -117,7 +117,7 @@ select
     --ipn.FiscalYearPeriod,
     fq.FiscalQuarterID,
     substring(ipn.FiscalYearPeriod, 5, 4) as FiscalYear,
-    ci.CommitmentItemID,
+    dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalDate(ipn.CommitmentItem, convert(int,substring(ipn.FiscalYearPeriod, 5, 4))) as BudgetObjectCodeID,
     ipn.FiDocNumber,
     ipn.Recoveries,
     ipn.CommittedButNotObligated,
@@ -131,7 +131,10 @@ left join Reclamation.CostAuthority as ca on wbs.WbsElementKey = ca.CostAuthorit
 inner join ImportFinancial.PnBudgetFundType as pnft on ipn.FundType = pnft.PnBudgetFundTypeDisplayName
 inner join dbo.FundingSource as fs on ipn.Fund = fs.FundingSourceName
 inner join ImportFinancial.FiscalQuarter as fq on convert(INT, substring(ipn.FiscalYearPeriod, 3, 1)) + 1 = fq.FiscalQuarterNumber
-inner join ImportFinancial.CommitmentItem as ci on ipn.CommitmentItem = ci.CommitmentItemName
+
+
+--inner join ImportFinancial.CommitmentItem as ci on ipn.CommitmentItem = ci.CommitmentItemName
+
 
 --select * from Reclamation.CostAuthority
 --select * from ImportFinancial.WbsElement
