@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [ImportFinancial].[ImpApGenSheet](
-	[impApGenSheetID] [int] IDENTITY(1,1) NOT NULL,
+	[ImpApGenSheetID] [int] IDENTITY(1,1) NOT NULL,
 	[PONumberKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PurchOrdLineItmKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ReferenceKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -19,8 +19,8 @@ CREATE TABLE [ImportFinancial].[ImpApGenSheet](
 	[DebitCreditTotal] [float] NULL,
 	[CreatedOnKey] [datetime] NULL,
 	[PostingDateKey] [datetime] NULL,
- CONSTRAINT [PK_impApGenSheet_impApGenSheetID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_ImpApGenSheet_ImpApGenSheetID] PRIMARY KEY CLUSTERED 
 (
-	[impApGenSheetID] ASC
+	[ImpApGenSheetID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]

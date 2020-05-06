@@ -3,7 +3,7 @@ GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [ImportFinancial].[ImpPayrecV3](
-	[impPayRecV3ID] [int] IDENTITY(1,1) NOT NULL,
+	[ImpPayRecV3ID] [int] IDENTITY(1,1) NOT NULL,
 	[BusinessAreaKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[FABudgetActivityKey] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[FunctionalAreaText] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
@@ -26,8 +26,8 @@ CREATE TABLE [ImportFinancial].[ImpPayrecV3](
 	[PostingDateKey] [datetime] NULL,
 	[PostingDatePerSplKey] [datetime] NULL,
 	[DocumentDateOfBlKey] [datetime] NULL,
- CONSTRAINT [PK_impPayRecV3_impPayRecV3ID] PRIMARY KEY CLUSTERED 
+ CONSTRAINT [PK_ImpPayRecV3_ImpPayRecV3ID] PRIMARY KEY CLUSTERED 
 (
-	[impPayRecV3ID] ASC
+	[ImpPayRecV3ID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
