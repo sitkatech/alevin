@@ -18,8 +18,8 @@ begin
 end
 
     -- TODO: A sanity check that there are actually records to import
-    delete from ImportFinancial.impApGenSheet
-    INSERT INTO [ImportFinancial].[impApGenSheet]
+    delete from ImportFinancial.ImpApGenSheet
+    INSERT INTO [ImportFinancial].[ImpApGenSheet]
                (
                 PONumberKey
                ,PurchOrdLineItmKey
@@ -121,7 +121,7 @@ end
 			coalesce(pr.WBSElementText, ap.WBSElementText) as WbsElementText
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.WBSElementKey = ap.WBSElementKey
+		full outer join ImportFinancial.ImpApGenSheet as ap on pr.WBSElementKey = ap.WBSElementKey
 	where
 		pr.WBSElementKey != '#'
 
@@ -150,7 +150,7 @@ end
 			coalesce(pr.VendorText, ap.VendorText) as VendorText
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.VendorKey = ap.VendorKey
+		full outer join ImportFinancial.ImpApGenSheet as ap on pr.VendorKey = ap.VendorKey
 	where
         -- These are unassigned/blank vendors; see above
 		pr.VendorKey != '#'
@@ -161,7 +161,7 @@ end
 			coalesce(pr.ObligationNumberKey , ap.PONumberKey) as ObligationNumberKey
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
+		full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
 
     update ImportFinancial.ObligationNumber
     set ReclamationAgreementID = rca.AgreementID
@@ -177,7 +177,7 @@ end
                       (select VendorID from ImportFinancial.Vendor as v where v.VendorKey = ap.VendorKey))) as VendorID
 	from
 		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.impApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
+		full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
 
 
     -- Temp table to help with BOC FBMS years for impPayRecV3
@@ -255,15 +255,15 @@ end
     --select * from Reclamation.CostAuthority where CostAuthorityWorkBreakdownStructure = 'RX.16786820.3000100'
     
 
-    -- Temp table to help with BOC FBMS years for impApGenSheet
-    DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_impApGenSheet
+    -- Temp table to help with BOC FBMS years for ImpApGenSheet
+    DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_ImpApGenSheet
 
     select boc.BudgetObjectCodeID,
            boc.BudgetObjectCodeName,
            --boq.pr_CleanedBudgetObjectCode,
            boq.PossiblyDirtyBudgetObjectClassKey,
            boq.FbmsYear
-    into #BudgetObjectCodesFbmsYear_impApGenSheet
+    into #BudgetObjectCodesFbmsYear_ImpApGenSheet
     from
     (
         select
@@ -277,7 +277,7 @@ end
                     -- Otherwise, default to the latest year
                     (select MAX(boc.FbmsYear) from Reclamation.BudgetObjectCode as boc)
                     ) as FbmsYear
-        from ImportFinancial.impApGenSheet as pr
+        from ImportFinancial.ImpApGenSheet as pr
     ) as boq
     join Reclamation.BudgetObjectCode as boc on boq.pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName and boq.FbmsYear = boc.FbmsYear
     order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
@@ -327,8 +327,8 @@ end
            bocyear.BudgetObjectCodeID,
            f.FundingSourceID
        from
-          ImportFinancial.impApGenSheet as ap
-          join #BudgetObjectCodesFbmsYear_impApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
+          ImportFinancial.ImpApGenSheet as ap
+          join #BudgetObjectCodesFbmsYear_ImpApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
           join dbo.FundingSource as f on REPLACE(ap.FundKey, '1400/', '') = f.FundingSourceName
        where
          ap.WBSElementKey != '#'
