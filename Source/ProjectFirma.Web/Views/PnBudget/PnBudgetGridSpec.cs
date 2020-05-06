@@ -23,7 +23,8 @@ namespace ProjectFirma.Web.Views.PnBudget
             Add("Funds Center", pnb => pnb.FundsCenter, 100, DhtmlxGridColumnFilterType.Text);
             Add("Fiscal Quarter", pnb => pnb.FiscalQuarter.FiscalQuarterDisplayName, 125, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Fiscal Year", pnb => pnb.FiscalYear.ToString(), 50, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Commitment Item", pnb => pnb.CommitmentItem.CommitmentItemName, 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Budget Object Code", pnb => UrlTemplate.MakeHrefString(pnb.BudgetObjectCode?.GetDetailUrl(), pnb.BudgetObjectCode?.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Budget Object Code FBMS Year", pnb => pnb.BudgetObjectCode?.FbmsYear.ToString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("FIDoc Number", pnb => pnb.FIDocNumber, 75, DhtmlxGridColumnFilterType.Text);
             Add("Recoveries", pnb => pnb.Recoveries.ToStringCurrency(), 100, DhtmlxGridColumnFilterType.Numeric);
             Add("Committed But Not Obligated", pnb => pnb.CommittedButNotObligated.ToStringCurrency(), 100, DhtmlxGridColumnFilterType.Numeric);

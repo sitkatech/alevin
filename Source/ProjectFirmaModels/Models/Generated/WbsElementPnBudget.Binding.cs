@@ -30,7 +30,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int? costAuthorityID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int? commitmentItemID, int? budgetObjectCodeID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
+        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int? costAuthorityID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int? budgetObjectCodeID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
         {
             this.WbsElementPnBudgetID = wbsElementPnBudgetID;
             this.WbsElementID = wbsElementID;
@@ -40,7 +40,6 @@ namespace ProjectFirmaModels.Models
             this.FundsCenter = fundsCenter;
             this.FiscalQuarterID = fiscalQuarterID;
             this.FiscalYear = fiscalYear;
-            this.CommitmentItemID = commitmentItemID;
             this.BudgetObjectCodeID = budgetObjectCodeID;
             this.FIDocNumber = fIDocNumber;
             this.Recoveries = recoveries;
@@ -140,7 +139,6 @@ namespace ProjectFirmaModels.Models
         public string FundsCenter { get; set; }
         public int FiscalQuarterID { get; set; }
         public int FiscalYear { get; set; }
-        public int? CommitmentItemID { get; set; }
         public int? BudgetObjectCodeID { get; set; }
         public string FIDocNumber { get; set; }
         public double? Recoveries { get; set; }
@@ -156,7 +154,6 @@ namespace ProjectFirmaModels.Models
         public virtual PnBudgetFundType PnBudgetFundType { get; set; }
         public virtual FundingSource FundingSource { get; set; }
         public virtual FiscalQuarter FiscalQuarter { get; set; }
-        public virtual CommitmentItem CommitmentItem { get; set; }
         public virtual BudgetObjectCode BudgetObjectCode { get; set; }
 
         public static class FieldLengths

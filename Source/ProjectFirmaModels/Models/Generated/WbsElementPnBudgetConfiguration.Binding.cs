@@ -23,7 +23,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FundsCenter).HasColumnName(@"FundsCenter").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(10);
             Property(x => x.FiscalQuarterID).HasColumnName(@"FiscalQuarterID").HasColumnType("int").IsRequired();
             Property(x => x.FiscalYear).HasColumnName(@"FiscalYear").HasColumnType("int").IsRequired();
-            Property(x => x.CommitmentItemID).HasColumnName(@"CommitmentItemID").HasColumnType("int").IsOptional();
             Property(x => x.BudgetObjectCodeID).HasColumnName(@"BudgetObjectCodeID").HasColumnType("int").IsOptional();
             Property(x => x.FIDocNumber).HasColumnName(@"FIDocNumber").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.Recoveries).HasColumnName(@"Recoveries").HasColumnType("float").IsOptional();
@@ -38,7 +37,6 @@ namespace ProjectFirmaModels.Models
             HasRequired(a => a.PnBudgetFundType).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.PnBudgetFundTypeID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_PnBudgetFundType_PnBudgetFundTypeID
             HasRequired(a => a.FundingSource).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.FundingSourceID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_FundingSource_FundingSourceID
             HasRequired(a => a.FiscalQuarter).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.FiscalQuarterID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_FiscalQuarter_FiscalQuarterID
-            HasOptional(a => a.CommitmentItem).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.CommitmentItemID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_CommitmentItem_CommitmentItemID
             HasOptional(a => a.BudgetObjectCode).WithMany(b => b.WbsElementPnBudgets).HasForeignKey(c => c.BudgetObjectCodeID).WillCascadeOnDelete(false); // FK_WbsElementPnBudget_BudgetObjectCode_BudgetObjectCodeID
         }
     }

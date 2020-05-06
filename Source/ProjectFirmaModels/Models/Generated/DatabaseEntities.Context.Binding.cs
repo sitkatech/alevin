@@ -180,7 +180,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new tmpFishProject2DissolveConfiguration());
             modelBuilder.Configurations.Add(new tmpFishProject2PopulationDissolveConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
-            modelBuilder.Configurations.Add(new CommitmentItemConfiguration());
             modelBuilder.Configurations.Add(new FiscalQuarterConfiguration());
             modelBuilder.Configurations.Add(new ImpApGenSheetConfiguration());
             modelBuilder.Configurations.Add(new ImpPayrecV3Configuration());
@@ -268,7 +267,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<Classification> Classifications { get { return AllClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ClassificationSystem> AllClassificationSystems { get; set; }
         public virtual IQueryable<ClassificationSystem> ClassificationSystems { get { return AllClassificationSystems.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<CommitmentItem> CommitmentItems { get; set; }
         public virtual DbSet<ContactRelationshipType> AllContactRelationshipTypes { get; set; }
         public virtual IQueryable<ContactRelationshipType> ContactRelationshipTypes { get { return AllContactRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ContractType> ContractTypes { get; set; }
@@ -649,9 +647,6 @@ namespace ProjectFirmaModels.Models
 
                 case "ClassificationSystem":
                     return ClassificationSystems.GetClassificationSystem(primaryKey);
-
-                case "CommitmentItem":
-                    return CommitmentItems.GetCommitmentItem(primaryKey);
 
                 case "ContactRelationshipType":
                     return ContactRelationshipTypes.GetContactRelationshipType(primaryKey);

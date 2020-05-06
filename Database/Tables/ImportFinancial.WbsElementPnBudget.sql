@@ -11,7 +11,6 @@ CREATE TABLE [ImportFinancial].[WbsElementPnBudget](
 	[FundsCenter] [varchar](10) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[FiscalQuarterID] [int] NOT NULL,
 	[FiscalYear] [int] NOT NULL,
-	[CommitmentItemID] [int] NULL,
 	[BudgetObjectCodeID] [int] NULL,
 	[FIDocNumber] [varchar](200) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[Recoveries] [float] NULL,
@@ -30,11 +29,6 @@ ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [
 REFERENCES [Reclamation].[BudgetObjectCode] ([BudgetObjectCodeID])
 GO
 ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudget_BudgetObjectCode_BudgetObjectCodeID]
-GO
-ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementPnBudget_CommitmentItem_CommitmentItemID] FOREIGN KEY([CommitmentItemID])
-REFERENCES [ImportFinancial].[CommitmentItem] ([CommitmentItemID])
-GO
-ALTER TABLE [ImportFinancial].[WbsElementPnBudget] CHECK CONSTRAINT [FK_WbsElementPnBudget_CommitmentItem_CommitmentItemID]
 GO
 ALTER TABLE [ImportFinancial].[WbsElementPnBudget]  WITH CHECK ADD  CONSTRAINT [FK_WbsElementPnBudget_FiscalQuarter_FiscalQuarterID] FOREIGN KEY([FiscalQuarterID])
 REFERENCES [ImportFinancial].[FiscalQuarter] ([FiscalQuarterID])
