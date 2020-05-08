@@ -19,7 +19,7 @@ namespace ProjectFirma.Web.Models
 
 
         // Budgets
-        public static List<ProjectNoFundingSourceCostTypeAmount> CreateFromProjectFundingSourceBudgets(List<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds)
+        public static List<ProjectNoFundingSourceCostTypeAmount> CreateFromProjectNoFundingSourceIdentifieds(List<ProjectNoFundingSourceIdentified> projectNoFundingSourceIdentifieds)
         {
             var projectNoFundingSourceCostTypeAmounts = new List<ProjectNoFundingSourceCostTypeAmount>();
             foreach (var projectNoFundingSourceIdentified in projectNoFundingSourceIdentifieds)
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Models
             }
             return projectNoFundingSourceCostTypeAmounts;
         }
-        public static List<ProjectNoFundingSourceCostTypeAmount> CreateFromProjectFundingSourceBudgets(List<ProjectNoFundingSourceIdentifiedUpdate> projectNoFundingSourceIdentifiedUpdates)
+        public static List<ProjectNoFundingSourceCostTypeAmount> CreateFromProjectNoFundingSourceIdentifieds(List<ProjectNoFundingSourceIdentifiedUpdate> projectNoFundingSourceIdentifiedUpdates)
         {
             var projectNoFundingSourceCostTypeAmounts = new List<ProjectNoFundingSourceCostTypeAmount>();
             // Get Secured and Targeted amounts for each FundingSource/CostType/Year

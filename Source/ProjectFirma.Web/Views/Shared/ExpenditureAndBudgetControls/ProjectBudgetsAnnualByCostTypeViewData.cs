@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForObligatedFunding { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForExpendedFunding { get; }
 
-        public ProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentFirmaSession)
+        public ProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, List<ProjectNoFundingSourceCostTypeAmount> projectNoFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentFirmaSession)
         {
             Project = project;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
@@ -68,6 +68,8 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             calendarYears.AddRange(usedCalendarYears);
             calendarYears.Sort();
             CalendarYears = calendarYears;
+
+            ProjectNoFundingSourceCostTypeAmounts = projectNoFundingSourceCostTypeAmounts;
 
             ExpectedFundingUpdateNote = expectedFundingUpdateNote;
             ObligationItemBudgetRollUps = project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();
