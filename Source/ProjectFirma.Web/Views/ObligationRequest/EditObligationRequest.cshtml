@@ -120,26 +120,6 @@
 
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(m => m.RecipientOrganizationID)
-                    </div>
-                    <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.RecipientOrganizationID, ViewDataTyped.Organizations, new { @class = "form-control selectpicker recipient-organization-class", @data_container = ".modal-content", @data_live_search = "true" })
-                        @Html.ValidationMessageFor(m => m.RecipientOrganizationID)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">
-                        @Html.LabelWithSugarFor(m => m.TechnicalRepresentativePersonID)
-                    </div>
-                    <div class="col-sm-8">
-                        @Html.DropDownListFor(m => m.TechnicalRepresentativePersonID, ViewDataTyped.People, new { @class = "form-control selectpicker technical-representative-class", @data_container = ".modal-content", @data_live_search = "true" })
-                        @Html.ValidationMessageFor(m => m.TechnicalRepresentativePersonID)
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(x => x.TargetAwardDate)
                     </div>
                     <div class="col-sm-8">
@@ -255,34 +235,7 @@
 
         });
 
-        jQuery("#@Html.IdFor(m => m.AgreementID)").change(function () {
-            var selectedAgreementID = jQuery(this).val();
-            var recipientOrganization = jQuery("#@Html.IdFor(m => m.RecipientOrganizationID)");
-            var technicalRepresentative = jQuery("#@Html.IdFor(m => m.TechnicalRepresentativePersonID)");
-            if (selectedAgreementID != "") {
-                var agreementOrganization = obligationRequestJsons[selectedAgreementID].OrganizationID;
-                if (agreementOrganization != "" && agreementOrganization != null)
-                {
-                    var orgtext = jQuery("select[name=@Html.NameFor(m => m.RecipientOrganizationID)] option[value='" + agreementOrganization + "']").text();
-                    jQuery('.recipient-organization-class .filter-option').text(orgtext);
-                    jQuery('.recipient-organization-class .filter-option').css("color", "#333");
-                    recipientOrganization.val(agreementOrganization);
-                }
-
-                var agreementTechnicalRepresentative = obligationRequestJsons[selectedAgreementID].TechnicalRepresentativeID;
-                console.log(agreementTechnicalRepresentative);
-                if (agreementTechnicalRepresentative != "" && agreementTechnicalRepresentative != null)
-                {
-                    var repText = jQuery("select[name=@Html.NameFor(m => m.TechnicalRepresentativePersonID)] option[value='" + agreementTechnicalRepresentative + "']").text();
-                    if (repText != null && repText != "") {
-                        jQuery('.technical-representative-class .filter-option').text(repText);
-                        jQuery('.technical-representative-class .filter-option').css("color", "#333");
-                        technicalRepresentative.val(agreementTechnicalRepresentative);
-                    }
-                }
-            }
-        });
-
+      
         var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]');
         var value = false;
         radio.each(function () {

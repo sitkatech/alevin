@@ -235,4 +235,6 @@ VALUES
 (10049, N'Vendor', N'Vendor'),
 (10050, N'ProjectedFunding', N'Projected Funding'),
 (10051, N'ObligatedFunding', N'Obligated Funding'),
-(10052, N'ExpendedFunding', N'Expended Funding')
+(10052, N'ExpendedFunding', N'Expended Funding'),
+(10053, N'PnBudget', N'PnBudget'),
+(10054, N'BudgetObjectCode', N'Budget Object Code')

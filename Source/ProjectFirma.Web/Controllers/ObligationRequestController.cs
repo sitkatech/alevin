@@ -67,7 +67,10 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditCostAuthorityObligationRequest(CostAuthorityObligationRequest costAuthorityObligationRequest, EditCostAuthorityObligationRequestViewModel viewModel, FirmaPage firmaPage)
         {
             var projectStatusFirmaPage = firmaPage;
-            var viewData = new EditCostAuthorityObligationRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, costAuthorityObligationRequest.ObligationRequest);
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList();
+            var allBudgetObjectCodes = HttpRequestStorage.DatabaseEntities.BudgetObjectCodes.ToList();
+            var viewData = new EditCostAuthorityObligationRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, costAuthorityObligationRequest.ObligationRequest, allOrganizations, allPeople, allBudgetObjectCodes);
             return RazorPartialView<EditCostAuthorityObligationRequest, EditCostAuthorityObligationRequestViewData, EditCostAuthorityObligationRequestViewModel>(viewData, viewModel);
         }
 
@@ -88,9 +91,7 @@ namespace ProjectFirma.Web.Controllers
             var allContractTypes = HttpRequestStorage.DatabaseEntities.ContractTypes.ToList();
             var allRequestStatuses = ObligationRequestStatus.All;
             var allFundingPriorities = ObligationRequestFundingPriority.All;
-            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
-            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList();
-            var viewData = new EditObligationRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allAgreements,allContractTypes, allRequestStatuses, allFundingPriorities, allOrganizations, allPeople );
+            var viewData = new EditObligationRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allAgreements,allContractTypes, allRequestStatuses, allFundingPriorities );
             return RazorPartialView<EditObligationRequest, EditObligationRequestViewData, EditObligationRequestViewModel>(viewData, viewModel);
         }
 
@@ -108,7 +109,10 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditCostAuthorityObligationRequests(ObligationRequest obligationRequest, EditCostAuthorityObligationRequestsViewModel viewModel, FirmaPage firmaPage)
         {
             var allCostAuthorities= HttpRequestStorage.DatabaseEntities.CostAuthorities.ToList();
-            var viewData = new EditCostAuthorityObligationRequestsViewData(firmaPage, CurrentFirmaSession, allCostAuthorities, obligationRequest);
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList();
+            var allPeople = HttpRequestStorage.DatabaseEntities.People.ToList();
+            var allBudgetObjectCodes = HttpRequestStorage.DatabaseEntities.BudgetObjectCodes.ToList();
+            var viewData = new EditCostAuthorityObligationRequestsViewData(firmaPage, CurrentFirmaSession, allCostAuthorities, obligationRequest, allOrganizations, allPeople, allBudgetObjectCodes);
             return RazorPartialView<EditCostAuthorityObligationRequests, EditCostAuthorityObligationRequestsViewData, EditCostAuthorityObligationRequestsViewModel>(viewData, viewModel);
         }
 
@@ -138,6 +142,9 @@ namespace ProjectFirma.Web.Controllers
                         {
                             ProjectedObligation = costAuthorityJson.ProjectedObligation
                             , CostAuthorityObligationRequestNote = costAuthorityJson.Note
+                            , TechnicalRepresentativePersonID = costAuthorityJson.TechnicalRepresentativePersonID
+                            , RecipientOrganizationID = costAuthorityJson.RecipientOrganizationID
+                            , BudgetObjectCodeID = costAuthorityJson.BudgetObjectCodeID
                         };
                     reclamationObligationRequest.CostAuthorityObligationRequests.Add(newCostAuthorityReclamationAgreement);
                 }

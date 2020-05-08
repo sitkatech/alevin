@@ -22,8 +22,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ObligationRequestStatusID).HasColumnName(@"ObligationRequestStatusID").HasColumnType("int").IsRequired();
             Property(x => x.DescriptionOfNeed).HasColumnName(@"DescriptionOfNeed").HasColumnType("nvarchar").IsRequired().HasMaxLength(250);
             Property(x => x.ReclamationObligationRequestFundingPriorityID).HasColumnName(@"ReclamationObligationRequestFundingPriorityID").HasColumnType("int").IsOptional();
-            Property(x => x.RecipientOrganizationID).HasColumnName(@"RecipientOrganizationID").HasColumnType("int").IsOptional();
-            Property(x => x.TechnicalRepresentativePersonID).HasColumnName(@"TechnicalRepresentativePersonID").HasColumnType("int").IsOptional();
             Property(x => x.TargetAwardDate).HasColumnName(@"TargetAwardDate").HasColumnType("datetime").IsOptional();
             Property(x => x.PALT).HasColumnName(@"PALT").HasColumnType("int").IsOptional();
             Property(x => x.TargetSubmittalDate).HasColumnName(@"TargetSubmittalDate").HasColumnType("datetime").IsOptional();
@@ -42,8 +40,6 @@ namespace ProjectFirmaModels.Models
             // Foreign keys
             HasOptional(a => a.Agreement).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_ObligationRequest_Agreement_AgreementID
             HasRequired(a => a.ContractType).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_ObligationRequest_ContractType_ContractTypeID
-            HasOptional(a => a.RecipientOrganization).WithMany(b => b.ObligationRequestsWhereYouAreTheRecipientOrganization).HasForeignKey(c => c.RecipientOrganizationID).WillCascadeOnDelete(false); // FK_ObligationRequest_Organization_RecipientOrganizationID_OrganizationID
-            HasOptional(a => a.TechnicalRepresentativePerson).WithMany(b => b.ObligationRequestsWhereYouAreTheTechnicalRepresentativePerson).HasForeignKey(c => c.TechnicalRepresentativePersonID).WillCascadeOnDelete(false); // FK_ObligationRequest_Person_TechnicalRepresentativePersonID_PersonID
             HasRequired(a => a.CreatePerson).WithMany(b => b.ObligationRequestsWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_ObligationRequest_Person_CreatePersonID_PersonID
             HasOptional(a => a.UpdatePerson).WithMany(b => b.ObligationRequestsWhereYouAreTheUpdatePerson).HasForeignKey(c => c.UpdatePersonID).WillCascadeOnDelete(false); // FK_ObligationRequest_Person_UpdatePersonID_PersonID
         }

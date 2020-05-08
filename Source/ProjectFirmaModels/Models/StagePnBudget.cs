@@ -16,9 +16,9 @@ public readonly double? TotalExpenditures;
 public readonly double? UndeliveredOrders;
      */
 
-    public partial class StagePnBudget : IAuditableEntity
+    public partial class StageImpPnBudget : IAuditableEntity
     {
-        public StagePnBudget(PnBudgetsStageImport pnBudgetsStageImport)
+        public StageImpPnBudget(PnBudgetsStageImport pnBudgetsStageImport)
         {
             this.FundedProgram = pnBudgetsStageImport.FundedProgram;
             this.FundType = pnBudgetsStageImport.FundType;
@@ -36,7 +36,7 @@ public readonly double? UndeliveredOrders;
 
         public string GetAuditDescriptionString()
         {
-            return this.StagePnBudgetID.ToString();
+            return this.StageImpPnBudgetID.ToString();
         }
     }
 }

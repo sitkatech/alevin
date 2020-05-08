@@ -39,16 +39,24 @@ namespace ProjectFirma.Web.Views.ObligationRequest
 
         public ViewPageContentViewData ProjectStatusFirmaPage { get; }
         public ProjectFirmaModels.Models.ObligationRequest ObligationRequest { get; set; }
-        
+        public IEnumerable<SelectListItem> Organizations { get; }
+        public IEnumerable<SelectListItem> People { get; }
+        public IEnumerable<SelectListItem> BudgetObjectCodes { get; }
 
         public EditCostAuthorityObligationRequestViewData(
              ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
             , FirmaSession currentFirmaSession
             , ProjectFirmaModels.Models.ObligationRequest obligationRequest
+             , List<ProjectFirmaModels.Models.Organization> allOrganizations
+             , List<Person> allPeople
+             , List<ProjectFirmaModels.Models.BudgetObjectCode> allBudgetObjectCodes
             ) : base(currentFirmaSession)
         {
             ProjectStatusFirmaPage = new ViewPageContentViewData(projectStatusFirmaPage, currentFirmaSession);
             ObligationRequest = obligationRequest;
+            Organizations = allOrganizations.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(), x => x.GetDisplayName());
+            People = allPeople.OrderBy(x => x.GetFullNameFirstLast()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLast());
+            BudgetObjectCodes = allBudgetObjectCodes.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.BudgetObjectCodeID.ToString(), x => x.GetDisplayName());
         }
     }
 }
