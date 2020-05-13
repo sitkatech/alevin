@@ -930,7 +930,7 @@ namespace ProjectFirma.Web.Models
                 int projectCount = 0;
                 typeToProjectOrg.ForEach(x =>
                 {
-                    targetedAmount += x.Project.GetProjectedFunding() ?? 0;
+                    targetedAmount += x.Project.GetProjectedFunding();
                     noFundingSourceAmount += x.Project.GetNoFundingSourceIdentifiedAmountOrZero();
                     projectCount++;
                 });

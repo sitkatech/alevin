@@ -42,11 +42,11 @@ namespace ProjectFirmaModels.Models
 
         decimal? GetEstimatedTotalRegardlessOfFundingType();
         IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes();
-
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();
-
         IEnumerable<IProjectLocation> GetProjectLocationDetails();
         DbGeometry GetDefaultBoundingBox();
         IEnumerable<GeospatialArea> GetProjectGeospatialAreas();
+        decimal GetProjectedFunding();
+        decimal GetNoFundingSourceIdentifiedAmountOrZero();
     }
 }
