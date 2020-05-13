@@ -18,6 +18,7 @@ namespace ProjectFirma.Web.Models
 
         private List<IProjectTimelineEvent> TimelineEvents { get; }
         public const string DisplayClass = "open";
+        public bool UsesFiscalYears { get; }
 
         public ProjectTimeline(Project project, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
         {
@@ -27,6 +28,7 @@ namespace ProjectFirma.Web.Models
             AddProjectApprovalEventToTimelineIfExists();
             TimelineEvents.AddRange(GetTimelineUpdateEvents(Project));
             TimelineEvents.AddRange(GetTimelineProjectStatusChangeEvents(Project, canEditProjectProjectStatus, canEditFinalStatusReport));
+            UsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
 
         private void AddProjectApprovalEventToTimelineIfExists()
@@ -76,9 +78,11 @@ namespace ProjectFirma.Web.Models
         // this hopefully return some sort of grouped list for display
         public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
         {
+            var startDate = MultiTenantHelpers.GetStartDayOfReportingYear();
+            var startMonth = startDate.Month;
             var timelineEventsGrouped = TimelineEvents
                 .OrderByDescending(a => a.Date)
-                .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.Year }).ToList()
+                .GroupBy(x => new DayGroup{ Day = x.Date.Day, Month = x.Date.Month, Quarter = x.Quarter, Year = x.Date.GetFiscalYearFromStartMonth((DateUtilities.Month)startMonth) }).ToList()
                 .GroupBy(y => new QuarterGroup{ Quarter = y.Key.Quarter, Year = y.Key.Year }).ToList()
                 .GroupBy(z => new YearGroup {Year = z.Key.Year })
                 .ToList();
@@ -89,14 +93,14 @@ namespace ProjectFirma.Web.Models
         public struct DayGroup
         {
             public int Day;
-            public CalendarQuarter Quarter;
+            public Quarter Quarter;
             public int Month;
             public int Year;
         }
 
         public struct QuarterGroup
         {
-            public CalendarQuarter Quarter;
+            public Quarter Quarter;
             public int Year;
         }
 
@@ -158,7 +162,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
+        public int? FiscalYear { get; }
+        public Quarter Quarter { get; }
      
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
@@ -180,7 +185,8 @@ namespace ProjectFirma.Web.Models
             }
             Date = (DateTime)project.SubmissionDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Create;
             TimelineEventTypeDisplayName = "Created";
             TimelineEventPersonDisplayName = project.ProposingPerson.GetPersonDisplayNameWithContactTypesListForProject(project);
@@ -197,7 +203,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
+        public int? FiscalYear { get; }
+        public Quarter Quarter { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
@@ -214,7 +221,8 @@ namespace ProjectFirma.Web.Models
         {
             Date = projectProjectStatus.ProjectProjectStatusUpdateDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
             TimelineEventTypeDisplayName = projectProjectStatus.IsFinalStatusUpdate ? "Final Status Update" : "Status Updated";
             TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectProjectStatus.Project);
@@ -232,8 +240,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
-        public int Year { get; }
+        public Quarter Quarter { get; }
+        public int? FiscalYear { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
@@ -253,7 +261,8 @@ namespace ProjectFirma.Web.Models
             }
             Date = (DateTime)project.ApprovalDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter((DateTime)Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
             TimelineEventPersonDisplayName = project.ReviewedByPerson?.GetPersonDisplayNameWithContactTypesListForProject(project);
@@ -270,7 +279,8 @@ namespace ProjectFirma.Web.Models
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
-        public CalendarQuarter Quarter { get; }
+        public int? FiscalYear { get; }
+        public Quarter Quarter { get; }
         public ProjectTimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
@@ -288,7 +298,8 @@ namespace ProjectFirma.Web.Models
 
             Date = approvedProjectUpdateHistory.TransitionDate;
             DateDisplay = Date.ToString("MMM dd, yyyy");
-            Quarter = FirmaDateUtilities.CalculateCalendarQuarter(Date);
+            FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
+            Quarter = (Quarter) FirmaDateUtilities.CalculateQuarterForTenant(Date);
             ProjectTimelineEventType = ProjectTimelineEventType.Update;
             TimelineEventTypeDisplayName = "Update";
             TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectUpdateBatch.Project);
@@ -306,7 +317,8 @@ namespace ProjectFirma.Web.Models
     {
         DateTime Date { get; }
         string DateDisplay { get; }
-        CalendarQuarter Quarter { get; }
+        int? FiscalYear { get; }
+        Quarter Quarter { get; }
         ProjectTimelineEventType ProjectTimelineEventType { get; }
         string TimelineEventTypeDisplayName { get; }
         HtmlString TimelineEventPersonDisplayName { get; }

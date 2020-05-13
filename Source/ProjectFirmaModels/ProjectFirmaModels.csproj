@@ -162,6 +162,16 @@
     <Compile Include="Models\Generated\DepartmentCode.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\DepartmentCodeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\DepartmentCodePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentCategory.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentCategoryPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibrary.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibrary.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategory.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategory.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategoryConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryDocumentCategoryPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\DocumentLibraryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Evaluation.Binding.cs" />
     <Compile Include="Models\Generated\Evaluation.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\EvaluationConfiguration.Binding.cs" />
@@ -900,6 +910,10 @@
     <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
+    <Compile Include="Models\CustomPageSimple.cs" />
+    <Compile Include="Models\DocumentCategory.cs" />
+    <Compile Include="Models\DocumentLibrary.cs" />
+    <Compile Include="Models\DocumentLibraryDocumentCategory.cs" />
     <Compile Include="Models\BudgetObjectCodeGroup.cs" />
     <Compile Include="Models\ExcelUpload\PnBudgetsStageImports.cs" />
     <Compile Include="Models\ExcelUpload\PnBudgetsStageImport.cs" />

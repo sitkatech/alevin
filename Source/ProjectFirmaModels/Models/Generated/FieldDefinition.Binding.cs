@@ -300,6 +300,8 @@ namespace ProjectFirmaModels.Models
         IsContactRelationshipTypeRequired = 350,
         IsOrganizationRelationshipTypeRequired = 351,
         SyncWithKeystoneOnSave = 352,
+        DocumentLibraryName = 353,
+        KMZFile = 354,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
