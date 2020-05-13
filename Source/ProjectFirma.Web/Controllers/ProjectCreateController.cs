@@ -1435,6 +1435,7 @@ namespace ProjectFirma.Web.Controllers
             var project = projectPrimaryKey.EntityObject;
             project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
             project.SubmissionDate = DateTime.Now;
+            project.SubmittedByPerson = CurrentPerson;
             NotificationProjectModelExtensions.SendSubmittedMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully submitted for review.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
