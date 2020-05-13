@@ -22,7 +22,6 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasRequired(a => a.DocumentLibrary).WithMany(b => b.DocumentLibraryDocumentCategories).HasForeignKey(c => c.DocumentLibraryID).WillCascadeOnDelete(false); // FK_DocumentLibraryDocumentCategory_DocumentLibrary_DocumentLibraryID
-            HasRequired(a => a.DocumentCategory).WithMany(b => b.DocumentLibraryDocumentCategories).HasForeignKey(c => c.DocumentCategoryID).WillCascadeOnDelete(false); // FK_DocumentLibraryDocumentCategory_DocumentCategory_DocumentCategoryID
         }
     }
 }

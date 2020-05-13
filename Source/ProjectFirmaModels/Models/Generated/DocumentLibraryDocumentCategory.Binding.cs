@@ -60,8 +60,6 @@ namespace ProjectFirmaModels.Models
             this.DocumentLibrary = documentLibrary;
             documentLibrary.DocumentLibraryDocumentCategories.Add(this);
             this.DocumentCategoryID = documentCategory.DocumentCategoryID;
-            this.DocumentCategory = documentCategory;
-            documentCategory.DocumentLibraryDocumentCategories.Add(this);
         }
 
         /// <summary>
@@ -114,7 +112,7 @@ namespace ProjectFirmaModels.Models
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual DocumentLibrary DocumentLibrary { get; set; }
-        public virtual DocumentCategory DocumentCategory { get; set; }
+        public DocumentCategory DocumentCategory { get { return DocumentCategory.AllLookupDictionary[DocumentCategoryID]; } }
 
         public static class FieldLengths
         {

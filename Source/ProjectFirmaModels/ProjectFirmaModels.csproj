@@ -163,8 +163,6 @@
     <Compile Include="Models\Generated\DepartmentCodeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\DepartmentCodePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DocumentCategory.Binding.cs" />
-    <Compile Include="Models\Generated\DocumentCategory.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\DocumentCategoryConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\DocumentCategoryPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\DocumentLibrary.Binding.cs" />
     <Compile Include="Models\Generated\DocumentLibrary.DatabaseContextExtensions.cs" />

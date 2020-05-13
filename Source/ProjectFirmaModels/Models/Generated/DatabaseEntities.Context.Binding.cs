@@ -56,7 +56,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new CountyConfiguration());
             modelBuilder.Configurations.Add(new CustomPageConfiguration());
             modelBuilder.Configurations.Add(new CustomPageImageConfiguration());
-            modelBuilder.Configurations.Add(new DocumentCategoryConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryConfiguration());
             modelBuilder.Configurations.Add(new DocumentLibraryDocumentCategoryConfiguration());
             modelBuilder.Configurations.Add(new EvaluationConfiguration());
@@ -287,7 +286,6 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<Deliverable> Deliverables { get; set; }
         public virtual DbSet<DeliverableType> DeliverableTypes { get; set; }
         public virtual DbSet<DepartmentCode> DepartmentCodes { get; set; }
-        public virtual DbSet<DocumentCategory> DocumentCategories { get; set; }
         public virtual DbSet<DocumentLibrary> AllDocumentLibraries { get; set; }
         public virtual IQueryable<DocumentLibrary> DocumentLibraries { get { return AllDocumentLibraries.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<DocumentLibraryDocumentCategory> AllDocumentLibraryDocumentCategories { get; set; }
@@ -698,7 +696,9 @@ namespace ProjectFirmaModels.Models
                     return DepartmentCodes.GetDepartmentCode(primaryKey);
 
                 case "DocumentCategory":
-                    return DocumentCategories.GetDocumentCategory(primaryKey);
+                    var documentCategory = DocumentCategory.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(documentCategory, "DocumentCategory", primaryKey);
+                    return documentCategory;
 
                 case "DocumentLibrary":
                     return DocumentLibraries.GetDocumentLibrary(primaryKey);
