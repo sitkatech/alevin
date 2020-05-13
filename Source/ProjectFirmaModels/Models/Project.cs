@@ -66,23 +66,10 @@ namespace ProjectFirmaModels.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal? GetProjectedFunding()
+        public decimal GetProjectedFunding()
         {
-            return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
+            return ProjectFundingSourceBudgets.Any() ? ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
         }
-
-
-		// Brought over from Mainline-- should this be trashed? --- SLG 4/21/2020
-        //public decimal? GetSecuredFundingForFundingSources(List<int> fundingSourceIDs)
-        //{
-        //    return ProjectFundingSourceBudgets.Any(x => fundingSourceIDs.Contains(x.FundingSourceID)) ? (decimal?)ProjectFundingSourceBudgets.Where(x => fundingSourceIDs.Contains(x.FundingSourceID)).Sum(x => x.SecuredAmount.GetValueOrDefault()) : 0;
-        //}
-
-        //public decimal? GetTargetedFunding()
-        //{
-        //    return ProjectFundingSourceBudgets.Any() ? (decimal?)ProjectFundingSourceBudgets.Sum(x => x.TargetedAmount.GetValueOrDefault()) : 0;
-        //}
-		// Brought over from Mainline-- should this be trashed? --- SLG 4/21/2020
 
         public decimal? GetTargetedFundingForFundingSources(List<int> fundingSourceIDs)
         {
@@ -98,11 +85,11 @@ namespace ProjectFirmaModels.Models
         {
             var targetedFunding = GetProjectedFunding();
             var noFundingSourceIdentified = GetNoFundingSourceIdentifiedAmount();
-            if (targetedFunding == null && noFundingSourceIdentified == null)
+            if (noFundingSourceIdentified == null)
             {
                 return null;
             }
-            return (noFundingSourceIdentified ?? 0) + (targetedFunding ?? 0);
+            return (decimal) noFundingSourceIdentified + targetedFunding;
         }
 
         public decimal GetNoFundingSourceIdentifiedAmountOrZero()
