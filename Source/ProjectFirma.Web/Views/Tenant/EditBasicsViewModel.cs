@@ -57,7 +57,17 @@ namespace ProjectFirma.Web.Views.Tenant
 
         [Required(ErrorMessage = "Must specify a Budget Type")]
         [DisplayName("Budget Type")]
-        public int BudgetTypeID { get; set; }
+        public  int BudgetTypeID {
+            // This is *ONLY* appropriate for Reclamation, but it's still an ugly hack. Better might be to remove the field
+            // entirely from the post/edit loop, but it's definitely arguable and we are short on time today. -- SLG & MF 5/14/2020
+            get => BudgetType.AnnualBudgetByCostType.BudgetTypeID;
+
+            // ReSharper disable once ValueParameterNotUsed
+            // We never want to move away from the default
+            private set
+            {
+            }
+        } 
 
         [DisplayName("Cost Types")]
         public List<string> CostTypes { get; set; }
@@ -180,7 +190,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.TaxonomyLevelID = TaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
             tenantAttribute.AssociatePerfomanceMeasureTaxonomyLevelID = AssociatePerfomanceMeasureTaxonomyLevelID ?? ModelObjectHelpers.NotYetAssignedID;
             tenantAttribute.MinimumYear = MinimumYear ?? 0;
-            tenantAttribute.BudgetTypeID = BudgetTypeID;
+            //tenantAttribute.BudgetTypeID = BudgetTypeID;
 
             tenantAttribute.ProjectExternalDataSourceEnabled = ProjectExternalDataSourceEnabled ?? false;
             tenantAttribute.EnableEvaluations = EnableProjectEvaluations;
