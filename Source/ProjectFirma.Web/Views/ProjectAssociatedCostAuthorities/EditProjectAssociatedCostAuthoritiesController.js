@@ -41,8 +41,8 @@ angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoriti
         return $scope.SelectedCostAuthorities;
     }
 
-    $scope.primaryCostAuthorityID = $scope.AngularModel.PrimaryReclamationCostAuthorityID;
-    $scope.selectedCostAuthorityIDs = $scope.AngularModel.SelectedReclamationCostAuthorityIDs.map(String);
+    $scope.primaryCostAuthorityID = $scope.AngularModel.PrimaryCostAuthorityID;
+    $scope.selectedCostAuthorityIDs = $scope.AngularModel.SelectedCostAuthorityIDs.map(String);
     $scope.SelectedCostAuthorities = $scope.getSelectedCostAuthorities();
 
     $scope.$watch(function () {
@@ -63,7 +63,7 @@ angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoriti
         return isSelected;
     }
 
-    $scope.ReclamationCostAuthorityOptions = $scope.AngularViewData.AllCostAuthorities;
+    $scope.CostAuthorityOptions = $scope.AngularViewData.AllCostAuthorities;
 
     $scope.removeCostAuthority = function (id) {
         var costAuthorityID = id.toString();
