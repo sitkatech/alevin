@@ -176,11 +176,9 @@ VALUES
 (351, N'IsOrganizationRelationshipTypeRequired', N'Is Organization Relationship Type Required?'),
 (352, N'SyncWithKeystoneOnSave', N'Sync with Keystone on Save'),
 (353, N'DocumentLibraryName', N'Document Library Name'),
-(354, N'KMZFile', N'KMZ File')
-
-
-
-
+(354, N'KMZFile', N'KMZ File'),
+(355, N'DocumentLibrary', N'Document Library'),
+(356, N'DocumentLibraryDocumentViewableBy', N'Document Viewable By')
 
 
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000

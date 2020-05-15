@@ -302,6 +302,8 @@ namespace ProjectFirmaModels.Models
         SyncWithKeystoneOnSave = 352,
         DocumentLibraryName = 353,
         KMZFile = 354,
+        DocumentLibrary = 355,
+        DocumentLibraryDocumentViewableBy = 356,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
