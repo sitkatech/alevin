@@ -272,7 +272,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <tr class="fundingSourceHeaderRow">
                                     <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
                                     <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'">
-                                        <input type="text" ng-model="calendarYearNoFunding.MonetaryAmount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                        <input type="text" ng-model="calendarYearNoFunding.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
                                     <td></td>
                                     <td ng-repeat-end></td>
@@ -320,7 +320,8 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                         <div ng-repeat="calendarYearNoFunding in AngularModel.NoFundingSourceAmounts | orderBy:'CalendarYear'">
                             <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.CalendarYear}}" />
-                            <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].MonetaryAmount).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.MonetaryAmount}}" />
+                            <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].Amount).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.Amount}}" />
+                            <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].CostTypeID).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.CostTypeID}}" />
                         </div>
                     </div>
 

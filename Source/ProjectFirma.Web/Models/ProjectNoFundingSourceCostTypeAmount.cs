@@ -6,6 +6,7 @@ namespace ProjectFirma.Web.Models
     public class ProjectNoFundingSourceCostTypeAmount
     {
         public CostType CostType { get; }
+        public int CostTypeID { get; }
         public int? CalendarYear { get; }
         public decimal Amount { get; }
 
@@ -13,6 +14,7 @@ namespace ProjectFirma.Web.Models
         private ProjectNoFundingSourceCostTypeAmount(CostType costType, int? calendarYear, decimal amount)
         {
             CostType = costType;
+            CostTypeID = costType.CostTypeID;
             CalendarYear = calendarYear;
             Amount = amount;
         }
