@@ -268,19 +268,39 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </tr>
                             </tbody>
                             @* No Funding Source Identified Yet entry row*@
-                            <tbody style="border-top: 2px solid #ddd">
-                                <tr class="fundingSourceHeaderRow">
-                                    <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
-                                    <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'">
-                                        <input type="text" ng-model="calendarYearNoFunding.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
-                                    </td>
-                                    <td></td>
-                                    <td ng-repeat-end></td>
-                                    <th style="text-align: right"> {{getNoFundingSourceIdentifiedTotalForCalendarYear() | currency:"$"}}</th>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
+                        <tbody ng-show="getRelevantCostTypes().length > 1" style="border-top: 2px solid #ddd">
+                            <tr class="fundingSourceHeaderRow">
+                                <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
+                                <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'">
+                                    @*<input type="text" ng-model="calendarYearNoFunding.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />*@
+                                </td>
+                                <td></td>
+                                <td ng-repeat-end></td>
+                                <th style="text-align: right"> @*{{getNoFundingSourceIdentifiedTotalForCalendarYear() | currency:"$"}}*@</th>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr ng-repeat="costType in getRelevantCostTypes()">
+                                <td style="width: 30px; min-width: 30px;"></td>
+                                <td ng-bind="costType.CostTypeName" />
+                                <td style="text-align: right;" ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts(costType) | orderBy:'CalendarYear'">
+                                    <input type="text" ng-model="calendarYearNoFunding.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                </td>
+                                <td class="sourcedField" style="text-align: right">
+                                </td>
+                                <td class="sourcedField" style="text-align: right;" ng-repeat-end>
+                                </td>
+                                @* Start Row Totals *@
+                                <td style="text-align: right">
+                                    {{getBudgetTotalForRow(projectFundingSourceBudget) | currency:"$"}}
+                                </td>
+                                <td class="sourcedField" style="text-align: right">
+                                    total
+                                </td>
+                                <td class="sourcedField" style="text-align: right;">
+                                </td>
+                            </tr>
+                        </tbody>
                             @* Sum of all budgets and No Funding Source Identified Yet*@
                             <tbody style="border-top: 2px solid #ddd">
                                 <tr>

@@ -603,28 +603,30 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     };
 
 
-    $scope.getNoFundingSourceAmounts = function () {
+    $scope.getNoFundingSourceAmounts = function (costType) {
+        var costTypeID = costType.CostTypeID;
         var calendarYearsToAdd = _.difference($scope.calendarYearRange,
             $scope.getAllUsedCalendarYearsNoFundingSourceIdentifieds());
         _.each(calendarYearsToAdd,
             function (calendarYear) {
-                $scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, calendarYear);
+                relevantCostTypeIDs.forEach(costTypeID => $scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, calendarYear, costTypeID));
+                
             });
-
-        return $scope.AngularModel.NoFundingSourceAmounts;
+        var noFundingForACostType = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (fundingSourceAmount) { return fundingSourceAmount.CostTypeID == costTypeID });
+        return noFundingForACostType;
     };
 
-    $scope.addCalendarYearNoFundingSourceIdentifiedRow = function (projectId, calendarYear) {
+    $scope.addCalendarYearNoFundingSourceIdentifiedRow = function (projectId, calendarYear, costTypeID) {
         if ($scope.AngularModel.NoFundingSourceAmounts == null) {
             $scope.AngularModel.NoFundingSourceAmounts = [];
         }
-        $scope.AngularModel.NoFundingSourceAmounts.push(
-            $scope.createNewCalendarYearNoFundingIdentifiedRow(calendarYear));
+        $scope.AngularModel.NoFundingSourceAmounts.push($scope.createNewCalendarYearNoFundingIdentifiedRow(calendarYear, costTypeID));
     };
 
-    $scope.createNewCalendarYearNoFundingIdentifiedRow = function (calendarYear) {
+    $scope.createNewCalendarYearNoFundingIdentifiedRow = function (calendarYear, costTypeID) {
         return {
             CalendarYear: calendarYear,
+            CostTypeID: costTypeID,
             MonetaryAmount: 0
         };
     };
