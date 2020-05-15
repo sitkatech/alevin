@@ -24,20 +24,20 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance
+namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
 {
-    public class ProjectRunningBalanceViewData : FirmaUserControlViewData
+    public class ProjectRunningBalanceAllContractViewData : FirmaUserControlViewData
     {
-        public List<ProjectRunningBalanceRecord> ProjectRunningBalanceRecords { get; set; }
+        public List<ProjectRunningBalanceAllContractRecord> ProjectRunningBalanceAllContractRecords { get; set; }
 
 
-        public ProjectRunningBalanceViewData(List<ProjectRunningBalanceRecord> projectRunningBalanceRecords)
+        public ProjectRunningBalanceAllContractViewData(List<ProjectRunningBalanceAllContractRecord> projectRunningBalanceAllContractRecords)
         {
-            ProjectRunningBalanceRecords = projectRunningBalanceRecords.OrderBy(x => x.Date).ToList();
+            ProjectRunningBalanceAllContractRecords = projectRunningBalanceAllContractRecords.OrderBy(x => x.Date).ToList();
         }
     }
 
-    public class ProjectRunningBalanceRecord
+    public class ProjectRunningBalanceAllContractRecord
     {
         /// <summary>
         /// Posting Date from Obligation Item Budget/Invoice
@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance
         /// </summary>
         /// <param name="projectedBudget"></param>
         /// <param name="dateOfProjectedBudget"></param>
-        public ProjectRunningBalanceRecord(double projectedBudget, DateTime dateOfProjectedBudget)
+        public ProjectRunningBalanceAllContractRecord(double projectedBudget, DateTime dateOfProjectedBudget)
         {
             ProjectedBudget = projectedBudget;
             Date = dateOfProjectedBudget;
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance
             ObligationItemInvoiceDebit = 0;
         }
 
-        public ProjectRunningBalanceRecord(WbsElementObligationItemBudget obligationItemBudget)
+        public ProjectRunningBalanceAllContractRecord(WbsElementObligationItemBudget obligationItemBudget)
         {
             ProjectedBudget = 0;
             Date = obligationItemBudget.PostingDateKey ?? DateTime.MinValue;
@@ -73,7 +73,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance
             ObligationItemInvoiceDebit = 0;
         }
 
-        public ProjectRunningBalanceRecord(WbsElementObligationItemInvoice obligationItemInvoice)
+        public ProjectRunningBalanceAllContractRecord(WbsElementObligationItemInvoice obligationItemInvoice)
         {
             ProjectedBudget = 0;
             Date = obligationItemInvoice.PostingDateKey ?? DateTime.MinValue;
