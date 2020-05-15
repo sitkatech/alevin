@@ -40,25 +40,25 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ObligationRequestCreateFeature]
-        public PartialViewResult EditCostAuthorityObligationRequest(CostAuthorityObligationRequestPrimaryKey reclamationCostAuthorityObligationRequestPrimaryKey)
+        public PartialViewResult EditCostAuthorityObligationRequest(CostAuthorityObligationRequestPrimaryKey costAuthorityObligationRequestPrimaryKey)
         {
-            var costAuthorityObligationRequest = reclamationCostAuthorityObligationRequestPrimaryKey.EntityObject;
+            var costAuthorityObligationRequest = costAuthorityObligationRequestPrimaryKey.EntityObject;
             var viewModel = new EditCostAuthorityObligationRequestViewModel(costAuthorityObligationRequest);
             var projectStatusFirmaPage = FirmaPageTypeEnum.ObligationRequestFromGridDialog.GetFirmaPage();
-            return ViewEditCostAuthorityObligationRequest(reclamationCostAuthorityObligationRequestPrimaryKey.EntityObject,viewModel, projectStatusFirmaPage);
+            return ViewEditCostAuthorityObligationRequest(costAuthorityObligationRequestPrimaryKey.EntityObject,viewModel, projectStatusFirmaPage);
         }
 
         [HttpPost]
         [ObligationRequestCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditCostAuthorityObligationRequest(CostAuthorityObligationRequestPrimaryKey reclamationCostAuthorityObligationRequestPrimaryKey, EditCostAuthorityObligationRequestViewModel viewModel)
+        public ActionResult EditCostAuthorityObligationRequest(CostAuthorityObligationRequestPrimaryKey costAuthorityObligationRequestPrimaryKey, EditCostAuthorityObligationRequestViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 var firmaPage = FirmaPageTypeEnum.ObligationRequestFromGridDialog.GetFirmaPage();
-                return ViewEditCostAuthorityObligationRequest(reclamationCostAuthorityObligationRequestPrimaryKey.EntityObject, viewModel, firmaPage);
+                return ViewEditCostAuthorityObligationRequest(costAuthorityObligationRequestPrimaryKey.EntityObject, viewModel, firmaPage);
             }
-            viewModel.UpdateModel(reclamationCostAuthorityObligationRequestPrimaryKey.EntityObject, CurrentFirmaSession);
+            viewModel.UpdateModel(costAuthorityObligationRequestPrimaryKey.EntityObject, CurrentFirmaSession);
            
             HttpRequestStorage.DatabaseEntities.SaveChanges();
             return new ModalDialogFormJsonResult();
@@ -270,11 +270,11 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [ObligationRequestCreateFeature]
-        public PartialViewResult DeleteCostAuthority(CostAuthorityObligationRequestPrimaryKey reclamationCostAuthorityObligationRequestPrimaryKey)
+        public PartialViewResult DeleteCostAuthority(CostAuthorityObligationRequestPrimaryKey costAuthorityObligationRequestPrimaryKey)
         {
-            var reclamationCostAuthorityObligationRequest = reclamationCostAuthorityObligationRequestPrimaryKey.EntityObject;
-            var viewModel = new ConfirmDialogFormViewModel(reclamationCostAuthorityObligationRequest.CostAuthorityObligationRequestID);
-            return ViewDeleteCostAuthority(reclamationCostAuthorityObligationRequest, viewModel);
+            var costAuthorityObligationRequest = costAuthorityObligationRequestPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(costAuthorityObligationRequest.CostAuthorityObligationRequestID);
+            return ViewDeleteCostAuthority(costAuthorityObligationRequest, viewModel);
         }
 
         private PartialViewResult ViewDeleteCostAuthority(CostAuthorityObligationRequest costAuthorityObligationRequest, ConfirmDialogFormViewModel viewModel)
@@ -287,17 +287,17 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [ObligationRequestCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteCostAuthority(CostAuthorityObligationRequestPrimaryKey reclamationCostAuthorityObligationRequestPrimaryKey,
+        public ActionResult DeleteCostAuthority(CostAuthorityObligationRequestPrimaryKey costAuthorityObligationRequestPrimaryKey,
             ConfirmDialogFormViewModel viewModel)
         {
-            var reclamationCostAuthorityObligationRequest = reclamationCostAuthorityObligationRequestPrimaryKey.EntityObject;
-            var displayName = $"this Projected Obligation from Cost Authority: {reclamationCostAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure}";
+            var costAuthorityObligationRequest = costAuthorityObligationRequestPrimaryKey.EntityObject;
+            var displayName = $"this Projected Obligation from Cost Authority: {costAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure}";
             if (!ModelState.IsValid)
             {
-                return ViewDeleteCostAuthority(reclamationCostAuthorityObligationRequest, viewModel);
+                return ViewDeleteCostAuthority(costAuthorityObligationRequest, viewModel);
             }
 
-            reclamationCostAuthorityObligationRequest.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            costAuthorityObligationRequest.DeleteFull(HttpRequestStorage.DatabaseEntities);
 
             SetMessageForDisplay($"Successfully deleted \"{displayName}\".");
 
@@ -371,9 +371,9 @@ namespace ProjectFirma.Web.Controllers
                 ? reclamationObligationRequest.Agreement.AgreementCostAuthorities.Select(x => x.CostAuthorityID).ToList()
                 : new List<int>();
             var gridSpec = new CostAuthorityObligationRequestGridSpec(CurrentFirmaSession, reclamationObligationRequest.ObligationRequestStatus == ObligationRequestStatus.Draft, costAuthorityIDList);
-            var reclamationCostAuthorityObligationRequests = reclamationObligationRequestPrimaryKey.EntityObject
+            var costAuthorityObligationRequests = reclamationObligationRequestPrimaryKey.EntityObject
                 .CostAuthorityObligationRequests.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthorityObligationRequest>(reclamationCostAuthorityObligationRequests, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthorityObligationRequest>(costAuthorityObligationRequests, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
