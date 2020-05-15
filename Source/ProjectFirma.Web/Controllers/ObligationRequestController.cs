@@ -128,13 +128,13 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEditCostAuthorityObligationRequests(reclamationObligationRequest,viewModel, firmaPage);
             }
 
-            var listOfCostAuthorityIDs = viewModel.CostAuthorityJsonList.Select(x => x.ReclamationCostAuthorityID).ToList();
+            var listOfCostAuthorityIDs = viewModel.CostAuthorityJsonList.Select(x => x.CostAuthorityID).ToList();
             var existingCostAuthorityObligationRequests = reclamationObligationRequest.CostAuthorityObligationRequests;
             
             foreach (var costAuthorityID in listOfCostAuthorityIDs)
             {
                 var costAuthorityJson =
-                    viewModel.CostAuthorityJsonList.Single(x => x.ReclamationCostAuthorityID == costAuthorityID);
+                    viewModel.CostAuthorityJsonList.Single(x => x.CostAuthorityID == costAuthorityID);
                 if (!existingCostAuthorityObligationRequests.Select(x => x.CostAuthorityID).Contains(costAuthorityID))
                 {
                     var newCostAuthorityReclamationAgreement =

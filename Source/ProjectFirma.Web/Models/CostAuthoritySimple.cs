@@ -7,10 +7,11 @@ namespace ProjectFirma.Web.Models
     public class CostAuthoritySimple
     {
         //3/6/2019 TK -- Leaving the properties on this class with the Reclamation Prefix because of their use in front end code
-        public int ReclamationCostAuthorityID { get; set; }
-        public string ReclamationCostAuthorityDisplayName { get; set; }
-        public string ReclamationCostAuthorityDropdownDisplayName { get; set; }
-        public List<AgreementSimple> ReclamationCostAuthorityAgreementSimplesList { get; set; }
+        // 5/24/2020 SLG -- This is actually causing us issues and confusion, so now forcing it forward to drop Reclamation prefix
+        public int CostAuthorityID { get; set; }
+        public string CostAuthorityDisplayName { get; set; }
+        public string CostAuthorityDropdownDisplayName { get; set; }
+        public List<AgreementSimple> CostAuthorityAgreementSimplesList { get; set; }
         public int CountOfRelatedAgreements { get; set; }
 
         /// <summary>
@@ -26,17 +27,17 @@ namespace ProjectFirma.Web.Models
         public CostAuthoritySimple(CostAuthority costAuthority)
             : this()
         {
-            ReclamationCostAuthorityID = costAuthority.CostAuthorityID;
-            ReclamationCostAuthorityAgreementSimplesList = costAuthority.AgreementCostAuthorities.Select(x => new AgreementSimple(x.Agreement)).ToList();
-            ReclamationCostAuthorityDisplayName = $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}";
-            CountOfRelatedAgreements = ReclamationCostAuthorityAgreementSimplesList.Count;
-            ReclamationCostAuthorityDropdownDisplayName =
-                $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}{(ReclamationCostAuthorityAgreementSimplesList.Any() ? GetRelatedAgreementIDsAsCommaDelimitedString() : "")}";
+            CostAuthorityID = costAuthority.CostAuthorityID;
+            CostAuthorityAgreementSimplesList = costAuthority.AgreementCostAuthorities.Select(x => new AgreementSimple(x.Agreement)).ToList();
+            CostAuthorityDisplayName = $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}";
+            CountOfRelatedAgreements = CostAuthorityAgreementSimplesList.Count;
+            CostAuthorityDropdownDisplayName =
+                $"{costAuthority.CostAuthorityWorkBreakdownStructure} - {costAuthority.AccountStructureDescription}{(CostAuthorityAgreementSimplesList.Any() ? GetRelatedAgreementIDsAsCommaDelimitedString() : "")}";
         }
 
         private string GetRelatedAgreementIDsAsCommaDelimitedString()
         {
-            var agreementNumbersList = ReclamationCostAuthorityAgreementSimplesList
+            var agreementNumbersList = CostAuthorityAgreementSimplesList
                 .Select(x => x.AgreementNumber.ToString()).ToList();
 
             return $" (Agreement Numbers: {string.Join(", ", agreementNumbersList)})";

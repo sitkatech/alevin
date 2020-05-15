@@ -39,9 +39,9 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewProjectAssociatedCostAuthoritiesEditor(EditProjectAssociatedCostAuthoritiesViewModel viewModel, Project project)
         {
             var allReclamationAgreements = HttpRequestStorage.DatabaseEntities.Agreements.ToList();
-            var allReclamationCostAuthorities = HttpRequestStorage.DatabaseEntities.CostAuthorities.ToList();
+            var allCostAuthorities = HttpRequestStorage.DatabaseEntities.CostAuthorities.ToList();
 
-            var viewData = new EditProjectAssociatedCostAuthoritiesViewData(allReclamationAgreements, allReclamationCostAuthorities);
+            var viewData = new EditProjectAssociatedCostAuthoritiesViewData(allReclamationAgreements, allCostAuthorities);
             return RazorPartialView<EditProjectAssociatedCostAuthorities, EditProjectAssociatedCostAuthoritiesViewData, EditProjectAssociatedCostAuthoritiesViewModel>(viewData, viewModel);
         }
 

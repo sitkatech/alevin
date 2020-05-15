@@ -95,17 +95,17 @@
                             {
                                 for (int i = 0; i < Model.CostAuthorityJsonList.Count; i++)
                                 {
-                            <tr costauthority_id="@Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID.ToString()" class="costAuthorityRow">
+                            <tr costauthority_id="@Model.CostAuthorityJsonList[i].CostAuthorityID.ToString()" class="costAuthorityRow">
                                 <td>
 
 
                                     <span title="@(Model.CostAuthorityJsonList[i].PreventDelete ? "These CAWBS cannot be deleted because this is a modification to an existing Agreement" : "Remove row")"
                                           class="glyphicon glyphicon-trash remove-cost-authority @(Model.CostAuthorityJsonList[i].PreventDelete ? "disabled" : "")"
                                           alt="Remove row"
-                                          onclick="@(Model.CostAuthorityJsonList[i].PreventDelete ? "" : "removeRow(" + Model.CostAuthorityJsonList[i].ReclamationCostAuthorityID + ")") "
+                                          onclick="@(Model.CostAuthorityJsonList[i].PreventDelete ? "" : "removeRow(" + Model.CostAuthorityJsonList[i].CostAuthorityID + ")") "
                                           style="cursor: pointer"></span>
 
-                                    @Html.HiddenFor(m => m.CostAuthorityJsonList[i].ReclamationCostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
+                                    @Html.HiddenFor(m => m.CostAuthorityJsonList[i].CostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
                                 </td>
                                 <td class="CostAuthorityWorkBreakdownStructure">
                                     @Model.CostAuthorityJsonList[i].CostAuthorityWorkBreakdownStructure
@@ -146,12 +146,12 @@
 
 
 
-                        <tr style="display: none;" id="trForCloning" costauthority_id="@Model.CostAuthorityJsonList[0].ReclamationCostAuthorityID.ToString()" class="costAuthorityRow">
+                        <tr style="display: none;" id="trForCloning" costauthority_id="@Model.CostAuthorityJsonList[0].CostAuthorityID.ToString()" class="costAuthorityRow">
                             <td>
 
                                 <span class="glyphicon glyphicon-trash remove-cost-authority" title="Remove row" alt="Remove row"></span>
 
-                                @Html.HiddenFor(m => m.CostAuthorityJsonList[0].ReclamationCostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
+                                @Html.HiddenFor(m => m.CostAuthorityJsonList[0].CostAuthorityID, new { @class = "form-control costAuthorityIDClass" })
                             </td>
                             <td class="CostAuthorityWorkBreakdownStructure"></td>
                             <td class="AccountStructureDescription"></td>
@@ -196,7 +196,7 @@
 
         //setup selected reclamation cost authority ids
         var alreadyAddedCostAuthorityIDs = new Array();
-        var alreadySelectedCostAuthorityIDsAsStringList = "@(string.Join(",", Model.CostAuthorityJsonList.Select(x => x.ReclamationCostAuthorityID.ToString())))";
+        var alreadySelectedCostAuthorityIDsAsStringList = "@(string.Join(",", Model.CostAuthorityJsonList.Select(x => x.CostAuthorityID.ToString())))";
         var shouldUseList = "@(Model.HasCostAuthorityJsonListWithoutFakeRow)";
         if (shouldUseList == "True") {
             var alreadySelectedCostAuthorityIDs = alreadySelectedCostAuthorityIDsAsStringList.split(",");

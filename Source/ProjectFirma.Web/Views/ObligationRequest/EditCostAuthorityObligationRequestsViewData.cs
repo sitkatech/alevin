@@ -75,13 +75,13 @@ namespace ProjectFirma.Web.Views.ObligationRequest
 
         public CostAuthorityJsonList(List<CostAuthorityJson> costAuthorityJson)
         {
-            CostAuthorityJsons = costAuthorityJson.ToDictionary(x => x.ReclamationCostAuthorityID, x => x);
+            CostAuthorityJsons = costAuthorityJson.ToDictionary(x => x.CostAuthorityID, x => x);
         }
     }
 
     public class CostAuthorityJson
     {
-        public int ReclamationCostAuthorityID { get; set; }
+        public int CostAuthorityID { get; set; }
         public int? TechnicalRepresentativePersonID { get; set; }
         public int? RecipientOrganizationID { get; set; }
         public int? BudgetObjectCodeID { get; set; }
@@ -96,10 +96,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         {
         }
 
-
         public CostAuthorityJson(ProjectFirmaModels.Models.CostAuthority costAuthority)
         {
-            ReclamationCostAuthorityID = costAuthority.CostAuthorityID;
+            CostAuthorityID = costAuthority.CostAuthorityID;
             CostAuthorityWorkBreakdownStructure = costAuthority.CostAuthorityWorkBreakdownStructure;
             AccountStructureDescription = costAuthority.AccountStructureDescription;
 
@@ -107,7 +106,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
 
         public CostAuthorityJson(CostAuthorityObligationRequest costAuthorityObligationRequest)
         {
-            ReclamationCostAuthorityID = costAuthorityObligationRequest.CostAuthority.CostAuthorityID;
+            CostAuthorityID = costAuthorityObligationRequest.CostAuthority.CostAuthorityID;
             CostAuthorityWorkBreakdownStructure = costAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure;
             AccountStructureDescription = costAuthorityObligationRequest.CostAuthority.AccountStructureDescription;
             Note = costAuthorityObligationRequest.CostAuthorityObligationRequestNote;

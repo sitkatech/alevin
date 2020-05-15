@@ -23,21 +23,21 @@ angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoriti
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
 
-
     $scope.getSelectedCostAuthorities = function () {
         if ($scope.selectedCostAuthorityIDs.length == 0) {
             return [];
         }
 
-        var selectedCostAuthorities = _.filter($scope.AngularViewData.AllReclamationCostAuthorities,
+        var selectedCostAuthorities = _.filter($scope.AngularViewData.AllCostAuthorities,
             function (costAuthority) {
-                return $scope.selectedCostAuthorityIDs.includes(costAuthority.ReclamationCostAuthorityID.toString());
+                return $scope.selectedCostAuthorityIDs.includes(costAuthority.CostAuthorityID.toString());
             });
+       console.log('selectedCostAuthorities: ' + JSON.stringify(selectedCostAuthorities, null, "  "));
         return selectedCostAuthorities;
     }
 
     $scope.getPrimaryCostAuthorityOptions = function() {
-
+       console.log('getPrimaryCostAuthorityOptions - $scope.SelectedCostAuthorities: ' + JSON.stringify($scope.SelectedCostAuthorities, null, "  "));
         return $scope.SelectedCostAuthorities;
     }
 
@@ -53,8 +53,7 @@ angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoriti
 
     $scope.$watch('selectedCostAuthorityIDs',
         function (newValue, oldValue, scope) {
-           
-            if (newValue != oldValue) {
+           if (newValue != oldValue) {
                 scope.SelectedCostAuthorities = scope.getSelectedCostAuthorities();
             }
         });
@@ -64,7 +63,7 @@ angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoriti
         return isSelected;
     }
 
-    $scope.ReclamationCostAuthorityOptions = $scope.AngularViewData.AllReclamationCostAuthorities;
+    $scope.ReclamationCostAuthorityOptions = $scope.AngularViewData.AllCostAuthorities;
 
     $scope.removeCostAuthority = function (id) {
         var costAuthorityID = id.toString();
@@ -74,10 +73,5 @@ angular.module("ProjectFirmaApp").controller("EditProjectAssociatedCostAuthoriti
         }
         $scope.SelectedCostAuthorities = $scope.getSelectedCostAuthorities();
     }
-
-
-
-   
-
 
 });
