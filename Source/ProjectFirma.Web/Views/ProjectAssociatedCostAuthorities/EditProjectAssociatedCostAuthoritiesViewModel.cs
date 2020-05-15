@@ -34,9 +34,9 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
     {
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure)]
-        public List<int> SelectedReclamationCostAuthorityIDs { get; set; }
+        public List<int> SelectedCostAuthorityIDs { get; set; }
 
-        public int? PrimaryReclamationCostAuthorityID { get; set; }
+        public int? PrimaryCostAuthorityID { get; set; }
 
         /// <summary>
         /// Needed by Model Binder
@@ -47,9 +47,9 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
 
         public EditProjectAssociatedCostAuthoritiesViewModel(ProjectFirmaModels.Models.Project project, Person currentPerson)
         {
-            SelectedReclamationCostAuthorityIDs = project.CostAuthorityProjects
+            SelectedCostAuthorityIDs = project.CostAuthorityProjects
                 .Select(x => x.CostAuthorityID).ToList();
-            PrimaryReclamationCostAuthorityID = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.CostAuthorityID;
+            PrimaryCostAuthorityID = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.CostAuthorityID;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project,
@@ -57,10 +57,10 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         {
             var updatedCostAuthorityIDs = new List<CostAuthorityProject>();
 
-            if (SelectedReclamationCostAuthorityIDs != null)
+            if (SelectedCostAuthorityIDs != null)
             {
-                updatedCostAuthorityIDs.AddRange(SelectedReclamationCostAuthorityIDs.Select(x =>
-                    new CostAuthorityProject(x, project.ProjectID, (x == PrimaryReclamationCostAuthorityID))));
+                updatedCostAuthorityIDs.AddRange(SelectedCostAuthorityIDs.Select(x =>
+                    new CostAuthorityProject(x, project.ProjectID, (x == PrimaryCostAuthorityID))));
             }
 
             // Awkward hack: To get around the only-one-primary-CAWBS constraint, we need to clear any

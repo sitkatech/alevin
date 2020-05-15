@@ -326,7 +326,7 @@ namespace ProjectFirma.Web.Views.Project
             
             if (ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
             {
-                if (userHasProjectAdminPermissions || currentPerson.CanStewardProject(project))
+                if (userHasEditProjectPermissions)
                 {
                     projectAlerts.Add($"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} has an Update in progress. Changes made through this page will be overwritten when the Update is approved.");
                 }

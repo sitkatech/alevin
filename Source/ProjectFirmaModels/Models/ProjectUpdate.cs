@@ -27,11 +27,9 @@ namespace ProjectFirmaModels.Models
 {
     public partial class ProjectUpdate : IProject
     {
-
         public int GetEntityID() => ProjectUpdateID;
         public string GetDisplayName() => ProjectUpdateBatch.Project.GetDisplayName();
         public int ProjectCategoryID => ProjectUpdateBatch.Project.ProjectCategoryID;
-
 
         public decimal GetProjectedFunding()
         {
@@ -43,6 +41,11 @@ namespace ProjectFirmaModels.Models
         public decimal? GetNoFundingSourceIdentifiedAmount()
         {
             return ProjectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.Sum(x => x.NoFundingSourceIdentifiedYet.GetValueOrDefault());
+        }
+
+        public decimal GetNoFundingSourceIdentifiedAmountOrZero()
+        {
+            return GetNoFundingSourceIdentifiedAmount() ?? 0;
         }
 
         public decimal? GetEstimatedTotalRegardlessOfFundingType()

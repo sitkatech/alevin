@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Views.ProjectFunding
         public string AddNewAgreementUrl { get; }
         public List<ProjectFirmaModels.Models.Agreement> ReclamationAgreements { get; }
 
-        public List<ProjectFirmaModels.Models.CostAuthority> SecondaryReclamationCostAuthorityWorkBreakdownStructures { get; }
+        public List<ProjectFirmaModels.Models.CostAuthority> SecondaryCostAuthorityWorkBreakdownStructures { get; }
         public ProjectFirmaModels.Models.CostAuthority PrimaryCostAuthorityWorkBreakdownStructure { get; }
 
         public ProjectAgreementDetailViewData(FirmaSession currentFirmaSession, 
@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.ProjectFunding
 
             ReclamationAgreements = costAuthorities.SelectMany(ca => ca.AgreementCostAuthorities.Select(rarca => rarca.Agreement)).ToList();
 
-            SecondaryReclamationCostAuthorityWorkBreakdownStructures = project.CostAuthorityProjects.Where(x => !x.IsPrimaryProjectCawbs).Select(rcap => rcap.CostAuthority).ToList();
+            SecondaryCostAuthorityWorkBreakdownStructures = project.CostAuthorityProjects.Where(x => !x.IsPrimaryProjectCawbs).Select(rcap => rcap.CostAuthority).ToList();
             PrimaryCostAuthorityWorkBreakdownStructure = project.CostAuthorityProjects.SingleOrDefault(x => x.IsPrimaryProjectCawbs)?.CostAuthority;
 
         }

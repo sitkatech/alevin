@@ -69,20 +69,20 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [CostAuthorityViewFeature]
-        public GridJsonNetJObjectResult<Project> CostAuthorityProjectsGridJsonData(CostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
+        public GridJsonNetJObjectResult<Project> CostAuthorityProjectsGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
         {
-            var reclamationCostAuthority = reclamationCostAuthorityPrimaryKey.EntityObject;
-            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, reclamationCostAuthority);
-            var projectReclamationAgreements = reclamationCostAuthority.GetAssociatedProjects();
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            var gridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, costAuthority);
+            var projectReclamationAgreements = costAuthority.GetAssociatedProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
         [CostAuthorityViewFeature]
-        public GridJsonNetJObjectResult<Agreement> CostAuthorityAgreementGridJsonData(CostAuthorityPrimaryKey reclamationCostAuthorityPrimaryKey)
+        public GridJsonNetJObjectResult<Agreement> CostAuthorityAgreementGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
         {
             var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
-            var projectReclamationAgreements = reclamationCostAuthorityPrimaryKey.EntityObject.GetReclamationAgreements();
+            var projectReclamationAgreements = costAuthorityPrimaryKey.EntityObject.GetReclamationAgreements();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }

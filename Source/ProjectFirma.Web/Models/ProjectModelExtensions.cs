@@ -35,7 +35,6 @@ using MoreLinq;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.ProjectFundingSourceBudget;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
@@ -931,7 +930,7 @@ namespace ProjectFirma.Web.Models
                 int projectCount = 0;
                 typeToProjectOrg.ForEach(x =>
                 {
-                    targetedAmount += x.Project.GetProjectedFunding() ?? 0;
+                    targetedAmount += x.Project.GetProjectedFunding();
                     noFundingSourceAmount += x.Project.GetNoFundingSourceIdentifiedAmountOrZero();
                     projectCount++;
                 });
