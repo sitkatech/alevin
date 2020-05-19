@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -54,11 +55,10 @@ namespace ProjectFirma.Web.Controllers
         //}
 
         [AgreementViewFeature]
-        //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
-        // Can we / should we use the AgreementNumber as the primary key string?
-        public ViewResult AgreementDetail(AgreementPrimaryKey agreementPrimaryKey)
+        public ViewResult AgreementDetail(string agreementNumber)
         {
-            var agreement = agreementPrimaryKey.EntityObject;
+            var agreement = HttpRequestStorage.DatabaseEntities.Agreements.SingleOrDefault(a => a.AgreementNumber == agreementNumber);
+            Check.EnsureNotNull(agreement, $"Agreement with Agreement Number {agreementNumber} not found!");
             var viewData = new AgreementDetailViewData(CurrentFirmaSession, agreement);
             return RazorView<AgreementDetail, AgreementDetailViewData>(viewData);
         }
