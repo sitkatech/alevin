@@ -42,6 +42,16 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [AgreementViewFeature]
+        public GridJsonNetJObjectResult<Agreement> AgreementGridForOrganizationJsonData(int organizationID)
+        {
+            var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
+            var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
+            var agreementsForOrganization = organization.Agreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(agreementsForOrganization, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
         //[ProjectsViewFullListFeature]
         //public GridJsonNetJObjectResult<Project> IndexGridJsonData()
         //{
