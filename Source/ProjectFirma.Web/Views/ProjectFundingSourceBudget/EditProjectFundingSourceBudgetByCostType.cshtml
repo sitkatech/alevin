@@ -271,8 +271,9 @@ Source code is available upon request via <support@sitkatech.com>.
                         <tbody ng-show="getRelevantCostTypes().length > 1" style="border-top: 2px solid #ddd">
                             <tr class="fundingSourceHeaderRow">
                                 <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
-                                <td ng-repeat-start="calendarYearNoFunding in getNoFundingSourceAmounts() | orderBy:'CalendarYear'">
-                                    @*<input type="text" ng-model="calendarYearNoFunding.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />*@
+                                <td ng-repeat-start="calendarYear in calendarYearRange | orderBy:'CalendarYear'">
+                                    @*{{(calendarYearRange.length * 3) + 4}}
+        <input type="text" ng-model="calendarYearNoFunding.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />*@
                                 </td>
                                 <td></td>
                                 <td ng-repeat-end></td>

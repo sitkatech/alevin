@@ -82,9 +82,6 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                                 project.ProjectNoFundingSourceIdentifieds.ToList();
                             calendarYearMonetaryAmounts.AddRange(ProjectNoFundingSourceCostTypeAmount.CreateFromProjectNoFundingSourceIdentifieds(projectNoFundingSourceIdentifieds));
                             
-                            //var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
-                            //calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
-                            //    .ToList().Select(x => new ProjectNoFundingSourceCostTypeAmount(x, 0)));
                             break;
                         }
 

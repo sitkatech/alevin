@@ -605,8 +605,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
     $scope.getNoFundingSourceAmounts = function (costType) {
         var costTypeID = costType.CostTypeID;
-        var calendarYearsToAdd = _.difference($scope.calendarYearRange,
-            $scope.getAllUsedCalendarYearsNoFundingSourceIdentifieds());
+        var calendarYearsToAdd = _.difference($scope.calendarYearRange, $scope.getAllUsedCalendarYearsNoFundingSourceIdentifieds());
+        var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         _.each(calendarYearsToAdd,
             function (calendarYear) {
                 relevantCostTypeIDs.forEach(costTypeID => $scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, calendarYear, costTypeID));
