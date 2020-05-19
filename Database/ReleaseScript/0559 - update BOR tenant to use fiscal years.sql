@@ -1,3 +1,8 @@
+/*
+commenting this out. I realized that the appropriate area for this is in the LookupTable
+
 update dbo.Tenant
 set UseFiscalYears = 1, ReportingYearStartDate = '1990-10-01 00:00:00.000'
 where TenantID = 12
+*/
+-- select * from dbo.Tenant
