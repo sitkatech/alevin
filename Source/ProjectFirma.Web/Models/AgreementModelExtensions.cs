@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Models
             return string.Join(", ", costAuthorities.Select(ca => ca.CostAuthorityWorkBreakdownStructure));
         }
 
-        public static readonly UrlTemplate<string> DetailUrlTemplate = new UrlTemplate<string>(SitkaRoute<AgreementController>.BuildUrlFromExpression(t => t.AgreementDetailByNumber(UrlTemplate.Parameter1String)));
+        public static readonly UrlTemplate<string> DetailUrlTemplate = new UrlTemplate<string>(SitkaRoute<AgreementController>.BuildUrlFromExpression(t => t.AgreementDetail(UrlTemplate.Parameter1String)));
         public static string GetDetailUrl(this Agreement agreement)
         {
             if (agreement == null)
@@ -53,12 +53,12 @@ namespace ProjectFirma.Web.Models
 
         public static string GetDetailLinkUsingAgreementNumber(this Agreement agreement)
         {
-            return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetailByNumber(agreement.AgreementNumber), agreement.AgreementNumber);
+            return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(agreement.AgreementNumber), agreement.AgreementNumber);
         }
 
         public static string GetDetailLinkUsingFullDisplayName(this Agreement agreement)
         {
-            return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetailByNumber(agreement.AgreementNumber), agreement.GetFullDisplayName());
+            return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(agreement.AgreementNumber), agreement.GetFullDisplayName());
         }
 
         /// <summary>

@@ -32,7 +32,7 @@ using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class DetailViewData : FirmaViewData
+    public class OrganizationDetailViewData : FirmaViewData
     {
         public readonly ProjectFirmaModels.Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Views.Organization
         public int NumberOfLeadImplementedProjects { get; }
         public int NumberOfProjectsContributedTo { get; }
 
-        public DetailViewData(FirmaSession currentFirmaSession,
+        public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             bool hasSpatialData,
