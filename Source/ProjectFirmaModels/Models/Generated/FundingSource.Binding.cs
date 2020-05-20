@@ -92,6 +92,55 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(FundingSourceCustomAttributes.Any())
+            {
+                dependentObjects.Add(typeof(FundingSourceCustomAttribute).Name);
+            }
+
+            if(ProjectFundingSourceExpenditures.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditure).Name);
+            }
+
+            if(ProjectFundingSourceExpenditureUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceExpenditureUpdate).Name);
+            }
+
+            if(WbsElementObligationItemBudgets.Any())
+            {
+                dependentObjects.Add(typeof(WbsElementObligationItemBudget).Name);
+            }
+
+            if(WbsElementObligationItemInvoices.Any())
+            {
+                dependentObjects.Add(typeof(WbsElementObligationItemInvoice).Name);
+            }
+
+            if(WbsElementPnBudgets.Any())
+            {
+                dependentObjects.Add(typeof(WbsElementPnBudget).Name);
+            }
+
+            if(ProjectFundingSourceBudgets.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudget).Name);
+            }
+
+            if(ProjectFundingSourceBudgetUpdates.Any())
+            {
+                dependentObjects.Add(typeof(ProjectFundingSourceBudgetUpdate).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingSource).Name, typeof(FundingSourceCustomAttribute).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(WbsElementPnBudget).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name};

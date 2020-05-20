@@ -114,6 +114,7 @@
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
+    <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple.cs" />
     <Compile Include="Models\ObligationItemModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
@@ -610,6 +611,8 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroup.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewData.cs" />
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
+    <Compile Include="Views\Shared\DisplayDocumentLibrary.cs" />
+    <Compile Include="Views\Shared\DisplayDocumentLibraryViewData.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyBranch\TaxonomyBranchReclamationBiDirectionalTaxonomyLeafTests.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
@@ -1925,6 +1928,7 @@
     <Content Include="Views\Reports\Edit.cshtml" />
     <Content Include="Views\Reports\GenerateReports.cshtml" />
     <Content Include="Views\Reports\Projects.cshtml" />
+    <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <Content Include="Views\ActionItem\ActionItemsDisplay.cshtml" />
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />

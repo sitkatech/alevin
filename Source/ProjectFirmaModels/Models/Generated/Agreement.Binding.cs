@@ -98,6 +98,40 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(ObligationNumbersWhereYouAreTheReclamationAgreement.Any())
+            {
+                dependentObjects.Add(typeof(ObligationNumber).Name);
+            }
+
+            if(AgreementCostAuthorities.Any())
+            {
+                dependentObjects.Add(typeof(AgreementCostAuthority).Name);
+            }
+
+            if(AgreementPacificNorthActivitiesWhereYouAreTheReclamationAgreement.Any())
+            {
+                dependentObjects.Add(typeof(AgreementPacificNorthActivity).Name);
+            }
+
+            if(ObligationRequests.Any())
+            {
+                dependentObjects.Add(typeof(ObligationRequest).Name);
+            }
+
+            if(ReclamationStagingCostAuthorityAgreements.Any())
+            {
+                dependentObjects.Add(typeof(ReclamationStagingCostAuthorityAgreement).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Agreement).Name, typeof(ObligationNumber).Name, typeof(AgreementCostAuthority).Name, typeof(AgreementPacificNorthActivity).Name, typeof(ObligationRequest).Name, typeof(ReclamationStagingCostAuthorityAgreement).Name};
