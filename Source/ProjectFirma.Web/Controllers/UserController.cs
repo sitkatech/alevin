@@ -151,11 +151,14 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewDelete(Person personToDelete, ConfirmDialogFormViewModel viewModel)
         {
-            var canDelete = !personToDelete.HasDependentObjects() && personToDelete != CurrentPerson;
+            // This CanDeletePerson extension method is important when deleting users. We want to prevent accidental data loss
+            // due to unforeseen cascade deletion.
+            var canDelete = personToDelete.CanDeletePerson(CurrentPerson);
+
             var confirmMessage = canDelete
                 ? $"Are you sure you want to delete {personToDelete.GetFullNameFirstLastAndOrg()}?"
-                : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage("Person",
-                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(personToDelete), "here"));
+                : ConfirmDialogFormViewData.GetStandardCannotDeletePersonMessage("Person",
+                    SitkaRoute<UserController>.BuildLinkFromExpression(x => x.Detail(personToDelete), "User profile page"));
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData,
