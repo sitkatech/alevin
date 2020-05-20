@@ -10,6 +10,12 @@ namespace ProjectFirma.Web.Models
         public int? CalendarYear { get; }
         public decimal Amount { get; }
 
+        /// <summary>
+        /// Needed by ModelBinder
+        /// </summary>
+        public ProjectNoFundingSourceCostTypeAmount()
+        {
+        }
 
         private ProjectNoFundingSourceCostTypeAmount(CostType costType, int? calendarYear, decimal amount)
         {

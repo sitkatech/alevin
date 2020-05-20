@@ -605,11 +605,12 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
     $scope.getNoFundingSourceAmounts = function (costType) {
         var costTypeID = costType.CostTypeID;
-        var calendarYearsToAdd = _.difference($scope.calendarYearRange, $scope.getAllUsedCalendarYearsNoFundingSourceIdentifieds());
-        var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
+        var allUsedCalendarYearsForCostType = $scope.getAllUsedCalendarYearsNoFundingSourceIdentifiedsByCostType(costType);
+        var calendarYearsToAdd = _.difference($scope.calendarYearRange, allUsedCalendarYearsForCostType);
+        //var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         _.each(calendarYearsToAdd,
             function (calendarYear) {
-                relevantCostTypeIDs.forEach(costTypeID => $scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, calendarYear, costTypeID));
+                $scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, calendarYear, costTypeID);
                 
             });
         var noFundingForACostType = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (fundingSourceAmount) { return fundingSourceAmount.CostTypeID == costTypeID });
@@ -669,6 +670,11 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     }
 
     $scope.getAllUsedCalendarYearsNoFundingSourceIdentifieds = function () { return _($scope.AngularModel.NoFundingSourceAmounts).map("CalendarYear").flatten().union().sortBy().value(); };
+
+    $scope.getAllUsedCalendarYearsNoFundingSourceIdentifiedsByCostType = function (costType) {
+        var noFundingSourceAmountByCostType = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) { return nfsa.CostTypeID == costType.CostTypeID });
+        return _(noFundingSourceAmountByCostType).map("CalendarYear").flatten().union().sortBy().value();
+    };
 
     $scope.calendarYearRange = _.sortBy(_.union($scope.getAllCalendarYearBudgetsAsFlattenedLoDashArray().map("CalendarYear").flatten().union().value(), $scope.getAllUsedCalendarYearsNoFundingSourceIdentifieds(), $scope.AngularViewData.RequiredCalendarYearRange));
     $scope.resetfundingSourceIDToAdd();
