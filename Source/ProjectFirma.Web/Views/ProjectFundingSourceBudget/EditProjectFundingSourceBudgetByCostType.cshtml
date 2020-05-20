@@ -268,7 +268,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </tr>
                             </tbody>
                             @* No Funding Source Identified Yet entry row*@
-                        <tbody ng-show="getRelevantCostTypes().length > 1" style="border-top: 2px solid #ddd">
+                        <tbody ng-show="getRelevantCostTypes().length > 0" style="border-top: 2px solid #ddd">
                             <tr class="fundingSourceHeaderRow">
                                 <td colspan="2">@Html.LabelWithSugarFor(@ViewDataTyped.FieldDefinitionForNoFundingSourceIdentified)</td>
                                 <td ng-repeat-start="calendarYear in calendarYearRange | orderBy:'CalendarYear'">
