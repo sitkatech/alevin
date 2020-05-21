@@ -289,11 +289,10 @@ namespace ProjectFirma.Web.Controllers
 
             // Project Running Balance - All Contracts Version
             // -----------------------------------------------
-            // EMPTY - Incomplete. Does not work yet!
-            //var prbacs = new List<ProjectRunningBalanceAllContractRecord>();
-            var prbacs = ProjectRunningBalanceAllContractRecord
-                .GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(project);
-            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceAllContractViewData(prbacs);
+            var prbacsRouteOne = ProjectRunningBalanceAllContractRecord.GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(project);
+            // Route two is a bust; empty. Should discard.
+            //var prbacsRouteTwo = ProjectRunningBalanceAllContractRecord.GetProjectRunningBalanceAllContractRecordsForProject_RouteTwo(project);
+            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceAllContractViewData(prbacsRouteOne);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
