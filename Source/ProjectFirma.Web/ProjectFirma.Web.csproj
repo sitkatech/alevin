@@ -596,8 +596,9 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\ActionItem\ActionItemsDisplayViewData.cs" />
-    <Compile Include="Views\Shared\ProjectRunningBalanceAllContract\ProjectRunningBalanceAllContract.cs" />
-    <Compile Include="Views\Shared\ProjectRunningBalanceAllContract\ProjectRunningBalanceAllContractViewData.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresRecord.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresViewData.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalanceViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
@@ -1935,7 +1936,7 @@
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
     <Content Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cshtml" />
-    <Content Include="Views\Shared\ProjectRunningBalanceAllContract\ProjectRunningBalanceAllContract.cshtml" />
+    <Content Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

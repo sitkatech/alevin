@@ -18,13 +18,9 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using System.ServiceModel.Channels
-@using ProjectFirmaModels.Models
 @using LtInfo.Common
-@using LtInfo.Common.Views
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@inherits ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract.ProjectRunningBalanceAllContract
+@inherits ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures.ProjectRunningBalanceObligationsAndExpenditures
 
 <style>
     .tableFixedHead tbody { overflow-y: auto; height: 300px; }
@@ -45,7 +41,7 @@
                 </tr>
             </thead>
             <tbody>
-            @foreach (var prbacRecord in ViewDataTyped.ProjectRunningBalanceAllContractRecords.OrderBy(pr => pr.Date))
+            @foreach (var prbacRecord in ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.OrderBy(pr => pr.Date))
             {
                <tr>
                   <td>@prbacRecord.FiscalQuarter.FiscalQuarterNumber/@prbacRecord.FiscalYear - @prbacRecord.FiscalQuarter.FiscalQuarterDisplayName</td>
@@ -66,8 +62,8 @@
                 <tr>
                     <th scope="row">Totals:</th>
                     <th scope="col">@projectedBudgetRunningBalance.ToStringCurrency()</th>
-                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceAllContractRecords.Select(prbr => prbr.ObligationItemBudgetObligation).Sum().ToStringCurrency()</th>
-                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceAllContractRecords.Select(prbr => prbr.ObligationItemInvoiceDebit).Sum().ToStringCurrency()</th>
+                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.Select(prbr => prbr.ObligationItemBudgetObligation).Sum().ToStringCurrency()</th>
+                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.Select(prbr => prbr.ObligationItemInvoiceDebit).Sum().ToStringCurrency()</th>
                     <th scope="col">@projectionMinusObligationRunningBalance.ToStringCurrency() </th>
                     <th scope="col">@obligationMinusDebitRunningBalance.ToStringCurrency()</th>
                 </tr>
