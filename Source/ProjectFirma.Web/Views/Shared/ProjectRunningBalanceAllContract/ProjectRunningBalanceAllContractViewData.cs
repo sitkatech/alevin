@@ -39,19 +39,27 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
 
     public class ProjectRunningBalanceAllContractRecord
     {
-        /// <summary>
-        /// Posting Date from Obligation Item Budget/Invoice
-        /// or Date from ProjectedBudget
-        /// </summary>
+        /*
+                    <th scope="col">FQ/FY</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Commitments</th>
+                    <th scope="col">Obligations</th>
+                    <th scope="col">Expenditures</th>
+                    <th scope="col">Unexpended Balance</th>
+        */
+
+        public FiscalQuarter FiscalQuarter { get; set; }
+        public int FiscalYear { get; set; }
         public DateTime Date { get; set; }
 
         /// <summary>
         /// Dummy data - eventually coming from user entered data in UI
         /// </summary>
-        public double ProjectedBudget { get; set; }
-        public double ObligationItemBudgetObligation { get; set; }
-        public double ObligationItemInvoiceDebit { get; set; }
+        public double Commitments { get; set; }
+        public double Obligations { get; set; }
+        public double UnexpendedBalance { get; set; }
 
+        /*
         /// <summary>
         /// Constructor for building a Project Running Balance Record for a budget projection
         /// </summary>
@@ -64,21 +72,33 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
             ObligationItemBudgetObligation = 0;
             ObligationItemInvoiceDebit = 0;
         }
+        */
 
-        public ProjectRunningBalanceAllContractRecord(WbsElementObligationItemBudget obligationItemBudget)
+        public ProjectRunningBalanceAllContractRecord(WbsElementPnBudget wbsElementPnBudget)
         {
-            ProjectedBudget = 0;
-            Date = obligationItemBudget.PostingDateKey ?? DateTime.MinValue;
-            ObligationItemBudgetObligation = obligationItemBudget.Obligation ?? 0;
-            ObligationItemInvoiceDebit = 0;
+            this.FiscalQuarter = wbsElementPnBudget.FiscalQuarter;
+            this.FiscalYear = wbsElementPnBudget.FiscalYear;
+            // WARNING - This date will be wrong until we resolve FQ/FY/CY issues! Need to unify FiscalQuarter ideas from PF & Reclamation.
+            this.Date = this.FiscalQuarter.GetCompleteStartDateUsingCalendarYear(wbsElementPnBudget.FiscalYear);
+
+            this.Commitments = wbsElementPnBudget.CommittedButNotObligated ?? 0;
+            this.Obligations = wbsElementPnBudget.TotalObligations ?? 0;
+            // I believe this is the mapping; Dorothy seems to be telling me it is. -- SLG 5/21/2020
+            this.UnexpendedBalance = wbsElementPnBudget.UndeliveredOrders ?? 0;
         }
 
-        public ProjectRunningBalanceAllContractRecord(WbsElementObligationItemInvoice obligationItemInvoice)
+        public static List<ProjectRunningBalanceAllContractRecord> GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(ProjectFirmaModels.Models.Project project)
         {
-            ProjectedBudget = 0;
-            Date = obligationItemInvoice.PostingDateKey ?? DateTime.MinValue;
-            ObligationItemBudgetObligation = 0;
-            ObligationItemInvoiceDebit = obligationItemInvoice.DebitAmount ?? 0;
+            var relevantCostAuthorities = project.CostAuthorityProjects.Select(cap => cap.CostAuthority).ToList();
+            var relevantPns = relevantCostAuthorities.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
+            return relevantPns.Select(pn => new ProjectRunningBalanceAllContractRecord(pn)).ToList();
+        }
+
+        public static List<ProjectRunningBalanceAllContractRecord> GetProjectRunningBalanceAllContractRecordsForProject_RouteTwo(ProjectFirmaModels.Models.Project project)
+        {
+            var relevantFundingSources = project.ProjectFundingSourceBudgets.Select(pfsb => pfsb.FundingSource).ToList();
+            var relevantPns = relevantFundingSources.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
+            return relevantPns.Select(pn => new ProjectRunningBalanceAllContractRecord(pn)).ToList();
         }
 
     }

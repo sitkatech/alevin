@@ -290,7 +290,9 @@ namespace ProjectFirma.Web.Controllers
             // Project Running Balance - All Contracts Version
             // -----------------------------------------------
             // EMPTY - Incomplete. Does not work yet!
-            var prbacs = new List<ProjectRunningBalanceAllContractRecord>();
+            //var prbacs = new List<ProjectRunningBalanceAllContractRecord>();
+            var prbacs = ProjectRunningBalanceAllContractRecord
+                .GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(project);
             var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceAllContractViewData(prbacs);
 
             var viewData = new DetailViewData(CurrentFirmaSession,

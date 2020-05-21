@@ -413,7 +413,7 @@
                 </div>
             </div>*@
             
-            
+            @*Original Project Running Balance Report (flawed)*@
             <div class="panel panelFirma">
                <div class="panel-heading panelTitle">
                   @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)*@
@@ -425,11 +425,10 @@
                   @{ ProjectRunningBalance.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceViewData); }
                </div>
             </div>
-            
-            
+
+            @*New attempt at Project Running Balance Report (improved)*@
             <div class="panel panelFirma">
                <div class="panel-heading panelTitle">
-                  @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)*@
                   <h3 class="project-detail-heading">
                      Project Running Balance - All Contracts
                   </h3>
@@ -439,7 +438,6 @@
                </div>
             </div>
             
-
 
             @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
                 {

@@ -34,42 +34,30 @@
         <table class="table table-condensed table-bordered tableFixedHead">
             <thead>
                 <tr>
+                    <th scope="col">FQ/FY</th>
                     <th scope="col">Date</th>
-                    <th scope="col">Total Projected Budget</th>
-                    <th scope="col">Obligation Item Budget - Obligations</th>
-                    <th scope="col">Obligation Item Invoice - Debit</th>
-                    <th scope="col">Balance: Projection minus Obligations</th>
-                    <th scope="col">Balance: Obligation minus Debit</th>
+                    <th scope="col">Commitments</th>
+                    <th scope="col">Obligations</th>
+                    <th scope="col">Expenditures</th>
+                    <th scope="col">Unexpended Balance</th>
                 </tr>
             </thead>
-            @{
-                double projectedBudgetRunningBalance = 0;
-                double projectionMinusObligationRunningBalance = 0;
-                double obligationMinusDebitRunningBalance = 0;
-            }
             <tbody>
-                @foreach (var prbRecord in ViewDataTyped.ProjectRunningBalanceAllContractRecords)
-                {
-                    //ProjectedBudget
-                    projectedBudgetRunningBalance += prbRecord.ProjectedBudget;
-                    // ProjectedBudget minus Obligation
-                    projectionMinusObligationRunningBalance += prbRecord.ProjectedBudget;
-                    projectionMinusObligationRunningBalance -= prbRecord.ObligationItemBudgetObligation;
-                    // Obligation minus Debt
-                    obligationMinusDebitRunningBalance += prbRecord.ObligationItemBudgetObligation;
-                    obligationMinusDebitRunningBalance -= prbRecord.ObligationItemInvoiceDebit;
-
-                    <tr>
-                        <td>@prbRecord.Date.ToShortDateString()</td>
-                        <td>@projectedBudgetRunningBalance.ToStringCurrency()</td>
-                        <td>@prbRecord.ObligationItemBudgetObligation.ToStringCurrency()</td>
-                        <td>@prbRecord.ObligationItemInvoiceDebit.ToStringCurrency()</td>
-                        <td>@projectionMinusObligationRunningBalance.ToStringCurrency() </td>
-                        <td>@obligationMinusDebitRunningBalance.ToStringCurrency()</td>
-                    </tr>
-                }
+            @foreach (var prbacRecord in ViewDataTyped.ProjectRunningBalanceAllContractRecords.OrderBy(pr => pr.Date))
+            {
+               <tr>
+                  <td>@prbacRecord.FiscalQuarter.FiscalQuarterNumber/@prbacRecord.FiscalYear - @prbacRecord.FiscalQuarter.FiscalQuarterDisplayName</td>
+                  <td>@prbacRecord.Date.ToShortDateString()</td>
+                  <td>@prbacRecord.Commitments.ToStringCurrency()</td>
+                  <td>@prbacRecord.Obligations.ToStringCurrency()</td>
+                  <td>@prbacRecord.UnexpendedBalance.ToStringCurrency()</td>
+               </tr>
+            }
             </tbody>
-            <tfoot>
+
+            @*I'm not sure totals are relevant*@
+
+            @*<tfoot>
                 <tr>
                     <th scope="row">Totals:</th>
                     <th scope="col">@projectedBudgetRunningBalance.ToStringCurrency()</th>
@@ -78,7 +66,7 @@
                     <th scope="col">@projectionMinusObligationRunningBalance.ToStringCurrency() </th>
                     <th scope="col">@obligationMinusDebitRunningBalance.ToStringCurrency()</th>
                 </tr>
-            </tfoot>
+            </tfoot>*@
         </table>
     </div>
 
