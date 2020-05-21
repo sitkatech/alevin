@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
 using ApprovalUtilities.Utilities;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -41,7 +42,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ObligationItemInvoiceIndexViewData(CurrentFirmaSession);//, firmaPage);
             return RazorView<ObligationItemInvoiceIndex, ObligationItemInvoiceIndexViewData>(viewData);
         }
-
 
         [ObligationViewFeature]
         public GridJsonNetJObjectResult<ObligationNumber> ObligationNumberGridJsonData()
@@ -93,14 +93,15 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [ObligationViewFeature]
-        //public ViewResult Detail(PerformanceMeasurePrimaryKey performanceMeasurePrimaryKey)
-        // Can we / should we use the ObligationNumber as the primary key string?
-        public ViewResult ObligationDetail(ObligationNumberPrimaryKey obligationPrimaryKey)
+        public ViewResult ObligationDetail(string obligationNumber)
         {
-            var obligation = obligationPrimaryKey.EntityObject;
+            var obligation = HttpRequestStorage.DatabaseEntities.ObligationNumbers.SingleOrDefault(ob => ob.ObligationNumberKey == obligationNumber);
+            Check.EnsureNotNull(obligation, $"Obligation Number {obligationNumber} Not found");
             var viewData = new ObligationDetailViewData(CurrentFirmaSession, obligation);
             return RazorView<ObligationDetail, ObligationDetailViewData>(viewData);
         }
+
+
 
     }
 }

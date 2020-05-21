@@ -14,12 +14,6 @@ namespace ProjectFirma.Web.Controllers
 {
     public class AgreementController : FirmaBaseController
     {
-        //[PerformanceMeasureManageFeature]
-        //public ViewResult Manage()
-        //{
-        //    return IndexImpl();
-        //}
-
         [AgreementViewFeature]
         public ViewResult AgreementIndex()
         {
