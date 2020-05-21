@@ -40,6 +40,8 @@
                     <th scope="col">Obligations</th>
                     <th scope="col">Expenditures</th>
                     <th scope="col">Unexpended Balance</th>
+                    <th scope="col">Cost Authority</th>
+                    <th scope="col">Budget Object Code</th>
                 </tr>
             </thead>
             <tbody>
@@ -50,7 +52,10 @@
                   <td>@prbacRecord.Date.ToShortDateString()</td>
                   <td>@prbacRecord.Commitments.ToStringCurrency()</td>
                   <td>@prbacRecord.Obligations.ToStringCurrency()</td>
+                  <td>@prbacRecord.Expenditures.ToStringCurrency()</td>
                   <td>@prbacRecord.UnexpendedBalance.ToStringCurrency()</td>
+                  <td>@prbacRecord.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()</td>
+                  <td>@UrlTemplate.MakeHrefString(prbacRecord.BudgetObjectCode != null ? prbacRecord.BudgetObjectCode.GetDetailUrl() : string.Empty, prbacRecord.BudgetObjectCode != null ? prbacRecord.BudgetObjectCode.GetDisplayName() : string.Empty)</td>
                </tr>
             }
             </tbody>

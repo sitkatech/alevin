@@ -8,9 +8,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.CostAuthority;
 using ProjectFirma.Web.Views.Obligation;
-using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Project;
-using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers

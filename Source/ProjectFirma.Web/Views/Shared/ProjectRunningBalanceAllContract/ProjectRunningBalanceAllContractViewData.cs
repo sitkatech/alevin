@@ -39,15 +39,6 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
 
     public class ProjectRunningBalanceAllContractRecord
     {
-        /*
-                    <th scope="col">FQ/FY</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Commitments</th>
-                    <th scope="col">Obligations</th>
-                    <th scope="col">Expenditures</th>
-                    <th scope="col">Unexpended Balance</th>
-        */
-
         public FiscalQuarter FiscalQuarter { get; set; }
         public int FiscalYear { get; set; }
         public DateTime Date { get; set; }
@@ -57,7 +48,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
         /// </summary>
         public double Commitments { get; set; }
         public double Obligations { get; set; }
+        public double Expenditures { get; set; }
         public double UnexpendedBalance { get; set; }
+
+        public ProjectFirmaModels.Models.CostAuthority CostAuthority { get; set; }
+        public ProjectFirmaModels.Models.BudgetObjectCode BudgetObjectCode { get; set; }
 
         /*
         /// <summary>
@@ -83,8 +78,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
 
             this.Commitments = wbsElementPnBudget.CommittedButNotObligated ?? 0;
             this.Obligations = wbsElementPnBudget.TotalObligations ?? 0;
+            this.Expenditures = wbsElementPnBudget.TotalExpenditures ?? 0;
             // I believe this is the mapping; Dorothy seems to be telling me it is. -- SLG 5/21/2020
             this.UnexpendedBalance = wbsElementPnBudget.UndeliveredOrders ?? 0;
+
+            this.CostAuthority = wbsElementPnBudget.CostAuthority;
+            this.BudgetObjectCode = wbsElementPnBudget.BudgetObjectCode;
         }
 
         public static List<ProjectRunningBalanceAllContractRecord> GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(ProjectFirmaModels.Models.Project project)
