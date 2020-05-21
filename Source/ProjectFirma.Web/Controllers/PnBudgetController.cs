@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -32,5 +33,17 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementPnBudget>(pnBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        [PnBudgetViewFeature]
+        public GridJsonNetJObjectResult<WbsElementPnBudget> PnBudgetsForCostAuthorityGridJsonData(string costAuthorityWorkBreakdownStructureString)
+        {
+            var relevantCostAuthority =  HttpRequestStorage.DatabaseEntities.CostAuthorities.SingleOrDefault(ca => ca.CostAuthorityWorkBreakdownStructure == costAuthorityWorkBreakdownStructureString);
+            Check.EnsureNotNull(relevantCostAuthority, $"Could not find CostAuthority {costAuthorityWorkBreakdownStructureString}");
+            var gridSpec = new PnBudgetGridSpec(CurrentFirmaSession);
+            var pnBudgets = HttpRequestStorage.DatabaseEntities.WbsElementPnBudgets.Where(pn => pn.CostAuthorityID == relevantCostAuthority.CostAuthorityID).ToList().OrderBy(x => x.WbsElementPnBudgetID).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementPnBudget>(pnBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
     }
 }

@@ -134,23 +134,45 @@
 </div>
 
 
+@if (ViewDataTyped.HasPnBudgetViewPermission)
+{
+   // PNBudgets
+   <div class="row">
+      <div class="col-xs-12">
+         <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+               <h2>
+                  PN Budgets
+               </h2>
+            </div>
+            <div class="panel-body">
+               @Html.DhtmlxGrid(ViewDataTyped.PnBudgetGridSpec, ViewDataTyped.PnBudgetGridName, ViewDataTyped.PnBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+               @*@Html.DhtmlxGrid(ViewDataTyped.ObligationItemInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)*@
+            </div>
+         </div>
+      </div>
+   </div>
+}
+
 @if (ViewDataTyped.HasObligationViewPermission)
 {
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>
-                        Obligation Item Invoices
-                    </h2>
-                </div>
-                <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.ObligationItemInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-                </div>
+   // Obligation Item Invoices
+   <div class="row">
+      <div class="col-xs-12">
+         <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+               <h2>
+                  Obligation Item Invoices
+               </h2>
             </div>
-        </div>
-    </div>
+            <div class="panel-body">
+               @Html.DhtmlxGrid(ViewDataTyped.ObligationItemInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+            </div>
+         </div>
+      </div>
+   </div>
 
+    // Obligation Item Budgets
     <div class="row">
         <div class="col-xs-12">
             <div class="panel panelFirma">
