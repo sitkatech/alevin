@@ -281,7 +281,6 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
 
             // Mandatory fields appearing AFTER configurable fields
             AddMandatoryFieldsAfter(userHasTagManagePermissions);
-            
         }
 
         private void AddConfiguredFields(FirmaSession currentFirmaSession

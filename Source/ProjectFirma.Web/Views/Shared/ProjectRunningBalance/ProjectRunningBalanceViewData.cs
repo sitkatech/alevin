@@ -22,9 +22,6 @@ Source code is available upon request via <support@sitkatech.com>.
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using LtInfo.Common.Views;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Project;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalance

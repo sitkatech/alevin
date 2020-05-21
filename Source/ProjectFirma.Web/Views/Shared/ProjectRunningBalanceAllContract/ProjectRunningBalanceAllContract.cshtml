@@ -1,0 +1,83 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectRunningBalance.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.ServiceModel.Channels
+@using ProjectFirmaModels.Models
+@using LtInfo.Common
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract.ProjectRunningBalanceAllContract
+
+<style>
+    .tableFixedHead tbody { overflow-y: auto; height: 300px; }
+    .tableFixedHead thead th { position: sticky; top: 0; background-color: #fff; }
+</style>
+    <div class="table-responsive" style="max-height: 450px;">
+        <table class="table table-condensed table-bordered tableFixedHead">
+            <thead>
+                <tr>
+                    <th scope="col">FQ/FY</th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Commitments</th>
+                    <th scope="col">Obligations</th>
+                    <th scope="col">Expenditures</th>
+                    <th scope="col">Unexpended Balance</th>
+                    <th scope="col">Cost Authority</th>
+                    <th scope="col">Budget Object Code</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach (var prbacRecord in ViewDataTyped.ProjectRunningBalanceAllContractRecords.OrderBy(pr => pr.Date))
+            {
+               <tr>
+                  <td>@prbacRecord.FiscalQuarter.FiscalQuarterNumber/@prbacRecord.FiscalYear - @prbacRecord.FiscalQuarter.FiscalQuarterDisplayName</td>
+                  <td>@prbacRecord.Date.ToShortDateString()</td>
+                  <td>@prbacRecord.Commitments.ToStringCurrency()</td>
+                  <td>@prbacRecord.Obligations.ToStringCurrency()</td>
+                  <td>@prbacRecord.Expenditures.ToStringCurrency()</td>
+                  <td>@prbacRecord.UnexpendedBalance.ToStringCurrency()</td>
+                  <td>@prbacRecord.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()</td>
+                  <td>@UrlTemplate.MakeHrefString(prbacRecord.BudgetObjectCode != null ? prbacRecord.BudgetObjectCode.GetDetailUrl() : string.Empty, prbacRecord.BudgetObjectCode != null ? prbacRecord.BudgetObjectCode.GetDisplayName() : string.Empty)</td>
+               </tr>
+            }
+            </tbody>
+
+            @*I'm not sure totals are relevant*@
+
+            @*<tfoot>
+                <tr>
+                    <th scope="row">Totals:</th>
+                    <th scope="col">@projectedBudgetRunningBalance.ToStringCurrency()</th>
+                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceAllContractRecords.Select(prbr => prbr.ObligationItemBudgetObligation).Sum().ToStringCurrency()</th>
+                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceAllContractRecords.Select(prbr => prbr.ObligationItemInvoiceDebit).Sum().ToStringCurrency()</th>
+                    <th scope="col">@projectionMinusObligationRunningBalance.ToStringCurrency() </th>
+                    <th scope="col">@obligationMinusDebitRunningBalance.ToStringCurrency()</th>
+                </tr>
+            </tfoot>*@
+        </table>
+    </div>
+
+
+
+
+
+
+

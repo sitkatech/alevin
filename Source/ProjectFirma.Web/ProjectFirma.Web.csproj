@@ -596,6 +596,8 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\ActionItem\ActionItemsDisplayViewData.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceAllContract\ProjectRunningBalanceAllContract.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceAllContract\ProjectRunningBalanceAllContractViewData.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalanceViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
@@ -1933,6 +1935,7 @@
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
     <Content Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cshtml" />
+    <Content Include="Views\Shared\ProjectRunningBalanceAllContract\ProjectRunningBalanceAllContract.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
@@ -2350,8 +2353,8 @@
     <Compile Include="Views\Organization\EditViewModelValidator.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewModel.cs" />
     <Compile Include="Views\Shared\TextControls\EditNoteViewModelTest.cs" />
-    <Compile Include="Views\Organization\Detail.cs" />
-    <Compile Include="Views\Organization\DetailViewData.cs" />
+    <Compile Include="Views\Organization\OrganizationDetail.cs" />
+    <Compile Include="Views\Organization\OrganizationDetailViewData.cs" />
     <Compile Include="Views\Organization\EditViewModelTest.cs" />
     <Compile Include="Views\User\EditRoles.cs">
       <SubType>Code</SubType>
@@ -3508,7 +3511,7 @@
     <Content Include="Views\Shared\MapJavascriptIncludes.cshtml" />
     <Content Include="Views\Organization\Edit.cshtml" />
     <Content Include="Views\Organization\Index.cshtml" />
-    <Content Include="Views\Organization\Detail.cshtml" />
+    <Content Include="Views\Organization\OrganizationDetail.cshtml" />
     <Content Include="Views\Shared\TextControls\EditNote.cshtml" />
     <Content Include="Views\PersonOrganization\EditPersonOrganizations.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\Money.cshtml" />

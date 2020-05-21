@@ -29,17 +29,12 @@ namespace ProjectFirma.Web.Views.Agreement
                 SaveFiltersInCookie = true
             };
 
-            //NewUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.New());
-            NewUrl = "NO_URL_FOR_THIS_PROBABLY_WILL_NEVER_BE_ONE";
+            AgreementGridName = "AgreementsGrid";
+            AgreementGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementGridJsonData());
+            AgrementIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
 
             //AgreementGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.AgreementSubcategory.ToType().GetFieldDefinitionLabelPluralized()}";
             //AgreementGridSpec.CustomExcelDownloadUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
-
-            AgreementGridName = "AgreementsGrid";
-            AgreementGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementGridJsonData());
-            // Is this needed??
-            //EditSortOrderUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(x => x.EditSortOrder());
-            AgrementIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
 
         }
     }

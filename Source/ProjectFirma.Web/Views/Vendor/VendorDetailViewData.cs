@@ -49,6 +49,8 @@ namespace ProjectFirma.Web.Views.Vendor
             EntityName = $"{FieldDefinitionEnum.Vendor.ToType().GetFieldDefinitionLabel()}";
             VendorIndexUrl = SitkaRoute<VendorController>.BuildUrlFromExpression(c => c.Index());
 
+
+
             ObligationItemInvoiceGridName = "obligationItemInvoices";
             ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
             ObligationItemInvoiceGridDataUrl = SitkaRoute<VendorController>.BuildUrlFromExpression(oc => oc.VendorObligationItemInvoiceGridJsonData(vendor));

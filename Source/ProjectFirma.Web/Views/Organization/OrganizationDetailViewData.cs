@@ -21,18 +21,20 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Views.Organization
 {
-    public class DetailViewData : FirmaViewData
+    public class OrganizationDetailViewData : FirmaViewData
     {
         public readonly ProjectFirmaModels.Models.Organization Organization;
         public readonly bool UserHasOrganizationManagePermissions;
@@ -41,6 +43,10 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string EditBoundaryUrl;
         public readonly string DeleteOrganizationBoundaryUrl;
         public readonly string EditOrganizationPrimaryContactUrl;
+
+        public readonly AgreementGridSpec AgreementsGridSpec;
+        public readonly string AgreementsGridName;
+        public readonly string AgreementsGridDataUrl;
 
         public readonly ProjectsIncludingLeadImplementingGridSpec ProjectsIncludingLeadImplementingGridSpec;
         public readonly string ProjectOrganizationsGridName;
@@ -82,7 +88,7 @@ namespace ProjectFirma.Web.Views.Organization
         public int NumberOfLeadImplementedProjects { get; }
         public int NumberOfProjectsContributedTo { get; }
 
-        public DetailViewData(FirmaSession currentFirmaSession,
+        public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             bool hasSpatialData,
@@ -91,6 +97,7 @@ namespace ProjectFirma.Web.Views.Organization
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentFirmaSession)
         {
             Organization = organization;
+            Check.EnsureNotNull(organization);
             PageTitle = organization.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}";
             UserHasOrganizationManagePermissions = new OrganizationManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
@@ -104,7 +111,17 @@ namespace ProjectFirma.Web.Views.Organization
                     c => c.DeleteOrganizationBoundary(organization));
             EditOrganizationPrimaryContactUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditPrimaryContact(organization));
 
-            ProjectsIncludingLeadImplementingGridSpec =
+        AgreementsGridSpec = new AgreementGridSpec(currentFirmaSession)
+        {
+            ObjectNameSingular = MultiTenantHelpers.GetAgreementName(),
+            ObjectNamePlural = MultiTenantHelpers.GetAgreementNamePluralized(),
+            SaveFiltersInCookie = true
+        };
+
+        AgreementsGridName = "OrganizationAgreementsGrid";
+        AgreementsGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementGridForOrganizationJsonData(this.Organization.OrganizationID));
+
+        ProjectsIncludingLeadImplementingGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, false)
                 {
                     ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",

@@ -25,6 +25,7 @@ using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Obligation;
+using ProjectFirma.Web.Views.PnBudget;
 using ProjectFirma.Web.Views.Project;
 
 //using ProjectFirma.Web.Views.Project;
@@ -50,14 +51,21 @@ namespace ProjectFirma.Web.Views.Agreement
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForCostAuthorityWorkBreakdownStructure { get; }
 
+        public bool HasPnBudgetViewPermission { get; }
+
+        public PnBudgetGridSpec PnBudgetGridSpec { get; }
+        public string PnBudgetGridName { get; }
+        public string PnBudgetGridDataUrl { get; }
+
         public bool HasObligationViewPermission { get; }
+
         public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
         public string ObligationItemInvoiceGridName { get; }
         public string ObligationItemInvoiceGridDataUrl { get; }
+
         public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
         public string ObligationItemBudgetGridName { get; }
         public string ObligationItemBudgetGridDataUrl { get; }
-
 
 
         public CostAuthorityDetailViewData(FirmaSession currentFirmaSession,
@@ -68,7 +76,6 @@ namespace ProjectFirma.Web.Views.Agreement
             PageTitle = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()}: {costAuthority.CostAuthorityWorkBreakdownStructure}";
             EntityName = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} Detail";
 
-
             UserHasCostAuthorityManagePermissions = new CostAuthorityManageFeature().HasPermissionByPerson(CurrentPerson);
             IsAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
@@ -78,8 +85,6 @@ namespace ProjectFirma.Web.Views.Agreement
             FieldDefinitionForAgreement = FieldDefinitionEnum.Agreement.ToType();
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             FieldDefinitionForCostAuthorityWorkBreakdownStructure = FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType();
-
-
 
             BasicProjectInfoProjectGridName = "costAuthorityProjectListGrid";
             BasicProjectInfoGridSpec = new BasicProjectInfoGridSpec(CurrentFirmaSession, true, CostAuthority)
@@ -99,7 +104,15 @@ namespace ProjectFirma.Web.Views.Agreement
             };
             AgreementGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityAgreementGridJsonData(costAuthority));
 
+            HasPnBudgetViewPermission = new PnBudgetViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
+            PnBudgetGridName = "PnBudgetsGrid";
+            PnBudgetGridSpec = new PnBudgetGridSpec(currentFirmaSession);
+            PnBudgetGridDataUrl = SitkaRoute<PnBudgetController>.BuildUrlFromExpression(c => c.PnBudgetsForCostAuthorityGridJsonData(costAuthority.CostAuthorityWorkBreakdownStructure));
+
             HasObligationViewPermission = new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
+
             ObligationItemInvoiceGridName = "obligationItemInvoices";
             ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
             ObligationItemInvoiceGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(oc => oc.ObligationItemInvoiceGridJsonData(costAuthority));
