@@ -557,8 +557,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
     $scope.calculateNoFundingSourceIdentifiedTotal = function (noFundingSourceIdentifieds) {
         return _(noFundingSourceIdentifieds)
-            .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.MonetaryAmount); })
-            .reduce(function (m, x) { return Number(m) + Number(x.MonetaryAmount); }, 0);
+            .filter(function (f) { return !Sitka.Methods.isUndefinedNullOrEmpty(f.Amount); })
+            .reduce(function (m, x) { return Number(m) + Number(x.Amount); }, 0);
     };
 
     $scope.getCalendarYearBudgets = function (projectFundingSourceBudget) {
