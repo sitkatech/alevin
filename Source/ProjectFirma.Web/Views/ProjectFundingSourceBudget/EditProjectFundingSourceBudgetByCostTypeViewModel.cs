@@ -160,13 +160,13 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             {
                 // Completely rebuild the list
                 projectNoFundingSourceAmountsUpdated = NoFundingSourceAmounts.Select(x =>
-                        new ProjectNoFundingSourceIdentified(project.ProjectID, MultiTenantHelpers.GetDefaultCostTypeID()) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.Amount, CostTypeID = x.CostTypeID})
+                        new ProjectNoFundingSourceIdentified(project.ProjectID, x.CostTypeID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.Amount})
                     .ToList();
             }
             // set if funding type is "Varies By Year", delete rows otherwise
             currentProjectNoFundingSourceIdentifieds.Merge(projectNoFundingSourceAmountsUpdated,
                 allProjectNoFundingSourceIdentifieds,
-                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.CostTypeID == y.CostTypeID,
                 (x, y) => x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet, databaseEntities);
 
             var currentProjectRelevantCostTypes = project.GetBudgetsRelevantCostTypes();

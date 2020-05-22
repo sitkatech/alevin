@@ -17,12 +17,27 @@ namespace ProjectFirma.Web.Models
         {
         }
 
-        private ProjectNoFundingSourceCostTypeAmount(CostType costType, int? calendarYear, decimal amount)
+        public ProjectNoFundingSourceCostTypeAmount(int costTypeID, int? calendarYear, decimal amount) : this()
+        {
+            CostTypeID = costTypeID;
+            CalendarYear = calendarYear;
+            Amount = amount;
+        }
+
+        public ProjectNoFundingSourceCostTypeAmount(CostType costType, int? calendarYear, decimal amount) : this()
         {
             CostType = costType;
             CostTypeID = costType.CostTypeID;
             CalendarYear = calendarYear;
             Amount = amount;
+        }
+
+        public ProjectNoFundingSourceCostTypeAmount(ProjectNoFundingSourceIdentified projectNoFundingSourceIdentified) : this()
+        {
+            CostType = projectNoFundingSourceIdentified.CostType;
+            CostTypeID = projectNoFundingSourceIdentified.CostTypeID;
+            CalendarYear = projectNoFundingSourceIdentified.CalendarYear;
+            Amount = projectNoFundingSourceIdentified.NoFundingSourceIdentifiedYet ?? 0;
         }
 
 
