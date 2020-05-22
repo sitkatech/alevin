@@ -489,6 +489,15 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         return $scope.calculateNoFundingSourceIdentifiedTotal(calendarYearNoFundingSourceIdentifiedArray);
     };
 
+    $scope.getNoFundingSourceIdentifiedTotalForCostType = function (costType) {
+        var calendarYearNoFundingSourceIdentifiedArray =
+            $scope.AngularModel.NoFundingSourceAmounts.filter(
+                function (pfse) {
+                    return pfse.CostTypeID == costType.CostTypeID;
+                });
+        return $scope.calculateNoFundingSourceIdentifiedTotal(calendarYearNoFundingSourceIdentifiedArray);
+    };
+
     $scope.getBudgetTotalForFundingSourceAndCalendarYear = function (fundingSourceId, calendarYear) {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
         var calendarYearBudgetsAsFlattenedArray = _($scope.AngularModel.ProjectFundingSourceBudgets)

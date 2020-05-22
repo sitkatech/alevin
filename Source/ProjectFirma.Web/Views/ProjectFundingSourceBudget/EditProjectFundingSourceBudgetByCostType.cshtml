@@ -277,7 +277,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </td>
                                 <td></td>
                                 <td ng-repeat-end></td>
-                                <th style="text-align: right"> @*{{getNoFundingSourceIdentifiedTotalForCalendarYear() | currency:"$"}}*@</th>
+                                <td> </td>
                                 <td></td>
                                 <td></td>
                             </tr>
@@ -293,7 +293,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </td>
                                 @* Start Row Totals *@
                                 <td style="text-align: right">
-                                    {{getBudgetTotalForRow(projectFundingSourceBudget) | currency:"$"}}
+                                    {{getNoFundingSourceIdentifiedTotalForCostType(costType) | currency:"$"}}
                                 </td>
                                 <td class="sourcedField" style="text-align: right">
                                     total
