@@ -420,9 +420,10 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             var calendarYearBudgets = _.filter(pfse.CalendarYearBudgets, function (cye) { return cye.CalendarYear == calendarYear });
             _.each(calendarYearBudgets, function (cye) { cye.IsRelevant = false; });
         });
-        var calendarYearNoFundingSourceAmount = _.filter($scope.AngularModel.NoFundingSourceAmounts,
-            function (nfsa) { return nfsa.CalendarYear == calendarYear });
-        Sitka.Methods.removeFromJsonArray($scope.AngularModel.NoFundingSourceAmounts, calendarYearNoFundingSourceAmount);
+        var calendarYearNoFundingSourceAmount = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) { return nfsa.CalendarYear == calendarYear });
+        _.each(calendarYearNoFundingSourceAmount, function (nfsa) {
+            Sitka.Methods.removeFromJsonArray($scope.AngularModel.NoFundingSourceAmounts, nfsa);
+        });
         _.pull($scope.calendarYearRange, calendarYear);
     };
 
@@ -637,7 +638,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         return {
             CalendarYear: calendarYear,
             CostTypeID: costTypeID,
-            MonetaryAmount: 0
+            Amount: 0
         };
     };
 
