@@ -49,13 +49,10 @@ namespace ProjectFirma.Web.Views.CostAuthority
                 SaveFiltersInCookie = true
             };
 
-            //NewUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(c => c.New());
-            NewUrl = "NO_URL_FOR_THIS_PROBABLY_WILL_NEVER_BE_ONE";
-
             //CostAuthorityGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.CostAuthoritySubcategory.ToType().GetFieldDefinitionLabelPluralized()}";
             //CostAuthorityGridSpec.CustomExcelDownloadUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
 
-            CostAuthorityGridName = "CostAuthoritysGrid";
+            CostAuthorityGridName = "CostAuthoritiesGrid";
             CostAuthorityGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(c => c.CostAuthorityGridJsonData());
             // Is this needed??
             //EditSortOrderUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(x => x.EditSortOrder());

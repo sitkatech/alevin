@@ -38,8 +38,6 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
-using Detail = ProjectFirma.Web.Views.Organization.Detail;
-using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
@@ -223,8 +221,14 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
-            var viewData = new DetailViewData(CurrentFirmaSession, organization, mapInitJson, hasSpatialData, performanceMeasures, expendituresDirectlyFromOrganizationViewGoogleChartViewData, expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
-            return RazorView<Detail, DetailViewData>(viewData);
+            var viewData = new OrganizationDetailViewData(CurrentFirmaSession,
+                                                organization,
+                                                mapInitJson,
+                                                hasSpatialData,
+                                                performanceMeasures,
+                                                expendituresDirectlyFromOrganizationViewGoogleChartViewData,
+                                                expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+            return RazorView<OrganizationDetail, OrganizationDetailViewData>(viewData);
         }
 
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, Person person)

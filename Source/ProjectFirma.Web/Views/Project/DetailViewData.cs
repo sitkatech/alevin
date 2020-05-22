@@ -41,6 +41,7 @@ using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -145,6 +146,7 @@ namespace ProjectFirma.Web.Views.Project
 
         //Project Running Balance
         public ProjectRunningBalanceViewData ProjectRunningBalanceViewData { get; set; }
+        public ProjectRunningBalanceAllContractViewData ProjectRunningBalanceAllContractViewData { get; set; }
 
         public string UpdateStatusUrl { get; set; }
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
@@ -184,7 +186,8 @@ namespace ProjectFirma.Web.Views.Project
             bool userHasStartUpdateWorkflowPermission,
             ActionItemsDisplayViewData actionItemsDisplayViewData,
             bool userCanViewActionItems,
-            ProjectRunningBalanceViewData projectRunningBalanceViewData)
+            ProjectRunningBalanceViewData projectRunningBalanceViewData,
+            ProjectRunningBalanceAllContractViewData projectRunningBalanceAllContractViewData)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -444,8 +447,9 @@ namespace ProjectFirma.Web.Views.Project
             ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
             ObligationItemBudgetGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ObligationItemBudgetGridJsonData(project));
 
-            //Project Running Balance
+            // Project Running Balance
             ProjectRunningBalanceViewData = projectRunningBalanceViewData;
+            ProjectRunningBalanceAllContractViewData = projectRunningBalanceAllContractViewData;
         }
     }
 }

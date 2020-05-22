@@ -53,6 +53,7 @@ using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -260,7 +261,8 @@ namespace ProjectFirma.Web.Controllers
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
-            //Project Running Balance
+            // Project Running Balance - 1st version
+            // -------------------------------------
             var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
             var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
             var obligationItemInvoiceRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
@@ -284,7 +286,14 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var projectRunningBalanceViewData = new ProjectRunningBalanceViewData(projectRunningBalanceRecords);
-            
+
+            // Project Running Balance - All Contracts Version
+            // -----------------------------------------------
+            var prbacsRouteOne = ProjectRunningBalanceAllContractRecord.GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(project);
+            // Route two is a bust; empty. Should discard.
+            //var prbacsRouteTwo = ProjectRunningBalanceAllContractRecord.GetProjectRunningBalanceAllContractRecordsForProject_RouteTwo(project);
+            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceAllContractViewData(prbacsRouteOne);
+
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
@@ -339,7 +348,8 @@ namespace ProjectFirma.Web.Controllers
                 userHasStartUpdateWorkflowPermission,
                 actionItemsDisplayViewData,
                 userCanViewActionItems,
-                projectRunningBalanceViewData);
+                projectRunningBalanceViewData,
+                projectRunningBalanceAllContractViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

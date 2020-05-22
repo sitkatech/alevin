@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="NewDocumentViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectRunningBalance.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,21 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.Linq;
+
+using LtInfo.Common.HtmlHelperExtensions;
+using LtInfo.Common.Mvc;
 using System.Web.Mvc;
 
-namespace ProjectFirma.Web.Views.DocumentLibrary
+namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
 {
-    public class NewDocumentViewData : EditDocumentViewData
+    public abstract class ProjectRunningBalanceAllContract : TypedWebPartialViewPage<ProjectRunningBalanceAllContractViewData>
     {
-        public readonly string SupportedFileExtensionsCommaSeparated;
-        public readonly List<string> SupportedFileExtensions;
-
-        public NewDocumentViewData(IEnumerable<SelectListItem> documentCategories): base(documentCategories)
+        public static void RenderPartialView(HtmlHelper html, ProjectRunningBalanceAllContractViewData viewData)
         {
-            SupportedFileExtensions = new List<string> { "pdf", "zip", "doc", "docx", "xls", "xlsx", "ppt", "pptx" };
-            SupportedFileExtensionsCommaSeparated = string.Join(", ", SupportedFileExtensions.OrderBy(x => x));
+            html.RenderRazorSitkaPartial<ProjectRunningBalanceAllContract, ProjectRunningBalanceAllContractViewData>(viewData);
         }
     }
 }

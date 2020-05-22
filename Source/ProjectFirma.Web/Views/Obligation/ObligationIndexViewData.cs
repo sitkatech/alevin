@@ -19,9 +19,6 @@ namespace ProjectFirma.Web.Views.Obligation
 
             ObligationGridSpec = new ObligationGridSpec(currentFirmaSession);
 
-            //NewUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.New());
-            NewUrl = "NO_URL_FOR_THIS_PROBABLY_WILL_NEVER_BE_ONE";
-
             ObligationGridName = "ObligationsGrid";
             ObligationGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(c => c.ObligationNumberGridJsonData());
             ObligationIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);

@@ -38,12 +38,13 @@ namespace ProjectFirma.Web.Views.Obligation
             ObjectNamePlural = "Obligations";
             SaveFiltersInCookie = true;
 
-            //// ObligationNumber
-            //Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), ob => ob.ObligationNumberKey, 100, DhtmlxGridColumnFilterType.Text);
             // ObligationNumber as link
             Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), ob => UrlTemplate.MakeHrefString(ob?.GetDetailUrl(), ob?.ObligationNumberKey), 100, DhtmlxGridColumnFilterType.Text);
-            // Agreement
-            Add(FieldDefinitionEnum.Agreement.ToType().ToGridHeaderStringPlural(), ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.GetDetailUrl(), ra.ReclamationAgreement?.GetDisplayName()), 300, DhtmlxGridColumnFilterType.Html);
+            // Agreement (AgreementNumber)
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.GetDetailUrl(), ra.ReclamationAgreement?.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
+            // Organization for Agreement
+            Add("Agreement Organization", ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.Organization?.GetDetailUrl(), ra.ReclamationAgreement?.Organization?.GetDisplayName()), 300, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+
         }
     }
 }

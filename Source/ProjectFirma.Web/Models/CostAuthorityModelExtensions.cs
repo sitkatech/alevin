@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
@@ -24,15 +25,15 @@ namespace ProjectFirma.Web.Models
             return costAuthority.AgreementCostAuthorities.Select(rarca => rarca.Agreement).ToList();
         }
 
-        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityDetail(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<string> DetailUrlTemplate = new UrlTemplate<string>(SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(cac => cac.CostAuthorityDetail(UrlTemplate.Parameter1String)));
         public static string GetDetailUrl(this CostAuthority costAuthority)
         {
-            return DetailUrlTemplate.ParameterReplace(costAuthority.PrimaryKey);
+            return DetailUrlTemplate.ParameterReplace(costAuthority.CostAuthorityWorkBreakdownStructure);
         }
 
         public static HtmlString GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(this CostAuthority costAuthority)
         {
-            return new HtmlString(SitkaRoute<CostAuthorityController>.BuildLinkFromExpression(cac => cac.CostAuthorityDetail(costAuthority), costAuthority.CostAuthorityWorkBreakdownStructure));
+            return new HtmlString(SitkaRoute<CostAuthorityController>.BuildLinkFromExpression(cac => cac.CostAuthorityDetail(costAuthority.CostAuthorityWorkBreakdownStructure), costAuthority.CostAuthorityWorkBreakdownStructure));
         }
 
         /// <summary>
