@@ -161,7 +161,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             return;
         }
         _.each($scope.getAllUsedFundingSourceIds(), function (fundingSourceId) { $scope.addCalendarYearBudgetRow(fundingSourceId, calendarYear); });
-        $scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, calendarYear);
+        //$scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, calendarYear);
         $scope.calendarYearRange.splice(_.sortedIndex($scope.calendarYearRange, calendarYear), 0, calendarYear);
     };
 
