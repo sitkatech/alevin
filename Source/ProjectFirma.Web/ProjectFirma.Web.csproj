@@ -600,6 +600,7 @@
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresRecord.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresViewData.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalanceRecord.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalanceViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />

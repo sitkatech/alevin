@@ -28,21 +28,32 @@
 </style>
     <div class="table-responsive" style="max-height: 450px;">
         <table class="table table-condensed table-bordered tableFixedHead">
-            <thead>
-                <tr>
-                    <th scope="col">FQ/FY</th>
-                    <th scope="col">Date</th>
-                    <th scope="col">Commitments</th>
-                    <th scope="col">Obligations</th>
-                    <th scope="col">Expenditures</th>
-                    <th scope="col">Unexpended Balance</th>
-                    @*<th scope="col">Cost Authority</th>*@
-                    <th scope="col">Budget Object Code</th>
-                </tr>
-            </thead>
+           <thead>
+           <tr>
+              <th scope="col">FQ/FY</th>
+              <th scope="col">Date</th>
+              <th scope="col">Commitments</th>
+              <th scope="col">Obligations</th>
+              <th scope="col">Expenditures</th>
+              <th scope="col">Unexpended Balance</th>
+              @*<th scope="col">Cost Authority</th>*@
+              <th scope="col">Budget Object Code</th>
+           </tr>
+           </thead>
+           @{
+              double commitmentsTotal = 0;
+              double obligationsTotal = 0;
+              double expendituresTotal = 0;
+              double unexpendedBalanceTotal = 0;
+           }
             <tbody>
             @foreach (var prbacRecord in ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.OrderBy(pr => pr.Date))
             {
+               commitmentsTotal += prbacRecord.Commitments;
+               obligationsTotal += prbacRecord.Obligations;
+               expendituresTotal -= prbacRecord.Expenditures;
+               unexpendedBalanceTotal += prbacRecord.UnexpendedBalance;
+
                <tr>
                   <td>@prbacRecord.FiscalQuarter.FiscalQuarterNumber/@prbacRecord.FiscalYear - @prbacRecord.FiscalQuarter.FiscalQuarterDisplayName</td>
                   <td>@prbacRecord.Date.ToShortDateString()</td>
@@ -56,18 +67,16 @@
             }
             </tbody>
 
-            @*I'm not sure totals are relevant*@
-
-            @*<tfoot>
+           <tfoot>
                 <tr>
                     <th scope="row">Totals:</th>
-                    <th scope="col">@projectedBudgetRunningBalance.ToStringCurrency()</th>
-                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.Select(prbr => prbr.ObligationItemBudgetObligation).Sum().ToStringCurrency()</th>
-                    <th scope="col">@ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.Select(prbr => prbr.ObligationItemInvoiceDebit).Sum().ToStringCurrency()</th>
-                    <th scope="col">@projectionMinusObligationRunningBalance.ToStringCurrency() </th>
-                    <th scope="col">@obligationMinusDebitRunningBalance.ToStringCurrency()</th>
+                    <th scope="row">&nbsp;</th>
+                    <th scope="col">@commitmentsTotal.ToStringCurrency()</th>
+                    <th scope="col">@obligationsTotal.ToStringCurrency()</th>
+                    <th scope="col">@expendituresTotal.ToStringCurrency()</th>
+                    <th scope="col">@unexpendedBalanceTotal.ToStringCurrency()</th>
                 </tr>
-            </tfoot>*@
+            </tfoot>
         </table>
     </div>
 
