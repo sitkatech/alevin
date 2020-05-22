@@ -5,10 +5,10 @@ namespace ProjectFirma.Web.Models
 {
     public class ProjectNoFundingSourceCostTypeAmount
     {
-        public CostType CostType { get; }
-        public int CostTypeID { get; }
-        public int? CalendarYear { get; }
-        public decimal Amount { get; }
+        public CostType CostType { get; set; }
+        public int CostTypeID { get; set; }
+        public int? CalendarYear { get; set; }
+        public decimal Amount { get; set; }
 
         /// <summary>
         /// Needed by ModelBinder

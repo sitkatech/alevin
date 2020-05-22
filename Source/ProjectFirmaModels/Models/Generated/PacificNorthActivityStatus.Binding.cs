@@ -56,6 +56,20 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(PacificNorthActivityLists.Any())
+            {
+                dependentObjects.Add(typeof(PacificNorthActivityList).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PacificNorthActivityStatus).Name, typeof(PacificNorthActivityList).Name};

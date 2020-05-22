@@ -13,9 +13,10 @@ CREATE TABLE [dbo].[ProjectNoFundingSourceIdentified](
 (
 	[ProjectNoFundingSourceIdentifiedID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectNoFundingSourceIdentified_ProjectID_CalendarYear] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectNoFundingSourceIdentified_ProjectID_CostTypeID_CalendarYear] UNIQUE NONCLUSTERED 
 (
 	[ProjectID] ASC,
+	[CostTypeID] ASC,
 	[CalendarYear] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
