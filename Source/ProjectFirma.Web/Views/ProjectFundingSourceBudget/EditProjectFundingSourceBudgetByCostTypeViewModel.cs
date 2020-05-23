@@ -44,8 +44,6 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
 
         public List<ProjectNoFundingSourceIdentifiedSimple> NoFundingSourceAmounts { get; set; }
 
-        public decimal? NoFundingSourceIdentifiedYet { get; set; }
-
         public bool ShouldSaveChanges { get; set; }
 
 
@@ -69,7 +67,8 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
         {
             FundingTypeID = project.FundingTypeID;
             ProjectRelevantCostTypes = projectRelevantCostTypes;
-            var calendarYearMonetaryAmounts = new List<ProjectNoFundingSourceIdentifiedSimple>();
+            var noFundingSourceAmountSimples = new List<ProjectNoFundingSourceIdentifiedSimple>();
+            var projectNoFundingSourceIdentifieds = project.ProjectNoFundingSourceIdentifieds.ToList();
             if (project.FundingTypeID.HasValue)
             {
                 switch (project.FundingType.ToEnum)
@@ -77,30 +76,27 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                     case FundingTypeEnum.BudgetVariesByYear:
                         {
                             ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, calendarYearsToPopulate);
-
-                            var projectNoFundingSourceIdentifieds =
-                                project.ProjectNoFundingSourceIdentifieds.ToList();
-                            calendarYearMonetaryAmounts.AddRange(ProjectNoFundingSourceIdentifiedSimple.CreateFromProjectNoFundingSourceIdentifieds(projectNoFundingSourceIdentifieds));
-                            
+                            noFundingSourceAmountSimples.AddRange(ProjectNoFundingSourceIdentifiedSimple.CreateFromProjectNoFundingSourceIdentifieds(projectNoFundingSourceIdentifieds));
                             break;
                         }
 
                     case FundingTypeEnum.BudgetSameEachYear:
                         ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(project, new List<int>());
-                        NoFundingSourceIdentifiedYet = project.ProjectNoFundingSourceIdentifieds.FirstOrDefault()?.NoFundingSourceIdentifiedYet;
+                        noFundingSourceAmountSimples.AddRange(ProjectNoFundingSourceIdentifiedSimple.CreateFromProjectNoFundingSourceIdentifieds(projectNoFundingSourceIdentifieds));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            NoFundingSourceAmounts = calendarYearMonetaryAmounts;
+            NoFundingSourceAmounts = noFundingSourceAmountSimples;
         }
 
         public EditProjectFundingSourceBudgetByCostTypeViewModel(ProjectUpdateBatch projectUpdateBatch, List<int> calendarYearsToPopulate, List<ProjectRelevantCostTypeSimple> projectRelevantCostTypes)
         {
             FundingTypeID = projectUpdateBatch.ProjectUpdate.FundingTypeID;
             ProjectRelevantCostTypes = projectRelevantCostTypes;
-            var calendarYearMonetaryAmounts = new List<ProjectNoFundingSourceIdentifiedSimple>();
+            var noFundingSourceAmountSimples = new List<ProjectNoFundingSourceIdentifiedSimple>();
+            var projectNoFundingSourceIdentifieds = projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.ToList();
             if (projectUpdateBatch.ProjectUpdate.FundingTypeID.HasValue)
             {
                 switch (projectUpdateBatch.ProjectUpdate.FundingType.ToEnum)
@@ -108,24 +104,19 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                     case FundingTypeEnum.BudgetVariesByYear:
                         {
                             ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(projectUpdateBatch, calendarYearsToPopulate);
-
-                            var projectNoFundingSourceIdentifieds = projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.ToList();
-                            calendarYearMonetaryAmounts.AddRange(ProjectNoFundingSourceIdentifiedSimple.CreateFromProjectNoFundingSourceIdentifieds(projectNoFundingSourceIdentifieds));
-                            //var usedCalendarYears = projectNoFundingSourceIdentifieds.Select(x => x.CalendarYear).ToList();
-                            //calendarYearMonetaryAmounts.AddRange(calendarYearsToPopulate.Where(x => !usedCalendarYears.Contains(x))
-                            //    .ToList().Select(x => new CalendarYearMonetaryAmount(x, 0)));
+                            noFundingSourceAmountSimples.AddRange(ProjectNoFundingSourceIdentifiedSimple.CreateFromProjectNoFundingSourceIdentifieds(projectNoFundingSourceIdentifieds));
                             break;
                         }
 
                     case FundingTypeEnum.BudgetSameEachYear:
                         ProjectFundingSourceBudgets = ProjectFundingSourceBudgetsByCostTypeBulk.MakeFromListByCostType(projectUpdateBatch, new List<int>());
-                        NoFundingSourceIdentifiedYet = projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.FirstOrDefault()?.NoFundingSourceIdentifiedYet;
+                        noFundingSourceAmountSimples.AddRange(ProjectNoFundingSourceIdentifiedSimple.CreateFromProjectNoFundingSourceIdentifieds(projectNoFundingSourceIdentifieds));
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
                 }
             }
-            NoFundingSourceAmounts = calendarYearMonetaryAmounts;
+            NoFundingSourceAmounts = noFundingSourceAmountSimples;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, DatabaseEntities databaseEntities)
@@ -151,10 +142,12 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 (x, y) => x.SetProjectedAmount(y.ProjectedAmount), databaseEntities);
 
             var projectNoFundingSourceAmountsUpdated = new List<ProjectNoFundingSourceIdentified>();
-            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && NoFundingSourceIdentifiedYet != null)
+            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && NoFundingSourceAmounts != null)
             {
                 // Completely rebuild the list
-                projectNoFundingSourceAmountsUpdated.Add(new ProjectNoFundingSourceIdentified(project.ProjectID, MultiTenantHelpers.GetDefaultCostTypeID()) { NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet });
+                projectNoFundingSourceAmountsUpdated = NoFundingSourceAmounts.Select(x =>
+                        new ProjectNoFundingSourceIdentified(project.ProjectID, x.CostTypeID) { NoFundingSourceIdentifiedYet = x.Amount })
+                    .ToList();
             }
             else if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && NoFundingSourceAmounts != null)
             {
@@ -209,16 +202,18 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                 (x, y) => x.SetProjectedAmount(y.ProjectedAmount), databaseEntities);
 
             var projectNoFundingSourceIdentifiedUpdatesUpdated = new List<ProjectNoFundingSourceIdentifiedUpdate>();
-            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && NoFundingSourceIdentifiedYet != null)
+            if (FundingTypeID == FundingType.BudgetSameEachYear.FundingTypeID && NoFundingSourceAmounts != null)
             {
                 // Completely rebuild the list
-                projectNoFundingSourceIdentifiedUpdatesUpdated.Add(new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID, MultiTenantHelpers.GetDefaultCostTypeID()) { NoFundingSourceIdentifiedYet = NoFundingSourceIdentifiedYet });
+                projectNoFundingSourceIdentifiedUpdatesUpdated = NoFundingSourceAmounts.Select(x =>
+                        new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID, x.CostTypeID) { NoFundingSourceIdentifiedYet = x.Amount })
+                    .ToList();
             }
             else if (FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID && NoFundingSourceAmounts != null)
             {
                 // Completely rebuild the list
                 projectNoFundingSourceIdentifiedUpdatesUpdated = NoFundingSourceAmounts.Select(x =>
-                        new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID, MultiTenantHelpers.GetDefaultCostTypeID()) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.Amount, CostTypeID = x.CostTypeID})
+                        new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID, x.CostTypeID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.Amount})
                     .ToList();
             }
             currentProjectNoFundingSourceIdentifiedUpdates.Merge(projectNoFundingSourceIdentifiedUpdatesUpdated,
