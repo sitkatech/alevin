@@ -42,7 +42,7 @@
 <div class="table-responsive" style="margin-top: 25px; overflow-x: hidden">
     @* Funding Sources *@
     @* Annual Budgeting by Cost Type*@
-    @if (ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Any())
+    @if (ViewDataTyped.ProjectFundingSourceCostTypeAmounts.Any() || ViewDataTyped.ProjectNoFundingSourceCostTypeAmounts.Any())
     {
         if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
         {
@@ -156,7 +156,8 @@
                     </tbody>
                 </table>
             </div>
-
+            <br/>
+            <h4>@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()</h4>
             @* No Funding Source Identified Funds for per year budget *@
             <div class="table-responsive tableFixHeader">
                 <table class="table table-condensed table-bordered">
