@@ -69,6 +69,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FieldDefinitionDataImageConfiguration());
             modelBuilder.Configurations.Add(new FieldDefinitionDefaultConfiguration());
             modelBuilder.Configurations.Add(new FileResourceConfiguration());
+            modelBuilder.Configurations.Add(new FileResourceDataConfiguration());
             modelBuilder.Configurations.Add(new FirmaHomePageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
@@ -310,6 +311,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<FieldDefinitionData> FieldDefinitionDatas { get { return AllFieldDefinitionDatas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FieldDefinitionDefault> FieldDefinitionDefaults { get; set; }
         public virtual DbSet<FieldDefinition> FieldDefinitions { get; set; }
+        public virtual DbSet<FileResourceData> AllFileResourceDatas { get; set; }
+        public virtual IQueryable<FileResourceData> FileResourceDatas { get { return AllFileResourceDatas.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FileResource> AllFileResources { get; set; }
         public virtual IQueryable<FileResource> FileResources { get { return AllFileResources.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<FirmaHomePageImage> AllFirmaHomePageImages { get; set; }
@@ -751,6 +754,9 @@ namespace ProjectFirmaModels.Models
 
                 case "FieldDefinition":
                     return FieldDefinitions.GetFieldDefinition(primaryKey);
+
+                case "FileResourceData":
+                    return FileResourceDatas.GetFileResourceData(primaryKey);
 
                 case "FileResourceMimeType":
                     var fileResourceMimeType = FileResourceMimeType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
