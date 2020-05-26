@@ -149,6 +149,9 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectRunningBalanceObligationsAndExpendituresViewData ProjectRunningBalanceObligationsAndExpendituresViewData { get; set; }
 
         public string UpdateStatusUrl { get; set; }
+
+        public bool ShowOriginalProjectRunningBalanceReport => false;
+
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
