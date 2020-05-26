@@ -109,25 +109,6 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
-        /// Active Dependent type names of this object
-        /// </summary>
-        public List<string> DependentObjectNames() 
-        {
-            var dependentObjects = new List<string>();
-            
-            if(CostAuthorityObligationRequests.Any())
-            {
-                dependentObjects.Add(typeof(CostAuthorityObligationRequest).Name);
-            }
-
-            if(ObligationRequestSubmissionNotes.Any())
-            {
-                dependentObjects.Add(typeof(ObligationRequestSubmissionNote).Name);
-            }
-            return dependentObjects.Distinct().ToList();
-        }
-
-        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ObligationRequest).Name, typeof(CostAuthorityObligationRequest).Name, typeof(ObligationRequestSubmissionNote).Name};

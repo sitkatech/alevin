@@ -73,55 +73,6 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
-        /// Active Dependent type names of this object
-        /// </summary>
-        public List<string> DependentObjectNames() 
-        {
-            var dependentObjects = new List<string>();
-            
-            if(ProjectFundingSourceExpenditures.Any())
-            {
-                dependentObjects.Add(typeof(ProjectFundingSourceExpenditure).Name);
-            }
-
-            if(ProjectFundingSourceExpenditureUpdates.Any())
-            {
-                dependentObjects.Add(typeof(ProjectFundingSourceExpenditureUpdate).Name);
-            }
-
-            if(ProjectRelevantCostTypes.Any())
-            {
-                dependentObjects.Add(typeof(ProjectRelevantCostType).Name);
-            }
-
-            if(ProjectRelevantCostTypeUpdates.Any())
-            {
-                dependentObjects.Add(typeof(ProjectRelevantCostTypeUpdate).Name);
-            }
-
-            if(BudgetObjectCodesWhereYouAreTheOverrideCostType.Any())
-            {
-                dependentObjects.Add(typeof(BudgetObjectCode).Name);
-            }
-
-            if(BudgetObjectCodeGroups.Any())
-            {
-                dependentObjects.Add(typeof(BudgetObjectCodeGroup).Name);
-            }
-
-            if(ProjectFundingSourceBudgets.Any())
-            {
-                dependentObjects.Add(typeof(ProjectFundingSourceBudget).Name);
-            }
-
-            if(ProjectFundingSourceBudgetUpdates.Any())
-            {
-                dependentObjects.Add(typeof(ProjectFundingSourceBudgetUpdate).Name);
-            }
-            return dependentObjects.Distinct().ToList();
-        }
-
-        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(CostType).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(ProjectRelevantCostType).Name, typeof(ProjectRelevantCostTypeUpdate).Name, typeof(BudgetObjectCode).Name, typeof(BudgetObjectCodeGroup).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name};

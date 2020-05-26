@@ -74,20 +74,6 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
-        /// Active Dependent type names of this object
-        /// </summary>
-        public List<string> DependentObjectNames() 
-        {
-            var dependentObjects = new List<string>();
-            
-            if(WbsElementPnBudgets.Any())
-            {
-                dependentObjects.Add(typeof(WbsElementPnBudget).Name);
-            }
-            return dependentObjects.Distinct().ToList();
-        }
-
-        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FiscalQuarter).Name, typeof(WbsElementPnBudget).Name};

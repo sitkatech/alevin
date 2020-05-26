@@ -61,25 +61,6 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
-        /// Active Dependent type names of this object
-        /// </summary>
-        public List<string> DependentObjectNames() 
-        {
-            var dependentObjects = new List<string>();
-            
-            if(AgreementPacificNorthActivitiesWhereYouAreTheReclamationPacificNorthActivityList.Any())
-            {
-                dependentObjects.Add(typeof(AgreementPacificNorthActivity).Name);
-            }
-
-            if(ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityLists.Any())
-            {
-                dependentObjects.Add(typeof(ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList).Name);
-            }
-            return dependentObjects.Distinct().ToList();
-        }
-
-        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PacificNorthActivityList).Name, typeof(AgreementPacificNorthActivity).Name, typeof(ReclamationStagingCostAuthorityWorkBreakdownStructurePacificNorthActivityList).Name};

@@ -63,20 +63,6 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
-        /// Active Dependent type names of this object
-        /// </summary>
-        public List<string> DependentObjectNames() 
-        {
-            var dependentObjects = new List<string>();
-            
-            if(DeliverablesWhereYouAreTheCostAuthorityAgreement.Any())
-            {
-                dependentObjects.Add(typeof(Deliverable).Name);
-            }
-            return dependentObjects.Distinct().ToList();
-        }
-
-        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ReclamationStagingCostAuthorityAgreement).Name, typeof(Deliverable).Name};
