@@ -37,9 +37,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AgreementViewFeature]
-        public GridJsonNetJObjectResult<Agreement> AgreementGridForOrganizationJsonData(int organizationID)
+        public GridJsonNetJObjectResult<Agreement> AgreementGridForOrganizationJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
-            var organization = HttpRequestStorage.DatabaseEntities.Organizations.GetOrganization(organizationID);
+            var organization = organizationPrimaryKey.EntityObject;
             var gridSpec = new AgreementGridSpec(CurrentFirmaSession);
             var agreementsForOrganization = organization.Agreements.ToList().OrderBy(x => x.AgreementNumber).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(agreementsForOrganization, gridSpec);
