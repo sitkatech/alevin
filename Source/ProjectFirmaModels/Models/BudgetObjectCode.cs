@@ -19,11 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using LtInfo.Common;
+using System;
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class BudgetObjectCode : IAuditableEntity
+    public partial class BudgetObjectCode : IAuditableEntity, IComparable<BudgetObjectCode>
     {
         public int GetEntityID() => BudgetObjectCodeID;
 
@@ -43,6 +43,13 @@ namespace ProjectFirmaModels.Models
             }
 
             return this.BudgetObjectCodeGroup.GetEffectiveCostType();
+        }
+
+        public int CompareTo(BudgetObjectCode otherBudgetObjectCode)
+        {
+            if (ReferenceEquals(this, otherBudgetObjectCode)) return 0;
+            if (ReferenceEquals(null, otherBudgetObjectCode)) return 1;
+            return string.Compare(BudgetObjectCodeName, otherBudgetObjectCode.BudgetObjectCodeName, StringComparison.Ordinal);
         }
     }
 }

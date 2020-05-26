@@ -2,7 +2,7 @@
 
 namespace ProjectFirmaModels.Models
 {
-    public partial class FiscalQuarter
+    public partial class FiscalQuarter : IComparable<FiscalQuarter>
     {
         /// <summary>
         /// Gets a specific DateTime by combining a specific Calendar Year with this FiscalQuarter's
@@ -13,6 +13,13 @@ namespace ProjectFirmaModels.Models
         public DateTime GetCompleteStartDateUsingCalendarYear(int calendarYear)
         {
             return new DateTime(calendarYear, this.FiscalQuarterStartMonth, FiscalQuarterStartDay);
+        }
+
+        public int CompareTo(FiscalQuarter otherFiscalQuarter)
+        {
+            if (ReferenceEquals(this, otherFiscalQuarter)) return 0;
+            if (ReferenceEquals(null, otherFiscalQuarter)) return 1;
+            return FiscalQuarterNumber.CompareTo(otherFiscalQuarter.FiscalQuarterNumber);
         }
     }
 }

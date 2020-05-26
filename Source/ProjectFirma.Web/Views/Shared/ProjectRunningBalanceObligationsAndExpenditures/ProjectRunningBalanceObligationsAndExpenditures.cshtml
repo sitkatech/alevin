@@ -20,7 +20,25 @@
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures.ProjectRunningBalanceObligationsAndExpenditures
+
+@functions {
+    private HtmlString MakeHrefStringForBudgetObjectCode(BudgetObjectCode bdgetObjectCode)
+    {
+       string detailUrl = bdgetObjectCode != null ? bdgetObjectCode.GetDetailUrl() : string.Empty;
+       string displayName = bdgetObjectCode != null ? bdgetObjectCode.GetDisplayName() : string.Empty;
+
+       return UrlTemplate.MakeHrefString(detailUrl, displayName);
+    }
+
+   private string GetBudgetObjectCodeName(ProjectRunningBalanceObligationsAndExpendituresRecord prb)
+   {
+      return prb.BudgetObjectCode != null ? prb.BudgetObjectCode.BudgetObjectCodeName : string.Empty;
+   }
+
+}
 
 <style>
     .tableFixedHead tbody { overflow-y: auto; height: 300px; }
@@ -30,13 +48,12 @@
         <table class="table table-condensed table-bordered tableFixedHead">
            <thead>
            <tr>
-              <th scope="col">FQ/FY</th>
-              <th scope="col">Date</th>
+              <th scope="col">Items in Group</th>
+              <th scope="col">FQ - FY</th>
               <th scope="col">Commitments</th>
               <th scope="col">Obligations</th>
               <th scope="col">Expenditures</th>
               <th scope="col">Unexpended Balance</th>
-              @*<th scope="col">Cost Authority</th>*@
               <th scope="col">Budget Object Code</th>
            </tr>
            </thead>
@@ -46,26 +63,49 @@
               double expendituresTotal = 0;
               double unexpendedBalanceTotal = 0;
            }
-            <tbody>
-            @foreach (var prbacRecord in ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.OrderBy(pr => pr.Date))
-            {
-               commitmentsTotal += prbacRecord.Commitments;
-               obligationsTotal += prbacRecord.Obligations;
-               expendituresTotal -= prbacRecord.Expenditures;
-               unexpendedBalanceTotal += prbacRecord.UnexpendedBalance;
+           <tbody>
 
-               <tr>
-                  <td>@prbacRecord.FiscalQuarter.FiscalQuarterNumber/@prbacRecord.FiscalYear - @prbacRecord.FiscalQuarter.FiscalQuarterDisplayName</td>
-                  <td>@prbacRecord.Date.ToShortDateString()</td>
-                  <td>@prbacRecord.Commitments.ToStringCurrency()</td>
-                  <td>@prbacRecord.Obligations.ToStringCurrency()</td>
-                  <td>@prbacRecord.Expenditures.ToStringCurrency()</td>
-                  <td>@prbacRecord.UnexpendedBalance.ToStringCurrency()</td>
-                  @*<td>@prbacRecord.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()</td>*@
-                  <td>@UrlTemplate.MakeHrefString(prbacRecord.BudgetObjectCode != null ? prbacRecord.BudgetObjectCode.GetDetailUrl() : string.Empty, prbacRecord.BudgetObjectCode != null ? prbacRecord.BudgetObjectCode.GetDisplayName() : string.Empty)</td>
-               </tr>
-            }
-            </tbody>
+           @{
+               // I tried doing this with a real grouping type, and not an anon object, so I could take care of all this in the ViewData and not the
+               // front side. It went awry, I still don't know why, so forced into making anon type, which means we have to do grouping out here on
+               // the front side. If you have knowledge for me, please share.
+               //
+               // SLG -- 5/26/2020
+               var projectRunningBalanceObligationsAndExpendituresRecordsGrouped =
+               ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresRecords.GroupBy(prb =>
+                  new {prb.FiscalYear, prb.FiscalQuarter.FiscalQuarterDisplayName, BudgetObjectCodeName = GetBudgetObjectCodeName(prb)}).ToList();
+           }
+
+           @foreach (var prbacRecordGroup in projectRunningBalanceObligationsAndExpendituresRecordsGrouped)
+           {
+              int itemsInGroupyThing = prbacRecordGroup.Count();
+              string currentFiscalQuarterFiscalYearDisplayString = prbacRecordGroup.Key.FiscalQuarterDisplayName + " - " + prbacRecordGroup.Key.FiscalYear;
+
+              double currentCommitmentsForGroup = prbacRecordGroup.Sum(pg => pg.Commitments);
+              double currentObligationsForGroup = prbacRecordGroup.Sum(pg => pg.Obligations);
+              double currentExpendituresForGroup = prbacRecordGroup.Sum(pg => pg.Expenditures);
+              double currentUnexpendedBalancesForGroup = prbacRecordGroup.Sum(pg => pg.Expenditures);
+
+              commitmentsTotal += currentCommitmentsForGroup;
+              obligationsTotal += currentObligationsForGroup;
+              expendituresTotal -= currentExpendituresForGroup;
+              unexpendedBalanceTotal += currentUnexpendedBalancesForGroup;
+
+              var currentBudgetObjectCodeName = prbacRecordGroup.Key.BudgetObjectCodeName;
+              //var currentBudgetObjectCode = da  prbacRecordGroup.Key.BudgetObjectCode;
+
+              <tr>
+                 <td>@itemsInGroupyThing</td>
+                 <td>@currentFiscalQuarterFiscalYearDisplayString</td>
+                 <td>@currentCommitmentsForGroup.ToStringCurrency()</td>
+                 <td>@currentObligationsForGroup.ToStringCurrency()</td>
+                 <td>@currentExpendituresForGroup.ToStringCurrency()</td>
+                 <td>@currentUnexpendedBalancesForGroup.ToStringCurrency()</td>
+                 @*<td>@MakeHrefStringForBudgetObjectCode(currentBudgetObjectCode)</td>*@
+                 <td>[link to @currentBudgetObjectCodeName goes here])</td>
+              </tr>
+           }
+           </tbody>
 
            <tfoot>
                 <tr>
