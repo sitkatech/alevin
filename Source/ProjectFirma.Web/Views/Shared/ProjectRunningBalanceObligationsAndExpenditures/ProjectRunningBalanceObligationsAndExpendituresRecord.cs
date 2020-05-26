@@ -24,20 +24,9 @@ using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
+namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 {
-    public class ProjectRunningBalanceAllContractViewData : FirmaUserControlViewData
-    {
-        public List<ProjectRunningBalanceAllContractRecord> ProjectRunningBalanceAllContractRecords { get; set; }
-
-
-        public ProjectRunningBalanceAllContractViewData(List<ProjectRunningBalanceAllContractRecord> projectRunningBalanceAllContractRecords)
-        {
-            ProjectRunningBalanceAllContractRecords = projectRunningBalanceAllContractRecords.OrderBy(x => x.Date).ToList();
-        }
-    }
-
-    public class ProjectRunningBalanceAllContractRecord
+    public class ProjectRunningBalanceObligationsAndExpendituresRecord
     {
         public FiscalQuarter FiscalQuarter { get; set; }
         public int FiscalYear { get; set; }
@@ -60,7 +49,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
         /// </summary>
         /// <param name="projectedBudget"></param>
         /// <param name="dateOfProjectedBudget"></param>
-        public ProjectRunningBalanceAllContractRecord(double projectedBudget, DateTime dateOfProjectedBudget)
+        public ProjectRunningBalanceObligationsAndExpendituresRecord(double projectedBudget, DateTime dateOfProjectedBudget)
         {
             ProjectedBudget = projectedBudget;
             Date = dateOfProjectedBudget;
@@ -69,7 +58,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
         }
         */
 
-        public ProjectRunningBalanceAllContractRecord(WbsElementPnBudget wbsElementPnBudget)
+        public ProjectRunningBalanceObligationsAndExpendituresRecord(WbsElementPnBudget wbsElementPnBudget)
         {
             this.FiscalQuarter = wbsElementPnBudget.FiscalQuarter;
             this.FiscalYear = wbsElementPnBudget.FiscalYear;
@@ -86,19 +75,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
             this.BudgetObjectCode = wbsElementPnBudget.BudgetObjectCode;
         }
 
-        public static List<ProjectRunningBalanceAllContractRecord> GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(ProjectFirmaModels.Models.Project project)
+        //public static List<ProjectRunningBalanceObligationsAndExpendituresRecord> GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject_RouteOne(ProjectFirmaModels.Models.Project project)
+        public static List<ProjectRunningBalanceObligationsAndExpendituresRecord> GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(ProjectFirmaModels.Models.Project project)
         {
             var relevantCostAuthorities = project.CostAuthorityProjects.Select(cap => cap.CostAuthority).ToList();
             var relevantPns = relevantCostAuthorities.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
-            return relevantPns.Select(pn => new ProjectRunningBalanceAllContractRecord(pn)).ToList();
+            return relevantPns.Select(pn => new ProjectRunningBalanceObligationsAndExpendituresRecord(pn)).ToList();
         }
 
-        public static List<ProjectRunningBalanceAllContractRecord> GetProjectRunningBalanceAllContractRecordsForProject_RouteTwo(ProjectFirmaModels.Models.Project project)
+        /*
+        public static List<ProjectRunningBalanceObligationsAndExpendituresRecord> GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject_RouteTwo(ProjectFirmaModels.Models.Project project)
         {
             var relevantFundingSources = project.ProjectFundingSourceBudgets.Select(pfsb => pfsb.FundingSource).ToList();
             var relevantPns = relevantFundingSources.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
-            return relevantPns.Select(pn => new ProjectRunningBalanceAllContractRecord(pn)).ToList();
+            return relevantPns.Select(pn => new ProjectRunningBalanceObligationsAndExpendituresRecord(pn)).ToList();
         }
+        */
 
     }
 }

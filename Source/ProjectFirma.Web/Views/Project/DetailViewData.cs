@@ -41,7 +41,7 @@ using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
-using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -146,9 +146,12 @@ namespace ProjectFirma.Web.Views.Project
 
         //Project Running Balance
         public ProjectRunningBalanceViewData ProjectRunningBalanceViewData { get; set; }
-        public ProjectRunningBalanceAllContractViewData ProjectRunningBalanceAllContractViewData { get; set; }
+        public ProjectRunningBalanceObligationsAndExpendituresViewData ProjectRunningBalanceObligationsAndExpendituresViewData { get; set; }
 
         public string UpdateStatusUrl { get; set; }
+
+        public bool ShowOriginalProjectRunningBalanceReport => false;
+
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
@@ -187,7 +190,7 @@ namespace ProjectFirma.Web.Views.Project
             ActionItemsDisplayViewData actionItemsDisplayViewData,
             bool userCanViewActionItems,
             ProjectRunningBalanceViewData projectRunningBalanceViewData,
-            ProjectRunningBalanceAllContractViewData projectRunningBalanceAllContractViewData)
+            ProjectRunningBalanceObligationsAndExpendituresViewData projectRunningBalanceObligationsAndExpendituresViewData)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -449,7 +452,7 @@ namespace ProjectFirma.Web.Views.Project
 
             // Project Running Balance
             ProjectRunningBalanceViewData = projectRunningBalanceViewData;
-            ProjectRunningBalanceAllContractViewData = projectRunningBalanceAllContractViewData;
+            ProjectRunningBalanceObligationsAndExpendituresViewData = projectRunningBalanceObligationsAndExpendituresViewData;
         }
     }
 }
