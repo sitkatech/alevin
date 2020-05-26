@@ -93,6 +93,35 @@ namespace ProjectFirmaModels.Models
         }
 
         /// <summary>
+        /// Active Dependent type names of this object
+        /// </summary>
+        public List<string> DependentObjectNames() 
+        {
+            var dependentObjects = new List<string>();
+            
+            if(WbsElementObligationItemBudgets.Any())
+            {
+                dependentObjects.Add(typeof(WbsElementObligationItemBudget).Name);
+            }
+
+            if(WbsElementObligationItemInvoices.Any())
+            {
+                dependentObjects.Add(typeof(WbsElementObligationItemInvoice).Name);
+            }
+
+            if(WbsElementPnBudgets.Any())
+            {
+                dependentObjects.Add(typeof(WbsElementPnBudget).Name);
+            }
+
+            if(CostAuthorityObligationRequests.Any())
+            {
+                dependentObjects.Add(typeof(CostAuthorityObligationRequest).Name);
+            }
+            return dependentObjects.Distinct().ToList();
+        }
+
+        /// <summary>
         /// Dependent type names of this entity
         /// </summary>
         public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(BudgetObjectCode).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(WbsElementPnBudget).Name, typeof(CostAuthorityObligationRequest).Name};
