@@ -58,9 +58,9 @@ namespace ProjectFirmaModels.Models
             return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
 
-        public FileResource GetPrimaryContactOrganizationLogo()
+        public FileResourceInfo GetPrimaryContactOrganizationLogo()
         {
-            return GetPrimaryContactOrganization()?.LogoFileResource;
+            return GetPrimaryContactOrganization()?.LogoFileResourceInfo;
         }
 
         public Person GetPrimaryContact() => PrimaryContactPerson ??
