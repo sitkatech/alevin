@@ -641,7 +641,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
             });
         var noFundingForACostType = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (fundingSourceAmount) { return fundingSourceAmount.CalendarYear == null });
-        return noFundingForACostType;
+        var sortedNoFundingForACostType = _.sortBy(noFundingForACostType, function (nfsa) { return $scope.getCostType(nfsa.CostTypeID).CostTypeName; });
+        return sortedNoFundingForACostType;
 
     };
 
