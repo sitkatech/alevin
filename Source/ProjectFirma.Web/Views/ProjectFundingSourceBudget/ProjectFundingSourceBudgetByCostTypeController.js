@@ -478,7 +478,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     }
 
     $scope.getTotalNoFundingIdentifiedSameEachYear = function () {
-        return Number($scope.noFundingSourceIdentifiedSameEachYear.Value);
+        //Budget Same Each Year has a null CalendarYear value for NoFundingSourceAmounts. This call should result in getting all NoFundingSourceAmounts with a null CalendarYear
+        return $scope.getNoFundingSourceIdentifiedTotalForCalendarYear(null);
     }
 
     $scope.getNoFundingSourceIdentifiedTotalForCalendarYear = function (calendarYear) {
@@ -625,6 +626,23 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             });
         var noFundingForACostType = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (fundingSourceAmount) { return fundingSourceAmount.CostTypeID == costTypeID });
         return noFundingForACostType;
+    };
+
+    $scope.getNoFundingSourceAmountsForSameEachYearBudget = function () {
+        var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
+        var noFundingSourceAmountsWithNullYear = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) { return nfsa.CalendarYear == null });
+        
+        var mappedCostTypeIDs = _.map(noFundingSourceAmountsWithNullYear, "CostTypeID");
+        var usedCostTypeIDs = _(mappedCostTypeIDs).flatten().union().sortBy().value(); //.flatten().union().sortBy().value();
+        var costTypeIdsToAdd = _.difference(relevantCostTypeIDs, usedCostTypeIDs);
+        _.each(costTypeIdsToAdd,
+            function (costTypeID) {
+                $scope.addCalendarYearNoFundingSourceIdentifiedRow($scope.AngularViewData.ProjectID, null, costTypeID);
+
+            });
+        var noFundingForACostType = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (fundingSourceAmount) { return fundingSourceAmount.CalendarYear == null });
+        return noFundingForACostType;
+
     };
 
     $scope.addCalendarYearNoFundingSourceIdentifiedRow = function (projectId, calendarYear, costTypeID) {

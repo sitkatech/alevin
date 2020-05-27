@@ -330,11 +330,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].CalendarYearBudgets[1].IsRelevant).ToString().Replace("0", "{{$parent.$index}}").Replace("1", "{{$index}}")" value="{{calendarYearBudget.IsRelevant}}" />
                             </div>
                         </div>
-                        <div ng-repeat="calendarYearNoFunding in AngularModel.NoFundingSourceAmounts | orderBy:'CalendarYear'">
-                            <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.CalendarYear}}" />
-                            <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].Amount).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.Amount}}" />
-                            <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].CostTypeID).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.CostTypeID}}" />
-                        </div>
+                        
                     </div>
 
                     <div style="margin-left: 20px" ng-if="budgetSameEachYear()">
@@ -409,11 +405,11 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <td></td>
                                     <td></td>
                                 </tr>
-                                <tr ng-repeat="costType in getRelevantCostTypes()">
+                                <tr ng-repeat="noFundingSourceByCostType in getNoFundingSourceAmountsForSameEachYearBudget()">
                                     <td style="width: 30px; min-width: 30px;"></td>
-                                    <td ng-bind="costType.CostTypeName" />
+                                    <td ng-bind="getCostType(noFundingSourceByCostType.CostTypeID).CostTypeName" />
                                     <td style="text-align: right;">
-                                        <input type="text" ng-model="calendarYearNoFunding.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
+                                        <input type="text" ng-model="noFundingSourceByCostType.Amount" ng-focus="onTextFocus($event)" class="sitkaCurrency form-control" ng-currency />
                                     </td>
                                     <td class="sourcedField" style="text-align: right">
                                     </td>
@@ -443,6 +439,12 @@ Source code is available upon request via <support@sitkatech.com>.
                             <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].IsRelevant).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.IsRelevant}}" />
                             <input type="hidden" name="@Html.NameFor(x => x.ProjectFundingSourceBudgets[0].ProjectedAmount).ToString().Replace("0", "{{$index}}")" value="{{projectFundingSourceBudget.ProjectedAmount}}" />
                         </div>
+                    </div>
+                
+                    <div ng-repeat="calendarYearNoFunding in AngularModel.NoFundingSourceAmounts | orderBy:'CalendarYear'">
+                        <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].CalendarYear).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.CalendarYear}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].Amount).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.Amount}}" />
+                        <input type="hidden" name="@Html.NameFor(x => x.NoFundingSourceAmounts[0].CostTypeID).ToString().Replace("0", "{{$index}}")" value="{{calendarYearNoFunding.CostTypeID}}" />
                     </div>
                     <div ng-repeat="projectRelevantCostType in AngularModel.ProjectRelevantCostTypes">
                         <input type="hidden" name="@Html.NameFor(x => x.ProjectRelevantCostTypes[0].CostTypeID).ToString().Replace("0", "{{$index}}")" value="{{projectRelevantCostType.CostTypeID}}" />
