@@ -36,6 +36,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
 
         public List<int> CalendarYears { get; }
         public List<ProjectFundingSourceCostTypeAmount> ProjectFundingSourceCostTypeAmounts { get; set; }
+        public List<ProjectNoFundingSourceCostTypeAmount> ProjectNoFundingSourceCostTypeAmounts { get; set; }
         public string ExpectedFundingUpdateNote { get; }
         public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemBudgetRollUps { get; }
         public List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple> ObligationItemInvoiceRollUps { get; }
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForObligatedFunding { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForExpendedFunding { get; }
 
-        public ProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentFirmaSession)
+        public ProjectBudgetsAnnualByCostTypeViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project, List<ProjectFundingSourceCostTypeAmount> projectFundingSourceCostTypeAmounts, List<ProjectNoFundingSourceCostTypeAmount> projectNoFundingSourceCostTypeAmounts, string expectedFundingUpdateNote) : base(currentFirmaSession)
         {
             Project = project;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
@@ -67,6 +68,8 @@ namespace ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
             calendarYears.AddRange(usedCalendarYears);
             calendarYears.Sort();
             CalendarYears = calendarYears;
+
+            ProjectNoFundingSourceCostTypeAmounts = projectNoFundingSourceCostTypeAmounts;
 
             ExpectedFundingUpdateNote = expectedFundingUpdateNote;
             ObligationItemBudgetRollUps = project.GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples();

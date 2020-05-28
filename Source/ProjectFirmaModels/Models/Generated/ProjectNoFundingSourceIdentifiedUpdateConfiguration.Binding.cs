@@ -20,9 +20,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectUpdateBatchID).HasColumnName(@"ProjectUpdateBatchID").HasColumnType("int").IsRequired();
             Property(x => x.CalendarYear).HasColumnName(@"CalendarYear").HasColumnType("int").IsOptional();
             Property(x => x.NoFundingSourceIdentifiedYet).HasColumnName(@"NoFundingSourceIdentifiedYet").HasColumnType("money").IsOptional().HasPrecision(19,4);
+            Property(x => x.CostTypeID).HasColumnName(@"CostTypeID").HasColumnType("int").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectNoFundingSourceIdentifiedUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectNoFundingSourceIdentifiedUpdate_ProjectUpdateBatch_ProjectUpdateBatchID
+            HasRequired(a => a.CostType).WithMany(b => b.ProjectNoFundingSourceIdentifiedUpdates).HasForeignKey(c => c.CostTypeID).WillCascadeOnDelete(false); // FK_ProjectNoFundingSourceIdentifiedUpdate_CostType_CostTypeID
         }
     }
 }

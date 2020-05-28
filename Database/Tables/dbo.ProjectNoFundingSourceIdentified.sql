@@ -8,17 +8,24 @@ CREATE TABLE [dbo].[ProjectNoFundingSourceIdentified](
 	[ProjectID] [int] NOT NULL,
 	[CalendarYear] [int] NULL,
 	[NoFundingSourceIdentifiedYet] [money] NULL,
+	[CostTypeID] [int] NOT NULL,
  CONSTRAINT [PK_ProjectNoFundingSourceIdentified_ProjectNoFundingSourceIdentifiedID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectNoFundingSourceIdentifiedID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
- CONSTRAINT [AK_ProjectNoFundingSourceIdentified_ProjectID_CalendarYear] UNIQUE NONCLUSTERED 
+ CONSTRAINT [AK_ProjectNoFundingSourceIdentified_ProjectID_CostTypeID_CalendarYear] UNIQUE NONCLUSTERED 
 (
 	[ProjectID] ASC,
+	[CostTypeID] ASC,
 	[CalendarYear] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[ProjectNoFundingSourceIdentified]  WITH CHECK ADD  CONSTRAINT [FK_ProjectNoFundingSourceIdentified_CostType_CostTypeID] FOREIGN KEY([CostTypeID])
+REFERENCES [dbo].[CostType] ([CostTypeID])
+GO
+ALTER TABLE [dbo].[ProjectNoFundingSourceIdentified] CHECK CONSTRAINT [FK_ProjectNoFundingSourceIdentified_CostType_CostTypeID]
 GO
 ALTER TABLE [dbo].[ProjectNoFundingSourceIdentified]  WITH CHECK ADD  CONSTRAINT [FK_ProjectNoFundingSourceIdentified_Project_ProjectID] FOREIGN KEY([ProjectID])
 REFERENCES [dbo].[Project] ([ProjectID])

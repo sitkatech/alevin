@@ -118,6 +118,8 @@
     <Compile Include="Models\ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple.cs" />
     <Compile Include="Models\ObligationItemModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
+    <Compile Include="Models\ProjectNoFundingSourceCostTypeAmount.cs" />
+    <Compile Include="Models\ProjectNoFundingSourceIdentifiedSimple.cs" />
     <Compile Include="Models\VendorModelExtensions.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectBaseViewModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateOrganizationModel.cs" />

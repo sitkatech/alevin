@@ -150,6 +150,11 @@ namespace ProjectFirma.Web.Common
             return PluralizationService.Pluralize(GetObligationName());
         }
 
+        public static int GetDefaultCostTypeID()
+        {
+            return HttpRequestStorage.DatabaseEntities.CostTypes.SingleOrDefault(x => x.CostTypeName == "Other").CostTypeID;
+        }
+
         #endregion Reclamation
 
         public static string GetTenantSquareLogoUrl()

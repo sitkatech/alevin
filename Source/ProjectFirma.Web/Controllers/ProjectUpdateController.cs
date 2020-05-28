@@ -811,7 +811,8 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectFundingSourceBudgetUpdates = projectUpdateBatch.ProjectFundingSourceBudgetUpdates.ToList();
             var projectFundingSourceCostTypeAmounts = ProjectFundingSourceCostTypeAmount.CreateFromProjectFundingSourceBudgets(projectFundingSourceBudgetUpdates);
-            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentFirmaSession, projectUpdateBatch.Project, projectFundingSourceCostTypeAmounts, projectUpdateBatch.ExpectedFundingUpdateNote);
+            var projectNoFundingSourceCostTypeAmounts = ProjectNoFundingSourceCostTypeAmount.CreateFromProjectNoFundingSourceIdentifieds(projectUpdateBatch.ProjectNoFundingSourceIdentifiedUpdates.ToList());
+            var projectBudgetsAnnualByCostTypeViewData = new ProjectBudgetsAnnualByCostTypeViewData(currentFirmaSession, projectUpdateBatch.Project, projectFundingSourceCostTypeAmounts, projectNoFundingSourceCostTypeAmounts, projectUpdateBatch.ExpectedFundingUpdateNote);
             return projectBudgetsAnnualByCostTypeViewData;
         }
 
