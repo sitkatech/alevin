@@ -434,11 +434,18 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             function (fundingSourceId) {
                 $scope.addHideOrShowFundingSourceRow(fundingSourceId);
             });
+        // These are just simple integers
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
-        //remove any No Funding Source Amounts that are not a relevant cost type
+
+        // remove any No Funding Source Amounts that are not a relevant cost type
         var filteredNoFundingSourceAmounts = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) {
-            var costType = _.find(relevantCostTypeIDs, { 'CostTypeID': nfsa.CostTypeID });
-            return (nfsa.CalendarYear == null) && (typeof costType !== 'undefined');
+            var costTypeId = _.find(relevantCostTypeIDs, function(costTypeId) {
+                return costTypeId === nfsa.CostTypeID;
+            });
+            var calendarYearIsNull = (nfsa.CalendarYear == null);
+            var costTypeIdIsReal = (typeof costTypeId !== 'undefined');
+            var fundingSourceAmountShouldBeKept = calendarYearIsNull && costTypeIdIsReal;
+            return fundingSourceAmountShouldBeKept;
         });
         $scope.AngularModel.NoFundingSourceAmounts = filteredNoFundingSourceAmounts;
     };
