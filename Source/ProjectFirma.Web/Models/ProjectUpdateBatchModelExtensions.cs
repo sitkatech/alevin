@@ -745,8 +745,6 @@ namespace ProjectFirma.Web.Models
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
         {
             var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
-            //return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() && projectUpdateBatch.AreProjectCustomAttributesValid(HttpRequestStorage.FirmaSession) &&
-            // projectUpdateBatch.AreExpendituresValid() &&
             // 4/17/20 TK - we removed the ability to edit expenditures. no longer need to check for valid on them
             return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() && projectUpdateBatch.AreProjectCustomAttributesValid(HttpRequestStorage.FirmaSession) &&
                    areAllProjectGeospatialAreasValid;
