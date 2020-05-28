@@ -331,15 +331,16 @@ namespace ProjectFirma.Web.Models
             return projectUpdateBatch.ValidateProjectBasics().IsValid;
         }
 
-        public static ProjectCustomAttributesValidationResult ValidateProjectCustomAttributes(this ProjectUpdateBatch projectUpdateBatch)
+        public static ProjectCustomAttributesValidationResult ValidateProjectCustomAttributes(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
-            return new ProjectCustomAttributesValidationResult(projectUpdateBatch.ProjectUpdate);
+            return new ProjectCustomAttributesValidationResult(projectUpdateBatch.ProjectUpdate, currentFirmaSession);
         }
 
-        public static bool AreProjectCustomAttributesValid(this ProjectUpdateBatch projectUpdateBatch)
+        public static bool AreProjectCustomAttributesValid(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession)
         {
-            return projectUpdateBatch.ValidateProjectCustomAttributes().IsValid;
+            return projectUpdateBatch.ValidateProjectCustomAttributes(currentFirmaSession).IsValid;
         }
+
 
         public static List<PerformanceMeasuresValidationResult> ValidatePerformanceMeasures(this ProjectUpdateBatch projectUpdateBatch)
         {
@@ -744,9 +745,10 @@ namespace ProjectFirma.Web.Models
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
         {
             var areAllProjectGeospatialAreasValid = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList().All(geospatialAreaType => projectUpdateBatch.IsProjectGeospatialAreaValid(geospatialAreaType));
+            //return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreExpendituresValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() && projectUpdateBatch.AreProjectCustomAttributesValid(HttpRequestStorage.FirmaSession) &&
             // projectUpdateBatch.AreExpendituresValid() &&
             // 4/17/20 TK - we removed the ability to edit expenditures. no longer need to check for valid on them
-            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() &&
+            return projectUpdateBatch.AreProjectBasicsValid() && projectUpdateBatch.AreReportedPerformanceMeasuresValid() && projectUpdateBatch.IsProjectLocationSimpleValid() && projectUpdateBatch.AreProjectCustomAttributesValid(HttpRequestStorage.FirmaSession) &&
                    areAllProjectGeospatialAreasValid;
         }
 
