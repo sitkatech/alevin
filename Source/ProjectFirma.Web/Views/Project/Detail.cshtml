@@ -33,14 +33,13 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ActionItem
-@using ProjectFirma.Web.Views.ProjectFunding
 @using ProjectFirma.Web.Views.ProjectAgreement
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @using ProjectFirma.Web.Views.Shared.ProjectAttachment
 @using ProjectFirma.Web.Views.Shared.ProjectContact
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @using ProjectFirma.Web.Views.Shared.ProjectRunningBalance
-@using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
+@using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 @using ProjectFirma.Web.Views.TechnicalAssistanceRequest
 @using ProjectCustomAttributes = ProjectFirma.Web.Views.Shared.ProjectControls.DisplayProjectCustomAttributes
 @using ProjectTimeline = ProjectFirma.Web.Views.Shared.ProjectTimeline.ProjectTimelineDisplay
@@ -414,30 +413,32 @@
             </div>*@
             
             @*Original Project Running Balance Report (flawed)*@
-            <div class="panel panelFirma">
-               <div class="panel-heading panelTitle">
-                  @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)*@
-                  <h3 class="project-detail-heading">
-                     Project Running Balance
-                  </h3>
+            @if (ViewDataTyped.ShowOriginalProjectRunningBalanceReport)
+            {
+               <div class="panel panelFirma">
+                  <div class="panel-heading panelTitle">
+                     @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)*@
+                     <h3 class="project-detail-heading">
+                        Project Running Balance
+                     </h3>
+                  </div>
+                  <div class="panel-body">
+                     @{ ProjectRunningBalance.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceViewData); }
+                  </div>
                </div>
-               <div class="panel-body">
-                  @{ ProjectRunningBalance.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceViewData); }
-               </div>
-            </div>
+            }
 
             @*New attempt at Project Running Balance Report (improved)*@
             <div class="panel panelFirma">
                <div class="panel-heading panelTitle">
                   <h3 class="project-detail-heading">
-                     Project Running Balance - All Contracts
+                     Project Running Balance - Obligations and Expenditures
                   </h3>
                </div>
                <div class="panel-body">
-                  @{ ProjectRunningBalanceAllContract.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceAllContractViewData); }
+                  @{ ProjectRunningBalanceObligationsAndExpenditures.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresViewData); }
                </div>
             </div>
-            
 
             @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
                 {

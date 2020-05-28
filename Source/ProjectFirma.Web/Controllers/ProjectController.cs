@@ -46,14 +46,13 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using ApprovalUtilities.Utilities;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
-using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -289,10 +288,8 @@ namespace ProjectFirma.Web.Controllers
 
             // Project Running Balance - All Contracts Version
             // -----------------------------------------------
-            var prbacsRouteOne = ProjectRunningBalanceAllContractRecord.GetProjectRunningBalanceAllContractRecordsForProject_RouteOne(project);
-            // Route two is a bust; empty. Should discard.
-            //var prbacsRouteTwo = ProjectRunningBalanceAllContractRecord.GetProjectRunningBalanceAllContractRecordsForProject_RouteTwo(project);
-            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceAllContractViewData(prbacsRouteOne);
+            var prbacs = ProjectRunningBalanceObligationsAndExpendituresRecord.GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(project);
+            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceObligationsAndExpendituresViewData(prbacs);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,

@@ -23,13 +23,13 @@ using LtInfo.Common.HtmlHelperExtensions;
 using LtInfo.Common.Mvc;
 using System.Web.Mvc;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceAllContract
+namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 {
-    public abstract class ProjectRunningBalanceAllContract : TypedWebPartialViewPage<ProjectRunningBalanceAllContractViewData>
+    public abstract class ProjectRunningBalanceObligationsAndExpenditures : TypedWebPartialViewPage<ProjectRunningBalanceObligationsAndExpendituresViewData>
     {
-        public static void RenderPartialView(HtmlHelper html, ProjectRunningBalanceAllContractViewData viewData)
+        public static void RenderPartialView(HtmlHelper html, ProjectRunningBalanceObligationsAndExpendituresViewData viewData)
         {
-            html.RenderRazorSitkaPartial<ProjectRunningBalanceAllContract, ProjectRunningBalanceAllContractViewData>(viewData);
+            html.RenderRazorSitkaPartial<ProjectRunningBalanceObligationsAndExpenditures, ProjectRunningBalanceObligationsAndExpendituresViewData>(viewData);
         }
     }
 }
