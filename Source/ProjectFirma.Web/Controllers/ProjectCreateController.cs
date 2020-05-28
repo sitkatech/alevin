@@ -341,7 +341,6 @@ namespace ProjectFirma.Web.Controllers
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
-
             var auditLog = new AuditLog(CurrentFirmaSession.Person,
                 DateTime.Now,
                 AuditLogEventType.Added,

@@ -127,6 +127,8 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         private ActionResult DoFbmsExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
+            DateTime startTime = DateTime.Now;
+
             List<FbmsBudgetStageImport> budgetStageImports;
             List<FbmsInvoiceStageImport> invoiceStageImports;
             try
@@ -140,10 +142,18 @@ namespace ProjectFirma.Web.Controllers
             }
 
             LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+            DateTime endTime = DateTime.Now;
+            var elapsedTime = endTime - startTime;
+            string importTimeString = GetImportTimeString(elapsedTime);
 
-            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were Successfully saved to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.");
+            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.</br>{importTimeString}.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
+        }
+
+        private static string GetImportTimeString(TimeSpan elapsedTime)
+        {
+            return $"Import took {elapsedTime.TotalSeconds:0.0} seconds ({elapsedTime.TotalMinutes:0.00} minutes)";
         }
 
         public static void LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(
@@ -165,15 +175,9 @@ namespace ProjectFirma.Web.Controllers
             existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
 
-            if (optionalCurrentFirmaSession != null)
-            {
-                HttpRequestStorage.DatabaseEntities.SaveChanges(optionalCurrentFirmaSession.Person);
-            }
-            else
-            {
-                // This is most likely a test context anyhow
-                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
-            }
+            // This bulk load creates an obscene number of AuditLog records if we don't suppress them, and
+            // they are completely inappropriate.
+            HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
         }
 
         private PartialViewResult ViewImportFbmsExcelFile(ImportFbmsExcelFileViewModel viewModel)
@@ -228,6 +232,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         private ActionResult DoPnBudgetsExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
+            DateTime startTime = DateTime.Now;
             List<PnBudgetsStageImport> pnBudgetStageImports;
             try
             {
@@ -240,7 +245,11 @@ namespace ProjectFirma.Web.Controllers
 
             LoadPnBudgetsRecordsFromExcelFileObjectsIntoStagingTable(pnBudgetStageImports, out var countAddedPnBudgets, this.CurrentFirmaSession);
 
-            SetMessageForDisplay($"{countAddedPnBudgets.ToGroupedNumeric()} PnBudget records were successfully imported to database.");
+            DateTime endTime = DateTime.Now;
+            var elapsedTime = endTime - startTime;
+            string importTimeString = GetImportTimeString(elapsedTime);
+
+            SetMessageForDisplay($"{countAddedPnBudgets.ToGroupedNumeric()} PnBudget records were successfully imported to database.</br>{importTimeString}.");
 
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
@@ -261,15 +270,9 @@ namespace ProjectFirma.Web.Controllers
             // Put in the new PNBudgets in their place
             HttpRequestStorage.DatabaseEntities.StageImpPnBudgets.AddRange(stagePnBudgetsBeingLoaded);
 
-            if (optionalCurrentFirmaSession != null)
-            {
-                HttpRequestStorage.DatabaseEntities.SaveChanges(optionalCurrentFirmaSession.Person);
-            }
-            else
-            {
-                // This is most likely a test context anyhow
-                HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
-            }
+            // This bulk load creates an obscene number of AuditLog records if we don't suppress them, and
+            // they are completely inappropriate.
+            HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
         }
 
         private PartialViewResult ViewImportPnBudgetsExcelFile(ImportPnBudgetsExcelFileViewModel viewModel)
