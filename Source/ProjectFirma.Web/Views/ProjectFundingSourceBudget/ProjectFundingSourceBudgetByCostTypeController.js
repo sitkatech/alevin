@@ -427,13 +427,20 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
         _.pull($scope.calendarYearRange, calendarYear);
     };
 
-    $scope.addRemoveCostTypeFromBudgets = function () {
+    $scope.addOrRemoveCostTypeFromBudgets = function () {
         var allUsedFundingSourceIds = $scope.getAllUsedFundingSourceIds();
         // we need to add any cost types that were not in the model in the first place
         _.each(allUsedFundingSourceIds,
             function (fundingSourceId) {
                 $scope.addHideOrShowFundingSourceRow(fundingSourceId);
             });
+        var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
+        //remove any No Funding Source Amounts that are not a relevant cost type
+        var filteredNoFundingSourceAmounts = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) {
+            var costType = _.find(relevantCostTypeIDs, { 'CostTypeID': nfsa.CostTypeID });
+            return (nfsa.CalendarYear == null) && (typeof costType !== 'undefined');
+        });
+        $scope.AngularModel.NoFundingSourceAmounts = filteredNoFundingSourceAmounts;
     };
 
     $scope.canDeleteCalendarYear = function (calendarYear) {
@@ -630,10 +637,15 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
     $scope.getNoFundingSourceAmountsForSameEachYearBudget = function () {
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
-        var noFundingSourceAmountsWithNullYear = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) { return nfsa.CalendarYear == null });
+        //remove any No Funding Source Amounts that are not a relevant cost type
+        //var filteredNoFundingSourceAmounts = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) {
+        //    var costType = _.find(relevantCostTypeIDs, { 'CostTypeID': nfsa.CostTypeID });
+        //    return (nfsa.CalendarYear == null) && (typeof costType !== 'undefined');
+        //});
         
-        var mappedCostTypeIDs = _.map(noFundingSourceAmountsWithNullYear, "CostTypeID");
-        var usedCostTypeIDs = _(mappedCostTypeIDs).flatten().union().sortBy().value(); //.flatten().union().sortBy().value();
+        //var noFundingSourceAmountsWithNullYear = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) { return nfsa.CalendarYear == null });
+        var mappedCostTypeIDs = _.map($scope.AngularModel.NoFundingSourceAmounts, "CostTypeID");
+        var usedCostTypeIDs = _(mappedCostTypeIDs).flatten().union().sortBy().value();
         var costTypeIdsToAdd = _.difference(relevantCostTypeIDs, usedCostTypeIDs);
         _.each(costTypeIdsToAdd,
             function (costTypeID) {
@@ -641,7 +653,13 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
 
             });
         var noFundingForACostType = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (fundingSourceAmount) { return fundingSourceAmount.CalendarYear == null });
-        var sortedNoFundingForACostType = _.sortBy(noFundingForACostType, function (nfsa) { return $scope.getCostType(nfsa.CostTypeID).CostTypeName; });
+        var sortedNoFundingForACostType = _.sortBy(noFundingForACostType, function (nfsa) {
+            var costType = $scope.getCostType(nfsa.CostTypeID);
+            if (typeof costType !== 'undefined') {
+                return costType.CostTypeName;
+            }
+            return 'invalid cost type';
+        });
         return sortedNoFundingForACostType;
 
     };

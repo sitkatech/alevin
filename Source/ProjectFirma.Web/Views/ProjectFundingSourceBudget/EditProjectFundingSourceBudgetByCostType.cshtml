@@ -120,7 +120,7 @@ Source code is available upon request via <support@sitkatech.com>.
                         <label class="control-label">2. Select the @ViewDataTyped.FieldDefinitionForCostType.GetFieldDefinitionLabelPluralized() that are relevant to the  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel().</label>
                         <div style="margin-left: 20px">
                             <label ng-repeat="costType in AngularModel.ProjectRelevantCostTypes | orderBy:'CostTypeName'" style="padding-right: 10px">
-                                <input type="checkbox" ng-model="costType.IsRelevant" ng-click="addRemoveCostTypeFromBudgets()" /> <span ng-bind="costType.CostTypeName"></span>
+                                <input type="checkbox" ng-model="costType.IsRelevant" ng-click="addOrRemoveCostTypeFromBudgets()" /> <span ng-bind="costType.CostTypeName"></span>
                             </label>
                         </div>
                     </div>
