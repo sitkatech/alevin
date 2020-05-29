@@ -55,7 +55,7 @@
                  <th scope="col">Commitments</th>
                  <th scope="col">Obligations</th>
                  <th scope="col">Expenditures</th>
-                 <th scope="col">Unexpended Balance</th>
+                 <th scope="col">Undelivered Orders</th>
                  <th scope="col">Budget Object Code</th>
               </tr>
            </thead>
@@ -63,7 +63,7 @@
               double commitmentsTotal = 0;
               double obligationsTotal = 0;
               double expendituresTotal = 0;
-              double unexpendedBalanceTotal = 0;
+              double undeliveredOrdersTotal = 0;
            }
            <tbody>
 
@@ -100,12 +100,12 @@
               double currentCommitmentsForGroup = prbacRecordGroup.Sum(pg => pg.Commitments);
               double currentObligationsForGroup = prbacRecordGroup.Sum(pg => pg.Obligations);
               double currentExpendituresForGroup = prbacRecordGroup.Sum(pg => pg.Expenditures);
-              double currentUnexpendedBalancesForGroup = prbacRecordGroup.Sum(pg => pg.Expenditures);
+              double currentUndeliveredOrdersForGroup = prbacRecordGroup.Sum(pg => pg.UndeliveredOrders);
 
               commitmentsTotal += currentCommitmentsForGroup;
               obligationsTotal += currentObligationsForGroup;
               expendituresTotal -= currentExpendituresForGroup;
-              unexpendedBalanceTotal += currentUnexpendedBalancesForGroup;
+              undeliveredOrdersTotal += currentUndeliveredOrdersForGroup;
 
               <tr>
                  @*<td>@itemsInGroup</td>*@
@@ -115,7 +115,7 @@
                  <td>@currentCommitmentsForGroup.ToStringCurrency()</td>
                  <td>@currentObligationsForGroup.ToStringCurrency()</td>
                  <td>@currentExpendituresForGroup.ToStringCurrency()</td>
-                 <td>@currentUnexpendedBalancesForGroup.ToStringCurrency()</td>
+                 <td>@currentUndeliveredOrdersForGroup.ToStringCurrency()</td>
                  <td>@MakeHrefStringForBudgetObjectCode(currentBudgetObjectCode)</td>
                  @*<td>[link to @currentBudgetObjectCodeName goes here])</td>*@
               </tr>
@@ -131,7 +131,7 @@
                     <th scope="col">@commitmentsTotal.ToStringCurrency()</th>
                     <th scope="col">@obligationsTotal.ToStringCurrency()</th>
                     <th scope="col">@expendituresTotal.ToStringCurrency()</th>
-                    <th scope="col">@unexpendedBalanceTotal.ToStringCurrency()</th>
+                    <th scope="col">@undeliveredOrdersTotal.ToStringCurrency()</th>
                 </tr>
             </tfoot>
         </table>

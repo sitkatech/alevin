@@ -38,25 +38,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         public double Commitments { get; set; }
         public double Obligations { get; set; }
         public double Expenditures { get; set; }
-        public double UnexpendedBalance { get; set; }
+        public double UndeliveredOrders { get; set; }
 
         public ProjectFirmaModels.Models.CostAuthority CostAuthority { get; set; }
         public ProjectFirmaModels.Models.BudgetObjectCode BudgetObjectCode { get; set; }
-
-        /*
-        /// <summary>
-        /// Constructor for building a Project Running Balance Record for a budget projection
-        /// </summary>
-        /// <param name="projectedBudget"></param>
-        /// <param name="dateOfProjectedBudget"></param>
-        public ProjectRunningBalanceObligationsAndExpendituresRecord(double projectedBudget, DateTime dateOfProjectedBudget)
-        {
-            ProjectedBudget = projectedBudget;
-            Date = dateOfProjectedBudget;
-            ObligationItemBudgetObligation = 0;
-            ObligationItemInvoiceDebit = 0;
-        }
-        */
 
         public ProjectRunningBalanceObligationsAndExpendituresRecord(WbsElementPnBudget wbsElementPnBudget)
         {
@@ -68,29 +53,20 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
             this.Commitments = wbsElementPnBudget.CommittedButNotObligated ?? 0;
             this.Obligations = wbsElementPnBudget.TotalObligations ?? 0;
             this.Expenditures = wbsElementPnBudget.TotalExpenditures ?? 0;
-            // I believe this is the mapping; Dorothy seems to be telling me it is. -- SLG 5/21/2020
-            this.UnexpendedBalance = wbsElementPnBudget.UndeliveredOrders ?? 0;
+            // Dorothy originally seemed to be telling me this was actually "Unexpended Balances", but that does not appear to be true.
+            // -- SLG 5/29/2020
+            this.UndeliveredOrders = wbsElementPnBudget.UndeliveredOrders ?? 0;
 
             this.CostAuthority = wbsElementPnBudget.CostAuthority;
             this.BudgetObjectCode = wbsElementPnBudget.BudgetObjectCode;
         }
 
-        //public static List<ProjectRunningBalanceObligationsAndExpendituresRecord> GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject_RouteOne(ProjectFirmaModels.Models.Project project)
         public static List<ProjectRunningBalanceObligationsAndExpendituresRecord> GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(ProjectFirmaModels.Models.Project project)
         {
             var relevantCostAuthorities = project.CostAuthorityProjects.Select(cap => cap.CostAuthority).ToList();
             var relevantPns = relevantCostAuthorities.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
             return relevantPns.Select(pn => new ProjectRunningBalanceObligationsAndExpendituresRecord(pn)).ToList();
         }
-
-        /*
-        public static List<ProjectRunningBalanceObligationsAndExpendituresRecord> GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject_RouteTwo(ProjectFirmaModels.Models.Project project)
-        {
-            var relevantFundingSources = project.ProjectFundingSourceBudgets.Select(pfsb => pfsb.FundingSource).ToList();
-            var relevantPns = relevantFundingSources.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
-            return relevantPns.Select(pn => new ProjectRunningBalanceObligationsAndExpendituresRecord(pn)).ToList();
-        }
-        */
 
     }
 }
