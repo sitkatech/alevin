@@ -129,5 +129,12 @@ namespace ProjectFirmaModels.Models
         {
             return ProjectUpdateBatch.ProjectOrganizationUpdates.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
+
+        public int ProjectOrProjectUpdateID
+        {
+            get { return ProjectUpdateID; }
+        }
+        public bool IsProject { get { return false; } }
+        public bool IsProjectUpdate { get { return true; } }
     }
 }

@@ -48,5 +48,10 @@ namespace ProjectFirmaModels.Models
         IEnumerable<GeospatialArea> GetProjectGeospatialAreas();
         decimal GetProjectedFunding();
         decimal GetNoFundingSourceIdentifiedAmountOrZero();
+
+        int ProjectOrProjectUpdateID { get; }
+
+        bool IsProject { get; }
+        bool IsProjectUpdate { get; }
     }
 }

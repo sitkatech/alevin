@@ -169,5 +169,6 @@ namespace ProjectFirmaModels.Models
         {
             return ((IObjectContextAdapter) this).ObjectContext;
         }
+
     }
 }
