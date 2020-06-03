@@ -365,6 +365,7 @@ namespace ProjectFirma.Web.Controllers
                     using (SqlCommand cmd = new SqlCommand(vendorImportProc, sqlConnection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        // If we needed parameters, here's how we'd add them.
                         //cmd.Parameters.AddWithValue("@SocrataDataMartRawJsonImportID", socrataDataMartRawJsonImportID);
                         //cmd.Parameters.AddWithValue("@BienniumToImport", bienniumToImport);
                         cmd.ExecuteNonQuery();

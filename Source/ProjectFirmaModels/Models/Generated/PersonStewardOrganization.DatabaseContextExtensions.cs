@@ -4,7 +4,6 @@
 //  Source Table: [dbo].[PersonStewardOrganization]
 using System.Collections.Generic;
 using System.Linq;
-using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;

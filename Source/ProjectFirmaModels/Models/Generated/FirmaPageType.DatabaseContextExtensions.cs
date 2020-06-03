@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Z.EntityFramework.Plus;
-using CodeFirstStoreFunctions;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
