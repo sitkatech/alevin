@@ -113,26 +113,26 @@ end
     delete from ImportFinancial.ObligationNumber;
     delete from ImportFinancial.Vendor;
 
-	--INSERTS
-	insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
-	select 
-		distinct
-			coalesce(pr.WBSElementKey, ap.WBSElementKey) as WbsElementKey,
-			coalesce(pr.WBSElementText, ap.WBSElementText) as WbsElementText
-	from
-		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.ImpApGenSheet as ap on pr.WBSElementKey = ap.WBSElementKey
-	where
-		pr.WBSElementKey != '#'
+    --INSERTS
+    insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
+    select 
+        distinct
+            coalesce(pr.WBSElementKey, ap.WBSElementKey) as WbsElementKey,
+            coalesce(pr.WBSElementText, ap.WBSElementText) as WbsElementText
+    from
+        ImportFinancial.impPayRecV3 as pr
+        full outer join ImportFinancial.ImpApGenSheet as ap on pr.WBSElementKey = ap.WBSElementKey
+    where
+        pr.WBSElementKey != '#'
 
-	--insert missing WBS elements into the Reclamation.CostAuthority table
-	insert into Reclamation.CostAuthority(CostAuthorityWorkBreakdownStructure, AccountStructureDescription)  
+    --insert missing WBS elements into the Reclamation.CostAuthority table
+    insert into Reclamation.CostAuthority(CostAuthorityWorkBreakdownStructure, AccountStructureDescription)  
     select wbs.WbsElementKey, wbs.WbsElementText
     from 
-		Reclamation.CostAuthority as ca
-		right join ImportFinancial.WbsElement as wbs on ca.CostAuthorityWorkBreakdownStructure = wbs.WbsElementKey
-	where
-		ca.CostAuthorityWorkBreakdownStructure is null
+        Reclamation.CostAuthority as ca
+        right join ImportFinancial.WbsElement as wbs on ca.CostAuthorityWorkBreakdownStructure = wbs.WbsElementKey
+    where
+        ca.CostAuthorityWorkBreakdownStructure is null
 
 
 -- We'd really prefer not to have an "Unassigned Vendor" but we feel we've been pushed into a corner for the moment.
@@ -143,41 +143,41 @@ end
     values
     ('#', 'Not Assigned')
 
-	insert into ImportFinancial.Vendor(VendorKey, VendorText)
-	select 
-		distinct
-			coalesce(pr.VendorKey, ap.VendorKey) as VendorKey,
-			coalesce(pr.VendorText, ap.VendorText) as VendorText
-	from
-		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.ImpApGenSheet as ap on pr.VendorKey = ap.VendorKey
-	where
+    insert into ImportFinancial.Vendor(VendorKey, VendorText)
+    select 
+        distinct
+            coalesce(pr.VendorKey, ap.VendorKey) as VendorKey,
+            coalesce(pr.VendorText, ap.VendorText) as VendorText
+    from
+        ImportFinancial.impPayRecV3 as pr
+        full outer join ImportFinancial.ImpApGenSheet as ap on pr.VendorKey = ap.VendorKey
+    where
         -- These are unassigned/blank vendors; see above
-		pr.VendorKey != '#'
+        pr.VendorKey != '#'
 
-	insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
-	select 
-		distinct
-			coalesce(pr.ObligationNumberKey , ap.PONumberKey) as ObligationNumberKey
-	from
-		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
+    insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
+    select 
+        distinct
+            coalesce(pr.ObligationNumberKey , ap.PONumberKey) as ObligationNumberKey
+    from
+        ImportFinancial.impPayRecV3 as pr
+        full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
 
     update ImportFinancial.ObligationNumber
     set ReclamationAgreementID = rca.AgreementID
     from Reclamation.Agreement as rca
     inner join ImportFinancial.ObligationNumber as onum on rca.AgreementNumber = onum.ObligationNumberKey
 
-	insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID, VendorID)
-	select 
-		distinct
-			coalesce(pr.ObligationItemKey , ap.PurchOrdLineItmKey) as ObligationItemKey,
-			(select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.ObligationNumberKey) as ObligationNumberID,
+    insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID, VendorID)
+    select 
+        distinct
+            coalesce(pr.ObligationItemKey , ap.PurchOrdLineItmKey) as ObligationItemKey,
+            (select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.ObligationNumberKey) as ObligationNumberID,
             (coalesce((select VendorID from ImportFinancial.Vendor as v where v.VendorKey = pr.VendorKey),
                       (select VendorID from ImportFinancial.Vendor as v where v.VendorKey = ap.VendorKey))) as VendorID
-	from
-		ImportFinancial.impPayRecV3 as pr
-		full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
+    from
+        ImportFinancial.impPayRecV3 as pr
+        full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
 
 
     -- Temp table to help with BOC FBMS years for impPayRecV3
@@ -224,15 +224,15 @@ end
                                                                BudgetObjectCodeID,
                                                                FundingSourceID
                                                                )
-	select 
-		(select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElementKey) as WbsElementID,
-		(select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.WBSElementKey) as CostAuthorityID,
-		(select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.ObligationItemKey and obn.ObligationNumberKey = pr.ObligationNumberKey and v.VendorKey = pr.VendorKey) as ObligationItemID,
-		pr.Obligation as Obligation,
-		pr.GoodsReceipt as GoodsReceipt,
-		pr.Invoiced as Invoiced,
-		pr.Disbursed as Disbursed,
-		pr.UnexpendedBalance as UnexpendedBalance,
+    select 
+        (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElementKey) as WbsElementID,
+        (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.WBSElementKey) as CostAuthorityID,
+        (select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.ObligationItemKey and obn.ObligationNumberKey = pr.ObligationNumberKey and v.VendorKey = pr.VendorKey) as ObligationItemID,
+        pr.Obligation as Obligation,
+        pr.GoodsReceipt as GoodsReceipt,
+        pr.Invoiced as Invoiced,
+        pr.Disbursed as Disbursed,
+        pr.UnexpendedBalance as UnexpendedBalance,
         pr.CreatedOnKey as CreatedOnKey,
         pr.DateOfUpdateKey as DateOfUpdateKey,
         pr.PostingDateKey as PostingDateKey,
@@ -337,22 +337,22 @@ end
     where q.ObligationItemID is not null
 
 
-	-- Update VendorNumbers for any Organizations for Vendors we recognize by text from the incoming Vendor import table
-	-- This only works for Reclamation (Tenant 12)
-	update dbo.Organization
-	set VendorNumber = iv.VendorKey
-	from ImportFinancial.Vendor as iv
-	join dbo.Organization as do on iv.VendorText = do.OrganizationName 
-	where TenantID = 12
+    -- Update VendorNumbers for any Organizations for Vendors we recognize by text from the incoming Vendor import table
+    -- This only works for Reclamation (Tenant 12)
+    update dbo.Organization
+    set VendorNumber = iv.VendorKey
+    from ImportFinancial.Vendor as iv
+    join dbo.Organization as do on iv.VendorText = do.OrganizationName 
+    where TenantID = 12
 
-	--select * 
-	--from ImportFinancial.Vendor as iv
-	--left join dbo.Organization as do on iv.VendorText = do.OrganizationName 
-	--where TenantID = 12 
+    --select * 
+    --from ImportFinancial.Vendor as iv
+    --left join dbo.Organization as do on iv.VendorText = do.OrganizationName 
+    --where TenantID = 12 
 
-	--select * from dbo.Organization
-	--where VendorNumber is not null
-	
+    --select * from dbo.Organization
+    --where VendorNumber is not null
+    
 
 end
 GO
@@ -360,17 +360,17 @@ GO
 
 /*
 
-		select * from dbo.impPayRecV3 as pr where pr.WBSElementKey like '%#%'
+        select * from dbo.impPayRecV3 as pr where pr.WBSElementKey like '%#%'
 
-		select * from dbo.impPayRecV3 as pr where pr.UnexpendedBalance = 3790.98
+        select * from dbo.impPayRecV3 as pr where pr.UnexpendedBalance = 3790.98
 
-		select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = 'RX.16786807.5001500'
+        select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = 'RX.16786807.5001500'
 
-		select distinct WbsElementKey from ImportFinancial.WbsElement
+        select distinct WbsElementKey from ImportFinancial.WbsElement
 
-		select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID
+        select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID
 
-		select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemID = 249
+        select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemID = 249
 
 
 exec dbo.pReclamationImportApGenAndPayrecV3
