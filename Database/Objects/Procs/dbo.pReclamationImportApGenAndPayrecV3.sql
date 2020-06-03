@@ -108,10 +108,45 @@ end
 
     delete from ImportFinancial.WbsElementObligationItemBudget;
     delete from ImportFinancial.WbsElementObligationItemInvoice;
-    delete from ImportFinancial.WbsElement;
+    delete from ImportFinancial.WbsElement; -- FK Issues
     delete from ImportFinancial.ObligationItem;
     delete from ImportFinancial.ObligationNumber;
     delete from ImportFinancial.Vendor;
+
+-- bALHAHG
+
+select * from ImportFinancial.WbsElement
+
+
+    DROP TABLE IF EXISTS #PotentiallyNewWbsElements
+
+    select 
+    distinct
+            coalesce(pr.WBSElementKey, ap.WBSElementKey) as WbsElementKey,
+            coalesce(pr.WBSElementText, ap.WBSElementText) as WbsElementText,
+            null as WbsElementID
+    into #PotentiallyNewWbsElements
+    from
+        ImportFinancial.impPayRecV3 as pr
+        full outer join ImportFinancial.ImpApGenSheet as ap on pr.WBSElementKey = ap.WBSElementKey
+    where
+        pr.WBSElementKey != '#'
+
+    select * from  #PotentiallyNewWbsElements
+
+        select * 
+        from #PotentiallyNewWbsElements as pNewWbs
+         inner join ImportFinancial.WbsElement as existWbs on existWbs.WbsElementKey = pNewWbs.WbsElementKey and existWbs.WbsElementText = pNewWbs.WbsElementText
+
+
+    update #PotentiallyNewWbsElements
+    set WbsElementID = existWbs.WbsElementID
+    from #PotentiallyNewWbsElements as pNewWbs
+         inner join ImportFinancial.WbsElement as existWbs on existWbs.WbsElementKey = pNewWbs.WbsElementKey and existWbs.WbsElementText = pNewWbs.WbsElementText
+
+    select * from  #PotentiallyNewWbsElements
+
+-- bALHAHG
 
     --INSERTS
     insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
@@ -133,7 +168,6 @@ end
         right join ImportFinancial.WbsElement as wbs on ca.CostAuthorityWorkBreakdownStructure = wbs.WbsElementKey
     where
         ca.CostAuthorityWorkBreakdownStructure is null
-
 
 -- We'd really prefer not to have an "Unassigned Vendor" but we feel we've been pushed into a corner for the moment.
 -- Fortunately it is very rare. -- SLG 3/13/2020
@@ -178,7 +212,6 @@ end
     from
         ImportFinancial.impPayRecV3 as pr
         full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumberKey = ap.PONumberKey
-
 
     -- Temp table to help with BOC FBMS years for impPayRecV3
     DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_impPayRecV3
@@ -253,7 +286,6 @@ end
 
     --select distinct CostAuthorityWorkBreakdownStructure, count(*) from Reclamation.CostAuthority group by CostAuthorityWorkBreakdownStructure order by count(*) desc
     --select * from Reclamation.CostAuthority where CostAuthorityWorkBreakdownStructure = 'RX.16786820.3000100'
-    
 
     -- Temp table to help with BOC FBMS years for ImpApGenSheet
     DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_ImpApGenSheet
