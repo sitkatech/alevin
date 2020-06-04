@@ -146,6 +146,13 @@ namespace ProjectFirma.Web.Controllers
             var elapsedTime = endTime - startTime;
             string importTimeString = GetImportTimeString(elapsedTime);
 
+            // Record that we uploaded
+            var newImpProcessingForFbms = new ImpProcessing(ImpProcessingTableType.FBMS);
+            newImpProcessingForFbms.UploadDate = endTime;
+            newImpProcessingForFbms.UploadPerson = this.CurrentFirmaSession.Person;
+            HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+
             SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.</br>{importTimeString}.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
@@ -249,6 +256,13 @@ namespace ProjectFirma.Web.Controllers
             var elapsedTime = endTime - startTime;
             string importTimeString = GetImportTimeString(elapsedTime);
 
+            // Record that we uploaded
+            var newImpProcessingForPnBudgets = new ImpProcessing(ImpProcessingTableType.PNBudget);
+            newImpProcessingForPnBudgets.UploadDate = endTime;
+            newImpProcessingForPnBudgets.UploadPerson = this.CurrentFirmaSession.Person;
+            HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForPnBudgets);
+            HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+
             SetMessageForDisplay($"{countAddedPnBudgets.ToGroupedNumeric()} PnBudget records were successfully imported to database.</br>{importTimeString}.");
 
             // This is the right thing to return, since this starts off in a modal dialog
@@ -344,6 +358,26 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 DoPublishingSql(Logger);
+
+                // If we get this far, we've succeeded.
+                // Log last import as successful.
+                var processedDateTime = DateTime.Now;
+                var latestImportProcessingForFbms = ImpProcessing.GetLatestImportProcessingForGivenType(HttpRequestStorage.DatabaseEntities, ImpProcessingTableType.FBMS);
+                var latestImportProcessingForPnBudget = ImpProcessing.GetLatestImportProcessingForGivenType(HttpRequestStorage.DatabaseEntities, ImpProcessingTableType.PNBudget);
+                if (latestImportProcessingForFbms == null || latestImportProcessingForPnBudget == null)
+                {
+                    // We don't expect this to really happen once things are running smoothly, but in the short
+                    // term I want to know about it.
+                    SetErrorForDisplay($"Could not find processing records for last upload (ImpProcessing)");
+                }
+                else
+                {
+                    latestImportProcessingForFbms.LastProcessedDate = processedDateTime;
+                    latestImportProcessingForFbms.LastProcessedPerson = CurrentFirmaSession.Person;
+                    latestImportProcessingForPnBudget.LastProcessedDate = processedDateTime;
+                    latestImportProcessingForPnBudget.LastProcessedPerson = CurrentFirmaSession.Person;
+                    HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+                }
             }
             catch (Exception e)
             {

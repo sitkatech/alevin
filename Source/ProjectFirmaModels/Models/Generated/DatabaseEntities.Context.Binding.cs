@@ -190,6 +190,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ImpApGenSheetConfiguration());
             modelBuilder.Configurations.Add(new ImpPayrecV3Configuration());
             modelBuilder.Configurations.Add(new ImpPnBudgetConfiguration());
+            modelBuilder.Configurations.Add(new ImpProcessingConfiguration());
             modelBuilder.Configurations.Add(new ObligationItemConfiguration());
             modelBuilder.Configurations.Add(new ObligationNumberConfiguration());
             modelBuilder.Configurations.Add(new PnBudgetFundTypeConfiguration());
@@ -355,6 +356,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ImpPayrecV3> ImpPayrecV3s { get; set; }
         public virtual DbSet<ImpPnBudget> ImpPnBudgets { get; set; }
+        public virtual DbSet<ImpProcessing> ImpProcessings { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
@@ -881,6 +883,14 @@ namespace ProjectFirmaModels.Models
 
                 case "ImpPnBudget":
                     return ImpPnBudgets.GetImpPnBudget(primaryKey);
+
+                case "ImpProcessing":
+                    return ImpProcessings.GetImpProcessing(primaryKey);
+
+                case "ImpProcessingTableType":
+                    var impProcessingTableType = ImpProcessingTableType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
+                    Check.RequireNotNullThrowNotFound(impProcessingTableType, "ImpProcessingTableType", primaryKey);
+                    return impProcessingTableType;
 
                 case "Location":
                     return Locations.GetLocation(primaryKey);
