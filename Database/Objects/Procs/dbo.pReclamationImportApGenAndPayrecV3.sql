@@ -108,17 +108,14 @@ end
 
     delete from ImportFinancial.WbsElementObligationItemBudget;
     delete from ImportFinancial.WbsElementObligationItemInvoice;
-    delete from ImportFinancial.WbsElement; -- FK Issues
+    --delete from ImportFinancial.WbsElement; -- FK Issues
     delete from ImportFinancial.ObligationItem;
     delete from ImportFinancial.ObligationNumber;
     delete from ImportFinancial.Vendor;
 
--- bALHAHG
-
-    DROP TABLE IF EXISTS #PotentiallyNewWbsElements
-
     -- Table of potentially new WBS elements
     -- (We'll figure out if there's a corresponding, existing WbsElement in a second.)
+    DROP TABLE IF EXISTS #PotentiallyNewWbsElements
     select
     distinct
             coalesce(pr.WBSElementKey, ap.WBSElementKey) as WbsElementKey,
@@ -138,38 +135,15 @@ end
     from #PotentiallyNewWbsElements as pNewWbs
          inner join ImportFinancial.WbsElement as existWbs on existWbs.WbsElementKey = pNewWbs.WbsElementKey and existWbs.WbsElementText = pNewWbs.WbsElementText
 
-    --select * from  #PotentiallyNewWbsElements
-
-
-
-    /*
-    --INSERTS
+    -- Insert the previously unknown WbsElements (if any)
     insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
-    select 
-        distinct
-            coalesce(pr.WBSElementKey, ap.WBSElementKey) as WbsElementKey,
-            coalesce(pr.WBSElementText, ap.WBSElementText) as WbsElementText
-    from
-        ImportFinancial.impPayRecV3 as pr
-        full outer join ImportFinancial.ImpApGenSheet as ap on pr.WBSElementKey = ap.WBSElementKey
-    where
-        pr.WBSElementKey != '#'
-    */
-        insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
-        select pNewWbs.WbsElementKey, pNewWbs.WbsElementText
-        from #PotentiallyNewWbsElements as pNewWbs
-        where pNewWbs.ExistingWbsElementID is null
+    select pNewWbs.WbsElementKey, pNewWbs.WbsElementText
+    from #PotentiallyNewWbsElements as pNewWbs
+    where pNewWbs.ExistingWbsElementID is null
 
--- bALHAHG
-
-    --select * from Reclamation.CostAuthority
-
-    --select * from dbo.TaxonomyLeaf where TenantID = 12
-
+    -- This is the "Unknown-unknown Taxonmy Leaf"
     declare @unknownTaxonomyLeafID int
     set @unknownTaxonomyLeafID = (select TaxonomyLeafID from dbo.TaxonomyLeaf as tl where tl.TaxonomyLeafName = 'xxxx.xxx unknown')
-
-    --select * from dbo.TaxonomyLeaf
 
     --insert missing WBS elements into the Reclamation.CostAuthority table
     insert into Reclamation.CostAuthority(CostAuthorityWorkBreakdownStructure, AccountStructureDescription, TaxonomyLeafID)
@@ -179,9 +153,6 @@ end
         right join ImportFinancial.WbsElement as wbs on ca.CostAuthorityWorkBreakdownStructure = wbs.WbsElementKey
     where
         ca.CostAuthorityWorkBreakdownStructure is null
-
-    --select * from Reclamation.CostAuthority
-    --where CostAuthorityWorkBreakdownStructure like '%RR.1678%'
 
 -- We'd really prefer not to have an "Unassigned Vendor" but we feel we've been pushed into a corner for the moment.
 -- Fortunately it is very rare. -- SLG 3/13/2020
