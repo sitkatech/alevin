@@ -899,7 +899,6 @@
     <Compile Include="Models\Generated\vProjectEffectiveTaxonomyLeafConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyComplete.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyCompleteConfiguration.Binding.cs" />
-    <Compile Include="Models\FieldDefinitionDataImage.cs" />
     <Compile Include="Models\Generated\WbsElement.Binding.cs" />
     <Compile Include="Models\Generated\WbsElement.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WbsElementConfiguration.Binding.cs" />
@@ -924,6 +923,7 @@
     <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
+    <Compile Include="Models\FieldDefinitionDataImage.cs" />
     <Compile Include="Models\CostAuthorityTest.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
     <Compile Include="Models\DocumentLibraryDocumentRole.cs" />
