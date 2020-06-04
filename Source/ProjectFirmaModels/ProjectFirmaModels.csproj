@@ -200,6 +200,7 @@
     <Compile Include="Models\Generated\ExternalMapLayer.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ExternalMapLayerConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ExternalMapLayerPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\fGeoServerGeospatialAreaAreasContainingProjectLocation.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.Binding.cs" />
     <Compile Include="Models\Generated\FieldDefinition.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\FieldDefinitionConfiguration.Binding.cs" />
@@ -898,6 +899,7 @@
     <Compile Include="Models\Generated\vProjectEffectiveTaxonomyLeafConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyComplete.Binding.cs" />
     <Compile Include="Models\Generated\vProjectFunctionallyCompleteConfiguration.Binding.cs" />
+    <Compile Include="Models\FieldDefinitionDataImage.cs" />
     <Compile Include="Models\Generated\WbsElement.Binding.cs" />
     <Compile Include="Models\Generated\WbsElement.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WbsElementConfiguration.Binding.cs" />
