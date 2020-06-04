@@ -9,7 +9,7 @@ namespace ProjectFirmaModels.Models
             var latestImportProcessingForPnBudget = databaseEntities.ImpProcessings.
                 Where(ip => ip.ImpProcessingTableTypeID == impProcessingTableType.ImpProcessingTableTypeID).
                 ToList().OrderBy(ip => ip.UploadDate).
-                FirstOrDefault();
+                LastOrDefault();
             return latestImportProcessingForPnBudget;
         }
 

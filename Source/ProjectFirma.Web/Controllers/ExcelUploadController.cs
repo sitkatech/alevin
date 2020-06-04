@@ -144,7 +144,7 @@ namespace ProjectFirma.Web.Controllers
             LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
-            string importTimeString = GetImportTimeString(elapsedTime);
+            string importTimeString = GetTaskTimeString("Import", elapsedTime);
 
             // Record that we uploaded
             var newImpProcessingForFbms = new ImpProcessing(ImpProcessingTableType.FBMS);
@@ -158,9 +158,9 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private static string GetImportTimeString(TimeSpan elapsedTime)
+        private static string GetTaskTimeString(string taskString, TimeSpan elapsedTime)
         {
-            return $"Import took {elapsedTime.TotalSeconds:0.0} seconds ({elapsedTime.TotalMinutes:0.00} minutes)";
+            return $"{taskString} took {elapsedTime.TotalSeconds:0.0} seconds ({elapsedTime.TotalMinutes:0.00} minutes)";
         }
 
         public static void LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(
@@ -254,7 +254,7 @@ namespace ProjectFirma.Web.Controllers
 
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
-            string importTimeString = GetImportTimeString(elapsedTime);
+            string importTimeString = GetTaskTimeString("Import", elapsedTime);
 
             // Record that we uploaded
             var newImpProcessingForPnBudgets = new ImpProcessing(ImpProcessingTableType.PNBudget);
@@ -355,6 +355,7 @@ namespace ProjectFirma.Web.Controllers
                 throw new SitkaDisplayErrorException("Not expecting model state to be bad; not running publishing processing.");
             }
 
+            DateTime startTime = DateTime.Now;
             try
             {
                 DoPublishingSql(Logger);
@@ -384,7 +385,11 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorForDisplay($"Problem executing Publishing: {e.Message}");
             }
 
-            SetMessageForDisplay($"Publishing Processing completed Successfully");
+            DateTime endTime = DateTime.Now;
+            var elapsedTime = endTime - startTime;
+            string processingTimeString = GetTaskTimeString("Publishing", elapsedTime);
+
+            SetMessageForDisplay($"Publishing Processing completed Successfully.<br/>{processingTimeString}");
             return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageExcelUploadsAndEtl()));
         }
 

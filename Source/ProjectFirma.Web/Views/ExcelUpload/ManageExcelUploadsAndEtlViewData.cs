@@ -63,7 +63,6 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             return lastPnBudgetUploadDate != null ? $"{lastPnBudgetUploadDate.ToString()} - {LatestImportProcessingForPnBudget.UploadPerson.GetFullNameFirstLast()}" : "Unknown";
         }
 
-
         #endregion LastUploadInfo
 
 
