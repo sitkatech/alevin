@@ -324,6 +324,12 @@
     <Compile Include="Models\Generated\ImpPnBudget.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ImpPnBudgetConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ImpPnBudgetPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ImpProcessing.Binding.cs" />
+    <Compile Include="Models\Generated\ImpProcessing.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ImpProcessingConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ImpProcessingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ImpProcessingTableType.Binding.cs" />
+    <Compile Include="Models\Generated\ImpProcessingTableTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Location.Binding.cs" />
     <Compile Include="Models\Generated\Location.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\LocationConfiguration.Binding.cs" />
