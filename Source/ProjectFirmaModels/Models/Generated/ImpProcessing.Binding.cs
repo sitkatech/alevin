@@ -31,12 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ImpProcessing(int impProcessingID, int impProcessingTableTypeID, DateTime? uploadDate, DateTime? lastProcessedDate) : this()
+        public ImpProcessing(int impProcessingID, int impProcessingTableTypeID, DateTime? uploadDate, int? uploadPersonID, DateTime? lastProcessedDate, int? lastProcessedPersonID) : this()
         {
             this.ImpProcessingID = impProcessingID;
             this.ImpProcessingTableTypeID = impProcessingTableTypeID;
             this.UploadDate = uploadDate;
+            this.UploadPersonID = uploadPersonID;
             this.LastProcessedDate = lastProcessedDate;
+            this.LastProcessedPersonID = lastProcessedPersonID;
         }
 
         /// <summary>
@@ -114,11 +116,15 @@ namespace ProjectFirmaModels.Models
         public int ImpProcessingID { get; set; }
         public int ImpProcessingTableTypeID { get; set; }
         public DateTime? UploadDate { get; set; }
+        public int? UploadPersonID { get; set; }
         public DateTime? LastProcessedDate { get; set; }
+        public int? LastProcessedPersonID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ImpProcessingID; } set { ImpProcessingID = value; } }
 
         public ImpProcessingTableType ImpProcessingTableType { get { return ImpProcessingTableType.AllLookupDictionary[ImpProcessingTableTypeID]; } }
+        public virtual Person LastProcessedPerson { get; set; }
+        public virtual Person UploadPerson { get; set; }
 
         public static class FieldLengths
         {

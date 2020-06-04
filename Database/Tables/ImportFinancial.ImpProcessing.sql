@@ -6,7 +6,9 @@ CREATE TABLE [ImportFinancial].[ImpProcessing](
 	[ImpProcessingID] [int] IDENTITY(1,1) NOT NULL,
 	[ImpProcessingTableTypeID] [int] NOT NULL,
 	[UploadDate] [datetime] NULL,
+	[UploadPersonID] [int] NULL,
 	[LastProcessedDate] [datetime] NULL,
+	[LastProcessedPersonID] [int] NULL,
  CONSTRAINT [PK_ImpProcessing_ImpProcessingID] PRIMARY KEY CLUSTERED 
 (
 	[ImpProcessingID] ASC
@@ -18,3 +20,13 @@ ALTER TABLE [ImportFinancial].[ImpProcessing]  WITH CHECK ADD  CONSTRAINT [FK_Im
 REFERENCES [ImportFinancial].[ImpProcessingTableType] ([ImpProcessingTableTypeID])
 GO
 ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_ImpProcessingTableType_ImpProcessingTableTypeID]
+GO
+ALTER TABLE [ImportFinancial].[ImpProcessing]  WITH CHECK ADD  CONSTRAINT [FK_ImpProcessing_LastProcessedPersonID_LastProcessedPersonID] FOREIGN KEY([LastProcessedPersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_LastProcessedPersonID_LastProcessedPersonID]
+GO
+ALTER TABLE [ImportFinancial].[ImpProcessing]  WITH CHECK ADD  CONSTRAINT [FK_ImpProcessing_UploadPersonID_UploadPersonID] FOREIGN KEY([UploadPersonID])
+REFERENCES [dbo].[Person] ([PersonID])
+GO
+ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_UploadPersonID_UploadPersonID]

@@ -27,7 +27,13 @@
 }
 
 <div>
-    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+   @*@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }*@
+</div>
+
+<div>
+   <div><span style="font-weight: bold">Last upload for FBMS:</span> @(ViewDataTyped.GetLastFbmsUploadedDateAndPersonString())</div>
+   <div><span style="font-weight: bold">Last upload for PNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetUploadedDateAndPersonString())</div>
+   <br />
 </div>
 
 @* FBMS Excel File Upload Button *@
@@ -70,8 +76,28 @@
 
 
 <div>
-    <form action="@ViewDataTyped.DoPublishingProcessingPostUrl" method="post">
-        @Html.HiddenFor(x => x.FakeDataToMakeFormPost)
-        <button type="submit" class="btn btn-xs btn-firma" title="Do Publishing Processing" value="false">Do Publishing Processing</button>
-    </form>
+   <div><span style="font-weight: bold">Latest Publishing Processing for FBMS:</span> @(ViewDataTyped.GetLastFbmsLastProcessedDateAndPersonString())</div>
+   <div><span style="font-weight: bold">Latest Publishing Processing for PNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetProcessedDateAndPersonString())</div>
+   <br />
+   @if (ViewDataTyped.PublishingProcessingIsNeeded)
+   {
+      <div>
+         <div><span style="font-weight: bold">** Publishing Processing is needed **</span></div>
+      </div>
+      <br />
+   }
+   else
+   {
+      <div>
+         <div><span style="font-weight: bold">Publishing Processing appears to be up-to-date</span></div>
+      </div>
+      <br />
+   }
+</div>
+
+<div>
+   <form action="@ViewDataTyped.DoPublishingProcessingPostUrl" method="post">
+      @Html.HiddenFor(x => x.FakeDataToMakeFormPost)
+      <button type="submit" class="btn btn-xs btn-firma" title="Do Publishing Processing" value="false">Do Publishing Processing</button>
+   </form>
 </div>

@@ -18,10 +18,13 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ImpProcessingID).HasColumnName(@"ImpProcessingID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.ImpProcessingTableTypeID).HasColumnName(@"ImpProcessingTableTypeID").HasColumnType("int").IsRequired();
             Property(x => x.UploadDate).HasColumnName(@"UploadDate").HasColumnType("datetime").IsOptional();
+            Property(x => x.UploadPersonID).HasColumnName(@"UploadPersonID").HasColumnType("int").IsOptional();
             Property(x => x.LastProcessedDate).HasColumnName(@"LastProcessedDate").HasColumnType("datetime").IsOptional();
+            Property(x => x.LastProcessedPersonID).HasColumnName(@"LastProcessedPersonID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-
+            HasOptional(a => a.UploadPerson).WithMany(b => b.ImpProcessingsWhereYouAreTheUploadPerson).HasForeignKey(c => c.UploadPersonID).WillCascadeOnDelete(false); // FK_ImpProcessing_Person_UploadPersonID_PersonID
+            HasOptional(a => a.LastProcessedPerson).WithMany(b => b.ImpProcessingsWhereYouAreTheLastProcessedPerson).HasForeignKey(c => c.LastProcessedPersonID).WillCascadeOnDelete(false); // FK_ImpProcessing_Person_LastProcessedPersonID_PersonID
         }
     }
 }
