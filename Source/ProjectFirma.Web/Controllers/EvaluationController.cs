@@ -333,7 +333,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsThatAreNotSelectedAlready = projectsThatAreNotSelectedAlready.Select(x => x.ProjectID).ToList();
             var projectSimples = projectsThatAreNotSelectedAlready.Select(x => new ProjectSimple(x)).ToList();
 
-            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Where(x => x.GetProjects().Any(y => projectIDsThatAreNotSelectedAlready.Contains(y.ProjectID))).ToList();
+            var taxonomyLeaves = GetTaxonomyLeavesForUnselectedProjects(projectIDsThatAreNotSelectedAlready);
             var taxonomyLeafSimples = taxonomyLeaves.Select(x => new TaxonomyTierSimple(x)).OrderBy(x => x.DisplayName).ToList();
 
             var taxonomyBranches = taxonomyLeaves.Select(x => x.TaxonomyBranch).Distinct();
@@ -351,6 +351,12 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.AddProjectToEvaluationPortfolioInstructions.GetFirmaPage();
             var viewData = new AddProjectEvaluationViewData(CurrentFirmaSession, angularViewData, evaluation, firmaPage);
             return RazorPartialView<AddProjectEvaluation, AddProjectEvaluationViewData, AddProjectEvaluationViewModel>(viewData, viewModel);
+        }
+
+        private static List<TaxonomyLeaf> GetTaxonomyLeavesForUnselectedProjects(List<int> projectIDsThatAreNotSelectedAlready)
+        {
+            var taxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToList();
+            return taxonomyLeaves.Where(tl => tl.GetProjects().ToList().Any(y => projectIDsThatAreNotSelectedAlready.Contains(y.ProjectID))).ToList();
         }
 
         [EvaluationManageFeature]
