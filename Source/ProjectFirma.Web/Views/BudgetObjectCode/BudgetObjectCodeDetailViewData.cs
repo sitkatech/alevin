@@ -31,13 +31,15 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
         public ProjectFirmaModels.Models.BudgetObjectCode BudgetObjectCode { get; }
         public string BudgetObjectCodeIndexUrl { get; }
 
-        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
-        public string ObligationItemInvoiceGridName { get; }
-        public string ObligationItemInvoiceGridDataUrl { get; }
+        public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
+        public string ContractualInvoiceGridName { get; }
+        public string ContractualItemInvoiceGridDataUrl { get; }
 
+        /*
         public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
         public string ObligationItemBudgetGridName { get; }
         public string ObligationItemBudgetGridDataUrl { get; }
+        */
 
         public BudgetObjectCodeDetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.BudgetObjectCode budgetObjectCode) : base(currentFirmaSession)
         {
@@ -47,13 +49,13 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             BudgetObjectCode = budgetObjectCode;
             BudgetObjectCodeIndexUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(c => c.BudgetObjectCodeIndex());
 
-            ObligationItemInvoiceGridName = "budgetObjectCodeItemInvoices";
-            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
-            ObligationItemInvoiceGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(fc => fc.ObligationItemInvoiceGridOnBudgetObjectCodeDetailJsonData(budgetObjectCode));
+            ContractualInvoiceGridName = "budgetObjectCodeItemInvoices";
+            ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
+            ContractualItemInvoiceGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(fc => fc.ContractualInvoiceGridOnBudgetObjectCodeDetailJsonData(budgetObjectCode));
 
-            ObligationItemBudgetGridName = "budgetObjectCodeItemBudgets";
-            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
-            ObligationItemBudgetGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(fc => fc.ObligationItemBudgetGridOnBudgetObjectCodeDetailJsonData(budgetObjectCode));
+            //ObligationItemBudgetGridName = "budgetObjectCodeItemBudgets";
+            //ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
+            //ObligationItemBudgetGridDataUrl = SitkaRoute<BudgetObjectCodeController>.BuildUrlFromExpression(fc => fc.ObligationItemBudgetGridOnBudgetObjectCodeDetailJsonData(budgetObjectCode));
         }
     }
 }

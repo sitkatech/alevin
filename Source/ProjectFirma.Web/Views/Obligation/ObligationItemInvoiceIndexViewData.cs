@@ -5,25 +5,26 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Obligation
 {
+    // Does this whole thing need to be scrapped?
     public class ObligationItemInvoiceIndexViewData : FirmaViewData
     {
         public ViewPageContentViewData ObligationIndexViewPageContentViewData { get; }
-        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
+        public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
         public string ObligationItemInvoiceGridName { get; }
         public string ObligationItemInvoiceGridDataUrl { get; }
 
-        //public ObligationItemInvoiceIndexViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage) : base(currentFirmaSession, firmaPage)
         public ObligationItemInvoiceIndexViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = "Obligation Item Invoices";
 
-            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
+            ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
 
 
-
+            /*
             ObligationItemInvoiceGridName = "obligationItemInvoiceGrid";
             ObligationItemInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(c => c.ObligationItemInvoiceIndexGridJsonData());
             //ObligationIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
+            */
         }
     }
 }

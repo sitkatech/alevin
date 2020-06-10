@@ -134,15 +134,12 @@ namespace ProjectFirma.Web.Views.Project
 
         public List<ProjectEvaluation> ProjectEvaluationsUserHasAccessTo { get; }
 
-        //Obligations
-        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
-        public string ObligationItemInvoiceGridName { get; }
-        public string ObligationItemInvoiceGridDataUrl { get; }
+        // Contractual Invoices
+        public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
+        public string ContractualInvoiceGridName { get; }
+        public string ContractualInvoiceGridDataUrl { get; }
 
-        public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
-        public string ObligationItemBudgetGridName { get; }
-        public string ObligationItemBudgetGridDataUrl { get; }
-
+        //Obligation Item Budget = removed
 
         //Project Running Balance
         public ProjectRunningBalanceViewData ProjectRunningBalanceViewData { get; set; }
@@ -441,14 +438,20 @@ namespace ProjectFirma.Web.Views.Project
             ActionItemsDisplayViewData = actionItemsDisplayViewData;
             UserCanViewActionItems = userCanViewActionItems;
 
+            /*
             //Obligations:
             ObligationItemInvoiceGridName = "obligationItemInvoices";
-            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
+            ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
             ObligationItemInvoiceGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ObligationItemInvoiceGridJsonData(project));
+            */
+            //public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
+            //public string ContractualInvoiceGridName { get; }
+            //public string ContractualInvoiceGridDataUrl { get; }
 
-            ObligationItemBudgetGridName = "obligationItemBudgets";
-            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
-            ObligationItemBudgetGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ObligationItemBudgetGridJsonData(project));
+
+            ContractualInvoiceGridName = "obligationItemBudgets";
+            ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
+            ContractualInvoiceGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ContractualInvoiceGridJsonData(project));
 
             // Project Running Balance
             ProjectRunningBalanceViewData = projectRunningBalanceViewData;

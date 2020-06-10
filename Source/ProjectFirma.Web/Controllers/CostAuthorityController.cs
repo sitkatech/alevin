@@ -52,20 +52,22 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<CostAuthorityDetail, CostAuthorityDetailViewData>(viewData);
         }
 
+        /*
         [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemInvoiceGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
         {
-            var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var costAuthority = costAuthorityPrimaryKey.EntityObject;
-            var obligationItemInvoices = costAuthority.WbsElementObligationItemInvoices.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
+            var obligationItemBudgets = costAuthority.WbsElementObligationItemBudgets.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+        */
 
         [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridJsonData(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
         {
-            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var costAuthority = costAuthorityPrimaryKey.EntityObject;
             var obligationItemBudgets = costAuthority.WbsElementObligationItemBudgets.ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);

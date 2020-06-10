@@ -1149,20 +1149,22 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             }
         }
 
+        /*
         [ObligationViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new ObligationItemInvoiceGridSpec(CurrentFirmaSession);
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var project = projectPrimaryKey.EntityObject;
             var obligationItemInvoices = project.CostAuthorityProjects.SelectMany(cap => cap.CostAuthority.WbsElementObligationItemInvoices).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
             return gridJsonNetJObjectResult;
         }
+        */
 
         [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridJsonData(ProjectPrimaryKey projectPrimaryKey)
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var project = projectPrimaryKey.EntityObject;
             var obligationItemBudgets = project.CostAuthorityProjects
                 .SelectMany(cap => cap.CostAuthority.WbsElementObligationItemBudgets).ToList();

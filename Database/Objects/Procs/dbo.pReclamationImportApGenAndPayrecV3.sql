@@ -338,7 +338,7 @@ end
           ap.DebitCreditTotal as DebitCreditTotal,
           ap.CreatedOnKey,
           ap.PostingDateKey,
-        -- It seems we have data where we can't look up the BOC in the provided data. 
+        -- It seems we have data where we can't look up the BOC in the provided data.
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
            bocyear.BudgetObjectCodeID,

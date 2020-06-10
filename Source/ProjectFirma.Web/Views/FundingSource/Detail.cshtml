@@ -121,31 +121,33 @@ Source code is available upon request via <support@sitkatech.com>.
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
                     <h2>
-                        Obligation Item Invoices for @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.FundingSource.FundingSourceName
+                        Contractual Invoices for @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.FundingSource.FundingSourceName
                     </h2>
                 </div>
                 <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.ObligationItemInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                    @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
                 </div>
             </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-xs-12">
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h2>
-                        Obligation Item Budgets for @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.FundingSource.FundingSourceName
-                    </h2>
-                </div>
-                <div class="panel-body">
-                    @Html.DhtmlxGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
-                </div>
+   @*<div class="row">
+      <div class="col-xs-12">
+         <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+               <h2>
+                  Obligation Item Budgets for @FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabel(): @ViewDataTyped.FundingSource.FundingSourceName
+               </h2>
             </div>
-        </div>
-    </div>
-    <div class="row">
+            <div class="panel-body">
+               @Html.DhtmlxGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+            </div>
+         </div>
+      </div>
+   </div>*@
+   
+
+   <div class="row">
         <div class="col-sm-12">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
