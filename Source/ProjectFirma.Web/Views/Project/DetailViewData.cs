@@ -40,7 +40,6 @@ using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
-using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 
 namespace ProjectFirma.Web.Views.Project
@@ -141,13 +140,10 @@ namespace ProjectFirma.Web.Views.Project
 
         //Obligation Item Budget = removed
 
-        //Project Running Balance
-        public ProjectRunningBalanceViewData ProjectRunningBalanceViewData { get; set; }
+        // Project Running Balance (new version)
         public ProjectRunningBalanceObligationsAndExpendituresViewData ProjectRunningBalanceObligationsAndExpendituresViewData { get; set; }
 
         public string UpdateStatusUrl { get; set; }
-
-        public bool ShowOriginalProjectRunningBalanceReport => false;
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
@@ -186,7 +182,6 @@ namespace ProjectFirma.Web.Views.Project
             bool userHasStartUpdateWorkflowPermission,
             ActionItemsDisplayViewData actionItemsDisplayViewData,
             bool userCanViewActionItems,
-            ProjectRunningBalanceViewData projectRunningBalanceViewData,
             ProjectRunningBalanceObligationsAndExpendituresViewData projectRunningBalanceObligationsAndExpendituresViewData)
             : base(currentFirmaSession, project)
         {
@@ -448,13 +443,11 @@ namespace ProjectFirma.Web.Views.Project
             //public string ContractualInvoiceGridName { get; }
             //public string ContractualInvoiceGridDataUrl { get; }
 
-
             ContractualInvoiceGridName = "obligationItemBudgets";
             ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
             ContractualInvoiceGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ContractualInvoiceGridJsonData(project));
 
-            // Project Running Balance
-            ProjectRunningBalanceViewData = projectRunningBalanceViewData;
+            // Project Running Balance (New Version)
             ProjectRunningBalanceObligationsAndExpendituresViewData = projectRunningBalanceObligationsAndExpendituresViewData;
         }
     }

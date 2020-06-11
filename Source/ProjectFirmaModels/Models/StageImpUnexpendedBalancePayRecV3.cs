@@ -19,7 +19,7 @@ namespace ProjectFirmaModels.Models
             this.BudgetObjectClass = fbmsBudgetStageImportPayrecV3UnexpendedBalance.BudgetObjectClass;
             this.Vendor = fbmsBudgetStageImportPayrecV3UnexpendedBalance.Vendor;
             this.VendorName = fbmsBudgetStageImportPayrecV3UnexpendedBalance.VendorName;
-            this.PostingDatePerSplKey = fbmsBudgetStageImportPayrecV3UnexpendedBalance.PostingDatePerSpl;
+            this.PostingDatePerSpl = fbmsBudgetStageImportPayrecV3UnexpendedBalance.PostingDatePerSpl;
             this.UnexpendedBalance = fbmsBudgetStageImportPayrecV3UnexpendedBalance.UnexpendedBalance;
         }
 
