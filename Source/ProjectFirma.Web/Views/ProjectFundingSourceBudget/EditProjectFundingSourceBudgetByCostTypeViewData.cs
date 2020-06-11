@@ -86,7 +86,6 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             RequestFundingSourceUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.MissingFundingSource());
             RefreshUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.RefreshExpectedFundingByCostType(projectUpdateBatch.Project));
             DiffUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.DiffExpectedFundingByCostType(projectUpdateBatch.Project));
-            
         }
 
         public class EditProjectFundingSourceBudgetByCostTypeViewDataForAngular
