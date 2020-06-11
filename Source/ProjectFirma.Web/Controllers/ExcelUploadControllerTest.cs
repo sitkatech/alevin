@@ -37,11 +37,12 @@ namespace ProjectFirma.Web.Controllers
         [Description("Simulate the uploading and processing of the Excel FBMS information")]
         public void TestExcelUploadAndPublishingProcess()
         {
-            const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Sitka AP Rpt_2020-03-13 added Dates.xlsx";
+            // ReSharper disable twice StringLiteralTypo
+            const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Copy_of_CSRO_Pay_Rec_UnExpnd_Bal_2020-05-06-889ddfs.xlsx";
 
             FileStream excelFileStream = new FileStream(pathToSampleFbmsExcelFileThatWouldBeUploaded, FileMode.Open, FileAccess.Read);
 
-            List<FbmsBudgetStageImport> budgetTransferBulks = FbmsBudgetStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
+            List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> budgetTransferBulks = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
             List<FbmsInvoiceStageImport> invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
 
             ExcelUploadController.LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);

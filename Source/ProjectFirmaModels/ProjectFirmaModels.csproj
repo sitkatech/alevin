@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -799,14 +799,14 @@
     <Compile Include="Models\Generated\StageImpApGenSheet.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StageImpApGenSheetConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\StageImpApGenSheetPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\StageImpPayRecV3.Binding.cs" />
-    <Compile Include="Models\Generated\StageImpPayRecV3.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\StageImpPayRecV3Configuration.Binding.cs" />
-    <Compile Include="Models\Generated\StageImpPayRecV3PrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPnBudget.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPnBudget.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StageImpPnBudgetConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPnBudgetPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpUnexpendedBalancePayRecV3.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpUnexpendedBalancePayRecV3.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\StageImpUnexpendedBalancePayRecV3Configuration.Binding.cs" />
+    <Compile Include="Models\Generated\StageImpUnexpendedBalancePayRecV3PrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.Binding.cs" />
     <Compile Include="Models\Generated\StateProvince.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StateProvinceConfiguration.Binding.cs" />
@@ -929,6 +929,8 @@
     <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImportPayrecV3UnexpendedBalance.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImportPayrecV3UnexpendedBalances.cs" />
     <Compile Include="Models\FieldDefinitionDataImage.cs" />
     <Compile Include="Models\CostAuthorityTest.cs" />
     <Compile Include="Models\FiscalQuarter.cs" />
@@ -943,9 +945,9 @@
     <Compile Include="Models\ExcelUpload\PnBudgetsStageImport.cs" />
     <Compile Include="Models\ExcelUpload\ExcelColumnHelper.cs" />
     <Compile Include="Models\ExcelUpload\ExcelImportBadCellException.cs" />
-    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImports.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImportOriginalPayrecV3s.cs" />
     <Compile Include="Models\ExcelUpload\FbmsInvoiceStageImports.cs" />
-    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImport.cs" />
+    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImportOriginalPayrecV3.cs" />
     <Compile Include="Models\FieldDefinitionTest.cs" />
     <Compile Include="Models\EvaluationCriteriaValue.cs" />
     <Compile Include="Models\EvaluationCriteria.cs" />
@@ -1054,7 +1056,7 @@
     <Compile Include="Models\AgreementSimple.cs" />
     <Compile Include="Models\StageImpApGenSheet.cs" />
     <Compile Include="Models\StagePnBudget.cs" />
-    <Compile Include="Models\StageImpPayRecV3.cs" />
+    <Compile Include="Models\StageImpOriginalPayRecV3.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\Agreement.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />

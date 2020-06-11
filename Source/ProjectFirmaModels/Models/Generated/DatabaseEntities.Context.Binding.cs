@@ -234,8 +234,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new WorkbreakdownStructureConfiguration());
             modelBuilder.Configurations.Add(new WorkOrderConfiguration());
             modelBuilder.Configurations.Add(new StageImpApGenSheetConfiguration());
-            modelBuilder.Configurations.Add(new StageImpPayRecV3Configuration());
             modelBuilder.Configurations.Add(new StageImpPnBudgetConfiguration());
+            modelBuilder.Configurations.Add(new StageImpUnexpendedBalancePayRecV3Configuration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
@@ -543,8 +543,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StageImpApGenSheet> StageImpApGenSheets { get; set; }
-        public virtual DbSet<StageImpPayRecV3> StageImpPayRecV3s { get; set; }
         public virtual DbSet<StageImpPnBudget> StageImpPnBudgets { get; set; }
+        public virtual DbSet<StageImpUnexpendedBalancePayRecV3> StageImpUnexpendedBalancePayRecV3s { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SubbasinLiason> AllSubbasinLiasons { get; set; }
@@ -591,10 +591,10 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<vProjectDetail> vProjectDetails { get; set; }
         public virtual DbSet<vProjectEffectiveTaxonomyLeaf> vProjectEffectiveTaxonomyLeafs { get; set; }
         public virtual DbSet<vProjectFunctionallyComplete> vProjectFunctionallyCompletes { get; set; }
-        public virtual DbSet<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> fGeoServerGeospatialAreaAreasContainingProjectLocationResults { get; set; }
+        public virtual DbSet<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> fGeoServerGeospatialAreaAreasContainingProjectLocationResults { get; set; }
 
         [DbFunction("DatabaseEntities", "fGeoServerGeospatialAreaAreasContainingProjectLocation")]
-        public virtual IQueryable<fGeoServerGeospatialAreaAreasContainingProjectLocationResult> GetfGeoServerGeospatialAreaAreasContainingProjectLocations(int? piProjectIDParameter, bool? pbIsProjectParameter, int? piGeospatialAreaTypeIDParameter)
+        public virtual IQueryable<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GetfGeoServerGeospatialAreaAreasContainingProjectLocations(int? piProjectIDParameter, bool? pbIsProjectParameter, int? piGeospatialAreaTypeIDParameter)
         {
             
             var piProjectID = new System.Data.Entity.Core.Objects.ObjectParameter("piProjectID", typeof(int?))
@@ -612,7 +612,7 @@ namespace ProjectFirmaModels.Models
                 Value = piGeospatialAreaTypeIDParameter
             };
             return (this as System.Data.Entity.Infrastructure.IObjectContextAdapter).ObjectContext
-                  .CreateQuery<fGeoServerGeospatialAreaAreasContainingProjectLocationResult>("DatabaseEntities.fGeoServerGeospatialAreaAreasContainingProjectLocation(@piProjectID, @pbIsProject, @piGeospatialAreaTypeID)",piProjectID, pbIsProject, piGeospatialAreaTypeID);
+                  .CreateQuery<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result>("DatabaseEntities.fGeoServerGeospatialAreaAreasContainingProjectLocation(@piProjectID, @pbIsProject, @piGeospatialAreaTypeID)",piProjectID, pbIsProject, piGeospatialAreaTypeID);
         }
 
         public object LoadType(Type type, int primaryKey)
@@ -1341,11 +1341,11 @@ namespace ProjectFirmaModels.Models
                 case "StageImpApGenSheet":
                     return StageImpApGenSheets.GetStageImpApGenSheet(primaryKey);
 
-                case "StageImpPayRecV3":
-                    return StageImpPayRecV3s.GetStageImpPayRecV3(primaryKey);
-
                 case "StageImpPnBudget":
                     return StageImpPnBudgets.GetStageImpPnBudget(primaryKey);
+
+                case "StageImpUnexpendedBalancePayRecV3":
+                    return StageImpUnexpendedBalancePayRecV3s.GetStageImpUnexpendedBalancePayRecV3(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);
