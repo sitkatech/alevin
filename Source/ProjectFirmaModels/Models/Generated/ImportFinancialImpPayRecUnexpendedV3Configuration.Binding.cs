@@ -1,21 +1,21 @@
 //  IMPORTANT:
 //  This file is generated. Your changes will be lost.
 //  Use the corresponding partial class for customizations.
-//  Source Table: [Staging].[StageImpUnexpendedBalancePayRecV3]
+//  Source Table: [ImportFinancial].[ImportFinancialImpPayRecUnexpendedV3]
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.ModelConfiguration;
 
 namespace ProjectFirmaModels.Models
 {
-    public class StageImpUnexpendedBalancePayRecV3Configuration : EntityTypeConfiguration<StageImpUnexpendedBalancePayRecV3>
+    public class ImportFinancialImpPayRecUnexpendedV3Configuration : EntityTypeConfiguration<ImportFinancialImpPayRecUnexpendedV3>
     {
-        public StageImpUnexpendedBalancePayRecV3Configuration() : this("Staging"){}
+        public ImportFinancialImpPayRecUnexpendedV3Configuration() : this("ImportFinancial"){}
 
-        public StageImpUnexpendedBalancePayRecV3Configuration(string schema)
+        public ImportFinancialImpPayRecUnexpendedV3Configuration(string schema)
         {
-            ToTable("StageImpUnexpendedBalancePayRecV3", schema);
-            HasKey(x => x.StageImpUnexpendedBalancePayRecV3ID);
-            Property(x => x.StageImpUnexpendedBalancePayRecV3ID).HasColumnName(@"StageImpUnexpendedBalancePayRecV3ID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
+            ToTable("ImportFinancialImpPayRecUnexpendedV3", schema);
+            HasKey(x => x.ImportFinancialImpPayRecUnexpendedV3ID);
+            Property(x => x.ImportFinancialImpPayRecUnexpendedV3ID).HasColumnName(@"ImportFinancialImpPayRecUnexpendedV3ID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.BusinessArea).HasColumnName(@"BusinessArea").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.FABudgetActivity).HasColumnName(@"FABudgetActivity").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.FunctionalArea).HasColumnName(@"FunctionalArea").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Vendor).HasColumnName(@"Vendor").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.VendorName).HasColumnName(@"VendorName").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.PostingDatePerSpl).HasColumnName(@"PostingDatePerSpl").HasColumnType("datetime").IsOptional();
-            Property(x => x.UnexpendedBalance).HasColumnName(@"UnexpendedBalance").HasColumnType("float").IsOptional();
+            Property(x => x.UnexpendedBalance).HasColumnName(@"UnexpendedBalance").HasColumnType("datetime").IsOptional();
 
         }
     }

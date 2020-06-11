@@ -188,6 +188,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new FiscalQuarterConfiguration());
             modelBuilder.Configurations.Add(new ImpApGenSheetConfiguration());
+            modelBuilder.Configurations.Add(new ImportFinancialImpPayRecUnexpendedV3Configuration());
             modelBuilder.Configurations.Add(new ImpPayrecV3Configuration());
             modelBuilder.Configurations.Add(new ImpPnBudgetConfiguration());
             modelBuilder.Configurations.Add(new ImpProcessingConfiguration());
@@ -354,6 +355,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ImpApGenSheet> ImpApGenSheets { get; set; }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ImportFinancialImpPayRecUnexpendedV3> ImportFinancialImpPayRecUnexpendedV3s { get; set; }
         public virtual DbSet<ImpPayrecV3> ImpPayrecV3s { get; set; }
         public virtual DbSet<ImpPnBudget> ImpPnBudgets { get; set; }
         public virtual DbSet<ImpProcessing> ImpProcessings { get; set; }
@@ -877,6 +879,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "ImportFinancialImpPayRecUnexpendedV3":
+                    return ImportFinancialImpPayRecUnexpendedV3s.GetImportFinancialImpPayRecUnexpendedV3(primaryKey);
 
                 case "ImpPayrecV3":
                     return ImpPayrecV3s.GetImpPayrecV3(primaryKey);
