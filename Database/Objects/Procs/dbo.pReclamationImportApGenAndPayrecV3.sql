@@ -184,15 +184,15 @@ end
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
         full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumber = ap.PONumberKey
 
-    -- Temp table to help with BOC FBMS years for impPayRecV3
-    DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_impPayRecV3
+    -- Temp table to help with BOC FBMS years for ImportFinancialImpPayRecUnexpendedV3
+    DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3
 
     select boc.BudgetObjectCodeID,
            boc.BudgetObjectCodeName,
            --boq.pr_CleanedBudgetObjectCode,
            boq.PossiblyDirtyBudgetObjectClassKey,
            boq.FbmsYear
-    into #BudgetObjectCodesFbmsYear_impPayRecV3
+    into #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3
     from
     (
         select
@@ -211,48 +211,51 @@ end
     join Reclamation.BudgetObjectCode as boc on boq.pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName and boq.FbmsYear = boc.FbmsYear
     order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
 
+--    select * from ImportFinancial.WbsElementObligationItemBudget
+
+    -- TODO: Dump the unused fields here.
     insert into ImportFinancial.WbsElementObligationItemBudget(
                                                                WbsElementID,
                                                                CostAuthorityID,
                                                                ObligationItemID,
-                                                               Obligation,
-                                                               GoodsReceipt,
-                                                               Invoiced,
-                                                               Disbursed,
+                                                               --Obligation,
+                                                               --GoodsReceipt,
+                                                               --Invoiced,
+                                                               --Disbursed,
                                                                UnexpendedBalance,
-                                                               CreatedOnKey,
-                                                               DateOfUpdateKey,
-                                                               PostingDateKey,
+                                                               --CreatedOnKey,
+                                                               --DateOfUpdateKey,
+                                                               --PostingDateKey,
                                                                PostingDatePerSplKey,
-                                                               DocumentDateOfBlKey,
+                                                               --DocumentDateOfBlKey,
                                                                BudgetObjectCodeID,
                                                                FundingSourceID
                                                                )
     select 
-        (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElementKey) as WbsElementID,
-        (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.WBSElementKey) as CostAuthorityID,
-        (select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.ObligationItemKey and obn.ObligationNumberKey = pr.ObligationNumberKey and v.VendorKey = pr.VendorKey) as ObligationItemID,
-        pr.Obligation as Obligation,
-        pr.GoodsReceipt as GoodsReceipt,
-        pr.Invoiced as Invoiced,
-        pr.Disbursed as Disbursed,
+        (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElement) as WbsElementID,
+        (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.WBSElement) as CostAuthorityID,
+        (select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.ObligationItem and obn.ObligationNumberKey = pr.ObligationNumber and v.VendorKey = pr.Vendor) as ObligationItemID,
+        --pr.Obligation as Obligation,
+        --pr.GoodsReceipt as GoodsReceipt,
+        --pr.Invoiced as Invoiced,
+        --pr.Disbursed as Disbursed,
         pr.UnexpendedBalance as UnexpendedBalance,
-        pr.CreatedOnKey as CreatedOnKey,
-        pr.DateOfUpdateKey as DateOfUpdateKey,
-        pr.PostingDateKey as PostingDateKey,
-        pr.PostingDatePerSplKey as PostingDatePerSplKey,
-        pr.DocumentDateOfBlKey as DocumentDateOfBlKey,
+        --pr.CreatedOnKey as CreatedOnKey,
+        --pr.DateOfUpdateKey as DateOfUpdateKey,
+        --pr.PostingDateKey as PostingDateKey,
+        pr.PostingDatePerSpl as PostingDatePerSpl,
+        --pr.DocumentDateOfBlKey as DocumentDateOfBlKey,
         -- It seems we have data where we can't look up the BOC in the provided data. 
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
         bocyear.BudgetObjectCodeID,
         f.FundingSourceID as FundingSourceID
     from
-        ImportFinancial.impPayRecV3 as pr
-        join #BudgetObjectCodesFbmsYear_impPayRecV3 as bocyear on YEAR(pr.PostingDateKey) = bocyear.FbmsYear and pr.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
-        join dbo.FundingSource as f on REPLACE(pr.FundKey, '1400/', '') = f.FundingSourceName
+        ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
+        join #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3 as bocyear on YEAR(pr.PostingDatePerSpl) = bocyear.FbmsYear and pr.BudgetObjectClass = bocyear.PossiblyDirtyBudgetObjectClassKey
+        join dbo.FundingSource as f on REPLACE(pr.Fund, '1400/', '') = f.FundingSourceName
     where 
-        pr.WBSElementKey != '#'
+        pr.WBSElement != '#'
     order by ObligationItemID
 
     --select distinct CostAuthorityWorkBreakdownStructure, count(*) from Reclamation.CostAuthority group by CostAuthorityWorkBreakdownStructure order by count(*) desc

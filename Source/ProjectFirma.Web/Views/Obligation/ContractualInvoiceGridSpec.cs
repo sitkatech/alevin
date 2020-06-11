@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Views.Obligation
             //Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             //Add("Debit/Credit Total", obi => obi.DebitCreditTotal, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             //Add("Created On Date", ob => ob.CreatedOnKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
-            Add("Posting Date", ob => ob.PostingDateKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
+            Add("Posting Date", ob => ob.PostingDatePerSplKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
         }
     }
 }
