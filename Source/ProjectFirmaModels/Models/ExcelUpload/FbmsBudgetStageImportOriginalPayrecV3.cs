@@ -106,19 +106,19 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             Disbursed = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.Disbursed);
 
             // Column - Created on - Key
-            CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.CreatedOnKey);
+            CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.CreatedOnKey, ExcelColumnHelper.ExcelDateTimeCellType.StringWithDateTime);
 
             // Column - Date of Update - Key
-            DateOfUpdateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.DateOfUpdateKey);
+            DateOfUpdateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.DateOfUpdateKey, ExcelColumnHelper.ExcelDateTimeCellType.StringWithDateTime);
 
             // Column - Posting date - Key
-            PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.PostingDateKey);
+            PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.PostingDateKey, ExcelColumnHelper.ExcelDateTimeCellType.StringWithDateTime);
 
             // Column - Posting Date (Per SPL) - Key
-            PostingDatePerSplKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.PostingDatePerSplKey);
+            PostingDatePerSplKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.PostingDatePerSplKey, ExcelColumnHelper.ExcelDateTimeCellType.StringWithDateTime);
 
             // Column - Document Date of BL - Key
-            DocumentDateOfBlKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.DocumentDateOfBlKey);
+            DocumentDateOfBlKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.DocumentDateOfBlKey, ExcelColumnHelper.ExcelDateTimeCellType.StringWithDateTime);
         }
         
 

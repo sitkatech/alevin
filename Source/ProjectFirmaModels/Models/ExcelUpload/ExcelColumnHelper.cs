@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using LtInfo.Common;
 
 namespace ProjectFirmaModels.Models.ExcelUpload
 {
@@ -47,21 +48,60 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             return returnValue;
         }
 
-        public static DateTime? GetDateTimeDataValueForColumnName(DataRow dr, int rowIndex, Dictionary<string, string> columnNameToLetterDict, string humanReadableNameOfColumn)
+        /// <summary>
+        /// The underlying type in the Excel file of a given date/time.
+        /// </summary>
+        public enum ExcelDateTimeCellType
+        {
+            // This is an floating point number with 1 equal to 1 day. So, 39938 is 05/05/2009.
+            SerialDateTimeValue,
+            // A string with a date (and possibly time) value. For example "06/01/2020".
+            StringWithDateTime,
+        }
+
+        public static DateTime? GetDateTimeDataValueForColumnName(DataRow dr,
+                                                                  int rowIndex,
+                                                                  Dictionary<string, string> columnNameToLetterDict,
+                                                                  string humanReadableNameOfColumn,
+                                                                  ExcelDateTimeCellType excelDateTimeCellType)
         {
             string columnKeyLetterName = columnNameToLetterDict[humanReadableNameOfColumn];
             DateTime? returnValue = null;
+            string cellValue = "(cell value not set yet)";
             try
             {
-                if (DateTime.TryParse(dr[columnKeyLetterName].ToString(), out DateTime dataValueAsDateTime))
+                cellValue = dr[columnKeyLetterName].ToString();
+                // Turn "#" into a null
+                if (cellValue == "#")
                 {
-                    returnValue = dataValueAsDateTime;
+                    returnValue = null;
                 }
+                // string: "05/05/2009"
+                else switch (excelDateTimeCellType)
+                {
+                    // double: 39938
+                    case ExcelDateTimeCellType.StringWithDateTime:
+                    {
+                        if (DateTime.TryParse(cellValue, out DateTime dataValueAsDateTime))
+                        {
+                            returnValue = dataValueAsDateTime;
+                        }
 
+                        break;
+                    }
+                    case ExcelDateTimeCellType.SerialDateTimeValue:
+                    {
+                        double cellValueAsDouble = double.Parse(cellValue);
+                        returnValue = DateTime.FromOADate(cellValueAsDouble);
+                        break;
+                    }
+                    default:
+                        throw new SitkaDisplayErrorException($"Unknown ExcelDateTimeCellType cell type: {excelDateTimeCellType}");
+                }
             }
             catch (Exception e)
             {
-                throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex, dr[columnKeyLetterName].ToString(), $"Problem parsing {humanReadableNameOfColumn}", e);
+                throw new ExcelImportBadCellException(columnKeyLetterName, rowIndex, cellValue, $"Problem parsing {humanReadableNameOfColumn}", e);
             }
 
             return returnValue;

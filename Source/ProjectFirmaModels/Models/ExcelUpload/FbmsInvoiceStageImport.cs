@@ -84,11 +84,11 @@ namespace ProjectFirmaModels.Models.ExcelUpload
 
             // Column - Created On - Key
             CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                FbmsInvoiceStageImports.CreatedOnKey);
+                FbmsInvoiceStageImports.CreatedOnKey, ExcelColumnHelper.ExcelDateTimeCellType.StringWithDateTime);
 
             // Column - Posting Date Key
             PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict,
-                FbmsInvoiceStageImports.PostingDateKey);
+                FbmsInvoiceStageImports.PostingDateKey, ExcelColumnHelper.ExcelDateTimeCellType.StringWithDateTime);
         }
 
         /// <summary>

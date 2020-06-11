@@ -65,7 +65,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                 indexToRowDict.Remove(i);
             }
 
-            // Turn all valid rows into BudgetTransferBulks
+            // Turn all valid rows into PayRecV3s (Unexpended Balance version)
             List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> fbmsBudgetStageImportPayrecV3UnexpendedBalances = indexToRowDict.Select(kvp => new FbmsBudgetStageImportPayrecV3UnexpendedBalance(kvp)).ToList();
             return new FbmsBudgetStageImportPayrecV3UnexpendedBalances(fbmsBudgetStageImportPayrecV3UnexpendedBalances);
         }

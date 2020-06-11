@@ -86,7 +86,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             VendorName = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.VendorText);
 
             // Column - Posting Date (Per SPL) - Key
-            PostingDatePerSpl = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.PostingDatePerSplKey);
+            PostingDatePerSpl = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.PostingDatePerSplKey, ExcelColumnHelper.ExcelDateTimeCellType.SerialDateTimeValue);
 
             // Column - Unexpended Balance
             UnexpendedBalance = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.UnexpendedBalanceValue);
