@@ -1321,7 +1321,7 @@ namespace ProjectFirma.Web.Controllers
             var geospatialAreaType = geospatialAreaTypePrimaryKey.EntityObject;
             var geospatialAreaIDs = projectUpdateBatch.ProjectGeospatialAreaUpdates.Where(x => x.GeospatialArea.GeospatialAreaType.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialAreaID).ToList();
             var geospatialAreaNotes = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID)?.Notes;
-            var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes, projectUpdateBatch.GeospatialAreaComment);
+            var viewModel = new GeospatialAreaViewModel(geospatialAreaIDs, geospatialAreaNotes);
             return ViewGeospatialArea(project, projectUpdateBatch, viewModel, geospatialAreaType);
         }
 
@@ -1357,10 +1357,6 @@ namespace ProjectFirma.Web.Controllers
             {
                 projectGeospatialAreaTypeNoteUpdate?.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
-            if (projectUpdateBatch.IsSubmitted())
-            {
-                projectUpdateBatch.GeospatialAreaComment = viewModel.Comments;
-            }
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {geospatialAreaType.GetFirmaPageDisplayName()}s successfully saved.");
             return TickleLastUpdateDateAndGoToNextSection(viewModel, projectUpdateBatch, geospatialAreaType.GeospatialAreaTypeNamePluralized);
         }
@@ -1383,7 +1379,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = GenerateEditProjectLocationFormID(project);
             var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, geospatialAreaType.GeospatialAreaTypeID).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(projectUpdate, geospatialAreaType.GeospatialAreaTypeID).ToList();
 
             var editProjectLocationViewData = new EditProjectGeospatialAreasViewData(CurrentFirmaSession, mapInitJson,
                 geospatialAreasInViewModel, editProjectGeospatialAreasPostUrl, editProjectGeospatialAreasFormId,
@@ -1424,7 +1420,7 @@ namespace ProjectFirma.Web.Controllers
             var editProjectGeospatialAreasFormId = "BulkSetGeospatialUpdate";
             var editSimpleLocationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.LocationSimple(project));
 
-            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(project, null).ToList();
+            var geospatialAreasContainingProjectSimpleLocation = GeospatialAreaModelExtensions.GetGeospatialAreasContainingProjectLocation(projectUpdateBatch.ProjectUpdate, null).ToList();
 
             var canEdit = (new ProjectUpdateCreateEditSubmitFeature().HasPermission(CurrentFirmaSession, project).HasPermission && projectUpdateBatch.InEditableState()) || 
                           new ProjectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
@@ -2100,10 +2096,6 @@ namespace ProjectFirma.Web.Controllers
                     projectImageUpdate.FileResourceInfo.DeleteFull(HttpRequestStorage.DatabaseEntities);
                 }
             }
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceDatas.RemoveRange(projectUpdateBatch.ProjectAttachmentUpdates.Select(x => x.Attachment.FileResourceData));
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.RemoveRange(projectUpdateBatch.ProjectAttachmentUpdates.Select(x => x.Attachment));
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceDatas.RemoveRange(projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo.FileResourceData));
-            // HttpRequestStorage.DatabaseEntities.AllFileResourceInfos.RemoveRange(projectUpdateBatch.ProjectImageUpdates.Select(x => x.FileResourceInfo));
             projectUpdateBatch.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Update successfully deleted.");
             return new ModalDialogFormJsonResult(SitkaRoute<ProjectController>.BuildUrlFromExpression(x => x.Detail(project)));
