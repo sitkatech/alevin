@@ -51,7 +51,6 @@ using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
-using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
@@ -260,32 +259,6 @@ namespace ProjectFirma.Web.Controllers
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
-            // Project Running Balance - 1st version
-            // -------------------------------------
-            var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
-            var obligationItemBudgetRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
-            var obligationItemInvoiceRecords = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).Select(x => new ProjectRunningBalanceRecord(x)).ToList();
-            var projectRunningBalanceRecords = new List<ProjectRunningBalanceRecord>();
-            projectRunningBalanceRecords.AddRange(obligationItemBudgetRecords);
-            projectRunningBalanceRecords.AddRange(obligationItemInvoiceRecords);
-
-            // add dummy data for ProjectedBudget for now
-            if (obligationItemBudgetRecords.Any())
-            {
-                var dateForProjectedBudgetFromBudgetRecords = obligationItemBudgetRecords.OrderBy(x => x.Date).FirstOrDefault().Date.AddDays(-2);
-                projectRunningBalanceRecords.Add(new ProjectRunningBalanceRecord(1000000, dateForProjectedBudgetFromBudgetRecords));
-            }
-
-            if (obligationItemInvoiceRecords.Any())
-            {
-                var dateForProjectedBudgetFromInvoiceRecords = obligationItemInvoiceRecords.OrderBy(x => x.Date)
-                    .FirstOrDefault().Date.AddDays(-2);
-                projectRunningBalanceRecords.Add(new ProjectRunningBalanceRecord(1000000,
-                    dateForProjectedBudgetFromInvoiceRecords));
-            }
-
-            var projectRunningBalanceViewData = new ProjectRunningBalanceViewData(projectRunningBalanceRecords);
-
             // Project Running Balance - All Contracts Version
             // -----------------------------------------------
             var prbacs = ProjectRunningBalanceObligationsAndExpendituresRecord.GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(project);
@@ -345,7 +318,6 @@ namespace ProjectFirma.Web.Controllers
                 userHasStartUpdateWorkflowPermission,
                 actionItemsDisplayViewData,
                 userCanViewActionItems,
-                projectRunningBalanceViewData,
                 projectRunningBalanceAllContractViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }

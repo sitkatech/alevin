@@ -40,7 +40,6 @@ using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
-using ProjectFirma.Web.Views.Shared.ProjectRunningBalance;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 
 namespace ProjectFirma.Web.Views.Project
@@ -143,14 +142,10 @@ namespace ProjectFirma.Web.Views.Project
         public string ObligationItemBudgetGridName { get; }
         public string ObligationItemBudgetGridDataUrl { get; }
 
-
-        //Project Running Balance
-        public ProjectRunningBalanceViewData ProjectRunningBalanceViewData { get; set; }
+        // Project Running Balance (new version)
         public ProjectRunningBalanceObligationsAndExpendituresViewData ProjectRunningBalanceObligationsAndExpendituresViewData { get; set; }
 
         public string UpdateStatusUrl { get; set; }
-
-        public bool ShowOriginalProjectRunningBalanceReport => false;
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
@@ -189,7 +184,6 @@ namespace ProjectFirma.Web.Views.Project
             bool userHasStartUpdateWorkflowPermission,
             ActionItemsDisplayViewData actionItemsDisplayViewData,
             bool userCanViewActionItems,
-            ProjectRunningBalanceViewData projectRunningBalanceViewData,
             ProjectRunningBalanceObligationsAndExpendituresViewData projectRunningBalanceObligationsAndExpendituresViewData)
             : base(currentFirmaSession, project)
         {
@@ -450,8 +444,7 @@ namespace ProjectFirma.Web.Views.Project
             ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
             ObligationItemBudgetGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(oc => oc.ObligationItemBudgetGridJsonData(project));
 
-            // Project Running Balance
-            ProjectRunningBalanceViewData = projectRunningBalanceViewData;
+            // Project Running Balance (new version)
             ProjectRunningBalanceObligationsAndExpendituresViewData = projectRunningBalanceObligationsAndExpendituresViewData;
         }
     }

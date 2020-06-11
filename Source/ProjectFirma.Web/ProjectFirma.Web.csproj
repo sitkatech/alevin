@@ -602,9 +602,6 @@
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresRecord.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresViewData.cs" />
-    <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cs" />
-    <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalanceRecord.cs" />
-    <Compile Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalanceViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
@@ -1939,7 +1936,6 @@
     <Content Include="Views\ActionItem\ActionItemsDisplay.cshtml" />
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
-    <Content Include="Views\Shared\ProjectRunningBalance\ProjectRunningBalance.cshtml" />
     <Content Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
