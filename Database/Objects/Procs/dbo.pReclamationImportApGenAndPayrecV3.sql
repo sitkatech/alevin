@@ -104,8 +104,8 @@ end
     DROP TABLE IF EXISTS #PotentiallyNewWbsElements
     select
     distinct
-            coalesce(pr.WBSElementKey, ap.WBSElementKey) as WbsElementKey,
-            coalesce(pr.WBSElementText, ap.WBSElementText) as WbsElementText,
+            coalesce(pr.WBSElement, ap.WBSElementKey) as WbsElementKey,
+            coalesce(pr.WBSElementDescription, ap.WBSElementText) as WbsElementText,
             null as ExistingWbsElementID
     into #PotentiallyNewWbsElements
     from
@@ -151,8 +151,8 @@ end
     insert into ImportFinancial.Vendor(VendorKey, VendorText)
     select 
         distinct
-            coalesce(pr.VendorKey, ap.VendorKey) as VendorKey,
-            coalesce(pr.VendorText, ap.VendorText) as VendorText
+            coalesce(pr.Vendor, ap.VendorKey) as VendorKey,
+            coalesce(pr.VendorName, ap.VendorText) as VendorText
     from
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
         full outer join ImportFinancial.ImpApGenSheet as ap on pr.Vendor = ap.VendorKey
@@ -163,7 +163,7 @@ end
     insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
     select 
         distinct
-            coalesce(pr.ObligationNumberKey , ap.PONumberKey) as ObligationNumberKey
+            coalesce(pr.ObligationNumber , ap.PONumberKey) as ObligationNumberKey
     from
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
         full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumber = ap.PONumberKey
@@ -176,9 +176,9 @@ end
     insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID, VendorID)
     select 
         distinct
-            coalesce(pr.ObligationItemKey , ap.PurchOrdLineItmKey) as ObligationItemKey,
-            (select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.ObligationNumberKey) as ObligationNumberID,
-            (coalesce((select VendorID from ImportFinancial.Vendor as v where v.VendorKey = pr.VendorKey),
+            coalesce(pr.ObligationItem , ap.PurchOrdLineItmKey) as ObligationItemKey,
+            (select ObligationNumberID from ImportFinancial.ObligationNumber as ob where ob.ObligationNumberKey = pr.ObligationNumber) as ObligationNumberID,
+            (coalesce((select VendorID from ImportFinancial.Vendor as v where v.VendorKey = pr.Vendor),
                       (select VendorID from ImportFinancial.Vendor as v where v.VendorKey = ap.VendorKey))) as VendorID
     from
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
@@ -202,7 +202,7 @@ end
                 dbo.CleanBudgetObjectCode(pr.BudgetObjectClass) as pr_CleanedBudgetObjectCode,
                 COALESCE(
                     -- If found, use appropriate, matching year
-                    (select distinct boc.FbmsYear from Reclamation.BudgetObjectCode as boc where boc.FbmsYear = YEAR(pr.PostingDateKey)),
+                    (select distinct boc.FbmsYear from Reclamation.BudgetObjectCode as boc where boc.FbmsYear = YEAR(pr.PostingDatePerSpl)),
                     -- Otherwise, default to the latest year
                     (select MAX(boc.FbmsYear) from Reclamation.BudgetObjectCode as boc)
                     ) as FbmsYear
