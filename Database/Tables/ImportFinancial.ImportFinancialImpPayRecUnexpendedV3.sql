@@ -17,7 +17,7 @@ CREATE TABLE [ImportFinancial].[ImportFinancialImpPayRecUnexpendedV3](
 	[Vendor] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[VendorName] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PostingDatePerSpl] [datetime] NULL,
-	[UnexpendedBalance] [datetime] NULL,
+	[UnexpendedBalance] [float] NULL,
  CONSTRAINT [PK_ImportFinancialImpPayRecUnexpendedV3_ImportFinancialImpPayRecUnexpendedV3ID] PRIMARY KEY CLUSTERED 
 (
 	[ImportFinancialImpPayRecUnexpendedV3ID] ASC

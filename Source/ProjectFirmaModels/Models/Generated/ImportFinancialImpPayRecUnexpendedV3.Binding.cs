@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ImportFinancialImpPayRecUnexpendedV3(int importFinancialImpPayRecUnexpendedV3ID, string businessArea, string fABudgetActivity, string functionalArea, string obligationNumber, string obligationItem, string fund, string fundedProgram, string wBSElement, string wBSElementDescription, string budgetObjectClass, string vendor, string vendorName, DateTime? postingDatePerSpl, DateTime? unexpendedBalance) : this()
+        public ImportFinancialImpPayRecUnexpendedV3(int importFinancialImpPayRecUnexpendedV3ID, string businessArea, string fABudgetActivity, string functionalArea, string obligationNumber, string obligationItem, string fund, string fundedProgram, string wBSElement, string wBSElementDescription, string budgetObjectClass, string vendor, string vendorName, DateTime? postingDatePerSpl, double? unexpendedBalance) : this()
         {
             this.ImportFinancialImpPayRecUnexpendedV3ID = importFinancialImpPayRecUnexpendedV3ID;
             this.BusinessArea = businessArea;
@@ -117,7 +117,7 @@ namespace ProjectFirmaModels.Models
         public string Vendor { get; set; }
         public string VendorName { get; set; }
         public DateTime? PostingDatePerSpl { get; set; }
-        public DateTime? UnexpendedBalance { get; set; }
+        public double? UnexpendedBalance { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ImportFinancialImpPayRecUnexpendedV3ID; } set { ImportFinancialImpPayRecUnexpendedV3ID = value; } }
 

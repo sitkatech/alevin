@@ -29,7 +29,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Vendor).HasColumnName(@"Vendor").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.VendorName).HasColumnName(@"VendorName").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.PostingDatePerSpl).HasColumnName(@"PostingDatePerSpl").HasColumnType("datetime").IsOptional();
-            Property(x => x.UnexpendedBalance).HasColumnName(@"UnexpendedBalance").HasColumnType("datetime").IsOptional();
+            Property(x => x.UnexpendedBalance).HasColumnName(@"UnexpendedBalance").HasColumnType("float").IsOptional();
 
         }
     }
