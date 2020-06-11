@@ -166,18 +166,20 @@ namespace ProjectFirma.Web.Controllers
             DateTime startTime = DateTime.Now;
 
             List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> budgetStageImports;
-            List<FbmsInvoiceStageImport> invoiceStageImports;
+            //List<FbmsInvoiceStageImport> invoiceStageImports;
             try
             {
                 budgetStageImports = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
-                invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
+                // Unsure if this is gone long term, but it's gone for now. -- SLG 6/11/2020
+                //invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
             }
             catch (Exception ex)
             {
                 return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+            //LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
+            LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, out var countAddedBudgets, this.CurrentFirmaSession);
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
             string importTimeString = GetTaskTimeString("Import", elapsedTime);
@@ -189,7 +191,8 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
-            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.</br>{importTimeString}.");
+            //SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.</br>{importTimeString}.");
+            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br>{importTimeString}.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
         }
@@ -204,9 +207,10 @@ namespace ProjectFirma.Web.Controllers
 
         public static void LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(
                                         List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> budgetStageImports,
-                                        List<FbmsInvoiceStageImport> invoiceStageImports, 
+                                        // gone for now.
+                                        //List<FbmsInvoiceStageImport> invoiceStageImports, 
                                         out int countAddedBudgets,
-                                        out int countAddedInvoices,
+                                        //out int countAddedInvoices,
                                         FirmaSession optionalCurrentFirmaSession)
         {
             // Now using unexpended payrecs
@@ -216,11 +220,13 @@ namespace ProjectFirma.Web.Controllers
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpUnexpendedBalancePayRecV3s.AddRange(unexpendedPayrecs);
 
-            countAddedInvoices = invoiceStageImports.Count;
-            var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
-            var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
-            existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
+            // Gone for now; may come back as separate import. -- 6/11/2020 -- SLG 
+
+            //countAddedInvoices = invoiceStageImports.Count;
+            //var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
+            //var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
+            //existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+            //HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
 
             // This bulk load creates an obscene number of AuditLog records if we don't suppress them, and
             // they are completely inappropriate.
@@ -395,6 +401,7 @@ namespace ProjectFirma.Web.Controllers
                 throw new SitkaDisplayErrorException("Not expecting model state to be bad; not running publishing processing.");
             }
 
+            bool wasErrorDuringProcessing = false;
             DateTime startTime = DateTime.Now;
             try
             {
@@ -423,13 +430,23 @@ namespace ProjectFirma.Web.Controllers
             catch (Exception e)
             {
                 SetErrorForDisplay($"Problem executing Publishing: {e.Message}");
+                wasErrorDuringProcessing = true;
             }
 
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
             string processingTimeString = GetTaskTimeString("Publishing", elapsedTime);
 
-            SetMessageForDisplay($"Publishing Processing completed Successfully.<br/>{processingTimeString}");
+            if (!wasErrorDuringProcessing)
+            {
+                SetMessageForDisplay($"Publishing Processing completed Successfully.<br/>{processingTimeString}");
+            }
+            else
+            {
+                // Apparently at the moment we can only have one error/warning, so since I want TWO messages, resorting to 
+                // an error and a warning.
+                SetWarningForDisplay($"Publishing Processing had problems.<br/>{processingTimeString}");
+            }
             return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageExcelUploadsAndEtl()));
         }
 

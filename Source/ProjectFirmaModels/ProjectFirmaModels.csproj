@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -1056,7 +1056,7 @@
     <Compile Include="Models\AgreementSimple.cs" />
     <Compile Include="Models\StageImpApGenSheet.cs" />
     <Compile Include="Models\StagePnBudget.cs" />
-    <Compile Include="Models\StageImpOriginalPayRecV3.cs" />
+    <Compile Include="Models\StageImpUnexpendedBalancePayRecV3.cs" />
     <Compile Include="Models\TaxonomyTrunkSimple.cs" />
     <Compile Include="Models\Agreement.cs" />
     <Compile Include="Models\TechnicalAssistanceRequestUpdate.cs" />

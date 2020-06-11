@@ -28,98 +28,68 @@ namespace ProjectFirmaModels.Models.ExcelUpload
 {
     public class FbmsBudgetStageImportPayrecV3UnexpendedBalance
     {
-        public readonly string BusinessAreaKey;
-        public readonly string FaBudgetActivityKey;
-        public readonly string FunctionalAreaText;
-        public readonly string ObligationNumberKey;
-        public readonly string ObligationItemKey;
-        public readonly string FundKey;
-        public readonly string FundedProgramKeyNotCompounded;
-        public readonly string WbsElementKey;
-        public readonly string WbsElementText;
-        public readonly string BudgetObjectClassKey;
-        public readonly string VendorKey;
-        public readonly string VendorText;
-        public readonly double? Obligation;
-        public readonly double? GoodsReceipt;
-        public readonly double? Invoiced;
-        public readonly double? Disbursed;
+        public readonly string BusinessArea;
+        public readonly string FABudgetActivity;
+        public readonly string FunctionalArea;
+        public readonly string ObligationNumber;
+        public readonly string ObligationItem;
+        public readonly string Fund;
+        public readonly string FundedProgram;
+        public readonly string WbsElement;
+        public readonly string WbsElementDescription;
+        public readonly string BudgetObjectClass;
+        public readonly string Vendor;
+        public readonly string VendorName;
+        public readonly DateTime? PostingDatePerSpl;
         public readonly double? UnexpendedBalance;
-
-        public readonly DateTime? CreatedOnKey;
-        public readonly DateTime? DateOfUpdateKey;
-        public readonly DateTime? PostingDateKey;
-        public readonly DateTime? PostingDatePerSplKey;
-        public readonly DateTime? DocumentDateOfBlKey;
 
         public FbmsBudgetStageImportPayrecV3UnexpendedBalance(KeyValuePair<int, DataRow> keyValuePair)
         {
             var rowIndex = keyValuePair.Key;
             var dr = keyValuePair.Value;
-            var columnNameToLetterDict = FbmsBudgetStageImportOriginalPayrecV3s.GetBudgetColumnNameToColumnLetterDictionary();
+            var columnNameToLetterDict = FbmsBudgetStageImportPayrecV3UnexpendedBalances.GetBudgetColumnNameToColumnLetterDictionary();
  
             // Column - Business Area Key
-            BusinessAreaKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.BusinessAreaKey);
+            BusinessArea = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.BusinessAreaKey);
 
             // Column - FA Budget Activity Key
-            FaBudgetActivityKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.FaBudgetActivityKey);
+            FABudgetActivity = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FaBudgetActivityKey);
 
             // Column - Functional Area Text
-            FunctionalAreaText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.FunctionalAreaText);
+            FunctionalArea = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FunctionalAreaText);
 
             // Column - Obligation Number Key
-            ObligationNumberKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.ObligationNumberKey);
+            ObligationNumber = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.ObligationNumberKey);
 
             // Column - Obligation Item Key
-            ObligationItemKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.ObligationItemKey);
+            ObligationItem = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.ObligationItemKey);
 
             // Column - Fund Key
-            FundKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.FundKey);
+            Fund = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FundKey);
 
-            // Column - Funded Program Key (Not Compunded)
-            FundedProgramKeyNotCompounded = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.FundedProgramKey);
+            // Column - Funded Program Key (Not Compounded)
+            FundedProgram = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FundedProgramKey);
 
             // Column - WBS Element Key
-            WbsElementKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.WbsElementKey);
+            WbsElement = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.WbsElementKey);
 
             // Column - WBS Element Text
-            WbsElementText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.WbsElementText);
+            WbsElementDescription = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.WbsElementText);
 
             // Column - Budget Object Class Key
-            BudgetObjectClassKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.BudgetObjectClassKey);
+            BudgetObjectClass = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.BudgetObjectClassKey);
 
             // Column - Vendor Key
-            VendorKey = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.VendorKey);
+            Vendor = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.VendorKey);
 
             // Column - Vendor Key
-            VendorText = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.VendorText);
-
-            // Column - Obligation
-            Obligation = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.Obligation);
-
-            // Column - Goods Receipt
-            GoodsReceipt = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.GoodsReceipt);
-
-            // Column - Invoiced
-            Invoiced = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.Invoiced);
-
-            // Column - Disbursed
-            Disbursed = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.Disbursed);
-
-            // Column - Created on - Key
-            CreatedOnKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.CreatedOnKey);
-
-            // Column - Date of Update - Key
-            DateOfUpdateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.DateOfUpdateKey);
-
-            // Column - Posting date - Key
-            PostingDateKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.PostingDateKey);
+            VendorName = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.VendorText);
 
             // Column - Posting Date (Per SPL) - Key
-            PostingDatePerSplKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.PostingDatePerSplKey);
+            PostingDatePerSpl = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.PostingDatePerSplKey);
 
-            // Column - Document Date of BL - Key
-            DocumentDateOfBlKey = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportOriginalPayrecV3s.DocumentDateOfBlKey);
+            // Column - Unexpended Balance
+            UnexpendedBalance = ExcelColumnHelper.GetDoubleDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.UnexpendedBalanceValue);
         }
         
 
@@ -130,12 +100,10 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         /// <returns></returns>
         public static bool RowIsBlank(DataRow dr)
         { 
-            var columnsToCheck = FbmsBudgetStageImportOriginalPayrecV3s.GetBudgetColumnLetterToColumnNameDictionary().Keys.ToList();
+            var columnsToCheck = FbmsBudgetStageImportPayrecV3UnexpendedBalances.GetBudgetColumnLetterToColumnNameDictionary().Keys.ToList();
             var allColumnsBlank = columnsToCheck.All(col => String.IsNullOrWhiteSpace(dr[col].ToString()));
             return allColumnsBlank;
         }
 
-
-        
     }
 }
