@@ -32,13 +32,13 @@ namespace ProjectFirma.Web.Views.Vendor
         public readonly ProjectFirmaModels.Models.Vendor Vendor;
         public readonly string VendorIndexUrl;
 
-        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
-        public string ObligationItemInvoiceGridName { get; }
-        public string ObligationItemInvoiceGridDataUrl { get; }
+        public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
+        public string ContractualInvoiceGridName { get; }
+        public string ContractualInvoiceGridDataUrl { get; }
 
-        public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
-        public string ObligationItemBudgetGridName { get; }
-        public string ObligationItemBudgetGridDataUrl { get; }
+        //public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
+        //public string ObligationItemBudgetGridName { get; }
+        //public string ObligationItemBudgetGridDataUrl { get; }
 
 
         public VendorDetailViewData(FirmaSession currentFirmaSession,
@@ -48,16 +48,15 @@ namespace ProjectFirma.Web.Views.Vendor
             PageTitle = vendor.GetDisplayName();
             EntityName = $"{FieldDefinitionEnum.Vendor.ToType().GetFieldDefinitionLabel()}";
             VendorIndexUrl = SitkaRoute<VendorController>.BuildUrlFromExpression(c => c.Index());
-
-
-
+            /*
             ObligationItemInvoiceGridName = "obligationItemInvoices";
-            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
+            ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
             ObligationItemInvoiceGridDataUrl = SitkaRoute<VendorController>.BuildUrlFromExpression(oc => oc.VendorObligationItemInvoiceGridJsonData(vendor));
+            */
 
-            ObligationItemBudgetGridName = "obligationItemBudgets";
-            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
-            ObligationItemBudgetGridDataUrl = SitkaRoute<VendorController>.BuildUrlFromExpression(oc => oc.VendorObligationItemBudgetGridJsonData(vendor));
+            ContractualInvoiceGridName = "contractualInvoiceGrid";
+            ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
+            ContractualInvoiceGridDataUrl = SitkaRoute<VendorController>.BuildUrlFromExpression(oc => oc.VendorContractualInvoiceGridJsonData(vendor));
         }
     }
 }

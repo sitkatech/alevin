@@ -54,14 +54,13 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string ProjectFundingSourceBudgetGridDataUrl { get; }
         public DisplayFundingSourceCustomAttributesViewData DisplayFundingSourceCustomAttributeTypesViewData { get; private set; }
 
+        public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
+        public string ContractualInvoiceGridName { get; }
+        public string ContractualInvoiceGridDataUrl { get; }
 
-        public ObligationItemInvoiceGridSpec ObligationItemInvoiceGridSpec { get; }
-        public string ObligationItemInvoiceGridName { get; }
-        public string ObligationItemInvoiceGridDataUrl { get; }
-
-        public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
-        public string ObligationItemBudgetGridName { get; }
-        public string ObligationItemBudgetGridDataUrl { get; }
+        //public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
+        //public string ObligationItemBudgetGridName { get; }
+        //public string ObligationItemBudgetGridDataUrl { get; }
 
 
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgetGridSpec, DisplayFundingSourceCustomAttributesViewData displayFundingSourceCustomAttributeTypesViewData) 
@@ -98,14 +97,13 @@ namespace ProjectFirma.Web.Views.FundingSource
 
             DisplayFundingSourceCustomAttributeTypesViewData = displayFundingSourceCustomAttributeTypesViewData;
 
+            ContractualInvoiceGridName = "fundingSourceContractualInvoicesGrid";
+            ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
+            ContractualInvoiceGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(fc => fc.ContractualInvoiceGridOnFundDetailJsonData(fundingSource));
 
-            ObligationItemInvoiceGridName = "fundingSourceObligationItemInvoices";
-            ObligationItemInvoiceGridSpec = new ObligationItemInvoiceGridSpec(currentFirmaSession);
-            ObligationItemInvoiceGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(fc => fc.ObligationItemInvoiceGridOnFundDetailJsonData(fundingSource));
-
-            ObligationItemBudgetGridName = "fundingSourceObligationItemBudgets";
-            ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
-            ObligationItemBudgetGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(fc => fc.ObligationItemBudgetGridOnFundDetailJsonData(fundingSource));
+            //ObligationItemBudgetGridName = "fundingSourceContractualInvoicesGrid";
+            //ObligationItemBudgetGridSpec = new ObligationItemBudgetGridSpec(currentFirmaSession);
+            //ObligationItemBudgetGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(fc => fc.ObligationItemBudgetGridOnFundDetailJsonData(fundingSource));
         }
     }
 }

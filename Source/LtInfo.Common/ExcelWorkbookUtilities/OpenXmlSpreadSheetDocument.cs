@@ -100,9 +100,10 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
             if (sheetRows.Any())
             {
                 // header row
-                foreach (var cell in sheetRows[headerRowOffset].Descendants<Cell>())
+                var headerRowCells = sheetRows[headerRowOffset].Descendants<Cell>();
+                foreach (var headerCell in headerRowCells)
                 {
-                    var newDataColumn = new DataColumn(GetColumnName(cell.CellReference), typeof(string));
+                    var newDataColumn = new DataColumn(GetColumnName(headerCell.CellReference), typeof(string));
                     dt.Columns.Add(newDataColumn);
                 }
 

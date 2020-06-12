@@ -1093,7 +1093,9 @@ namespace ProjectFirma.Web.Models
             var obligationItemBudgetSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
             foreach (var itemBudget in obligationItemBudgets)
             {
-                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, itemBudget.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemBudget.PostingDateKey.Value.Year, itemBudget.Obligation ?? 0);
+                //var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, itemBudget.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemBudget.PostingDatePerSplKey.Value.Year, itemBudget.Obligation ?? 0);
+                // We'll see where -999 turns up, and if this is still used... -- SLG 6/11/2020. 
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, itemBudget.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemBudget.PostingDatePerSplKey.Value.Year, -999);
                 obligationItemBudgetSimples.Add(simple);
             }
 

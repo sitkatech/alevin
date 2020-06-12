@@ -31,22 +31,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? obligation, double? goodsReceipt, double? invoiced, double? disbursed, double? unexpendedBalance, int costAuthorityID, DateTime? createdOnKey, DateTime? dateOfUpdateKey, DateTime? postingDateKey, DateTime? postingDatePerSplKey, DateTime? documentDateOfBlKey, int? budgetObjectCodeID, int fundingSourceID) : this()
+        public WbsElementObligationItemBudget(int wbsElementObligationItemBudgetID, int wbsElementID, int obligationItemID, double? unexpendedBalance, int costAuthorityID, DateTime? postingDatePerSplKey, int? budgetObjectCodeID, int fundingSourceID) : this()
         {
             this.WbsElementObligationItemBudgetID = wbsElementObligationItemBudgetID;
             this.WbsElementID = wbsElementID;
             this.ObligationItemID = obligationItemID;
-            this.Obligation = obligation;
-            this.GoodsReceipt = goodsReceipt;
-            this.Invoiced = invoiced;
-            this.Disbursed = disbursed;
             this.UnexpendedBalance = unexpendedBalance;
             this.CostAuthorityID = costAuthorityID;
-            this.CreatedOnKey = createdOnKey;
-            this.DateOfUpdateKey = dateOfUpdateKey;
-            this.PostingDateKey = postingDateKey;
             this.PostingDatePerSplKey = postingDatePerSplKey;
-            this.DocumentDateOfBlKey = documentDateOfBlKey;
             this.BudgetObjectCodeID = budgetObjectCodeID;
             this.FundingSourceID = fundingSourceID;
         }
@@ -140,17 +132,9 @@ namespace ProjectFirmaModels.Models
         public int WbsElementObligationItemBudgetID { get; set; }
         public int WbsElementID { get; set; }
         public int ObligationItemID { get; set; }
-        public double? Obligation { get; set; }
-        public double? GoodsReceipt { get; set; }
-        public double? Invoiced { get; set; }
-        public double? Disbursed { get; set; }
         public double? UnexpendedBalance { get; set; }
         public int CostAuthorityID { get; set; }
-        public DateTime? CreatedOnKey { get; set; }
-        public DateTime? DateOfUpdateKey { get; set; }
-        public DateTime? PostingDateKey { get; set; }
         public DateTime? PostingDatePerSplKey { get; set; }
-        public DateTime? DocumentDateOfBlKey { get; set; }
         public int? BudgetObjectCodeID { get; set; }
         public int FundingSourceID { get; set; }
         [NotMapped]
