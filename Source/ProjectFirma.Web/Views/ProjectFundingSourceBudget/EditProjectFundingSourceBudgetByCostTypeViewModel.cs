@@ -29,6 +29,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 
 namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
@@ -138,7 +139,10 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             }
             currentProjectFundingSourceBudgets.Merge(projectFundingSourceBudgetsUpdated,
                 allProjectFundingSourceBudgets,
-                (x, y) => x.ProjectID == y.ProjectID && x.FundingSourceID == y.FundingSourceID && x.CostTypeID == y.CostTypeID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.ProjectID == y.ProjectID &&
+                                                                           x.FundingSourceID == y.FundingSourceID &&
+                                                                           x.CostTypeID == y.CostTypeID &&
+                                                                           x.CalendarYear == y.CalendarYear,
                 (x, y) => x.SetProjectedAmount(y.ProjectedAmount), databaseEntities);
 
             var projectNoFundingSourceAmountsUpdated = new List<ProjectNoFundingSourceIdentified>();
@@ -159,7 +163,9 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
             // set if funding type is "Varies By Year", delete rows otherwise
             currentProjectNoFundingSourceIdentifieds.Merge(projectNoFundingSourceAmountsUpdated,
                 allProjectNoFundingSourceIdentifieds,
-                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.CostTypeID == y.CostTypeID,
+                (x, y) => x.ProjectID == y.ProjectID &&
+                                                                                    x.CalendarYear == y.CalendarYear &&
+                                                                                    x.CostTypeID == y.CostTypeID,
                 (x, y) => x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet, databaseEntities);
 
             var currentProjectRelevantCostTypes = project.GetBudgetsRelevantCostTypes();
@@ -216,9 +222,19 @@ namespace ProjectFirma.Web.Views.ProjectFundingSourceBudget
                         new ProjectNoFundingSourceIdentifiedUpdate(projectUpdateBatch.ProjectUpdateBatchID, x.CostTypeID) { CalendarYear = x.CalendarYear, NoFundingSourceIdentifiedYet = x.Amount})
                     .ToList();
             }
+
+            // ReSharper disable once IdentifierTypo
+            foreach (var pnfsi in projectNoFundingSourceIdentifiedUpdatesUpdated)
+            {
+                // ReSharper disable thrice StringLiteralTypo
+                Debug.WriteLine($"pnfsi: pnfsi.ProjectUpdateBatchID: {pnfsi.ProjectUpdateBatchID} - pnfsi.CalendarYear: {pnfsi.CalendarYear} pnfsi.CostTypeID: {pnfsi.CostTypeID} pnfsi.NoFundingSourceIdentifiedYet (amount): {pnfsi.NoFundingSourceIdentifiedYet}");
+            }
+
             currentProjectNoFundingSourceIdentifiedUpdates.Merge(projectNoFundingSourceIdentifiedUpdatesUpdated,
                 allProjectNoFundingSourceIdentifiedUpdates,
-                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.ProjectUpdateBatchID == y.ProjectUpdateBatchID && 
+                                                                                            x.CalendarYear == y.CalendarYear &&
+                                                                                            x.CostTypeID == y.CostTypeID,
                 (x, y) => x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet, databaseEntities);
 
             var currentProjectUpdateRelevantCostTypes = projectUpdateBatch.GetBudgetsRelevantCostTypes();

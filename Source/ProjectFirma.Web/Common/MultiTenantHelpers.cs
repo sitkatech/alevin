@@ -98,6 +98,11 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttributeFromCache().TenantShortDisplayName;
         }
 
+        public static Tenant GetCurrentTenant()
+        {
+            return HttpRequestStorage.Tenant;
+        }
+
         public static string GetTenantName()
         {
             return HttpRequestStorage.Tenant.TenantName;
