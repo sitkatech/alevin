@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Controllers
         public void TestExcelUploadAndPublishingProcess()
         {
             // ReSharper disable twice StringLiteralTypo
-            const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Copy_of_CSRO_Pay_Rec_UnExpnd_Bal_2020-05-06-889ddfs.xlsx";
+            const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Copy_of_CSRO_Pay_Rec_UnExpnd_Bal_2020-05-06-889.xlsx";
 
             FileStream excelFileStream = new FileStream(pathToSampleFbmsExcelFileThatWouldBeUploaded, FileMode.Open, FileAccess.Read);
 

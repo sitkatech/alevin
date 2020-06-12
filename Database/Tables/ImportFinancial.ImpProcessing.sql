@@ -21,12 +21,12 @@ REFERENCES [ImportFinancial].[ImpProcessingTableType] ([ImpProcessingTableTypeID
 GO
 ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_ImpProcessingTableType_ImpProcessingTableTypeID]
 GO
-ALTER TABLE [ImportFinancial].[ImpProcessing]  WITH CHECK ADD  CONSTRAINT [FK_ImpProcessing_LastProcessedPersonID_LastProcessedPersonID] FOREIGN KEY([LastProcessedPersonID])
+ALTER TABLE [ImportFinancial].[ImpProcessing]  WITH CHECK ADD  CONSTRAINT [FK_ImpProcessing_Person_LastProcessedPersonID_PersonID] FOREIGN KEY([LastProcessedPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
-ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_LastProcessedPersonID_LastProcessedPersonID]
+ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_Person_LastProcessedPersonID_PersonID]
 GO
-ALTER TABLE [ImportFinancial].[ImpProcessing]  WITH CHECK ADD  CONSTRAINT [FK_ImpProcessing_UploadPersonID_UploadPersonID] FOREIGN KEY([UploadPersonID])
+ALTER TABLE [ImportFinancial].[ImpProcessing]  WITH CHECK ADD  CONSTRAINT [FK_ImpProcessing_Person_UploadPersonID_PersonID] FOREIGN KEY([UploadPersonID])
 REFERENCES [dbo].[Person] ([PersonID])
 GO
-ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_UploadPersonID_UploadPersonID]
+ALTER TABLE [ImportFinancial].[ImpProcessing] CHECK CONSTRAINT [FK_ImpProcessing_Person_UploadPersonID_PersonID]
