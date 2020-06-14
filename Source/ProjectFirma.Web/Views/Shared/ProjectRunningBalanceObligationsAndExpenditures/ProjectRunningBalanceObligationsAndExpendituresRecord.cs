@@ -19,13 +19,13 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 {
+
     public class ProjectRunningBalanceObligationsAndExpendituresRecord
     {
         public FiscalQuarter FiscalQuarter { get; set; }

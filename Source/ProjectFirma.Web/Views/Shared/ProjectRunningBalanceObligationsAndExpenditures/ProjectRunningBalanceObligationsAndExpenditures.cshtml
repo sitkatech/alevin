@@ -103,7 +103,7 @@
               string currentFiscalQuarterDisplayName = samplePrbacRecord.FiscalQuarter.FiscalQuarterDisplayName;
               string currentFiscalQuarterFiscalYearDisplayString = currentFiscalQuarterDisplayName + " - " + currentFiscalYear;
 
-              string currentFiscalMonthPeriod = samplePrbacRecord.FiscalMonthPeriod.ToString();
+              string currentFiscalMonthPeriodString = ViewDataTyped.GetFiscalMonthPeriodGridDisplayString(samplePrbacRecord.FiscalMonthPeriod);
 
               double currentCommitmentsForGroup = prbacRecordGroup.Sum(pg => pg.Commitments);
               double currentObligationsForGroup = prbacRecordGroup.Sum(pg => pg.Obligations);
@@ -118,7 +118,7 @@
               <tr>
                  @*<td>@itemsInGroup</td>*@
                  <td>@currentFiscalYear</td>
-                 <td>@currentFiscalMonthPeriod</td>
+                 <td>@currentFiscalMonthPeriodString</td>
                  <td>@currentFiscalQuarterDisplayName</td>
                  <td>@currentCommitmentsForGroup.ToStringCurrency()</td>
                  <td>@currentObligationsForGroup.ToStringCurrency()</td>

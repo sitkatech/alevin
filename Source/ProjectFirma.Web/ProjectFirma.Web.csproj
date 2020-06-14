@@ -596,9 +596,11 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\ActionItem\ActionItemsDisplayViewData.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\FiscalMonthPeriodHelper.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresRecord.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresViewData.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\TestFiscalMonthPeriodHelper.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />

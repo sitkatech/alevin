@@ -4,6 +4,7 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 {
+    // TODO -- clean up this file1!!
 
     // Opting for a specific type for clarity. It isn't strictly needed.
     public class BudgetObjectCodeQuarterGroup
@@ -34,30 +35,36 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         {
             this.ProjectRunningBalanceObligationsAndExpendituresRecords =  projectRunningBalanceObligationsAndExpendituresRecords;
 
-            //ProjectRunningBalanceObligationsAndExpendituresRecordsGrouped = 
-            //    projectRunningBalanceObligationsAndExpendituresRecords.
-            //        GroupBy(prb => new BudgetObjectCodeQuarterGroup(prb.FiscalYear, prb.FiscalQuarter, prb.BudgetObjectCode)).ToList();
+            ////ProjectRunningBalanceObligationsAndExpendituresRecordsGrouped = 
+            ////    projectRunningBalanceObligationsAndExpendituresRecords.
+            ////        GroupBy(prb => new BudgetObjectCodeQuarterGroup(prb.FiscalYear, prb.FiscalQuarter, prb.BudgetObjectCode)).ToList();
             
 
-            var blah =
-                projectRunningBalanceObligationsAndExpendituresRecords.GroupBy(prb =>
-                    new {prb.FiscalYear, prb.FiscalQuarter.FiscalQuarterDisplayName, BudgetObjectCodeName = bleef(prb)}).ToList();
+            //var blah =
+            //    projectRunningBalanceObligationsAndExpendituresRecords.GroupBy(prb =>
+            //        new {prb.FiscalYear, prb.FiscalQuarter.FiscalQuarterDisplayName, BudgetObjectCodeName = bleef(prb)}).ToList();
 
-            int yes = blah.Count;
+            //int yes = blah.Count;
 
-            /*
-            ProjectRunningBalanceObligationsAndExpendituresRecordsGrouped = 
-                ProjectRunningBalanceObligationsAndExpendituresRecordsGrouped.
-                    OrderBy(g => g.Key.FiscalYear)
-                    .ThenBy(g => g.Key.FiscalQuarter)
-                    .ThenBy(g => g.Key.BudgetObjectCode)
-                    .ToList();
-            */
+            ///*
+            //ProjectRunningBalanceObligationsAndExpendituresRecordsGrouped = 
+            //    ProjectRunningBalanceObligationsAndExpendituresRecordsGrouped.
+            //        OrderBy(g => g.Key.FiscalYear)
+            //        .ThenBy(g => g.Key.FiscalQuarter)
+            //        .ThenBy(g => g.Key.BudgetObjectCode)
+            //        .ToList();
+            //*/
         }
 
-        private static string bleef(ProjectRunningBalanceObligationsAndExpendituresRecord prb)
+        //private static string bleef(ProjectRunningBalanceObligationsAndExpendituresRecord prb)
+        //{
+        //    return prb.BudgetObjectCode != null ? prb.BudgetObjectCode.BudgetObjectCodeName : string.Empty;
+        //}
+
+        public string GetFiscalMonthPeriodGridDisplayString(int fiscalMonthPeriod)
         {
-            return prb.BudgetObjectCode != null ? prb.BudgetObjectCode.BudgetObjectCodeName : string.Empty;
+            string calendarMonthName = FiscalMonthPeriodHelper.GetCalendarMonthName(fiscalMonthPeriod);
+            return $"{fiscalMonthPeriod} ({calendarMonthName})";
         }
     }
 }
