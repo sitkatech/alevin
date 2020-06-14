@@ -31,20 +31,20 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FiscalQuarter(int fiscalQuarterID, int fiscalQuarterNumber, string fiscalQuarterName, string fiscalQuarterDisplayName, int fiscalQuarterStartMonth, int fiscalQuarterStartDay) : this()
+        public FiscalQuarter(int fiscalQuarterID, int fiscalQuarterNumber, string fiscalQuarterName, string fiscalQuarterDisplayName, int fiscalQuarterStartCalendarMonth, int fiscalQuarterStartCalendarDay) : this()
         {
             this.FiscalQuarterID = fiscalQuarterID;
             this.FiscalQuarterNumber = fiscalQuarterNumber;
             this.FiscalQuarterName = fiscalQuarterName;
             this.FiscalQuarterDisplayName = fiscalQuarterDisplayName;
-            this.FiscalQuarterStartMonth = fiscalQuarterStartMonth;
-            this.FiscalQuarterStartDay = fiscalQuarterStartDay;
+            this.FiscalQuarterStartCalendarMonth = fiscalQuarterStartCalendarMonth;
+            this.FiscalQuarterStartCalendarDay = fiscalQuarterStartCalendarDay;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public FiscalQuarter(int fiscalQuarterNumber, string fiscalQuarterName, string fiscalQuarterDisplayName, int fiscalQuarterStartMonth, int fiscalQuarterStartDay) : this()
+        public FiscalQuarter(int fiscalQuarterNumber, string fiscalQuarterName, string fiscalQuarterDisplayName, int fiscalQuarterStartCalendarMonth, int fiscalQuarterStartCalendarDay) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.FiscalQuarterID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -52,8 +52,8 @@ namespace ProjectFirmaModels.Models
             this.FiscalQuarterNumber = fiscalQuarterNumber;
             this.FiscalQuarterName = fiscalQuarterName;
             this.FiscalQuarterDisplayName = fiscalQuarterDisplayName;
-            this.FiscalQuarterStartMonth = fiscalQuarterStartMonth;
-            this.FiscalQuarterStartDay = fiscalQuarterStartDay;
+            this.FiscalQuarterStartCalendarMonth = fiscalQuarterStartCalendarMonth;
+            this.FiscalQuarterStartCalendarDay = fiscalQuarterStartCalendarDay;
         }
 
 
@@ -127,8 +127,8 @@ namespace ProjectFirmaModels.Models
         public int FiscalQuarterNumber { get; set; }
         public string FiscalQuarterName { get; set; }
         public string FiscalQuarterDisplayName { get; set; }
-        public int FiscalQuarterStartMonth { get; set; }
-        public int FiscalQuarterStartDay { get; set; }
+        public int FiscalQuarterStartCalendarMonth { get; set; }
+        public int FiscalQuarterStartCalendarDay { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return FiscalQuarterID; } set { FiscalQuarterID = value; } }
 

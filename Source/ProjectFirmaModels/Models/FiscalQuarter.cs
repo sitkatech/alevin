@@ -12,7 +12,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public DateTime GetCompleteStartDateUsingCalendarYear(int calendarYear)
         {
-            return new DateTime(calendarYear, this.FiscalQuarterStartMonth, FiscalQuarterStartDay);
+            return new DateTime(calendarYear, this.FiscalQuarterStartCalendarMonth, FiscalQuarterStartCalendarDay);
         }
 
         public int CompareTo(FiscalQuarter otherFiscalQuarter)
