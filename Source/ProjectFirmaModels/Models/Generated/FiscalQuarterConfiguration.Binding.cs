@@ -19,8 +19,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FiscalQuarterNumber).HasColumnName(@"FiscalQuarterNumber").HasColumnType("int").IsRequired();
             Property(x => x.FiscalQuarterName).HasColumnName(@"FiscalQuarterName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
             Property(x => x.FiscalQuarterDisplayName).HasColumnName(@"FiscalQuarterDisplayName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(100);
-            Property(x => x.FiscalQuarterStartMonth).HasColumnName(@"FiscalQuarterStartMonth").HasColumnType("int").IsRequired();
-            Property(x => x.FiscalQuarterStartDay).HasColumnName(@"FiscalQuarterStartDay").HasColumnType("int").IsRequired();
+            Property(x => x.FiscalQuarterStartCalendarMonth).HasColumnName(@"FiscalQuarterStartCalendarMonth").HasColumnType("int").IsRequired();
+            Property(x => x.FiscalQuarterStartCalendarDay).HasColumnName(@"FiscalQuarterStartCalendarDay").HasColumnType("int").IsRequired();
 
             // Foreign keys
 

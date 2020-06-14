@@ -86,6 +86,10 @@ from #PreviouslyUnknownWbsElements as new_wbs
 drop table #PreviouslyUnknownWbsElements
 
 
+
+
+
+
 -- Clean out the target table
 delete from ImportFinancial.WbsElementPnBudget
 
@@ -95,8 +99,11 @@ insert into ImportFinancial.WbsElementPnBudget (WbsElementID,
                                                 PnBudgetFundTypeID,
                                                 FundingSourceID,
                                                 FundsCenter,
+                                                FiscalMonthPeriod,
                                                 FiscalQuarterID,
                                                 FiscalYear,
+                                                CalendarMonthNumber,
+                                                CalendarYear,
                                                 BudgetObjectCodeID,
                                                 FIDocNumber,
                                                 Recoveries,
@@ -108,16 +115,15 @@ insert into ImportFinancial.WbsElementPnBudget (WbsElementID,
 select
     wbs.WbsElementID,
     ca.CostAuthorityID,
-    --wbs.WbsElementKey,
     pnft.PnBudgetFundTypeID,
-    --pnft.PnBudgetFundTypeName
     fs.FundingSourceID,
-    --fs.FundingSourceName
     ipn.FundsCenter,
-    --ipn.FiscalYearPeriod,
+    dbo.GetFiscalMonthPeriodFromFiscalYearPeriodString(ipn.FiscalYearPeriod) as FiscalMonth,
     fq.FiscalQuarterID,
-    substring(ipn.FiscalYearPeriod, 5, 4) as FiscalYear,
-    dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalDate(ipn.CommitmentItem, convert(int,substring(ipn.FiscalYearPeriod, 5, 4))) as BudgetObjectCodeID,
+    dbo.GetFiscalYearFromFiscalYearPeriodString(ipn.FiscalYearPeriod) as FiscalYear,
+    datepart(month, dbo.GetCalendarDateForStartOfFiscalYearPeriod(ipn.FiscalYearPeriod)),     -- CalendarMonthNumber,
+    datepart(year, dbo.GetCalendarDateForStartOfFiscalYearPeriod(ipn.FiscalYearPeriod)),    -- CalendarYear
+    dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalYear(ipn.CommitmentItem, dbo.GetFiscalYearFromFiscalYearPeriodString(ipn.FiscalYearPeriod)) as BudgetObjectCodeID,
     ipn.FiDocNumber,
     ipn.Recoveries,
     ipn.CommittedButNotObligated,
@@ -130,8 +136,7 @@ inner join ImportFinancial.WbsElement as wbs on ipn.FundedProgram = replace(wbs.
 left join Reclamation.CostAuthority as ca on wbs.WbsElementKey = ca.CostAuthorityWorkBreakdownStructure
 inner join ImportFinancial.PnBudgetFundType as pnft on ipn.FundType = pnft.PnBudgetFundTypeDisplayName
 inner join dbo.FundingSource as fs on ipn.Fund = fs.FundingSourceName
-inner join ImportFinancial.FiscalQuarter as fq on convert(INT, substring(ipn.FiscalYearPeriod, 3, 1)) + 1 = fq.FiscalQuarterNumber
-
+inner join ImportFinancial.FiscalQuarter as fq on (dbo.GetFiscalQuarterIDForCalendarDate(dbo.GetCalendarDateForStartOfFiscalYearPeriod(ipn.FiscalYearPeriod))) = fq.FiscalQuarterID
 
 end
 
@@ -139,5 +144,7 @@ end
 
 exec dbo.pReclamationImportPnBudget
 select * from ImportFinancial.ImpPnBudget
+
+select * from ImportFinancial.WbsElementPnBudget
 
 */

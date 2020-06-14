@@ -21,8 +21,11 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PnBudgetFundTypeID).HasColumnName(@"PnBudgetFundTypeID").HasColumnType("int").IsRequired();
             Property(x => x.FundingSourceID).HasColumnName(@"FundingSourceID").HasColumnType("int").IsRequired();
             Property(x => x.FundsCenter).HasColumnName(@"FundsCenter").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(10);
+            Property(x => x.FiscalMonthPeriod).HasColumnName(@"FiscalMonthPeriod").HasColumnType("int").IsRequired();
             Property(x => x.FiscalQuarterID).HasColumnName(@"FiscalQuarterID").HasColumnType("int").IsRequired();
             Property(x => x.FiscalYear).HasColumnName(@"FiscalYear").HasColumnType("int").IsRequired();
+            Property(x => x.CalendarMonthNumber).HasColumnName(@"CalendarMonthNumber").HasColumnType("int").IsRequired();
+            Property(x => x.CalendarYear).HasColumnName(@"CalendarYear").HasColumnType("int").IsRequired();
             Property(x => x.BudgetObjectCodeID).HasColumnName(@"BudgetObjectCodeID").HasColumnType("int").IsOptional();
             Property(x => x.FIDocNumber).HasColumnName(@"FIDocNumber").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(200);
             Property(x => x.Recoveries).HasColumnName(@"Recoveries").HasColumnType("float").IsOptional();
