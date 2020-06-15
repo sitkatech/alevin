@@ -613,6 +613,8 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
     $scope.populateCalendarYearBudgets = function () {
         // when switching from same year to multiyear, we need to populate the CalendarYearBudgets if they don't have one
         if ($scope.budgetVariesByYear()) {
+            // remove any budgets for same each year(have null years)
+            $scope.deleteCalendarYear(null);
             var calendarYearsToAdd = $scope.calendarYearRange;
             if (calendarYearsToAdd.length > 0) {
                 var projectFundingSourceBudgetsToUpdate = $scope.AngularModel.ProjectFundingSourceBudgets;
