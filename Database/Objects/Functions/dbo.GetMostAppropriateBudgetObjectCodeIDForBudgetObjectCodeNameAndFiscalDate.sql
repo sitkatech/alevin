@@ -1,14 +1,14 @@
 
 IF EXISTS (SELECT *
            FROM   sys.objects
-           WHERE  object_id = OBJECT_ID(N'dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalDate')
+           WHERE  object_id = OBJECT_ID(N'dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalYear')
                   --AND type IN ( N'FN', N'IF', N'TF', N'FS', N'FT' )
                   )
-  DROP FUNCTION dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalDate
+  DROP FUNCTION dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalYear
 GO
 
 
-CREATE FUNCTION dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalDate(
+CREATE FUNCTION dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalYear(
                                             @budgetObjectCodeName VARCHAR(MAX),
                                             @fiscalYear int
                                             ) RETURNS int
@@ -30,9 +30,9 @@ GO
 /*
 
 -- Has matching year
-select dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalDate('111A00', 2004) as BudgetObjectCodeID
+select dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalYear('111A00', 2004) as BudgetObjectCodeID
 -- Does NOT have matching year (no 2013), so will return 2019 (or latest year)
-select dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalDate('111A00', 2013) as BudgetObjectCodeID
+select dbo.GetMostAppropriateBudgetObjectCodeIDForBudgetObjectCodeNameAndFiscalYear('111A00', 2013) as BudgetObjectCodeID
 -- SLG + SMG 5/05/2020
 
 */

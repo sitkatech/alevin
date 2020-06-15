@@ -258,20 +258,20 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [FundingSourceViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridOnFundDetailJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
-        {
-            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
-            var fundingSource = fundingSourcePrimaryKey.EntityObject;
-            var obligationItemBudgets = fundingSource.WbsElementObligationItemBudgets.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
+        //[FundingSourceViewFeature]
+        //public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridOnFundDetailJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
+        //{
+        //    var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+        //    var fundingSource = fundingSourcePrimaryKey.EntityObject;
+        //    var obligationItemBudgets = fundingSource.WbsElementObligationItemBudgets.ToList();
+        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+        //    return gridJsonNetJObjectResult;
+        //}
 
         [FundingSourceViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemInvoiceGridOnFundDetailJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridOnFundDetailJsonData(FundingSourcePrimaryKey fundingSourcePrimaryKey)
         {
-            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var fundingSource = fundingSourcePrimaryKey.EntityObject;
             var obligationItemBudgets = fundingSource.WbsElementObligationItemBudgets.ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);

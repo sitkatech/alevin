@@ -317,11 +317,8 @@
     <Compile Include="Views\Obligation\ObligationDetail.cs" />
     <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />
     <Compile Include="Views\Obligation\ObligationItemInvoiceIndex.cs" />
-    <Compile Include="Views\Obligation\ObligationItemBudgetIndex.cs" />
     <Compile Include="Views\Obligation\ObligationItemInvoiceIndexViewData.cs" />
-    <Compile Include="Views\Obligation\ObligationItemBudgetIndexViewData.cs" />
-    <Compile Include="Views\Obligation\ObligationItemBudgetGridSpec.cs" />
-    <Compile Include="Views\Obligation\ObligationItemInvoiceGridSpec.cs" />
+    <Compile Include="Views\Obligation\ContractualInvoiceGridSpec.cs" />
     <Compile Include="Views\Obligation\ObligationGridSpec.cs" />
     <Compile Include="Views\Obligation\ObligationIndex.cs" />
     <Compile Include="Views\Obligation\ObligationIndexViewData.cs" />
@@ -599,9 +596,11 @@
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformation.cs" />
     <Compile Include="Views\Shared\ProjectGeospatialAreaControls\BulkSetProjectSpatialInformationViewData.cs" />
     <Compile Include="Views\ActionItem\ActionItemsDisplayViewData.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\FiscalMonthPeriodHelper.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresRecord.cs" />
     <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpendituresViewData.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\TestFiscalMonthPeriodHelper.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplayViewData.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectStatusLegendDisplay.cs" />
     <Compile Include="Views\Shared\ProjectTimeline\ProjectTimelineDisplay.cs" />
@@ -814,7 +813,6 @@
     <Content Include="Views\Obligation\ObligationIndex.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeDetail.cshtml" />
     <Content Include="Views\BudgetObjectCode\BudgetObjectCodeIndex.cshtml" />
-    <Content Include="Views\Obligation\ObligationItemBudgetIndex.cshtml" />
     <Content Include="Views\Obligation\ObligationItemInvoiceIndex.cshtml" />
     <Content Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cshtml" />
     <Content Include="Views\PnBudget\PnBudgetIndex.cshtml" />

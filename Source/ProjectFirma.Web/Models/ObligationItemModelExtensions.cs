@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<WbsElementObligationItemBudget> GetWbsElementObligationItemBudgetsSorted(this ICollection<ObligationItem> obligationItems)
         {
-            return obligationItems.SelectMany(x => x.WbsElementObligationItemBudgets).OrderBy(wbsoib => wbsoib.PostingDateKey).ToList();
+            return obligationItems.SelectMany(x => x.WbsElementObligationItemBudgets).OrderBy(wbsoib => wbsoib.PostingDatePerSplKey).ToList();
         }
     }
 }

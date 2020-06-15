@@ -19,18 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 {
+
     public class ProjectRunningBalanceObligationsAndExpendituresRecord
     {
         public FiscalQuarter FiscalQuarter { get; set; }
         public int FiscalYear { get; set; }
-        public DateTime Date { get; set; }
+        public int FiscalMonthPeriod { get; set; }
+        //public DateTime Date { get; set; }
 
         /// <summary>
         /// Dummy data - eventually coming from user entered data in UI
@@ -47,8 +48,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         {
             this.FiscalQuarter = wbsElementPnBudget.FiscalQuarter;
             this.FiscalYear = wbsElementPnBudget.FiscalYear;
-            // WARNING - This date will be wrong until we resolve FQ/FY/CY issues! Need to unify FiscalQuarter ideas from PF & Reclamation.
-            this.Date = this.FiscalQuarter.GetCompleteStartDateUsingCalendarYear(wbsElementPnBudget.FiscalYear);
+            this.FiscalMonthPeriod = wbsElementPnBudget.FiscalMonthPeriod;
 
             this.Commitments = wbsElementPnBudget.CommittedButNotObligated ?? 0;
             this.Obligations = wbsElementPnBudget.TotalObligations ?? 0;

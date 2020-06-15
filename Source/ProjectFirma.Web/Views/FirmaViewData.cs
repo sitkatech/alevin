@@ -372,7 +372,8 @@ namespace ProjectFirma.Web.Views
             if (new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.Obligation.ToType().GetFieldDefinitionLabel()} List", "Group2"));
-                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationItemBudgetIndex()), currentFirmaSession, $"Full Obligation Item Budgets List", "Group2"));
+                // For now, not available except on individual grids. If this needs revision, the grid we bring back should be ContractualInvoicesIndex, I think.. And maybe we need to rename underlying objects backing up to the import?
+                //agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationItemBudgetIndex()), currentFirmaSession, $"Full Obligation Item Budgets List", "Group2"));
                 agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationItemInvoiceIndex()), currentFirmaSession, $"Full Obligation Item Invoices List", "Group2"));
             }
 

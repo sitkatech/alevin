@@ -17,7 +17,7 @@ namespace ProjectFirma.Web.Models
         public ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple()
         {
         }
-
+        /*
         public ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(ProjectFundingSourceBudget projectFundingSourceBudget, List<WbsElementObligationItemBudget> wbsElementObligationItemBudgets)
         {
             this.FundingSourceID = projectFundingSourceBudget.FundingSourceID;
@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Models
             this.CalendarYear = projectFundingSourceBudget.CalendarYear;
             this.Amount = wbsElementObligationItemInvoices.Sum(oii => oii.DebitAmount ?? 0);
         }
-
+        */
         public ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(int fundingSourceID, int costTypeId, int calendarYear, double amount)
         {
             FundingSourceID = fundingSourceID;

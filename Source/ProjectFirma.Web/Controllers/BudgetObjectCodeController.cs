@@ -42,6 +42,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<BudgetObjectCodeDetail, BudgetObjectCodeDetailViewData>(viewData);
         }
 
+        /*
         [BudgetObjectCodeViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridOnBudgetObjectCodeDetailJsonData(BudgetObjectCodePrimaryKey budgetObjectCodePrimaryKey)
         {
@@ -51,11 +52,12 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+        */
 
         [BudgetObjectCodeViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemInvoiceGridOnBudgetObjectCodeDetailJsonData(BudgetObjectCodePrimaryKey budgetObjectCodePrimaryKey)
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridOnBudgetObjectCodeDetailJsonData(BudgetObjectCodePrimaryKey budgetObjectCodePrimaryKey)
         {
-            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var budgetObjectCode = budgetObjectCodePrimaryKey.EntityObject;
             var obligationItemBudgets = budgetObjectCode.WbsElementObligationItemBudgets.ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);

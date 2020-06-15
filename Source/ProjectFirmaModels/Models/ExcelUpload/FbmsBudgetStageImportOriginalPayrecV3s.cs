@@ -26,15 +26,16 @@ using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models.ExcelUpload
 {
-    public class FbmsBudgetStageImports : List<FbmsBudgetStageImport>
+    // ReSharper disable once InconsistentNaming
+    public class FbmsBudgetStageImportOriginalPayrecV3s : List<FbmsBudgetStageImportOriginalPayrecV3>
     {
-        public const string SheetName = "PayRec-v3";
+        public const string FbmsOriginalPayRecV3SheetName = "PayRec-v3";
         /// <summary>
         /// If there is only a single worksheet in a file, try to use it, no matter what it is named
         /// </summary>
         public const bool UseExistingSheetNameIfSingleSheetFound = true;
 
-        public static FbmsBudgetStageImports LoadFromXlsFile(DataTable dataTable)
+        public static FbmsBudgetStageImportOriginalPayrecV3s LoadFromXlsFile(DataTable dataTable)
         {
             EnsureWorksheetHasCorrectShape(dataTable);
 
@@ -53,7 +54,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             // Remove any blank rows
             foreach (var kvp in indexToRowDict)
             {
-                if (FbmsBudgetStageImport.RowIsBlank(kvp.Value))
+                if (FbmsBudgetStageImportOriginalPayrecV3.RowIsBlank(kvp.Value))
                 {
                     indexesToRemove.Add(kvp.Key);
                 }
@@ -66,10 +67,10 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             }
 
             // Turn all valid rows into BudgetTransferBulks
-            return new FbmsBudgetStageImports(indexToRowDict.Select(kvp => new FbmsBudgetStageImport(kvp)));
+            return new FbmsBudgetStageImportOriginalPayrecV3s(indexToRowDict.Select(kvp => new FbmsBudgetStageImportOriginalPayrecV3(kvp)));
         }
 
-        public FbmsBudgetStageImports(IEnumerable<FbmsBudgetStageImport> collection) : base(collection)
+        public FbmsBudgetStageImportOriginalPayrecV3s(IEnumerable<FbmsBudgetStageImportOriginalPayrecV3> collection) : base(collection)
         {
         }
 
@@ -131,7 +132,6 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                 {"O", GoodsReceipt },
                 {"P", Invoiced },
                 {"Q", Disbursed },
-                //{"R", "Unexpended Balance" }
                 {"R", CreatedOnKey },
                 {"S", DateOfUpdateKey },
                 {"T", PostingDateKey },

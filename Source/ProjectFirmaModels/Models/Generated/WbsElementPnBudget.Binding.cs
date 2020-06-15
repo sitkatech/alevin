@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int? costAuthorityID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, int? budgetObjectCodeID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
+        public WbsElementPnBudget(int wbsElementPnBudgetID, int wbsElementID, int? costAuthorityID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalMonthPeriod, int fiscalQuarterID, int fiscalYear, int calendarMonthNumber, int calendarYear, int? budgetObjectCodeID, string fIDocNumber, double? recoveries, double? committedButNotObligated, double? totalObligations, double? totalExpenditures, double? undeliveredOrders) : this()
         {
             this.WbsElementPnBudgetID = wbsElementPnBudgetID;
             this.WbsElementID = wbsElementID;
@@ -39,8 +39,11 @@ namespace ProjectFirmaModels.Models
             this.PnBudgetFundTypeID = pnBudgetFundTypeID;
             this.FundingSourceID = fundingSourceID;
             this.FundsCenter = fundsCenter;
+            this.FiscalMonthPeriod = fiscalMonthPeriod;
             this.FiscalQuarterID = fiscalQuarterID;
             this.FiscalYear = fiscalYear;
+            this.CalendarMonthNumber = calendarMonthNumber;
+            this.CalendarYear = calendarYear;
             this.BudgetObjectCodeID = budgetObjectCodeID;
             this.FIDocNumber = fIDocNumber;
             this.Recoveries = recoveries;
@@ -53,7 +56,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public WbsElementPnBudget(int wbsElementID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalQuarterID, int fiscalYear, string fIDocNumber) : this()
+        public WbsElementPnBudget(int wbsElementID, int pnBudgetFundTypeID, int fundingSourceID, string fundsCenter, int fiscalMonthPeriod, int fiscalQuarterID, int fiscalYear, int calendarMonthNumber, int calendarYear, string fIDocNumber) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementPnBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -62,15 +65,18 @@ namespace ProjectFirmaModels.Models
             this.PnBudgetFundTypeID = pnBudgetFundTypeID;
             this.FundingSourceID = fundingSourceID;
             this.FundsCenter = fundsCenter;
+            this.FiscalMonthPeriod = fiscalMonthPeriod;
             this.FiscalQuarterID = fiscalQuarterID;
             this.FiscalYear = fiscalYear;
+            this.CalendarMonthNumber = calendarMonthNumber;
+            this.CalendarYear = calendarYear;
             this.FIDocNumber = fIDocNumber;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public WbsElementPnBudget(WbsElement wbsElement, PnBudgetFundType pnBudgetFundType, FundingSource fundingSource, string fundsCenter, FiscalQuarter fiscalQuarter, int fiscalYear, string fIDocNumber) : this()
+        public WbsElementPnBudget(WbsElement wbsElement, PnBudgetFundType pnBudgetFundType, FundingSource fundingSource, string fundsCenter, int fiscalMonthPeriod, FiscalQuarter fiscalQuarter, int fiscalYear, int calendarMonthNumber, int calendarYear, string fIDocNumber) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.WbsElementPnBudgetID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -84,10 +90,13 @@ namespace ProjectFirmaModels.Models
             this.FundingSource = fundingSource;
             fundingSource.WbsElementPnBudgets.Add(this);
             this.FundsCenter = fundsCenter;
+            this.FiscalMonthPeriod = fiscalMonthPeriod;
             this.FiscalQuarterID = fiscalQuarter.FiscalQuarterID;
             this.FiscalQuarter = fiscalQuarter;
             fiscalQuarter.WbsElementPnBudgets.Add(this);
             this.FiscalYear = fiscalYear;
+            this.CalendarMonthNumber = calendarMonthNumber;
+            this.CalendarYear = calendarYear;
             this.FIDocNumber = fIDocNumber;
         }
 
@@ -96,7 +105,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static WbsElementPnBudget CreateNewBlank(WbsElement wbsElement, PnBudgetFundType pnBudgetFundType, FundingSource fundingSource, FiscalQuarter fiscalQuarter)
         {
-            return new WbsElementPnBudget(wbsElement, pnBudgetFundType, fundingSource, default(string), fiscalQuarter, default(int), default(string));
+            return new WbsElementPnBudget(wbsElement, pnBudgetFundType, fundingSource, default(string), default(int), fiscalQuarter, default(int), default(int), default(int), default(string));
         }
 
         /// <summary>
@@ -148,8 +157,11 @@ namespace ProjectFirmaModels.Models
         public int PnBudgetFundTypeID { get; set; }
         public int FundingSourceID { get; set; }
         public string FundsCenter { get; set; }
+        public int FiscalMonthPeriod { get; set; }
         public int FiscalQuarterID { get; set; }
         public int FiscalYear { get; set; }
+        public int CalendarMonthNumber { get; set; }
+        public int CalendarYear { get; set; }
         public int? BudgetObjectCodeID { get; set; }
         public string FIDocNumber { get; set; }
         public double? Recoveries { get; set; }

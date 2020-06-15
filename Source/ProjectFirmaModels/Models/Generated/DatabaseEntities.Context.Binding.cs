@@ -188,6 +188,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new FiscalQuarterConfiguration());
             modelBuilder.Configurations.Add(new ImpApGenSheetConfiguration());
+            modelBuilder.Configurations.Add(new ImportFinancialImpPayRecUnexpendedV3Configuration());
             modelBuilder.Configurations.Add(new ImpPayrecV3Configuration());
             modelBuilder.Configurations.Add(new ImpPnBudgetConfiguration());
             modelBuilder.Configurations.Add(new ImpProcessingConfiguration());
@@ -234,8 +235,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new WorkbreakdownStructureConfiguration());
             modelBuilder.Configurations.Add(new WorkOrderConfiguration());
             modelBuilder.Configurations.Add(new StageImpApGenSheetConfiguration());
-            modelBuilder.Configurations.Add(new StageImpPayRecV3Configuration());
             modelBuilder.Configurations.Add(new StageImpPnBudgetConfiguration());
+            modelBuilder.Configurations.Add(new StageImpUnexpendedBalancePayRecV3Configuration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectDetailedLocationsConfiguration());
             modelBuilder.Configurations.Add(new vGeoServerProjectSimpleLocationsConfiguration());
@@ -354,6 +355,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ImpApGenSheet> ImpApGenSheets { get; set; }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<ImportFinancialImpPayRecUnexpendedV3> ImportFinancialImpPayRecUnexpendedV3s { get; set; }
         public virtual DbSet<ImpPayrecV3> ImpPayrecV3s { get; set; }
         public virtual DbSet<ImpPnBudget> ImpPnBudgets { get; set; }
         public virtual DbSet<ImpProcessing> ImpProcessings { get; set; }
@@ -543,8 +545,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StageImpApGenSheet> StageImpApGenSheets { get; set; }
-        public virtual DbSet<StageImpPayRecV3> StageImpPayRecV3s { get; set; }
         public virtual DbSet<StageImpPnBudget> StageImpPnBudgets { get; set; }
+        public virtual DbSet<StageImpUnexpendedBalancePayRecV3> StageImpUnexpendedBalancePayRecV3s { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
         public virtual IQueryable<StateProvince> StateProvinces { get { return AllStateProvinces.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SubbasinLiason> AllSubbasinLiasons { get; set; }
@@ -877,6 +879,9 @@ namespace ProjectFirmaModels.Models
 
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
+
+                case "ImportFinancialImpPayRecUnexpendedV3":
+                    return ImportFinancialImpPayRecUnexpendedV3s.GetImportFinancialImpPayRecUnexpendedV3(primaryKey);
 
                 case "ImpPayrecV3":
                     return ImpPayrecV3s.GetImpPayrecV3(primaryKey);
@@ -1341,11 +1346,11 @@ namespace ProjectFirmaModels.Models
                 case "StageImpApGenSheet":
                     return StageImpApGenSheets.GetStageImpApGenSheet(primaryKey);
 
-                case "StageImpPayRecV3":
-                    return StageImpPayRecV3s.GetStageImpPayRecV3(primaryKey);
-
                 case "StageImpPnBudget":
                     return StageImpPnBudgets.GetStageImpPnBudget(primaryKey);
+
+                case "StageImpUnexpendedBalancePayRecV3":
+                    return StageImpUnexpendedBalancePayRecV3s.GetStageImpUnexpendedBalancePayRecV3(primaryKey);
 
                 case "StateProvince":
                     return StateProvinces.GetStateProvince(primaryKey);

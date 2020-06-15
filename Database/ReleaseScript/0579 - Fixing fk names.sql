@@ -1,0 +1,2 @@
+exec sp_rename 'ImportFinancial.FK_ImpProcessing_LastProcessedPersonID_LastProcessedPersonID', 'FK_ImpProcessing_Person_LastProcessedPersonID_PersonID', 'OBJECT'
+exec sp_rename 'ImportFinancial.FK_ImpProcessing_UploadPersonID_UploadPersonID', 'FK_ImpProcessing_Person_UploadPersonID_PersonID', 'OBJECT'
