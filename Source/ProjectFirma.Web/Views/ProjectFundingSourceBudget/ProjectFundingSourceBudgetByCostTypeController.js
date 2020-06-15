@@ -434,12 +434,30 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
             function (fundingSourceId) {
                 $scope.addHideOrShowFundingSourceRow(fundingSourceId);
             });
+
+        $scope.adjustNoFundingSourceAmountsForChangeInCostType();
+    };
+
+    $scope.adjustNoFundingSourceAmountsForChangeInBudgetType = function() {
+
+        var filteredNoFundingSourceAmounts = _.filter($scope.AngularModel.NoFundingSourceAmounts,
+                                                function(nfsa) {
+                                                    var calendarYearIsNull = (nfsa.CalendarYear == null);
+                                                    if ($scope.budgetSameEachYear()) {
+                                                        return calendarYearIsNull;
+                                                    }
+                                                    return !calendarYearIsNull; //should be $scope.budgetVariesByYear()
+                                                });
+        $scope.AngularModel.NoFundingSourceAmounts = filteredNoFundingSourceAmounts;
+    };
+
+    $scope.adjustNoFundingSourceAmountsForChangeInCostType = function() {
+
         // These are just simple integers
         var relevantCostTypeIDs = $scope.getRelevantCostTypeIDs();
-
         // remove any No Funding Source Amounts that are not a relevant cost type
         var filteredNoFundingSourceAmounts = _.filter($scope.AngularModel.NoFundingSourceAmounts, function (nfsa) {
-            var costTypeId = _.find(relevantCostTypeIDs, function(costTypeId) {
+            var costTypeId = _.find(relevantCostTypeIDs, function (costTypeId) {
                 return costTypeId === nfsa.CostTypeID;
             });
             var calendarYearIsNull = (nfsa.CalendarYear == null);
@@ -625,6 +643,7 @@ angular.module("ProjectFirmaApp").controller("ProjectFundingSourceBudgetByCostTy
                     }
                 });
         }
+        $scope.adjustNoFundingSourceAmountsForChangeInBudgetType();
     };
 
 
