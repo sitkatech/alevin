@@ -671,8 +671,7 @@ namespace ProjectFirma.Web.Models
             ProjectGeospatialAreaTypeNoteUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
 
             // photos
-            ProjectImageUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
-            projectUpdateBatch.IsPhotosUpdated = false;
+            ProjectImageUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities); 
 
             // external links
             ProjectExternalLinkUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
