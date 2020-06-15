@@ -27,22 +27,12 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ObligationIndex, ObligationIndexViewData>(viewData);
         }
 
-        /*
         [ObligationViewFeature]
-        public ViewResult ObligationItemBudgetIndex()
+        public ViewResult ContractualInvoiceIndex()
         {
             //var firmaPage = FirmaPageTypeEnum.ObligationList.GetFirmaPage();
-            var viewData = new ObligationItemBudgetIndexViewData(CurrentFirmaSession);//, firmaPage);
-            return RazorView<ObligationItemBudgetIndex, ObligationItemBudgetIndexViewData>(viewData);
-        }
-        */
-
-        [ObligationViewFeature]
-        public ViewResult ObligationItemInvoiceIndex()
-        {
-            //var firmaPage = FirmaPageTypeEnum.ObligationList.GetFirmaPage();
-            var viewData = new ObligationItemInvoiceIndexViewData(CurrentFirmaSession);//, firmaPage);
-            return RazorView<ObligationItemInvoiceIndex, ObligationItemInvoiceIndexViewData>(viewData);
+            var viewData = new ContractualInvoiceIndexViewData(CurrentFirmaSession);//, firmaPage);
+            return RazorView<ContractualInvoiceIndex, ContractualInvoiceIndexViewData>(viewData);
         }
 
         [ObligationViewFeature]
@@ -78,16 +68,16 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        /*
+
         [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceIndexGridJsonData()
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationIndexGridJsonData()
         {
             var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
-            var obligationItemInvoices = HttpRequestStorage.DatabaseEntities.WbsElementObligationItemInvoices.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
+            var obligationItemBudgets = HttpRequestStorage.DatabaseEntities.WbsElementObligationItemBudgets.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
-        */
+
 
         /*
         [ObligationViewFeature]

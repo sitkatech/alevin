@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 namespace ProjectFirma.Web.Views.Obligation
 {
-    public abstract class ObligationItemInvoiceIndex : LtInfo.Common.Mvc.TypedWebViewPage<ObligationItemInvoiceIndexViewData>
+    public abstract class ContractualInvoiceIndex : LtInfo.Common.Mvc.TypedWebViewPage<ContractualInvoiceIndexViewData>
     {
     }
 }
