@@ -21,7 +21,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
-@inherits ProjectFirma.Web.Views.Obligation.ObligationItemInvoiceIndex
+@inherits ProjectFirma.Web.Views.Obligation.ContractualInvoiceIndex
 
 @section JavascriptAndStylesContent
 {
@@ -34,6 +34,6 @@
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ObligationIndexViewPageContentViewData); }
     </div>*@
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ObligationItemInvoiceGridName, ViewDataTyped.ObligationItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>
