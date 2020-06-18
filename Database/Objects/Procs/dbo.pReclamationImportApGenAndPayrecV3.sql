@@ -213,38 +213,21 @@ end
 
 --    select * from ImportFinancial.WbsElementObligationItemBudget
 
-    -- TODO: Dump the unused fields here.
     insert into ImportFinancial.WbsElementObligationItemBudget(
                                                                WbsElementID,
                                                                CostAuthorityID,
                                                                ObligationItemID,
-                                                               --Obligation,
-                                                               --GoodsReceipt,
-                                                               --Invoiced,
-                                                               --Disbursed,
                                                                UnexpendedBalance,
-                                                               --CreatedOnKey,
-                                                               --DateOfUpdateKey,
-                                                               --PostingDateKey,
                                                                PostingDatePerSplKey,
-                                                               --DocumentDateOfBlKey,
                                                                BudgetObjectCodeID,
                                                                FundingSourceID
                                                                )
-    select 
+    select
         (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElement) as WbsElementID,
         (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.WBSElement) as CostAuthorityID,
         (select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.ObligationItem and obn.ObligationNumberKey = pr.ObligationNumber and v.VendorKey = pr.Vendor) as ObligationItemID,
-        --pr.Obligation as Obligation,
-        --pr.GoodsReceipt as GoodsReceipt,
-        --pr.Invoiced as Invoiced,
-        --pr.Disbursed as Disbursed,
         pr.UnexpendedBalance as UnexpendedBalance,
-        --pr.CreatedOnKey as CreatedOnKey,
-        --pr.DateOfUpdateKey as DateOfUpdateKey,
-        --pr.PostingDateKey as PostingDateKey,
         pr.PostingDatePerSpl as PostingDatePerSpl,
-        --pr.DocumentDateOfBlKey as DocumentDateOfBlKey,
         -- It seems we have data where we can't look up the BOC in the provided data. 
         -- For example, we currently don't have BOC 252Q00, but it turns up in the impApGen/ImpPayRec imports.
         -- So, BudgetObjectCode is nullable for now. Pity. -- SLG 3/18/2020
@@ -252,7 +235,7 @@ end
         f.FundingSourceID as FundingSourceID
     from
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
-        join #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3 as bocyear on YEAR(pr.PostingDatePerSpl) = bocyear.FbmsYear and pr.BudgetObjectClass = bocyear.PossiblyDirtyBudgetObjectClassKey
+        left join #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3 as bocyear on YEAR(pr.PostingDatePerSpl) = bocyear.FbmsYear and pr.BudgetObjectClass = bocyear.PossiblyDirtyBudgetObjectClassKey
         join dbo.FundingSource as f on REPLACE(pr.Fund, '1400/', '') = f.FundingSourceName
     where 
         pr.WBSElement != '#'
@@ -334,7 +317,7 @@ end
            f.FundingSourceID
        from
           ImportFinancial.ImpApGenSheet as ap
-          join #BudgetObjectCodesFbmsYear_ImpApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
+          left join #BudgetObjectCodesFbmsYear_ImpApGenSheet as bocyear on YEAR(ap.PostingDateKey) = bocyear.FbmsYear and ap.BudgetObjectClassKey = bocyear.PossiblyDirtyBudgetObjectClassKey
           join dbo.FundingSource as f on REPLACE(ap.FundKey, '1400/', '') = f.FundingSourceName
        where
          ap.WBSElementKey != '#'
