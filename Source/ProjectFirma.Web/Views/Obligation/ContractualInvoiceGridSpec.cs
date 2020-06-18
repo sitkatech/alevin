@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
@@ -43,17 +44,32 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Obligation Item Key", ci => ci.ObligationItem.ObligationItemKey, 80, DhtmlxGridColumnFilterType.Numeric);
             Add("Vendor", ci => ci.ObligationItem.Vendor.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Cost Authority", ci => ci.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
-            Add("Budget Object Code", ci => UrlTemplate.MakeHrefString(ci.BudgetObjectCode.GetDetailUrl(), ci.BudgetObjectCode.GetDisplayName()), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Budget Object Code FBMS Year", ci => ci.BudgetObjectCode.FbmsYear.ToString(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Budget Object Code", ci => MakeBudgetObjectCodeHrefString(ci.BudgetObjectCode), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Budget Object Code FBMS Year", ci => GetBudgetObjectCodeFmsYearAsString(ci.BudgetObjectCode), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), ci => UrlTemplate.MakeHrefString(ci.FundingSource.GetDetailUrl(), ci.FundingSource.FundingSourceName), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            //Add("Debit Amount", ci => ci.DebitAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-
             Add("Unexpended Balance", ci => ci.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-
-            //Add("Credit Amount", obi => obi.CreditAmount, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            //Add("Debit/Credit Total", obi => obi.DebitCreditTotal, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            //Add("Created On Date", ob => ob.CreatedOnKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
             Add("Posting Date", ob => ob.PostingDatePerSplKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
+        }
+
+        private const string UnknownString = "(Unknown)";
+
+        private static string GetBudgetObjectCodeFmsYearAsString(ProjectFirmaModels.Models.BudgetObjectCode budgetObjectCode)
+        {
+            if (budgetObjectCode == null)
+            {
+                return UnknownString;
+            }
+            return budgetObjectCode.FbmsYear.ToString();
+        }
+
+        private static HtmlString MakeBudgetObjectCodeHrefString(ProjectFirmaModels.Models.BudgetObjectCode budgetObjectCode)
+        {
+            if (budgetObjectCode == null)
+            {
+                // We don't know what Budget Code to assign for this in the Publishing Processing, so we have to punt here.
+                return new HtmlString(UnknownString);
+            }
+            return UrlTemplate.MakeHrefString(budgetObjectCode.GetDetailUrl(), budgetObjectCode.GetDisplayName());
         }
     }
 }

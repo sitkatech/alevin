@@ -1069,6 +1069,16 @@ namespace ProjectFirma.Web.Models
             return project.GetCustomAttributeTypes().Any(x => x.HasEditPermission(currentFirmaSession));
         }
 
+        private static int GetEffectiveCostTypeIDForPotentialNullBudgetObjectCode(BudgetObjectCode budgetObjectCode)
+        {
+            if (budgetObjectCode == null)
+            {
+                //"Other" CostTypeID. This is a stopgap placeholder; I'm not quite sure what to do in this circumstance.
+                return 11;
+            }
+
+            return budgetObjectCode.GetEffectiveCostType().CostTypeID;
+        }
 
         public static List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>
             GetObligationItemBudgetRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
@@ -1076,30 +1086,16 @@ namespace ProjectFirma.Web.Models
             var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
             var obligationItemBudgets = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemBudgets).ToList();
 
-            //var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            //var dictProjectFundingSourceBudgetToObligationItemBudget = new Dictionary<ProjectFundingSourceBudget, List<WbsElementObligationItemBudget>>();
-            //foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
-            //{
-
-            //    var budgetsWhereYearCostTypeAndFundingSourceMatch = 
-            //        obligationItemBudgets.Where(oib =>
-            //        oib.PostingDateKey.Value.Year == projectFundingSourceBudget.CalendarYear &&
-            //        oib.BudgetObjectCode.GetEffectiveCostType().CostTypeID == projectFundingSourceBudget.CostTypeID &&
-            //        oib.FundingSourceID == projectFundingSourceBudget.FundingSourceID).ToList();
-
-            //    dictProjectFundingSourceBudgetToObligationItemBudget.Add(projectFundingSourceBudget, budgetsWhereYearCostTypeAndFundingSourceMatch);
-            //}
-
             var obligationItemBudgetSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
             foreach (var itemBudget in obligationItemBudgets)
             {
                 //var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, itemBudget.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemBudget.PostingDatePerSplKey.Value.Year, itemBudget.Obligation ?? 0);
                 // We'll see where -999 turns up, and if this is still used... -- SLG 6/11/2020. 
-                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, itemBudget.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemBudget.PostingDatePerSplKey.Value.Year, -999);
+
+                int effectiveCostTypeID = GetEffectiveCostTypeIDForPotentialNullBudgetObjectCode(itemBudget.BudgetObjectCode);
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, effectiveCostTypeID, itemBudget.PostingDatePerSplKey.Value.Year, -999);
                 obligationItemBudgetSimples.Add(simple);
             }
-
-            //obligationItemBudgetSimples.AddRange(dictProjectFundingSourceBudgetToObligationItemBudget.Select(dict => new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(dict.Key, dict.Value)));
 
             return obligationItemBudgetSimples;
         }
@@ -1110,28 +1106,13 @@ namespace ProjectFirma.Web.Models
             var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
             var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).ToList();
 
-            //var projectFundingSourceBudgets = project.ProjectFundingSourceBudgets.ToList();
-            //var dictProjectFundingSourceBudgetToObligationItemInvoice = new Dictionary<ProjectFundingSourceBudget, List<WbsElementObligationItemInvoice>>();
-            //foreach (var projectFundingSourceBudget in projectFundingSourceBudgets)
-            //{
-
-            //    var budgetsWhereYearCostTypeAndFundingSourceMatch =
-            //        obligationItemInvoices.Where(oib =>
-            //            oib.PostingDateKey.Value.Year == projectFundingSourceBudget.CalendarYear &&
-            //            oib.BudgetObjectCode.GetEffectiveCostType().CostTypeID == projectFundingSourceBudget.CostTypeID &&
-            //            oib.FundingSourceID == projectFundingSourceBudget.FundingSourceID).ToList();
-
-            //    dictProjectFundingSourceBudgetToObligationItemInvoice.Add(projectFundingSourceBudget, budgetsWhereYearCostTypeAndFundingSourceMatch);
-            //}
-
             var obligationItemInvoiceSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
             foreach (var itemInvoice in obligationItemInvoices)
             {
-                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemInvoice.FundingSourceID, itemInvoice.BudgetObjectCode.GetEffectiveCostType().CostTypeID, itemInvoice.PostingDateKey.Value.Year, itemInvoice.DebitAmount ?? 0);
+                int effectiveCostTypeID = GetEffectiveCostTypeIDForPotentialNullBudgetObjectCode(itemInvoice.BudgetObjectCode);
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemInvoice.FundingSourceID, effectiveCostTypeID, itemInvoice.PostingDateKey.Value.Year, itemInvoice.DebitAmount ?? 0);
                 obligationItemInvoiceSimples.Add(simple);
             }
-
-            //obligationItemInvoiceSimples.AddRange(dictProjectFundingSourceBudgetToObligationItemInvoice.Select(dict => new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(dict.Key, dict.Value)));
 
             return obligationItemInvoiceSimples;
         }
