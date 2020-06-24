@@ -12,6 +12,7 @@ CREATE TABLE [Reclamation].[BudgetObjectCode](
 	[Explanation1099] [nvarchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[BudgetObjectCodeGroupID] [int] NOT NULL,
 	[OverrideCostTypeID] [int] NULL,
+	[IsExpiredOrDeleted] [bit] NOT NULL,
  CONSTRAINT [PK_BudgetObjectCode_BudgetObjectCodeID] PRIMARY KEY CLUSTERED 
 (
 	[BudgetObjectCodeID] ASC
