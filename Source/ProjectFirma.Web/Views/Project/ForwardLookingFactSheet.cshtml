@@ -255,34 +255,7 @@
                @ViewDataTyped.Project.GetDuration()
             </div>
          </div>
-         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong>@ViewDataTyped.EstimatedTotalCostLabel</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.EstimatedTotalCost
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong> @FieldDefinitionEnum.SecuredFunding.ToType().GetFieldDefinitionLabel()</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.SecuredFunding
-            </div>
-         </div>
-         <div class="row">
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong>@ViewDataTyped.NoFundingSourceIdentifiedLabel</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.NoFundingSourceIdentified
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               <strong> @ViewDataTyped.TargetedFundingLabel</strong>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-md-3">
-               @ViewDataTyped.TargetedFunding
-            </div>
-         </div>
+
          @if (ViewDataTyped.ViewableProjectCustomAttributes.Any())
          {
             @Html.Raw(String.Format("<div class=\"{0}\" id=\"{1}\" style=\"{2}\">", "", "CustomAttributesRow", ViewDataTyped.WithCustomAttributes ? "display: block" : "display:none;"))
