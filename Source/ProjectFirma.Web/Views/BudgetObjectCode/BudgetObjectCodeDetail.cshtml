@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
@@ -80,10 +81,14 @@
                   <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.BudgetObjectCodeGroup.GetDisplayName()</div>
                </div>
                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">FBMS Year</div>
-                    <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.FbmsYear</div>
-                </div>
-                <div class="row">
+                  <div class="col-xs-5 fieldLabel text-right">FBMS Year</div>
+                  <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.FbmsYear</div>
+               </div>
+               <div class="row">
+                  <div class="col-xs-5 fieldLabel text-right">Expired or Deleted</div>
+                  <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.IsExpiredOrDeleted.ToYesNo()</div>
+               </div>
+               <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Reportable 1099</div>
                     <div class="col-xs-7">@ViewDataTyped.BudgetObjectCode.Reportable1099</div>
                 </div>

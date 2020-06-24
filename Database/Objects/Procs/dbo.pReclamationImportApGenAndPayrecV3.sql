@@ -90,6 +90,17 @@ end
                ,UnexpendedBalance
       FROM Staging.StageImpUnexpendedBalancePayRecV3
 
+-- Right now we know of 2 rows with bum dates. Make sure these are there. If they disappear, we'd want to know and
+-- consciously fix this check, so we can be sure it indicates we fixed something, and to make sure it doesn't 
+-- mean something worse/unintended. If they grow, that's likely a bad sign, and something we'd also want to look at. -- SLG 6/24/2020
+declare @nullSplDateCount int
+set @nullSplDateCount = (select count(*) from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr where PostingDatePerSpl is null)
+if (@nullSplDateCount != 2)
+begin
+   raiserror('Expected exactly two PostingDatePerSpl in ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 with null values.', 16,1)
+   return -1
+end
+
       --select * from     Staging.StageImpUnexpendedBalancePayRecV3
 
     delete from ImportFinancial.WbsElementObligationItemBudget;
@@ -188,7 +199,7 @@ end
     DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3
 
     select boc.BudgetObjectCodeID,
-           boc.BudgetObjectCodeName,
+           UPPER(boc.BudgetObjectCodeName) as BudgetObjectCodeName,
            --boq.pr_CleanedBudgetObjectCode,
            boq.PossiblyDirtyBudgetObjectClassKey,
            boq.FbmsYear
@@ -208,8 +219,80 @@ end
                     ) as FbmsYear
         from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
     ) as boq
-    join Reclamation.BudgetObjectCode as boc on boq.pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName and boq.FbmsYear = boc.FbmsYear
+    join Reclamation.BudgetObjectCode as boc on 
+        boq.pr_CleanedBudgetObjectCode = boc.BudgetObjectCodeName
+        and
+        boq.FbmsYear = boc.FbmsYear
     order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
+
+
+--select * from #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3
+
+/*
+--- The real deal
+    select distinct
+           pr.BudgetObjectClass,
+           bocyear.BudgetObjectCodeName,
+           bocyear.PossiblyDirtyBudgetObjectClassKey,
+           YEAR(pr.PostingDatePerSpl) as pr_year,
+           bocyear.FbmsYear
+    from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
+    left join #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3 as bocyear on 
+                YEAR(pr.PostingDatePerSpl) = bocyear.FbmsYear
+                and
+                LEFT(CONCAT(pr.BudgetObjectClass,'000000'), 6) = bocyear.BudgetObjectCodeName
+    --left join Reclamation.BudgetObjectCode as boc on 
+    --          bocyear.BudgetObjectCodeName = boc.BudgetObjectCodeName
+    where BudgetObjectCodeName is null or FbmsYear is null
+    order by BudgetObjectClass, pr_year
+*/
+
+/*
+-- Used for building 0587; supplemental BudgetObjectCodes with missing years.
+
+select '(''' + the_real_deal.BudgetObjectClassZeroed + ''', ' + 
+                    -- We are this subset is just assuming missing years, and that there are other entries to give us a clue about these values
+                      '''' + CONVERT(varchar(max), (select top 1 BudgetObjectCodeItemDescription from Reclamation.BudgetObjectCode where BudgetObjectCodeName = the_real_deal.BudgetObjectClassZeroed)) + '''' + ', ' +
+                      '''' + CONVERT(varchar(max), (select top 1 BudgetObjectCodeDefinition from Reclamation.BudgetObjectCode where BudgetObjectCodeName = the_real_deal.BudgetObjectClassZeroed)) + '''' +', ' +
+                      CONVERT(varchar(max), (select top 1 BudgetObjectCodeGroupID from Reclamation.BudgetObjectCode where BudgetObjectCodeName = the_real_deal.BudgetObjectClassZeroed)) + ', ' +
+                      CONVERT(varchar(max), the_real_deal.pr_year) + ', ' +
+                      CONVERT(varchar(max),(select top 1 Reportable1099 from Reclamation.BudgetObjectCode where BudgetObjectCodeName = the_real_deal.BudgetObjectClassZeroed)) + ', ' +
+                      '''' + CONVERT(varchar(max),(select top 1 Explanation1099 from Reclamation.BudgetObjectCode where BudgetObjectCodeName = the_real_deal.BudgetObjectClassZeroed)) + '''' + ', ' +
+                      CONVERT(varchar(max),(select top 1 IsExpiredOrDeleted from Reclamation.BudgetObjectCode where BudgetObjectCodeName = the_real_deal.BudgetObjectClassZeroed)) 
+                      + '),'
+from
+(
+    select distinct
+           pr.BudgetObjectClass + '00' as BudgetObjectClassZeroed,
+           bocyear.BudgetObjectCodeName,
+           bocyear.PossiblyDirtyBudgetObjectClassKey,
+           YEAR(pr.PostingDatePerSpl) as pr_year,
+           bocyear.FbmsYear
+    from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
+    left join #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3 as bocyear on 
+                YEAR(pr.PostingDatePerSpl) = bocyear.FbmsYear
+                and
+                LEFT(CONCAT(pr.BudgetObjectClass,'000000'), 6) = bocyear.BudgetObjectCodeName
+    --left join Reclamation.BudgetObjectCode as boc on 
+    --          bocyear.BudgetObjectCodeName = boc.BudgetObjectCodeName
+    where BudgetObjectCodeName is null or FbmsYear is null
+    --order by pr.BudgetObjectClass + '00', pr_year
+) as the_real_deal
+*/
+
+    
+--insert into Reclamation.BudgetObjectCode(BudgetObjectCodeName, 
+--                                         BudgetObjectCodeItemDescription, 
+--                                         BudgetObjectCodeDefinition, 
+--                                         BudgetObjectCodeGroupID, 
+--                                         FbmsYear, 
+--                                         Reportable1099, 
+--                                         Explanation1099, 
+--                                         IsExpiredOrDeleted)
+--value('121200', 'NEW_BLANK_DESCRIPTION', 'NEW_BLANK_DEFINITION', 2015	NULL
+
+--select top 1 BudgetObjectCodeItemDescription from Reclamation.BudgetObjectCode where BudgetObjectCodeName = '211I00'
+
 
 --    select * from ImportFinancial.WbsElementObligationItemBudget
 
@@ -225,6 +308,8 @@ end
                                                                FundingSourceID
                                                                )
     select
+        --pr.BudgetObjectClass as pr_BudgetObjectClass,
+        --bocyear.PossiblyDirtyBudgetObjectClassKey as bocyear_PossiblyDirtyBudgetObjectClassKey,
         (select WbsElementID from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = pr.WBSElement) as WbsElementID,
         (select CostAuthorityID from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = pr.WBSElement) as CostAuthorityID,
         (select obi.ObligationItemID from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID join ImportFinancial.Vendor as v on obi.VendorID = v.VendorID where obi.ObligationItemKey = pr.ObligationItem and obn.ObligationNumberKey = pr.ObligationNumber and v.VendorKey = pr.Vendor) as ObligationItemID,
@@ -237,14 +322,18 @@ end
         f.FundingSourceID as FundingSourceID
     from
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
-        left join #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3 as bocyear on YEAR(pr.PostingDatePerSpl) = bocyear.FbmsYear and pr.BudgetObjectClass = bocyear.PossiblyDirtyBudgetObjectClassKey
+        left join #BudgetObjectCodesFbmsYear_ImportFinancialImpPayRecUnexpendedV3 as bocyear on 
+                    YEAR(pr.PostingDatePerSpl) = bocyear.FbmsYear
+                    and
+                    LEFT(CONCAT(pr.BudgetObjectClass,'000000'), 6) = bocyear.BudgetObjectCodeName
         join dbo.FundingSource as f on REPLACE(pr.Fund, '1400/', '') = f.FundingSourceName
     where 
         pr.WBSElement != '#'
+-- FOR EXPERIMENTATION ONLY! DO NOT COMMIT FOR LONG!
+        --and
+        --bocyear.BudgetObjectCodeID is null
     order by ObligationItemID
 
-    --select distinct CostAuthorityWorkBreakdownStructure, count(*) from Reclamation.CostAuthority group by CostAuthorityWorkBreakdownStructure order by count(*) desc
-    --select * from Reclamation.CostAuthority where CostAuthorityWorkBreakdownStructure = 'RX.16786820.3000100'
 
     -- Temp table to help with BOC FBMS years for ImpApGenSheet
     DROP TABLE IF EXISTS #BudgetObjectCodesFbmsYear_ImpApGenSheet
@@ -336,35 +425,12 @@ end
     join dbo.Organization as do on iv.VendorText = do.OrganizationName 
     where TenantID = 12
 
-    --select * 
-    --from ImportFinancial.Vendor as iv
-    --left join dbo.Organization as do on iv.VendorText = do.OrganizationName 
-    --where TenantID = 12 
-
-    --select * from dbo.Organization
-    --where VendorNumber is not null
-    
-
 end
 GO
 
 
 /*
 
-        select * from dbo.impPayRecV3 as pr where pr.WBSElementKey like '%#%'
-
-        select * from dbo.impPayRecV3 as pr where pr.UnexpendedBalance = 3790.98
-
-        select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey = 'RX.16786807.5001500'
-
-        select distinct WbsElementKey from ImportFinancial.WbsElement
-
-        select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID
-
-        select * from ImportFinancial.ObligationItem as obi join ImportFinancial.ObligationNumber as obn on obi.ObligationNumberID = obn.ObligationNumberID where obi.ObligationItemID = 249
-
-
 exec dbo.pReclamationImportApGenAndPayrecV3
 
-select * from 
 */
