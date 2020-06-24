@@ -24,6 +24,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Explanation1099).HasColumnName(@"Explanation1099").HasColumnType("nvarchar").IsOptional().HasMaxLength(1000);
             Property(x => x.BudgetObjectCodeGroupID).HasColumnName(@"BudgetObjectCodeGroupID").HasColumnType("int").IsRequired();
             Property(x => x.OverrideCostTypeID).HasColumnName(@"OverrideCostTypeID").HasColumnType("int").IsOptional();
+            Property(x => x.IsExpiredOrDeleted).HasColumnName(@"IsExpiredOrDeleted").HasColumnType("bit").IsRequired();
 
             // Foreign keys
             HasRequired(a => a.BudgetObjectCodeGroup).WithMany(b => b.BudgetObjectCodes).HasForeignKey(c => c.BudgetObjectCodeGroupID).WillCascadeOnDelete(false); // FK_BudgetObjectCode_BudgetObjectCodeGroup_BudgetObjectCodeGroupID

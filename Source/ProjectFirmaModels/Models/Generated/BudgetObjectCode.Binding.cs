@@ -34,7 +34,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public BudgetObjectCode(int budgetObjectCodeID, string budgetObjectCodeName, string budgetObjectCodeItemDescription, string budgetObjectCodeDefinition, int fbmsYear, bool? reportable1099, string explanation1099, int budgetObjectCodeGroupID, int? overrideCostTypeID) : this()
+        public BudgetObjectCode(int budgetObjectCodeID, string budgetObjectCodeName, string budgetObjectCodeItemDescription, string budgetObjectCodeDefinition, int fbmsYear, bool? reportable1099, string explanation1099, int budgetObjectCodeGroupID, int? overrideCostTypeID, bool isExpiredOrDeleted) : this()
         {
             this.BudgetObjectCodeID = budgetObjectCodeID;
             this.BudgetObjectCodeName = budgetObjectCodeName;
@@ -45,12 +45,13 @@ namespace ProjectFirmaModels.Models
             this.Explanation1099 = explanation1099;
             this.BudgetObjectCodeGroupID = budgetObjectCodeGroupID;
             this.OverrideCostTypeID = overrideCostTypeID;
+            this.IsExpiredOrDeleted = isExpiredOrDeleted;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear, int budgetObjectCodeGroupID) : this()
+        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear, int budgetObjectCodeGroupID, bool isExpiredOrDeleted) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.BudgetObjectCodeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -59,12 +60,13 @@ namespace ProjectFirmaModels.Models
             this.BudgetObjectCodeItemDescription = budgetObjectCodeItemDescription;
             this.FbmsYear = fbmsYear;
             this.BudgetObjectCodeGroupID = budgetObjectCodeGroupID;
+            this.IsExpiredOrDeleted = isExpiredOrDeleted;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear, BudgetObjectCodeGroup budgetObjectCodeGroup) : this()
+        public BudgetObjectCode(string budgetObjectCodeName, string budgetObjectCodeItemDescription, int fbmsYear, BudgetObjectCodeGroup budgetObjectCodeGroup, bool isExpiredOrDeleted) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.BudgetObjectCodeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -74,6 +76,7 @@ namespace ProjectFirmaModels.Models
             this.BudgetObjectCodeGroupID = budgetObjectCodeGroup.BudgetObjectCodeGroupID;
             this.BudgetObjectCodeGroup = budgetObjectCodeGroup;
             budgetObjectCodeGroup.BudgetObjectCodes.Add(this);
+            this.IsExpiredOrDeleted = isExpiredOrDeleted;
         }
 
         /// <summary>
@@ -81,7 +84,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static BudgetObjectCode CreateNewBlank(BudgetObjectCodeGroup budgetObjectCodeGroup)
         {
-            return new BudgetObjectCode(default(string), default(string), default(int), budgetObjectCodeGroup);
+            return new BudgetObjectCode(default(string), default(string), default(int), budgetObjectCodeGroup, default(bool));
         }
 
         /// <summary>
@@ -181,6 +184,7 @@ namespace ProjectFirmaModels.Models
         public string Explanation1099 { get; set; }
         public int BudgetObjectCodeGroupID { get; set; }
         public int? OverrideCostTypeID { get; set; }
+        public bool IsExpiredOrDeleted { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return BudgetObjectCodeID; } set { BudgetObjectCodeID = value; } }
 
