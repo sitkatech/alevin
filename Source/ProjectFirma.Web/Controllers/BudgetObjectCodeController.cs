@@ -42,18 +42,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<BudgetObjectCodeDetail, BudgetObjectCodeDetailViewData>(viewData);
         }
 
-        /*
-        [BudgetObjectCodeViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetGridOnBudgetObjectCodeDetailJsonData(BudgetObjectCodePrimaryKey budgetObjectCodePrimaryKey)
-        {
-            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
-            var budgetObjectCode = budgetObjectCodePrimaryKey.EntityObject;
-            var obligationItemBudgets = budgetObjectCode.WbsElementObligationItemBudgets.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        */
-
         [BudgetObjectCodeViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridOnBudgetObjectCodeDetailJsonData(BudgetObjectCodePrimaryKey budgetObjectCodePrimaryKey)
         {
