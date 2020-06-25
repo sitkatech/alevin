@@ -81,6 +81,11 @@ Source code is available upon request via <support@sitkatech.com>.
     .fundingSourceHeaderRow {
         background-color: #d9edf7;
     }
+    .btn-cost-type-edit {
+        color: #fff;
+        background-color: #244a9f;
+        font-size: 14px;
+    }
 
 </style>
 
@@ -544,8 +549,8 @@ Source code is available upon request via <support@sitkatech.com>.
                     <div class="row">
                         <hr />
                         <div style="text-align: right; white-space: nowrap">
-                            <button type="submit" class="btn btn-xs btn-firma" title="Save changes" value="true" name="@Html.NameFor(x => x.ShouldSaveChanges)">Save</button>
-                            <button type="submit" class="btn btn-xs btn-firma" title="Cancel changes and return to project detail" value="false" name="@Html.NameFor(x => x.ShouldSaveChanges)">Cancel</button>
+                            <button type="submit" class="btn btn-xs btn-cost-type-edit" title="Save changes" value="true" name="@Html.NameFor(x => x.ShouldSaveChanges)">Save</button>
+                            <button type="submit" class="btn btn-xs btn-cost-type-edit" title="Cancel changes and return to project detail" value="false" name="@Html.NameFor(x => x.ShouldSaveChanges)">Cancel</button>
                         </div>
                     </div>
                 }
