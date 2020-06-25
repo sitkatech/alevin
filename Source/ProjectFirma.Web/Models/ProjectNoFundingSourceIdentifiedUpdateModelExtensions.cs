@@ -23,7 +23,7 @@ namespace ProjectFirma.Web.Models
                 .ProjectNoFundingSourceIdentifiedUpdates
                 .Select(x => new ProjectNoFundingSourceIdentified(ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue(), project.ProjectID, x.CalendarYear, x.NoFundingSourceIdentifiedYet, x.CostTypeID)).ToList();
             project.ProjectNoFundingSourceIdentifieds.Merge(projectNoFundingSourceIdentifiedsFromProjectUpdate,
-                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear,
+                (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.CostTypeID == y.CostTypeID,
                 (x, y) =>
                 {
                     x.NoFundingSourceIdentifiedYet = y.NoFundingSourceIdentifiedYet;
