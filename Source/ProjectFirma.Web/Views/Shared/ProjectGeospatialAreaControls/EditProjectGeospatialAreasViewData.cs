@@ -37,14 +37,14 @@ namespace ProjectFirma.Web.Views.Shared.ProjectGeospatialAreaControls
         public string EditProjectGeospatialAreasUrl { get; }
         public bool HasProjectLocationPoint { get; }
         public bool HasProjectLocationDetail { get; }
-        public List<ProjectFirmaModels.Models.fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
+        public List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> GeospatialAreaIDsContainingProjectSimpleLocation { get; }
         public string SimplePointMarkerImg { get; }
         public string EditSimpleLocationUrl { get; }
 
         public EditProjectGeospatialAreasViewData(FirmaSession currentFirmaSession, MapInitJson mapInitJson,
             List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreasInViewModel, string editProjectGeospatialAreasUrl,
             string editProjectGeospatialAreasFormID, bool hasProjectLocationPoint, bool hasProjectLocationDetail,
-            GeospatialAreaType geospatialAreaType, List<ProjectFirmaModels.Models.fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> geospatialAreasContainingProjectSimpleLocation, string editSimpleLocationUrl) : base(currentFirmaSession)
+            GeospatialAreaType geospatialAreaType, List<fGeoServerGeospatialAreaAreasContainingProjectLocation_Result> geospatialAreasContainingProjectSimpleLocation, string editSimpleLocationUrl) : base(currentFirmaSession)
         {
             GeospatialAreaType = geospatialAreaType;
             GeospatialAreaIDsContainingProjectSimpleLocation = geospatialAreasContainingProjectSimpleLocation;

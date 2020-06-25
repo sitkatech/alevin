@@ -210,8 +210,8 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(organization);
-            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(organization, CurrentFirmaSession);
+            var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(organization);
+            var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
 
@@ -281,7 +281,7 @@ namespace ProjectFirma.Web.Controllers
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }
 
-        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesLineChartViewData(Organization organization)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(Organization organization)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
             var projectFundingSourceExpenditures =
@@ -296,13 +296,13 @@ namespace ProjectFirma.Web.Controllers
                 yearRange,
                 chartContainerID,
                 chartTitle,
-                GoogleChartType.AreaChart,
+                GoogleChartType.ColumnChart,
                 true);
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
 
-        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesLineChartViewData(Organization organization, FirmaSession currentFirmaSession)
+        private static ViewGoogleChartViewData GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(Organization organization, FirmaSession currentFirmaSession)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
 
@@ -319,7 +319,7 @@ namespace ProjectFirma.Web.Controllers
                 yearRange,
                 chartContainerID,
                 chartTitle,
-                GoogleChartType.AreaChart,
+                GoogleChartType.ColumnChart,
                 true);
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);

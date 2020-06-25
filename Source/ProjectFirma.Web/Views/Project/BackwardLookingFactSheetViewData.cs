@@ -68,6 +68,8 @@ namespace ProjectFirma.Web.Views.Project
         public DateTime LastUpdated { get; }
         public ProjectController.FactSheetPdfEnum FactSheetPdfEnum { get; }
 
+        public string FakeImageWithDelayUrl { get; }
+
         public BackwardLookingFactSheetViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson,
             GoogleChartJson projectFactSheetGoogleChart,
@@ -141,11 +143,19 @@ namespace ProjectFirma.Web.Views.Project
             LastUpdated = project.LastUpdatedDate;
             FactSheetPdfEnum = factSheetPdfEnum;
 
-            // this is used to prevent the main Sitka Google Chart scripts from being loaded onto the page and confusing WkhtmlToPDF when trying to render charts for pdf generation - 6/2/2020 SMG [#2167]
+            // No delay loading our fake image by default
+            int fakeImageDelayInMilliseconds = 0;
+            // When set the page is being rendered for PDF
             if (factSheetPdfEnum == ProjectController.FactSheetPdfEnum.Pdf)
             {
-                FirmaIncludesViewData.IsIntendedForWkthmlToPDF = true;
+                // If we are printing for PDF, we have a fake 1x1 transparent image that we deliberately take time to load. This causes Headless Chrome
+                // to delay printing the page until the map is ready to be viewed.
+                //
+                // We hope that 4 seconds is enough to allow the mapping components to load. Increase if they don't render properly.
+                fakeImageDelayInMilliseconds =  ForwardLookingFactSheetViewData.FactSheetPdfEmptyImageLoadDelayInMilliseconds;
             }
+
+            FakeImageWithDelayUrl = new SitkaRoute<FakeImageController>(c => c.ReturnEmptyImageAfterDelayInMilliseconds(fakeImageDelayInMilliseconds)).BuildAbsoluteUrlHttpsFromExpression();
         }
     }
 }

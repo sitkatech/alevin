@@ -23,14 +23,12 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common;
-using LtInfo.Common.MvcResults;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ImageHelper = LtInfo.Common.ImageHelper;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -78,6 +76,7 @@ namespace ProjectFirma.Web.Controllers
                 case FileResourceMimeTypeEnum.KMZ:
                 case FileResourceMimeTypeEnum.KML:
                 case FileResourceMimeTypeEnum.XZIP:
+                case FileResourceMimeTypeEnum.ZIP:
                     return new FileResourceResult(fileResourceInfo.GetOriginalCompleteFileName(), fileResourceInfo.FileResourceData.Data, fileResourceInfo.FileResourceMimeType);
                 case FileResourceMimeTypeEnum.XPNG:
                 case FileResourceMimeTypeEnum.PNG:
