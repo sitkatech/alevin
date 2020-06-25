@@ -33,6 +33,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OrganizationCity).HasColumnName(@"OrganizationCity").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
             Property(x => x.OrganizationState).HasColumnName(@"OrganizationState").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(20);
             Property(x => x.OrganizationZip).HasColumnName(@"OrganizationZip").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(20);
+            Property(x => x.ShortDescription).HasColumnName(@"ShortDescription").HasColumnType("varchar").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.OrganizationsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Organization_Person_PrimaryContactPersonID_PersonID

@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string vendorNumber, int? reclamationContractorID, string organizationAddress1, string organizationAddress2, string organizationCity, string organizationState, string organizationZip) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string vendorNumber, int? reclamationContractorID, string organizationAddress1, string organizationAddress2, string organizationCity, string organizationState, string organizationZip, string shortDescription) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -57,6 +57,7 @@ namespace ProjectFirmaModels.Models
             this.OrganizationCity = organizationCity;
             this.OrganizationState = organizationState;
             this.OrganizationZip = organizationZip;
+            this.ShortDescription = shortDescription;
         }
 
         /// <summary>
@@ -240,6 +241,13 @@ namespace ProjectFirmaModels.Models
         public string OrganizationCity { get; set; }
         public string OrganizationState { get; set; }
         public string OrganizationZip { get; set; }
+        public string ShortDescription { get; set; }
+        [NotMapped]
+        public HtmlString ShortDescriptionHtmlString
+        { 
+            get { return ShortDescription == null ? null : new HtmlString(ShortDescription); }
+            set { ShortDescription = value?.ToString(); }
+        }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 

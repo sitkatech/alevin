@@ -21,6 +21,7 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationCity] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationState] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationZip] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ShortDescription] [dbo].[html] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC

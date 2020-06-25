@@ -77,6 +77,7 @@
     <Compile Include="Controllers\ClaimsIdentityHelper.cs" />
     <Compile Include="Controllers\DocumentLibraryController.cs" />
     <Compile Include="Controllers\EvaluationController.cs" />
+    <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
     <Compile Include="Controllers\ExternalMapLayerController.cs" />
     <Compile Include="Controllers\ProjectCustomAttributeGroupController.cs" />
@@ -100,6 +101,7 @@
     <Compile Include="HealthMonitor\BidirectionalTaxonomyLeafsHaveValidValues.cs" />
     <Compile Include="HealthMonitor\SqlServerSpatialDllSeemsToWork.cs" />
     <Compile Include="HealthMonitor\SiteMonitorChecks.cs" />
+    <Compile Include="HealthMonitor\HeadlessGoogleChromeIsAvailable.cs" />
     <Compile Include="HealthMonitor\WhtmlToPdfIsAvailableAndRunningExpectedVersion.cs" />
     <Compile Include="Models\ActionItemModelExtensions.cs" />
     <Compile Include="Models\AssessmentGoalModelExtensions.cs" />
@@ -712,7 +714,6 @@
     <Content Include="Content\themes\base\tooltip.css" />
     <Content Include="Content\Training\projectfirma-administrator-quick-guide.jpg" />
     <Content Include="Content\Training\projectfirma-customization-guide.jpg" />
-    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_10-2019_FNL.pdf" />
     <Content Include="Content\esri-leaflet\esri-leaflet.js.map" />
     <Content Include="Content\esri-leaflet\esri-leaflet-renderers.js" />
     <Content Include="Content\document-templates\model-testing.docx" />
@@ -723,7 +724,8 @@
     <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.docx" />
     <Content Include="Content\Training\ProjectFirma-Reports-User-Guide.pdf" />
     <Content Include="Content\Training\ProjectFirma-Reports-Example-Report.docx" />
-    <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide.pdf" />
+    <Content Include="Content\Training\ProjectFirma_AdministratorQuickGuide_2020.pdf" />
+    <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2020.pdf" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-bold-webfont.woff" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-bold-webfont.woff2" />
     <Content Include="Content\dhtmlx\dhtmlxTreeGrid\codebase\fonts\roboto-medium-webfont.woff" />
@@ -1584,7 +1586,7 @@
     <Compile Include="Views\FirmaPage\EditViewModel.cs" />
     <Compile Include="Controllers\FirmaBaseControllerTest.cs" />
     <Compile Include="Controllers\FirmaPageController.cs" />
-    <Compile Include="Controllers\FileResourceController.cs" />
+    <Compile Include="Controllers\FakeImageController.cs" />
     <Compile Include="Controllers\PerformanceMeasureNoteController.cs" />
     <Compile Include="Controllers\FirmaBaseController.cs" />
     <Compile Include="Common\FieldDefinitionDisplayAttribute.cs" />
