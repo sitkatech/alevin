@@ -94,6 +94,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new NpccSubbasinProvinceConfiguration());
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new OrganizationBoundaryStagingConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationImageConfiguration());
             modelBuilder.Configurations.Add(new OrganizationRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeOrganizationRelationshipTypeConfiguration());
@@ -374,6 +375,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ObligationRequestSubmissionNote> ObligationRequestSubmissionNotes { get; set; }
         public virtual DbSet<OrganizationBoundaryStaging> AllOrganizationBoundaryStagings { get; set; }
         public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<OrganizationImage> AllOrganizationImages { get; set; }
+        public virtual IQueryable<OrganizationImage> OrganizationImages { get { return AllOrganizationImages.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationRelationshipType> AllOrganizationRelationshipTypes { get; set; }
         public virtual IQueryable<OrganizationRelationshipType> OrganizationRelationshipTypes { get { return AllOrganizationRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
@@ -946,6 +949,9 @@ namespace ProjectFirmaModels.Models
 
                 case "OrganizationBoundaryStaging":
                     return OrganizationBoundaryStagings.GetOrganizationBoundaryStaging(primaryKey);
+
+                case "OrganizationImage":
+                    return OrganizationImages.GetOrganizationImage(primaryKey);
 
                 case "OrganizationRelationshipType":
                     return OrganizationRelationshipTypes.GetOrganizationRelationshipType(primaryKey);
