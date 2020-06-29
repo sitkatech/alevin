@@ -39,8 +39,6 @@ using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using Detail = ProjectFirma.Web.Views.Organization.Detail;
-using DetailViewData = ProjectFirma.Web.Views.Organization.DetailViewData;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
