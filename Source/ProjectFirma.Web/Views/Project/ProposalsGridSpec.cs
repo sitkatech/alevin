@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
@@ -61,7 +60,7 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.ProjectedFunding.ToType().ToGridHeaderString(), x => x.GetProjectedFunding(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add("Proposed By", a => a.ProposingPerson.GetFullNameFirstLastAndOrgShortNameAsUrl(), 200);
+            Add("Proposed By", a => a.ProposingPerson.GetFullNameFirstLastAndOrgShortNameAsUrl(firmaSession), 200);
             Add("Proposed Date", a => a.ProposingDate, 120);
             Add("Submitted Date", a => a.SubmissionDate, 120);
             Add("Last Updated", a => a.LastUpdatedDate, 120);

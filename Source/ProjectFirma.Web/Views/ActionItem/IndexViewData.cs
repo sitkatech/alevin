@@ -16,7 +16,7 @@ namespace ProjectFirma.Web.Views.ActionItem
         {
             PageTitle = $"Manage {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()}";
             GridDataUrl = gridDataUrl;
-            GridSpec = new ActionItemsAdminGridSpec();
+            GridSpec = new ActionItemsAdminGridSpec(currentFirmaSession);
             GridName = "actionItemsIndexGrid";
         }
 

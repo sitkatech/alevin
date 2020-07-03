@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
         [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
         public GridJsonNetJObjectResult<Project> IndexGridJsonData(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum projectUpdateStatusFilterType)
         {
-            var gridSpec = new ProjectUpdateStatusGridSpec(projectUpdateStatusFilterType, CurrentPerson.IsApprover());
+            var gridSpec = new ProjectUpdateStatusGridSpec(CurrentFirmaSession, projectUpdateStatusFilterType, CurrentPerson.IsApprover());
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(p => p.IsUpdatableViaProjectUpdateProcess());
 
             switch (projectUpdateStatusFilterType)
@@ -2127,7 +2127,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return RedirectToAction(new SitkaRoute<ProjectUpdateController>(x => x.Instructions(project)));
             }
-            var viewData = new HistoryViewData(projectUpdateBatch);
+            var viewData = new HistoryViewData(projectUpdateBatch, CurrentFirmaSession);
             return RazorPartialView<History, HistoryViewData>(viewData);
         }
 
@@ -2140,7 +2140,7 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Manage()
         {
             var customNotificationUrl = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.CreateCustomNotification(null));
-            var projectsRequiringUpdateGridSpec = new ProjectUpdateStatusGridSpec(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover())
+            var projectsRequiringUpdateGridSpec = new ProjectUpdateStatusGridSpec(CurrentFirmaSession, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover())
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}",
@@ -2172,7 +2172,7 @@ namespace ProjectFirma.Web.Controllers
         [ProjectUpdateAdminFeature]
         public GridJsonNetJObjectResult<Project> ProjectsRequiringUpdateGridJsonData()
         {
-            var gridSpec = new ProjectUpdateStatusGridSpec(ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover());
+            var gridSpec = new ProjectUpdateStatusGridSpec(CurrentFirmaSession, ProjectUpdateStatusGridSpec.ProjectUpdateStatusFilterTypeEnum.AllProjects, CurrentPerson.IsApprover());
             var projects =
                 HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.IsUpdatableViaProjectUpdateProcess() && x.IsEditableToThisFirmaSession(CurrentFirmaSession)).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
@@ -3398,7 +3398,7 @@ namespace ProjectFirma.Web.Controllers
 
             var editContactsViewData = new EditContactsViewData(allPeople, allContactRelationshipTypes);
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactRelationship(x.ProjectUpdateBatch.Project, x.Contact, x.ContactRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), CurrentFirmaSession);
             var viewData = new ContactsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editContactsViewData, contactsValidationResult, projectContactsDetailViewData);
 
             return RazorView<Contacts, ContactsViewData, ContactsViewModel>(viewData, viewModel);
@@ -3503,7 +3503,7 @@ namespace ProjectFirma.Web.Controllers
 
         private string GeneratePartialViewForContactsAsString(IEnumerable<ProjectContact> projectContacts, Person primaryContactPerson)
         {
-            var viewData = new ProjectContactsDetailViewData(projectContacts.Select(x => new ProjectContactRelationship(x.Project, x.Contact, x.ContactRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
+            var viewData = new ProjectContactsDetailViewData(projectContacts.Select(x => new ProjectContactRelationship(x.Project, x.Contact, x.ContactRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson, CurrentFirmaSession);
             var partialViewAsString = RenderPartialViewToString(ProjectContactsPartialViewPath, viewData);
             return partialViewAsString;
         }

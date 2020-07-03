@@ -210,17 +210,17 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-            var auditLogsGridSpec = new AuditLogsGridSpec {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
+            var auditLogsGridSpec = new AuditLogsGridSpec(CurrentFirmaSession) {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
             var auditLogsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(project));
 
-            var projectNotificationGridSpec = new ProjectNotificationGridSpec();
+            var projectNotificationGridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession);
             var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
@@ -411,7 +411,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static ActionItemsDisplayViewData BuildActionItemsDisplayViewData(Project project, FirmaSession currentFirmaSession)
         {
-            var actionItemsGridSpec = new ActionItemsGridSpec();
+            var actionItemsGridSpec = new ActionItemsGridSpec(currentFirmaSession);
             const string actionItemsGridName = "actionItems";
             var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsGridJsonData(project));
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(currentFirmaSession, project);
@@ -796,7 +796,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new AuditLogsGridSpec();
+            var gridSpec = new AuditLogsGridSpec(CurrentFirmaSession);
             var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject).OrderByDescending(x => x.AuditLogDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -952,7 +952,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         public GridJsonNetJObjectResult<Notification> ProjectNotificationsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new ProjectNotificationGridSpec();
+            var gridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             var notifications = project.NotificationProjects.Select(x => x.Notification).OrderByDescending(x => x.NotificationDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Notification>(notifications, gridSpec);
             return gridJsonNetJObjectResult;
