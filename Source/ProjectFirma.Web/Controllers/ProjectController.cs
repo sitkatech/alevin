@@ -411,7 +411,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static ActionItemsDisplayViewData BuildActionItemsDisplayViewData(Project project, FirmaSession currentFirmaSession)
         {
-            var actionItemsGridSpec = new ActionItemsGridSpec();
+            var actionItemsGridSpec = new ActionItemsGridSpec(currentFirmaSession);
             const string actionItemsGridName = "actionItems";
             var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsGridJsonData(project));
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(currentFirmaSession, project);

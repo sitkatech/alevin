@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<ActionItem> ActionItemsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new ActionItemsGridSpec();
+            var gridSpec = new ActionItemsGridSpec(CurrentFirmaSession);
             var actionItems = project.ActionItems.OrderByDescending(x => x.DueByDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ActionItem>(actionItems, gridSpec);
             return gridJsonNetJObjectResult;
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Controllers
         [ActionItemAdminFeature]
         public GridJsonNetJObjectResult<ActionItem> ActionItemsIndexGridJsonData()
         {
-            var gridSpec = new ActionItemsAdminGridSpec();
+            var gridSpec = new ActionItemsAdminGridSpec(CurrentFirmaSession);
             var actionItems = HttpRequestStorage.DatabaseEntities.ActionItems.OrderByDescending(x => x.DueByDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ActionItem>(actionItems, gridSpec);
             return gridJsonNetJObjectResult;
