@@ -1,2 +1,0 @@
-exec sp_rename 'Staging.PK_StagePnBudget_StagePnBudgetID', 'PK_StageImpPnBudget_StageImpPnBudgetID', 'OBJECT'
-exec sp_rename 'ImportFinancial.FK_WbsElementPnBudgett_CostAuthority_CostAuthorityID', 'FK_WbsElementPnBudget_CostAuthority_CostAuthorityID', 'OBJECT'
