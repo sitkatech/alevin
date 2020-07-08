@@ -37,6 +37,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirmaModels.Models;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
@@ -410,13 +411,15 @@ namespace ProjectFirma.Web.Models
                     var color = ColorTranslator.ToHtml(new HslColor(sectorColorHsl.Hue, sectorColorHsl.Saturation,
                         luminosity));
 
-                    return new GooglePieChartSlice(fundingSource.GetFixedLengthDisplayName(),
+                    return new GooglePieChartSlice(fundingSource.GetDisplayNameWithDescription(),
                         Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color);
                 }).ToList();
                 googlePieChartSlices.AddRange(pieChartSlices);
             }
             return googlePieChartSlices;
         }
+
+
 
         public static List<GooglePieChartSlice> GetFundingSourceRequestGooglePieChartSlices(this Project project)
         {

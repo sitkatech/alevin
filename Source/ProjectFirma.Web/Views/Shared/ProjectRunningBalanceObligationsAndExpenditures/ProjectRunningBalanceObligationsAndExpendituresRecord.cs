@@ -48,6 +48,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         public ProjectFirmaModels.Models.CostAuthority CostAuthority { get; set; }
         public ProjectFirmaModels.Models.BudgetObjectCode BudgetObjectCode { get; set; }
 
+        public ProjectFirmaModels.Models.FundingSource FundingSource { get; set; }
+
         public ProjectRunningBalanceObligationsAndExpendituresRecord(WbsElementPnBudget wbsElementPnBudget)
         {
             this.FiscalQuarter = wbsElementPnBudget.FiscalQuarter;
@@ -63,6 +65,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
 
             this.CostAuthority = wbsElementPnBudget.CostAuthority;
             this.BudgetObjectCode = wbsElementPnBudget.BudgetObjectCode;
+            this.FundingSource = wbsElementPnBudget.FundingSource;
             this.CalendarYear = wbsElementPnBudget.CalendarYear;
             this.CalendarMonthNumber = wbsElementPnBudget.CalendarMonthNumber;
 
