@@ -40,6 +40,7 @@ using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.ProjectFunding;
+using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 
 namespace ProjectFirma.Web.Views.Project
@@ -142,6 +143,7 @@ namespace ProjectFirma.Web.Views.Project
 
         // Project Running Balance (new version)
         public ProjectRunningBalanceObligationsAndExpendituresViewData ProjectRunningBalanceObligationsAndExpendituresViewData { get; set; }
+        public ProjectBalanceBurnUpViewData ProjectBalanceBurnUpViewData { get; set; }
 
         public string UpdateStatusUrl { get; set; }
 
@@ -182,7 +184,8 @@ namespace ProjectFirma.Web.Views.Project
             bool userHasStartUpdateWorkflowPermission,
             ActionItemsDisplayViewData actionItemsDisplayViewData,
             bool userCanViewActionItems,
-            ProjectRunningBalanceObligationsAndExpendituresViewData projectRunningBalanceObligationsAndExpendituresViewData)
+            ProjectRunningBalanceObligationsAndExpendituresViewData projectRunningBalanceObligationsAndExpendituresViewData,
+            ProjectBalanceBurnUpViewData projectBalanceBurnUpViewData)
             : base(currentFirmaSession, project)
         {
             PageTitle = project.GetDisplayName();
@@ -449,6 +452,7 @@ namespace ProjectFirma.Web.Views.Project
 
             // Project Running Balance (New Version)
             ProjectRunningBalanceObligationsAndExpendituresViewData = projectRunningBalanceObligationsAndExpendituresViewData;
+            ProjectBalanceBurnUpViewData = projectBalanceBurnUpViewData;
         }
     }
 }

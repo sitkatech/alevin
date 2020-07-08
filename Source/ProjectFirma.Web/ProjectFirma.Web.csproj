@@ -571,6 +571,8 @@
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
     <Compile Include="Views\Shared\FirmaIncludesViewData.cs" />
     <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
+    <Compile Include="Views\Shared\ProjectBalanceBurnUp\ProjectBalanceBurnUp.cs" />
+    <Compile Include="Views\Shared\ProjectBalanceBurnUp\ProjectBalanceBurnUpViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContactsViewModel.cs" />
@@ -2014,6 +2016,7 @@
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
     <Content Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cshtml" />
+    <Content Include="Views\Shared\ProjectBalanceBurnUp\ProjectBalanceBurnUp.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

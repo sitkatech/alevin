@@ -36,6 +36,7 @@
 @using ProjectFirma.Web.Views.ProjectAgreement
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 @using ProjectFirma.Web.Views.Shared.ProjectAttachment
+@using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
 @using ProjectFirma.Web.Views.Shared.ProjectContact
 @using ProjectFirma.Web.Views.Shared.ProjectOrganization
 @using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
@@ -414,14 +415,26 @@
 
             @*New attempt at Project Running Balance Report (improved)*@
             <div class="panel panelFirma">
-               <div class="panel-heading panelTitle">
-                  <h3 class="project-detail-heading">
-                     Project Running Balance - Obligations and Expenditures
-                  </h3>
-               </div>
-               <div class="panel-body">
-                  @{ ProjectRunningBalanceObligationsAndExpenditures.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresViewData); }
-               </div>
+                <div class="panel-heading panelTitle">
+                    <h3 class="project-detail-heading">
+                        Project Running Balance - Obligations and Expenditures
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @{ ProjectRunningBalanceObligationsAndExpenditures.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresViewData); }
+                </div>
+            </div>
+            
+            @*Attempt at project balance charts*@
+            <div class="panel panelFirma">
+                <div class="panel-heading panelTitle">
+                    <h3 class="project-detail-heading">
+                        Project Balance Burn Up
+                    </h3>
+                </div>
+                <div class="panel-body">
+                    @{ ProjectBalanceBurnUp.RenderPartialView(Html, ViewDataTyped.ProjectBalanceBurnUpViewData); }
+                </div>
             </div>
 
             @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
