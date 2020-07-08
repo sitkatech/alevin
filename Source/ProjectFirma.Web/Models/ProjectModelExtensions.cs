@@ -37,6 +37,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirmaModels.Models;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
@@ -389,13 +390,46 @@ namespace ProjectFirma.Web.Models
                 : project.ImplementationStartYear;
         }
 
+        //public static List<GooglePieChartSlice> GetExpenditureGooglePieChartSlices(Project project)
+        //{
+        //    var sortOrder = 0;
+        //    var googlePieChartSlices = new List<GooglePieChartSlice>();
+        //    var expendituresDictionary = project.ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
+        //        .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
+        //        .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
+
+        //    var groupingFundingSources = expendituresDictionary.Keys.GroupBy(x => x.Organization.OrganizationType, new HavePrimaryKeyComparer<OrganizationType>());
+        //    foreach (var groupingFundingSource in groupingFundingSources)
+        //    {
+        //        var sectorColor = ColorTranslator.FromHtml(groupingFundingSource.Key.LegendColor);
+        //        var sectorColorHsl = new HslColor(sectorColor.R, sectorColor.G, sectorColor.B);
+
+        //        var pieChartSlices = groupingFundingSource.OrderBy(x => x.FundingSourceName).Select((fundingSource, index) =>
+        //        {
+        //            var luminosity = 100.0 * (groupingFundingSource.Count() - index - 1) /
+        //                             groupingFundingSource.Count() + 120;
+        //            var color = ColorTranslator.ToHtml(new HslColor(sectorColorHsl.Hue, sectorColorHsl.Saturation,
+        //                luminosity));
+
+        //            return new GooglePieChartSlice(fundingSource.GetFixedLengthDisplayName(),
+        //                Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color);
+        //        }).ToList();
+        //        googlePieChartSlices.AddRange(pieChartSlices);
+        //    }
+        //    return googlePieChartSlices;
+        //}
+
+
         public static List<GooglePieChartSlice> GetExpenditureGooglePieChartSlices(Project project)
         {
+
+            var prbacs = ProjectRunningBalanceObligationsAndExpendituresRecord.GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(project);
+
             var sortOrder = 0;
             var googlePieChartSlices = new List<GooglePieChartSlice>();
-            var expendituresDictionary = project.ProjectFundingSourceExpenditures.Where(x => x.ExpenditureAmount > 0)
+            var expendituresDictionary = prbacs.Where(x => x.Expenditures > 0)
                 .GroupBy(x => x.FundingSource, new HavePrimaryKeyComparer<FundingSource>())
-                .ToDictionary(x => x.Key, x => x.Sum(y => y.ExpenditureAmount));
+                .ToDictionary(x => x.Key, x => x.Sum(y => y.Expenditures));
 
             var groupingFundingSources = expendituresDictionary.Keys.GroupBy(x => x.Organization.OrganizationType, new HavePrimaryKeyComparer<OrganizationType>());
             foreach (var groupingFundingSource in groupingFundingSources)
@@ -406,17 +440,20 @@ namespace ProjectFirma.Web.Models
                 var pieChartSlices = groupingFundingSource.OrderBy(x => x.FundingSourceName).Select((fundingSource, index) =>
                 {
                     var luminosity = 100.0 * (groupingFundingSource.Count() - index - 1) /
-                                     groupingFundingSource.Count() + 120;
+                        groupingFundingSource.Count() + 120;
                     var color = ColorTranslator.ToHtml(new HslColor(sectorColorHsl.Hue, sectorColorHsl.Saturation,
                         luminosity));
 
-                    return new GooglePieChartSlice(fundingSource.GetFixedLengthDisplayName(),
+                    return new GooglePieChartSlice(fundingSource.GetDisplayNameWithDescription(),
                         Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color);
                 }).ToList();
                 googlePieChartSlices.AddRange(pieChartSlices);
             }
             return googlePieChartSlices;
         }
+
+
+        
 
         public static List<GooglePieChartSlice> GetFundingSourceRequestGooglePieChartSlices(this Project project)
         {
