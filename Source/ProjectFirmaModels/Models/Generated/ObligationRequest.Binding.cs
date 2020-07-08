@@ -32,7 +32,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ObligationRequest(int obligationRequestID, bool isModification, int? agreementID, int contractTypeID, int obligationRequestStatusID, string descriptionOfNeed, int? reclamationObligationRequestFundingPriorityID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
+        public ObligationRequest(int obligationRequestID, bool isModification, int? agreementID, int contractTypeID, int obligationRequestStatusID, string descriptionOfNeed, int? reclamationObligationRequestFundingPriorityID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate, int? obligationNumberID) : this()
         {
             this.ObligationRequestID = obligationRequestID;
             this.IsModification = isModification;
@@ -55,6 +55,7 @@ namespace ProjectFirmaModels.Models
             this.DateSentForDeptReview = dateSentForDeptReview;
             this.DCApprovalDate = dCApprovalDate;
             this.ActualAwardDate = actualAwardDate;
+            this.ObligationNumberID = obligationNumberID;
         }
 
         /// <summary>
@@ -189,6 +190,7 @@ namespace ProjectFirmaModels.Models
         public DateTime? DateSentForDeptReview { get; set; }
         public DateTime? DCApprovalDate { get; set; }
         public DateTime? ActualAwardDate { get; set; }
+        public int? ObligationNumberID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ObligationRequestID; } set { ObligationRequestID = value; } }
 
@@ -200,6 +202,7 @@ namespace ProjectFirmaModels.Models
         public ObligationRequestFundingPriority ReclamationObligationRequestFundingPriority { get { return ReclamationObligationRequestFundingPriorityID.HasValue ? ObligationRequestFundingPriority.AllLookupDictionary[ReclamationObligationRequestFundingPriorityID.Value] : null; } }
         public virtual Person CreatePerson { get; set; }
         public virtual Person UpdatePerson { get; set; }
+        public virtual ObligationNumber ObligationNumber { get; set; }
 
         public static class FieldLengths
         {

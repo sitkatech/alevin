@@ -24,6 +24,7 @@ CREATE TABLE [Reclamation].[ObligationRequest](
 	[DateSentForDeptReview] [datetime] NULL,
 	[DCApprovalDate] [datetime] NULL,
 	[ActualAwardDate] [datetime] NULL,
+	[ObligationNumberID] [int] NULL,
  CONSTRAINT [PK_ObligationRequest_ObligationRequestID] PRIMARY KEY CLUSTERED 
 (
 	[ObligationRequestID] ASC
@@ -40,6 +41,11 @@ ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_Ob
 REFERENCES [Reclamation].[ContractType] ([ContractTypeID])
 GO
 ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ContractType_ContractTypeID]
+GO
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_ObligationNumber_ObligationNumberID] FOREIGN KEY([ObligationNumberID])
+REFERENCES [ImportFinancial].[ObligationNumber] ([ObligationNumberID])
+GO
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ObligationNumber_ObligationNumberID]
 GO
 ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_ObligationRequestFundingPriority_ReclamationObligationRequestFundingPriorityID_ObligationRequestFundingPrio] FOREIGN KEY([ReclamationObligationRequestFundingPriorityID])
 REFERENCES [Reclamation].[ObligationRequestFundingPriority] ([ObligationRequestFundingPriorityID])
