@@ -238,4 +238,5 @@ VALUES
 (10051, N'ObligatedFunding', N'Obligated Funding'),
 (10052, N'ExpendedFunding', N'Expended Funding'),
 (10053, N'PnBudget', N'PnBudget'),
-(10054, N'BudgetObjectCode', N'Budget Object Code')
+(10054, N'BudgetObjectCode', N'Budget Object Code'),
+(10055, N'ObligationItem', N'Obligation Item')

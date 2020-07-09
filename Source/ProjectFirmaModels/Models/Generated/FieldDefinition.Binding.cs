@@ -357,6 +357,7 @@ namespace ProjectFirmaModels.Models
         ObligatedFunding = 10051,
         ExpendedFunding = 10052,
         PnBudget = 10053,
-        BudgetObjectCode = 10054
+        BudgetObjectCode = 10054,
+        ObligationItem = 10055
     }
 }

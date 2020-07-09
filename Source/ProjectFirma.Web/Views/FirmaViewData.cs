@@ -376,6 +376,10 @@ namespace ProjectFirma.Web.Views
                 //agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationItemBudgetIndex()), currentFirmaSession, $"Full Obligation Item Budgets List", "Group2"));
                 agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ContractualInvoiceIndex()), currentFirmaSession, $"Full Contractual Invoice List", "Group2"));
             }
+            if (new ObligationItemViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationItemController>(c => c.ObligationItemIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.ObligationItem.ToType().GetFieldDefinitionLabel()} List", "Group2"));
+            }
 
             if (new PnBudgetViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {

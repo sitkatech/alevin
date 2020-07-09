@@ -69,6 +69,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
+
         [ObligationViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationIndexGridJsonData()
         {
