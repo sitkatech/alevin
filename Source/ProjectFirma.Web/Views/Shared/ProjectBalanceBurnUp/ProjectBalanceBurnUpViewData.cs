@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using LtInfo.Common.Mvc;
@@ -32,12 +34,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public int CalendarYear;
         public int CalendarMonthNumber;
         public double ExpenditureAmount;
+        public string Date;
+        public double Value;
 
         public ExpenditureCalendarYearMonth(int calendarYear, int calendarMonthNumber, double expenditureAmount)
         {
             CalendarYear = calendarYear;
             CalendarMonthNumber = calendarMonthNumber;
             ExpenditureAmount = expenditureAmount;
+            Value = expenditureAmount;
+            Date = new DateTime(calendarYear, calendarMonthNumber, 01).ToString(CultureInfo.InvariantCulture);
+
         }
     }
 
@@ -46,26 +53,35 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public int CalendarYear;
         public int CalendarMonthNumber;
         public double ObligationAmount;
+        public string Date;
+        public double Value;
 
         public ObligationCalendarYearMonth(int calendarYear, int calendarMonthNumber, double obligationAmount)
         {
             CalendarYear = calendarYear;
             CalendarMonthNumber = calendarMonthNumber;
             ObligationAmount = obligationAmount;
+            Value = obligationAmount;
+            Date = new DateTime(calendarYear, calendarMonthNumber, 01).ToString(CultureInfo.InvariantCulture);
         }
     }
 
-    public class ProjectionCalendarYearMonth
+    public class ProjectionCalendarYear
     {
         public int CalendarYear;
         public float FundingSourceIdentifiedProjectionAmount;
         public float NoFundingSourceIdentifiedProjectionAmount;
+        public string Date;
+        public double Value;
 
-        public ProjectionCalendarYearMonth(int calendarYear, float fundingSourceIdentifiedProjectionAmount, float noFundingSourceIdentifiedProjectionAmount)
+        public ProjectionCalendarYear(int calendarYear, float fundingSourceIdentifiedProjectionAmount, float noFundingSourceIdentifiedProjectionAmount)
         {
             CalendarYear = calendarYear;
             FundingSourceIdentifiedProjectionAmount = fundingSourceIdentifiedProjectionAmount;
             NoFundingSourceIdentifiedProjectionAmount = noFundingSourceIdentifiedProjectionAmount;
+            Value = fundingSourceIdentifiedProjectionAmount + noFundingSourceIdentifiedProjectionAmount;
+            Date = new DateTime(calendarYear, 01, 01).ToString(CultureInfo.InvariantCulture);
+            
         }
     }
 
@@ -73,7 +89,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
     {
         public List<ExpenditureCalendarYearMonth> ExpenditureCalendarYearMonths;
         public List<ObligationCalendarYearMonth> ObligationCalendarYearMonths;
-        public List<ProjectionCalendarYearMonth> ProjectionCalendarYearMonths;
+        public List<ProjectionCalendarYear> ProjectionCalendarYears;
 
         public ProjectBurnUpChartData(
             List<ProjectRunningBalanceObligationsAndExpendituresRecord>
@@ -81,7 +97,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         {
             ExpenditureCalendarYearMonths = new List<ExpenditureCalendarYearMonth>();
             ObligationCalendarYearMonths = new List<ObligationCalendarYearMonth>();
-            ProjectionCalendarYearMonths = new List<ProjectionCalendarYearMonth>();
+            ProjectionCalendarYears = new List<ProjectionCalendarYear>();
 
 
             var groupedRecords =
@@ -105,7 +121,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
                 var currentNoFundingProjections = fundingSourceNoIdentifieds.Where(p => p.CalendarYear == currentCalendarYear).ToList();
                 float noFundingSourceIdentifiedProjectAmountTotal = (float) currentNoFundingProjections.Sum(p => p.NoFundingSourceIdentifiedYet ?? 0 );
 
-                ProjectionCalendarYearMonths.Add(new ProjectionCalendarYearMonth(currentCalendarYear, fundingSourceIdentifiedProjectionAmountTotal, noFundingSourceIdentifiedProjectAmountTotal));
+                ProjectionCalendarYears.Add(new ProjectionCalendarYear(currentCalendarYear, fundingSourceIdentifiedProjectionAmountTotal, noFundingSourceIdentifiedProjectAmountTotal));
             }
 
             
