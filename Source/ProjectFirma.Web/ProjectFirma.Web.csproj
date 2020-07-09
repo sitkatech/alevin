@@ -319,6 +319,8 @@
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewData.cs" />
     <Compile Include="Views\ExcelUpload\ImportPnBudgetsExcelFileViewModel.cs" />
+    <Compile Include="Views\ObligationItem\ObligationItemDetail.cs" />
+    <Compile Include="Views\ObligationItem\ObligationItemDetailViewData.cs" />
     <Compile Include="Views\ObligationItem\ObligationItemGridSpec.cs" />
     <Compile Include="Views\ObligationItem\ObligationItemIndex.cs" />
     <Compile Include="Views\ObligationItem\ObligationItemIndexViewData.cs" />
@@ -901,6 +903,7 @@
     <Content Include="Views\ExcelUpload\ImportPnBudgetsExcelFile.cshtml" />
     <Content Include="Views\PnBudget\PnBudgetIndex.cshtml" />
     <Content Include="Views\ObligationItem\ObligationItemIndex.cshtml" />
+    <Content Include="Views\ObligationItem\ObligationItemDetail.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />

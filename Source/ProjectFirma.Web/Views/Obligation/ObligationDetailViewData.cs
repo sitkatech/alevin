@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Views.Obligation
 
             ContractualInvoiceGridName = "contractualInvoiceGrid";
             ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
-            ContractualInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ContractualObligationGridJsonData(ObligationNumber));
+            ContractualInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ContractualObligationByObligationNumberGridJsonData(ObligationNumber));
 
             ObligationItemGridName = "obligationItemForObligationNumberGrid";
             ObligationItemGridSpec = new ObligationItemGridSpec(currentFirmaSession);

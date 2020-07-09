@@ -1,0 +1,117 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ObligationItemDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@inherits ProjectFirma.Web.Views.ObligationItem.ObligationItemDetail
+
+
+
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+
+    <style>
+        th {
+            white-space: nowrap;
+        }
+
+        .chartHeader, a.chartHeader {
+            font-weight: normal;
+        }
+
+        .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
+            background-color: #0b406b;
+            color: #fff;
+        }
+
+        .nav > li.disabled > a, .nav-tabs > li.disabled > a:hover, .nav-tabs > li.disabled > a:focus {
+            background-color: #ccc;
+        }
+
+        .panel-heading h1, .panel-heading h2, .panel-heading h3, .panel-heading h4 {
+            margin: 0;
+        }
+
+        .panel-primary .panel-heading h4 {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .rightOfPageTitle {
+            margin: 0;
+        }
+    </style>
+}
+
+<div>
+    <a class="btn backButton" href="@ViewDataTyped.ObligationItemIndexUrl">
+        @BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-chevron-left")
+        Back to all @FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName
+    </a>
+</div>
+
+<div class="row">
+    <div class="col-lg-6 col-md-5">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    @*No edit for Obligation Item to start with.*@
+                    @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit {0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)*@
+                    Basics
+                </h2>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">@FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName Key</div>
+                    <div class="col-xs-7">@ViewDataTyped.ObligationItem.ObligationItemKey</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Obligation Number</div>
+                    <div class="col-xs-7">@ViewDataTyped.ObligationItem.ObligationNumber.ObligationNumberKey</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="panel panelFirma">
+            <div class="panel-heading panelTitle">
+                <h2>
+                    Contractual Invoices
+                </h2>
+            </div>
+            <div class="panel-body">
+                @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

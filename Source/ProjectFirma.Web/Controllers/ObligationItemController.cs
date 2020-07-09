@@ -22,6 +22,14 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ObligationItemIndex, ObligationItemIndexViewData>(viewData);
         }
 
+        [ObligationItemViewFeature]
+        public ViewResult ObligationItemDetail(ObligationItemPrimaryKey obligationItemPrimaryKey)
+        {
+            var obligationItem = obligationItemPrimaryKey.EntityObject;
+            var viewData = new ObligationItemDetailViewData(CurrentFirmaSession, obligationItem);
+            return RazorView<ObligationItemDetail, ObligationItemDetailViewData>(viewData);
+        }
+
 
 
         [ObligationItemViewFeature]

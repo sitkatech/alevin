@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Controllers
         */
 
         [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationGridJsonData(ObligationNumberPrimaryKey obligationNumberPrimaryKey)
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationByObligationNumberGridJsonData(ObligationNumberPrimaryKey obligationNumberPrimaryKey)
         {
             var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var obligationNumber = obligationNumberPrimaryKey.EntityObject;
@@ -67,6 +67,17 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationByObligationItemGridJsonData(ObligationItemPrimaryKey obligationItemPrimaryKey)
+        {
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
+            var obligationItem = obligationItemPrimaryKey.EntityObject;
+            var obligationItemBudgets = obligationItem.GetWbsElementObligationItemBudgetsSorted();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
 
 
 
