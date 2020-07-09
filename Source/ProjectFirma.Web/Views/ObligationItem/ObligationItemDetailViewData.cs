@@ -34,7 +34,6 @@ namespace ProjectFirma.Web.Views.ObligationItem
         public ProjectFirmaModels.Models.ObligationItem ObligationItem { get; }
         public string ObligationItemIndexUrl { get; }
 
-
         public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
         public string ContractualInvoiceGridName { get; }
         public string ContractualInvoiceGridDataUrl { get; }
@@ -43,18 +42,15 @@ namespace ProjectFirma.Web.Views.ObligationItem
         public ObligationItemDetailViewData(FirmaSession currentFirmaSession,
                                         ProjectFirmaModels.Models.ObligationItem obligationItem) : base(currentFirmaSession)
         {
-            PageTitle = $"{FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName}: {obligationItem.ObligationItemKey}";
+            PageTitle = $"{FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName}: {obligationItem.GetDisplayName()}";
             EntityName = $"{FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName} Detail";
             
             ObligationItem = obligationItem;
             ObligationItemIndexUrl = SitkaRoute<ObligationItemController>.BuildUrlFromExpression(c => c.ObligationItemIndex());
 
-    
-
             ContractualInvoiceGridName = "contractualInvoiceGrid";
             ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
             ContractualInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ContractualObligationByObligationItemGridJsonData(ObligationItem));
-
         }
 
 

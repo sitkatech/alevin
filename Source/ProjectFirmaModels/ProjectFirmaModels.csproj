@@ -1020,6 +1020,7 @@
     <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\ISortingGroup.cs" />
     <Compile Include="Models\ExternalMapLayer.cs" />
+    <Compile Include="Models\ObligationItem.cs" />
     <Compile Include="Models\PerformanceMeasure.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedSubcategoryOptionUpdate.cs" />
     <Compile Include="Models\PerformanceMeasureExpectedUpdate.cs" />
