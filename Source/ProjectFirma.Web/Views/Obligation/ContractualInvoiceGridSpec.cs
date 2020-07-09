@@ -48,7 +48,11 @@ namespace ProjectFirma.Web.Views.Obligation
             Add("Budget Object Code FBMS Year", ci => GetBudgetObjectCodeFmsYearAsString(ci.BudgetObjectCode), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), ci => UrlTemplate.MakeHrefString(ci.FundingSource.GetDetailUrl(), ci.FundingSource.FundingSourceName), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Unexpended Balance", ci => ci.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add("Posting Date", ob => ob.PostingDatePerSplKey.ToStringDate(), 80, DhtmlxGridColumnFilterType.FormattedNumeric);
+            Add("Posting Date", ob => ob.PostingDatePerSplKey, 80, DhtmlxGridColumnFormatType.Date);
+
+            
+
+
         }
 
         private const string UnknownString = "(Unknown)";
