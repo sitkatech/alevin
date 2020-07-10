@@ -324,19 +324,13 @@ namespace ProjectFirma.Web.Controllers
                 if (!(ex is SitkaDisplayErrorException))
                 {
                     // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
-                    var errorLogMessage = string.Format(
-                        "Unexpected exception while uploading Excel file by PersonID {0} ({1}). Original filename \"{4}\" File saved at \"{2}\".\r\nException Details:\r\n{3}",
-                        CurrentFirmaSession.PersonID,
-                        CurrentFirmaSession.Person.GetFullNameFirstLast(),
-                        tempExcelFilename,
-                        optionalOriginalFilename,
-                        ex);
+                    var errorLogMessage =
+                        $"Unexpected exception while uploading Excel file by PersonID {CurrentFirmaSession.PersonID} ({CurrentFirmaSession.Person.GetFullNameFirstLast()}). Original filename \"{optionalOriginalFilename}\" File saved at \"{tempExcelFilename}\".\r\nException Details:\r\n{ex}";
                     SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
                 }
 
-                var errorMessage = string.Format(
-                    "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>Nothing was saved to the database.</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
-                    optionalOriginalFilename, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
+                var errorMessage =
+                    $"There was a problem uploading your spreadsheet \"{optionalOriginalFilename}\": <br/><div style=\"\">{ex.Message}</div><br/><div>Nothing was saved to the database.</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{FirmaWebConfiguration.SitkaSupportEmail}\">{FirmaWebConfiguration.SitkaSupportEmail}</a> with a note and we will try to help out.";
                 // We originally did not do this, assuming the user would self correct, but it turns out Dorothy was expecting us to see crashes and respond, which is fine.
                 // So, instead, we'll send an error email for each and every problem, even the ones we understand. -- SLG 7/9/2020
                 SitkaLogger.Instance.LogDetailedErrorMessage(errorMessage);
