@@ -36,13 +36,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public double ExpenditureAmount;
         public string Date;
         public double Value;
+        public double CumulativeValue;
 
-        public ExpenditureCalendarYearMonth(int calendarYear, int calendarMonthNumber, double expenditureAmount)
+        public ExpenditureCalendarYearMonth(int calendarYear, int calendarMonthNumber, double expenditureAmount,
+            double cumulativeExpenditureAmount)
         {
             CalendarYear = calendarYear;
             CalendarMonthNumber = calendarMonthNumber;
             ExpenditureAmount = expenditureAmount;
             Value = expenditureAmount;
+            CumulativeValue = cumulativeExpenditureAmount;
             Date = new DateTime(calendarYear, calendarMonthNumber, 01).ToString(CultureInfo.InvariantCulture);
 
         }
@@ -55,13 +58,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public double ObligationAmount;
         public string Date;
         public double Value;
+        public double CumulativeValue;
 
-        public ObligationCalendarYearMonth(int calendarYear, int calendarMonthNumber, double obligationAmount)
+        public ObligationCalendarYearMonth(int calendarYear, int calendarMonthNumber, double obligationAmount,
+            double cumulativeObligationAmount)
         {
             CalendarYear = calendarYear;
             CalendarMonthNumber = calendarMonthNumber;
             ObligationAmount = obligationAmount;
             Value = obligationAmount;
+            CumulativeValue = cumulativeObligationAmount;
             Date = new DateTime(calendarYear, calendarMonthNumber, 01).ToString(CultureInfo.InvariantCulture);
         }
     }
@@ -73,18 +79,21 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public float NoFundingSourceIdentifiedProjectionAmount;
         public string Date;
         public double Value;
+        public double CumulativeValue;
 
-        public ProjectionCalendarYear(int calendarYear, float fundingSourceIdentifiedProjectionAmount, float noFundingSourceIdentifiedProjectionAmount)
+        public ProjectionCalendarYear(int calendarYear, float fundingSourceIdentifiedProjectionAmount,
+            float noFundingSourceIdentifiedProjectionAmount, double cumulativeProjectionAmount)
         {
             CalendarYear = calendarYear;
             FundingSourceIdentifiedProjectionAmount = fundingSourceIdentifiedProjectionAmount;
             NoFundingSourceIdentifiedProjectionAmount = noFundingSourceIdentifiedProjectionAmount;
             Value = fundingSourceIdentifiedProjectionAmount + noFundingSourceIdentifiedProjectionAmount;
+            CumulativeValue = cumulativeProjectionAmount;
             Date = new DateTime(calendarYear, 01, 01).ToString(CultureInfo.InvariantCulture);
             
         }
     }
-
+    
     public class ProjectBurnUpChartData
     {
         public List<ExpenditureCalendarYearMonth> ExpenditureCalendarYearMonths;
@@ -113,25 +122,32 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
             var fundingSourceNoIdentifieds = project.ProjectNoFundingSourceIdentifieds;
 
             List<int> calendarYears = projections.Select(x => x.CalendarYear.Value).Distinct().OrderBy(y => y).ToList();
+            double cumulativeProjectionAmount = 0;
             foreach (var currentCalendarYear in calendarYears)
             {
                 var currentProjections = projections.Where(p => p.CalendarYear == currentCalendarYear).ToList();
                 float fundingSourceIdentifiedProjectionAmountTotal = (float) currentProjections.Sum(p => p.ProjectedAmount ?? 0);
+                cumulativeProjectionAmount += fundingSourceIdentifiedProjectionAmountTotal;
+
 
                 var currentNoFundingProjections = fundingSourceNoIdentifieds.Where(p => p.CalendarYear == currentCalendarYear).ToList();
                 float noFundingSourceIdentifiedProjectAmountTotal = (float) currentNoFundingProjections.Sum(p => p.NoFundingSourceIdentifiedYet ?? 0 );
+                cumulativeProjectionAmount += noFundingSourceIdentifiedProjectAmountTotal;
 
-                ProjectionCalendarYears.Add(new ProjectionCalendarYear(currentCalendarYear, fundingSourceIdentifiedProjectionAmountTotal, noFundingSourceIdentifiedProjectAmountTotal));
+                ProjectionCalendarYears.Add(new ProjectionCalendarYear(currentCalendarYear, fundingSourceIdentifiedProjectionAmountTotal, noFundingSourceIdentifiedProjectAmountTotal, cumulativeProjectionAmount));
             }
 
-            
+            double cumulativeExpenditureAmount = 0;
+            double cumulativeObligationAmount = 0;
             foreach (var groupedRecord in groupedRecords)
             {
                 var expenditureAmount = groupedRecord.Sum(x => x.Expenditures);
-                ExpenditureCalendarYearMonths.Add(new ExpenditureCalendarYearMonth(groupedRecord.Key.CalendarYear, groupedRecord.Key.CalendarMonthNumber, expenditureAmount));
+                cumulativeExpenditureAmount += expenditureAmount;
+                ExpenditureCalendarYearMonths.Add(new ExpenditureCalendarYearMonth(groupedRecord.Key.CalendarYear, groupedRecord.Key.CalendarMonthNumber, expenditureAmount, cumulativeExpenditureAmount));
 
                 var obligationAmount = groupedRecord.Sum(x => x.Obligations);
-                ObligationCalendarYearMonths.Add(new ObligationCalendarYearMonth(groupedRecord.Key.CalendarYear, groupedRecord.Key.CalendarMonthNumber, obligationAmount));
+                cumulativeObligationAmount += obligationAmount;
+                ObligationCalendarYearMonths.Add(new ObligationCalendarYearMonth(groupedRecord.Key.CalendarYear, groupedRecord.Key.CalendarMonthNumber, obligationAmount, cumulativeObligationAmount));
 
             }
         }

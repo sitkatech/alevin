@@ -37,6 +37,20 @@
 <style>
     .tableFixedHead tbody { overflow-y: auto; height: 300px; }
     .tableFixedHead thead th { position: sticky; top: 0; background-color: #fff; }
+
+
+    path.line {
+        fill: none;
+    }
+    path.line-0 {
+        stroke: #ed3700;
+    }
+    path.line-1 {
+        stroke: blue;
+    }
+    path.line-2 {
+        stroke: green;
+    }
 </style>
 <div>
 
@@ -49,23 +63,79 @@
 
 <script type="text/javascript">
     var rawData = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectBurnUpChartData).ToString());
-    var margin = {top: 50, right: 50, bottom: 50, left: 75}
 
+
+    var margin = {top: 50, right: 50, bottom: 50, left: 75}
     var width = 960;
     var height = 500;
     var dollarFormat = function (d) { return '$' + d3.format(",.0f")(d) };
-
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
     var timeConv = d3.timeParse("%m/%d/%Y 00:00:00");
 
-    // lets set up the data into simple sets with keys and values
+    // set up the data into simple sets with keys and values for the line graph
     var data = [];
     var keys = Object.keys(rawData);
-    keys.forEach(function(key) {
+    keys.forEach(function (key) {
         data.push({
             id: key,
             values: rawData[key]
         });
     });
+
+
+    // all date values for the x axis
+    var allXValues = data.map(function (d) {
+        return d.values.map(x => timeConv(x.Date));
+    }).flat();
+
+    // pad the months with one extra at the front and the end
+    var minDate = d3.min(allXValues)
+
+    var newMinDate = new Date();
+    newMinDate.setDate(minDate.getDate());
+    newMinDate.setFullYear(minDate.getFullYear());
+    newMinDate.setMonth(minDate.getMonth() - 1);
+    allXValues.push(newMinDate);
+
+    var maxDate = d3.max(allXValues)
+
+    var newMaxDate = new Date();
+    newMaxDate.setDate(maxDate.getDate());
+    newMaxDate.setFullYear(maxDate.getFullYear());
+    newMaxDate.setMonth(maxDate.getMonth() + 1);
+    allXValues.push(newMaxDate);
+
+    var allYValues = data.map(function (d) {
+        return d.values.map(x => [x.CumulativeValue, x.Value]).flat();
+    }).flat();
+
+    
+    // setup the data for the bar graph portion
+    var barData = []
+    allXValues.forEach(function (xValue) {
+        var newObject = {}
+        newObject.key = xValue;
+        newObject.values = [];
+        for (var i = 0; i < data.length; i++) {
+            //var test = data[i].values.map(x => (timeConv(x.Date) === xValue) ? return x.Value; : return null);
+            var barDataValues = data[i].values.filter(function (x) {
+                if (timeConv(x.Date).toString() === xValue.toString()) {
+                    return true;
+                }
+                return false;
+            }).map(function (y) {
+                return { Name: data[i].id, Value: y.Value}
+            });
+
+            if (barDataValues[0]) {
+                newObject.values.push(barDataValues[0]);
+            }
+        }
+        barData.push(newObject);
+    });
+    console.log('bar graph data', barData)
+
+
     var svg = d3.select("#BurnUpChart")
         .append("svg")
         .attr("viewBox", [0, 0, width, height]);
@@ -73,13 +143,17 @@
 
     // Y Scale and Axis
     var yScale = d3.scaleLinear().rangeRound([height - margin.bottom, margin.top]);
-    var allYValues = data.map(function(d) {
-        return d.values.map(x => x.Value);
-    }).flat();
+    // need a separate scale for the bars since the line scale is inverted
+    var yScaleBars = d3.scaleLinear().rangeRound([0, height - margin.top - margin.bottom]);
 
+    // setting up the domains  (min and max of values)
     yScale.domain(
         [d3.min(allYValues), d3.max(allYValues) + (d3.max(allYValues) / 10)]
     );
+    yScaleBars.domain(
+        [d3.min(allYValues), d3.max(allYValues) + (d3.max(allYValues) / 10)]
+    );
+
     var yAxis = d3.axisLeft()
         .ticks(10)
         .tickFormat(dollarFormat)
@@ -88,20 +162,25 @@
     svg.append("g")
         .attr('class', "axis")
         .attr("transform", "translate(" + margin.left + ",0)")
-        .call(yAxis)
+        .call(yAxis);
 
 
     // X Scale and Axis
     var xScale = d3.scaleTime().range([margin.left, width - margin.right]);
+    var xScaleBars = d3.scaleBand();
 
-    var allXValues = data.map(function (d) {
-        return d.values.map(x => timeConv(x.Date));
-    }).flat();
     xScale.domain(d3.extent(allXValues));
+
+    // create the x axis
     var xAxis = d3.axisBottom(xScale)
         .ticks(d3.timeMonth.every(1))
         .tickFormat(d3.timeFormat('%b %Y'))
 
+    // calculate tick distance
+    var ticks = xAxis.scale().ticks();
+    var tickDistance = xScale(ticks[ticks.length - 1]) - xScale(ticks[ticks.length - 2]);
+
+    xScaleBars.domain(keys).rangeRound([0, (tickDistance / 3)]).padding(.1);
 
     svg.append("g")
         .attr('class', "axis")
@@ -114,8 +193,52 @@
         .attr("transform", "rotate(-65)");
 
 
+    // lines
+    var lineClassID = 0;
+    var lineClass = function () {
+        return "line line-" + lineClassID++;
+    }
 
+    var line = d3.line()
+        .x(function (d) { return xScale(timeConv(d.Date)); })
+        .y(function (d) { return yScale(d.CumulativeValue); });
+
+    var lines = svg.selectAll("lines")
+        .data(data)
+        .enter()
+        .append("g");
+
+    lines.append("path")
+        .attr('class', lineClass)
+        .attr("d", function (d) { return line(d.values); });
+
+
+    //bars
+
+    var slice = svg.selectAll(".slice")
+        .data(barData)
+        .enter().append("g")
+        .attr("class", "slice")
+        .attr("transform", function (d) {
+            return "translate(" + (xScale(d.key) - ((xAxis.tickSize() * 5) / 2)) + ",0)";
+        }).on("mouseover", function(d) {
+            console.log(d)
+        });
     
-    
-    
+    slice.selectAll("rect")
+        .data(function(d) { return d.values; })
+        .enter().append("rect")
+        .attr("width", xScaleBars.bandwidth())
+        .attr("x", function (d) {
+            return xScaleBars(d.Name);
+        })
+        .style("fill", function(d) { return color(d.Name) })
+        .attr("y", function(d) { return yScale(d.Value); })
+        .attr("height", function (d) {
+            return yScaleBars(d.Value);
+        }).on("mouseover", function (d) {
+            console.log(d)
+        })
+        
+
 </script>
