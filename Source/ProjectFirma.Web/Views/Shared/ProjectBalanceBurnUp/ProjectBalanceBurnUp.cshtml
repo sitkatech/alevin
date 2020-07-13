@@ -42,15 +42,17 @@
     path.line {
         fill: none;
     }
-    path.line-0 {
-        stroke: #ed3700;
+    .tooltip {
+        background: #fff;
+        border: 1px solid #244A9F;
+        border-radius: 3px;
+        padding: 3px;
     }
-    path.line-1 {
-        stroke: blue;
+    dl {
+        padding: 0;
+        margin: 0;
     }
-    path.line-2 {
-        stroke: green;
-    }
+    
 </style>
 <div>
 
@@ -70,7 +72,7 @@
     var height = 500;
     var dollarFormat = function (d) { return '$' + d3.format(",.0f")(d) };
     var color = d3.scaleOrdinal(d3.schemeCategory10);
-    var timeConv = d3.timeParse("%m/%d/%Y 00:00:00");
+    var timeConv = d3.timeParse("%m/%d/%Y");
 
     // set up the data into simple sets with keys and values for the line graph
     var data = [];
@@ -82,11 +84,19 @@
         });
     });
 
-
+    console.log('data', data)
     // all date values for the x axis
-    var allXValues = data.map(function (d) {
+    var allXValuesNotDistinct = data.map(function (d) {
+        console.log('date', d.values[0].Date)
         return d.values.map(x => timeConv(x.Date));
     }).flat();
+
+    var allXValues = []
+    for (var i = 0; i < allXValuesNotDistinct.length; i++) {
+        var found = allXValues.find(item => { return item.getTime() == allXValuesNotDistinct[i].getTime() })
+        if (!found)
+            allXValues.push(allXValuesNotDistinct[i]);
+    }
 
     // pad the months with one extra at the front and the end
     var minDate = d3.min(allXValues)
@@ -108,10 +118,13 @@
     var allYValues = data.map(function (d) {
         return d.values.map(x => [x.CumulativeValue, x.Value]).flat();
     }).flat();
+    // add 0 to the array of all y values to make sure the domain starts at 0
+    allYValues.push(0);
 
     
     // setup the data for the bar graph portion
     var barData = []
+    console.log('all x values', allXValues)
     allXValues.forEach(function (xValue) {
         var newObject = {}
         newObject.key = xValue;
@@ -124,7 +137,7 @@
                 }
                 return false;
             }).map(function (y) {
-                return { Name: data[i].id, Value: y.Value}
+                return { Name: data[i].id, Value: y.Value, TooltipHtml: y.TooltipHtml}
             });
 
             if (barDataValues[0]) {
@@ -193,6 +206,13 @@
         .attr("transform", "rotate(-65)");
 
 
+    // tooltip 
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("position", "absolute");
+
+
     // lines
     var lineClassID = 0;
     var lineClass = function () {
@@ -210,20 +230,57 @@
 
     lines.append("path")
         .attr('class', lineClass)
+        .attr('stroke', function (d) { return color(d.id); })
+        .attr("stroke-width", "2px")
         .attr("d", function (d) { return line(d.values); });
 
+    lines.selectAll("circles")
+        .data(function(d) { return(d.values); } )
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+            return xScale(timeConv(d.Date));
+        })      
+        .attr("cy", function(d) { return yScale(d.CumulativeValue); })    
+        .attr('r', 5)
+        .style("opacity", 0.25)
+        .style('fill', function (d, i, j) {
+            return color(this.parentNode.__data__.id);
+        })
+        .on('mouseover', function (d) {
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+            tooltip.transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+
+            tooltip.html(d.TooltipHtml)
+                .style("left", (d3.event.pageX + 25) + "px")
+                .style("top", (d3.event.pageY) + "px")  
+        })
+
+        .on("mouseout", function(d) {      
+            tooltip.transition()        
+                .duration(100)      
+                .style("opacity", 0);   
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 0.25);
+        });
 
     //bars
-
     var slice = svg.selectAll(".slice")
         .data(barData)
         .enter().append("g")
         .attr("class", "slice")
-        .attr("transform", function (d) {
-            return "translate(" + (xScale(d.key) - ((xAxis.tickSize() * 5) / 2)) + ",0)";
-        }).on("mouseover", function(d) {
-            console.log(d)
-        });
+        .attr("transform",
+            function(d) {
+                return "translate(" + (xScale(d.key) - ((xAxis.tickSize() * 5) / 2)) + ",0)";
+            });
     
     slice.selectAll("rect")
         .data(function(d) { return d.values; })
@@ -236,9 +293,35 @@
         .attr("y", function(d) { return yScale(d.Value); })
         .attr("height", function (d) {
             return yScaleBars(d.Value);
-        }).on("mouseover", function (d) {
-            console.log(d)
         })
-        
+        .on("mouseover", function (d) {
+            console.log('mouseover');
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 0.5);
+            tooltip.transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+
+            tooltip.html(d.TooltipHtml)
+                .style("left", (d3.event.pageX + 25) + "px")
+                .style("top", (d3.event.pageY) + "px") 
+        })
+        .on("mouseout", function (d) {      
+            console.log('mouseout')
+            tooltip.transition()        
+                .duration(100)      
+                .style("opacity", 0);   
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+        });
+
+
+    //tooltips
+
 
 </script>

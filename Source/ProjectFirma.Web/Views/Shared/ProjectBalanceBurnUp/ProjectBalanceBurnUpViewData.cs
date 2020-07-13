@@ -37,6 +37,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public string Date;
         public double Value;
         public double CumulativeValue;
+        public string TooltipHtml;
 
         public ExpenditureCalendarYearMonth(int calendarYear, int calendarMonthNumber, double expenditureAmount,
             double cumulativeExpenditureAmount)
@@ -46,8 +47,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
             ExpenditureAmount = expenditureAmount;
             Value = expenditureAmount;
             CumulativeValue = cumulativeExpenditureAmount;
-            Date = new DateTime(calendarYear, calendarMonthNumber, 01).ToString(CultureInfo.InvariantCulture);
-
+            var dateTime = new DateTime(calendarYear, calendarMonthNumber, 01);
+            Date = dateTime.ToString("MM/dd/yyyy");
+            TooltipHtml = "<dl>" +
+                          "<dt>Date</dt>" +
+                          $"<dd>{dateTime:MM/dd/yyyy}</dd>" +
+                          "<dt>Expenditures</dt>" +
+                          $"<dd>{new Money((decimal)Value).ToStringCurrency()}</dd>" +
+                          "<dt>Cumulative Expenditures</dt>" +
+                          $"<dd>{new Money((decimal)CumulativeValue).ToStringCurrency()}</dd>" +
+                          "</dl>";
         }
     }
 
@@ -59,6 +68,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public string Date;
         public double Value;
         public double CumulativeValue;
+        public string TooltipHtml;
 
         public ObligationCalendarYearMonth(int calendarYear, int calendarMonthNumber, double obligationAmount,
             double cumulativeObligationAmount)
@@ -68,7 +78,16 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
             ObligationAmount = obligationAmount;
             Value = obligationAmount;
             CumulativeValue = cumulativeObligationAmount;
-            Date = new DateTime(calendarYear, calendarMonthNumber, 01).ToString(CultureInfo.InvariantCulture);
+            var dateTime = new DateTime(calendarYear, calendarMonthNumber, 01);
+            Date = dateTime.ToString("MM/dd/yyyy");
+            TooltipHtml = "<dl>" +
+                          "<dt>Date</dt>" +
+                          $"<dd>{dateTime:MM/dd/yyyy}</dd>" +
+                          "<dt>Obligation</dt>" +
+                          $"<dd>{new Money((decimal)Value).ToStringCurrency()}</dd>" +
+                          "<dt>Cumulative Obligation</dt>" +
+                          $"<dd>{new Money((decimal)CumulativeValue).ToStringCurrency()}</dd>" +
+                          "</dl>";
         }
     }
 
@@ -80,6 +99,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
         public string Date;
         public double Value;
         public double CumulativeValue;
+        public string TooltipHtml;
 
         public ProjectionCalendarYear(int calendarYear, float fundingSourceIdentifiedProjectionAmount,
             float noFundingSourceIdentifiedProjectionAmount, double cumulativeProjectionAmount)
@@ -89,8 +109,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
             NoFundingSourceIdentifiedProjectionAmount = noFundingSourceIdentifiedProjectionAmount;
             Value = fundingSourceIdentifiedProjectionAmount + noFundingSourceIdentifiedProjectionAmount;
             CumulativeValue = cumulativeProjectionAmount;
-            Date = new DateTime(calendarYear, 01, 01).ToString(CultureInfo.InvariantCulture);
-            
+            var dateTime = new DateTime(calendarYear, 01, 01);
+            Date = dateTime.ToString("MM/dd/yyyy");
+            TooltipHtml = "<dl>" +
+                          "<dt>Date</dt>" +
+                          $"<dd>{dateTime:MM/dd/yyyy}</dd>" +
+                          "<dt>Projection</dt>" +
+                          $"<dd>{new Money((decimal)Value).ToStringCurrency()}</dd>" +
+                          "<dt>Cumulative Projection</dt>" +
+                          $"<dd>{new Money((decimal)CumulativeValue).ToStringCurrency()}</dd>" +
+                          "</dl>";
+
         }
     }
     
