@@ -125,7 +125,7 @@
     var allYValues = data.map(function (d) {
         return d.values.map(x => [x.CumulativeValue, x.Value]).flat();
     }).flat();
-    // add 0 to the array of all y values to make sure the domain starts at 0
+    // add 0 to the array of all y values to make sure the domain contains 0
     allYValues.push(0);
 
     
@@ -161,7 +161,7 @@
 
 
     // Y Scale and Axis
-    var yScale = d3.scaleLinear().rangeRound([height - margin.bottom, margin.top]);
+    var yScale = d3.scaleLinear().range([height - margin.bottom, margin.top]);
     // need a separate scale for the bars since the line scale is inverted
     var yScaleBars = d3.scaleLinear().rangeRound([0, height - margin.top - margin.bottom]);
 
@@ -203,18 +203,27 @@
     var xScale = d3.scaleTime().range([margin.left, width - margin.right]);
     var xScaleBars = d3.scaleBand();
 
-    xScale.domain(d3.extent(allXValues));
+    xScale.domain(d3.extent(allXValues)).nice();
 
     // create the x axis
     var xAxis = d3.axisBottom(xScale)
-        .ticks(d3.timeMonth.every(1))
+
+    var ticksTest = xAxis
+        .ticks(d3.timeMonth.every(1));
+    ticksTest
         .tickFormat(d3.timeFormat('%b %Y'))
 
     // calculate tick distance
+    
     var ticks = xAxis.scale().ticks();
-    var tickDistance = xScale(ticks[ticks.length - 1]) - xScale(ticks[ticks.length - 2]);
+    console.log(xScale(ticks[ticks.length - 1]));
+    console.log(xScale(ticks[ticks.length - 2]));
+    console.log(xScale.ticks())
+    var tickDistance = xScale(allXValues[0]) - xScale(allXValues[1]);
 
-    xScaleBars.domain(keys).rangeRound([0, (tickDistance / 3)]).padding(.1);
+    console.log('tick distance', tickDistance)
+
+    xScaleBars.domain(keys).rangeRound([0, tickDistance]).padding(.1);
 
     svg.append("g")
         .attr('class', "axis")
@@ -314,9 +323,12 @@
         .attr("class", "slice")
         .attr("transform",
             function(d) {
-                return "translate(" + (xScale(d.key) - ((xAxis.tickSize() * 5) / 2)) + ",0)";
+                return "translate(" + (xScale(d.key) - (tickDistance / 2)) + ",0)";
             });
-    
+
+    console.log('test', Math.abs(yScale(-686) - yScale(0)));
+
+
     slice.selectAll("rect")
         .data(function(d) { return d.values; })
         .enter().append("rect")
@@ -325,9 +337,11 @@
             return xScaleBars(d.Name);
         })
         .style("fill", function(d) { return color(d.Name) })
-        .attr("y", function(d) { return yScale(d.Value); })
+        .attr("y", function (d) {
+            return yScale(Math.max(d.Value, 0));
+        })
         .attr("height", function (d) {
-            return yScaleBars(d.Value);
+            return Math.abs(yScale(d.Value) - yScale(0));
         })
         .on("mouseover", function (d) {
             console.log('mouseover');
