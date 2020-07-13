@@ -1,0 +1,411 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectRunningBalance.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using Microsoft.Ajax.Utilities
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp.ProjectBalanceBurnUp
+
+@functions {
+    
+
+}
+
+
+
+
+<style>
+    .tableFixedHead tbody { overflow-y: auto; height: 300px; }
+    .tableFixedHead thead th { position: sticky; top: 0; background-color: #fff; }
+
+
+    path.line {
+        fill: none;
+        shape-rendering: geometricPrecision;
+    }
+    .tooltip {
+        background: #fff;
+        border: 1px solid #244A9F;
+        border-radius: 3px;
+        padding: 3px;
+    }
+    dl {
+        padding: 0;
+        margin: 0;
+    }
+    .grid line {
+        stroke-width: 2;
+        stroke: lightgrey;
+        stroke-opacity: 0.7;
+        shape-rendering: crispEdges;
+    }
+    .grid path { stroke: none;}
+    
+</style>
+<div>
+
+    <div id="BurnUpChart"></div>
+
+</div>
+
+<script src="https://d3js.org/d3.v5.min.js"></script>
+
+
+<script type="text/javascript">
+    var rawData = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectBurnUpChartData).ToString());
+
+    var margin = {top: 75, right: 50, bottom: 60, left: 75}
+    var width = 960;
+    var height = 525;
+    var dollarFormat = function (d) { return '$' + d3.format(",.0f")(d) };
+    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    var timeConv = d3.timeParse("%m/%d/%Y");
+
+    // set up the data into simple sets with keys and values for the line graph
+    var data = [];
+    var keys = Object.keys(rawData);
+    keys.forEach(function (key) {
+        data.push({
+            id: key,
+            values: rawData[key]
+        });
+    });
+    //console.log('line data', data)
+
+    // all date values for the x axis
+    var allXValuesNotDistinct = data.map(function (d) {
+        return d.values.map(x => timeConv(x.Date));
+    }).flat();
+
+    var allXValues = []
+    for (var i = 0; i < allXValuesNotDistinct.length; i++) {
+        var found = allXValues.find(item => { return item.getTime() == allXValuesNotDistinct[i].getTime() })
+        if (!found)
+            allXValues.push(allXValuesNotDistinct[i]);
+    }
+
+    // pad the months with one extra at the front and the end
+    var minDate = d3.min(allXValues)
+
+    var newMinDate = new Date();
+    newMinDate.setDate(minDate.getDate());
+    newMinDate.setFullYear(minDate.getFullYear());
+    newMinDate.setMonth(minDate.getMonth() - 1);
+    allXValues.push(newMinDate);
+
+    var maxDate = d3.max(allXValues)
+
+    var newMaxDate = new Date();
+    newMaxDate.setDate(maxDate.getDate());
+    newMaxDate.setFullYear(maxDate.getFullYear());
+    newMaxDate.setMonth(maxDate.getMonth() + 1);
+    allXValues.push(newMaxDate);
+    allXValues.sort((a, b) => a - b);
+
+    var allYValues = data.map(function (d) {
+        return d.values.map(x => [x.CumulativeValue, x.Value]).flat();
+    }).flat();
+    // add 0 to the array of all y values to make sure the domain contains 0
+    allYValues.push(0);
+
+    
+    // setup the data for the bar graph portion
+    var barData = []
+    allXValues.forEach(function (xValue) {
+        var newObject = {}
+        newObject.key = xValue;
+        newObject.values = [];
+        for (var i = 0; i < data.length; i++) {
+            //var test = data[i].values.map(x => (timeConv(x.Date) === xValue) ? return x.Value; : return null);
+            var barDataValues = data[i].values.filter(function (x) {
+                if (timeConv(x.Date).toString() === xValue.toString()) {
+                    return true;
+                }
+                return false;
+            }).map(function (y) {
+                return { Name: data[i].id, Value: y.Value, TooltipHtml: y.TooltipHtml}
+            });
+
+            if (barDataValues[0]) {
+                newObject.values.push(barDataValues[0]);
+            }
+        }
+        barData.push(newObject);
+    });
+    //console.log('bar graph data', barData)
+
+
+    var svg = d3.select("#BurnUpChart")
+        .append("svg")
+        .attr("viewBox", [0, 0, width, height]);
+
+
+    // Y Scale and Axis
+    var yScale = d3.scaleLinear().range([height - margin.bottom, margin.top]);
+    // need a separate scale for the bars since the line scale is inverted
+    var yScaleBars = d3.scaleLinear().rangeRound([0, height - margin.top - margin.bottom]);
+
+    // setting up the domains  (min and max of values)
+    yScale.domain(
+        [d3.min(allYValues), d3.max(allYValues) + (d3.max(allYValues) / 10)]
+    );
+    yScaleBars.domain(
+        [d3.min(allYValues), d3.max(allYValues) + (d3.max(allYValues) / 10)]
+    );
+
+    var yAxis = d3.axisLeft()
+        .ticks(10)
+        .tickFormat(dollarFormat)
+        .scale(yScale);
+
+    svg.append("g")
+        .attr('class', "axis")
+        .attr("transform", "translate(" + margin.left + ",0)")
+        .call(yAxis);
+
+    // horizontal grid lines
+    svg.append("g")			
+        .attr("class", "grid")
+        .call(yAxis
+            .tickSize(-width + margin.left + margin.right)
+            .tickFormat("")
+        )
+        .attr('transform', 'translate(' + margin.left + ', 0)')
+        
+
+    // X Scale and Axis
+    var xScale = d3.scaleTime().range([margin.left, width - margin.right]);
+    var xScaleBars = d3.scaleBand();
+
+    xScale.domain(d3.extent(allXValues));
+
+    // create the x axis
+    var xAxis = d3.axisBottom(xScale)
+        .ticks(d3.timeMonth.every(1))
+        .tickFormat(d3.timeFormat('%b %Y'));
+    
+
+    // calculate tick distance
+    var tickDistance = xScale(allXValues[0]) - xScale(allXValues[1]);
+
+    xScaleBars.domain(keys).rangeRound([0, tickDistance]).padding(.1);
+
+    svg.append("g")
+        .attr('class', "axis")
+        .attr("transform", "translate(0, " + (height - margin.bottom) + ")")
+        .call(xAxis)
+        .selectAll("text")
+        .style("text-anchor", "end")
+        .attr("dx", "-.8em")
+        .attr("dy", ".15em")
+        .attr("transform", "rotate(-65)");
+
+
+    // tooltip 
+    var tooltip = d3.select("body").append("div")
+        .attr("class", "tooltip")
+        .style("opacity", 0)
+        .style("position", "absolute");
+
+
+    // lines
+    var lineClassID = 0;
+    var lineClass = function () {
+        return "line line-" + lineClassID++;
+    }
+
+    var jitter_difference = 3;
+    var current_jitter = 0;
+    var jitter = function () {
+        current_jitter += jitter_difference;
+        return current_jitter;
+    }
+
+    var line = d3.line()
+        .x(function (d) { return xScale(timeConv(d.Date)); })
+        .y(function (d) { return yScale(d.CumulativeValue); });
+
+    var lines = svg.selectAll("lines")
+        .data(data)
+        .enter()
+        .append("g");
+
+    lines.each(function(d) {
+        d.jitter = jitter();
+    });
+
+    lines.append("path")
+        .attr('class', lineClass)
+        .attr('stroke', function (d) { return color(d.id); })
+        .attr("stroke-width", "2px")
+        .attr("transform", function (d) {
+            return "translate("+ d.jitter +", 0)";
+        })
+        .attr("d", function (d) { return line(d.values); });
+
+    lines.selectAll("circles")
+        .data(function(d) { return(d.values); } )
+        .enter()
+        .append("circle")
+        .attr("cx", function (d) {
+            return xScale(timeConv(d.Date)) + this.parentNode.__data__.jitter;
+        })      
+        .attr("cy", function(d) { return yScale(d.CumulativeValue); })    
+        .attr('r', 5)
+        .style("opacity", 0.25)
+        .style('fill', function (d, i, j) {
+            return color(this.parentNode.__data__.id);
+        })
+        .on('mouseover', function (d) {
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+            tooltip.transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+
+            tooltip.html(d.TooltipHtml)
+                .style("left", (d3.event.pageX + 25) + "px")
+                .style("top", (d3.event.pageY) + "px")  
+        })
+
+        .on("mouseout", function(d) {
+            tooltip.transition()
+                .duration(100)
+                .style("opacity", 0)
+                .style('pointer-events', 'none');
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 0.25);
+        });
+
+    //bars
+    var slice = svg.selectAll(".slice")
+        .data(barData)
+        .enter().append("g")
+        .attr("class", "slice")
+        .attr("transform",
+            function(d) {
+                return "translate(" + (xScale(d.key) - (tickDistance / 2)) + ",0)";
+            });
+    
+    slice.selectAll("rect")
+        .data(function(d) { return d.values; })
+        .enter().append("rect")
+        .attr("width", xScaleBars.bandwidth())
+        .attr("x", function (d) {
+            return xScaleBars(d.Name);
+        })
+        .style("fill", function(d) { return color(d.Name) })
+        .attr("y", function (d) {
+            return yScale(Math.max(d.Value, 0));
+        })
+        .attr("height", function (d) {
+            return Math.abs(yScale(d.Value) - yScale(0));
+        })
+        .on("mouseover", function (d) {
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 0.5);
+            tooltip.transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+
+            tooltip.html(d.TooltipHtml)
+                .style("left", (d3.event.pageX + 25) + "px")
+                .style("top", (d3.event.pageY) + "px") 
+        })
+        .on("mouseout", function (d) {
+            tooltip.transition()
+                .duration(100)
+                .style("opacity", 0)
+                .style('pointer-events', 'none');
+            d3.select(this).transition()
+                .delay(30)
+                .duration(200)
+                .style("opacity", 1);
+        });
+
+
+    //legend
+    var legendItemSize = 10;
+    var legendLineWidth = 20;
+
+    
+    //line legend
+    svg.selectAll('lineLegends')
+        .data(keys)
+        .enter()
+        .append('line')
+        .attr("x1", margin.left)
+        .attr("y1", function (d, i) { return i * (legendItemSize + 10) + 10;})
+        .attr("x2", margin.left + legendLineWidth)
+        .attr("y2", function (d, i) { return i * (legendItemSize + 10) + 10;})
+        .attr('stroke', function (d) { return color(d); })
+        .attr("stroke-width", "2px")
+
+  
+    svg.selectAll('lineLegendLabels')
+        .data(keys)
+        .enter()
+        .append('text')
+        .attr("x", margin.left + legendLineWidth*1.2)
+        .attr("y", function (d, i) { return i * (legendItemSize + 10) + (legendItemSize + 5); }) 
+        .style("fill", function(d) { return color(d); })
+        .text(function(d) { return "Cumulative " + d; })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+    
+
+    //bars legend
+    svg.selectAll('barLegends')
+        .data(keys)
+        .enter()
+        .append('rect')
+        .attr("x", (width / 2) + margin.left)
+        .attr("y", function (d, i) { return i * (legendItemSize + 10) + (legendItemSize / 4)  })
+        .attr("width", legendItemSize)
+        .attr("height", legendItemSize)
+        .style("fill", function (d) { return color(d) })
+
+    svg.selectAll('barLegendLabels')
+        .data(keys)
+        .enter()
+        .append('text')
+        .attr("x", (width / 2) + margin.left + legendItemSize * 1.2)
+        .attr("y", function (d, i) { return i * (legendItemSize + 10) + (legendItemSize + 5); })
+        .style("fill", function (d) { return color(d); })
+        .text(function (d) { return d; })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+
+        
+
+
+
+</script>
