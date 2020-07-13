@@ -425,7 +425,7 @@
                 </div>
             </div>
             
-            @if (ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectRunningBalanceObligationsAndExpendituresRecords.Any())
+            @if (ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectRunningBalanceObligationsAndExpendituresRecords.Any() || ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectBurnUpChartData.Projections.Any())
             {
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">

@@ -83,18 +83,14 @@
 
     // set up the data into simple sets with keys and values for the line graph
     var data = [];
-
-    console.log(rawData);
     var keys = Object.keys(rawData);
-    
-
     keys.forEach(function (key) {
         data.push({
             id: key,
             values: rawData[key]
         });
     });
-    console.log('line data', data)
+    //console.log('line data', data)
 
     // all date values for the x axis
     var allXValuesNotDistinct = data.map(function (d) {
@@ -124,6 +120,7 @@
     newMaxDate.setFullYear(maxDate.getFullYear());
     newMaxDate.setMonth(maxDate.getMonth() + 1);
     allXValues.push(newMaxDate);
+    allXValues.sort((a, b) => a - b);
 
     var allYValues = data.map(function (d) {
         return d.values.map(x => [x.CumulativeValue, x.Value]).flat();
@@ -204,11 +201,6 @@
 
     // create the x axis
     var xAxis = d3.axisBottom(xScale)
-
-    var ticksTest = xAxis
-        .ticks(d3.timeMonth.every(1));
-    ticksTest
-        .tickFormat(d3.timeFormat('%b %Y'))
 
     // calculate tick distance
     var tickDistance = xScale(allXValues[0]) - xScale(allXValues[1]);
