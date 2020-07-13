@@ -74,8 +74,6 @@
 <script type="text/javascript">
     var rawData = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectBurnUpChartData).ToString());
 
-    
-
     var margin = {top: 75, right: 50, bottom: 50, left: 75}
     var width = 960;
     var height = 525;
@@ -85,15 +83,19 @@
 
     // set up the data into simple sets with keys and values for the line graph
     var data = [];
+
+
     var keys = Object.keys(rawData);
+
+
     keys.forEach(function (key) {
         data.push({
             id: key,
             values: rawData[key]
         });
     });
+    //console.log('line data', data)
 
-    console.log('data', data)
     // all date values for the x axis
     var allXValuesNotDistinct = data.map(function (d) {
         return d.values.map(x => timeConv(x.Date));
@@ -153,7 +155,7 @@
         }
         barData.push(newObject);
     });
-    console.log('bar graph data', barData)
+    //console.log('bar graph data', barData)
 
 
     var svg = d3.select("#BurnUpChart")
@@ -184,12 +186,7 @@
         .attr("transform", "translate(" + margin.left + ",0)")
         .call(yAxis);
 
-    // gridlines in y axis function
-    function make_y_gridlines() {
-        return d3.axisLeft(yAxis)
-            .ticks(10);
-    }
-
+    // horizontal grid lines
     svg.append("g")			
         .attr("class", "grid")
         .call(yAxis
@@ -199,12 +196,11 @@
         .attr('transform', 'translate(' + margin.left + ', 0)')
         
 
-
     // X Scale and Axis
     var xScale = d3.scaleTime().range([margin.left, width - margin.right]);
     var xScaleBars = d3.scaleBand();
 
-    xScale.domain(d3.extent(allXValues)).nice();
+    xScale.domain(d3.extent(allXValues));
 
     // create the x axis
     var xAxis = d3.axisBottom(xScale)
@@ -215,14 +211,7 @@
         .tickFormat(d3.timeFormat('%b %Y'))
 
     // calculate tick distance
-    
-    var ticks = xAxis.scale().ticks();
-    console.log(xScale(ticks[ticks.length - 1]));
-    console.log(xScale(ticks[ticks.length - 2]));
-    console.log(xScale.ticks())
     var tickDistance = xScale(allXValues[0]) - xScale(allXValues[1]);
-
-    console.log('tick distance', tickDistance)
 
     xScaleBars.domain(keys).rangeRound([0, tickDistance]).padding(.1);
 
@@ -307,10 +296,11 @@
                 .style("top", (d3.event.pageY) + "px")  
         })
 
-        .on("mouseout", function(d) {      
-            tooltip.transition()        
-                .duration(100)      
-                .style("opacity", 0);   
+        .on("mouseout", function(d) {
+            tooltip.transition()
+                .duration(100)
+                .style("opacity", 0)
+                .style('pointer-events', 'none');
             d3.select(this).transition()
                 .delay(30)
                 .duration(200)
@@ -355,10 +345,11 @@
                 .style("left", (d3.event.pageX + 25) + "px")
                 .style("top", (d3.event.pageY) + "px") 
         })
-        .on("mouseout", function (d) {      
-            tooltip.transition()        
-                .duration(100)      
-                .style("opacity", 0);   
+        .on("mouseout", function (d) {
+            tooltip.transition()
+                .duration(100)
+                .style("opacity", 0)
+                .style('pointer-events', 'none');
             d3.select(this).transition()
                 .delay(30)
                 .duration(200)
