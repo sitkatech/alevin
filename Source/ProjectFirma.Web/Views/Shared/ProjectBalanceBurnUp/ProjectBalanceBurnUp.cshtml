@@ -74,7 +74,7 @@
 <script type="text/javascript">
     var rawData = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectBurnUpChartData).ToString());
 
-    var margin = {top: 75, right: 50, bottom: 50, left: 75}
+    var margin = {top: 75, right: 50, bottom: 60, left: 75}
     var width = 960;
     var height = 525;
     var dollarFormat = function (d) { return '$' + d3.format(",.0f")(d) };
@@ -84,9 +84,9 @@
     // set up the data into simple sets with keys and values for the line graph
     var data = [];
 
-
+    console.log(rawData);
     var keys = Object.keys(rawData);
-
+    
 
     keys.forEach(function (key) {
         data.push({
@@ -94,7 +94,7 @@
             values: rawData[key]
         });
     });
-    //console.log('line data', data)
+    console.log('line data', data)
 
     // all date values for the x axis
     var allXValuesNotDistinct = data.map(function (d) {
@@ -382,7 +382,7 @@
         .attr("x", margin.left + legendLineWidth*1.2)
         .attr("y", function (d, i) { return i * (legendItemSize + 10) + (legendItemSize + 5); }) 
         .style("fill", function(d) { return color(d); })
-        .text(function(d) { return d; })
+        .text(function(d) { return "Cumulative " + d; })
         .attr("text-anchor", "left")
         .style("alignment-baseline", "middle")
     
