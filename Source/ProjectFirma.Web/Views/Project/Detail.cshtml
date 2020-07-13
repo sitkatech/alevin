@@ -425,17 +425,19 @@
                 </div>
             </div>
             
-            @*Attempt at project balance charts*@
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h3 class="project-detail-heading">
-                        Project Balance Burn Up
-                    </h3>
+            @if (ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectRunningBalanceObligationsAndExpendituresRecords.Any())
+            {
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3 class="project-detail-heading">
+                            Project Balance Burn Up
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @{ ProjectBalanceBurnUp.RenderPartialView(Html, ViewDataTyped.ProjectBalanceBurnUpViewData); }
+                    </div>
                 </div>
-                <div class="panel-body">
-                    @{ ProjectBalanceBurnUp.RenderPartialView(Html, ViewDataTyped.ProjectBalanceBurnUpViewData); }
-                </div>
-            </div>
+            }
 
             @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
                 {

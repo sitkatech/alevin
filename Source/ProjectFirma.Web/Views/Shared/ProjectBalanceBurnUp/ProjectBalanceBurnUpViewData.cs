@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
                         CalendarYear = x.CalendarYear,
                         CalendarMonthNumber = x.CalendarMonthNumber
                     }
-                ).ToList();
+                ).OrderBy(x => x.Key.CalendarYear).ThenBy(x => x.Key.CalendarMonthNumber).ToList();
 
             var projections = project.ProjectFundingSourceBudgets;
             var fundingSourceNoIdentifieds = project.ProjectNoFundingSourceIdentifieds;
@@ -180,7 +180,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
                 Obligations.Add(new ObligationCalendarYearMonth(groupedRecord.Key.CalendarYear, groupedRecord.Key.CalendarMonthNumber, obligationAmount, cumulativeObligationAmount));
 
             }
+
+            Obligations = Obligations.OrderBy(x => x.CalendarYear).ThenBy(x => x.CalendarMonthNumber).ToList();
+            Expenditures = Expenditures.OrderBy(x => x.CalendarYear).ThenBy(x => x.CalendarMonthNumber).ToList();
+            Projections = Projections.OrderBy(x => x.CalendarYear).ToList();
         }
+
         public struct DataGroup
         {
             public int CalendarYear;
