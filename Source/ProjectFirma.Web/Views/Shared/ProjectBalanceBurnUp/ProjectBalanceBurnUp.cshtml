@@ -201,6 +201,9 @@
 
     // create the x axis
     var xAxis = d3.axisBottom(xScale)
+        .ticks(d3.timeMonth.every(1))
+        .tickFormat(d3.timeFormat('%b %Y'));
+    
 
     // calculate tick distance
     var tickDistance = xScale(allXValues[0]) - xScale(allXValues[1]);
