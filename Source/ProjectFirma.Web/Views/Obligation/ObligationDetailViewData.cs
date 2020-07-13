@@ -22,6 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using LtInfo.Common.DhtmlWrappers;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.ObligationItem;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Obligation
@@ -34,6 +35,10 @@ namespace ProjectFirma.Web.Views.Obligation
         public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
         public string ContractualInvoiceGridName { get; }
         public string ContractualInvoiceGridDataUrl { get; }
+
+        public ObligationItemGridSpec ObligationItemGridSpec { get; }
+        public string ObligationItemGridName { get; }
+        public string ObligationItemGridDataUrl { get; }
 
         //public ObligationItemBudgetGridSpec ObligationItemBudgetGridSpec { get; }
         //public string ObligationItemBudgetGridName { get; }
@@ -56,7 +61,11 @@ namespace ProjectFirma.Web.Views.Obligation
 
             ContractualInvoiceGridName = "contractualInvoiceGrid";
             ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);
-            ContractualInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ContractualObligationGridJsonData(ObligationNumber));
+            ContractualInvoiceGridDataUrl = SitkaRoute<ObligationController>.BuildUrlFromExpression(oc => oc.ContractualObligationByObligationNumberGridJsonData(ObligationNumber));
+
+            ObligationItemGridName = "obligationItemForObligationNumberGrid";
+            ObligationItemGridSpec = new ObligationItemGridSpec(currentFirmaSession);
+            ObligationItemGridDataUrl = SitkaRoute<ObligationItemController>.BuildUrlFromExpression(oc => oc.ObligationItemsForObligationNumberGridJsonData(ObligationNumber));
         }
 
 

@@ -36,12 +36,14 @@ namespace ProjectFirmaModels.Models
             Property(x => x.DateSentForDeptReview).HasColumnName(@"DateSentForDeptReview").HasColumnType("datetime").IsOptional();
             Property(x => x.DCApprovalDate).HasColumnName(@"DCApprovalDate").HasColumnType("datetime").IsOptional();
             Property(x => x.ActualAwardDate).HasColumnName(@"ActualAwardDate").HasColumnType("datetime").IsOptional();
+            Property(x => x.ObligationNumberID).HasColumnName(@"ObligationNumberID").HasColumnType("int").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.Agreement).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_ObligationRequest_Agreement_AgreementID
             HasRequired(a => a.ContractType).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_ObligationRequest_ContractType_ContractTypeID
             HasRequired(a => a.CreatePerson).WithMany(b => b.ObligationRequestsWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_ObligationRequest_Person_CreatePersonID_PersonID
             HasOptional(a => a.UpdatePerson).WithMany(b => b.ObligationRequestsWhereYouAreTheUpdatePerson).HasForeignKey(c => c.UpdatePersonID).WillCascadeOnDelete(false); // FK_ObligationRequest_Person_UpdatePersonID_PersonID
+            HasOptional(a => a.ObligationNumber).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.ObligationNumberID).WillCascadeOnDelete(false); // FK_ObligationRequest_ObligationNumber_ObligationNumberID
         }
     }
 }

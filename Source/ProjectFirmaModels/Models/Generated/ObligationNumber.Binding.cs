@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected ObligationNumber()
         {
             this.ObligationItems = new HashSet<ObligationItem>();
+            this.ObligationRequests = new HashSet<ObligationRequest>();
         }
 
         /// <summary>
@@ -64,7 +65,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ObligationItems.Any();
+            return ObligationItems.Any() || ObligationRequests.Any();
         }
 
         /// <summary>
@@ -78,13 +79,18 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(ObligationItem).Name);
             }
+
+            if(ObligationRequests.Any())
+            {
+                dependentObjects.Add(typeof(ObligationRequest).Name);
+            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ObligationNumber).Name, typeof(ObligationItem).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ObligationNumber).Name, typeof(ObligationItem).Name, typeof(ObligationRequest).Name};
 
 
         /// <summary>
@@ -113,6 +119,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in ObligationRequests.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -123,6 +134,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ObligationNumberID; } set { ObligationNumberID = value; } }
 
         public virtual ICollection<ObligationItem> ObligationItems { get; set; }
+        public virtual ICollection<ObligationRequest> ObligationRequests { get; set; }
         public virtual Agreement ReclamationAgreement { get; set; }
 
         public static class FieldLengths
