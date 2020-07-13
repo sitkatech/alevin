@@ -41,6 +41,7 @@
 
     path.line {
         fill: none;
+        shape-rendering: geometricPrecision;
     }
     .tooltip {
         background: #fff;
@@ -75,9 +76,9 @@
 
     
 
-    var margin = {top: 50, right: 50, bottom: 50, left: 75}
+    var margin = {top: 75, right: 50, bottom: 50, left: 75}
     var width = 960;
-    var height = 500;
+    var height = 525;
     var dollarFormat = function (d) { return '$' + d3.format(",.0f")(d) };
     var color = d3.scaleOrdinal(d3.schemeCategory10);
     var timeConv = d3.timeParse("%m/%d/%Y");
@@ -325,10 +326,7 @@
             function(d) {
                 return "translate(" + (xScale(d.key) - (tickDistance / 2)) + ",0)";
             });
-
-    console.log('test', Math.abs(yScale(-686) - yScale(0)));
-
-
+    
     slice.selectAll("rect")
         .data(function(d) { return d.values; })
         .enter().append("rect")
@@ -344,7 +342,6 @@
             return Math.abs(yScale(d.Value) - yScale(0));
         })
         .on("mouseover", function (d) {
-            console.log('mouseover');
             d3.select(this).transition()
                 .delay(30)
                 .duration(200)
@@ -359,7 +356,6 @@
                 .style("top", (d3.event.pageY) + "px") 
         })
         .on("mouseout", function (d) {      
-            console.log('mouseout')
             tooltip.transition()        
                 .duration(100)      
                 .style("opacity", 0);   
@@ -370,7 +366,60 @@
         });
 
 
-    //tooltips
+    //legend
+    var legendItemSize = 10;
+    var legendLineWidth = 20;
+
+    
+    //line legend
+    svg.selectAll('lineLegends')
+        .data(keys)
+        .enter()
+        .append('line')
+        .attr("x1", margin.left)
+        .attr("y1", function (d, i) { return i * (legendItemSize + 10) + 10;})
+        .attr("x2", margin.left + legendLineWidth)
+        .attr("y2", function (d, i) { return i * (legendItemSize + 10) + 10;})
+        .attr('stroke', function (d) { return color(d); })
+        .attr("stroke-width", "2px")
+
+  
+    svg.selectAll('lineLegendLabels')
+        .data(keys)
+        .enter()
+        .append('text')
+        .attr("x", margin.left + legendLineWidth*1.2)
+        .attr("y", function (d, i) { return i * (legendItemSize + 10) + (legendItemSize + 5); }) 
+        .style("fill", function(d) { return color(d); })
+        .text(function(d) { return d; })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+    
+
+    //bars legend
+    svg.selectAll('barLegends')
+        .data(keys)
+        .enter()
+        .append('rect')
+        .attr("x", (width / 2) + margin.left)
+        .attr("y", function (d, i) { return i * (legendItemSize + 10) + (legendItemSize / 4)  })
+        .attr("width", legendItemSize)
+        .attr("height", legendItemSize)
+        .style("fill", function (d) { return color(d) })
+
+    svg.selectAll('barLegendLabels')
+        .data(keys)
+        .enter()
+        .append('text')
+        .attr("x", (width / 2) + margin.left + legendItemSize * 1.2)
+        .attr("y", function (d, i) { return i * (legendItemSize + 10) + (legendItemSize + 5); })
+        .style("fill", function (d) { return color(d); })
+        .text(function (d) { return d; })
+        .attr("text-anchor", "left")
+        .style("alignment-baseline", "middle")
+
+        
+
 
 
 </script>
