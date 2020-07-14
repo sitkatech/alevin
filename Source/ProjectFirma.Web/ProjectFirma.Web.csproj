@@ -119,6 +119,7 @@
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
+    <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="Models\ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple.cs" />
     <Compile Include="Models\ObligationItemModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
