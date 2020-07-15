@@ -18,30 +18,15 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
 
         public static int GetCalendarMonthNumberForFiscalMonthPeriod(int fiscalMonthPeriod)
         {
-            // Hard coded for Reclamation
-            if (fiscalMonthPeriod < 1 || fiscalMonthPeriod > 16)
-            {
-                throw new SitkaDisplayErrorException($"FiscalMontPeriod out of expected range (1-16): {fiscalMonthPeriod}");
-            }
-
-            // 12-16 are all September
-            if (fiscalMonthPeriod > 12)
-            {
-                fiscalMonthPeriod = 12;
-            }
-
-            int adjustedMonthNumber = fiscalMonthPeriod - 3;
-            if (adjustedMonthNumber <= 0)
-            {
-                adjustedMonthNumber += 12;
-            }
-
-            return adjustedMonthNumber;
+            string paddedMonth = fiscalMonthPeriod.ToString().PadLeft(3, '0');
+            DateTime temp = SqlGetCalendarDateTimeForFiscalYearPeriod($"{paddedMonth}/2019");
+            return temp.Month;
         }
 
         public static DateTime SqlGetCalendarDateTimeForFiscalYearPeriod(string fiscalYearPeriodString)
         {
             DateTime dateTime;
+
             try
             {
                 string calendarDateFiscalYearPeriodFunction = "dbo.GetCalendarDateForStartOfFiscalYearPeriod";
