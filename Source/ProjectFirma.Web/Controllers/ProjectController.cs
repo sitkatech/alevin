@@ -52,6 +52,7 @@ using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
+using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -263,7 +264,7 @@ namespace ProjectFirma.Web.Controllers
             // -----------------------------------------------
             var prbacs = ProjectRunningBalanceObligationsAndExpendituresRecord.GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(project);
             var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceObligationsAndExpendituresViewData(prbacs);
-
+            var projectBalanceBurnUpViewData = new ProjectBalanceBurnUpViewData(prbacs, project);
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
@@ -318,7 +319,8 @@ namespace ProjectFirma.Web.Controllers
                 userHasStartUpdateWorkflowPermission,
                 actionItemsDisplayViewData,
                 userCanViewActionItems,
-                projectRunningBalanceAllContractViewData);
+                projectRunningBalanceAllContractViewData,
+                projectBalanceBurnUpViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

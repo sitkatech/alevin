@@ -124,49 +124,12 @@ namespace ProjectFirma.Web.Controllers
             return DoFbmsExcelImportForFileStream(httpPostedFileBase.InputStream, httpPostedFileBase.FileName);
         }
 
-        // Using original object for reference, with many columns, but not unexpended balance
-
-        //[FirmaAdminFeature]
-        //private ActionResult DoFbmsExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
-        //{
-        //    DateTime startTime = DateTime.Now;
-
-        //    List<FbmsBudgetStageImportOriginalPayrecV3> budgetStageImports;
-        //    List<FbmsInvoiceStageImport> invoiceStageImports;
-        //    try
-        //    {
-        //        budgetStageImports = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportOriginalPayrecV3sFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
-        //        invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
-        //    }
-
-        //    LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
-        //    DateTime endTime = DateTime.Now;
-        //    var elapsedTime = endTime - startTime;
-        //    string importTimeString = GetTaskTimeString("Import", elapsedTime);
-
-        //    // Record that we uploaded
-        //    var newImpProcessingForFbms = new ImpProcessing(ImpProcessingTableType.FBMS);
-        //    newImpProcessingForFbms.UploadDate = endTime;
-        //    newImpProcessingForFbms.UploadPerson = this.CurrentFirmaSession.Person;
-        //    HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
-        //    HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
-
-        //    SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.</br>{importTimeString}.");
-        //    // This is the right thing to return, since this starts off in a modal dialog
-        //    return new ModalDialogFormJsonResult();
-        //}
-
         [FirmaAdminFeature]
         private ActionResult DoFbmsExcelImportForFileStream(Stream excelFileAsStream, string optionalOriginalFilename)
         {
             DateTime startTime = DateTime.Now;
 
             List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> budgetStageImports;
-            //List<FbmsInvoiceStageImport> invoiceStageImports;
             try
             {
                 budgetStageImports = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
@@ -361,19 +324,16 @@ namespace ProjectFirma.Web.Controllers
                 if (!(ex is SitkaDisplayErrorException))
                 {
                     // We want to capture the Excel file for future reference, since this blew up. But we really should be logging it into the logging folder and not a temp folder.
-                    var errorLogMessage = string.Format(
-                        "Unexpected exception while uploading Excel file by PersonID {0} ({1}). Original filename \"{4}\" File saved at \"{2}\".\r\nException Details:\r\n{3}",
-                        CurrentFirmaSession.PersonID,
-                        CurrentFirmaSession.Person.GetFullNameFirstLast(),
-                        tempExcelFilename,
-                        optionalOriginalFilename,
-                        ex);
+                    var errorLogMessage =
+                        $"Unexpected exception while uploading Excel file by PersonID {CurrentFirmaSession.PersonID} ({CurrentFirmaSession.Person.GetFullNameFirstLast()}). Original filename \"{optionalOriginalFilename}\" File saved at \"{tempExcelFilename}\".\r\nException Details:\r\n{ex}";
                     SitkaLogger.Instance.LogDetailedErrorMessage(errorLogMessage);
                 }
 
-                var errorMessage = string.Format(
-                    "There was a problem uploading your spreadsheet \"{0}\": <br/><div style=\"\">{1}</div><br/><div>Nothing was saved to the database.</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{2}\">{2}</a> with a note and we will try to help out.",
-                    optionalOriginalFilename, ex.Message, FirmaWebConfiguration.SitkaSupportEmail);
+                var errorMessage =
+                    $"There was a problem uploading your spreadsheet \"{optionalOriginalFilename}\": <br/><div style=\"\">{ex.Message}</div><br/><div>Nothing was saved to the database.</div><br/>If you need help, please email your spreadsheet to <a href=\"mailto:{FirmaWebConfiguration.SitkaSupportEmail}\">{FirmaWebConfiguration.SitkaSupportEmail}</a> with a note and we will try to help out.";
+                // We originally did not do this, assuming the user would self correct, but it turns out Dorothy was expecting us to see crashes and respond, which is fine.
+                // So, instead, we'll send an error email for each and every problem, even the ones we understand. -- SLG 7/9/2020
+                SitkaLogger.Instance.LogDetailedErrorMessage(errorMessage);
                 SetErrorForDisplay(errorMessage);
             }
 
