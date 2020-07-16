@@ -25,20 +25,20 @@ BEGIN
     if (@fiscalMonth >=1 and @fiscalMonth <= 3)
     begin
         set @calendarMonth = 9 + @fiscalMonth;
-        set @calendarYear = @fiscalYear;
+        set @calendarYear = @fiscalYear - 1;
     end
     else
     if (@fiscalMonth >= 4 and @fiscalMonth <= 12)
     begin
         set @calendarMonth = @fiscalMonth -3;
-        set @calendarYear = @fiscalYear + 1;
+        set @calendarYear = @fiscalYear;
     end
     else
     -- Periods 12-16 all happen during the month of September
     if (@fiscalMonth >= 12 and @fiscalMonth <= 16)
     begin
         set @calendarMonth = 9;
-        set @calendarYear = @fiscalYear + 1;
+        set @calendarYear = @fiscalYear;
     end
 
     -- If we get this far without setting proper @calendarYear and @calendarMonth, we'll return null, which
