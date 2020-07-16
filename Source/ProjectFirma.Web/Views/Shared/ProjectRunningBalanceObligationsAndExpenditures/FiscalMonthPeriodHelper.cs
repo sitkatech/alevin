@@ -1,6 +1,8 @@
-﻿using System;
+﻿using LtInfo.Common;
+using ProjectFirmaModels.UnitTestCommon;
+using System;
+using System.Data.SqlClient;
 using System.Globalization;
-using LtInfo.Common;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 {
@@ -16,25 +18,44 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
 
         public static int GetCalendarMonthNumberForFiscalMonthPeriod(int fiscalMonthPeriod)
         {
-            // Hard coded for Reclamation
-            if (fiscalMonthPeriod < 1 || fiscalMonthPeriod > 16)
+            string paddedMonth = fiscalMonthPeriod.ToString().PadLeft(3, '0');
+            DateTime temp = SqlGetCalendarDateTimeForFiscalYearPeriod($"{paddedMonth}/2019");
+            return temp.Month;
+        }
+
+        public static DateTime SqlGetCalendarDateTimeForFiscalYearPeriod(string fiscalYearPeriodString)
+        {
+            DateTime dateTime;
+
+            try
             {
-                throw new SitkaDisplayErrorException($"FiscalMontPeriod out of expected range (1-16): {fiscalMonthPeriod}");
+                string calendarDateFiscalYearPeriodFunction = "dbo.GetCalendarDateForStartOfFiscalYearPeriod";
+                using (SqlConnection sqlConnection = CreateAndOpenSqlConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(calendarDateFiscalYearPeriodFunction, sqlConnection))
+                    {
+                        // If we needed parameters, here's how we'd add them.
+                        cmd.CommandText = $"Select { calendarDateFiscalYearPeriodFunction} ('{fiscalYearPeriodString}')";
+                        //cmd.Parameters.AddWithValue("@fiscalYearPeriodString", fiscalYearPeriodString);
+                        dateTime = DateTime.Parse(cmd.ExecuteScalar().ToString());
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new SitkaDisplayErrorException($"Problem calling SQL: {e.Message}");
             }
 
-            // 12-16 are all September
-            if (fiscalMonthPeriod > 12)
-            {
-                fiscalMonthPeriod = 12;
-            }
+            return dateTime;
+        }
 
-            int adjustedMonthNumber = fiscalMonthPeriod - 3;
-            if (adjustedMonthNumber <= 0)
-            {
-                adjustedMonthNumber += 12;
-            }
-
-            return adjustedMonthNumber;
+        public static SqlConnection CreateAndOpenSqlConnection()
+        {
+            var db = new ProjectFirmaSqlDatabase();
+            var sqlConnection = db.CreateConnection();
+            sqlConnection.Open();
+            return sqlConnection;
         }
     }
 }

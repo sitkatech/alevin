@@ -148,10 +148,13 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
                     }
                 ).OrderBy(x => x.Key.CalendarYear).ThenBy(x => x.Key.CalendarMonthNumber).ToList();
 
-            var projections = project.ProjectFundingSourceBudgets;
-            var fundingSourceNoIdentifieds = project.ProjectNoFundingSourceIdentifieds;
+            var projections = project.ProjectFundingSourceBudgets.ToList();
+            var fundingSourceNoIdentifieds = project.ProjectNoFundingSourceIdentifieds.ToList();
 
-            List<int> calendarYears = projections.Select(x => x.CalendarYear.Value).Distinct().OrderBy(y => y).ToList();
+            List<int> calendarYears = projections.Select(x => x.CalendarYear.Value).ToList();
+            calendarYears = calendarYears.Concat(fundingSourceNoIdentifieds.Select(x => x.CalendarYear.Value)).ToList();
+            calendarYears = calendarYears.Distinct().OrderBy(x => x).ToList();
+
             double cumulativeProjectionAmount = 0;
             foreach (var currentCalendarYear in calendarYears)
             {
