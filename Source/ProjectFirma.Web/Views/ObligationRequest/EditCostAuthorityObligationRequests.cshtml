@@ -205,8 +205,8 @@
         }
 
        function replaceDefaultsForNewRow(thisInput, rowID, costAuthorityID, oldRowID, clearValues) {
-          console.log('replaceDefaultsForNewRow');
-          console.log(thisInput);
+          //console.log('replaceDefaultsForNewRow');
+          //console.log(thisInput);
           var currentName = thisInput.prop("name");
           if (typeof currentName !== "undefined") {
              var updatedName = currentName.replace(oldRowID.toString(), rowID.toString());
@@ -227,7 +227,7 @@
        }
 
        function resetTotal() {
-            console.log('resetTotal()');
+            //console.log('resetTotal()');
             var totalValue = 0.0;
             jQuery(".projectedObligationEditor").each(function() {
                 var currentValueOfObligation = this.value;
@@ -242,7 +242,7 @@
                     }
 
                 }
-                console.log("current value: " + currentValueOfObligation);
+                //console.log("current value: " + currentValueOfObligation);
             });
             var totalAsCurrency = Sitka.Methods.formatAsCurrencyFromString(totalValue, 2);
             jQuery("#totalAmountCell").text(totalAsCurrency);
@@ -254,40 +254,40 @@
        }
 
        function enableOrDisableAddButton() {
-          //debugger;
-          console.log('enableOrDisableAddButton()');
+          //console.log('enableOrDisableAddButton()');
 
           var costAuthorityDropdown = jQuery('select.cost_authority_dropdown');
           var currentSelectedCawbsId = costAuthorityDropdown.val();
-          console.log('currentSelectedCawbsID: ' + currentSelectedCawbsId);
+          //console.log('currentSelectedCawbsID: ' + currentSelectedCawbsId);
           var hasValidCawbsIdSelected = currentSelectedCawbsId > 0;
 
           jQuery("#addCostAuthorityButton").prop("disabled", !hasValidCawbsIdSelected);
        }
 
        function enableOrDisableSaveButton() {
-          console.log('enableOrDisableSaveButton()');
+          //console.log('enableOrDisableSaveButton()');
           var shouldSaveButtonBeDisabled = !hasCostAuthorityAdded();
-          console.log('shouldSaveButtonBeDisabled: ' + shouldSaveButtonBeDisabled);
+          //console.log('shouldSaveButtonBeDisabled: ' + shouldSaveButtonBeDisabled);
           jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", shouldSaveButtonBeDisabled);
        }
 
        function showOrHideSelectedCostAuthorities() {
-          console.log('showOrHideSelectedCostAuthorities()');
+          //console.log('showOrHideSelectedCostAuthorities()');
           var shouldSelectedCostAuthoritiesBeVisible = hasCostAuthorityAdded();
-          console.log('shouldSelectedCostAuthoritiesBeVisible: ' + shouldSelectedCostAuthoritiesBeVisible);
+          //console.log('shouldSelectedCostAuthoritiesBeVisible: ' + shouldSelectedCostAuthoritiesBeVisible);
           var selectedCostAuthoritiesDiv = jQuery(".selected-cost-authorities");
           if (shouldSelectedCostAuthoritiesBeVisible) {
-             console.log('showing selectedCostAuthorities div');
+             //console.log('showing selectedCostAuthorities div');
              selectedCostAuthoritiesDiv.show();
           } else {
-             console.log('hiding selectedCostAuthorities div');
+             //console.log('hiding selectedCostAuthorities div');
              selectedCostAuthoritiesDiv.hide();
           }
        } // jQuery(".selected-cost-authorities").show();
 
-        removeRow = function (costAuthorityID) {
-            console.log(costAuthorityID);
+       removeRow = function (costAuthorityID) {
+            //console.log('removeRow()');
+            //console.log(costAuthorityID);
             var indexToRemove = alreadyAddedCostAuthorityIDs.indexOf(costAuthorityID);
             var oldListOfCostAuthorityIDs = new Array();
             for (var ind = 0; ind < alreadyAddedCostAuthorityIDs.length; ind++) { oldListOfCostAuthorityIDs.push(alreadyAddedCostAuthorityIDs[ind]);}
@@ -316,7 +316,7 @@
         }
 
        jQuery(".cost_authority_dropdown").change(function () {
-            console.log('cost_authority_dropdown changed');
+            //console.log('cost_authority_dropdown changed');
             enableOrDisableAddButton();
         });
 
@@ -326,15 +326,15 @@
             jQuery(".selected-cost-authorities").show();
             var costAuthoritySelection = jQuery("#@Html.IdFor(m => m.CostAuthorityID)");
             var costAuthorityVal = costAuthoritySelection.val();
-            console.log(costAuthorityVal);
+            //console.log(costAuthorityVal);
             if (costAuthorityVal != null && costAuthorityVal != '') {
                 var thiscostAuthorityID = parseInt(costAuthorityVal);
                 var costAuthority = costAuthorityJsons[thiscostAuthorityID];
                 if (alreadyAddedCostAuthorityIDs.indexOf(thiscostAuthorityID) == -1) {
                     alreadyAddedCostAuthorityIDs.push(thiscostAuthorityID);
-                    console.log(alreadyAddedCostAuthorityIDs);
+                    //console.log('alreadyAddedCostAuthorityIDs: ' + alreadyAddedCostAuthorityIDs);
                     var currentlyAddingIndex = alreadyAddedCostAuthorityIDs.indexOf(thiscostAuthorityID);
-                    console.log(costAuthority);
+                    //console.log('costAuthority: ' +costAuthority);
                     var tr = cloningTr.clone();
                     tr.prop("id", "");
                     tr.attr("costauthority_id", costAuthorityVal);
@@ -348,8 +348,8 @@
                         replaceDefaultsForNewRow(jQuery(this), currentlyAddingIndex, thiscostAuthorityID, 0, true);
 
                     });
-                    console.log("inputs");
-                    console.log(inputs);
+                    //console.log("inputs: ");
+                    //console.log(inputs);
                     jQuery("#bodyForAddingTo").append(tr);
                 }
             }
