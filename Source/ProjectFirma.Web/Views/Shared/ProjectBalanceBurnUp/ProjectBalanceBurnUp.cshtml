@@ -78,7 +78,7 @@
     var width = 960;
     var height = 525;
     var dollarFormat = function (d) { return '$' + d3.format(",.0f")(d) };
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    
     var timeConv = d3.timeParse("%m/%d/%Y");
 
     // set up the data into simple sets with keys and values for the line graph
@@ -91,6 +91,14 @@
         });
     });
     //console.log('line data', data)
+
+    // BOR primary colors
+    var primaryColors = ["#003E51", "#007396", "#C69214"];
+    // BOR secondary colors
+    var secondaryColors = ["#FF671F", "#215732", "#4C12A1"];
+
+    //var color = d3.scaleOrdinal().domain(keys).range(["#003E51", "#007396", "#C69214"]);;
+    var color = d3.scaleOrdinal().domain(keys).range(secondaryColors);;
 
     // all date values for the x axis
     var allXValuesNotDistinct = data.map(function (d) {
