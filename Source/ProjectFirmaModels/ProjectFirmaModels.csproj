@@ -953,9 +953,7 @@
     <Compile Include="Models\ExcelUpload\PnBudgetsStageImport.cs" />
     <Compile Include="Models\ExcelUpload\ExcelColumnHelper.cs" />
     <Compile Include="Models\ExcelUpload\ExcelImportBadCellException.cs" />
-    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImportOriginalPayrecV3s.cs" />
     <Compile Include="Models\ExcelUpload\FbmsInvoiceStageImports.cs" />
-    <Compile Include="Models\ExcelUpload\FbmsBudgetStageImportOriginalPayrecV3.cs" />
     <Compile Include="Models\FieldDefinitionTest.cs" />
     <Compile Include="Models\EvaluationCriteriaValue.cs" />
     <Compile Include="Models\EvaluationCriteria.cs" />

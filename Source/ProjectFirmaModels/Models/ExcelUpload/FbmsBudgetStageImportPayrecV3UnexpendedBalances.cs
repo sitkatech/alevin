@@ -53,7 +53,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             // Remove any blank rows
             foreach (var kvp in indexToRowDict)
             {
-                if (FbmsBudgetStageImportOriginalPayrecV3.RowIsBlank(kvp.Value))
+                if (FbmsBudgetStageImportPayrecV3UnexpendedBalance.RowIsBlank(kvp.Value))
                 {
                     indexesToRemove.Add(kvp.Key);
                 }
@@ -88,6 +88,15 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                                                             string.Join(", ", actualColumns), string.Join(", ", missingColumns)));
            
         }
+
+        /*
+         *
+         * 07-16-2020 changes
+Dropped: Original "Funded Program"
+Renamed: "WBS Description" => "Funded Program"
+Renamed: "Vendor Name" => "Name"
+         *
+         */
 
 
         public const string BusinessAreaKey = "Business area";
