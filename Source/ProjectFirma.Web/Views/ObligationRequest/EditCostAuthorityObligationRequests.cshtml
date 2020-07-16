@@ -265,14 +265,24 @@
 
        function enableOrDisableSaveButton() {
           console.log('enableOrDisableSaveButton()');
-          //var costAuthorityDropdown = jQuery('.cost_authority_dropdown');
-          //var currentSelectedCawbsId = costAuthorityDropdown.val();
-          //console.log('currentSelectedCawbsID: ' + currentSelectedCawbsId);
-
           var shouldSaveButtonBeDisabled = !hasCostAuthorityAdded();
           console.log('shouldSaveButtonBeDisabled: ' + shouldSaveButtonBeDisabled);
           jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", shouldSaveButtonBeDisabled);
        }
+
+       function showOrHideSelectedCostAuthorities() {
+          console.log('showOrHideSelectedCostAuthorities()');
+          var shouldSelectedCostAuthoritiesBeVisible = hasCostAuthorityAdded();
+          console.log('shouldSelectedCostAuthoritiesBeVisible: ' + shouldSelectedCostAuthoritiesBeVisible);
+          var selectedCostAuthoritiesDiv = jQuery(".selected-cost-authorities");
+          if (shouldSelectedCostAuthoritiesBeVisible) {
+             console.log('showing selectedCostAuthorities div');
+             selectedCostAuthoritiesDiv.show();
+          } else {
+             console.log('hiding selectedCostAuthorities div');
+             selectedCostAuthoritiesDiv.hide();
+          }
+       } // jQuery(".selected-cost-authorities").show();
 
         removeRow = function (costAuthorityID) {
             console.log(costAuthorityID);
@@ -300,8 +310,8 @@
             });
            resetTotal();
            enableOrDisableSaveButton();
-       }
-
+           showOrHideSelectedCostAuthorities();
+        }
 
        jQuery(".cost_authority_dropdown").change(function () {
             console.log('cost_authority_dropdown changed');
@@ -348,11 +358,13 @@
             });
             enableOrDisableSaveButton();
             enableOrDisableAddButton();
+            showOrHideSelectedCostAuthorities();
         });
 
         // On load
         enableOrDisableSaveButton();
         enableOrDisableAddButton();
+        showOrHideSelectedCostAuthorities();
 
         jQuery(".selectpicker").selectpicker();
 
