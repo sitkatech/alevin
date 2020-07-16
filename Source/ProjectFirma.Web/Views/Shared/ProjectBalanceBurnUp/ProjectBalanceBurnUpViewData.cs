@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Linq;
 using DocumentFormat.OpenXml.Drawing.Charts;
 using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirmaModels.Models;
@@ -111,7 +112,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
             NoFundingSourceIdentifiedProjectionAmount = noFundingSourceIdentifiedProjectionAmount;
             Value = fundingSourceIdentifiedProjectionAmount + noFundingSourceIdentifiedProjectionAmount;
             CumulativeValue = cumulativeProjectionAmount;
-            var dateTime = new DateTime(calendarYear, 01, 01);
+            var dateTime = new DateTime(calendarYear - 1, MultiTenantHelpers.GetStartDayOfReportingYear().Month, 01);
             Date = dateTime.ToString("MM/dd/yyyy");
             TooltipHtml = "<dl>" +
                           "<dt>Date</dt>" +
