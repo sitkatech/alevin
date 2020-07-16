@@ -204,25 +204,27 @@
             }
         }
 
-        function replaceDefaultsForNewRow(thisInput, rowID, costAuthorityID, oldRowID, clearValues) {
-            console.log(thisInput);
-            var currentName = thisInput.prop("name");
-            var updatedName = currentName.replace(oldRowID.toString(), rowID.toString());
-            thisInput.prop("name", updatedName);
-            thisInput.prop("id", "");
-            if (clearValues) {
+       function replaceDefaultsForNewRow(thisInput, rowID, costAuthorityID, oldRowID, clearValues) {
+          console.log('replaceDefaultsForNewRow');
+          console.log(thisInput);
+          var currentName = thisInput.prop("name");
+          if (typeof currentName !== "undefined") {
+             var updatedName = currentName.replace(oldRowID.toString(), rowID.toString());
+             thisInput.prop("name", updatedName);
+             thisInput.prop("id", "");
+             if (clearValues) {
                 thisInput.val("");
-            }
-            if (thisInput.hasClass("costAuthorityIDClass")) {
+             }
+             if (thisInput.hasClass("costAuthorityIDClass")) {
                 thisInput.val(costAuthorityID);
-            }
-            thisInput.addClass("costAuthority_" + costAuthorityID.toString());
+             }
+             thisInput.addClass("costAuthority_" + costAuthorityID.toString());
 
-            if (thisInput.hasClass("selectpicker")) {
+             if (thisInput.hasClass("selectpicker")) {
                 jQuery(thisInput).selectpicker();
-            }
-
-        }
+             }
+          }
+       }
 
        function resetTotal() {
             console.log('resetTotal()');
