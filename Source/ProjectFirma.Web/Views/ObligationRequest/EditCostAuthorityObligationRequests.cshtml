@@ -221,7 +221,7 @@
             if (thisInput.hasClass("selectpicker")) {
                 jQuery(thisInput).selectpicker();
             }
-            
+
         }
 
        function resetTotal() {
@@ -238,7 +238,7 @@
                     } else {
                         totalValue += floatVal;
                     }
-                    
+
                 }
                 console.log("current value: " + currentValueOfObligation);
             });
@@ -249,6 +249,18 @@
        function hasCostAuthorityAdded() {
           var isEmptyOrUndefinedCostAuthorities = (alreadyAddedCostAuthorityIDs === undefined || alreadyAddedCostAuthorityIDs.length === 0);
           return !isEmptyOrUndefinedCostAuthorities;
+       }
+
+       function enableOrDisableAddButton() {
+          //debugger;
+          console.log('enableOrDisableAddButton()');
+
+          var costAuthorityDropdown = jQuery('select.cost_authority_dropdown');
+          var currentSelectedCawbsId = costAuthorityDropdown.val();
+          console.log('currentSelectedCawbsID: ' + currentSelectedCawbsId);
+          var hasValidCawbsIdSelected = currentSelectedCawbsId > 0;
+
+          jQuery("#addCostAuthorityButton").prop("disabled", !hasValidCawbsIdSelected);
        }
 
        function enableOrDisableSaveButton() {
@@ -291,10 +303,10 @@
        }
 
 
-        jQuery(".cost_authority_dropdown").change(function() {
+       jQuery(".cost_authority_dropdown").change(function () {
             console.log('cost_authority_dropdown changed');
-            //enableOrDisableSaveButton();
-            });
+            enableOrDisableAddButton();
+        });
 
 
         // Add Cost Authority button clicked
@@ -335,10 +347,12 @@
                 resetTotal();
             });
             enableOrDisableSaveButton();
+            enableOrDisableAddButton();
         });
 
         // On load
         enableOrDisableSaveButton();
+        enableOrDisableAddButton();
 
         jQuery(".selectpicker").selectpicker();
 
