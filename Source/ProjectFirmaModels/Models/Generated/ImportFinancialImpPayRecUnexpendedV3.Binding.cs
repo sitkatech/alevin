@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ImportFinancialImpPayRecUnexpendedV3(int importFinancialImpPayRecUnexpendedV3ID, string businessArea, string fABudgetActivity, string functionalArea, string obligationNumber, string obligationItem, string fund, string fundedProgram, string wBSElement, string wBSElementDescription, string budgetObjectClass, string vendor, string vendorName, DateTime? postingDatePerSpl, double? unexpendedBalance) : this()
+        public ImportFinancialImpPayRecUnexpendedV3(int importFinancialImpPayRecUnexpendedV3ID, string businessArea, string fABudgetActivity, string functionalArea, string obligationNumber, string obligationItem, string fund, string wBSElement, string wBSElementDescription, string budgetObjectClass, string vendor, string vendorName, DateTime? postingDatePerSpl, double? unexpendedBalance) : this()
         {
             this.ImportFinancialImpPayRecUnexpendedV3ID = importFinancialImpPayRecUnexpendedV3ID;
             this.BusinessArea = businessArea;
@@ -40,7 +40,6 @@ namespace ProjectFirmaModels.Models
             this.ObligationNumber = obligationNumber;
             this.ObligationItem = obligationItem;
             this.Fund = fund;
-            this.FundedProgram = fundedProgram;
             this.WBSElement = wBSElement;
             this.WBSElementDescription = wBSElementDescription;
             this.BudgetObjectClass = budgetObjectClass;
@@ -110,7 +109,6 @@ namespace ProjectFirmaModels.Models
         public string ObligationNumber { get; set; }
         public string ObligationItem { get; set; }
         public string Fund { get; set; }
-        public string FundedProgram { get; set; }
         public string WBSElement { get; set; }
         public string WBSElementDescription { get; set; }
         public string BudgetObjectClass { get; set; }
@@ -131,7 +129,6 @@ namespace ProjectFirmaModels.Models
             public const int ObligationNumber = 255;
             public const int ObligationItem = 255;
             public const int Fund = 255;
-            public const int FundedProgram = 255;
             public const int WBSElement = 255;
             public const int WBSElementDescription = 255;
             public const int BudgetObjectClass = 255;
