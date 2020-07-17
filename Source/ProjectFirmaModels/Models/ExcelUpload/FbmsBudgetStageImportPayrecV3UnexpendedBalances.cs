@@ -105,12 +105,16 @@ Renamed: "Vendor Name" => "Name"
         public const string ObligationNumberKey = "Obligation Number";
         public const string ObligationItemKey = "Obligation Item";
         public const string FundKey = "Fund";
-        public const string FundedProgramKey = "Funded Program";
+        // Dropped (but name reused later)
+        //public const string FundedProgramKey = "Funded Program";
         public const string WbsElementKey = "WBS Element";
-        public const string WbsElementText = "WBS Description";
+        // "WBS Description" becomes funded program
+        //public const string WbsElementText = "WBS Description";
+        public const string NEW_FundedProgramKey = "Funded Program";
         public const string BudgetObjectClassKey = "Budget Object Class";
         public const string VendorKey = "Vendor";
-        public const string VendorText = "Vendor Name";
+        // We'd like this to say "Vendor Name", but that's tough for Dorothy.
+        public const string VendorNameText = "Name";
         public const string PostingDatePerSplKey = "Posting Date (Per SPL)";
         public const string UnexpendedBalanceValue = "Unexpended Balance";
 
@@ -124,14 +128,13 @@ Renamed: "Vendor Name" => "Name"
                 {"D", ObligationNumberKey},
                 {"E", ObligationItemKey},
                 {"F", FundKey},
-                {"G", FundedProgramKey},
-                {"H", WbsElementKey},
-                {"I", WbsElementText},
-                {"J", BudgetObjectClassKey},
-                {"K", VendorKey},
-                {"L", VendorText },
-                {"M", PostingDatePerSplKey },
-                {"N", UnexpendedBalanceValue }
+                {"G", WbsElementKey},
+                {"H", NEW_FundedProgramKey},
+                {"I", BudgetObjectClassKey},
+                {"J", VendorKey},
+                {"K", VendorNameText},
+                {"L", PostingDatePerSplKey },
+                {"M", UnexpendedBalanceValue }
             };
         }
 

@@ -13,7 +13,7 @@ namespace ProjectFirmaModels.Models
             this.ObligationNumber = fbmsBudgetStageImportPayrecV3UnexpendedBalance.ObligationNumber;
             this.ObligationItem = fbmsBudgetStageImportPayrecV3UnexpendedBalance.ObligationItem;
             this.Fund = fbmsBudgetStageImportPayrecV3UnexpendedBalance.Fund;
-            this.FundedProgram = fbmsBudgetStageImportPayrecV3UnexpendedBalance.FundedProgram;
+            //this.FundedProgram = fbmsBudgetStageImportPayrecV3UnexpendedBalance.FundedProgram;
             this.WBSElement = fbmsBudgetStageImportPayrecV3UnexpendedBalance.WbsElement;
             this.WBSElementDescription = fbmsBudgetStageImportPayrecV3UnexpendedBalance.WbsElementDescription;
             this.BudgetObjectClass = fbmsBudgetStageImportPayrecV3UnexpendedBalance.BudgetObjectClass;
