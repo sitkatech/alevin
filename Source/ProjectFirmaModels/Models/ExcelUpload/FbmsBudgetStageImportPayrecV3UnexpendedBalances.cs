@@ -105,12 +105,9 @@ Renamed: "Vendor Name" => "Name"
         public const string ObligationNumberKey = "Obligation Number";
         public const string ObligationItemKey = "Obligation Item";
         public const string FundKey = "Fund";
-        // Dropped (but name reused later)
-        //public const string FundedProgramKey = "Funded Program";
         public const string WbsElementKey = "WBS Element";
-        // "WBS Description" becomes funded program
-        //public const string WbsElementText = "WBS Description";
-        public const string NEW_FundedProgramKey = "Funded Program";
+        // "Funded Program" would be better named "WBS Description", but there's limitations on Dorothy's side in her reporting engine.
+        public const string FundedProgramKey = "Funded Program";
         public const string BudgetObjectClassKey = "Budget Object Class";
         public const string VendorKey = "Vendor";
         // We'd like this to say "Vendor Name", but that's tough for Dorothy.
@@ -129,7 +126,7 @@ Renamed: "Vendor Name" => "Name"
                 {"E", ObligationItemKey},
                 {"F", FundKey},
                 {"G", WbsElementKey},
-                {"H", NEW_FundedProgramKey},
+                {"H", FundedProgramKey},
                 {"I", BudgetObjectClassKey},
                 {"J", VendorKey},
                 {"K", VendorNameText},

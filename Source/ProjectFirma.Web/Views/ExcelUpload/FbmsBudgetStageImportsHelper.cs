@@ -34,11 +34,6 @@ namespace ProjectFirma.Web.Views.ExcelUpload
             return FbmsBudgetStageImportPayrecV3UnexpendedBalances.LoadFromXlsFile(dataTable);
         }
 
-        //public static FbmsBudgetStageImportPayrecV3UnexpendedBalances LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(FileInfo file, int headerRowOffset)
-        //{
-        //    var dataTable = OpenXmlSpreadSheetDocument.ExcelWorksheetToDataTable(file.FullName, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FbmsUnexpendedPayrecV3SheetName, FbmsBudgetStageImportPayrecV3UnexpendedBalances.UseExistingSheetNameIfSingleSheetFound, headerRowOffset);
-        //    return FbmsBudgetStageImportPayrecV3UnexpendedBalances.LoadFromXlsFile(dataTable);
-        //}
         #endregion New Unexpended Balance Version
 
     }
