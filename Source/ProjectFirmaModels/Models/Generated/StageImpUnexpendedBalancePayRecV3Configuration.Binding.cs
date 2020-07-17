@@ -22,7 +22,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ObligationNumber).HasColumnName(@"ObligationNumber").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.ObligationItem).HasColumnName(@"ObligationItem").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.Fund).HasColumnName(@"Fund").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
-            //Property(x => x.FundedProgram).HasColumnName(@"FundedProgram").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
+            Property(x => x.FundedProgram).HasColumnName(@"FundedProgram").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.WBSElement).HasColumnName(@"WBSElement").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.WBSElementDescription).HasColumnName(@"WBSElementDescription").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.BudgetObjectClass).HasColumnName(@"BudgetObjectClass").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);

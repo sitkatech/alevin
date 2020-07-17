@@ -64,7 +64,6 @@ end
                ,ObligationNumber
                ,ObligationItem
                ,Fund
-               ,FundedProgram
                ,WBSElement
                ,WBSElementDescription
                ,BudgetObjectClass
@@ -80,7 +79,6 @@ end
                ,ObligationNumber
                ,ObligationItem
                ,Fund
-               ,FundedProgram
                ,WBSElement
                ,WBSElementDescription
                ,BudgetObjectClass

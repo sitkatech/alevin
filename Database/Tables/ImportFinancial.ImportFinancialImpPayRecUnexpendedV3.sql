@@ -10,7 +10,6 @@ CREATE TABLE [ImportFinancial].[ImportFinancialImpPayRecUnexpendedV3](
 	[ObligationNumber] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[ObligationItem] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Fund] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
-	[FundedProgram] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[WBSElement] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[WBSElementDescription] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[BudgetObjectClass] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
