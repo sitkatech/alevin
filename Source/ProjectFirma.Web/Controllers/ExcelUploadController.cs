@@ -151,7 +151,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
-            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br>{importTimeString}.");
+            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} FBMS records were successfully imported to database. </br>{importTimeString}.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
         }
@@ -359,6 +359,12 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 DoPublishingSql(Logger);
+
+                //int blah = 2;
+                //if (1 == blah-1)
+                //{
+                //    //throw new Exception("Fake exception to test ideas..");
+                //}
 
                 // If we get this far, we've succeeded.
                 // Log last import as successful.
