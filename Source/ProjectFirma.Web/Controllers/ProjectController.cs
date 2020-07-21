@@ -1112,20 +1112,6 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             }
         }
 
-
-
-        /*
-        [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
-            var project = projectPrimaryKey.EntityObject;
-            var obligationItemInvoices = project.CostAuthorityProjects.SelectMany(cap => cap.CostAuthority.WbsElementObligationItemInvoices).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        */
-
         [ObligationViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {

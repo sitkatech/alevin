@@ -188,9 +188,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new tmpFishProject2PopulationDissolveConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new FiscalQuarterConfiguration());
-            modelBuilder.Configurations.Add(new ImpApGenSheetConfiguration());
             modelBuilder.Configurations.Add(new ImportFinancialImpPayRecUnexpendedV3Configuration());
-            modelBuilder.Configurations.Add(new ImpPayrecV3Configuration());
             modelBuilder.Configurations.Add(new ImpPnBudgetConfiguration());
             modelBuilder.Configurations.Add(new ImpProcessingConfiguration());
             modelBuilder.Configurations.Add(new ObligationItemConfiguration());
@@ -199,7 +197,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new VendorConfiguration());
             modelBuilder.Configurations.Add(new WbsElementConfiguration());
             modelBuilder.Configurations.Add(new WbsElementObligationItemBudgetConfiguration());
-            modelBuilder.Configurations.Add(new WbsElementObligationItemInvoiceConfiguration());
             modelBuilder.Configurations.Add(new WbsElementPnBudgetConfiguration());
             modelBuilder.Configurations.Add(new AgreementConfiguration());
             modelBuilder.Configurations.Add(new AgreementCostAuthorityConfiguration());
@@ -235,7 +232,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new SubbasinConfiguration());
             modelBuilder.Configurations.Add(new WorkbreakdownStructureConfiguration());
             modelBuilder.Configurations.Add(new WorkOrderConfiguration());
-            modelBuilder.Configurations.Add(new StageImpApGenSheetConfiguration());
             modelBuilder.Configurations.Add(new StageImpPnBudgetConfiguration());
             modelBuilder.Configurations.Add(new StageImpUnexpendedBalancePayRecV3Configuration());
             modelBuilder.Configurations.Add(new vGeoServerGeospatialAreaConfiguration());
@@ -353,11 +349,9 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<GeospatialAreaType> AllGeospatialAreaTypes { get; set; }
         public virtual IQueryable<GeospatialAreaType> GeospatialAreaTypes { get { return AllGeospatialAreaTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<HCategory> HCategories { get; set; }
-        public virtual DbSet<ImpApGenSheet> ImpApGenSheets { get; set; }
         public virtual DbSet<ImportExternalProjectStaging> AllImportExternalProjectStagings { get; set; }
         public virtual IQueryable<ImportExternalProjectStaging> ImportExternalProjectStagings { get { return AllImportExternalProjectStagings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ImportFinancialImpPayRecUnexpendedV3> ImportFinancialImpPayRecUnexpendedV3s { get; set; }
-        public virtual DbSet<ImpPayrecV3> ImpPayrecV3s { get; set; }
         public virtual DbSet<ImpPnBudget> ImpPnBudgets { get; set; }
         public virtual DbSet<ImpProcessing> ImpProcessings { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
@@ -547,7 +541,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ReportTemplate> ReportTemplates { get { return AllReportTemplates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<StageImpApGenSheet> StageImpApGenSheets { get; set; }
         public virtual DbSet<StageImpPnBudget> StageImpPnBudgets { get; set; }
         public virtual DbSet<StageImpUnexpendedBalancePayRecV3> StageImpUnexpendedBalancePayRecV3s { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
@@ -582,7 +575,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Vendor> Vendors { get; set; }
         public virtual DbSet<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
-        public virtual DbSet<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual DbSet<WbsElementPnBudget> WbsElementPnBudgets { get; set; }
         public virtual DbSet<WbsElement> WbsElements { get; set; }
         public virtual DbSet<WorkbreakdownStructure> WorkbreakdownStructures { get; set; }
@@ -877,17 +869,11 @@ namespace ProjectFirmaModels.Models
                 case "HCategory":
                     return HCategories.GetHCategory(primaryKey);
 
-                case "ImpApGenSheet":
-                    return ImpApGenSheets.GetImpApGenSheet(primaryKey);
-
                 case "ImportExternalProjectStaging":
                     return ImportExternalProjectStagings.GetImportExternalProjectStaging(primaryKey);
 
                 case "ImportFinancialImpPayRecUnexpendedV3":
                     return ImportFinancialImpPayRecUnexpendedV3s.GetImportFinancialImpPayRecUnexpendedV3(primaryKey);
-
-                case "ImpPayrecV3":
-                    return ImpPayrecV3s.GetImpPayrecV3(primaryKey);
 
                 case "ImpPnBudget":
                     return ImpPnBudgets.GetImpPnBudget(primaryKey);
@@ -1349,9 +1335,6 @@ namespace ProjectFirmaModels.Models
                 case "SecondaryProjectTaxonomyLeaf":
                     return SecondaryProjectTaxonomyLeafs.GetSecondaryProjectTaxonomyLeaf(primaryKey);
 
-                case "StageImpApGenSheet":
-                    return StageImpApGenSheets.GetStageImpApGenSheet(primaryKey);
-
                 case "StageImpPnBudget":
                     return StageImpPnBudgets.GetStageImpPnBudget(primaryKey);
 
@@ -1434,9 +1417,6 @@ namespace ProjectFirmaModels.Models
 
                 case "WbsElementObligationItemBudget":
                     return WbsElementObligationItemBudgets.GetWbsElementObligationItemBudget(primaryKey);
-
-                case "WbsElementObligationItemInvoice":
-                    return WbsElementObligationItemInvoices.GetWbsElementObligationItemInvoice(primaryKey);
 
                 case "WbsElementPnBudget":
                     return WbsElementPnBudgets.GetWbsElementPnBudget(primaryKey);
