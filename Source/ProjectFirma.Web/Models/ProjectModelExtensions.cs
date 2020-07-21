@@ -1107,13 +1107,15 @@ namespace ProjectFirma.Web.Models
             GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
         {
             var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
-            var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).ToList();
+            var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
+
+
 
             var obligationItemInvoiceSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
             foreach (var itemInvoice in obligationItemInvoices)
             {
                 int effectiveCostTypeID = GetEffectiveCostTypeIDForPotentialNullBudgetObjectCode(itemInvoice.BudgetObjectCode);
-                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemInvoice.FundingSourceID, effectiveCostTypeID, itemInvoice.PostingDateKey.Value.Year, itemInvoice.DebitAmount ?? 0);
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemInvoice.FundingSourceID, effectiveCostTypeID, itemInvoice.CalendarYear, itemInvoice.TotalExpenditures ?? 0);
                 obligationItemInvoiceSimples.Add(simple);
             }
 
