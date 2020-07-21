@@ -1,3 +1,4 @@
+
 IF EXISTS(SELECT 1 FROM sys.objects WHERE object_id = OBJECT_ID(N'dbo.pReclamationImportApGenAndPayrecV3'))
     drop procedure dbo.pReclamationImportApGenAndPayrecV3
 go
@@ -17,7 +18,6 @@ begin
    return -1
 end
 
-    -- TODO: A sanity check that there are actually records to import
     delete from ImportFinancial.ImpApGenSheet
     INSERT INTO [ImportFinancial].[ImpApGenSheet]
                (
