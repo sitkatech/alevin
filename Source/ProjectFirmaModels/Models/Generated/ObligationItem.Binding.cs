@@ -26,7 +26,6 @@ namespace ProjectFirmaModels.Models
         protected ObligationItem()
         {
             this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
-            this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
         }
 
         /// <summary>
@@ -83,7 +82,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any();
+            return WbsElementObligationItemBudgets.Any();
         }
 
         /// <summary>
@@ -97,18 +96,13 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(WbsElementObligationItemBudget).Name);
             }
-
-            if(WbsElementObligationItemInvoices.Any())
-            {
-                dependentObjects.Add(typeof(WbsElementObligationItemInvoice).Name);
-            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ObligationItem).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ObligationItem).Name, typeof(WbsElementObligationItemBudget).Name};
 
 
         /// <summary>
@@ -137,11 +131,6 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
-
-            foreach(var x in WbsElementObligationItemInvoices.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
         }
 
         [Key]
@@ -153,7 +142,6 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ObligationItemID; } set { ObligationItemID = value; } }
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
-        public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ObligationNumber ObligationNumber { get; set; }
         public virtual Vendor Vendor { get; set; }
 

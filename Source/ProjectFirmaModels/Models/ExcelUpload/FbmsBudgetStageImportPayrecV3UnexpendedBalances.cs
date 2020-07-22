@@ -53,7 +53,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             // Remove any blank rows
             foreach (var kvp in indexToRowDict)
             {
-                if (FbmsBudgetStageImportOriginalPayrecV3.RowIsBlank(kvp.Value))
+                if (FbmsBudgetStageImportPayrecV3UnexpendedBalance.RowIsBlank(kvp.Value))
                 {
                     indexesToRemove.Add(kvp.Key);
                 }
@@ -89,6 +89,15 @@ namespace ProjectFirmaModels.Models.ExcelUpload
            
         }
 
+        /*
+         *
+         * 07-16-2020 changes
+Dropped: Original "Funded Program"
+Renamed: "WBS Description" => "Funded Program"
+Renamed: "Vendor Name" => "Name"
+         *
+         */
+
 
         public const string BusinessAreaKey = "Business area";
         public const string FaBudgetActivityKey = "FA Budget Activity";
@@ -96,12 +105,13 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public const string ObligationNumberKey = "Obligation Number";
         public const string ObligationItemKey = "Obligation Item";
         public const string FundKey = "Fund";
-        public const string FundedProgramKey = "Funded Program";
         public const string WbsElementKey = "WBS Element";
-        public const string WbsElementText = "WBS Description";
+        // "Funded Program" would be better named "WBS Description", but there's limitations on Dorothy's side in her reporting engine.
+        public const string FundedProgramKey = "Funded Program";
         public const string BudgetObjectClassKey = "Budget Object Class";
         public const string VendorKey = "Vendor";
-        public const string VendorText = "Vendor Name";
+        // We'd like this to say "Vendor Name", but that's tough for Dorothy.
+        public const string VendorNameText = "Name";
         public const string PostingDatePerSplKey = "Posting Date (Per SPL)";
         public const string UnexpendedBalanceValue = "Unexpended Balance";
 
@@ -115,14 +125,13 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                 {"D", ObligationNumberKey},
                 {"E", ObligationItemKey},
                 {"F", FundKey},
-                {"G", FundedProgramKey},
-                {"H", WbsElementKey},
-                {"I", WbsElementText},
-                {"J", BudgetObjectClassKey},
-                {"K", VendorKey},
-                {"L", VendorText },
-                {"M", PostingDatePerSplKey },
-                {"N", UnexpendedBalanceValue }
+                {"G", WbsElementKey},
+                {"H", FundedProgramKey},
+                {"I", BudgetObjectClassKey},
+                {"J", VendorKey},
+                {"K", VendorNameText},
+                {"L", PostingDatePerSplKey },
+                {"M", UnexpendedBalanceValue }
             };
         }
 

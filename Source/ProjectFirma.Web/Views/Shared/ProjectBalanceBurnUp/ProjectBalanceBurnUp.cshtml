@@ -43,6 +43,9 @@
         fill: none;
         shape-rendering: geometricPrecision;
     }
+    .line.line-Projections {
+        stroke-dasharray: 3, 3;
+    }
     .tooltip {
         background: #fff;
         border: 1px solid #244A9F;
@@ -78,7 +81,7 @@
     var width = 960;
     var height = 525;
     var dollarFormat = function (d) { return '$' + d3.format(",.0f")(d) };
-    var color = d3.scaleOrdinal(d3.schemeCategory10);
+    
     var timeConv = d3.timeParse("%m/%d/%Y");
 
     // set up the data into simple sets with keys and values for the line graph
@@ -90,7 +93,15 @@
             values: rawData[key]
         });
     });
-    //console.log('line data', data)
+    console.log('line data', data)
+
+    // BOR primary colors
+    var primaryColors = ["#C69214", "#007396", "#003E51" ];
+    // BOR secondary colors
+    var secondaryColors = ["#FF671F", "#215732", "#4C12A1"];
+
+    //var color = d3.scaleOrdinal().domain(keys).range(["#003E51", "#007396", "#C69214"]);;
+    var color = d3.scaleOrdinal().domain(keys).range(primaryColors);;
 
     // all date values for the x axis
     var allXValuesNotDistinct = data.map(function (d) {
@@ -229,9 +240,8 @@
 
 
     // lines
-    var lineClassID = 0;
-    var lineClass = function () {
-        return "line line-" + lineClassID++;
+    var lineClass = function (id) {
+        return "line line-" + id;
     }
 
     var jitter_difference = 3;
@@ -255,8 +265,12 @@
     });
 
     lines.append("path")
-        .attr('class', lineClass)
-        .attr('stroke', function (d) { return color(d.id); })
+        .attr('class', function(d) {
+            return lineClass(d.id);
+        })
+        .attr('stroke', function (d) {
+             return color(d.id);
+        })
         .attr("stroke-width", "2px")
         .attr("transform", function (d) {
             return "translate("+ d.jitter +", 0)";
@@ -270,9 +284,9 @@
         .attr("cx", function (d) {
             return xScale(timeConv(d.Date)) + this.parentNode.__data__.jitter;
         })      
-        .attr("cy", function(d) { return yScale(d.CumulativeValue); })    
+        .attr("cy", function (d) { return yScale(d.CumulativeValue) ; })    
         .attr('r', 5)
-        .style("opacity", 0.25)
+        .style("opacity", 1)
         .style('fill', function (d, i, j) {
             return color(this.parentNode.__data__.id);
         })
@@ -280,7 +294,7 @@
             d3.select(this).transition()
                 .delay(30)
                 .duration(200)
-                .style("opacity", 1);
+                .style("opacity", 0.5);
             tooltip.transition()
                 .delay(30)
                 .duration(200)
@@ -299,7 +313,7 @@
             d3.select(this).transition()
                 .delay(30)
                 .duration(200)
-                .style("opacity", 0.25);
+                .style("opacity", 1);
         });
 
     //bars
@@ -362,6 +376,10 @@
         .data(keys)
         .enter()
         .append('line')
+        .attr('class', function (d) {
+            
+            return lineClass(d);
+        })
         .attr("x1", margin.left)
         .attr("y1", function (d, i) { return i * (legendItemSize + 10) + 10;})
         .attr("x2", margin.left + legendLineWidth)

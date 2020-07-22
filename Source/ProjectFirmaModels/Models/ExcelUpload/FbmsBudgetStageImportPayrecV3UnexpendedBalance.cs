@@ -34,7 +34,6 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public readonly string ObligationNumber;
         public readonly string ObligationItem;
         public readonly string Fund;
-        public readonly string FundedProgram;
         public readonly string WbsElement;
         public readonly string WbsElementDescription;
         public readonly string BudgetObjectClass;
@@ -67,14 +66,11 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             // Column - Fund Key
             Fund = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FundKey);
 
-            // Column - Funded Program Key (Not Compounded)
-            FundedProgram = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FundedProgramKey);
-
             // Column - WBS Element Key
             WbsElement = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.WbsElementKey);
 
-            // Column - WBS Element Text
-            WbsElementDescription = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.WbsElementText);
+            // Column - Funded Program (Really an alternate name for the Name of the WBS element. It's named this because of reporting engine limitations on Dorothy's side.)
+            WbsElementDescription = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.FundedProgramKey);
 
             // Column - Budget Object Class Key
             BudgetObjectClass = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.BudgetObjectClassKey);
@@ -83,7 +79,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
             Vendor = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.VendorKey);
 
             // Column - Vendor Key
-            VendorName = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.VendorText);
+            VendorName = ExcelColumnHelper.GetStringDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.VendorNameText);
 
             // Column - Posting Date (Per SPL) - Key
             PostingDatePerSpl = ExcelColumnHelper.GetDateTimeDataValueForColumnName(dr, rowIndex, columnNameToLetterDict, FbmsBudgetStageImportPayrecV3UnexpendedBalances.PostingDatePerSplKey, ExcelColumnHelper.ExcelDateTimeCellType.SerialDateTimeValue);
