@@ -143,6 +143,39 @@ end
     from Reclamation.Agreement as rca
     inner join ImportFinancial.ObligationNumber as onum on rca.AgreementNumber = onum.ObligationNumberKey
 
+
+    
+
+    -- Now that WBSes and CostAuthorities have been inserted, associate any pairs coming in from each line of the ImportFinancialImpPayRecUnexpendedV3
+    -- that are not already associated.
+
+    DROP TABLE IF EXISTS #IncomingAgreementCostAuthorities
+    select
+    distinct
+        pr.ObligationNumber,
+        pr.WBSElement,
+        ca.CostAuthorityID,
+        agr.AgreementID
+    into #IncomingAgreementCostAuthorities
+    from 
+        ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
+        join Reclamation.CostAuthority as ca on pr.WBSElement = ca.CostAuthorityWorkBreakdownStructure
+        join Reclamation.Agreement as agr on pr.ObligationNumber = agr.AgreementNumber
+
+
+        --select * from #IncomingAgreementCostAuthorities
+        --select * from Reclamation.AgreementCostAuthority
+        insert into Reclamation.AgreementCostAuthority(AgreementID, CostAuthorityID)
+        select 
+                tmp.AgreementID,
+                tmp.CostAuthorityID
+        from
+            #IncomingAgreementCostAuthorities as tmp
+            left join Reclamation.AgreementCostAuthority as aca on tmp.AgreementID = aca.AgreementID and tmp.CostAuthorityID = aca.CostAuthorityID
+        where
+            aca.AgreementID is null or aca.CostAuthorityID is null
+
+
     insert into ImportFinancial.ObligationItem(ObligationItemKey, ObligationNumberID, VendorID)
     select 
         distinct
