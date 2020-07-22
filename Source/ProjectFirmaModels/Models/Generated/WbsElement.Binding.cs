@@ -26,7 +26,6 @@ namespace ProjectFirmaModels.Models
         protected WbsElement()
         {
             this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
-            this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
             this.WbsElementPnBudgets = new HashSet<WbsElementPnBudget>();
         }
 
@@ -67,7 +66,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || WbsElementPnBudgets.Any();
+            return WbsElementObligationItemBudgets.Any() || WbsElementPnBudgets.Any();
         }
 
         /// <summary>
@@ -82,11 +81,6 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(WbsElementObligationItemBudget).Name);
             }
 
-            if(WbsElementObligationItemInvoices.Any())
-            {
-                dependentObjects.Add(typeof(WbsElementObligationItemInvoice).Name);
-            }
-
             if(WbsElementPnBudgets.Any())
             {
                 dependentObjects.Add(typeof(WbsElementPnBudget).Name);
@@ -97,7 +91,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(WbsElement).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(WbsElementPnBudget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(WbsElement).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementPnBudget).Name};
 
 
         /// <summary>
@@ -127,11 +121,6 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in WbsElementObligationItemInvoices.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
             foreach(var x in WbsElementPnBudgets.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -146,7 +135,6 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return WbsElementID; } set { WbsElementID = value; } }
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
-        public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ICollection<WbsElementPnBudget> WbsElementPnBudgets { get; set; }
 
         public static class FieldLengths

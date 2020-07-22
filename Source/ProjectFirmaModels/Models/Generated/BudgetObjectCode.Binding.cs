@@ -26,7 +26,6 @@ namespace ProjectFirmaModels.Models
         protected BudgetObjectCode()
         {
             this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
-            this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
             this.WbsElementPnBudgets = new HashSet<WbsElementPnBudget>();
             this.CostAuthorityObligationRequests = new HashSet<CostAuthorityObligationRequest>();
         }
@@ -93,7 +92,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || WbsElementPnBudgets.Any() || CostAuthorityObligationRequests.Any();
+            return WbsElementObligationItemBudgets.Any() || WbsElementPnBudgets.Any() || CostAuthorityObligationRequests.Any();
         }
 
         /// <summary>
@@ -106,11 +105,6 @@ namespace ProjectFirmaModels.Models
             if(WbsElementObligationItemBudgets.Any())
             {
                 dependentObjects.Add(typeof(WbsElementObligationItemBudget).Name);
-            }
-
-            if(WbsElementObligationItemInvoices.Any())
-            {
-                dependentObjects.Add(typeof(WbsElementObligationItemInvoice).Name);
             }
 
             if(WbsElementPnBudgets.Any())
@@ -128,7 +122,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(BudgetObjectCode).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(WbsElementPnBudget).Name, typeof(CostAuthorityObligationRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(BudgetObjectCode).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementPnBudget).Name, typeof(CostAuthorityObligationRequest).Name};
 
 
         /// <summary>
@@ -154,11 +148,6 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in WbsElementObligationItemBudgets.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in WbsElementObligationItemInvoices.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -189,7 +178,6 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return BudgetObjectCodeID; } set { BudgetObjectCodeID = value; } }
 
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
-        public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ICollection<WbsElementPnBudget> WbsElementPnBudgets { get; set; }
         public virtual ICollection<CostAuthorityObligationRequest> CostAuthorityObligationRequests { get; set; }
         public virtual BudgetObjectCodeGroup BudgetObjectCodeGroup { get; set; }

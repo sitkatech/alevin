@@ -176,14 +176,6 @@ namespace ProjectFirma.Web.Controllers
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpUnexpendedBalancePayRecV3s.AddRange(unexpendedPayrecs);
 
-            // Gone for now; may come back as separate import. -- 6/11/2020 -- SLG 
-
-            //countAddedInvoices = invoiceStageImports.Count;
-            //var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
-            //var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
-            //existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            //HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
-
             // This bulk load creates an obscene number of AuditLog records if we don't suppress them, and
             // they are completely inappropriate.
             HttpRequestStorage.DatabaseEntities.SaveChangesWithNoAuditing(Tenant.SitkaTechnologyGroup.TenantID);
