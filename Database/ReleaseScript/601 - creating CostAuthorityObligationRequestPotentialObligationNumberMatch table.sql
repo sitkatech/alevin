@@ -1,0 +1,18 @@
+
+
+create table Reclamation.CostAuthorityObligationRequestPotentialObligationNumberMatch
+(
+    CostAuthorityObligationRequestPotentialObligationNumberMatchID int not null identity(1,1) constraint PK_CostAuthorityObligationRequestPotentialObligationNumberMatch_CostAuthorityObligationRequestPotentialObligationNumberMatchID primary key,
+    CostAuthorityObligationRequestID int not null constraint FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_CostAuthorityObligationRequest_CostAuthorityObligationRequest foreign key references Reclamation.CostAuthorityObligationRequest(CostAuthorityObligationRequestID),
+    ObligationNumberID int not null constraint FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_ObligationNumber_ObligationNumberID foreign key references ImportFinancial.ObligationNumber(ObligationNumberID)
+)
+GO
+
+ALTER TABLE [Reclamation].CostAuthorityObligationRequestPotentialObligationNumberMatch ADD
+ CONSTRAINT [AK_CostAuthorityObligationRequestPotentialObligationNumberMatch_CostAuthorityObligationRequestID_ObligationNumberID] UNIQUE NONCLUSTERED 
+(
+    CostAuthorityObligationRequestID ASC,
+    ObligationNumberID ASC
+) ON [PRIMARY]
+GO
+

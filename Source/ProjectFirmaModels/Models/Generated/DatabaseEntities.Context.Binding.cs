@@ -207,6 +207,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ContractTypeConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityObligationRequestConfiguration());
+            modelBuilder.Configurations.Add(new CostAuthorityObligationRequestPotentialObligationNumberMatchConfiguration());
             modelBuilder.Configurations.Add(new CostAuthorityProjectConfiguration());
             modelBuilder.Configurations.Add(new DeliverableConfiguration());
             modelBuilder.Configurations.Add(new DeliverableTypeConfiguration());
@@ -277,6 +278,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ContactRelationshipType> ContactRelationshipTypes { get { return AllContactRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<ContractType> ContractTypes { get; set; }
         public virtual DbSet<CostAuthority> CostAuthorities { get; set; }
+        public virtual DbSet<CostAuthorityObligationRequestPotentialObligationNumberMatch> CostAuthorityObligationRequestPotentialObligationNumberMatches { get; set; }
         public virtual DbSet<CostAuthorityObligationRequest> CostAuthorityObligationRequests { get; set; }
         public virtual DbSet<CostAuthorityProject> CostAuthorityProjects { get; set; }
         public virtual DbSet<CostType> AllCostTypes { get; set; }
@@ -695,6 +697,9 @@ namespace ProjectFirmaModels.Models
 
                 case "CostAuthority":
                     return CostAuthorities.GetCostAuthority(primaryKey);
+
+                case "CostAuthorityObligationRequestPotentialObligationNumberMatch":
+                    return CostAuthorityObligationRequestPotentialObligationNumberMatches.GetCostAuthorityObligationRequestPotentialObligationNumberMatch(primaryKey);
 
                 case "CostAuthorityObligationRequest":
                     return CostAuthorityObligationRequests.GetCostAuthorityObligationRequest(primaryKey);

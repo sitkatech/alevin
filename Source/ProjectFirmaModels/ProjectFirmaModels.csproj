@@ -125,6 +125,10 @@
     <Compile Include="Models\Generated\CostAuthorityObligationRequest.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthorityObligationRequest.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\CostAuthorityObligationRequestConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CostAuthorityObligationRequestPotentialObligationNumberMatch.Binding.cs" />
+    <Compile Include="Models\Generated\CostAuthorityObligationRequestPotentialObligationNumberMatch.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\CostAuthorityObligationRequestPotentialObligationNumberMatchConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthorityObligationRequestPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthorityPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\CostAuthorityProject.Binding.cs" />
