@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
@@ -50,6 +51,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public bool UserCanEditRequisitionInformation { get; }
         public bool UserCanInteractWithSubmissionNotes { get; }
         public EntityNotesViewData ObligationRequestNotesViewData { get; }
+        public List<CostAuthorityObligationRequestPotentialObligationNumberMatch> PotentialMatches { get; }
 
         public ObligationRequestDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.ObligationRequest obligationRequest, bool userCanInteractWithSubmissionNotes,
@@ -66,6 +68,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             UserCanInteractWithSubmissionNotes = userCanInteractWithSubmissionNotes;
             ObligationRequestNotesViewData = obligationRequestNotesViewData;
             CostAuthorityObligationRequestGridName = "costAuthorityObligationRequestGrid";
+            PotentialMatches = obligationRequest.CostAuthorityObligationRequests.SelectMany(x => x.CostAuthority)
 
             var costAuthorityIDList = obligationRequest.Agreement != null
                 ? obligationRequest.Agreement.AgreementCostAuthorities
