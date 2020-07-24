@@ -20,12 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
@@ -34,46 +32,6 @@ using ProjectFirma.Web.Models;
 
 namespace ProjectFirma.Web.Views.ObligationRequest
 {
-
-    public class CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec : GridSpec<CostAuthorityObligationRequestPotentialObligationNumberMatch>
-    {
-        public CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec(FirmaSession currentFirmaSession)
-        {
-            // Yes, we will need editor links of some kind here eventually...
-
-            //Add(string.Empty
-            //    , x => !isInDraft ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is in draft'><span class='sr-only'>You cannot delete this because it is in draft</span></span>")
-            //        : costAuthorityIDListOnObligation.Contains(x.CostAuthorityID) ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is on the Obligation'><span class='sr-only'>You cannot delete this because it is on the Obligation</span></span>")
-            //        : ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete This Projected Obligation", true)
-            //    , 30
-            //    , DhtmlxGridColumnFilterType.None);
-
-            Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), pm => UrlTemplate.MakeHrefString(pm.ObligationNumber.GetDetailUrl(), pm.ObligationNumber.ObligationNumberKey), 100, DhtmlxGridColumnFilterType.Text);
-
-            /*
-            // Agreement (AgreementNumber)
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.GetDetailUrl(), ra.ReclamationAgreement?.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
-            // Organization for Agreement
-            Add("Agreement Organization", ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.Organization?.GetDetailUrl(), ra.ReclamationAgreement?.Organization?.GetDisplayName()), 300, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-
-
-            //Add(string.Empty, x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditUrl(), "Edit Projected Obligation", true), 30, DhtmlxGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 300, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.AccountStructureDescription.ToType().ToGridHeaderString(), x => x.CostAuthority.AccountStructureDescription, 300, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 300, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.BudgetObjectCode.ToType().ToGridHeaderString(), a => a.BudgetObjectCode?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.RecipientOrganization.ToType().ToGridHeaderString(), a => a.RecipientOrganization?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.TechnicalRepresentative.ToType().ToGridHeaderString(), a => a.TechnicalRepresentativePerson?.GetFullNameFirstLast(), 120, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.CostAuthorityObligationRequestNote.ToType().ToGridHeaderString("Notes"), x => x.CostAuthorityObligationRequestNote, 300, DhtmlxGridColumnFilterType.Text);
-            */
-        }
-
-
-    }
-
-
-
-
     public class CostAuthorityObligationRequestGridSpec : GridSpec<ProjectFirmaModels.Models.CostAuthorityObligationRequest>
     {
         public CostAuthorityObligationRequestGridSpec(FirmaSession currentFirmaSession, bool isInDraft, List<int> costAuthorityIDListOnObligation)

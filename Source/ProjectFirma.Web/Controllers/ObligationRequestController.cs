@@ -387,6 +387,14 @@ namespace ProjectFirma.Web.Controllers
         }
 
 
+        public PartialViewResult PotentialMatchDetail(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey)
+        {
+            // JUST FOR TESTING!
+            var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey);
+            return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData>(viewData);
+        }
+
+
 
     }
 }

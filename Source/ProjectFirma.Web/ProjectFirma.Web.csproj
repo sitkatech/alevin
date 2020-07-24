@@ -116,6 +116,7 @@
     <Compile Include="Models\BoundingBoxTest.cs" />
     <Compile Include="Models\BudgetObjectCodeModelExtensions.cs" />
     <Compile Include="Models\ContactRelationshipTypeModelExtensions.cs" />
+    <Compile Include="Models\CostAuthorityObligationRequestPotentialObligationNumberMatchModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
@@ -325,6 +326,15 @@
     <Compile Include="Views\ObligationItem\ObligationItemGridSpec.cs" />
     <Compile Include="Views\ObligationItem\ObligationItemIndex.cs" />
     <Compile Include="Views\ObligationItem\ObligationItemIndexViewData.cs" />
+    <Compile Include="Views\ObligationRequest\AgreementJson.cs" />
+    <Compile Include="Views\ObligationRequest\AgreementJsonList.cs" />
+    <Compile Include="Views\ObligationRequest\CostAuthorityJson.cs" />
+    <Compile Include="Views\ObligationRequest\CostAuthorityJsonList.cs" />
+    <Compile Include="Views\ObligationRequest\CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec.cs" />
+    <Compile Include="Views\ObligationRequest\ObligationRequestStatusJson.cs" />
+    <Compile Include="Views\ObligationRequest\ObligationRequestStatusJsonList.cs" />
+    <Compile Include="Views\ObligationRequest\PotentialMatchInformation.cs" />
+    <Compile Include="Views\ObligationRequest\PotentialMatchInformationViewData.cs" />
     <Compile Include="Views\Obligation\ObligationDetail.cs" />
     <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />
     <Compile Include="Views\Obligation\ContractualInvoiceIndex.cs" />
@@ -907,6 +917,7 @@
     <Content Include="Views\PnBudget\PnBudgetIndex.cshtml" />
     <Content Include="Views\ObligationItem\ObligationItemIndex.cshtml" />
     <Content Include="Views\ObligationItem\ObligationItemDetail.cshtml" />
+    <Content Include="Views\ObligationRequest\PotentialMatchInformation.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
