@@ -379,23 +379,11 @@ namespace ProjectFirma.Web.Controllers
         [ObligationRequestIndexViewFeature]
         public GridJsonNetJObjectResult<CostAuthorityObligationRequestPotentialObligationNumberMatch> PotentialObligationRequestMatchesJsonData(ObligationRequestPrimaryKey obligationRequestPrimaryKey)
         {
-            // Tom, this is where the road ends.
-            this is half baked in here.
-
             var obligationRequest = obligationRequestPrimaryKey.EntityObject;
             var obligationRequestMatches = obligationRequest.CostAuthorityObligationRequests.SelectMany(caor => caor.CostAuthorityObligationRequestPotentialObligationNumberMatches).ToList();
-            /*
-            var reclamationObligationRequest = reclamationObligationRequestPrimaryKey.EntityObject;
-            var costAuthorityIDList = reclamationObligationRequest.Agreement != null
-                ? reclamationObligationRequest.Agreement.AgreementCostAuthorities.Select(x => x.CostAuthorityID).ToList()
-                : new List<int>();
-            var gridSpec = new CostAuthorityObligationRequestGridSpec(CurrentFirmaSession, reclamationObligationRequest.ObligationRequestStatus == ObligationRequestStatus.Draft, costAuthorityIDList);
-            var costAuthorityObligationRequests = reclamationObligationRequestPrimaryKey.EntityObject
-                .CostAuthorityObligationRequests.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthorityObligationRequest>(costAuthorityObligationRequests, gridSpec);
+            var gridSpec = new CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec(CurrentFirmaSession);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthorityObligationRequestPotentialObligationNumberMatch>(obligationRequestMatches, gridSpec);
             return gridJsonNetJObjectResult;
-            */
-            return null;
         }
 
 
