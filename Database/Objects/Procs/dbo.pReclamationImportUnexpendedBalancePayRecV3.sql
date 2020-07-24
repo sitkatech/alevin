@@ -226,7 +226,7 @@ end
     --select * from Reclamation.CostAuthorityObligationRequestPotentialObligationNumberMatch
     
 
-    -- Temp table xxx
+    -- Temp table for potential Cost Authority / Obligation Number matches
     DROP TABLE IF EXISTS #NewCandidatesFor_CostAuthorityObligationRequestPotentialObligationNumberMatch
     select
        distinct
