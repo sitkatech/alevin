@@ -12,7 +12,7 @@ if (
     (not EXISTS(SELECT 1 FROM Staging.StageImpPnBudget))
     )
 begin
-   raiserror('pReclamationImportPnBudget: There is no data in at least one of the tables for publishing. Publishing halted.', 16,1)
+   raiserror('pReclamationImportPnBudget: There is no data in Staging.StageImpPnBudget. Publishing halted.', 16,1)
    return -1
 end
 
@@ -161,8 +161,5 @@ group by x.FundingSourceID, x.CalendarYear, cap.ProjectID
 /*
 
 exec dbo.pReclamationImportPnBudget
-select * from ImportFinancial.ImpPnBudget
-
-select * from ImportFinancial.WbsElementPnBudget
 
 */

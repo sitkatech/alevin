@@ -133,15 +133,12 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 budgetStageImports = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
-                // Unsure if this is gone long term, but it's gone for now. -- SLG 6/11/2020
-                //invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
             }
             catch (Exception ex)
             {
                 return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            //LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
             LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, out var countAddedBudgets, this.CurrentFirmaSession);
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
@@ -154,14 +151,10 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
-            //SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.</br>{importTimeString}.");
-            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br>{importTimeString}.");
+            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} FBMS records were successfully imported to database. </br>{importTimeString}.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
         }
-
-
-        // 
 
         private static string GetTaskTimeString(string taskString, TimeSpan elapsedTime)
         {
@@ -182,14 +175,6 @@ namespace ProjectFirma.Web.Controllers
             var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpUnexpendedBalancePayRecV3s.ToList();
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpUnexpendedBalancePayRecV3s.AddRange(unexpendedPayrecs);
-
-            // Gone for now; may come back as separate import. -- 6/11/2020 -- SLG 
-
-            //countAddedInvoices = invoiceStageImports.Count;
-            //var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
-            //var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
-            //existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            //HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
 
             // This bulk load creates an obscene number of AuditLog records if we don't suppress them, and
             // they are completely inappropriate.
@@ -366,6 +351,12 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 DoPublishingSql(Logger);
+
+                //int blah = 2;
+                //if (1 == blah-1)
+                //{
+                //    //throw new Exception("Fake exception to test ideas..");
+                //}
 
                 // If we get this far, we've succeeded.
                 // Log last import as successful.

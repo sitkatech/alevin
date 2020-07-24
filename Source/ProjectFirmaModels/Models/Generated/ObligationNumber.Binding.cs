@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected ObligationNumber()
         {
             this.ObligationItems = new HashSet<ObligationItem>();
+            this.CostAuthorityObligationRequestPotentialObligationNumberMatches = new HashSet<CostAuthorityObligationRequestPotentialObligationNumberMatch>();
             this.ObligationRequests = new HashSet<ObligationRequest>();
         }
 
@@ -65,7 +66,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ObligationItems.Any() || ObligationRequests.Any();
+            return ObligationItems.Any() || CostAuthorityObligationRequestPotentialObligationNumberMatches.Any() || ObligationRequests.Any();
         }
 
         /// <summary>
@@ -80,6 +81,11 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(ObligationItem).Name);
             }
 
+            if(CostAuthorityObligationRequestPotentialObligationNumberMatches.Any())
+            {
+                dependentObjects.Add(typeof(CostAuthorityObligationRequestPotentialObligationNumberMatch).Name);
+            }
+
             if(ObligationRequests.Any())
             {
                 dependentObjects.Add(typeof(ObligationRequest).Name);
@@ -90,7 +96,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ObligationNumber).Name, typeof(ObligationItem).Name, typeof(ObligationRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ObligationNumber).Name, typeof(ObligationItem).Name, typeof(CostAuthorityObligationRequestPotentialObligationNumberMatch).Name, typeof(ObligationRequest).Name};
 
 
         /// <summary>
@@ -120,6 +126,11 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
+            foreach(var x in CostAuthorityObligationRequestPotentialObligationNumberMatches.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in ObligationRequests.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -134,6 +145,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ObligationNumberID; } set { ObligationNumberID = value; } }
 
         public virtual ICollection<ObligationItem> ObligationItems { get; set; }
+        public virtual ICollection<CostAuthorityObligationRequestPotentialObligationNumberMatch> CostAuthorityObligationRequestPotentialObligationNumberMatches { get; set; }
         public virtual ICollection<ObligationRequest> ObligationRequests { get; set; }
         public virtual Agreement ReclamationAgreement { get; set; }
 

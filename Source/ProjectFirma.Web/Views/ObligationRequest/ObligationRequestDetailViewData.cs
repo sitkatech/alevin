@@ -20,6 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
@@ -51,9 +52,15 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public bool UserCanInteractWithSubmissionNotes { get; }
         public EntityNotesViewData ObligationRequestNotesViewData { get; }
 
+        public List<CostAuthorityObligationRequestPotentialObligationNumberMatch> PotentialMatches { get; }
+        public string PotentialMatchesGridName { get; }
+        public CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec PotentialMatchesGridSpec { get; }
+        public string PotentialMatchesGridDataUrl { get; }
+
         public ObligationRequestDetailViewData(FirmaSession currentFirmaSession,
-            ProjectFirmaModels.Models.ObligationRequest obligationRequest, bool userCanInteractWithSubmissionNotes,
-            EntityNotesViewData obligationRequestNotesViewData) : base(currentFirmaSession)
+                                                ProjectFirmaModels.Models.ObligationRequest obligationRequest,
+                                                bool userCanInteractWithSubmissionNotes,
+                                                EntityNotesViewData obligationRequestNotesViewData) : base(currentFirmaSession)
         {
             PageTitle = $"Obligation Request: {obligationRequest.ObligationRequestID.ToString("D4")}";
             EntityName = "Obligation Request Detail";
@@ -65,20 +72,28 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             UserCanEditRequisitionInformation = new ObligationRequestCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
             UserCanInteractWithSubmissionNotes = userCanInteractWithSubmissionNotes;
             ObligationRequestNotesViewData = obligationRequestNotesViewData;
-            CostAuthorityObligationRequestGridName = "costAuthorityObligationRequestGrid";
+
+            // Potential Matches
+            PotentialMatches = obligationRequest.CostAuthorityObligationRequests
+                .SelectMany(x => x.CostAuthorityObligationRequestPotentialObligationNumberMatches).ToList();
+            PotentialMatchesGridName = "potentialMatchesGrid";
+            PotentialMatchesGridSpec = new CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec(currentFirmaSession);
+            PotentialMatchesGridDataUrl = SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(cac => cac.PotentialObligationRequestMatchesJsonData(obligationRequest));
 
             var costAuthorityIDList = obligationRequest.Agreement != null
                 ? obligationRequest.Agreement.AgreementCostAuthorities
                     .Select(x => x.CostAuthorityID).ToList()
                 : new List<int>();
 
+            CostAuthorityObligationRequestGridName = "costAuthorityObligationRequestGrid";
             CostAuthorityObligationRequestGridSpec = new CostAuthorityObligationRequestGridSpec(CurrentFirmaSession, obligationRequest.ObligationRequestStatus == ObligationRequestStatus.Draft, costAuthorityIDList)
             {
                 ObjectNameSingular = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} associated with {FieldDefinitionEnum.ObligationRequest.ToType().GetFieldDefinitionLabel()} {obligationRequest.ObligationRequestID.ToString("D4")}",
                 ObjectNamePlural = $"{FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()} associated with {FieldDefinitionEnum.ObligationRequest.ToType().GetFieldDefinitionLabel()} {obligationRequest.ObligationRequestID.ToString("D4")}",
                 SaveFiltersInCookie = true
             };
-            CostAuthorityObligationRequestGridDataUrl = SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityObligationRequestsJsonData(obligationRequest));        }
+            CostAuthorityObligationRequestGridDataUrl = SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityObligationRequestsJsonData(obligationRequest));
+        }
 
     }
 }

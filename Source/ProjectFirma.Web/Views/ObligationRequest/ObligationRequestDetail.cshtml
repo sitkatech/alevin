@@ -79,65 +79,79 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-6 col-md-5">
-        <div class="panel panelFirma">
-            <div class="panel-heading panelTitle">
-                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditObligationRequestBasicsUrl, string.Format("Edit {0}", FieldDefinitionEnum.ObligationRequest.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanEditObligationRequest)
-                <h2 class="project-detail-heading">
-                    Basics
-                </h2>
+   <div class="col-lg-6 col-md-5">
+      <div class="panel panelFirma">
+         <div class="panel-heading panelTitle">
+            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditObligationRequestBasicsUrl, string.Format("Edit {0}", FieldDefinitionEnum.ObligationRequest.ToType().GetFieldDefinitionLabel()), ViewDataTyped.UserCanEditObligationRequest)
+            <h2 class="project-detail-heading">
+               Basics
+            </h2>
+         </div>
+         <div class="panel-body">
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.IsModification.ToType())</div>
+               <div class="col-xs-7">@ViewDataTyped.ObligationRequest.IsModification.ToYesNo()</div>
             </div>
-            <div class="panel-body">
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.IsModification.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationRequest.IsModification.ToYesNo()</div>
-                </div>
 
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</div>
-                    <div class="col-xs-7">
-                        @(ViewDataTyped.ObligationRequest.Agreement != null ? UrlTemplate.MakeHrefString(ViewDataTyped.ObligationRequest.Agreement.GetDetailUrl(), ViewDataTyped.ObligationRequest.Agreement.GetDisplayName()) : new HtmlString(string.Empty))
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ContractType.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationRequest.ContractType.ContractTypeDisplayName</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequestStatus.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationRequest.ObligationRequestStatus.ObligationRequestStatusDisplayName</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.DescriptionOfNeed.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationRequest.DescriptionOfNeed</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingPriority.ToType())</div>
-                    <div class="col-xs-7">@(ViewDataTyped.ObligationRequest.ReclamationObligationRequestFundingPriority != null ? ViewDataTyped.ObligationRequest.ReclamationObligationRequestFundingPriority.ObligationRequestFundingPriorityDisplayName : string.Empty)</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetSubmittalDate.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationRequest.TargetSubmittalDate.ToStringDate()</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PALT.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationRequest.PALT</div>
-                </div>
-
-                <div class="row">
-                    <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetAwardDate.ToType())</div>
-                    <div class="col-xs-7">@ViewDataTyped.ObligationRequest.TargetAwardDate.ToStringDate()</div>
-                </div>
-
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</div>
+               <div class="col-xs-7">
+                  @(ViewDataTyped.ObligationRequest.Agreement != null ? UrlTemplate.MakeHrefString(ViewDataTyped.ObligationRequest.Agreement.GetDetailUrl(), ViewDataTyped.ObligationRequest.Agreement.GetDisplayName()) : new HtmlString(string.Empty))
+               </div>
             </div>
-        </div>
-    </div>
+
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ContractType.ToType())</div>
+               <div class="col-xs-7">@ViewDataTyped.ObligationRequest.ContractType.ContractTypeDisplayName</div>
+            </div>
+
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.RequestStatus.ToType())</div>
+               <div class="col-xs-7">@ViewDataTyped.ObligationRequest.ObligationRequestStatus.ObligationRequestStatusDisplayName</div>
+            </div>
+
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.DescriptionOfNeed.ToType())</div>
+               <div class="col-xs-7">@ViewDataTyped.ObligationRequest.DescriptionOfNeed</div>
+            </div>
+
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.FundingPriority.ToType())</div>
+               <div class="col-xs-7">@(ViewDataTyped.ObligationRequest.ReclamationObligationRequestFundingPriority != null ? ViewDataTyped.ObligationRequest.ReclamationObligationRequestFundingPriority.ObligationRequestFundingPriorityDisplayName : string.Empty)</div>
+            </div>
+
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetSubmittalDate.ToType())</div>
+               <div class="col-xs-7">@ViewDataTyped.ObligationRequest.TargetSubmittalDate.ToStringDate()</div>
+            </div>
+
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PALT.ToType())</div>
+               <div class="col-xs-7">@ViewDataTyped.ObligationRequest.PALT</div>
+            </div>
+
+            <div class="row">
+               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.TargetAwardDate.ToType())</div>
+               <div class="col-xs-7">@ViewDataTyped.ObligationRequest.TargetAwardDate.ToStringDate()</div>
+            </div>
+
+         </div>
+      </div>
+   </div>
+
+   <div class="col-lg-6 col-md-5">
+      <div class="panel panelFirma">
+         <div class="panel-heading panelTitle">
+            <h2 class="project-detail-heading">
+               Potential Matches
+            </h2>
+         </div>
+         <div class="panel-body">
+            @Html.DhtmlxGrid(ViewDataTyped.PotentialMatchesGridSpec, ViewDataTyped.PotentialMatchesGridName, ViewDataTyped.PotentialMatchesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+         </div>
+      </div>
+   </div>
+
 </div>
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">

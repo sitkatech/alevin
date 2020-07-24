@@ -6,6 +6,7 @@ CREATE TABLE [Reclamation].[ObligationRequest](
 	[ObligationRequestID] [int] IDENTITY(1,1) NOT NULL,
 	[IsModification] [bit] NOT NULL,
 	[AgreementID] [int] NULL,
+	[ObligationNumberID] [int] NULL,
 	[ContractTypeID] [int] NOT NULL,
 	[ObligationRequestStatusID] [int] NOT NULL,
 	[DescriptionOfNeed] [nvarchar](250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -24,7 +25,6 @@ CREATE TABLE [Reclamation].[ObligationRequest](
 	[DateSentForDeptReview] [datetime] NULL,
 	[DCApprovalDate] [datetime] NULL,
 	[ActualAwardDate] [datetime] NULL,
-	[ObligationNumberID] [int] NULL,
  CONSTRAINT [PK_ObligationRequest_ObligationRequestID] PRIMARY KEY CLUSTERED 
 (
 	[ObligationRequestID] ASC

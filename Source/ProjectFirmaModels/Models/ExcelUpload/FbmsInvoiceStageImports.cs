@@ -47,7 +47,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
                 indexToRowDict.Add(rowNumber++, curDataRow);
             }
 
-            // Skip the first row (remove it)            
+            // Skip the first row (remove it)
             var indexesToRemove = new List<int> { 0 };
 
             // Remove any blank rows
