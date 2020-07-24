@@ -68,7 +68,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             UserCanInteractWithSubmissionNotes = userCanInteractWithSubmissionNotes;
             ObligationRequestNotesViewData = obligationRequestNotesViewData;
             CostAuthorityObligationRequestGridName = "costAuthorityObligationRequestGrid";
-            PotentialMatches = obligationRequest.CostAuthorityObligationRequests.SelectMany(x => x.CostAuthority)
+            PotentialMatches = obligationRequest.CostAuthorityObligationRequests
+                .SelectMany(x => x.CostAuthorityObligationRequestPotentialObligationNumberMatches).ToList();
 
             var costAuthorityIDList = obligationRequest.Agreement != null
                 ? obligationRequest.Agreement.AgreementCostAuthorities

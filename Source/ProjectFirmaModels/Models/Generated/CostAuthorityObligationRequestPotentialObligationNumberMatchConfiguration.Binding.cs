@@ -19,6 +19,9 @@ namespace ProjectFirmaModels.Models
             Property(x => x.CostAuthorityObligationRequestID).HasColumnName(@"CostAuthorityObligationRequestID").HasColumnType("int").IsRequired();
             Property(x => x.ObligationNumberID).HasColumnName(@"ObligationNumberID").HasColumnType("int").IsRequired();
 
+            // Foreign keys
+            HasRequired(a => a.CostAuthorityObligationRequest).WithMany(b => b.CostAuthorityObligationRequestPotentialObligationNumberMatches).HasForeignKey(c => c.CostAuthorityObligationRequestID).WillCascadeOnDelete(false); // FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_CostAuthorityObligationRequest_CostAuthorityObligationRequestID
+            HasRequired(a => a.ObligationNumber).WithMany(b => b.CostAuthorityObligationRequestPotentialObligationNumberMatches).HasForeignKey(c => c.ObligationNumberID).WillCascadeOnDelete(false); // FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_ObligationNumber_ObligationNumberID
         }
     }
 }

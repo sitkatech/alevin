@@ -16,3 +16,14 @@ CREATE TABLE [Reclamation].[CostAuthorityObligationRequestPotentialObligationNum
 	[ObligationNumberID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
+
+GO
+ALTER TABLE [Reclamation].[CostAuthorityObligationRequestPotentialObligationNumberMatch]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_CostAuthorityObligationRequest_CostAuthorityObligationRequestID] FOREIGN KEY([CostAuthorityObligationRequestID])
+REFERENCES [Reclamation].[CostAuthorityObligationRequest] ([CostAuthorityObligationRequestID])
+GO
+ALTER TABLE [Reclamation].[CostAuthorityObligationRequestPotentialObligationNumberMatch] CHECK CONSTRAINT [FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_CostAuthorityObligationRequest_CostAuthorityObligationRequestID]
+GO
+ALTER TABLE [Reclamation].[CostAuthorityObligationRequestPotentialObligationNumberMatch]  WITH CHECK ADD  CONSTRAINT [FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_ObligationNumber_ObligationNumberID] FOREIGN KEY([ObligationNumberID])
+REFERENCES [ImportFinancial].[ObligationNumber] ([ObligationNumberID])
+GO
+ALTER TABLE [Reclamation].[CostAuthorityObligationRequestPotentialObligationNumberMatch] CHECK CONSTRAINT [FK_CostAuthorityObligationRequestPotentialObligationNumberMatch_ObligationNumber_ObligationNumberID]

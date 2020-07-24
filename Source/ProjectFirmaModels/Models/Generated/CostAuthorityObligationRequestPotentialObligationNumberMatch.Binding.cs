@@ -50,13 +50,27 @@ namespace ProjectFirmaModels.Models
             this.ObligationNumberID = obligationNumberID;
         }
 
+        /// <summary>
+        /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
+        /// </summary>
+        public CostAuthorityObligationRequestPotentialObligationNumberMatch(CostAuthorityObligationRequest costAuthorityObligationRequest, ObligationNumber obligationNumber) : this()
+        {
+            // Mark this as a new object by setting primary key with special value
+            this.CostAuthorityObligationRequestPotentialObligationNumberMatchID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
+            this.CostAuthorityObligationRequestID = costAuthorityObligationRequest.CostAuthorityObligationRequestID;
+            this.CostAuthorityObligationRequest = costAuthorityObligationRequest;
+            costAuthorityObligationRequest.CostAuthorityObligationRequestPotentialObligationNumberMatches.Add(this);
+            this.ObligationNumberID = obligationNumber.ObligationNumberID;
+            this.ObligationNumber = obligationNumber;
+            obligationNumber.CostAuthorityObligationRequestPotentialObligationNumberMatches.Add(this);
+        }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static CostAuthorityObligationRequestPotentialObligationNumberMatch CreateNewBlank()
+        public static CostAuthorityObligationRequestPotentialObligationNumberMatch CreateNewBlank(CostAuthorityObligationRequest costAuthorityObligationRequest, ObligationNumber obligationNumber)
         {
-            return new CostAuthorityObligationRequestPotentialObligationNumberMatch(default(int), default(int));
+            return new CostAuthorityObligationRequestPotentialObligationNumberMatch(costAuthorityObligationRequest, obligationNumber);
         }
 
         /// <summary>
@@ -108,7 +122,8 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return CostAuthorityObligationRequestPotentialObligationNumberMatchID; } set { CostAuthorityObligationRequestPotentialObligationNumberMatchID = value; } }
 
-
+        public virtual CostAuthorityObligationRequest CostAuthorityObligationRequest { get; set; }
+        public virtual ObligationNumber ObligationNumber { get; set; }
 
         public static class FieldLengths
         {
