@@ -405,7 +405,7 @@ namespace LtInfo.Common.ModalDialog
         /// </summary>
         public static HtmlString MakeInfoIconLink(string dialogUrl, string dialogTitle, int width, bool hasPermission)
         {
-              return hasPermission ? ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-search gi-1x blue", dialogTitle).ToString(), dialogUrl, dialogTitle, width, SaveButtonID, "Save", "Cancel", new List<string>(), null, null, null) : new HtmlString(string.Empty);
+              return hasPermission ? ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-search gi-1x blue", dialogTitle).ToString(), dialogUrl, dialogTitle, width, HiddenSaveButtonID, "NotARealSaveButton", "Close", new List<string>(), null, null, null) : new HtmlString(string.Empty);
         }
 
         public static HtmlString MakeNewIconButton(string dialogUrl, string dialogTitle, bool hasPermission)
