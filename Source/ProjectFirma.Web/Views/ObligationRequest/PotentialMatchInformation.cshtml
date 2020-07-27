@@ -19,6 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using System.Web.Mvc.Html
+@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
@@ -32,10 +33,49 @@
 
 
 
+<div class="row">
+   <div class="col-xs-4">
+      <strong>CAWBS:</strong>
+   </div>
+   <div class="col-xs-8">
+      <p>@ViewDataTyped.PotentialObligationNumberMatch.CostAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure</p>
+   </div>
+</div>
+
+<div class="row">
+   <div class="col-xs-4">
+      <strong>Obligation Number:</strong>
+   </div>
+   <div class="col-xs-8">
+      <p>@ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.ObligationNumberKey</p>
+   </div>
+</div>
+
 
 
 <div class="row">
-    <div class="col-xs-12">
-        <p>Hello world</p>
-    </div>
+   <div class="col-xs-12">
+      <div>
+         <strong>All Obligation Item Budget(s):</strong>
+      </div>
+      <table class="table table-bordered table-condensed">
+         <tr>
+            <th>Date</th>
+            <th>Unexpended Balance</th>
+            <th>Vendor Name</th>
+         </tr>
+         @foreach (var currentWbsObItemBudget in ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.GetWbsElementObligationItemBudgets())
+         {
+            <tr>
+               <td>@currentWbsObItemBudget.PostingDatePerSplKey.ToStringDate()</td>
+               <td>@currentWbsObItemBudget.UnexpendedBalance.ToStringCurrency()</td>
+               <td>@currentWbsObItemBudget.ObligationItem.Vendor.VendorText</td>
+            </tr>
+         }
+         <tr>
+            <th scope="row">Total Unexpended Balance:</th>
+            <th colspan="2">@ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.GetWbsElementObligationItemBudgets().Sum(x => x.UnexpendedBalance).ToStringCurrency()</th>
+         </tr>
+      </table>
+   </div>
 </div>
