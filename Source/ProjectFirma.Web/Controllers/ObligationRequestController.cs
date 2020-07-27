@@ -408,8 +408,15 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         public ActionResult ConfirmPotentialMatch(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchInformationViewModel viewModel)
         {
-            //var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey);
-            //return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
+            var matchToConfirm = costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey.EntityObject;
+            var obligationRequest = matchToConfirm.CostAuthorityObligationRequest.ObligationRequest;
+
+            obligationRequest.ObligationNumberID = matchToConfirm.ObligationNumberID;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+
+            SetMessageForDisplay($"Confirmed match for {obligationRequest.ObligationNumber.ObligationNumberKey}");
+
             return new ModalDialogFormJsonResult();
         }
 
