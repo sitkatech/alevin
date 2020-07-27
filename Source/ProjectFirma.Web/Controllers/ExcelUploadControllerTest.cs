@@ -41,12 +41,8 @@ namespace ProjectFirma.Web.Controllers
             const string pathToSampleFbmsExcelFileThatWouldBeUploaded = "C:\\git\\sitkatech\\alevin\\Source\\ProjectFirma.Web\\Controllers\\ExcelUploadControllerTestData\\Sitka PayRec CSRO_2020-07-16.xlsx";
 
             FileStream excelFileStream = new FileStream(pathToSampleFbmsExcelFileThatWouldBeUploaded, FileMode.Open, FileAccess.Read);
-
-            List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> budgetTransferBulks = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
-            //List<FbmsInvoiceStageImport> invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
-
-            //ExcelUploadController.LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetTransferBulks, invoiceStageImports,  out int countOfCountAddedBudgets, out int countOfAddedInvoices, null);
-            ExcelUploadController.LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetTransferBulks, out int countOfCountAddedBudgets, null);
+            List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> payrecV3s = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
+            ExcelUploadController.LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(payrecV3s, out int countOfCountAddedBudgets, null);
         }
 
     }
