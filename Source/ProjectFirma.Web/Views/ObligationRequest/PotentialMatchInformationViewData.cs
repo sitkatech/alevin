@@ -2,15 +2,23 @@
 
 namespace ProjectFirma.Web.Views.ObligationRequest
 {
+    public enum PotentialMatchDialogMode
+    {
+        ReadOnlyReview,
+        ConfirmWithPostAction
+    }
+
     public class PotentialMatchInformationViewData : FirmaViewData
     {
-        public CostAuthorityObligationRequestPotentialObligationNumberMatch PotentialObligationNumberMatch;
+        public CostAuthorityObligationRequestPotentialObligationNumberMatch PotentialObligationNumberMatch { get; }
+        public PotentialMatchDialogMode PotentialMatchDialogMode { get; }
 
         public PotentialMatchInformationViewData(FirmaSession currentFirmaSession,
-            CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey
-                costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey) : base(currentFirmaSession)
+            CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, 
+            PotentialMatchDialogMode potentialMatchDialogMode) : base(currentFirmaSession)
         {
-            PotentialObligationNumberMatch = costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey.EntityObject;
+            this.PotentialObligationNumberMatch = costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey.EntityObject;
+            this.PotentialMatchDialogMode = potentialMatchDialogMode;
         }
     }
 }

@@ -335,6 +335,7 @@
     <Compile Include="Views\ObligationRequest\ObligationRequestStatusJson.cs" />
     <Compile Include="Views\ObligationRequest\ObligationRequestStatusJsonList.cs" />
     <Compile Include="Views\ObligationRequest\PotentialMatchInformation.cs" />
+    <Compile Include="Views\ObligationRequest\PotentialMatchInformationViewModel.cs" />
     <Compile Include="Views\ObligationRequest\PotentialMatchInformationViewData.cs" />
     <Compile Include="Views\Obligation\ObligationDetail.cs" />
     <Compile Include="Views\Obligation\ObligationDetailViewData.cs" />

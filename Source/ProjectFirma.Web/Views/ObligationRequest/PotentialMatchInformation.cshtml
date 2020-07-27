@@ -18,20 +18,10 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using System.Web.Mvc.Html
 @using LtInfo.Common
-@using LtInfo.Common.HtmlHelperExtensions
-@using Newtonsoft.Json
-@using Newtonsoft.Json.Linq
-@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
-@using ProjectFirma.Web.Views.Shared
-@using ProjectFirma.Web.Views.Shared.ProjectTimeline
-@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.ObligationRequest
 @inherits ProjectFirma.Web.Views.ObligationRequest.PotentialMatchInformation
-
-
-
 
 <div class="row">
    <div class="col-xs-4">
@@ -50,8 +40,6 @@
       <p>@ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.ObligationNumberKey</p>
    </div>
 </div>
-
-
 
 <div class="row">
    <div class="col-xs-12">
@@ -79,3 +67,8 @@
       </table>
    </div>
 </div>
+
+@if (ViewDataTyped.PotentialMatchDialogMode == PotentialMatchDialogMode.ConfirmWithPostAction)
+{
+   Html.BeginForm();
+}

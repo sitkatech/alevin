@@ -2,7 +2,7 @@
 
 namespace ProjectFirma.Web.Views.ObligationRequest
 {
-    public abstract class PotentialMatchInformation : TypedWebPartialViewPage<PotentialMatchInformationViewData>
+    public abstract class PotentialMatchInformation : TypedWebPartialViewPage<PotentialMatchInformationViewData, PotentialMatchInformationViewModel>
     {
     }
 }

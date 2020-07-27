@@ -386,12 +386,31 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-
+        [ObligationRequestIndexViewFeature]
+        [HttpGet]
         public PartialViewResult PotentialMatchDetail(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey)
         {
-            // JUST FOR TESTING!
-            var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey);
-            return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData>(viewData);
+            var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchDialogMode.ReadOnlyReview);
+            var viewModel = new PotentialMatchInformationViewModel();
+            return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
+        }
+
+        [ObligationRequestIndexViewFeature]
+        [HttpGet]
+        public PartialViewResult ConfirmPotentialMatch(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey)
+        {
+            var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchDialogMode.ConfirmWithPostAction);
+            var viewModel = new PotentialMatchInformationViewModel();
+            return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
+        }
+
+        [ObligationRequestIndexViewFeature]
+        [HttpPost]
+        public ActionResult ConfirmPotentialMatch(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchInformationViewModel viewModel)
+        {
+            //var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey);
+            //return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
+            return new ModalDialogFormJsonResult();
         }
 
 

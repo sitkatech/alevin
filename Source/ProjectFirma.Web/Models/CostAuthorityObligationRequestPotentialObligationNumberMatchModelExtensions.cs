@@ -14,6 +14,12 @@ namespace ProjectFirma.Web.Models
             return PotentialMatchDetailUrlTemplate.ParameterReplace(costAuthorityObligationRequestPotentialMatch.CostAuthorityObligationRequestPotentialObligationNumberMatchID);
         }
 
+        public static readonly UrlTemplate<int> PotentialMatchConfirmUrlTemplate = new UrlTemplate<int>(SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(orc => orc.ConfirmPotentialMatch(UrlTemplate.Parameter1Int)));
+        public static string GetPotentialMatchConfirmUrl(this CostAuthorityObligationRequestPotentialObligationNumberMatch costAuthorityObligationRequestPotentialMatch)
+        {
+            return PotentialMatchConfirmUrlTemplate.ParameterReplace(costAuthorityObligationRequestPotentialMatch.CostAuthorityObligationRequestPotentialObligationNumberMatchID);
+        }
+
 
     }
 }
