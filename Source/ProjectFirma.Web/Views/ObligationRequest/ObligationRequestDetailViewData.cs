@@ -57,7 +57,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                                                 bool userCanInteractWithSubmissionNotes,
                                                 EntityNotesViewData obligationRequestNotesViewData) : base(currentFirmaSession)
         {
-            PageTitle = $"Obligation Request: {obligationRequest.ObligationRequestID.ToString("D4")}";
+            PageTitle = $"Obligation Request: {obligationRequest.GetObligationRequestNumber()}";
             EntityName = "Obligation Request Detail";
             ObligationRequest = obligationRequest;
             IndexUrl = SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(c => c.ObligationRequestIndex());
