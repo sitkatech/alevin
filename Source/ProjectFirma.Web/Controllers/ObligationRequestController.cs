@@ -209,7 +209,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<ObligationRequestDetail, ObligationRequestDetailViewData>(viewData);
         }
 
-
         [HttpGet]
         [ObligationRequestCreateFeature]
         public PartialViewResult Edit(ObligationRequestPrimaryKey obligationRequestPrimaryKey)

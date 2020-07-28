@@ -39,12 +39,6 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         {
             Add(string.Empty, x => ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete Obligation Request", true), 30, DhtmlxGridColumnFilterType.None);
 
-            //// ObligationRequestID
-           // Add(FieldDefinitionEnum.ObligationRequestID.ToType().ToGridHeaderString()
-            //    , a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.ObligationRequestID.ToString("D4"))
-            //    , 100
-            //    , DhtmlxGridColumnFilterType.Html);
-
             // More Human readable version of ObligationRequestID ("OBREQ-XXX")
             // ObligationRequestNumber
             Add(FieldDefinitionEnum.ObligationRequestNumber.ToType().ToGridHeaderString()

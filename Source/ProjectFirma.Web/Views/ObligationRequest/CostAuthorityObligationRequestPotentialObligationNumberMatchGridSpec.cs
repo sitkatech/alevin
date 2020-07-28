@@ -19,9 +19,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), pm => UrlTemplate.MakeHrefString(pm.ObligationNumber.GetDetailUrl(), pm.ObligationNumber.ObligationNumberKey), 100, DhtmlxGridColumnFilterType.Text);
             Add("Total of All Obligation Item Budgets", pm => pm.ObligationNumber.GetWbsElementObligationItemBudgets().Sum(y => y.UnexpendedBalance).ToStringCurrency(), 100, DhtmlxGridColumnFilterType.Numeric);
             Add("Obligation Item Budget Count", pm => pm.ObligationNumber.GetWbsElementObligationItemBudgets().Count.ToString(), 60, DhtmlxGridColumnFilterType.Numeric);
-            Add("WBS", pm => pm.CostAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure, 200, DhtmlxGridColumnFilterType.Numeric);
-
-            Add(string.Empty, x => ModalDialogFormHelper.MakeConfirmDialogLink("Confirm this match", x.GetPotentialMatchConfirmUrl(), "Confirm Match", null, true), 50, DhtmlxGridColumnFilterType.None);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => a.CostAuthorityObligationRequest.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 200, DhtmlxGridColumnFilterType.Text);
+            Add("Confirm Match", x => ModalDialogFormHelper.MakeConfirmDialogLink("Confirm this match", x.GetPotentialMatchConfirmUrl(), "Confirm Match", null, true), 120, DhtmlxGridColumnFilterType.None);
         }
 
 

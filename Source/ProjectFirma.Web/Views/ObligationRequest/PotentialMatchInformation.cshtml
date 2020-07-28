@@ -28,7 +28,7 @@
       <strong>CAWBS:</strong>
    </div>
    <div class="col-xs-8">
-      <p>@ViewDataTyped.PotentialObligationNumberMatch.CostAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure</p>
+      <p>@ViewDataTyped.PotentialObligationNumberMatch.CostAuthorityObligationRequest.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()</p>
    </div>
 </div>
 
@@ -37,7 +37,7 @@
       <strong>Obligation Number:</strong>
    </div>
    <div class="col-xs-8">
-      <p>@ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.ObligationNumberKey</p>
+      <p>@ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.GetDetailLink()</p>
    </div>
 </div>
 
@@ -57,7 +57,7 @@
             <tr>
                <td>@currentWbsObItemBudget.PostingDatePerSplKey.ToStringDate()</td>
                <td>@currentWbsObItemBudget.UnexpendedBalance.ToStringCurrency()</td>
-               <td>@currentWbsObItemBudget.ObligationItem.Vendor.VendorText</td>
+               <td>@currentWbsObItemBudget.ObligationItem.Vendor.GetDisplayNameAsUrl()</td>
             </tr>
          }
          <tr>
