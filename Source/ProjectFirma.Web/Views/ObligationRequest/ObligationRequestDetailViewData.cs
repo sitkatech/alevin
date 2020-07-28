@@ -20,19 +20,13 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.ObligationRequest;
-using ProjectFirma.Web.Views.CostAuthority;
-using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Shared.TextControls;
-
-//using ProjectFirma.Web.Views.Project;
 
 namespace ProjectFirma.Web.Views.ObligationRequest
 {
@@ -52,6 +46,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public bool UserCanInteractWithSubmissionNotes { get; }
         public EntityNotesViewData ObligationRequestNotesViewData { get; }
 
+        public bool ShowPotentialMatches { get; }
         public List<CostAuthorityObligationRequestPotentialObligationNumberMatch> PotentialMatches { get; }
         public string PotentialMatchesGridName { get; }
         public CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec PotentialMatchesGridSpec { get; }
@@ -79,8 +74,11 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             PotentialMatchesGridName = "potentialMatchesGrid";
             PotentialMatchesGridSpec = new CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec(currentFirmaSession);
             PotentialMatchesGridDataUrl = SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(cac => cac.PotentialObligationRequestMatchesJsonData(obligationRequest));
+            ShowPotentialMatches = obligationRequest.ObligationNumber == null && 
+                                   obligationRequest.Agreement == null &&
+                                   PotentialMatches.Any();
 
-            var costAuthorityIDList = obligationRequest.Agreement != null
+                                   var costAuthorityIDList = obligationRequest.Agreement != null
                 ? obligationRequest.Agreement.AgreementCostAuthorities
                     .Select(x => x.CostAuthorityID).ToList()
                 : new List<int>();
