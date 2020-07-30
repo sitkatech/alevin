@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using ApprovalUtilities.Utilities;
+using log4net;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -16,6 +16,8 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ObligationRequestController : FirmaBaseController
     {
+        private ILog obReqLogger = LogManager.GetLogger(typeof(ObligationRequestController));
+
         [ObligationRequestIndexViewFeature]
         public ViewResult ObligationRequestIndex()
         {
@@ -61,6 +63,8 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(costAuthorityObligationRequestPrimaryKey.EntityObject, CurrentFirmaSession);
            
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
+
             return new ModalDialogFormJsonResult();
         }
 
@@ -95,7 +99,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditObligationRequest, EditObligationRequestViewData, EditObligationRequestViewModel>(viewData, viewModel);
         }
 
-       
         [HttpGet]
         [ObligationRequestCreateFeature]
         public PartialViewResult EditCostAuthorityObligationRequests(ObligationRequestPrimaryKey reclamationObligationRequestPrimaryKey)
@@ -150,6 +153,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -189,6 +193,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -253,6 +258,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -287,7 +293,7 @@ namespace ProjectFirma.Web.Controllers
         [ObligationRequestCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteCostAuthority(CostAuthorityObligationRequestPrimaryKey costAuthorityObligationRequestPrimaryKey,
-            ConfirmDialogFormViewModel viewModel)
+                                                ConfirmDialogFormViewModel viewModel)
         {
             var costAuthorityObligationRequest = costAuthorityObligationRequestPrimaryKey.EntityObject;
             var displayName = $"this Projected Obligation from Cost Authority: {costAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure}";
@@ -297,6 +303,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             costAuthorityObligationRequest.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
 
             SetMessageForDisplay($"Successfully deleted \"{displayName}\".");
 
@@ -307,7 +314,7 @@ namespace ProjectFirma.Web.Controllers
         [ObligationRequestCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Delete(ObligationRequestPrimaryKey obligationRequestPrimaryKey,
-            ConfirmDialogFormViewModel viewModel)
+                                   ConfirmDialogFormViewModel viewModel)
         {
             var obligationRequest = obligationRequestPrimaryKey.EntityObject;
             var displayName = $"Obligation Request: {obligationRequest.GetObligationRequestNumber()}";
@@ -317,6 +324,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             obligationRequest.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
 
             SetMessageForDisplay($"Successfully deleted \"{displayName}\".");
 
@@ -350,6 +358,7 @@ namespace ProjectFirma.Web.Controllers
             }
             viewModel.UpdateModel(obligationRequestPrimaryKey.EntityObject, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -411,6 +420,7 @@ namespace ProjectFirma.Web.Controllers
             obligationRequest.ObligationNumberID = matchToConfirm.ObligationNumberID;
 
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
 
             SetMessageForDisplay($"Confirmed match for {obligationRequest.ObligationNumber.ObligationNumberKey}");
 

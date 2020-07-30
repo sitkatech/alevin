@@ -401,6 +401,38 @@ namespace ProjectFirma.Web.Controllers
             return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageExcelUploadsAndEtl()));
         }
 
+        /// <summary>
+        /// Do ObligationRequest matching.
+        /// DoPublishingSql calls this as part of it's proc pReclamationImportFinancialStagingDataImport as well.
+        /// </summary>
+        /// <param name="optionalLogger"></param>
+        public static void DoObligationRequestMatching(ILog optionalLogger)
+        {
+            try
+            {
+                optionalLogger?.Info($"Starting DoObligationRequestMatching");
+                string vendorImportProc = "dbo.pRefreshCostAuthorityObligationNumberMatches";
+                using (SqlConnection sqlConnection = CreateAndOpenSqlConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(vendorImportProc, sqlConnection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        // If we needed parameters, here's how we'd add them.
+                        //cmd.Parameters.AddWithValue("@SocrataDataMartRawJsonImportID", socrataDataMartRawJsonImportID);
+                        //cmd.Parameters.AddWithValue("@BienniumToImport", bienniumToImport);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                optionalLogger?.Info($"Ending DoObligationRequestMatching");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new SitkaDisplayErrorException($"Problem calling SQL: {e.Message}");
+            }
+        }
+
+
         public static void DoPublishingSql(ILog optionalLogger)
         {
             try
