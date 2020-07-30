@@ -19,8 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
@@ -30,6 +34,14 @@ using ProjectFirma.Web.Views.Shared.TextControls;
 
 namespace ProjectFirma.Web.Views.ObligationRequest
 {
+    public enum ObligationRequestMatchStatus
+    {
+        UnmatchedNoMatchesAvailable,
+        UnmatchedMatchesAvailable,
+        MatchedToOnlyAvailableMatch,
+        MatchedToOneOfSeveralPotentialMatches
+    }
+
     public class ObligationRequestDetailViewData : FirmaViewData
     {
         public ProjectFirmaModels.Models.ObligationRequest ObligationRequest { get; }
@@ -51,6 +63,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public string PotentialMatchesGridName { get; }
         public CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec PotentialMatchesGridSpec { get; }
         public string PotentialMatchesGridDataUrl { get; }
+
+        public ObligationRequestMatchStatus MatchStatus { get; }
 
         public ObligationRequestDetailViewData(FirmaSession currentFirmaSession,
                                                 ProjectFirmaModels.Models.ObligationRequest obligationRequest,
@@ -83,6 +97,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                     .Select(x => x.CostAuthorityID).ToList()
                 : new List<int>();
 
+            // Match Status
+            MatchStatus = GetMatchStatus(obligationRequest, PotentialMatches);
+
             CostAuthorityObligationRequestGridName = "costAuthorityObligationRequestGrid";
             CostAuthorityObligationRequestGridSpec = new CostAuthorityObligationRequestGridSpec(CurrentFirmaSession, obligationRequest.ObligationRequestStatus == ObligationRequestStatus.Draft, costAuthorityIDList)
             {
@@ -93,5 +110,54 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             CostAuthorityObligationRequestGridDataUrl = SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(cac => cac.CostAuthorityObligationRequestsJsonData(obligationRequest));
         }
 
+        /// <summary>
+        /// I'm trying to be thorough here about possibilities, but if this proves overcomplicated don't hesitate to do something different than this.
+        /// -- SLG 7/30/2020
+        /// </summary>
+        /// <param name="obligationRequest"></param>
+        /// <param name="potentialMatches"></param>
+        /// <returns></returns>
+        private static ObligationRequestMatchStatus GetMatchStatus(ProjectFirmaModels.Models.ObligationRequest obligationRequest, 
+                                                    List<CostAuthorityObligationRequestPotentialObligationNumberMatch> potentialMatches)
+        {
+            bool hasExistingMatch = obligationRequest.ObligationNumber != null;
+            bool hasAnyPotentialMatches = potentialMatches.Any();
+            bool hasExactlyOnePotentialMatch = potentialMatches.Count == 1;
+            bool hasSeveralPotentialMatches = potentialMatches.Count > 1;
+
+            if (!hasExistingMatch && !hasAnyPotentialMatches)
+            {
+                return ObligationRequestMatchStatus.UnmatchedNoMatchesAvailable;
+            }
+
+            if (!hasExistingMatch && hasAnyPotentialMatches)
+            {
+                return ObligationRequestMatchStatus.UnmatchedMatchesAvailable;
+            }
+
+            if (hasExistingMatch && hasExactlyOnePotentialMatch)
+            {
+                // Make sure that if there is only one match, and the ObligationRequest it already matched,
+                // it is to this particular match.
+                Check.Ensure(obligationRequest.ObligationNumberID == potentialMatches.Single().ObligationNumberID);
+                return ObligationRequestMatchStatus.MatchedToOnlyAvailableMatch;
+            }
+
+            if (hasExistingMatch && hasSeveralPotentialMatches)
+            {
+                return ObligationRequestMatchStatus.MatchedToOneOfSeveralPotentialMatches;
+            }
+
+            throw new Exception("Unhandled combination of match conditions");
+        }
+
+
+        public HtmlString GetObligationNumberLinkOrEmptyString()
+        {
+            return (this.ObligationRequest.ObligationNumber != null
+                ? UrlTemplate.MakeHrefString(this.ObligationRequest.ObligationNumber.GetDetailUrl(),
+                    this.ObligationRequest.ObligationNumber.GetDisplayName())
+                : new HtmlString(string.Empty));
+        }
     }
 }

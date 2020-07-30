@@ -96,7 +96,7 @@
             <div class="row">
                <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Obligation.ToType())</div>
                <div class="col-xs-7">
-                  @(ViewDataTyped.ObligationRequest.ObligationNumber != null ? UrlTemplate.MakeHrefString(ViewDataTyped.ObligationRequest.ObligationNumber.GetDetailUrl(), ViewDataTyped.ObligationRequest.ObligationNumber.GetDisplayName()) : new HtmlString(string.Empty))
+                  @ViewDataTyped.GetObligationNumberLinkOrEmptyString()
                </div>
             </div>
 
@@ -146,8 +146,7 @@
       </div>
    </div>
    
-   @if (ViewDataTyped.ShowPotentialMatches)
-   {
+
       <div class="col-lg-7 col-md-5">
          <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
@@ -155,13 +154,49 @@
                   Potential Matches
                </h2>
             </div>
-            <div class="panel-body">
-               @Html.DhtmlxGrid(ViewDataTyped.PotentialMatchesGridSpec, ViewDataTyped.PotentialMatchesGridName, ViewDataTyped.PotentialMatchesGridDataUrl, "height:268px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
-            </div>
+
+            @*If nothing to match with yet, just tell them that succinctly*@
+            @if (ViewDataTyped.MatchStatus == ObligationRequestMatchStatus.UnmatchedNoMatchesAvailable)
+            {
+               <div class="panel-body">
+                  There are not yet any potential Obligations to match with this Obligation Request.
+               </div>
+            }
+
+            @*If the ObligationRequest is unmatched, and we have matches to show them, use the grid.*@
+            @if (ViewDataTyped.MatchStatus == ObligationRequestMatchStatus.UnmatchedMatchesAvailable)
+            {
+               <div class="panel-body">
+                  @Html.DhtmlxGrid(ViewDataTyped.PotentialMatchesGridSpec, ViewDataTyped.PotentialMatchesGridName, ViewDataTyped.PotentialMatchesGridDataUrl, "height:268px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+               </div>
+            }
+
+            @if (ViewDataTyped.MatchStatus == ObligationRequestMatchStatus.MatchedToOnlyAvailableMatch)
+            {
+               <div class="panel-body">
+                  <div>This Obligation Request is matched to Obligation @ViewDataTyped.GetObligationNumberLinkOrEmptyString().</div>
+                  <br/>
+                  <div>There are no other potential matching Obligations.</div>
+                  <br/>
+                  <div>[Unmatch Obligation Request Button]</div>
+               </div>
+            }
+
+            @if (ViewDataTyped.MatchStatus == ObligationRequestMatchStatus.MatchedToOneOfSeveralPotentialMatches)
+            {
+               <div class="panel-body">
+                  <div>This Obligation Request is matched to Obligation @ViewDataTyped.GetObligationNumberLinkOrEmptyString().</div>
+                  <br/>
+                  <div>There are @ViewDataTyped.PotentialMatches.Count-1 other potential matching Obligations.</div>
+                  <br/>
+                  <div>[Unmatch Obligation Request Button]</div>
+               </div>
+            }
+
          </div>
       </div>
-   }
 </div>
+
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h2 class="project-detail-heading">
