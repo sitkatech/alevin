@@ -25,6 +25,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
@@ -66,6 +67,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
 
         public ObligationRequestMatchStatus MatchStatus { get; }
 
+        public HtmlString UnmatchObligationRequestButtonHtml { get; }
+        public const string UmmatchObligationRequestButtonFormID = "UmmatchObligationRequestButtonFormID";
+
         public ObligationRequestDetailViewData(FirmaSession currentFirmaSession,
                                                 ProjectFirmaModels.Models.ObligationRequest obligationRequest,
                                                 bool userCanInteractWithSubmissionNotes,
@@ -99,6 +103,27 @@ namespace ProjectFirma.Web.Views.ObligationRequest
 
             // Match Status
             MatchStatus = GetMatchStatus(obligationRequest, PotentialMatches);
+
+            // HACK -- this is NOT right yet!!!
+            //UnmatchObligationRequestButtonLink =
+            //    ModalDialogFormHelper.MakeConfirmDialogLink("Unmatch this match", PotentialMatches.First().GetPotentialMatchConfirmUrl(),
+            //        "Confirm Match", null, true);
+
+            // Closer to right
+            UnmatchObligationRequestButtonHtml = ModalDialogFormHelper.ModalDialogFormLink(null,
+                "Unmatch",
+                PotentialMatches.First().GetPotentialMatchConfirmUrl(),
+                "Unmatch Obligation Request",
+                1000,
+                ModalDialogFormHelper.SaveButtonID,
+                "Unmatch",
+                "Cancel",
+                new List<string>() {"btn", "btn-sm", "btn-firma"},
+                null,
+                null,
+                UmmatchObligationRequestButtonFormID,
+                null,
+                ModalDialogFormHelper.DisabledState.NotDisabled);
 
             CostAuthorityObligationRequestGridName = "costAuthorityObligationRequestGrid";
             CostAuthorityObligationRequestGridSpec = new CostAuthorityObligationRequestGridSpec(CurrentFirmaSession, obligationRequest.ObligationRequestStatus == ObligationRequestStatus.Draft, costAuthorityIDList)
