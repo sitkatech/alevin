@@ -303,8 +303,6 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-
-
         [HttpPost]
         [ObligationRequestCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
@@ -312,7 +310,7 @@ namespace ProjectFirma.Web.Controllers
             ConfirmDialogFormViewModel viewModel)
         {
             var obligationRequest = obligationRequestPrimaryKey.EntityObject;
-            var displayName = $"Obligation Request: {obligationRequest.ObligationRequestID.ToString("D4")}";
+            var displayName = $"Obligation Request: {obligationRequest.GetObligationRequestNumber()}";
             if (!ModelState.IsValid)
             {
                 return ViewDelete(obligationRequest, viewModel);

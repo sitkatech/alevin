@@ -62,7 +62,8 @@ end
     delete from ImportFinancial.WbsElementObligationItemBudget;
     --delete from ImportFinancial.WbsElement; -- FK Issues
     delete from ImportFinancial.ObligationItem;
-    delete from ImportFinancial.ObligationNumber;
+    -- Below we insert new, unrecognized ObligationNumbers
+    --delete from ImportFinancial.ObligationNumber;
     delete from ImportFinancial.Vendor;
 
     -- #PotentiallyNewWbsElements may be irrelvant with the removal of ImportFinancial.ImpApGenSheet; haven't thought it through yet.
@@ -130,21 +131,32 @@ end
         -- These are unassigned/blank vendors; see above
         pr.Vendor != '#'
 
+    -- Insert unrecognized, new ObligationNumbers
     insert into ImportFinancial.ObligationNumber(ObligationNumberKey)
     select 
         distinct
             pr.ObligationNumber as ObligationNumberKey
     from
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
-        --full outer join ImportFinancial.ImpApGenSheet as ap on pr.ObligationNumber = ap.PONumberKey
+        left join ImportFinancial.ObligationNumber as existObNum on pr.ObligationNumber = existObNum.ObligationNumberKey
+        where existObNum.ObligationNumberKey is null
+
+
+--select * from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 
+
+--update ImportFinancial.ImportFinancialImpPayRecUnexpendedV3
+--set ObligationNumber = 'SLG93939392'
+--where ImportFinancialImpPayRecUnexpendedV3ID = 34730
+
+--select * from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
+--select * from ImportFinancial.ObligationNumber as num
+
 
     update ImportFinancial.ObligationNumber
     set ReclamationAgreementID = rca.AgreementID
     from Reclamation.Agreement as rca
     inner join ImportFinancial.ObligationNumber as onum on rca.AgreementNumber = onum.ObligationNumberKey
 
-
-    
 
     -- Now that WBSes and CostAuthorities have been inserted, associate any pairs coming in from each line of the ImportFinancialImpPayRecUnexpendedV3
     -- that are not already associated.
@@ -215,69 +227,8 @@ end
         boq.FbmsYear = boc.FbmsYear
     order by boc.BudgetObjectCodeID, boc.BudgetObjectCodeName, boc.FbmsYear
 
-
-
-
-
-    /*
-    Reclamation.CostAuthorityObligationRequestPotentialObligationNumberMatch
-    */
-
-    --select * from Reclamation.CostAuthorityObligationRequestPotentialObligationNumberMatch
-    
-
-    -- Temp table for potential Cost Authority / Obligation Number matches
-    DROP TABLE IF EXISTS #NewCandidatesFor_CostAuthorityObligationRequestPotentialObligationNumberMatch
-    select
-       distinct
-        caor.CostAuthorityObligationRequestID,
-        obnum.ObligationNumberID,
-        ca.CostAuthorityID,
-        obnum.ObligationNumberKey,
-        ca.CostAuthorityWorkBreakdownStructure
-    into #NewCandidatesFor_CostAuthorityObligationRequestPotentialObligationNumberMatch
-    from Reclamation.CostAuthorityObligationRequest as caor
-    inner join Reclamation.CostAuthority as ca on caor.CostAuthorityID = ca.CostAuthorityID
-    inner join ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr on ca.CostAuthorityWorkBreakdownStructure = pr.WBSElement
-    inner join ImportFinancial.ObligationNumber as obnum on obnum.ObligationNumberKey = pr.ObligationNumber
-    inner join Reclamation.ObligationRequest as obreq on caor.ObligationRequestID = obreq.ObligationRequestID
-    -- This attempts to identify ObligationRequests that haven't been matched yet
-    where 
-          obreq.AgreementID is null
-    and
-          obnum.ReclamationAgreementID is null
-
-    -- Insert new potential match records
-    insert into Reclamation.CostAuthorityObligationRequestPotentialObligationNumberMatch(CostAuthorityObligationRequestID, ObligationNumberID)
-    select
-        ncm.CostAuthorityObligationRequestID,
-        ncm.ObligationNumberID
-    from #NewCandidatesFor_CostAuthorityObligationRequestPotentialObligationNumberMatch as ncm
-    left join Reclamation.CostAuthorityObligationRequestPotentialObligationNumberMatch as exist_match on ncm.CostAuthorityObligationRequestID = exist_match.CostAuthorityObligationRequestID and ncm.ObligationNumberID = exist_match.ObligationNumberID
-    where
-        exist_match.CostAuthorityObligationRequestID is null and exist_match.ObligationNumberID is null
-
---select * from Reclamation.CostAuthority as ca where ca.CostAuthorityID = 487
-/*
-select *
-from Reclamation.CostAuthority as ca 
-inner join ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr on ca.CostAuthorityWorkBreakdownStructure = pr.WBSElement
-where ca.CostAuthorityID in (2, 261)
-
-select * from  Reclamation.CostAuthorityObligationRequest
-select * from Reclamation.CostAuthority as ca where ca.CostAuthorityWorkBreakdownStructure = 'RX.16786940.20R0813'
-select * from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr where pr.WBSElement = 'RX.16786940.20R0813'
-
-select * from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr where pr.WBSElement in ('RX.16786806.5000900','123167868315000300' )
-*/
-
-
-
-
-
-
-
-
+    -- Refresh Oblibation Request Matches
+    exec dbo.pRefreshCostAuthorityObligationNumberMatches
 
     insert into ImportFinancial.WbsElementObligationItemBudget(
                                                                WbsElementID,
