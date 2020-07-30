@@ -104,17 +104,12 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             // Match Status
             MatchStatus = GetMatchStatus(obligationRequest, PotentialMatches);
 
-            // HACK -- this is NOT right yet!!!
-            //UnmatchObligationRequestButtonLink =
-            //    ModalDialogFormHelper.MakeConfirmDialogLink("Unmatch this match", PotentialMatches.First().GetPotentialMatchConfirmUrl(),
-            //        "Confirm Match", null, true);
-
-            // Closer to right
+            // Unmatch confirm dialog launcher HTML
             UnmatchObligationRequestButtonHtml = ModalDialogFormHelper.ModalDialogFormLink(null,
                 "Unmatch",
-                PotentialMatches.First().GetPotentialMatchConfirmUrl(),
-                "Unmatch Obligation Request",
-                1000,
+                SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(x => x.ConfirmObligationRequestUnmatch(obligationRequest)),
+            "Unmatch Obligation Request",
+                400,
                 ModalDialogFormHelper.SaveButtonID,
                 "Unmatch",
                 "Cancel",

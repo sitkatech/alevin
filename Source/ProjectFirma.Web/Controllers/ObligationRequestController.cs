@@ -401,7 +401,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
         }
 
-        [ObligationRequestIndexViewFeature]
+        [ObligationRequestManageFeature]
         [HttpGet]
         public PartialViewResult ConfirmPotentialMatch(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey)
         {
@@ -410,7 +410,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
         }
 
-        [ObligationRequestIndexViewFeature]
+        [ObligationRequestManageFeature]
         [HttpPost]
         public ActionResult ConfirmPotentialMatch(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchInformationViewModel viewModel)
         {
@@ -427,7 +427,41 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        #region Confirm Potential Obligation Request Unmatch
 
+        [ObligationRequestManageFeature]
+        [HttpGet]
+        public PartialViewResult ConfirmObligationRequestUnmatch(ObligationRequestPrimaryKey obligationRequestPrimaryKey)
+        {
+            ObligationRequest obligationRequest = obligationRequestPrimaryKey.EntityObject;
+            var viewData = new ConfirmObligationRequestUnmatchViewData(CurrentFirmaSession, obligationRequest);
+            var viewModel = new ConfirmObligationRequestUnmatchViewModel();
+            return RazorPartialView<ConfirmObligationRequestUnmatch, ConfirmObligationRequestUnmatchViewData, ConfirmObligationRequestUnmatchViewModel>(viewData, viewModel);
+        }
+
+        [ObligationRequestManageFeature]
+        [HttpPost]
+        public ActionResult ConfirmObligationRequestUnmatch(ObligationRequestPrimaryKey obligationRequestPrimaryKey,
+                                                            ConfirmObligationRequestUnmatchViewModel viewModel)
+        {
+            ObligationRequest obligationRequest = obligationRequestPrimaryKey.EntityObject;
+            string previousObligationNumberKey = obligationRequest.ObligationNumber.ObligationNumberKey;
+
+            obligationRequest.ObligationNumber = null;
+            obligationRequest.ObligationNumberID = null;
+            obligationRequest.Agreement = null;
+            obligationRequest.AgreementID = null;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
+
+            SetMessageForDisplay($"Unmatched Obligation Request {obligationRequest.GetObligationRequestNumber()} from {previousObligationNumberKey}");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+
+        #endregion Confirm Potential Obligation Request Unmatch
 
     }
 }

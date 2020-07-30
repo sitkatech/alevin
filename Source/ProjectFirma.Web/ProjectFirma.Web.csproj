@@ -329,6 +329,9 @@
     <Compile Include="Views\ObligationItem\ObligationItemIndexViewData.cs" />
     <Compile Include="Views\ObligationRequest\AgreementJson.cs" />
     <Compile Include="Views\ObligationRequest\AgreementJsonList.cs" />
+    <Compile Include="Views\ObligationRequest\ConfirmObligationRequestUnmatch.cs" />
+    <Compile Include="Views\ObligationRequest\ConfirmObligationRequestUnmatchViewData.cs" />
+    <Compile Include="Views\ObligationRequest\ConfirmObligationRequestUnmatchViewModel.cs" />
     <Compile Include="Views\ObligationRequest\CostAuthorityJson.cs" />
     <Compile Include="Views\ObligationRequest\CostAuthorityJsonList.cs" />
     <Compile Include="Views\ObligationRequest\CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec.cs" />
@@ -920,6 +923,7 @@
     <Content Include="Views\ObligationItem\ObligationItemIndex.cshtml" />
     <Content Include="Views\ObligationItem\ObligationItemDetail.cshtml" />
     <Content Include="Views\ObligationRequest\PotentialMatchInformation.cshtml" />
+    <Content Include="Views\ObligationRequest\ConfirmObligationRequestUnmatch.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
