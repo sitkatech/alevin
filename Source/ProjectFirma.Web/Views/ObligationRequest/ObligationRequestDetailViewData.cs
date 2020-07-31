@@ -104,21 +104,12 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             // Match Status
             MatchStatus = GetMatchStatus(obligationRequest, PotentialMatches);
 
-            // Unmatch confirm dialog launcher HTML
-            UnmatchObligationRequestButtonHtml = ModalDialogFormHelper.ModalDialogFormLink(null,
-                "Unmatch",
-                SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(x => x.ConfirmObligationRequestUnmatch(obligationRequest)),
-            "Unmatch Obligation Request",
-                400,
-                ModalDialogFormHelper.SaveButtonID,
-                "Unmatch",
-                "Cancel",
-                new List<string>() {"btn", "btn-sm", "btn-firma"},
-                null,
-                null,
-                UmmatchObligationRequestButtonFormID,
-                null,
-                ModalDialogFormHelper.DisabledState.NotDisabled);
+            // Unmatch Dialog
+            string unmatchUrl = SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(x =>  x.ConfirmObligationRequestUnmatch(obligationRequest));
+            var extraCssClassesForAButton = new List<string>() {"btn", "btn-sm", "btn-firma"};
+
+            UnmatchObligationRequestButtonHtml =
+               ModalDialogFormHelper.MakeConfirmDialogLink("Unmatch", unmatchUrl, "Unmatch Obligation Request", "Unmatch", extraCssClassesForAButton, true);
 
             CostAuthorityObligationRequestGridName = "costAuthorityObligationRequestGrid";
             CostAuthorityObligationRequestGridSpec = new CostAuthorityObligationRequestGridSpec(CurrentFirmaSession, obligationRequest.ObligationRequestStatus == ObligationRequestStatus.Draft, costAuthorityIDList)

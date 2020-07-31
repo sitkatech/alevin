@@ -422,7 +422,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
             ExcelUploadController.DoObligationRequestMatching(obReqLogger);
 
-            SetMessageForDisplay($"Confirmed match for {obligationRequest.ObligationNumber.ObligationNumberKey}");
+            SetMessageForDisplay($"Confirmed match for Obligation {obligationRequest.ObligationNumber.GetDetailLink()}");
 
             return new ModalDialogFormJsonResult();
         }
@@ -445,7 +445,7 @@ namespace ProjectFirma.Web.Controllers
                                                             ConfirmObligationRequestUnmatchViewModel viewModel)
         {
             ObligationRequest obligationRequest = obligationRequestPrimaryKey.EntityObject;
-            string previousObligationNumberKey = obligationRequest.ObligationNumber.ObligationNumberKey;
+            var previouslyMatchedObligation = obligationRequest.ObligationNumber;
 
             obligationRequest.ObligationNumber = null;
             obligationRequest.ObligationNumberID = null;
@@ -455,7 +455,7 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
             ExcelUploadController.DoObligationRequestMatching(obReqLogger);
 
-            SetMessageForDisplay($"Unmatched Obligation Request {obligationRequest.GetObligationRequestNumber()} from {previousObligationNumberKey}");
+            SetMessageForDisplay($"Unmatched Obligation Request {obligationRequest.GetDetailLink()} from Obligation {previouslyMatchedObligation.GetDetailLink()}");
 
             return new ModalDialogFormJsonResult();
         }

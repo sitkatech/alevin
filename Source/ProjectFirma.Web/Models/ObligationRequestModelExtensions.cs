@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -15,6 +16,11 @@ namespace ProjectFirma.Web.Models
         public static string GetDetailUrl(this ObligationRequest obligationRequest)
         {
             return ObligationRequestDetailUrlTemplate.ParameterReplace(obligationRequest.PrimaryKey);
+        }
+
+        public static HtmlString GetDetailLink(this ObligationRequest obligationRequest)
+        {
+            return UrlTemplate.MakeHrefString(obligationRequest.GetDetailUrl(), obligationRequest.GetObligationRequestNumber());
         }
 
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(

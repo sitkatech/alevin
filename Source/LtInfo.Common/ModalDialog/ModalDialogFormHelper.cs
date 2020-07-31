@@ -365,6 +365,11 @@ namespace LtInfo.Common.ModalDialog
             return hasPermission ? ModalDialogFormLink(linkText, dialogUrl, dialogTitle, DefaultDialogWidth, "Confirm", "Cancel", extraCssClasses, null, null) : new HtmlString(string.Empty);
         }
 
+        public static HtmlString MakeConfirmDialogLink(string linkText, string dialogUrl, string dialogTitle, string saveButtonText, List<string> extraCssClasses, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink(linkText, dialogUrl, dialogTitle, DefaultDialogWidth, saveButtonText, "Cancel", extraCssClasses, null, null) : new HtmlString(string.Empty);
+        }
+
         public static HtmlString ModalDialogFormLink(string linkText, string dialogUrl, string dialogTitle, int dialogWidth, bool hasPermission, string dialogFormID)
         {
             return hasPermission
