@@ -70,6 +70,7 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly string IndexUrl;
 
         public readonly MapInitJson MapInitJson;
+        public readonly LayerGeoJson ProjectLocationsLayerGeoJson;
         public readonly bool HasSpatialData;
 
         public readonly List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas;
@@ -90,12 +91,13 @@ namespace ProjectFirma.Web.Views.Organization
         public ViewPageContentViewData DescriptionViewData { get; }
 
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
-            ProjectFirmaModels.Models.Organization organization,
-            MapInitJson mapInitJson,
-            bool hasSpatialData,
-            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
-            ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
-            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentFirmaSession)
+                                            ProjectFirmaModels.Models.Organization organization,
+                                            MapInitJson mapInitJson,
+                                            LayerGeoJson projectLocationsLayerGeoJson,
+                                            bool hasSpatialData,
+                                            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
+                                            ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
+                                            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentFirmaSession)
         {
             Organization = organization;
             Check.EnsureNotNull(organization);
@@ -156,6 +158,7 @@ namespace ProjectFirma.Web.Views.Organization
             IndexUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.Index());
 
             MapInitJson = mapInitJson;
+            ProjectLocationsLayerGeoJson = projectLocationsLayerGeoJson;
             HasSpatialData = hasSpatialData;
             ExpendituresDirectlyFromOrganizationViewGoogleChartViewData = expendituresDirectlyFromOrganizationViewGoogleChartViewData;
             ExpendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData;
