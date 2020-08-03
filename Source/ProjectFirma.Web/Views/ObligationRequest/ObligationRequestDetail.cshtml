@@ -171,13 +171,26 @@
                </div>
             }
 
+            @if (ViewDataTyped.MatchStatus == ObligationRequestMatchStatus.MatchedButNoCorrespondingPotentialMatches)
+            {
+               <div class="panel-body">
+                  <div>This Obligation Request is matched to Obligation @ViewDataTyped.GetObligationNumberLinkOrEmptyString().</div>
+                  <br />
+                  @*Notice here we don't say "other!". This tiny detail is for devs to pick up on.*@
+                  <div>There are no potential matching Obligations.</div>
+                  <br />
+                  <div>@ViewDataTyped.UnmatchObligationRequestButtonHtml</div>
+               </div>
+            }
+
             @if (ViewDataTyped.MatchStatus == ObligationRequestMatchStatus.MatchedToOnlyAvailableMatch)
             {
                <div class="panel-body">
                   <div>This Obligation Request is matched to Obligation @ViewDataTyped.GetObligationNumberLinkOrEmptyString().</div>
-                  <br/>
+                  <br />
+                  @*Notice here we DO say "other!". This tiny detail is for devs to pick up on.*@
                   <div>There are no other potential matching Obligations.</div>
-                  <br/>
+                  <br />
                   <div>@ViewDataTyped.UnmatchObligationRequestButtonHtml</div>
                </div>
             }
@@ -186,9 +199,9 @@
             {
                <div class="panel-body">
                   <div>This Obligation Request is matched to Obligation @ViewDataTyped.GetObligationNumberLinkOrEmptyString().</div>
-                  <br/>
+                  <br />
                   <div>There are @(ViewDataTyped.PotentialMatches.Count-1) other potential matching Obligations.</div>
-                  <br/>
+                  <br />
                   <div>@ViewDataTyped.UnmatchObligationRequestButtonHtml</div>
                </div>
             }

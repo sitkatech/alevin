@@ -40,7 +40,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         UnmatchedNoMatchesAvailable,
         UnmatchedMatchesAvailable,
         MatchedToOnlyAvailableMatch,
-        MatchedToOneOfSeveralPotentialMatches
+        MatchedToOneOfSeveralPotentialMatches,
+        MatchedButNoCorrespondingPotentialMatches
     }
 
     public class ObligationRequestDetailViewData : FirmaViewData
@@ -146,6 +147,12 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                 return ObligationRequestMatchStatus.UnmatchedMatchesAvailable;
             }
 
+            if (hasExistingMatch && !hasAnyPotentialMatches)
+            {
+                // I believe MJ has seen this during testing, so we'll handle it.
+                return ObligationRequestMatchStatus.MatchedButNoCorrespondingPotentialMatches;
+            }
+
             if (hasExistingMatch && hasExactlyOnePotentialMatch)
             {
                 // Make sure that if there is only one match, and the ObligationRequest it already matched,
@@ -159,7 +166,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                 return ObligationRequestMatchStatus.MatchedToOneOfSeveralPotentialMatches;
             }
 
-            throw new Exception("Unhandled combination of match conditions");
+            throw new Exception($"Unhandled combination of match conditions. hasExistingMatch: {hasExistingMatch.ToString()} matchCount: {potentialMatches.Count}");
         }
 
 
