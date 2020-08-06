@@ -470,6 +470,8 @@
     <Compile Include="Views\ActionItem\EditViewData.cs" />
     <Compile Include="Views\ActionItem\EditViewModel.cs" />
     <Compile Include="Views\ActionItem\ActionItemsGridSpec.cs" />
+    <Compile Include="Views\Results\AccomplishmentsDashboardViewData.cs" />
+    <Compile Include="Views\Results\BiOpAnnualReport.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportingPeriodSimple.cs" />
@@ -1082,7 +1084,7 @@
     <Compile Include="Views\Results\OrganizationAccomplishments.cs" />
     <Compile Include="Views\Results\OrganizationAccomplishmentsViewData.cs" />
     <Compile Include="Views\Results\AccomplishmentsDashboard.cs" />
-    <Compile Include="Views\Results\AccomplishmentsDashboardViewData.cs" />
+    <Compile Include="Views\Results\BiOpAnnualReportViewData.cs" />
     <Compile Include="Views\Results\ParticipatingOrganizations.cs" />
     <Compile Include="Views\Results\ParticipatingOrganizationsViewData.cs" />
     <Compile Include="Views\Shared\GoogleChartAnnotations.cs" />
@@ -2044,6 +2046,7 @@
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
     <Content Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cshtml" />
     <Content Include="Views\Shared\ProjectBalanceBurnUp\ProjectBalanceBurnUp.cshtml" />
+    <Content Include="Views\Results\BiOpAnnualReport.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

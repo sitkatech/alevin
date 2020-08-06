@@ -546,5 +546,16 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new FundingStatusViewData(CurrentFirmaSession, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
             return RazorView<FundingStatus, FundingStatusViewData>(viewData);
         }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult BiOpAnnualReport()
+        {
+            var firmaPage = FirmaPageTypeEnum.BiOpAnnualReport.GetFirmaPage();
+            var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+
+            var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute);
+            return RazorView<BiOpAnnualReport, BiOpAnnualReportViewData>(viewData);
+        }
+
     }
 }

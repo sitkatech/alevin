@@ -209,6 +209,7 @@ namespace ProjectFirmaModels.Models
         ObligationList = 10008,
         VendorList = 10009,
         PnBudgetList = 10010,
-        ObligationItemList = 10011
+        ObligationItemList = 10011,
+        BiOpAnnualReport = 10012
     }
 }
