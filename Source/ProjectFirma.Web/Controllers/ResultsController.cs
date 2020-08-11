@@ -552,11 +552,9 @@ namespace ProjectFirma.Web.Controllers
         [HttpGet]
         public ViewResult BiOpAnnualReport(int? year)
         {
-
             var allYearsAvailable = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
                 .Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                .Distinct().OrderBy(x => x);
-
+                .Distinct().OrderBy(x => x).ToList();
 
             if (!year.HasValue)
             {
@@ -564,14 +562,11 @@ namespace ProjectFirma.Web.Controllers
                 year = allYearsAvailable.Max();
             }
 
-            
-            
-            
-            
+            var yearsAvailableSelectList = allYearsAvailable.ToSelectList(x => x.ToString(), y => y.ToString(), (int) year);
             var firmaPage = FirmaPageTypeEnum.BiOpAnnualReport.GetFirmaPage();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute);
+            var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute, yearsAvailableSelectList);
             return RazorView<BiOpAnnualReport, BiOpAnnualReportViewData>(viewData);
         }
         

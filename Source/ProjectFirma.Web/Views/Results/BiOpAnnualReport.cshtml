@@ -41,10 +41,7 @@
     <div style="padding-top: 10px;">
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
         @using (Html.BeginForm(null, null, FormMethod.Get, new {enctype = "multipart/form-data"})){
-            <select class="form-control year-dropdown" onchange="this.form.submit()" name="year">
-                <option value="2004">2004</option>
-                <option value="2005">2005</option>
-            </select>
+            @Html.DropDownList("year", ViewDataTyped.YearsAvailable, new {onchange = "this.form.submit()", @class = "form-control"})
         }
     </div>
 

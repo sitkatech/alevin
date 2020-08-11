@@ -20,9 +20,12 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -35,8 +38,10 @@ namespace ProjectFirma.Web.Views.Results
         public BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec { get; set; }
         public string BiOpAnnualReportGridName { get; set; }
         public string BiOpAnnualReportGridDataUrl { get; set; }
+        public IEnumerable<SelectListItem> YearsAvailable { get; set; }
 
-        public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, TenantAttribute tenantAttribute) 
+        public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
+            TenantAttribute tenantAttribute, IEnumerable<SelectListItem> yearsAvailableSelectList) 
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "BiOp Annual Report";
@@ -50,6 +55,7 @@ namespace ProjectFirma.Web.Views.Results
 
             BiOpAnnualReportGridName = "BiOpAnnualReportGrid";
             BiOpAnnualReportGridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridJsonData());
+            YearsAvailable = yearsAvailableSelectList;
         }
     }
 }
