@@ -41,12 +41,13 @@ namespace ProjectFirma.Web.Views.Results
         public IEnumerable<SelectListItem> YearsAvailable { get; set; }
 
         public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
-            TenantAttribute tenantAttribute, IEnumerable<SelectListItem> yearsAvailableSelectList) 
+            TenantAttribute tenantAttribute, IEnumerable<SelectListItem> yearsAvailableSelectList,
+            List<GeospatialAreaType> geoSpatialAreasToInclude) 
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "BiOp Annual Report";
 
-            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec()
+            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude)
             {
                 ObjectNameSingular = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(),
                 ObjectNamePlural = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(),

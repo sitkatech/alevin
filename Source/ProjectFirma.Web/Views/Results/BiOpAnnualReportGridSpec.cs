@@ -20,7 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Web;
+using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -31,16 +34,23 @@ namespace ProjectFirma.Web.Views.Results
 {
     public class BiOpAnnualReportGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-        public BiOpAnnualReportGridSpec()
+        public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude)
         {
 
 
             Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250);
-            Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 250);
-            Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 250);
-            //Add(FieldDefinitionEnum.ClassificationDescription.ToType().ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
-            //Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
-            //Add("Sort Order", a => a.ClassificationSortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
+            Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150);
+            Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100);
+            // from the project location simple point. Maybe we could find a center from detailed locations if the project doesn't have a simple location? -- SMG 8/11/2020
+            Add("Lat/Lng", p => $"{p.ProjectLocationPoint?.YCoordinate.ToString()} {p.ProjectLocationPoint?.XCoordinate.ToString()}", 150);
+
+            foreach (var geospatialAreaType in geoSpatialAreaTypesToInclude)
+            {
+                Add(geospatialAreaType.GeospatialAreaTypeName,
+                    p => String.Join(",", p.ProjectGeospatialAreas.Where(x =>
+                        x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialArea.GetDisplayNameAsUrl())).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
+            }
+
         }
     }
 }

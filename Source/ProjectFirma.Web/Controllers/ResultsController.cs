@@ -566,7 +566,13 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.BiOpAnnualReport.GetFirmaPage();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute, yearsAvailableSelectList);
+            
+            var geoSpatialAreasToInclude =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(
+                    x => GeospatialAreaType.GeospatialAreaTypesIncludedInBiOpAnnualReport.Contains(x.GeospatialAreaTypeID)).ToList();
+
+
+            var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute, yearsAvailableSelectList, geoSpatialAreasToInclude);
             return RazorView<BiOpAnnualReport, BiOpAnnualReportViewData>(viewData);
         }
         
@@ -574,7 +580,10 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Project>
             BiOpAnnualReportGridJsonData()
         {
-            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec();
+            var geoSpatialAreasToInclude =
+                HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(
+                    x => GeospatialAreaType.GeospatialAreaTypesIncludedInBiOpAnnualReport.Contains(x.GeospatialAreaTypeID)).ToList();
+            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude);
             // Grid should display all projects that have metric actual values for that calendar year. Any project that doesn’t have actuals doesn’t get reported
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, biOpAnnualReportGridSpec);
