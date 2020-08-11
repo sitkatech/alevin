@@ -1092,5 +1092,12 @@ namespace ProjectFirma.Web.Models
             return obligationItemInvoiceSimples;
         }
 
+        // ReSharper disable once InconsistentNaming
+        public static bool IsBPAFunded(this Project project)
+        {
+            return project.GetFundingOrganizations(false).Select(x => x.Organization.OrganizationID)
+                .Contains(OrganizationModelExtensions.BPAOrganizationID);
+        }
+
     }
 }

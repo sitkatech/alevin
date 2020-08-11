@@ -34,8 +34,8 @@ namespace ProjectFirma.Web.Views.Results
 {
     public class BiOpAnnualReportGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
-
         private List<double> AllProjectedFundingValues;
+        
 
         public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude)
         {
@@ -56,8 +56,10 @@ namespace ProjectFirma.Web.Views.Results
             }
 
             // todo: verify this
-            Add("Project Cost", p => p.GetProjectedFunding(), 100);
-            Add("Project Cost Category", p => p.GetProjectedFundingCategory(AllProjectedFundingValues), 100);
+            Add("Project Cost", p => p.GetProjectedFunding(), 100, DhtmlxGridColumnFormatType.Decimal);
+            Add("Project Cost Category", p => p.GetProjectedFundingCategory(AllProjectedFundingValues), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
+            Add("Is BPA Funded", p => p.IsBPAFunded() ? "Yes" : "No", 50, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
         }
     }

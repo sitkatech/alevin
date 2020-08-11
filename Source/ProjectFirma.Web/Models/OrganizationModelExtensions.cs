@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class OrganizationModelExtensions
     {
+        public const int BPAOrganizationID = 6308;
         public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.DeleteOrganization(UrlTemplate.Parameter1Int)));
         public static string GetDeleteUrl(this Organization organization)
         {
@@ -320,6 +321,5 @@ namespace ProjectFirma.Web.Models
         public static string GetPrimaryContactPersonAsString(this Organization organization) => organization.PrimaryContactPerson != null
             ? organization.PrimaryContactPerson.GetFullNameFirstLast()
             : ViewUtilities.NoneString;
-
     }
 }
