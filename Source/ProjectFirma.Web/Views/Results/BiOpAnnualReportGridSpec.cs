@@ -34,8 +34,12 @@ namespace ProjectFirma.Web.Views.Results
 {
     public class BiOpAnnualReportGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
     {
+
+        private List<double> AllProjectedFundingValues;
+
         public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude)
         {
+            AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double) p.GetProjectedFunding()).ToList();
 
 
             Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250);
@@ -50,6 +54,10 @@ namespace ProjectFirma.Web.Views.Results
                     p => String.Join(",", p.ProjectGeospatialAreas.Where(x =>
                         x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialArea.GetDisplayNameAsUrl())).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
             }
+
+            // todo: verify this
+            Add("Project Cost", p => p.GetProjectedFunding(), 100);
+            Add("Project Cost Category", p => p.GetProjectedFundingCategory(AllProjectedFundingValues), 100);
 
         }
     }

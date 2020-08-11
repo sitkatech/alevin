@@ -578,8 +578,11 @@ namespace ProjectFirma.Web.Controllers
         {
             var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude);
+
             // Grid should display all projects that have metric actual values for that calendar year. Any project that doesn’t have actuals doesn’t get reported
+                // Project stage must be in completed to be part of this report
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, biOpAnnualReportGridSpec);
             return gridJsonNetJObjectResult;
         }
