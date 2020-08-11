@@ -32,13 +32,24 @@ namespace ProjectFirma.Web.Views.Results
     public class BiOpAnnualReportViewData : FirmaViewData
     {
        
+        public BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec { get; set; }
+        public string BiOpAnnualReportGridName { get; set; }
+        public string BiOpAnnualReportGridDataUrl { get; set; }
 
         public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, TenantAttribute tenantAttribute) 
             : base(currentFirmaSession, firmaPage)
         {
-            var accomplishmentsDashboardOrganizationTypeName = FieldDefinitionEnum.ProjectStewardOrganizationDisplayName
-                .ToType().GetFieldDefinitionLabelPluralized();
             PageTitle = "BiOp Annual Report";
+
+            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec()
+            {
+                ObjectNameSingular = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(),
+                ObjectNamePlural = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(),
+                SaveFiltersInCookie = true
+            };
+
+            BiOpAnnualReportGridName = "BiOpAnnualReportGrid";
+            BiOpAnnualReportGridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridJsonData());
         }
     }
 }

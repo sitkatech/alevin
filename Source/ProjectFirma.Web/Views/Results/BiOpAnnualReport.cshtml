@@ -21,25 +21,39 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Results.BiOpAnnualReport
 @section JavascriptAndStylesContent
 {
-    
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
 @section RightOfPageTitle
 {
-   
+
 }
 
-<div style="padding-top: 10px;">
-    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    <div style="padding-top: 10px;">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+        @using (Html.BeginForm(null, null, FormMethod.Get, new {enctype = "multipart/form-data"})){
+            <select class="form-control year-dropdown" onchange="this.form.submit()" name="year">
+                <option value="2004">2004</option>
+                <option value="2005">2005</option>
+            </select>
+        }
+    </div>
+
+
+<div class="col-xs-12">
+    @Html.DhtmlxGrid(ViewDataTyped.BiOpAnnualReportGridSpec, ViewDataTyped.BiOpAnnualReportGridName, ViewDataTyped.BiOpAnnualReportGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
-<div>
+<script type="text/javascript">
 
-</div>
+   
+</script>

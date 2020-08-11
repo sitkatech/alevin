@@ -471,6 +471,7 @@
     <Compile Include="Views\ActionItem\EditViewModel.cs" />
     <Compile Include="Views\ActionItem\ActionItemsGridSpec.cs" />
     <Compile Include="Views\Results\AccomplishmentsDashboardViewData.cs" />
+    <Compile Include="Views\Results\BiOpAnnualReportGridSpec.cs" />
     <Compile Include="Views\Results\BiOpAnnualReport.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewData.cs" />
     <Compile Include="Views\Shared\EditPerformanceMeasureTargetsViewModel.cs" />

@@ -37,6 +37,7 @@ using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Reports;
 using ProjectFirma.Web.Views.Shared;
 
 namespace ProjectFirma.Web.Controllers
@@ -548,13 +549,41 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [AnonymousUnclassifiedFeature]
-        public ViewResult BiOpAnnualReport()
+        [HttpGet]
+        public ViewResult BiOpAnnualReport(int? year)
         {
+
+            var allYearsAvailable = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                .Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                .Distinct().OrderBy(x => x);
+
+
+            if (!year.HasValue)
+            {
+                // get latest year for reported values?
+                year = allYearsAvailable.Max();
+            }
+
+            
+            
+            
+            
             var firmaPage = FirmaPageTypeEnum.BiOpAnnualReport.GetFirmaPage();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute);
             return RazorView<BiOpAnnualReport, BiOpAnnualReportViewData>(viewData);
+        }
+        
+        [AnonymousUnclassifiedFeature]
+        public GridJsonNetJObjectResult<Project>
+            BiOpAnnualReportGridJsonData()
+        {
+            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec();
+            // Grid should display all projects that have metric actual values for that calendar year. Any project that doesn’t have actuals doesn’t get reported
+            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, biOpAnnualReportGridSpec);
+            return gridJsonNetJObjectResult;
         }
 
     }

@@ -179,7 +179,7 @@ namespace ProjectFirma.Web.Views
             MultiTenantHelpers.AddTechnicalAssistanceReportMenuItem(resultsMenu, firmaSession);
             MultiTenantHelpers.AddFundingStatusMenuItem(resultsMenu, firmaSession);
 
-            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.BiOpAnnualReport()), firmaSession, "BiOp Annual Report"));
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.BiOpAnnualReport(null)), firmaSession, "BiOp Annual Report"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
             return resultsMenu;
