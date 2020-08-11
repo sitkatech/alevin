@@ -19,6 +19,8 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
+using System.Linq;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -33,8 +35,9 @@ namespace ProjectFirma.Web.Views.Results
         {
 
 
-            Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, a => a.GetDisplayNameAsUrl(), 250);
-            //Add(FieldDefinitionEnum.ClassificationDescription.ToType().ToGridHeaderString("Description"), a => a.ClassificationDescription, 250);
+            Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250);
+            Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 250);
+            Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 250);
             //Add(FieldDefinitionEnum.ClassificationDescription.ToType().ToGridHeaderString("Goal Statement"), a => a.GoalStatement, 250);
             //Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ProjectClassifications.Count, 90);
             //Add("Sort Order", a => a.ClassificationSortOrder, 90, DhtmlxGridColumnFormatType.None);  // Most humans ordinarily expect lists to be 1-indexed instead of zero-indexed)
