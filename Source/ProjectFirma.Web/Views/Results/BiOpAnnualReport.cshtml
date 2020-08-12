@@ -31,6 +31,7 @@
 @section JavascriptAndStylesContent
 {
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    
 }
 
 @section RightOfPageTitle
@@ -38,19 +39,32 @@
 
 }
 
-    <div style="padding-top: 10px;">
-        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
-        @using (Html.BeginForm(null, null, FormMethod.Get, new {enctype = "multipart/form-data"})){
-            @Html.DropDownList("year", ViewDataTyped.YearsAvailable, new {onchange = "this.form.submit()", @class = "form-control"})
-        }
-    </div>
+    <script type="text/javascript">
+
+    var refreshGrid = function (target) {
+        var form = jQuery(target).parents('form');
+        var queryString = form.serialize();
+        var grid = Sitka.@(ViewDataTyped.BiOpAnnualReportGridName);
+        grid.loadWithQueryString(queryString);
+    }
+
+    jQuery(document).ready(function ()
+    {
+        jQuery(".selectpicker").selectpicker("refresh");
+    });
+
+    </script>
+
+<div style="padding-top: 10px;">
+    @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    @using (Html.BeginForm(null, null, FormMethod.Get, new { enctype = "multipart/form-data" }))
+    {
+        @Html.DropDownList("years", ViewDataTyped.YearsAvailable, new { onchange = "refreshGrid(this)", @class = "form-control selectpicker", multiple = "multiple" })
+    }
+</div>
 
 
 <div class="col-xs-12">
     @Html.DhtmlxGrid(ViewDataTyped.BiOpAnnualReportGridSpec, ViewDataTyped.BiOpAnnualReportGridName, ViewDataTyped.BiOpAnnualReportGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
-<script type="text/javascript">
-
-   
-</script>

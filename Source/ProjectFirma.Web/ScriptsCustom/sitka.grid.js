@@ -723,6 +723,15 @@ Sitka.Grid.Class.Grid.prototype.load = function (dataUrl) {
     this.grid.load(dataUrl, "json");
 };
 
+
+Sitka.Grid.Class.Grid.prototype.loadWithQueryString = function (queryString) {
+    if (this.dataUrl != null) {
+        this.grid.clearAll();
+        this.grid.load(this.dataUrl + '?' + queryString, "json");
+    }
+};
+
+
 Sitka.Grid.Class.Grid.prototype.setGridInstructions = function (instructionHtml, show) {
     var objbox = jQuery(this.grid.objBox);
     objbox.append(instructionHtml).addClass("gridInstruction");

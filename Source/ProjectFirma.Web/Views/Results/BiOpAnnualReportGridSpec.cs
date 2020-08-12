@@ -39,6 +39,7 @@ namespace ProjectFirma.Web.Views.Results
 
         public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude)
         {
+            SaveFiltersInCookie = true;
             AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double) p.GetProjectedFunding()).ToList();
 
 
@@ -60,6 +61,13 @@ namespace ProjectFirma.Web.Views.Results
             Add("Project Cost Category", p => p.GetProjectedFundingCategory(AllProjectedFundingValues), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             Add("Is BPA Funded", p => p.IsBPAFunded() ? "Yes" : "No", 50, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
+            // calendar year(s) of metric
+
+            // sponsor organization
+            //Add("Sponsor Organization", p => p.GetAssociatedOrganizationRelationships())
+
+            // metric name/value * 6
 
         }
     }
