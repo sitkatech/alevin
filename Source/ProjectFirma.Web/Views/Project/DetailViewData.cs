@@ -36,9 +36,11 @@ using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
+using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
@@ -123,6 +125,7 @@ namespace ProjectFirma.Web.Views.Project
         public string BackToProjectsText { get; }
         public List<string> ProjectAlerts { get; }
         public ProjectOrganizationsDetailViewData ProjectOrganizationsDetailViewData { get; }
+        public ProjectPotentialPartnerDetailViewData ProjectPotentialPartnerDetailViewData { get; }
         public ProjectContactsDetailViewData ProjectContactsDetailViewData { get; }
         public string EditProjectContactsUrl { get; }
         public List<ProjectFirmaModels.Models.ClassificationSystem> ClassificationSystems { get; }
@@ -175,6 +178,7 @@ namespace ProjectFirma.Web.Views.Project
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData,
+            ProjectPotentialPartnerDetailViewData projectPotentialPartnerDetailViewData,
             List<ProjectFirmaModels.Models.ClassificationSystem> classificationSystems,
             string editProjectBoundingBoxFormID, List<GeospatialAreaType> geospatialAreaTypes,
             DisplayProjectCustomAttributesViewData displayProjectCustomAttributeTypesViewData,
@@ -324,7 +328,6 @@ namespace ProjectFirma.Web.Views.Project
                 }
             }
 
-            
             if (ProjectModelExtensions.GetLatestNotApprovedUpdateBatch(project) != null)
             {
                 if (userHasEditProjectPermissions)
@@ -405,6 +408,9 @@ namespace ProjectFirma.Web.Views.Project
             ProjectNotificationGridName = projectNotificationGridName;
             ProjectNotificationGridDataUrl = projectNotificationGridDataUrl;
             ProjectOrganizationsDetailViewData = projectOrganizationsDetailViewData;
+
+            // Potential Partner panel
+            ProjectPotentialPartnerDetailViewData = projectPotentialPartnerDetailViewData;
 
             ProjectContactsDetailViewData = projectContactsDetailViewData;
             EditProjectContactsUrl = editProjectContactsUrl;

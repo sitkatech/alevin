@@ -90,14 +90,28 @@ namespace ProjectFirma.Web.Views.Organization
         public int NumberOfProjectsContributedTo { get; }
         public ViewPageContentViewData DescriptionViewData { get; }
 
+        public bool ShowMatchmakerProfile { get; }
+        public bool UserHasViewEditProfilePermission { get; }
+        public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
+        public string EditProfileTaxonomyUrl { get; }
+
+        public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
+        public string TaxonomyTrunkDisplayName { get; }
+        public string TaxonomyBranchDisplayName { get; }
+        public string TaxonomyLeafDisplayName { get; }
+        public TaxonomyLevel TaxonomyLevel { get; }
+        public int MaximumTaxonomyLeaves { get; }
+
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
-                                            ProjectFirmaModels.Models.Organization organization,
-                                            MapInitJson mapInitJson,
-                                            LayerGeoJson projectLocationsLayerGeoJson,
-                                            bool hasSpatialData,
-                                            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
-                                            ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
-                                            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData) : base(currentFirmaSession)
+            ProjectFirmaModels.Models.Organization organization,
+            MapInitJson mapInitJson,
+            LayerGeoJson projectLocationsLayerGeoJson,
+            bool hasSpatialData,
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
+            ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
+            ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
+            List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
+            int maximumTaxonomyLeaves) : base(currentFirmaSession)
         {
             Organization = organization;
             Check.EnsureNotNull(organization);
@@ -208,6 +222,18 @@ namespace ProjectFirma.Web.Views.Organization
             NumberOfLeadImplementedProjects = allAssociatedProjects.Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
             NumberOfProjectsContributedTo = allAssociatedProjects.ToList().GetActiveProjects().Count;
             DescriptionViewData = new ViewPageContentViewData(organization, currentFirmaSession);
+            
+            ShowMatchmakerProfile = FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
+            UserHasViewEditProfilePermission = new OrganizationProfileViewEditFeature()
+                .HasPermission(currentFirmaSession, organization).HasPermission;
+            FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
+            EditProfileTaxonomyUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileTaxonomy(organization));
+            TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
+            TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
+            TaxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
+            TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
+            TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
+            MaximumTaxonomyLeaves = maximumTaxonomyLeaves;
         }
     }
 }
