@@ -357,6 +357,15 @@ namespace ProjectFirma.Web.Models
             var exemptYears = projectUpdateBatch.GetPerformanceMeasuresExemptReportingYears().Select(x => x.CalendarYear).ToList();
             var yearsExpected = projectUpdateBatch.ProjectUpdate.GetProjectUpdateImplementationStartToCompletionYearRange().Where(x => !exemptYears.Contains(x)).ToList();
 
+            // validation 1: ensure that at least one PM has values for each year that isn't marked as 'No accomplishments to report' from ProjectUpdate Project Implementation start year to min(endyear, currentyear)
+            // if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
+            var missingYears = new HashSet<int>();
+            if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
+            {
+                var yearsEntered = projectUpdateBatch.PerformanceMeasureActualUpdates.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct();
+                missingYears = yearsExpected.GetMissingYears(yearsEntered);
+            }
+
             // What distinct PerformanceMeasures are being worked with? 
             var pmausGrouped = performanceMeasureActualUpdates.GroupBy(pmas => pmas.PerformanceMeasureID);
 
@@ -365,15 +374,6 @@ namespace ProjectFirma.Web.Models
             {
                 var currentPerformanceMeasureActualUpdate = performanceMeasureActualUpdateGroup.First();
                 int currentPerformanceMeasureActualUpdateID = currentPerformanceMeasureActualUpdate.PerformanceMeasureActualUpdateID;
-
-                // validation 1: ensure that we have PM values from ProjectUpdate start year to min(endyear, currentyear)
-                // if the ProjectUpdate record has a stage of Planning/Design, we do not do this validation
-                var missingYears = new HashSet<int>();
-                if (projectUpdateBatch.ProjectUpdate.ProjectStage.RequiresPerformanceMeasureActuals() || projectUpdateBatch.ProjectUpdate.ProjectStage == ProjectStage.Completed)
-                {
-                    var yearsEntered = performanceMeasureActualUpdateGroup.Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear).Distinct().OrderBy(year => year).ToList();
-                    missingYears = yearsExpected.GetMissingYears(yearsEntered);
-                }
 
                 // validation 2: incomplete PM row (missing performanceMeasureSubcategory option id)
                 var performanceMeasureActualsWithIncompleteWarnings = projectUpdateBatch.ValidateNoIncompletePerformanceMeasureActualUpdateRow(currentPerformanceMeasureActualUpdateID);
@@ -736,9 +736,9 @@ namespace ProjectFirma.Web.Models
             return projectStage != ProjectStage.PlanningDesign;
         }
 
-        public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, bool ignoreStatus, bool hasEditableCustomAttributes)
+        public static List<ProjectSectionSimple> GetApplicableWizardSections(this ProjectUpdateBatch projectUpdateBatch, FirmaSession currentFirmaSession, bool ignoreStatus, bool hasEditableCustomAttributes)
         {
-            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
+            return ProjectWorkflowSectionGrouping.All.SelectMany(x => x.GetProjectUpdateSections(currentFirmaSession, projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
         public static bool IsPassingAllValidationRules(this ProjectUpdateBatch projectUpdateBatch)
