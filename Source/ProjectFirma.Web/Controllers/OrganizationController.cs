@@ -195,7 +195,7 @@ namespace ProjectFirma.Web.Controllers
             var matchmakerOrganizationTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.AllMatchmakerOrganizationTaxonomyLeafs.Local;
         
             viewModel.UpdateModel(organization, matchmakerOrganizationTaxonomyTrunks, matchmakerOrganizationTaxonomyBranches, matchmakerOrganizationTaxonomyLeafs);
-            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
         
         private PartialViewResult ViewEditProfileTaxonomy(EditProfileTaxonomyViewModel viewModel)
@@ -260,10 +260,10 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey, DetailViewData.OrganizationDetailTab? organizationDetailTab)
+        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey, OrganizationDetailViewData.OrganizationDetailTab? organizationDetailTab)
         {
             var organization = organizationPrimaryKey.EntityObject;
-            var activeTab = organizationDetailTab ?? DetailViewData.OrganizationDetailTab.Overview;
+            var activeTab = organizationDetailTab ?? OrganizationDetailViewData.OrganizationDetailTab.Overview;
             var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(organization);
             var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
