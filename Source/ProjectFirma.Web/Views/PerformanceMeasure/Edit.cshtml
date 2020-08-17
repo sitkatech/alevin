@@ -83,6 +83,18 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="form-group">
         <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.IncludedInBiOpAnnualReport)
+        </div>
+        <div class="col-sm-9">
+            <div class="radio-inline">
+                <label>@Html.RadioButtonFor(m => m.IncludedInBiOpAnnualReport, true) Yes</label>
+            </div><div class="radio-inline">
+                <label>@Html.RadioButtonFor(m => m.IncludedInBiOpAnnualReport, false) No</label>
+            </div>
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
             @Html.LabelWithSugarFor(m => m.PerformanceMeasureDefinition)
         </div>
         <div class="col-sm-9">

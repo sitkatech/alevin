@@ -20,6 +20,7 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[Importance] [dbo].[html] NULL,
 	[AdditionalInformation] [dbo].[html] NULL,
 	[CanBeChartedCumulatively] [bit] NOT NULL,
+	[IncludeInBiOpAnnualReport] [bit] NOT NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureID] ASC

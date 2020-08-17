@@ -48,6 +48,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             Add("Description", a => a.PerformanceMeasureDefinition, 400, DhtmlxGridColumnFilterType.Html);
             Add($"# of {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()}", a => a.GetRealSubcategoryCount(), 110);
             Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", a => a.ReportedProjectsCount(currentFirmaSession), 80);
+            Add($"Included in BiOp Annual Report", a => a.IncludeInBiOpAnnualReport.ToYesNo(), 80);
         }
     }
 }

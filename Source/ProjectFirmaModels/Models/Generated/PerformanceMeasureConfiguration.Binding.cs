@@ -32,6 +32,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.Importance).HasColumnName(@"Importance").HasColumnType("varchar").IsOptional();
             Property(x => x.AdditionalInformation).HasColumnName(@"AdditionalInformation").HasColumnType("varchar").IsOptional();
             Property(x => x.CanBeChartedCumulatively).HasColumnName(@"CanBeChartedCumulatively").HasColumnType("bit").IsRequired();
+            Property(x => x.IncludeInBiOpAnnualReport).HasColumnName(@"IncludeInBiOpAnnualReport").HasColumnType("bit").IsRequired();
 
             // Foreign keys
 
