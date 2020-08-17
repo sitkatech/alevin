@@ -271,7 +271,7 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
             propertyValues.ForEach(p => AddCell(worksheetPart, sharedStringTablePart, p.CellValue, p.ColumnIndex, rowIndex));
         }
 
-        private static Cell InsertCellInWorksheet(string columnName, uint rowIndex, WorksheetPart worksheetPart)
+        public  static Cell InsertCellInWorksheet(string columnName, uint rowIndex, WorksheetPart worksheetPart)
         {
             var worksheet = worksheetPart.Worksheet;
             var sheetData = worksheet.GetFirstChild<SheetData>();
