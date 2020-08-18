@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -90,6 +89,13 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(actionItem, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllActionItems.Add(actionItem);
+
+            var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(actionItem);
+            if (shouldCreateProjectProjectStatus)
+            {
+                CreateNewProjectProjectStatus(actionItem);
+            }
+
             SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
         }
@@ -127,6 +133,13 @@ namespace ProjectFirma.Web.Controllers
 
             viewModel.UpdateModel(actionItem, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllActionItems.Add(actionItem);
+
+            var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(actionItem);
+            if (shouldCreateProjectProjectStatus)
+            {
+                CreateNewProjectProjectStatus(actionItem);
+            }
+
             SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
         }
@@ -168,10 +181,64 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, actionItem);
             }
-            
+
+            var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(viewModel, actionItem);
             viewModel.UpdateModel(actionItem, CurrentFirmaSession);
+
+            if (shouldCreateProjectProjectStatus)
+            {
+                CreateNewProjectProjectStatus(actionItem);
+            }
+
             SetMessageForDisplay($"Successfully edited {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
+        }
+
+        private static bool IsNewProjectProjectStatusNeeded(EditViewModel viewModel, ActionItem actionItem)
+        {
+            var previouslyIncomplete = actionItem.ActionItemState == ActionItemState.Incomplete;
+            var nowComplete = (int)viewModel.ActionItemStateEnum == ActionItemState.Complete.ActionItemStateID;
+
+            return viewModel.ProjectProjectStatusID == null && previouslyIncomplete && nowComplete;
+        }
+
+        private static bool IsNewProjectProjectStatusNeeded(ActionItem actionItem)
+        {
+            return actionItem.ProjectProjectStatusID == null && actionItem.ActionItemState == ActionItemState.Complete;
+        }
+
+        private void CreateNewProjectProjectStatus(ActionItem actionItem)
+        {
+            var project = actionItem.Project;
+
+            var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
+            if (finalStatusReport.Any())
+            {
+                return;
+            }
+
+            var lastStatusReport = project.ProjectProjectStatuses
+                .OrderByDescending(x => x.ProjectProjectStatusCreateDate).FirstOrDefault();
+
+            var defaultProjectStatus = HttpRequestStorage.DatabaseEntities.ProjectStatuses
+                .OrderBy(ps => ps.ProjectStatusSortOrder).First();
+            var projectStatus = lastStatusReport?.ProjectStatus ?? defaultProjectStatus;
+
+            var projectProjectStatus = new ProjectProjectStatus(project, projectStatus, DateTime.Now,
+                CurrentFirmaSession.Person, DateTime.Now, false);
+            projectProjectStatus.ActionItems.Add(actionItem);
+
+            projectProjectStatus.ProjectProjectStatusRecentActivities =
+                $"This is a system generated {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} indicating the related {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()} " +
+                $"has been marked {actionItem.ActionItemState.ActionItemStateDisplayName} " + 
+                $"by {CurrentFirmaSession.Person.GetFullNameFirstLastAndOrgShortName()} for this project ({project.GetDisplayName()}).";
+
+            projectProjectStatus.ProjectProjectStatusComment =
+                $"When marked {actionItem.ActionItemState.ActionItemStateDisplayName}, the related {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()} text read: {actionItem.ActionItemText}";
+
+            project.ProjectProjectStatuses.Add(projectProjectStatus);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
         }
 
         [HttpGet]
