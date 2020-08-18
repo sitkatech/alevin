@@ -42,12 +42,12 @@ namespace ProjectFirma.Web.Views.Results
 
         public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
             TenantAttribute tenantAttribute, IEnumerable<SelectListItem> yearsAvailableSelectList,
-            List<GeospatialAreaType> geoSpatialAreasToInclude) 
+            List<GeospatialAreaType> geoSpatialAreasToInclude, List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude, List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToInclude) 
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "BiOp Annual Report";
 
-            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude)
+            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, performanceMeasureReportingPeriodsToInclude)
             {
                 ObjectNameSingular = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(),
                 ObjectNamePlural = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(),

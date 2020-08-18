@@ -37,7 +37,8 @@ namespace ProjectFirma.Web.Views.Results
         private List<double> AllProjectedFundingValues;
         
 
-        public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude)
+        public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude,
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude, List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToInclude)
         {
             SaveFiltersInCookie = true;
             AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double) p.GetProjectedFunding()).ToList();
@@ -68,6 +69,18 @@ namespace ProjectFirma.Web.Views.Results
             //Add("Sponsor Organization", p => p.GetAssociatedOrganizationRelationships())
 
             // metric name/value * 6
+
+            foreach (var performanceMeasure in performanceMeasuresToInclude)
+            {
+
+                Add(performanceMeasure.PerformanceMeasureDisplayName,
+                    p => performanceMeasure.PerformanceMeasureActuals.Where(pma =>
+                            pma.ProjectID == p.ProjectID &&
+                            performanceMeasureReportingPeriodsToInclude.Contains(pma.PerformanceMeasureReportingPeriod))
+                        .Sum(pma => pma.ActualValue), 100);
+
+            }
+
 
         }
     }
