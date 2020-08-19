@@ -140,25 +140,18 @@ inner join ImportFinancial.FiscalQuarter as fq on (dbo.GetFiscalQuarterIDForCale
 
 end
 
-
 delete from dbo.ProjectFundingSourceExpenditure
 
-
-
-
 insert into dbo.ProjectFundingSourceExpenditure(TenantID, ProjectID, FundingSourceID, CalendarYear, ExpenditureAmount, CostTypeID)
-
-
-
 select 12, cap.ProjectID , x.FundingSourceID, x.CalendarYear, sum(isnull(x.TotalExpenditures,0)) as ExpenditureAmount, null from ImportFinancial.WbsElementPnBudget x
 join Reclamation.CostAuthorityProject cap on x.CostAuthorityID = cap.CostAuthorityID
 group by x.FundingSourceID, x.CalendarYear, cap.ProjectID
 
 
-
-
-
 /*
+
+
+
 
 exec dbo.pReclamationImportPnBudget
 

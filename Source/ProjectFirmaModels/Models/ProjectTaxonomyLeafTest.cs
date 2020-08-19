@@ -10,11 +10,14 @@ namespace ProjectFirmaModels.Models
         [Test]
         public void EnsureAllTaxonomyLeavesDontCrash()
         {
+            CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes();
+        }
+
+        public static void CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes()
+        {
             var projects = HttpRequestStorageForTest.DatabaseEntities.Projects.ToList();
             //This can crash when data is garbled. This test is to make sure this runs for all projects.
             projects.ForEach(p => p.GetTaxonomyLeaf());
-            
         }
-
     }
 }
