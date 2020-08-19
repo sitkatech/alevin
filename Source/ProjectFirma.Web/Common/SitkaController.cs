@@ -350,16 +350,15 @@ namespace ProjectFirma.Web.Common
             xml = BlankRowFixup(xml);
             Check.EnsureNotNull(xml);
             var stream = generator.Generate(xml);
-            var fullDhtmlxGridName = $"dhtml{gridName}";
 
-            AddPersonSettingGridFilterMetaDataToExcelFileStream(stream, fullDhtmlxGridName);
+            AddPersonSettingGridFilterMetaDataToExcelFileStream(stream, gridName);
 
             var fileDownloadName = $"{gridName}.xlsx";
             var excelFile = File(stream.ToArray(), generator.ContentType, fileDownloadName);
             return excelFile;
         }
 
-        private void AddPersonSettingGridFilterMetaDataToExcelFileStream(MemoryStream stream, string fullDhtmlxGridName)
+        private void AddPersonSettingGridFilterMetaDataToExcelFileStream(MemoryStream stream, string gridName)
         {
             var session = HttpRequestStorage.FirmaSession;
             if (session.IsAnonymousOrUnassigned())
@@ -367,7 +366,7 @@ namespace ProjectFirma.Web.Common
                 return;
             }
 
-            var personSettingGridTable = HttpRequestStorage.DatabaseEntities.PersonSettingGridTables.FirstOrDefault(x => x.GridName == fullDhtmlxGridName);
+            var personSettingGridTable = HttpRequestStorage.DatabaseEntities.PersonSettingGridTables.FirstOrDefault(x => x.GridName == gridName);
             var tableColumns = personSettingGridTable?.PersonSettingGridColumns.OrderBy(x => x.SortOrder).ToList();
             var tableColumnFiltersDictionary = tableColumns?.ToDictionary(x => x.ColumnName, x => x.PersonSettingGridColumnSettings.FirstOrDefault(y => y.PersonID == session.PersonID)?.PersonSettingGridColumnSettingFilters.Select(z => z.FilterText).ToList());
 

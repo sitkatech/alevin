@@ -688,10 +688,10 @@ Sitka.Grid.Class.Grid.prototype.load = function (dataUrl) {
 };
 
 
-Sitka.Grid.Class.Grid.prototype.loadWithQueryString = function (queryString) {
+Sitka.Grid.Class.Grid.prototype.loadWithQueryString = function (queryString, callback) {
     if (this.dataUrl != null) {
         this.grid.clearAll();
-        this.grid.load(this.dataUrl + '?' + queryString, "json");
+        this.grid.load(this.dataUrl + '?' + queryString, callback, "json");
     }
 };
 

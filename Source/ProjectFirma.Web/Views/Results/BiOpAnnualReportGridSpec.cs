@@ -38,7 +38,8 @@ namespace ProjectFirma.Web.Views.Results
         
 
         public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude,
-            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude, List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToInclude)
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude, 
+            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToInclude)
         {
             SaveFiltersInCookie = true;
             AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double) p.GetProjectedFunding()).ToList();
@@ -46,6 +47,7 @@ namespace ProjectFirma.Web.Views.Results
 
             Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250);
             Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150);
+            Add("Years Included",  p => string.Join(", ", performanceMeasureReportingPeriodsToInclude.Select(x => x.PerformanceMeasureReportingPeriodCalendarYear.ToString())), 100);
             Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100);
             // from the project location simple point. Maybe we could find a center from detailed locations if the project doesn't have a simple location? -- SMG 8/11/2020
             Add("Lat/Lng", p => $"{p.ProjectLocationPoint?.YCoordinate.ToString()} {p.ProjectLocationPoint?.XCoordinate.ToString()}", 150);
@@ -72,13 +74,11 @@ namespace ProjectFirma.Web.Views.Results
 
             foreach (var performanceMeasure in performanceMeasuresToInclude)
             {
-
                 Add(performanceMeasure.PerformanceMeasureDisplayName,
                     p => performanceMeasure.PerformanceMeasureActuals.Where(pma =>
                             pma.ProjectID == p.ProjectID &&
                             performanceMeasureReportingPeriodsToInclude.Contains(pma.PerformanceMeasureReportingPeriod))
                         .Sum(pma => pma.ActualValue), 100);
-
             }
 
 
