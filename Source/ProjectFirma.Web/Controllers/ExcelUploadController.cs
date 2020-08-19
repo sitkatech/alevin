@@ -151,6 +151,8 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
+            ProjectTaxonomyLeafTest.CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes();
+
             SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} FBMS records were successfully imported to database. </br>{importTimeString}.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
@@ -257,6 +259,8 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForPnBudgets);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
+            ProjectTaxonomyLeafTest.CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes();
+
             SetMessageForDisplay($"{countAddedPnBudgets.ToGroupedNumeric()} PnBudget records were successfully imported to database.</br>{importTimeString}.");
 
             // This is the right thing to return, since this starts off in a modal dialog
@@ -294,6 +298,8 @@ namespace ProjectFirma.Web.Controllers
         #endregion pnBudgetExcelUpload
 
         #region CommonUploadStuff
+
+        
 
         private ActionResult Common_LoadFromXls_ExceptionHandler(Stream excelFileAsStream, 
                                                                  string optionalOriginalFilename,
@@ -383,6 +389,8 @@ namespace ProjectFirma.Web.Controllers
                 SetErrorForDisplay($"Problem executing Publishing: {e.Message}");
                 wasErrorDuringProcessing = true;
             }
+
+            ProjectTaxonomyLeafTest.CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes();
 
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;

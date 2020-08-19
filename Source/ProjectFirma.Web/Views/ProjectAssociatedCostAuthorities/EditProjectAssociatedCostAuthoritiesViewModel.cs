@@ -61,6 +61,12 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
             {
                 updatedCostAuthorityIDs.AddRange(SelectedCostAuthorityIDs.Select(x =>
                     new CostAuthorityProject(x, project.ProjectID, (x == PrimaryCostAuthorityID))));
+
+                //TK & SLG 8/18/20202 -- If we already have an override but are setting a new PrimaryCostAuthorityID, then we need to remove the override to prevent data issues.
+                if (PrimaryCostAuthorityID != null && project.OverrideTaxonomyLeafID != null)
+                {
+                    project.OverrideTaxonomyLeafID = null;
+                }
             }
 
             // Awkward hack: To get around the only-one-primary-CAWBS constraint, we need to clear any
