@@ -41,11 +41,15 @@ namespace ProjectFirma.Web.Models
                 var currentFundingSource = fundingSourcesCrossJoinCalendarYears.Single(x => x.FundingSourceID == projectFundingSourceExpenditure.Key);
                 foreach (var expenditures in projectFundingSourceExpenditure.GroupBy(x => x.CostTypeID))
                 {
-                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.Single(x => x.CostType.CostTypeID == expenditures.Key);
-                    foreach (var calendarYear in calendarYears)
+                    // TK & SLG 8/18/2020 -- Adding this SingleOrDefault and this null check to prevent a crash. We think there may be more to this issue that this, but this is not wrong.
+                    var current = currentFundingSource.ProjectCostTypeCalendarYearAmounts.SingleOrDefault(x => x.CostType.CostTypeID == expenditures.Key);
+                    if (current != null)
                     {
-                        current.CalendarYearAmount[calendarYear] =
-                            expenditures.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.GetMonetaryAmount()).Sum();
+                        foreach (var calendarYear in calendarYears)
+                        {
+                            current.CalendarYearAmount[calendarYear] =
+                                expenditures.Where(fundingSourceExpenditure => fundingSourceExpenditure.CalendarYear == calendarYear).Select(x => x.GetMonetaryAmount()).Sum();
+                        }
                     }
                 }
             }
