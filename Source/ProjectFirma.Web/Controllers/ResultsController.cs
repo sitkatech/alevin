@@ -617,10 +617,15 @@ namespace ProjectFirma.Web.Controllers
             var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, performanceMeasureReportingPeriodsToInclude);
 
-            
+            var performanceMeasureIDs = performanceMeasuresToInclude.Select(x => x.PerformanceMeasureID).ToList();
+            var performanceMeasureReportingPeriodIDs = performanceMeasureReportingPeriodsToInclude.Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
+                
+            var performanceMeasureActualsForYears = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(
+                x => performanceMeasureIDs.Contains(x.PerformanceMeasureID) && performanceMeasureReportingPeriodIDs.Contains(x.PerformanceMeasureReportingPeriodID)).ToList();
+
             // Grid should display all projects that have metric actual values for that calendar year. Any project that doesn’t have actuals doesn’t get reported
                 // Project stage must be in completed to be part of this report
-            var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
+            var projects = performanceMeasureActualsForYears.Select(x => x.Project).Distinct().ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, biOpAnnualReportGridSpec);
             return gridJsonNetJObjectResult;

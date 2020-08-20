@@ -42,12 +42,12 @@ namespace ProjectFirma.Web.Views.Results
             List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToInclude)
         {
             SaveFiltersInCookie = true;
-            AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double) p.GetProjectedFunding()).ToList();
+            AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double) p.GetProjectedFunding() + (double) p.GetNoFundingSourceIdentifiedAmountOrZero()).ToList();
 
+            var primaryContactOrganizationRelationshipType = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.FirstOrDefault(x => x.IsPrimaryContact);
 
             Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250);
             Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150);
-            Add("Years Included",  p => string.Join(", ", performanceMeasureReportingPeriodsToInclude.Select(x => x.PerformanceMeasureReportingPeriodCalendarYear.ToString())), 100);
             Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100);
             // from the project location simple point. Maybe we could find a center from detailed locations if the project doesn't have a simple location? -- SMG 8/11/2020
             Add("Lat/Lng", p => $"{p.ProjectLocationPoint?.YCoordinate.ToString()} {p.ProjectLocationPoint?.XCoordinate.ToString()}", 150);
@@ -60,15 +60,16 @@ namespace ProjectFirma.Web.Views.Results
             }
 
             // todo: verify this
-            Add("Project Cost", p => p.GetProjectedFunding(), 100, DhtmlxGridColumnFormatType.Decimal);
+            Add("Project Cost", p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero(), 100, DhtmlxGridColumnFormatType.Decimal);
             Add("Project Cost Category", p => p.GetProjectedFundingCategory(AllProjectedFundingValues), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             Add("Is BPA Funded", p => p.IsBPAFunded() ? "Yes" : "No", 50, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             // calendar year(s) of metric
+            Add("Year(s) of Metric", p => string.Join(", ", performanceMeasureReportingPeriodsToInclude.Select(x => x.PerformanceMeasureReportingPeriodCalendarYear.ToString())), 100);
 
             // sponsor organization
-            //Add("Sponsor Organization", p => p.GetAssociatedOrganizationRelationships())
+            Add("Sponsor Organization", p => p.GetPrimaryContactOrganization().OrganizationName, 150);
 
             // metric name/value * 6
 
