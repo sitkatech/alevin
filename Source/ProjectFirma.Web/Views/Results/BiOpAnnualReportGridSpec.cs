@@ -46,11 +46,13 @@ namespace ProjectFirma.Web.Views.Results
 
             var primaryContactOrganizationRelationshipType = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.FirstOrDefault(x => x.IsPrimaryContact);
 
-            Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250);
-            Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150);
-            Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100);
+            Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250, DhtmlxGridColumnFilterType.Html);
+            Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Text);
+            Add($"{FieldDefinitionEnum.ProjectStage.ToType().FieldDefinitionDisplayName} ", p => p.ProjectStage.ProjectStageDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             // from the project location simple point. Maybe we could find a center from detailed locations if the project doesn't have a simple location? -- SMG 8/11/2020
-            Add("Lat/Lng", p => $"{p.ProjectLocationPoint?.YCoordinate.ToString()} {p.ProjectLocationPoint?.XCoordinate.ToString()}", 150);
+            Add("Lat", p => $"{p.ProjectLocationPoint?.YCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
+            Add("Lng", p => $"{p.ProjectLocationPoint?.XCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
 
             foreach (var geospatialAreaType in geoSpatialAreaTypesToInclude)
             {
@@ -59,7 +61,7 @@ namespace ProjectFirma.Web.Views.Results
                         x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialArea.GetDisplayNameAsUrl())).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
             }
 
-            // todo: verify this
+            
             Add("Project Cost", p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero(), 100, DhtmlxGridColumnFormatType.Decimal);
             Add("Project Cost Category", p => p.GetProjectedFundingCategory(AllProjectedFundingValues), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
@@ -69,7 +71,7 @@ namespace ProjectFirma.Web.Views.Results
             Add("Year(s) of Metric", p => string.Join(", ", performanceMeasureReportingPeriodsToInclude.Select(x => x.PerformanceMeasureReportingPeriodCalendarYear.ToString())), 100);
 
             // sponsor organization
-            Add("Sponsor Organization", p => p.GetPrimaryContactOrganization().OrganizationName, 150);
+            Add("Sponsor Organization", p => p.GetPrimaryContactOrganization().OrganizationName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             // metric name/value * 6
 
@@ -79,7 +81,7 @@ namespace ProjectFirma.Web.Views.Results
                     p => performanceMeasure.PerformanceMeasureActuals.Where(pma =>
                             pma.ProjectID == p.ProjectID &&
                             performanceMeasureReportingPeriodsToInclude.Contains(pma.PerformanceMeasureReportingPeriod))
-                        .Sum(pma => pma.ActualValue), 100);
+                        .Sum(pma => pma.ActualValue), 50, DhtmlxGridColumnFormatType.Decimal);
             }
 
 
