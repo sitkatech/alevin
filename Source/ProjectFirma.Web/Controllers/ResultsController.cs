@@ -569,7 +569,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<FundingStatus, FundingStatusViewData>(viewData);
         }
 
-        [AnonymousUnclassifiedFeature]
+        [FirmaAdminFeature]
         [HttpGet]
         public ViewResult BiOpAnnualReport(int? year)
         {
@@ -595,7 +595,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<BiOpAnnualReport, BiOpAnnualReportViewData>(viewData);
         }
         
-        [AnonymousUnclassifiedFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Project>
             BiOpAnnualReportGridJsonData()
         {
@@ -623,8 +623,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureActualsForYears = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(
                 x => performanceMeasureIDs.Contains(x.PerformanceMeasureID) && performanceMeasureReportingPeriodIDs.Contains(x.PerformanceMeasureReportingPeriodID)).ToList();
 
-            // Grid should display all projects that have metric actual values for that calendar year. Any project that doesn’t have actuals doesn’t get reported
-                // Project stage must be in completed to be part of this report
+            // Grid should display all projects that have metric actual values for that calendar year. Any project that doesn't have actuals doesn't get reported
             var projects = performanceMeasureActualsForYears.Select(x => x.Project).Distinct().ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, biOpAnnualReportGridSpec);
