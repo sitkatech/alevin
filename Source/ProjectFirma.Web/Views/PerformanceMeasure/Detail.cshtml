@@ -115,6 +115,10 @@
                         <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively.ToType())</div>
                         <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.CanBeChartedCumulatively.ToYesNo()</div>
                     </div>
+                    <div class="row">
+                        <div class="col-xs-5 fieldLabel text-right"><label>Included in BiOp Annual Report?</label></div>
+                        <div class="col-xs-7">@ViewDataTyped.PerformanceMeasure.IncludeInBiOpAnnualReport.ToYesNo()</div>
+                    </div>
                 }
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right"><label>Description</label></div>

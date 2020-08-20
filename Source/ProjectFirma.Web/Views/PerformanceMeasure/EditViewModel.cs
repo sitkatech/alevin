@@ -60,6 +60,10 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively)]
         public bool? CanBeChartedCumulatively { get; set; }
 
+        [Required]
+        [DisplayName("Included in BiOp Annual Report")]
+        public bool IncludedInBiOpAnnualReport { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -76,6 +80,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureDefinition = performanceMeasure.PerformanceMeasureDefinition;
             IsSummable = performanceMeasure.IsSummable;
             CanBeChartedCumulatively = performanceMeasure.CanBeChartedCumulatively;
+            IncludedInBiOpAnnualReport = performanceMeasure.IncludeInBiOpAnnualReport;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
@@ -86,6 +91,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             performanceMeasure.PerformanceMeasureDefinition = PerformanceMeasureDefinition;
             performanceMeasure.IsSummable = IsSummable.GetValueOrDefault(); // will never be null due to RequiredAttribute
             performanceMeasure.CanBeChartedCumulatively = CanBeChartedCumulatively.GetValueOrDefault(); // will never be null due to RequiredAttribute
+            performanceMeasure.IncludeInBiOpAnnualReport = IncludedInBiOpAnnualReport;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

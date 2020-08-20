@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Models
             {
                 if (!SaveGridColumnSettingsLockDict.ContainsKey(personID))
                 {
-                    // Just a blank little lockable object, indexed by PersonSettingID
+                    // Just a blank little lockable object, indexed by PersonID
                     SaveGridColumnSettingsLockDict[personID] = new object();
                 }
                 saveGridColumnSettingsLock = SaveGridColumnSettingsLockDict[personID];

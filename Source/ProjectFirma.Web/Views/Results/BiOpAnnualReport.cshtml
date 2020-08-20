@@ -1,0 +1,88 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="ProjectResults.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Views.Shared
+@using LtInfo.Common
+@using LtInfo.Common.BootstrapWrappers
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Results.BiOpAnnualReport
+@section JavascriptAndStylesContent
+{
+    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+
+}
+
+@section RightOfPageTitle
+{
+    
+
+        @using (Html.BeginForm(null, null, FormMethod.Get, new { enctype = "multipart/form-data", @class = "form-inline" }))
+        {
+            <label>Years Included</label>
+            @Html.DropDownList("years", ViewDataTyped.YearsAvailable, new { onchange = "refreshGrid(this)", @class = "form-control selectpicker", multiple = "multiple" })
+        }
+    
+}
+
+<script type="text/javascript">
+
+    
+
+    var refreshGrid = function (target) {
+        var form = jQuery(target).parents('form');
+        var queryString = form.serialize();
+        var grid = Sitka.@(ViewDataTyped.BiOpAnnualReportGridName);
+        var selectPicker = jQuery(".selectpicker");
+        selectPicker.prop('disabled', true);
+        selectPicker.selectpicker("refresh");
+
+        grid.loadWithQueryString(queryString, function() {
+            selectPicker.prop('disabled', false);
+            selectPicker.selectpicker("refresh");
+        });
+    }
+
+    jQuery(document).ready(function ()
+    {
+        jQuery(".selectpicker").selectpicker({width:300});
+    });
+
+</script>
+
+<div class="row">
+    <div class="col-xs-12">
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
+    </div>
+
+</div>
+
+
+<div class="row">
+    <div class="col-xs-12">
+        @Html.DhtmlxGrid(ViewDataTyped.BiOpAnnualReportGridSpec, ViewDataTyped.BiOpAnnualReportGridName, ViewDataTyped.BiOpAnnualReportGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    </div>
+</div>
+
+

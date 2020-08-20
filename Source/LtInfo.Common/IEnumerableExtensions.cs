@@ -45,6 +45,24 @@ namespace LtInfo.Common
             return join.ToList();
         }
 
+        public static double StandardDeviation(this IEnumerable<double> doubles)
+        {
+            double standardDeviation = 0;
+            var list = doubles.ToList();
+            if (list.Any())
+            {
+                // Compute the average.     
+                double avg = list.Average();
+
+                // Perform the Sum of (value-avg)_2_2.      
+                double sum = list.Sum(d => Math.Pow(d - avg, 2));
+
+                // Put it all together.      
+                standardDeviation = Math.Sqrt((sum) / (list.Count() - 1));
+            }
+            return standardDeviation;
+        }
+
         public static IList<TR> FullOuterJoin<TA, TB, TK, TR>(this IEnumerable<TA> a,
             IEnumerable<TB> b,
             Func<TA, TK> selectKeyA,

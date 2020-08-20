@@ -32,6 +32,7 @@ using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using MoreLinq;
+using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
@@ -1090,6 +1091,31 @@ namespace ProjectFirma.Web.Models
             }
 
             return obligationItemInvoiceSimples;
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public static bool IsBPAFunded(this Project project)
+        {
+            return project.GetFundingOrganizations(false).Select(x => x.Organization.OrganizationID)
+                .Contains(OrganizationModelExtensions.BPAOrganizationID);
+        }
+
+        /// <summary>
+        /// Returns the organization with a relationship type that serves as the primary contact for a project
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns>Organization if found or null</returns>
+        public static Organization GetPrimaryContactOrganization(this Project project)
+        {
+            var primaryContractOrganizationType =
+                HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.FirstOrDefault(x => x.IsPrimaryContact);
+
+            if (primaryContractOrganizationType != null)
+            {
+                return project.ProjectOrganizations.First(x => x.OrganizationRelationshipTypeID == primaryContractOrganizationType.OrganizationRelationshipTypeID).Organization;
+            }
+
+            return null;
         }
 
     }
