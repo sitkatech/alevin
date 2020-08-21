@@ -327,6 +327,12 @@ namespace ProjectFirma.Web.Common
             return RedirectToActionStatic(route);
         }
 
+        protected RedirectResult RedirectToActionWithPermanentRedirect<T>(SitkaRoute<T> route) where T : Controller
+        {
+            var redirectToActionStatic = new RedirectResult(route.BuildUrlFromExpression(), true);
+            return redirectToActionStatic;
+        }
+
         protected ActionResult RedirectToActionWithError<T>(SitkaRoute<T> route, string error) where T : Controller
         {
             SetErrorForDisplay(error);
@@ -335,7 +341,8 @@ namespace ProjectFirma.Web.Common
 
         public static RedirectResult RedirectToActionStatic<T>(SitkaRoute<T> route) where T : Controller
         {
-            return new RedirectResult(route.BuildUrlFromExpression());
+            var redirectToActionStatic = new RedirectResult(route.BuildUrlFromExpression()); 
+            return redirectToActionStatic;
         }
 
         protected FileResult ExportGridToExcelImpl(string gridName)
