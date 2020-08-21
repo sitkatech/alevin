@@ -40,6 +40,17 @@ namespace ProjectFirma.Web.Controllers
         [CostAuthorityViewFeature]
         public ActionResult CostAuthorityDetail(string costAuthorityWorkBreakdownStructureString)
         {
+            // If just a pure int, likely an OLD URL where we just took CostAuthorityID.
+            if (int.TryParse(costAuthorityWorkBreakdownStructureString, out var possibleCostAuthorityID))
+            {
+                var possibleCostAuthority = HttpRequestStorage.DatabaseEntities.CostAuthorities.SingleOrDefault(ca => ca.CostAuthorityID == possibleCostAuthorityID);
+                if (possibleCostAuthority != null)
+                {
+                    // We want this to be a permanent redirect since Google is the one hitting us with these old IDs.
+                    return RedirectToActionWithPermanentRedirect(new SitkaRoute<CostAuthorityController>(pc => pc.CostAuthorityDetail(possibleCostAuthority.CostAuthorityWorkBreakdownStructure)));
+                }
+            }
+
             string correctedCawbsString = CostAuthority.CorrectedCostAuthorityWorkBreakdownStructureString(costAuthorityWorkBreakdownStructureString);
             // If they did enter a CAWBS string we could fix, we redirect permanently in case they bookmark
             if (correctedCawbsString != costAuthorityWorkBreakdownStructureString)
