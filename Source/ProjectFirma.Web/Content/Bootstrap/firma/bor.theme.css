@@ -17,7 +17,7 @@ h3,
 h4,
 h5,
 h6 {
-  color: #244A9F;
+  color: #003E51;
   font-family: "Arial", sans-serif;
   font-weight: 600;
 }
@@ -45,7 +45,7 @@ span.keyPhotoButton label {
 .pageTitle {
   font-weight: 600;
   text-transform: uppercase;
-  color: #244A9F;
+  color: #003E51;
   font-size: 28px;
 }
 .firmaContent {
@@ -73,7 +73,7 @@ span.keyPhotoButton label {
   min-height: 100%;
 }
 .header {
-  background-color: #244A9F;
+  background-color: #003E51;
 }
 .header img {
   margin: 0px;
@@ -105,7 +105,7 @@ span.keyPhotoButton label {
   text-decoration: none;
 }
 .navbar {
-  background: #EAD7B5;
+  background: #DDCBA4;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
@@ -151,7 +151,7 @@ span.keyPhotoButton label {
   text-transform: uppercase;
 }
 .projectFirmaNavbar .nav li a {
-  color: #244A9F;
+  color: #003E51;
   background-color: transparent;
   font-family: "Arial", sans-serif;
 }
@@ -166,47 +166,47 @@ span.keyPhotoButton label {
   background-color: transparent;
 }
 .projectFirmaNavbar .nav li .navbar-text {
-  color: #244A9F;
+  color: #003E51;
   font-family: "Arial", sans-serif;
 }
 .projectFirmaNavbar .nav li .nav .open > a,
 .projectFirmaNavbar .nav li .nav .open > a:hover,
 .projectFirmaNavbar .nav li .nav .open > a:focus {
-  background-color: #CB9F5B;
-  border-color: #CB9F5B;
+  background-color: #DDCBA4;
+  border-color: #DDCBA4;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu {
-  background-color: #CB9F5B;
-  border: 1px solid #CB9F5B;
+  background-color: #EAD7B5;
+  border: 1px solid #DDCBA4;
   border-top: none;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a {
   font-weight: 400;
   font-family: "Arial", sans-serif;
   color: #1C2329;
-  background-color: #CB9F5B;
+  background-color: #EAD7B5;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:focus {
-  color: #244A9F;
+  color: #003E51;
   background-color: #fff;
   text-decoration: none;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu .divider {
-  background-color: #CB9F5B;
+  background-color: #DDCBA4;
 }
 .projectFirmaNavbar .glyphicon-menu-hamburger {
-  color: #244A9F;
+  color: #003E51;
 }
 .factSheet .projectTaxonomy {
-  background-color: #244A9F !important;
+  background-color: #003E51 !important;
 }
 .factSheet .headerPanel h2 {
-  color: #244A9F !important;
+  color: #003E51 !important;
 }
 .factSheet .headerPanel {
-  border-left-color: #244A9F !important;
+  border-left-color: #003E51 !important;
 }
 footer#footer {
   position: relative;
@@ -215,7 +215,7 @@ footer#footer {
   right: 0;
   width: 100%;
   height: auto;
-  background-color: #244A9F;
+  background-color: #003E51;
   color: #fff;
 }
 footer#footer p {
@@ -235,7 +235,7 @@ footer#footer a:hover {
 .firma-modal-dialog .btn-firma {
   font-size: 14px;
   color: #fff;
-  background-color: #244A9F;
+  background-color: #003E51;
 }
 .btn-primary:hover {
   color: #fff;
@@ -249,7 +249,7 @@ footer#footer a:hover {
 }
 a.btn-firma {
   color: #fff;
-  background-color: #244A9F;
+  background-color: #003E51;
 }
 footer#footer .hoverEditButton a.btn-firma,
 .hoverEditButton a.btn-firma {
@@ -419,7 +419,7 @@ table.summaryLayout th,
 .panelFirma .panelTitle h2,
 .panelFirma .panelTitle h3 {
   color: #fff;
-  background-color: #244A9F;
+  background-color: #003E51;
   border-color: #ddd;
   font-weight: 400;
   font-size: 16px;
@@ -446,7 +446,7 @@ table.summaryLayout th,
 }
 a.gridButton {
   margin: 0 7px 0 0;
-  background-color: #244A9F;
+  background-color: #003E51;
   border-radius: 4px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
@@ -480,7 +480,7 @@ a.gridButton:hover {
   font-size: 12px;
   cursor: pointer;
   margin-right: 2px;
-  color: #244A9F;
+  color: #003E51;
 }
 /* ScrollSpy / Table of Contents */
 nav#tableOfContents ul.nav li a {
@@ -516,13 +516,13 @@ nav#tableOfContents ul.nav li.active ul.nav {
   max-height: 230px;
 }
 nav#tableOfContents ul.nav li.active a {
-  color: #244A9F;
-  border-left: 4px solid #244A9F;
+  color: #003E51;
+  border-left: 4px solid #003E51;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li.active a {
-  color: #244A9F;
-  border-left: 2px solid #244A9F;
+  color: #003E51;
+  border-left: 2px solid #003E51;
   cursor: pointer;
 }
 nav#tableOfContents ul.nav li.active ul.nav li a {
@@ -532,12 +532,12 @@ nav#tableOfContents ul.nav li.active ul.nav li a {
   color: #333;
 }
 nav#tableOfContents ul.nav li a:hover {
-  color: #244A9F;
+  color: #003E51;
   cursor: pointer;
   text-decoration: none;
 }
 nav#tableOfContents ul.nav li ul.nav li a:hover {
-  color: #244A9F;
+  color: #003E51;
   cursor: pointer;
   text-decoration: none;
 }
