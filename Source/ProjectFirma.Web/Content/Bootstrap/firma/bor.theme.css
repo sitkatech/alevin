@@ -105,7 +105,7 @@ span.keyPhotoButton label {
   text-decoration: none;
 }
 .navbar {
-  background: #EAD7B5;
+  background: #DDCBA4;
   border: none;
   border-radius: 0;
   margin-bottom: 0;
@@ -176,7 +176,7 @@ span.keyPhotoButton label {
   border-color: #DDCBA4;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu {
-  background-color: #DDCBA4;
+  background-color: #EAD7B5;
   border: 1px solid #DDCBA4;
   border-top: none;
 }
@@ -184,7 +184,7 @@ span.keyPhotoButton label {
   font-weight: 400;
   font-family: "Arial", sans-serif;
   color: #1C2329;
-  background-color: #DDCBA4;
+  background-color: #EAD7B5;
 }
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:hover,
 .projectFirmaNavbar .nav li ul.dropdown-menu li a:active,
