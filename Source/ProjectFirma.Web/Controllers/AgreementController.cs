@@ -59,8 +59,19 @@ namespace ProjectFirma.Web.Controllers
         //}
 
         [AgreementViewFeature]
-        public ViewResult AgreementDetail(string agreementNumber)
+        public ActionResult AgreementDetail(string agreementNumber)
         {
+            // If just a pure int, likely an OLD URL where we just took AgreementID.
+            if (int.TryParse(agreementNumber, out var possibleAgreementID))
+            {
+                var possibleAgreement = HttpRequestStorage.DatabaseEntities.Agreements.SingleOrDefault(a => a.AgreementID == possibleAgreementID);
+                if (possibleAgreement != null)
+                {
+                    // We want this to be a permanent redirect since Google is the one hitting us with these old IDs.
+                    return RedirectToActionWithPermanentRedirect(new SitkaRoute<AgreementController>(pc => pc.AgreementDetail(possibleAgreement.AgreementNumber)));
+                }
+            }
+
             var agreement = HttpRequestStorage.DatabaseEntities.Agreements.SingleOrDefault(a => a.AgreementNumber == agreementNumber);
             Check.EnsureNotNull(agreement, $"Agreement with Agreement Number {agreementNumber} not found!");
             var viewData = new AgreementDetailViewData(CurrentFirmaSession, agreement);
