@@ -29,7 +29,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using Microsoft.Ajax.Utilities;
+using log4net;
+using LtInfo.Common.Email;
 
 namespace ProjectFirma.Web.Models
 {
@@ -38,6 +39,8 @@ namespace ProjectFirma.Web.Models
     /// </summary>
     public static class PersonModelExtensions
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(PersonModelExtensions));
+
         public static HtmlString GetFullNameFirstLastAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
             if (new UserViewFeature().HasPermission(currentFirmaSession, person).HasPermission)
@@ -373,9 +376,20 @@ namespace ProjectFirma.Web.Models
                 var personSettingGridColumn = new PersonSettingGridColumn(personSettingGridTable, jsonCol.ColumnName, sortOrder);
                
                 personSettingGridTable.PersonSettingGridColumns.Add(personSettingGridColumn);
-                
             }
 
+            // Attempting to track down a dictionary collision crash ("System.ArgumentException: An item with the same key has already been added.")
+            var tempColumnNameGroups = personSettingGridTable.PersonSettingGridColumns.GroupBy(x => x.ColumnName);
+            var duplicatedColumnNameGroups = tempColumnNameGroups.Where(g => g.Count() > 1).ToList();
+            if (duplicatedColumnNameGroups.Any())
+            {
+                foreach (var currentDupeGroup in duplicatedColumnNameGroups)
+                {
+                    _logger.Error($"Found duplicate ColumnName \"{currentDupeGroup.Key}\" in personSettingGridTable.PersonSettingGridColumns. This will probably cause another error shortly.");
+                }
+            }
+
+            // This next line is where we sometimes see a dictionary collision.
             var gridColumnDictionary = personSettingGridTable.PersonSettingGridColumns.ToDictionary(x => x.ColumnName, StringComparer.InvariantCultureIgnoreCase);
             foreach (var jsonCol in jsonGridTable.Columns)
             {
