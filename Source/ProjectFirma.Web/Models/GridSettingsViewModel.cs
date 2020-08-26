@@ -59,7 +59,6 @@ namespace ProjectFirma.Web.Models
             // Attempting to cut down on contention problems with simultaneous requests -- SLG
             lock (saveGridColumnSettingsLock)
             {
-
                 if (!currentFirmaSession.IsAnonymousOrUnassigned())
                 {
                     // This is the main function that can lead to exceptions from contention if simultaneous updates come through
