@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
                 DueByDate = DateTime.Now
             };
             
-            return ViewEdit(viewModel, null);
+            return ViewEdit(viewModel);
         }
         
         [HttpPost]
@@ -82,7 +82,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, null);
+                return ViewEdit(viewModel);
             }
             
             var actionItem = new ActionItem(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
@@ -116,7 +116,7 @@ namespace ProjectFirma.Web.Controllers
                 DueByDate = DateTime.Now
             };
 
-            return ViewEdit(viewModel, null);
+            return ViewEdit(viewModel);
         }
 
         [HttpPost]
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, null);
+                return ViewEdit(viewModel);
             }
 
             var actionItem = new ActionItem(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
@@ -151,10 +151,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var actionItem = actionItemPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(actionItem);
-            return ViewEdit(viewModel, actionItem);
+            return ViewEdit(viewModel);
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, ActionItem actionItem)
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
             var firmaPage = FirmaPageTypeEnum.ActionItemEditDialog.GetFirmaPage();
             var peopleSelectListItems = HttpRequestStorage.DatabaseEntities.People.AsEnumerable()
@@ -165,9 +165,7 @@ namespace ProjectFirma.Web.Controllers
                 ? projectProjectStatuses.AsEnumerable().ToSelectListWithEmptyFirstRow(x => x.ProjectProjectStatusID.ToString(), x => x.GetDropdownDisplayName()) 
                 : new List<SelectListItem>().AsEnumerable();
 
-            var deleteUrl = actionItem == null ? string.Empty : actionItem.GetDeleteUrl();
-
-            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems, deleteUrl);
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -179,7 +177,7 @@ namespace ProjectFirma.Web.Controllers
             var actionItem = actionItemPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, actionItem);
+                return ViewEdit(viewModel);
             }
 
             var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(viewModel, actionItem);
