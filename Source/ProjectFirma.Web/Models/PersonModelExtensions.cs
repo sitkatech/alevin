@@ -367,45 +367,50 @@ namespace ProjectFirma.Web.Models
             var sortOrder = 0;
             foreach (var jsonCol in jsonGridTable.Columns)
             {
-                sortOrder++;
                 if (personSettingGridColumnDictionary.ContainsKey(jsonCol.ColumnName))
                 {
+                    sortOrder++;
                     personSettingGridColumnDictionary[jsonCol.ColumnName].SortOrder = sortOrder;
-                    continue;
                 }
-                var personSettingGridColumn = new PersonSettingGridColumn(personSettingGridTable, jsonCol.ColumnName, sortOrder);
-               
-                personSettingGridTable.PersonSettingGridColumns.Add(personSettingGridColumn);
-            }
-
-            // Attempting to track down a dictionary collision crash ("System.ArgumentException: An item with the same key has already been added.")
-            var tempColumnNameGroups = personSettingGridTable.PersonSettingGridColumns.GroupBy(x => x.ColumnName);
-            var duplicatedColumnNameGroups = tempColumnNameGroups.Where(g => g.Count() > 1).ToList();
-            if (duplicatedColumnNameGroups.Any())
-            {
-                foreach (var currentDupeGroup in duplicatedColumnNameGroups)
+                else
                 {
-                    _logger.Error($"Found duplicate ColumnName \"{currentDupeGroup.Key}\" in personSettingGridTable.PersonSettingGridColumns. This will probably cause another error shortly.");
+                    var columnAlreadyExists = personSettingGridTable.PersonSettingGridColumns.Any(x => x.ColumnName == jsonCol.ColumnName);
+                    if (!columnAlreadyExists)
+                    {
+                        sortOrder++;
+                        var personSettingGridColumn = new PersonSettingGridColumn(personSettingGridTable, jsonCol.ColumnName, sortOrder);
+                        personSettingGridTable.PersonSettingGridColumns.Add(personSettingGridColumn);
+                    }
                 }
             }
 
-            // This next line is where we sometimes see a dictionary collision.
+           
             var gridColumnDictionary = personSettingGridTable.PersonSettingGridColumns.ToDictionary(x => x.ColumnName, StringComparer.InvariantCultureIgnoreCase);
+            var columnSettingsProcessed = new List<PersonSettingGridColumnSetting>();
             foreach (var jsonCol in jsonGridTable.Columns)
             {
                 var personSettingGridColumn = gridColumnDictionary[jsonCol.ColumnName];
                 PersonSettingGridColumnSetting personSettingGridColumnSetting;
-                var columnSettingsAlreadyExists = HttpRequestStorage.DatabaseEntities.PersonSettingGridColumnSettings
-                    .SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
-                if (columnSettingsAlreadyExists != null)
+                var existingColumnSettings = HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.ToList();
+                var columnSettingsAlreadyExistsInDatabase = existingColumnSettings.SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
+
+
+                if (columnSettingsAlreadyExistsInDatabase != null)
                 {
-                    personSettingGridColumnSetting = columnSettingsAlreadyExists;
+                    personSettingGridColumnSetting = columnSettingsAlreadyExistsInDatabase;
+                }
+                else if (columnSettingsProcessed.Any(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID))
+                {
+                    personSettingGridColumnSetting = columnSettingsProcessed.First(x =>
+                        x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
                 }
                 else
                 {
                     personSettingGridColumnSetting = new PersonSettingGridColumnSetting(person.PersonID, personSettingGridColumn.PersonSettingGridColumnID);
                     HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.Add(personSettingGridColumnSetting);
                 }
+
+                columnSettingsProcessed.Add(personSettingGridColumnSetting);
 
                 personSettingGridColumnSetting.PersonSettingGridColumnSettingFilters.ToList().ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
                 if (jsonCol.FilterTextArray != null && jsonCol.FilterTextArray.Length > 0)
