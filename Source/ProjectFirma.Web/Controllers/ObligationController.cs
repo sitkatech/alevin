@@ -44,21 +44,8 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        /*
         [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(ObligationNumberPrimaryKey obligationNumberPrimaryKey)
-        {
-            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
-            var obligationNumber = obligationNumberPrimaryKey.EntityObject;
-            var obligationItems = obligationNumber.ObligationItems;
-            var obligationItemInvoices = obligationItems.GetWbsElementObligationItemInvoicesSorted();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        */
-
-        [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationGridJsonData(ObligationNumberPrimaryKey obligationNumberPrimaryKey)
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationByObligationNumberGridJsonData(ObligationNumberPrimaryKey obligationNumberPrimaryKey)
         {
             var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
             var obligationNumber = obligationNumberPrimaryKey.EntityObject;
@@ -67,6 +54,18 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        [ObligationViewFeature]
+        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationByObligationItemGridJsonData(ObligationItemPrimaryKey obligationItemPrimaryKey)
+        {
+            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
+            var obligationItem = obligationItemPrimaryKey.EntityObject;
+            var obligationItemBudgets = obligationItem.GetWbsElementObligationItemBudgetsSorted();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+
 
 
         [ObligationViewFeature]
@@ -77,18 +76,6 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
-
-
-        /*
-        [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ObligationItemBudgetIndexGridJsonData()
-        {
-            var gridSpec = new ObligationItemBudgetGridSpec(CurrentFirmaSession);
-            var obligationItemBudgets = HttpRequestStorage.DatabaseEntities.WbsElementObligationItemBudgets.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        */
 
         [ObligationViewFeature]
         public ViewResult ObligationDetail(string obligationNumber)

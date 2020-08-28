@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -21,7 +20,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<ActionItem> ActionItemsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new ActionItemsGridSpec();
+            var gridSpec = new ActionItemsGridSpec(CurrentFirmaSession);
             var actionItems = project.ActionItems.OrderByDescending(x => x.DueByDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ActionItem>(actionItems, gridSpec);
             return gridJsonNetJObjectResult;
@@ -40,7 +39,7 @@ namespace ProjectFirma.Web.Controllers
         [ActionItemAdminFeature]
         public GridJsonNetJObjectResult<ActionItem> ActionItemsIndexGridJsonData()
         {
-            var gridSpec = new ActionItemsAdminGridSpec();
+            var gridSpec = new ActionItemsAdminGridSpec(CurrentFirmaSession);
             var actionItems = HttpRequestStorage.DatabaseEntities.ActionItems.OrderByDescending(x => x.DueByDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ActionItem>(actionItems, gridSpec);
             return gridJsonNetJObjectResult;
@@ -73,7 +72,7 @@ namespace ProjectFirma.Web.Controllers
                 DueByDate = DateTime.Now
             };
             
-            return ViewEdit(viewModel, null);
+            return ViewEdit(viewModel);
         }
         
         [HttpPost]
@@ -83,13 +82,20 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, null);
+                return ViewEdit(viewModel);
             }
             
             var actionItem = new ActionItem(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
 
             viewModel.UpdateModel(actionItem, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllActionItems.Add(actionItem);
+
+            var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(actionItem);
+            if (shouldCreateProjectProjectStatus)
+            {
+                CreateNewProjectProjectStatus(actionItem);
+            }
+
             SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
         }
@@ -110,7 +116,7 @@ namespace ProjectFirma.Web.Controllers
                 DueByDate = DateTime.Now
             };
 
-            return ViewEdit(viewModel, null);
+            return ViewEdit(viewModel);
         }
 
         [HttpPost]
@@ -120,13 +126,20 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, null);
+                return ViewEdit(viewModel);
             }
 
             var actionItem = new ActionItem(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
 
             viewModel.UpdateModel(actionItem, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllActionItems.Add(actionItem);
+
+            var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(actionItem);
+            if (shouldCreateProjectProjectStatus)
+            {
+                CreateNewProjectProjectStatus(actionItem);
+            }
+
             SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
         }
@@ -138,10 +151,10 @@ namespace ProjectFirma.Web.Controllers
         {
             var actionItem = actionItemPrimaryKey.EntityObject;
             var viewModel = new EditViewModel(actionItem);
-            return ViewEdit(viewModel, actionItem);
+            return ViewEdit(viewModel);
         }
 
-        private PartialViewResult ViewEdit(EditViewModel viewModel, ActionItem actionItem)
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
             var firmaPage = FirmaPageTypeEnum.ActionItemEditDialog.GetFirmaPage();
             var peopleSelectListItems = HttpRequestStorage.DatabaseEntities.People.AsEnumerable()
@@ -152,9 +165,7 @@ namespace ProjectFirma.Web.Controllers
                 ? projectProjectStatuses.AsEnumerable().ToSelectListWithEmptyFirstRow(x => x.ProjectProjectStatusID.ToString(), x => x.GetDropdownDisplayName()) 
                 : new List<SelectListItem>().AsEnumerable();
 
-            var deleteUrl = actionItem == null ? string.Empty : actionItem.GetDeleteUrl();
-
-            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems, deleteUrl);
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
@@ -166,12 +177,66 @@ namespace ProjectFirma.Web.Controllers
             var actionItem = actionItemPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEdit(viewModel, actionItem);
+                return ViewEdit(viewModel);
             }
-            
+
+            var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(viewModel, actionItem);
             viewModel.UpdateModel(actionItem, CurrentFirmaSession);
+
+            if (shouldCreateProjectProjectStatus)
+            {
+                CreateNewProjectProjectStatus(actionItem);
+            }
+
             SetMessageForDisplay($"Successfully edited {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}.");
             return new ModalDialogFormJsonResult();
+        }
+
+        private static bool IsNewProjectProjectStatusNeeded(EditViewModel viewModel, ActionItem actionItem)
+        {
+            var previouslyIncomplete = actionItem.ActionItemState == ActionItemState.Incomplete;
+            var nowComplete = (int)viewModel.ActionItemStateEnum == ActionItemState.Complete.ActionItemStateID;
+
+            return viewModel.ProjectProjectStatusID == null && previouslyIncomplete && nowComplete;
+        }
+
+        private static bool IsNewProjectProjectStatusNeeded(ActionItem actionItem)
+        {
+            return actionItem.ProjectProjectStatusID == null && actionItem.ActionItemState == ActionItemState.Complete;
+        }
+
+        private void CreateNewProjectProjectStatus(ActionItem actionItem)
+        {
+            var project = actionItem.Project;
+
+            var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
+            if (finalStatusReport.Any())
+            {
+                return;
+            }
+
+            var lastStatusReport = project.ProjectProjectStatuses
+                .OrderByDescending(x => x.ProjectProjectStatusCreateDate).FirstOrDefault();
+
+            var defaultProjectStatus = HttpRequestStorage.DatabaseEntities.ProjectStatuses
+                .OrderBy(ps => ps.ProjectStatusSortOrder).First();
+            var projectStatus = lastStatusReport?.ProjectStatus ?? defaultProjectStatus;
+
+            var projectProjectStatus = new ProjectProjectStatus(project, projectStatus, DateTime.Now,
+                CurrentFirmaSession.Person, DateTime.Now, false);
+            projectProjectStatus.ActionItems.Add(actionItem);
+
+            projectProjectStatus.ProjectProjectStatusRecentActivities =
+                $"This is a system generated {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} indicating the related {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()} " +
+                $"has been marked {actionItem.ActionItemState.ActionItemStateDisplayName} " + 
+                $"by {CurrentFirmaSession.Person.GetFullNameFirstLastAndOrgShortName()} for this project ({project.GetDisplayName()}).";
+
+            projectProjectStatus.ProjectProjectStatusComment =
+                $"When marked {actionItem.ActionItemState.ActionItemStateDisplayName}, the related {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()} text read: {actionItem.ActionItemText}";
+
+            project.ProjectProjectStatuses.Add(projectProjectStatus);
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
         }
 
         [HttpGet]

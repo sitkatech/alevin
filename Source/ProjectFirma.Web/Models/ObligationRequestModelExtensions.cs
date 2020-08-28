@@ -1,5 +1,5 @@
 ﻿using System;
-using DocumentFormat.OpenXml.Wordprocessing;
+using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -9,13 +9,18 @@ namespace ProjectFirma.Web.Models
 {
     public static class ObligationRequestModelExtensions
     {
-        public static readonly UrlTemplate<int> DetailUrlTemplate = new UrlTemplate<int>(
+        public static readonly UrlTemplate<int> ObligationRequestDetailUrlTemplate = new UrlTemplate<int>(
             SitkaRoute<ObligationRequestController>.BuildUrlFromExpression(t =>
                 t.ObligationRequestDetail(UrlTemplate.Parameter1Int)));
 
         public static string GetDetailUrl(this ObligationRequest obligationRequest)
         {
-            return DetailUrlTemplate.ParameterReplace(obligationRequest.PrimaryKey);
+            return ObligationRequestDetailUrlTemplate.ParameterReplace(obligationRequest.PrimaryKey);
+        }
+
+        public static HtmlString GetDetailLink(this ObligationRequest obligationRequest)
+        {
+            return UrlTemplate.MakeHrefString(obligationRequest.GetDetailUrl(), obligationRequest.GetObligationRequestNumber());
         }
 
         public static readonly UrlTemplate<int> EditUrlTemplate = new UrlTemplate<int>(

@@ -31,6 +31,10 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml;
+using DocumentFormat.OpenXml.Packaging;
+using DocumentFormat.OpenXml.Spreadsheet;
+using LtInfo.Common.ExcelWorkbookUtilities;
 
 namespace ProjectFirma.Web.Common
 {
@@ -343,17 +347,90 @@ namespace ProjectFirma.Web.Common
 
         protected FileResult ExportGridToExcelImpl(string gridName)
         {
+            Check.EnsureNotNull(gridName);
+
             // In DHTMLX Grid 4.2 Formulas don't work so PrintFooter true is not very useful, leaving off for now
             var generator = new ExcelWriter { PrintFooter = false };
             var xml = Request.Form["grid_xml"];
             xml = Server.UrlDecode(xml);
             xml = xml.Replace("<![CDATA[$", "<![CDATA["); // RL 7/11/2015 Poor man's hack to remove currency and allow for total rows
             xml = BlankRowFixup(xml);
+            Check.EnsureNotNull(xml);
             var stream = generator.Generate(xml);
+
+            AddPersonSettingGridFilterMetaDataToExcelFileStream(stream, gridName);
+
             var fileDownloadName = $"{gridName}.xlsx";
-            return File(stream.ToArray(), generator.ContentType, fileDownloadName);
+            var excelFile = File(stream.ToArray(), generator.ContentType, fileDownloadName);
+            return excelFile;
         }
 
+        private void AddPersonSettingGridFilterMetaDataToExcelFileStream(MemoryStream stream, string gridName)
+        {
+            var session = HttpRequestStorage.FirmaSession;
+            if (session.IsAnonymousOrUnassigned())
+            {
+                return;
+            }
+
+            var personSettingGridTable = HttpRequestStorage.DatabaseEntities.PersonSettingGridTables.FirstOrDefault(x => x.GridName == gridName);
+            var tableColumns = personSettingGridTable?.PersonSettingGridColumns.OrderBy(x => x.SortOrder).ToList();
+            var tableColumnFiltersDictionary = tableColumns?.ToDictionary(x => x.ColumnName, x => x.PersonSettingGridColumnSettings.FirstOrDefault(y => y.PersonID == session.PersonID)?.PersonSettingGridColumnSettingFilters.Select(z => z.FilterText).ToList());
+
+            if (tableColumnFiltersDictionary != null)
+            {
+                using (SpreadsheetDocument spreadSheet = SpreadsheetDocument.Open(stream, true))
+                {
+
+                    // Add a blank WorksheetPart.
+                    WorksheetPart newWorksheetPart = spreadSheet.WorkbookPart.AddNewPart<WorksheetPart>();
+                    newWorksheetPart.Worksheet = new Worksheet(new SheetData());
+
+                    Sheets sheets = spreadSheet.WorkbookPart.Workbook.GetFirstChild<Sheets>();
+                    string relationshipId = spreadSheet.WorkbookPart.GetIdOfPart(newWorksheetPart);
+
+                    // Get a unique ID for the new worksheet.
+                    uint sheetId = 1;
+                    if (sheets.Elements<Sheet>().Any())
+                    {
+                        sheetId = sheets.Elements<Sheet>().Select(s => s.SheetId.Value).Max() + 1;
+                    }
+
+                    // Get the sheetData cell table.
+                    SheetData sheetData = newWorksheetPart.Worksheet.GetFirstChild<SheetData>();
+
+                    uint rowIndex = 0;
+                    foreach (var tableColumn in tableColumnFiltersDictionary)
+                    {
+                        rowIndex++;
+
+                        // Add a row to the cell table.
+                        var row = new Row() { RowIndex = rowIndex };
+                        sheetData.Append(row);
+
+                        var cell = OpenXmlSpreadSheetDocument.InsertCellInWorksheet("A",rowIndex, newWorksheetPart);
+                        cell.CellValue = new CellValue(tableColumn.Key);
+                        cell.DataType = new EnumValue<CellValues>(CellValues.String);
+
+                        var bCellValue = string.Join(", ", tableColumnFiltersDictionary[tableColumn.Key]);
+                        var cell2 = OpenXmlSpreadSheetDocument.InsertCellInWorksheet("B", rowIndex, newWorksheetPart);
+                        cell2.CellValue = new CellValue(bCellValue);
+                        cell2.DataType = new EnumValue<CellValues>(CellValues.String);
+                    }
+
+                    // Give the new worksheet a name.
+                    string sheetName = $"Grid Filters";
+
+                    // Append the new worksheet and associate it with the workbook.
+                    Sheet sheet = new Sheet() { Id = relationshipId, SheetId = sheetId, Name = sheetName };
+
+                    sheets.Append(sheet);
+                }
+            }
+
+        }
+
+       
         // There is an arguable bug in DHTMLX.Export.Excel that causes a crash when a grid being downloaded has NO rows.
         // It would probably be best to fix the bug in the actual library (it IS open source and has a git repo), but this
         // only took a few minutes in the meantime. 
@@ -363,7 +440,7 @@ namespace ProjectFirma.Web.Common
             if (!xml.Contains("<row>"))
             {
                 const string blankCellXml = "<cell><![CDATA[ ]]></cell>";
-                int rowInsertPosition = xml.IndexOf("</rows>") - 1;
+                int rowInsertPosition = xml.IndexOf("</rows>");
                 // We seem to be able to get away with only having ONE cell be inserted. It's gross, but it does work, so we 
                 // thought it good enough. -- SLG & TK 3/6/2020
                 string rowXml = $"<row>{blankCellXml}</row>";

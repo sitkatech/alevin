@@ -1,8 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using ProjectFirmaModels.Models;
-
-namespace ProjectFirma.Web.Models
+﻿namespace ProjectFirma.Web.Models
 {
     public class ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple
     {
@@ -17,23 +13,7 @@ namespace ProjectFirma.Web.Models
         public ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple()
         {
         }
-        /*
-        public ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(ProjectFundingSourceBudget projectFundingSourceBudget, List<WbsElementObligationItemBudget> wbsElementObligationItemBudgets)
-        {
-            this.FundingSourceID = projectFundingSourceBudget.FundingSourceID;
-            this.CostTypeID = projectFundingSourceBudget.CostTypeID.Value;
-            this.CalendarYear = projectFundingSourceBudget.CalendarYear;
-            this.Amount = wbsElementObligationItemBudgets.Sum(oib => oib.Obligation ?? 0);
-        }
 
-        public ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(ProjectFundingSourceBudget projectFundingSourceBudget, List<WbsElementObligationItemInvoice> wbsElementObligationItemInvoices)
-        {
-            this.FundingSourceID = projectFundingSourceBudget.FundingSourceID;
-            this.CostTypeID = projectFundingSourceBudget.CostTypeID.Value;
-            this.CalendarYear = projectFundingSourceBudget.CalendarYear;
-            this.Amount = wbsElementObligationItemInvoices.Sum(oii => oii.DebitAmount ?? 0);
-        }
-        */
         public ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(int fundingSourceID, int costTypeId, int calendarYear, double amount)
         {
             FundingSourceID = fundingSourceID;

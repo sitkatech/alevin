@@ -32,11 +32,12 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ObligationRequest(int obligationRequestID, bool isModification, int? agreementID, int contractTypeID, int obligationRequestStatusID, string descriptionOfNeed, int? reclamationObligationRequestFundingPriorityID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
+        public ObligationRequest(int obligationRequestID, bool isModification, int? agreementID, int? obligationNumberID, int contractTypeID, int obligationRequestStatusID, string descriptionOfNeed, int? reclamationObligationRequestFundingPriorityID, DateTime? targetAwardDate, int? pALT, DateTime? targetSubmittalDate, DateTime createDate, int createPersonID, DateTime? updateDate, int? updatePersonID, string requisitionNumber, DateTime? requisitionDate, string contractSpecialist, DateTime? assignedDate, DateTime? dateSentForDeptReview, DateTime? dCApprovalDate, DateTime? actualAwardDate) : this()
         {
             this.ObligationRequestID = obligationRequestID;
             this.IsModification = isModification;
             this.AgreementID = agreementID;
+            this.ObligationNumberID = obligationNumberID;
             this.ContractTypeID = contractTypeID;
             this.ObligationRequestStatusID = obligationRequestStatusID;
             this.DescriptionOfNeed = descriptionOfNeed;
@@ -171,6 +172,7 @@ namespace ProjectFirmaModels.Models
         public int ObligationRequestID { get; set; }
         public bool IsModification { get; set; }
         public int? AgreementID { get; set; }
+        public int? ObligationNumberID { get; set; }
         public int ContractTypeID { get; set; }
         public int ObligationRequestStatusID { get; set; }
         public string DescriptionOfNeed { get; set; }
@@ -195,6 +197,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<CostAuthorityObligationRequest> CostAuthorityObligationRequests { get; set; }
         public virtual ICollection<ObligationRequestSubmissionNote> ObligationRequestSubmissionNotes { get; set; }
         public virtual Agreement Agreement { get; set; }
+        public virtual ObligationNumber ObligationNumber { get; set; }
         public virtual ContractType ContractType { get; set; }
         public ObligationRequestStatus ObligationRequestStatus { get { return ObligationRequestStatus.AllLookupDictionary[ObligationRequestStatusID]; } }
         public ObligationRequestFundingPriority ReclamationObligationRequestFundingPriority { get { return ReclamationObligationRequestFundingPriorityID.HasValue ? ObligationRequestFundingPriority.AllLookupDictionary[ReclamationObligationRequestFundingPriorityID.Value] : null; } }

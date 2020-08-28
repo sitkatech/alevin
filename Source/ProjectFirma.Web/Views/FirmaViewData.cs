@@ -152,26 +152,15 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildAboutMenu(FirmaSession currentFirmaSession)
         {
-            var aboutMenu = new LtInfoMenuItem("About");
-
-            MultiTenantHelpers.GetCustomPages().ForEach(x =>
-            {
-                var pageTypeIsPublic = x.CustomPageDisplayType == CustomPageDisplayType.Public;
-                var currentUserIsAnonymous = currentFirmaSession != null && currentFirmaSession.IsAnonymousUser();
-                var pageTypeIsProtected = x.CustomPageDisplayType == CustomPageDisplayType.Protected;
-                var isVisible = pageTypeIsPublic || (!currentUserIsAnonymous && pageTypeIsProtected);
-                if (isVisible)
-                {
-                    aboutMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.About(x.CustomPageVanityUrl)), currentFirmaSession, x.CustomPageDisplayName, "Group1"));
-                }
-                
-            });
+            var aboutMenu = new LtInfoMenuItem(FirmaMenuItem.About.GetFirmaMenuItemDisplayName());
+            AddCustomPagesToMenu(currentFirmaSession, FirmaMenuItem.About, aboutMenu, "Group1");
+            
             return aboutMenu;
         }
 
         private static LtInfoMenuItem BuildResultsMenu(FirmaSession firmaSession)
         {
-            var resultsMenu = new LtInfoMenuItem("Results");
+            var resultsMenu = new LtInfoMenuItem(FirmaMenuItem.Results.GetFirmaMenuItemDisplayName());
             if (MultiTenantHelpers.DisplayAccomplishmentDashboard())
             {
                 resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, "Accomplishments Dashboard"));
@@ -179,14 +168,16 @@ namespace ProjectFirma.Web.Views
             MultiTenantHelpers.AddTechnicalAssistanceReportMenuItem(resultsMenu, firmaSession);
             MultiTenantHelpers.AddFundingStatusMenuItem(resultsMenu, firmaSession);
 
+            resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.BiOpAnnualReport(null)), firmaSession, "BiOp Annual Report"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentPerson, $"{Models.FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map"));
             //resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<SnapshotController>(c => c.Index()), currentPerson, "System Snapshot", "Group2"));
+            AddCustomPagesToMenu(firmaSession, FirmaMenuItem.Results, resultsMenu, "Group2");
             return resultsMenu;
         }
 
         private static LtInfoMenuItem BuildProgramInfoMenu(FirmaSession currentFirmaSession)
         {
-            var programInfoMenu = new LtInfoMenuItem("Program Info");
+            var programInfoMenu = new LtInfoMenuItem(FirmaMenuItem.ProgramInfo.GetFirmaMenuItemDisplayName());
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProgramInfoController>(c => c.Taxonomy()), currentFirmaSession, MultiTenantHelpers.GetTaxonomySystemName(), "Group1"));
 
             MultiTenantHelpers.GetClassificationSystems().ForEach(x =>
@@ -210,7 +201,9 @@ namespace ProjectFirma.Web.Views
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<BudgetObjectCodeController>(c => c.BudgetObjectCodeIndex()), currentFirmaSession, "Budget Object Codes", "Group3"));
 
             programInfoMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<WebServicesController>(c => c.Index()), currentFirmaSession, $"Web Services", "Group4"));
-            
+
+            AddCustomPagesToMenu(currentFirmaSession, FirmaMenuItem.ProgramInfo, programInfoMenu, "Group5");
+
             return programInfoMenu;
         }
 
@@ -243,7 +236,7 @@ namespace ProjectFirma.Web.Views
             // Group 2 - System Config stuff
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.FeaturedList()), currentFirmaSession, $"Featured {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group2"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.ManageHomePageImages()), currentFirmaSession, "Homepage Images", "Group2"));
-            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Index()), currentFirmaSession, "About Pages", "Group2"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Index()), currentFirmaSession, "Custom Pages", "Group2"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<FieldDefinitionController>(c => c.Index()), currentFirmaSession, "Labels & Definitions", "Group2"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<DocumentLibraryController>(c => c.Index()), currentFirmaSession, "Document Libraries", "Group2"));
 
@@ -264,9 +257,9 @@ namespace ProjectFirma.Web.Views
             // Group 5 - Project Firma Configuration stuff
             if (HttpRequestStorage.Tenant == ProjectFirmaModels.Models.Tenant.SitkaTechnologyGroup)
             {
-                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.DemoScript()), currentFirmaSession, "Demo Script", "Group5")); // TODO: poor man's hack until we do tenant specific menu and features
+                manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<HomeController>(c => c.DemoScript()), currentFirmaSession, "Demo Script", "Group6")); // TODO: poor man's hack until we do tenant specific menu and features
             }
-            
+
             return manageMenu;
         }
 
@@ -303,7 +296,7 @@ namespace ProjectFirma.Web.Views
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<AttachmentTypeController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
 
             // Group 4 - External Map Layers
-            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ExternalMapLayerController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.ExternalMapLayer.ToType().GetFieldDefinitionLabelPluralized(), "Group4"));
+            configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<MapLayerController>(c => c.Index()), currentFirmaSession, "Map Layers", "Group4"));
 
             // Group 5 - Sitka admins only
             configureMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<OrganizationTypeAndOrganizationRelationshipTypeController>(c => c.Index()), currentFirmaSession, FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabelPluralized(), "Group5"));
@@ -336,7 +329,7 @@ namespace ProjectFirma.Web.Views
 
         private static LtInfoMenuItem BuildProjectsMenu(FirmaSession currentFirmaSession)
         {
-            var projectsMenu = new LtInfoMenuItem($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}");
+            var projectsMenu = new LtInfoMenuItem(FirmaMenuItem.Projects.GetFirmaMenuItemDisplayName());
 
             // Group 1 - Project map
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.ProjectMap()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Map", "Group1"));
@@ -352,7 +345,39 @@ namespace ProjectFirma.Web.Views
             // Group 4 - Attachments
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectAttachmentController>(c => c.ProjectAttachmentIndex()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachments", "Group4"));
 
+            AddCustomPagesToMenu(currentFirmaSession, FirmaMenuItem.Projects, projectsMenu, "Group5");
+
             return projectsMenu;
+        }
+
+        private static void AddCustomPagesToMenu(FirmaSession currentFirmaSession, FirmaMenuItem menuType, LtInfoMenuItem topLevelMenu, string menuGroupName)
+        {
+            MultiTenantHelpers.GetCustomPages(menuType).ForEach(x =>
+            {
+                var isVisible = new CustomPageViewFeature().HasPermission(currentFirmaSession, x).HasPermission;
+                if (isVisible)
+                {
+                    // var customPageUrl = null;
+                    switch (menuType.ToEnum)
+                    {
+                        case FirmaMenuItemEnum.About:
+                            topLevelMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.About(x.CustomPageVanityUrl)), currentFirmaSession, x.CustomPageDisplayName, menuGroupName));
+                            break;
+                        case FirmaMenuItemEnum.Projects:
+                            topLevelMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Project(x.CustomPageVanityUrl)), currentFirmaSession, x.CustomPageDisplayName, menuGroupName));
+                            break;
+                        case FirmaMenuItemEnum.ProgramInfo:
+                            topLevelMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.ProgramInfo(x.CustomPageVanityUrl)), currentFirmaSession, x.CustomPageDisplayName, menuGroupName));
+                            break;
+                        case FirmaMenuItemEnum.Results:
+                            topLevelMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.Results(x.CustomPageVanityUrl)), currentFirmaSession, x.CustomPageDisplayName, menuGroupName));
+                            break;
+                        default:
+                            topLevelMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<CustomPageController>(c => c.About(x.CustomPageVanityUrl)), currentFirmaSession, x.CustomPageDisplayName, menuGroupName));
+                            break;
+                    }
+                }
+            });
         }
 
         /// <summary>
@@ -375,6 +400,10 @@ namespace ProjectFirma.Web.Views
                 // For now, not available except on individual grids. If this needs revision, the grid we bring back should be ContractualInvoicesIndex, I think.. And maybe we need to rename underlying objects backing up to the import?
                 //agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ObligationItemBudgetIndex()), currentFirmaSession, $"Full Obligation Item Budgets List", "Group2"));
                 agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationController>(c => c.ContractualInvoiceIndex()), currentFirmaSession, $"Full Contractual Invoice List", "Group2"));
+            }
+            if (new ObligationItemViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
+            {
+                agreementsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ObligationItemController>(c => c.ObligationItemIndex()), currentFirmaSession, $"Full {FieldDefinitionEnum.ObligationItem.ToType().GetFieldDefinitionLabel()} List", "Group2"));
             }
 
             if (new PnBudgetViewFeature().HasPermissionByFirmaSession(currentFirmaSession))

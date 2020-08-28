@@ -6,6 +6,7 @@ CREATE TABLE [Reclamation].[ObligationRequest](
 	[ObligationRequestID] [int] IDENTITY(1,1) NOT NULL,
 	[IsModification] [bit] NOT NULL,
 	[AgreementID] [int] NULL,
+	[ObligationNumberID] [int] NULL,
 	[ContractTypeID] [int] NOT NULL,
 	[ObligationRequestStatusID] [int] NOT NULL,
 	[DescriptionOfNeed] [nvarchar](250) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
@@ -40,6 +41,11 @@ ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_Ob
 REFERENCES [Reclamation].[ContractType] ([ContractTypeID])
 GO
 ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ContractType_ContractTypeID]
+GO
+ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_ObligationNumber_ObligationNumberID] FOREIGN KEY([ObligationNumberID])
+REFERENCES [ImportFinancial].[ObligationNumber] ([ObligationNumberID])
+GO
+ALTER TABLE [Reclamation].[ObligationRequest] CHECK CONSTRAINT [FK_ObligationRequest_ObligationNumber_ObligationNumberID]
 GO
 ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_ObligationRequestFundingPriority_ReclamationObligationRequestFundingPriorityID_ObligationRequestFundingPrio] FOREIGN KEY([ReclamationObligationRequestFundingPriorityID])
 REFERENCES [Reclamation].[ObligationRequestFundingPriority] ([ObligationRequestFundingPriorityID])

@@ -20,6 +20,7 @@
     -----------------------------------------------------------------------*@
 @using System.Web.Mvc.Html
 @using LtInfo.Common.HtmlHelperExtensions
+@using LtInfo.Common.ModalDialog
 @using Microsoft.Web.Mvc.Html
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
@@ -61,7 +62,7 @@
             <div class="input-group" style="width: 100%;">
                 <div class="row">
                     <div class="btn-group bootstrap-select input-group-btn" style="width: 100%;">
-                        @Html.DropDownListFor(m => m.CostAuthorityID, ViewDataTyped.CostAuthorities, new { @class = "form-control selectpicker", @data_container = ".modal-content", @data_live_search = "true" })
+                        @Html.DropDownListFor(m => m.CostAuthorityID, ViewDataTyped.CostAuthorities, new { @class = "form-control selectpicker cost_authority_dropdown", @data_container = ".modal-content", @data_live_search = "true" })
                     </div>
                     <span class="input-group-btn">
                         <button class="btn btn-firma" type="button" id="addCostAuthorityButton">
@@ -183,7 +184,6 @@
 
     jQuery(document).ready(function() {
         var costAuthorityJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.CostAuthorityJsonList.CostAuthorityJsons).ToString(Formatting.None));
-       
 
         var sitkaCurrencyClass = jQuery(".sitkaCurrency");
         sitkaCurrencyClass.addClass("projectedObligationEditor");
@@ -192,7 +192,6 @@
         var tr = jQuery("#trForCloning");
 
         tr.remove();
-
 
         //setup selected reclamation cost authority ids
         var alreadyAddedCostAuthorityIDs = new Array();
@@ -205,29 +204,30 @@
             }
         }
 
-
-
-        function replaceDefaultsForNewRow(thisInput, rowID, costAuthorityID, oldRowID, clearValues) {
-            console.log(thisInput);
-            var currentName = thisInput.prop("name");
-            var updatedName = currentName.replace(oldRowID.toString(), rowID.toString());
-            thisInput.prop("name", updatedName);
-            thisInput.prop("id", "");
-            if (clearValues) {
+       function replaceDefaultsForNewRow(thisInput, rowID, costAuthorityID, oldRowID, clearValues) {
+          //console.log('replaceDefaultsForNewRow');
+          //console.log(thisInput);
+          var currentName = thisInput.prop("name");
+          if (typeof currentName !== "undefined") {
+             var updatedName = currentName.replace(oldRowID.toString(), rowID.toString());
+             thisInput.prop("name", updatedName);
+             thisInput.prop("id", "");
+             if (clearValues) {
                 thisInput.val("");
-            }
-            if (thisInput.hasClass("costAuthorityIDClass")) {
+             }
+             if (thisInput.hasClass("costAuthorityIDClass")) {
                 thisInput.val(costAuthorityID);
-            }
-            thisInput.addClass("costAuthority_" + costAuthorityID.toString());
+             }
+             thisInput.addClass("costAuthority_" + costAuthorityID.toString());
 
-            if (thisInput.hasClass("selectpicker")) {
+             if (thisInput.hasClass("selectpicker")) {
                 jQuery(thisInput).selectpicker();
-            }
-            
-        }
+             }
+          }
+       }
 
-        function resetTotal() {
+       function resetTotal() {
+            //console.log('resetTotal()');
             var totalValue = 0.0;
             jQuery(".projectedObligationEditor").each(function() {
                 var currentValueOfObligation = this.value;
@@ -240,22 +240,59 @@
                     } else {
                         totalValue += floatVal;
                     }
-                    
+
                 }
-                console.log("current value: " + currentValueOfObligation);
+                //console.log("current value: " + currentValueOfObligation);
             });
             var totalAsCurrency = Sitka.Methods.formatAsCurrencyFromString(totalValue, 2);
             jQuery("#totalAmountCell").text(totalAsCurrency);
-        }
+       }
 
-        removeRow = function (costAuthorityID) {
-            console.log(costAuthorityID);
+       function hasCostAuthorityAdded() {
+          var isEmptyOrUndefinedCostAuthorities = (alreadyAddedCostAuthorityIDs === undefined || alreadyAddedCostAuthorityIDs.length === 0);
+          return !isEmptyOrUndefinedCostAuthorities;
+       }
+
+       function enableOrDisableAddButton() {
+          //console.log('enableOrDisableAddButton()');
+
+          var costAuthorityDropdown = jQuery('select.cost_authority_dropdown');
+          var currentSelectedCawbsId = costAuthorityDropdown.val();
+          //console.log('currentSelectedCawbsID: ' + currentSelectedCawbsId);
+          var hasValidCawbsIdSelected = currentSelectedCawbsId > 0;
+
+          jQuery("#addCostAuthorityButton").prop("disabled", !hasValidCawbsIdSelected);
+       }
+
+       function enableOrDisableSaveButton() {
+          //console.log('enableOrDisableSaveButton()');
+          var shouldSaveButtonBeDisabled = !hasCostAuthorityAdded();
+          //console.log('shouldSaveButtonBeDisabled: ' + shouldSaveButtonBeDisabled);
+          jQuery("#" + "@ModalDialogFormHelper.SaveButtonID").prop("disabled", shouldSaveButtonBeDisabled);
+       }
+
+       function showOrHideSelectedCostAuthorities() {
+          //console.log('showOrHideSelectedCostAuthorities()');
+          var shouldSelectedCostAuthoritiesBeVisible = hasCostAuthorityAdded();
+          //console.log('shouldSelectedCostAuthoritiesBeVisible: ' + shouldSelectedCostAuthoritiesBeVisible);
+          var selectedCostAuthoritiesDiv = jQuery(".selected-cost-authorities");
+          if (shouldSelectedCostAuthoritiesBeVisible) {
+             //console.log('showing selectedCostAuthorities div');
+             selectedCostAuthoritiesDiv.show();
+          } else {
+             //console.log('hiding selectedCostAuthorities div');
+             selectedCostAuthoritiesDiv.hide();
+          }
+       } // jQuery(".selected-cost-authorities").show();
+
+       removeRow = function (costAuthorityID) {
+            //console.log('removeRow()');
+            //console.log(costAuthorityID);
             var indexToRemove = alreadyAddedCostAuthorityIDs.indexOf(costAuthorityID);
             var oldListOfCostAuthorityIDs = new Array();
             for (var ind = 0; ind < alreadyAddedCostAuthorityIDs.length; ind++) { oldListOfCostAuthorityIDs.push(alreadyAddedCostAuthorityIDs[ind]);}
 
             alreadyAddedCostAuthorityIDs.splice(indexToRemove, 1);
-
 
             jQuery(".costAuthorityRow").each(function() {
                 var possibleRowToDelete = jQuery(this);
@@ -273,24 +310,31 @@
                     });
                 }
             });
-            resetTotal();
+           resetTotal();
+           enableOrDisableSaveButton();
+           showOrHideSelectedCostAuthorities();
         }
 
+       jQuery(".cost_authority_dropdown").change(function () {
+            //console.log('cost_authority_dropdown changed');
+            enableOrDisableAddButton();
+        });
 
 
+        // Add Cost Authority button clicked
         jQuery("#addCostAuthorityButton").click(function () {
             jQuery(".selected-cost-authorities").show();
             var costAuthoritySelection = jQuery("#@Html.IdFor(m => m.CostAuthorityID)");
             var costAuthorityVal = costAuthoritySelection.val();
-            console.log(costAuthorityVal);
+            //console.log(costAuthorityVal);
             if (costAuthorityVal != null && costAuthorityVal != '') {
                 var thiscostAuthorityID = parseInt(costAuthorityVal);
                 var costAuthority = costAuthorityJsons[thiscostAuthorityID];
                 if (alreadyAddedCostAuthorityIDs.indexOf(thiscostAuthorityID) == -1) {
                     alreadyAddedCostAuthorityIDs.push(thiscostAuthorityID);
-                    console.log(alreadyAddedCostAuthorityIDs);
+                    //console.log('alreadyAddedCostAuthorityIDs: ' + alreadyAddedCostAuthorityIDs);
                     var currentlyAddingIndex = alreadyAddedCostAuthorityIDs.indexOf(thiscostAuthorityID);
-                    console.log(costAuthority);
+                    //console.log('costAuthority: ' +costAuthority);
                     var tr = cloningTr.clone();
                     tr.prop("id", "");
                     tr.attr("costauthority_id", costAuthorityVal);
@@ -304,8 +348,8 @@
                         replaceDefaultsForNewRow(jQuery(this), currentlyAddingIndex, thiscostAuthorityID, 0, true);
 
                     });
-                    console.log("inputs");
-                    console.log(inputs);
+                    //console.log("inputs: ");
+                    //console.log(inputs);
                     jQuery("#bodyForAddingTo").append(tr);
                 }
             }
@@ -314,12 +358,15 @@
             jQuery(".projectedObligationEditor").change(function () {
                 resetTotal();
             });
-
-
+            enableOrDisableSaveButton();
+            enableOrDisableAddButton();
+            showOrHideSelectedCostAuthorities();
         });
 
-
-
+        // On load
+        enableOrDisableSaveButton();
+        enableOrDisableAddButton();
+        showOrHideSelectedCostAuthorities();
 
         jQuery(".selectpicker").selectpicker();
 

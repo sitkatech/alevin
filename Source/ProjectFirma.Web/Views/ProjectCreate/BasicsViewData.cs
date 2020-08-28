@@ -34,7 +34,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public IEnumerable<SelectListItem> TaxonomyLeafs { get; private set; }
         public IEnumerable<SelectListItem> FundingTypes { get; private set; }
-        public IEnumerable<SelectListItem> StartYearRange { get; private set; }
+        public IEnumerable<SelectListItem> PlanningDesignStartYearRange { get; private set; }
+        public IEnumerable<SelectListItem> ImplementationStartYearRange { get; private set; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; private set; }
         public bool HasCanStewardProjectsOrganizationRelationship { get; private set; }
         public bool HasThreeTierTaxonomy { get; private set; }
@@ -82,10 +83,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             TaxonomyLeafs = taxonomyLeafs.ToList().OrderTaxonomyLeaves().ToList().ToGroupedSelectList();
             
             FundingTypes = fundingTypes.ToSelectList(x => x.FundingTypeID.ToString(CultureInfo.InvariantCulture), y => y.FundingTypeDisplayName);
-            StartYearRange =
-                FirmaDateUtilities.YearsForUserInput()
-                    .ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
-            CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay);
+            PlanningDesignStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
+            ImplementationStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
+            CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
             HasCanStewardProjectsOrganizationRelationship = MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship();
 
             HasThreeTierTaxonomy = MultiTenantHelpers.IsTaxonomyLevelTrunk();

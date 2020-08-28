@@ -428,7 +428,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var performanceMeasure = new PerformanceMeasure(default(string), default(int), default(int), false,
-                PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID, false);
+                PerformanceMeasureDataSourceType.Project.PerformanceMeasureDataSourceTypeID, false, false);
             viewModel.UpdateModel(performanceMeasure, CurrentFirmaSession);
 
             var defaultSubcategory = new PerformanceMeasureSubcategory(performanceMeasure, "Default")

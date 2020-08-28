@@ -55,6 +55,20 @@ namespace ProjectFirma.Web.Models
         }
 
 
+        public static string GetDisplayNameWithDescription(this FundingSource fundingSource)
+        {
+            if (fundingSource.Organization.IsUnknown())
+            {
+                return fundingSource.Organization.GetOrganizationShortNameIfAvailable();
+            }
+
+            var organizationShortNameIfAvailable = $"({fundingSource.Organization.GetOrganizationShortNameIfAvailable()})";
+            return organizationShortNameIfAvailable.Length < 35
+                ? $"{fundingSource.FundingSourceName} - {fundingSource.FundingSourceDescription.ToEllipsifiedString(35)} {organizationShortNameIfAvailable}"
+                : $"{organizationShortNameIfAvailable}";
+        }
+
+
         public static bool IsFundingSourceNameUnique(IEnumerable<FundingSource> fundingSources, string fundingSourceName, int currentFundingSourceID)
         {
             var fundingSource =

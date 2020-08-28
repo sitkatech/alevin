@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
-using ApprovalUtilities.Utilities;
+using log4net;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -16,6 +16,8 @@ namespace ProjectFirma.Web.Controllers
 {
     public class ObligationRequestController : FirmaBaseController
     {
+        private ILog obReqLogger = LogManager.GetLogger(typeof(ObligationRequestController));
+
         [ObligationRequestIndexViewFeature]
         public ViewResult ObligationRequestIndex()
         {
@@ -61,6 +63,8 @@ namespace ProjectFirma.Web.Controllers
             viewModel.UpdateModel(costAuthorityObligationRequestPrimaryKey.EntityObject, CurrentFirmaSession);
            
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
+
             return new ModalDialogFormJsonResult();
         }
 
@@ -95,7 +99,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<EditObligationRequest, EditObligationRequestViewData, EditObligationRequestViewModel>(viewData, viewModel);
         }
 
-       
         [HttpGet]
         [ObligationRequestCreateFeature]
         public PartialViewResult EditCostAuthorityObligationRequests(ObligationRequestPrimaryKey reclamationObligationRequestPrimaryKey)
@@ -150,6 +153,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -189,6 +193,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -208,7 +213,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new ObligationRequestDetailViewData(CurrentFirmaSession, obligationRequest, userCanInteractWithSubmissionNotes, obligationRequestNotesViewData);
             return RazorView<ObligationRequestDetail, ObligationRequestDetailViewData>(viewData);
         }
-
 
         [HttpGet]
         [ObligationRequestCreateFeature]
@@ -254,6 +258,7 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -288,7 +293,7 @@ namespace ProjectFirma.Web.Controllers
         [ObligationRequestCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteCostAuthority(CostAuthorityObligationRequestPrimaryKey costAuthorityObligationRequestPrimaryKey,
-            ConfirmDialogFormViewModel viewModel)
+                                                ConfirmDialogFormViewModel viewModel)
         {
             var costAuthorityObligationRequest = costAuthorityObligationRequestPrimaryKey.EntityObject;
             var displayName = $"this Projected Obligation from Cost Authority: {costAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure}";
@@ -298,28 +303,28 @@ namespace ProjectFirma.Web.Controllers
             }
 
             costAuthorityObligationRequest.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
 
             SetMessageForDisplay($"Successfully deleted \"{displayName}\".");
 
             return new ModalDialogFormJsonResult();
         }
 
-
-
         [HttpPost]
         [ObligationRequestCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Delete(ObligationRequestPrimaryKey obligationRequestPrimaryKey,
-            ConfirmDialogFormViewModel viewModel)
+                                   ConfirmDialogFormViewModel viewModel)
         {
             var obligationRequest = obligationRequestPrimaryKey.EntityObject;
-            var displayName = $"Obligation Request: {obligationRequest.ObligationRequestID.ToString("D4")}";
+            var displayName = $"Obligation Request: {obligationRequest.GetObligationRequestNumber()}";
             if (!ModelState.IsValid)
             {
                 return ViewDelete(obligationRequest, viewModel);
             }
 
             obligationRequest.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
 
             SetMessageForDisplay($"Successfully deleted \"{displayName}\".");
 
@@ -353,6 +358,7 @@ namespace ProjectFirma.Web.Controllers
             }
             viewModel.UpdateModel(obligationRequestPrimaryKey.EntityObject, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
             return new ModalDialogFormJsonResult();
         }
 
@@ -361,7 +367,6 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new EditRequisitionInformationViewData(CurrentFirmaSession);
             return RazorPartialView<EditRequisitionInformation, EditRequisitionInformationViewData, EditRequisitionInformationViewModel>(viewData, viewModel);
         }
-
 
         [ObligationRequestIndexViewFeature]
         public GridJsonNetJObjectResult<CostAuthorityObligationRequest> CostAuthorityObligationRequestsJsonData(ObligationRequestPrimaryKey reclamationObligationRequestPrimaryKey)
@@ -377,6 +382,86 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
+        [ObligationRequestIndexViewFeature]
+        public GridJsonNetJObjectResult<CostAuthorityObligationRequestPotentialObligationNumberMatch> PotentialObligationRequestMatchesJsonData(ObligationRequestPrimaryKey obligationRequestPrimaryKey)
+        {
+            var obligationRequest = obligationRequestPrimaryKey.EntityObject;
+            var obligationRequestMatches = obligationRequest.CostAuthorityObligationRequests.SelectMany(caor => caor.CostAuthorityObligationRequestPotentialObligationNumberMatches).ToList();
+            var gridSpec = new CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec(CurrentFirmaSession);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthorityObligationRequestPotentialObligationNumberMatch>(obligationRequestMatches, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        [ObligationRequestIndexViewFeature]
+        [HttpGet]
+        public PartialViewResult PotentialMatchDetail(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey)
+        {
+            var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchDialogMode.ReadOnlyReview);
+            var viewModel = new PotentialMatchInformationViewModel();
+            return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
+        }
+
+        [ObligationRequestManageFeature]
+        [HttpGet]
+        public PartialViewResult ConfirmPotentialMatch(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey)
+        {
+            var viewData = new PotentialMatchInformationViewData(CurrentFirmaSession, costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchDialogMode.ConfirmWithPostAction);
+            var viewModel = new PotentialMatchInformationViewModel();
+            return RazorPartialView<PotentialMatchInformation, PotentialMatchInformationViewData, PotentialMatchInformationViewModel>(viewData, viewModel);
+        }
+
+        [ObligationRequestManageFeature]
+        [HttpPost]
+        public ActionResult ConfirmPotentialMatch(CostAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey, PotentialMatchInformationViewModel viewModel)
+        {
+            var matchToConfirm = costAuthorityObligationRequestPotentialObligationNumberMatchPrimaryKey.EntityObject;
+            var obligationRequest = matchToConfirm.CostAuthorityObligationRequest.ObligationRequest;
+
+            obligationRequest.ObligationNumberID = matchToConfirm.ObligationNumberID;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
+
+            SetMessageForDisplay($"Confirmed match for Obligation {obligationRequest.ObligationNumber.GetDetailLink()}");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        #region Confirm Potential Obligation Request Unmatch
+
+        [ObligationRequestManageFeature]
+        [HttpGet]
+        public PartialViewResult ConfirmObligationRequestUnmatch(ObligationRequestPrimaryKey obligationRequestPrimaryKey)
+        {
+            ObligationRequest obligationRequest = obligationRequestPrimaryKey.EntityObject;
+            var viewData = new ConfirmObligationRequestUnmatchViewData(CurrentFirmaSession, obligationRequest);
+            var viewModel = new ConfirmObligationRequestUnmatchViewModel();
+            return RazorPartialView<ConfirmObligationRequestUnmatch, ConfirmObligationRequestUnmatchViewData, ConfirmObligationRequestUnmatchViewModel>(viewData, viewModel);
+        }
+
+        [ObligationRequestManageFeature]
+        [HttpPost]
+        public ActionResult ConfirmObligationRequestUnmatch(ObligationRequestPrimaryKey obligationRequestPrimaryKey,
+                                                            ConfirmObligationRequestUnmatchViewModel viewModel)
+        {
+            ObligationRequest obligationRequest = obligationRequestPrimaryKey.EntityObject;
+            var previouslyMatchedObligation = obligationRequest.ObligationNumber;
+
+            obligationRequest.ObligationNumber = null;
+            obligationRequest.ObligationNumberID = null;
+            obligationRequest.Agreement = null;
+            obligationRequest.AgreementID = null;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
+            ExcelUploadController.DoObligationRequestMatching(obReqLogger);
+
+            SetMessageForDisplay($"Unmatched Obligation Request {obligationRequest.GetDetailLink()} from Obligation {previouslyMatchedObligation.GetDetailLink()}");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+
+        #endregion Confirm Potential Obligation Request Unmatch
 
     }
 }

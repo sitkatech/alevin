@@ -47,11 +47,13 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using LtInfo.Common.ModalDialog;
+using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
+using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -170,7 +172,7 @@ namespace ProjectFirma.Web.Controllers
             var editExternalLinksUrl = SitkaRoute<ProjectExternalLinkController>.BuildUrlFromExpression(c => c.EditProjectExternalLinks(project));
 
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
-            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, $"project_{project.ProjectID}_Map", false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false));
+            var projectLocationSummaryMapInitJson = new ProjectLocationSummaryMapInitJson(project, $"project_{project.ProjectID}_Map", false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), true);
             var mapFormID = GenerateEditProjectLocationFormID(project);
             var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.OrderBy(x => x.GeospatialAreaTypeName).ToList();
             var dictionaryGeoNotes = project.ProjectGeospatialAreaTypeNotes.ToDictionary(x => x.GeospatialAreaTypeID, x => x.Notes);
@@ -210,17 +212,17 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-            var auditLogsGridSpec = new AuditLogsGridSpec {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
+            var auditLogsGridSpec = new AuditLogsGridSpec(CurrentFirmaSession) {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
             var auditLogsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(project));
 
-            var projectNotificationGridSpec = new ProjectNotificationGridSpec();
+            var projectNotificationGridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             const string projectNotificationGridName = "projectNotifications";
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
             var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
 
-            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson);
+            var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession);
             var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
 
             var classificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
@@ -256,6 +258,11 @@ namespace ProjectFirma.Web.Controllers
                 }
             }
 
+            // Potential Match Maker Project Partners (if any)
+            ProjectPotentialPartnerDetailViewData projectPotentialPartnerDetailViewData = 
+                                                    new ProjectPotentialPartnerDetailViewData(CurrentFirmaSession,
+                                                                                              project,
+                                                                                              ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList);
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
 
@@ -263,7 +270,7 @@ namespace ProjectFirma.Web.Controllers
             // -----------------------------------------------
             var prbacs = ProjectRunningBalanceObligationsAndExpendituresRecord.GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(project);
             var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceObligationsAndExpendituresViewData(prbacs);
-
+            var projectBalanceBurnUpViewData = new ProjectBalanceBurnUpViewData(prbacs, project);
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
                 activeProjectStages,
@@ -305,6 +312,7 @@ namespace ProjectFirma.Web.Controllers
                 projectNotificationGridDataUrl,
                 userCanEditProposal,
                 projectOrganizationsDetailViewData,
+                projectPotentialPartnerDetailViewData,
                 classificationSystems,
                 ProjectLocationController.EditProjectBoundingBoxFormID, 
                 geospatialAreaTypes, 
@@ -318,7 +326,8 @@ namespace ProjectFirma.Web.Controllers
                 userHasStartUpdateWorkflowPermission,
                 actionItemsDisplayViewData,
                 userCanViewActionItems,
-                projectRunningBalanceAllContractViewData);
+                projectRunningBalanceAllContractViewData,
+                projectBalanceBurnUpViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
@@ -411,7 +420,7 @@ namespace ProjectFirma.Web.Controllers
 
         private static ActionItemsDisplayViewData BuildActionItemsDisplayViewData(Project project, FirmaSession currentFirmaSession)
         {
-            var actionItemsGridSpec = new ActionItemsGridSpec();
+            var actionItemsGridSpec = new ActionItemsGridSpec(currentFirmaSession);
             const string actionItemsGridName = "actionItems";
             var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.ActionItemsGridJsonData(project));
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(currentFirmaSession, project);
@@ -486,7 +495,7 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             // do not include external map layers
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), false);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), false, true);
             var chartName = $"ProjectFactSheet{project.ProjectID}PieChart";
             var expenditureGooglePieChartSlices = ProjectModelExtensions.GetExpenditureGooglePieChartSlices(project);
             var googleChartDataTable = GetProjectFactSheetGoogleChartDataTable(expenditureGooglePieChartSlices);
@@ -510,7 +519,7 @@ namespace ProjectFirma.Web.Controllers
             var mapDivID = $"project_{project.ProjectID}_Map";
             var geospatialAreas = project.GetProjectGeospatialAreas().ToList();
             // do not include external map layers
-            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), false);
+            var projectLocationDetailMapInitJson = new ProjectLocationSummaryMapInitJson(project, mapDivID, false, geospatialAreas, project.DetailedLocationToGeoJsonFeatureCollection(), project.SimpleLocationToGeoJsonFeatureCollection(false), false, true);
             var chartName = $"ProjectFundingRequestSheet{project.ProjectID}PieChart";
             var fundingSourceRequestAmountGooglePieChartSlices = project.GetRequestAmountGooglePieChartSlices();
             var googleChartDataTable =
@@ -796,7 +805,7 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public GridJsonNetJObjectResult<AuditLog> AuditLogsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
-            var gridSpec = new AuditLogsGridSpec();
+            var gridSpec = new AuditLogsGridSpec(CurrentFirmaSession);
             var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject).OrderByDescending(x => x.AuditLogDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
@@ -952,7 +961,7 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
         public GridJsonNetJObjectResult<Notification> ProjectNotificationsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new ProjectNotificationGridSpec();
+            var gridSpec = new ProjectNotificationGridSpec(CurrentFirmaSession);
             var notifications = project.NotificationProjects.Select(x => x.Notification).OrderByDescending(x => x.NotificationDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Notification>(notifications, gridSpec);
             return gridJsonNetJObjectResult;
@@ -1109,20 +1118,6 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
                 return File(content, "application/pdf", fileName);
             }
         }
-
-
-
-        /*
-        [ObligationViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> ObligationItemInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
-            var project = projectPrimaryKey.EntityObject;
-            var obligationItemInvoices = project.CostAuthorityProjects.SelectMany(cap => cap.CostAuthority.WbsElementObligationItemInvoices).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        */
 
         [ObligationViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)

@@ -40,6 +40,7 @@ namespace ProjectFirma.Web.Models
 {
     public static class OrganizationModelExtensions
     {
+        public const int BPAOrganizationID = 6308;
         public static readonly UrlTemplate<int> DeleteUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.DeleteOrganization(UrlTemplate.Parameter1Int)));
         public static string GetDeleteUrl(this Organization organization)
         {
@@ -68,7 +69,7 @@ namespace ProjectFirma.Web.Models
             return organizationID.HasValue ? UrlTemplate.MakeHrefString(SummaryUrlTemplate.ParameterReplace(organizationID.Value), organizationDisplayName) : new HtmlString(null);
         }
 
-        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int)));
+        public static readonly UrlTemplate<int> SummaryUrlTemplate = new UrlTemplate<int>(SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.Detail(UrlTemplate.Parameter1Int, null)));
         public static string GetDetailUrl(this Organization organization)
         {
             return organization == null ? "" : SummaryUrlTemplate.ParameterReplace(organization.OrganizationID);
@@ -305,19 +306,12 @@ namespace ProjectFirma.Web.Models
             return geoJsons.Select(x => new OrganizationBoundaryStaging(organization, x.Key, x.Value)).ToList();
         }
 
-        public static HtmlString GetPrimaryContactPersonAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
-            ? organization.PrimaryContactPerson.GetFullNameFirstLastAsUrl()
+        public static HtmlString GetPrimaryContactPersonAsUrl(this Organization organization, FirmaSession currentFirmaSession) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAsUrl(currentFirmaSession)
             : new HtmlString(ViewUtilities.NoneString);
 
-        public static HtmlString GetPrimaryContactPersonWithOrgAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
-            ? organization.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl()
-            : new HtmlString(ViewUtilities.NoneString);
-
-        /// <summary>
-        /// Use for security situations where the user summary is not displayable, but the Organization is.
-        /// </summary>
-        public static HtmlString GetPrimaryContactPersonAsStringAndOrgAsUrl(this Organization organization) => organization.PrimaryContactPerson != null
-            ? organization.PrimaryContactPerson.GetFullNameFirstLastAsStringAndOrgAsUrl()
+        public static HtmlString GetPrimaryContactPersonWithOrgAsUrl(this Organization organization, FirmaSession currentFirmaSession) => organization.PrimaryContactPerson != null
+            ? organization.PrimaryContactPerson.GetFullNameFirstLastAndOrgAsUrl(currentFirmaSession)
             : new HtmlString(ViewUtilities.NoneString);
 
         public static string GetPrimaryContactPersonWithOrgAsString(this Organization organization) => organization.PrimaryContactPerson != null
@@ -327,6 +321,19 @@ namespace ProjectFirma.Web.Models
         public static string GetPrimaryContactPersonAsString(this Organization organization) => organization.PrimaryContactPerson != null
             ? organization.PrimaryContactPerson.GetFullNameFirstLast()
             : ViewUtilities.NoneString;
-
+        public static List<TaxonomyTier> GetMatchmakerTaxonomyTiers(this Organization organization, TaxonomyLevel taxonomyLevel)
+        {
+            switch (taxonomyLevel.ToEnum)
+            {
+                case TaxonomyLevelEnum.Leaf:
+                    return organization.MatchmakerOrganizationTaxonomyLeafs.ToList().Select(x => new TaxonomyTier(x.TaxonomyLeaf)).ToList();
+                case TaxonomyLevelEnum.Branch:
+                    return organization.MatchmakerOrganizationTaxonomyBranches.ToList().Select(x => new TaxonomyTier(x.TaxonomyBranch)).ToList();
+                case TaxonomyLevelEnum.Trunk:
+                    return organization.MatchmakerOrganizationTaxonomyTrunks.ToList().Select(x => new TaxonomyTier(x.TaxonomyTrunk)).ToList();
+                default:
+                    throw new ArgumentOutOfRangeException();
+    }
+        }
     }
 }

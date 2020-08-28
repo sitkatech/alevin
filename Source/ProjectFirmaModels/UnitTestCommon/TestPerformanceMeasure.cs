@@ -34,7 +34,7 @@ namespace ProjectFirmaModels.UnitTestCommon
             {
                 var randomGuid = Guid.NewGuid();
                 var performanceMeasureDisplayName = $"PerformanceMeasureFakeName_{randomGuid}";
-                var performanceMeasure = new PerformanceMeasure(performanceMeasureDisplayName, MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, PerformanceMeasureDataSourceType.Project, false)
+                var performanceMeasure = new PerformanceMeasure(performanceMeasureDisplayName, MeasurementUnitType.Acres, PerformanceMeasureType.Action, false, PerformanceMeasureDataSourceType.Project, false, false)
                 {
                     PerformanceMeasureSubcategories = new List<PerformanceMeasureSubcategory>()
                 };

@@ -29,39 +29,39 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using log4net;
+using LtInfo.Common.Email;
 
 namespace ProjectFirma.Web.Models
 {
-
     /// <summary>
     /// These have been implemented as extension methods on <see cref="Person"/> so we can handle the anonymous user as a null person object
     /// </summary>
     public static class PersonModelExtensions
     {
-        public static HtmlString GetFullNameFirstLastAsUrl(this Person person)
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(PersonModelExtensions));
+
+        public static HtmlString GetFullNameFirstLastAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
+            if (new UserViewFeature().HasPermission(currentFirmaSession, person).HasPermission)
+            {
+                return UrlTemplate.MakeHrefString(person.GetDetailUrl(), person.GetFullNameFirstLast());
+            }
+            return new HtmlString(person.GetFullNameFirstLast());
         }
 
-        public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAndOrgAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var userUrl = person.GetFullNameFirstLastAsUrl(currentFirmaSession);
             var orgUrl = person.Organization.GetDisplayNameAsUrl();
             return new HtmlString($"{userUrl} - {orgUrl}");
         }
 
-        public static HtmlString GetFullNameFirstLastAndOrgShortNameAsUrl(this Person person)
+        public static HtmlString GetFullNameFirstLastAndOrgShortNameAsUrl(this Person person, FirmaSession currentFirmaSession)
         {
-            var userUrl = person.GetFullNameFirstLastAsUrl();
+            var userUrl = person.GetFullNameFirstLastAsUrl(currentFirmaSession);
             var orgUrl = person.Organization.GetShortNameAsUrl();
             return new HtmlString($"{userUrl} ({orgUrl})");
-        }
-
-        public static HtmlString GetFullNameFirstLastAsStringAndOrgAsUrl(this Person person)
-        {
-            var userString = person.GetFullNameFirstLast();
-            var orgUrl = person.Organization.GetShortNameAsUrl();
-            return new HtmlString($"{userString} - {orgUrl}");
         }
 
         public static string GetFullNameFirstLastAndOrg(this Person person) => $"{person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()}";
@@ -340,6 +340,87 @@ namespace ProjectFirma.Web.Models
             }
 
             return true;
+        }
+
+        public static PersonSettingGridTable LookupOrAddPersonSettingGridTable(string gridTableName)
+        {
+            var personSettingGridTable = HttpRequestStorage.DatabaseEntities.PersonSettingGridTables.FirstOrDefault(x => x.GridName == gridTableName);
+
+            if (personSettingGridTable == null)
+            {
+                personSettingGridTable = new PersonSettingGridTable(gridTableName);
+                HttpRequestStorage.DatabaseEntities.AllPersonSettingGridTables.Add(personSettingGridTable);
+
+            }
+            
+            return personSettingGridTable;
+        }
+
+        public static PersonSettingGridTable UpdatePersonSettingGridColumns(this Person person, GridTable jsonGridTable)
+        {
+            Check.RequireNotNullNotEmptyNotWhitespace(jsonGridTable.GridName, $"Required parameter {nameof(jsonGridTable.GridName)} missing.");
+            
+            var personSettingGridTable = LookupOrAddPersonSettingGridTable(jsonGridTable.GridName);
+
+            var personSettingGridColumnDictionary = personSettingGridTable.PersonSettingGridColumns.ToDictionary(x => x.ColumnName, StringComparer.InvariantCultureIgnoreCase);
+
+            var sortOrder = 0;
+            foreach (var jsonCol in jsonGridTable.Columns)
+            {
+                sortOrder++;
+                if (personSettingGridColumnDictionary.ContainsKey(jsonCol.ColumnName))
+                {
+                    personSettingGridColumnDictionary[jsonCol.ColumnName].SortOrder = sortOrder;
+                    continue;
+                }
+                var personSettingGridColumn = new PersonSettingGridColumn(personSettingGridTable, jsonCol.ColumnName, sortOrder);
+               
+                personSettingGridTable.PersonSettingGridColumns.Add(personSettingGridColumn);
+            }
+
+            // Attempting to track down a dictionary collision crash ("System.ArgumentException: An item with the same key has already been added.")
+            var tempColumnNameGroups = personSettingGridTable.PersonSettingGridColumns.GroupBy(x => x.ColumnName);
+            var duplicatedColumnNameGroups = tempColumnNameGroups.Where(g => g.Count() > 1).ToList();
+            if (duplicatedColumnNameGroups.Any())
+            {
+                foreach (var currentDupeGroup in duplicatedColumnNameGroups)
+                {
+                    _logger.Error($"Found duplicate ColumnName \"{currentDupeGroup.Key}\" in personSettingGridTable.PersonSettingGridColumns. This will probably cause another error shortly.");
+                }
+            }
+
+            // This next line is where we sometimes see a dictionary collision.
+            var gridColumnDictionary = personSettingGridTable.PersonSettingGridColumns.ToDictionary(x => x.ColumnName, StringComparer.InvariantCultureIgnoreCase);
+            foreach (var jsonCol in jsonGridTable.Columns)
+            {
+                var personSettingGridColumn = gridColumnDictionary[jsonCol.ColumnName];
+                PersonSettingGridColumnSetting personSettingGridColumnSetting;
+                var columnSettingsAlreadyExists = HttpRequestStorage.DatabaseEntities.PersonSettingGridColumnSettings
+                    .SingleOrDefault(x => x.PersonSettingGridColumnID == personSettingGridColumn.PersonSettingGridColumnID);
+                if (columnSettingsAlreadyExists != null)
+                {
+                    personSettingGridColumnSetting = columnSettingsAlreadyExists;
+                }
+                else
+                {
+                    personSettingGridColumnSetting = new PersonSettingGridColumnSetting(person.PersonID, personSettingGridColumn.PersonSettingGridColumnID);
+                    HttpRequestStorage.DatabaseEntities.AllPersonSettingGridColumnSettings.Add(personSettingGridColumnSetting);
+                }
+
+                personSettingGridColumnSetting.PersonSettingGridColumnSettingFilters.ToList().ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
+                if (jsonCol.FilterTextArray != null && jsonCol.FilterTextArray.Length > 0)
+                {
+                    foreach (var filterText in jsonCol.FilterTextArray)
+                    {
+                        if (!string.IsNullOrWhiteSpace(filterText))
+                        {
+                            personSettingGridColumnSetting.PersonSettingGridColumnSettingFilters.Add(new PersonSettingGridColumnSettingFilter(personSettingGridColumnSetting, filterText));
+                        }
+                    }
+                }
+            }
+
+            return personSettingGridTable;
         }
 
     }

@@ -32,11 +32,13 @@ using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using MoreLinq;
+using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirmaModels.Models;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
@@ -410,13 +412,15 @@ namespace ProjectFirma.Web.Models
                     var color = ColorTranslator.ToHtml(new HslColor(sectorColorHsl.Hue, sectorColorHsl.Saturation,
                         luminosity));
 
-                    return new GooglePieChartSlice(fundingSource.GetFixedLengthDisplayName(),
+                    return new GooglePieChartSlice(fundingSource.GetDisplayNameWithDescription(),
                         Convert.ToDouble(expendituresDictionary[fundingSource]), sortOrder++, color);
                 }).ToList();
                 googlePieChartSlices.AddRange(pieChartSlices);
             }
             return googlePieChartSlices;
         }
+
+
 
         public static List<GooglePieChartSlice> GetFundingSourceRequestGooglePieChartSlices(this Project project)
         {
@@ -521,7 +525,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetActiveProjects(this IList<Project> projects)
         {
-            return projects.Where(x => IsActiveProject(x)).OrderBy(x => x.GetDisplayName()).ToList();
+            return projects.Where(x => x.IsActiveProject()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
         public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals)
@@ -554,36 +558,6 @@ namespace ProjectFirma.Web.Models
         public static List<Project> GetUpdatableProjects(this IQueryable<Project> projects)
         {
             return projects.Where(x => x.IsUpdateMandatory()).ToList();
-        }
-
-        public static bool IsActiveProject(this Project project)
-        {
-            return !project.IsProposal() && project.ProjectApprovalStatus == ProjectApprovalStatus.Approved;
-        }
-
-        public static bool IsProposal(this Project project)
-        {
-            return project.ProjectStage == ProjectStage.Proposal;
-        }
-
-        public static bool IsActiveProposal(this Project project)
-        {
-            return project.IsProposal() && project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
-        }
-
-        public static bool IsPendingProject(this Project project)
-        {
-            return !project.IsProposal() && project.ProjectApprovalStatus != ProjectApprovalStatus.Approved;
-        }
-
-        public static bool IsPendingApproval(this Project project)
-        {
-            return project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
-        }
-
-        public static bool IsRejected(this Project project)
-        {
-            return project.ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
         }
 
         public static bool IsForwardLookingFactSheetRelevant(this Project project)
@@ -1104,17 +1078,44 @@ namespace ProjectFirma.Web.Models
             GetObligationItemInvoiceRollUpByYearAndCostTypeAndFundingSourceSimples(this Project project)
         {
             var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
-            var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementObligationItemInvoices).ToList();
+            var obligationItemInvoices = costAuthorities.SelectMany(ca => ca.WbsElementPnBudgets).ToList();
+
+
 
             var obligationItemInvoiceSimples = new List<ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple>();
             foreach (var itemInvoice in obligationItemInvoices)
             {
                 int effectiveCostTypeID = GetEffectiveCostTypeIDForPotentialNullBudgetObjectCode(itemInvoice.BudgetObjectCode);
-                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemInvoice.FundingSourceID, effectiveCostTypeID, itemInvoice.PostingDateKey.Value.Year, itemInvoice.DebitAmount ?? 0);
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemInvoice.FundingSourceID, effectiveCostTypeID, itemInvoice.CalendarYear, itemInvoice.TotalExpenditures ?? 0);
                 obligationItemInvoiceSimples.Add(simple);
             }
 
             return obligationItemInvoiceSimples;
+        }
+
+        // ReSharper disable once InconsistentNaming
+        public static bool IsBPAFunded(this Project project)
+        {
+            return project.GetFundingOrganizations(false).Select(x => x.Organization.OrganizationID)
+                .Contains(OrganizationModelExtensions.BPAOrganizationID);
+        }
+
+        /// <summary>
+        /// Returns the organization with a relationship type that serves as the primary contact for a project
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns>Organization if found or null</returns>
+        public static Organization GetPrimaryContactOrganization(this Project project)
+        {
+            var primaryContractOrganizationType =
+                HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.FirstOrDefault(x => x.IsPrimaryContact);
+
+            if (primaryContractOrganizationType != null)
+            {
+                return project.ProjectOrganizations.First(x => x.OrganizationRelationshipTypeID == primaryContractOrganizationType.OrganizationRelationshipTypeID).Organization;
+            }
+
+            return null;
         }
 
     }

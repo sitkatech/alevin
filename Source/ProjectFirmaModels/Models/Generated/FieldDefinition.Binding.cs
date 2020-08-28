@@ -201,7 +201,6 @@ namespace ProjectFirmaModels.Models
         ClassificationSystem = 250,
         ClassificationSystemName = 251,
         ProjectPrimaryContact = 252,
-        CustomPageDisplayType = 253,
         TaxonomyTrunkDescription = 254,
         TaxonomyBranchDescription = 255,
         TaxonomyLeafDescription = 256,
@@ -267,7 +266,7 @@ namespace ProjectFirmaModels.Models
         ExternalMapLayerDescription = 316,
         ExternalMapLayerFeatureNameField = 317,
         ExternalMapLayerDisplayOnAllMaps = 318,
-        ExternalMapLayerLayerIsOnByDefault = 319,
+        MapLayerLayerIsOnByDefault = 319,
         ExternalMapLayerIsActive = 320,
         ExternalMapLayerIsATiledMapService = 321,
         FinalStatusUpdateStatus = 322,
@@ -305,6 +304,10 @@ namespace ProjectFirmaModels.Models
         KMZFile = 354,
         DocumentLibrary = 355,
         DocumentLibraryDocumentViewableBy = 356,
+        CustomPageViewableBy = 357,
+        EnableMatchmaker = 358,
+        GeospatialAreaMapLayerDisplayAsReferenceLayer = 359,
+        MatchScore = 360,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
@@ -357,6 +360,8 @@ namespace ProjectFirmaModels.Models
         ObligatedFunding = 10051,
         ExpendedFunding = 10052,
         PnBudget = 10053,
-        BudgetObjectCode = 10054
+        BudgetObjectCode = 10054,
+        ObligationItem = 10055,
+        ObligationRequestNumber = 10056
     }
 }

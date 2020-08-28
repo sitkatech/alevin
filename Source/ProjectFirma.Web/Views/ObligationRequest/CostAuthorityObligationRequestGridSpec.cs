@@ -20,12 +20,10 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;

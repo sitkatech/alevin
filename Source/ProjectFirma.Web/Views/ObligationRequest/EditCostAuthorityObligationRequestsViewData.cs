@@ -19,7 +19,6 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -67,54 +66,4 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             BudgetObjectCodes = allBudgetObjectCodes.OrderBy(x => x.GetDisplayName()).ToSelectListWithEmptyFirstRow(x => x.BudgetObjectCodeID.ToString(), x => x.GetDisplayName());
         }
     }
-
-
-    public class CostAuthorityJsonList
-    {
-        public Dictionary<int, CostAuthorityJson> CostAuthorityJsons { get; set; }
-
-        public CostAuthorityJsonList(List<CostAuthorityJson> costAuthorityJson)
-        {
-            CostAuthorityJsons = costAuthorityJson.ToDictionary(x => x.CostAuthorityID, x => x);
-        }
-    }
-
-    public class CostAuthorityJson
-    {
-        public int CostAuthorityID { get; set; }
-        public int? TechnicalRepresentativePersonID { get; set; }
-        public int? RecipientOrganizationID { get; set; }
-        public int? BudgetObjectCodeID { get; set; }
-        public string CostAuthorityWorkBreakdownStructure { get; set; }
-        public string AccountStructureDescription { get; set; }
-        public string Note { get; set; }
-        public Money? ProjectedObligation { get; set; }
-
-        public bool PreventDelete { get; set; }
-
-        public CostAuthorityJson()
-        {
-        }
-
-        public CostAuthorityJson(ProjectFirmaModels.Models.CostAuthority costAuthority)
-        {
-            CostAuthorityID = costAuthority.CostAuthorityID;
-            CostAuthorityWorkBreakdownStructure = costAuthority.CostAuthorityWorkBreakdownStructure;
-            AccountStructureDescription = costAuthority.AccountStructureDescription;
-
-        }
-
-        public CostAuthorityJson(CostAuthorityObligationRequest costAuthorityObligationRequest)
-        {
-            CostAuthorityID = costAuthorityObligationRequest.CostAuthority.CostAuthorityID;
-            CostAuthorityWorkBreakdownStructure = costAuthorityObligationRequest.CostAuthority.CostAuthorityWorkBreakdownStructure;
-            AccountStructureDescription = costAuthorityObligationRequest.CostAuthority.AccountStructureDescription;
-            Note = costAuthorityObligationRequest.CostAuthorityObligationRequestNote;
-            ProjectedObligation = costAuthorityObligationRequest.ProjectedObligation;
-            RecipientOrganizationID = costAuthorityObligationRequest.RecipientOrganizationID;
-            TechnicalRepresentativePersonID = costAuthorityObligationRequest.TechnicalRepresentativePersonID;
-            BudgetObjectCodeID = costAuthorityObligationRequest.BudgetObjectCodeID;
-        }
-    }
-
 }

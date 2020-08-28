@@ -1,0 +1,74 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="PotentialMatchInformation.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.ObligationRequest
+@inherits ProjectFirma.Web.Views.ObligationRequest.PotentialMatchInformation
+
+<div class="row">
+   <div class="col-xs-4">
+      <strong>CAWBS:</strong>
+   </div>
+   <div class="col-xs-8">
+      <p>@ViewDataTyped.PotentialObligationNumberMatch.CostAuthorityObligationRequest.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()</p>
+   </div>
+</div>
+
+<div class="row">
+   <div class="col-xs-4">
+      <strong>Obligation Number:</strong>
+   </div>
+   <div class="col-xs-8">
+      <p>@ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.GetDetailLink()</p>
+   </div>
+</div>
+
+<div class="row">
+   <div class="col-xs-12">
+      <div>
+         <strong>All Obligation Item Budget(s):</strong>
+      </div>
+      <table class="table table-bordered table-condensed">
+         <tr>
+            <th>Date</th>
+            <th>Unexpended Balance</th>
+            <th>Vendor Name</th>
+         </tr>
+         @foreach (var currentWbsObItemBudget in ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.GetWbsElementObligationItemBudgets())
+         {
+            <tr>
+               <td>@currentWbsObItemBudget.PostingDatePerSplKey.ToStringDate()</td>
+               <td>@currentWbsObItemBudget.UnexpendedBalance.ToStringCurrency()</td>
+               <td>@currentWbsObItemBudget.ObligationItem.Vendor.GetDisplayNameAsUrl()</td>
+            </tr>
+         }
+         <tr>
+            <th scope="row">Total Unexpended Balance:</th>
+            <th colspan="2">@ViewDataTyped.PotentialObligationNumberMatch.ObligationNumber.GetWbsElementObligationItemBudgets().Sum(x => x.UnexpendedBalance).ToStringCurrency()</th>
+         </tr>
+      </table>
+   </div>
+</div>
+
+@if (ViewDataTyped.PotentialMatchDialogMode == PotentialMatchDialogMode.ConfirmWithPostAction)
+{
+   Html.BeginForm();
+}

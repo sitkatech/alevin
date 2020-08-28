@@ -12,7 +12,7 @@ if (
     (not EXISTS(SELECT 1 FROM Staging.StageImpPnBudget))
     )
 begin
-   raiserror('pReclamationImportPnBudget: There is no data in at least one of the tables for publishing. Publishing halted.', 16,1)
+   raiserror('pReclamationImportPnBudget: There is no data in Staging.StageImpPnBudget. Publishing halted.', 16,1)
    return -1
 end
 
@@ -140,11 +140,19 @@ inner join ImportFinancial.FiscalQuarter as fq on (dbo.GetFiscalQuarterIDForCale
 
 end
 
+delete from dbo.ProjectFundingSourceExpenditure
+
+insert into dbo.ProjectFundingSourceExpenditure(TenantID, ProjectID, FundingSourceID, CalendarYear, ExpenditureAmount, CostTypeID)
+select 12, cap.ProjectID , x.FundingSourceID, x.CalendarYear, sum(isnull(x.TotalExpenditures,0)) as ExpenditureAmount, null from ImportFinancial.WbsElementPnBudget x
+join Reclamation.CostAuthorityProject cap on x.CostAuthorityID = cap.CostAuthorityID
+group by x.FundingSourceID, x.CalendarYear, cap.ProjectID
+
+
 /*
 
-exec dbo.pReclamationImportPnBudget
-select * from ImportFinancial.ImpPnBudget
 
-select * from ImportFinancial.WbsElementPnBudget
+
+
+exec dbo.pReclamationImportPnBudget
 
 */

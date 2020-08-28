@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirmaModels.Models;
@@ -31,6 +32,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         public FiscalQuarter FiscalQuarter { get; set; }
         public int FiscalYear { get; set; }
         public int FiscalMonthPeriod { get; set; }
+
+        public int CalendarYear { get; set; }
+        public int CalendarMonthNumber { get; set; }
         //public DateTime Date { get; set; }
 
         /// <summary>
@@ -43,6 +47,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
 
         public ProjectFirmaModels.Models.CostAuthority CostAuthority { get; set; }
         public ProjectFirmaModels.Models.BudgetObjectCode BudgetObjectCode { get; set; }
+
+        public ProjectFirmaModels.Models.FundingSource FundingSource { get; set; }
 
         public ProjectRunningBalanceObligationsAndExpendituresRecord(WbsElementPnBudget wbsElementPnBudget)
         {
@@ -59,6 +65,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
 
             this.CostAuthority = wbsElementPnBudget.CostAuthority;
             this.BudgetObjectCode = wbsElementPnBudget.BudgetObjectCode;
+            this.FundingSource = wbsElementPnBudget.FundingSource;
+            this.CalendarYear = wbsElementPnBudget.CalendarYear;
+            this.CalendarMonthNumber = wbsElementPnBudget.CalendarMonthNumber;
+
+            //this.Date = DateTime.Parse($"{wbsElementPnBudget.CalendarYear}{wbsElementPnBudget.CalendarMonthNumber:00}01");
         }
 
         public static List<ProjectRunningBalanceObligationsAndExpendituresRecord> GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(ProjectFirmaModels.Models.Project project)

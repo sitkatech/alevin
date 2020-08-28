@@ -29,7 +29,6 @@ namespace ProjectFirmaModels.Models
             this.ProjectFundingSourceExpenditures = new HashSet<ProjectFundingSourceExpenditure>();
             this.ProjectFundingSourceExpenditureUpdates = new HashSet<ProjectFundingSourceExpenditureUpdate>();
             this.WbsElementObligationItemBudgets = new HashSet<WbsElementObligationItemBudget>();
-            this.WbsElementObligationItemInvoices = new HashSet<WbsElementObligationItemInvoice>();
             this.WbsElementPnBudgets = new HashSet<WbsElementPnBudget>();
             this.ProjectFundingSourceBudgets = new HashSet<ProjectFundingSourceBudget>();
             this.ProjectFundingSourceBudgetUpdates = new HashSet<ProjectFundingSourceBudgetUpdate>();
@@ -89,7 +88,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSourceCustomAttributes.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || WbsElementObligationItemBudgets.Any() || WbsElementObligationItemInvoices.Any() || WbsElementPnBudgets.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any();
+            return FundingSourceCustomAttributes.Any() || ProjectFundingSourceExpenditures.Any() || ProjectFundingSourceExpenditureUpdates.Any() || WbsElementObligationItemBudgets.Any() || WbsElementPnBudgets.Any() || ProjectFundingSourceBudgets.Any() || ProjectFundingSourceBudgetUpdates.Any();
         }
 
         /// <summary>
@@ -119,11 +118,6 @@ namespace ProjectFirmaModels.Models
                 dependentObjects.Add(typeof(WbsElementObligationItemBudget).Name);
             }
 
-            if(WbsElementObligationItemInvoices.Any())
-            {
-                dependentObjects.Add(typeof(WbsElementObligationItemInvoice).Name);
-            }
-
             if(WbsElementPnBudgets.Any())
             {
                 dependentObjects.Add(typeof(WbsElementPnBudget).Name);
@@ -144,7 +138,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingSource).Name, typeof(FundingSourceCustomAttribute).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementObligationItemInvoice).Name, typeof(WbsElementPnBudget).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(FundingSource).Name, typeof(FundingSourceCustomAttribute).Name, typeof(ProjectFundingSourceExpenditure).Name, typeof(ProjectFundingSourceExpenditureUpdate).Name, typeof(WbsElementObligationItemBudget).Name, typeof(WbsElementPnBudget).Name, typeof(ProjectFundingSourceBudget).Name, typeof(ProjectFundingSourceBudgetUpdate).Name};
 
 
         /// <summary>
@@ -189,11 +183,6 @@ namespace ProjectFirmaModels.Models
                 x.DeleteFull(dbContext);
             }
 
-            foreach(var x in WbsElementObligationItemInvoices.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
             foreach(var x in WbsElementPnBudgets.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -225,7 +214,6 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectFundingSourceExpenditure> ProjectFundingSourceExpenditures { get; set; }
         public virtual ICollection<ProjectFundingSourceExpenditureUpdate> ProjectFundingSourceExpenditureUpdates { get; set; }
         public virtual ICollection<WbsElementObligationItemBudget> WbsElementObligationItemBudgets { get; set; }
-        public virtual ICollection<WbsElementObligationItemInvoice> WbsElementObligationItemInvoices { get; set; }
         public virtual ICollection<WbsElementPnBudget> WbsElementPnBudgets { get; set; }
         public virtual ICollection<ProjectFundingSourceBudget> ProjectFundingSourceBudgets { get; set; }
         public virtual ICollection<ProjectFundingSourceBudgetUpdate> ProjectFundingSourceBudgetUpdates { get; set; }

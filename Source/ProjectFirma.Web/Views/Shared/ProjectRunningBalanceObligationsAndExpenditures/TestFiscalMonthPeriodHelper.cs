@@ -32,5 +32,31 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
             Assert.Throws<SitkaDisplayErrorException>(() => FiscalMonthPeriodHelper.GetCalendarMonthNumberForFiscalMonthPeriod(0));
             Assert.Throws<SitkaDisplayErrorException>(() => FiscalMonthPeriodHelper.GetCalendarMonthNumberForFiscalMonthPeriod(17));
         }
+
+        [Test]
+        public void TestGetCalendarDateTimeForFiscalYearPeriod()
+        {
+            
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("001/2020").Year == 2019);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("002/2020").Year == 2019);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("003/2020").Year == 2019);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("004/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("005/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("006/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("007/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("008/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("009/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("010/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("011/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("012/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("013/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("014/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("015/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("016/2020").Year == 2020);
+
+        }
+
+
+
     }
 }

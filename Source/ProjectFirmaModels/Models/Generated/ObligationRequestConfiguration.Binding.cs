@@ -18,6 +18,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ObligationRequestID).HasColumnName(@"ObligationRequestID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.IsModification).HasColumnName(@"IsModification").HasColumnType("bit").IsRequired();
             Property(x => x.AgreementID).HasColumnName(@"AgreementID").HasColumnType("int").IsOptional();
+            Property(x => x.ObligationNumberID).HasColumnName(@"ObligationNumberID").HasColumnType("int").IsOptional();
             Property(x => x.ContractTypeID).HasColumnName(@"ContractTypeID").HasColumnType("int").IsRequired();
             Property(x => x.ObligationRequestStatusID).HasColumnName(@"ObligationRequestStatusID").HasColumnType("int").IsRequired();
             Property(x => x.DescriptionOfNeed).HasColumnName(@"DescriptionOfNeed").HasColumnType("nvarchar").IsRequired().HasMaxLength(250);
@@ -39,6 +40,7 @@ namespace ProjectFirmaModels.Models
 
             // Foreign keys
             HasOptional(a => a.Agreement).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.AgreementID).WillCascadeOnDelete(false); // FK_ObligationRequest_Agreement_AgreementID
+            HasOptional(a => a.ObligationNumber).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.ObligationNumberID).WillCascadeOnDelete(false); // FK_ObligationRequest_ObligationNumber_ObligationNumberID
             HasRequired(a => a.ContractType).WithMany(b => b.ObligationRequests).HasForeignKey(c => c.ContractTypeID).WillCascadeOnDelete(false); // FK_ObligationRequest_ContractType_ContractTypeID
             HasRequired(a => a.CreatePerson).WithMany(b => b.ObligationRequestsWhereYouAreTheCreatePerson).HasForeignKey(c => c.CreatePersonID).WillCascadeOnDelete(false); // FK_ObligationRequest_Person_CreatePersonID_PersonID
             HasOptional(a => a.UpdatePerson).WithMany(b => b.ObligationRequestsWhereYouAreTheUpdatePerson).HasForeignKey(c => c.UpdatePersonID).WillCascadeOnDelete(false); // FK_ObligationRequest_Person_UpdatePersonID_PersonID

@@ -63,18 +63,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<VendorDetail, VendorDetailViewData>(viewData);
         }
 
-        /*
-        [VendorViewFeature]
-        public GridJsonNetJObjectResult<WbsElementObligationItemInvoice> VendorObligationItemInvoiceGridJsonData(VendorPrimaryKey vendorPrimaryKey)
-        {
-            var gridSpec = new ContractualInvoiceGridSpec(CurrentFirmaSession);
-            var vendor = vendorPrimaryKey.EntityObject;
-            var obligationItemInvoices = vendor.ObligationItems.SelectMany(oi => oi.WbsElementObligationItemInvoices).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemInvoice>(obligationItemInvoices, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        */
-
         [VendorViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> VendorContractualInvoiceGridJsonData(VendorPrimaryKey vendorPrimaryKey)
         {

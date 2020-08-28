@@ -17,15 +17,16 @@
 @firma-text-fontSize: 14px;
 
 
-//These colors are from the Reclamation Visual Identity chart (https://www.usbr.gov/vip/III-colors.html)
-@MainBlue: #244A9F;
-@MainSand: #CB9F5B;
-@SecondaryYellow: #FFD600;
-@SecondaryOrange: #FC7C00;
-@SecondaryRed: #B50C00;
-@SecondaryGreen: #6A9913;
-@SecondaryTeal: #23A491;
-@SecondaryPurple: #775BA9;
+// These colors are from the Reclamation Visual Identity guidelines as of 8/20/2020
+// See PF-2026 for the guidelines (attached as zip)
+@MainBlue: #003E51;
+@MainSand: #DDCBA4;
+@SecondaryYellow: #C69214;
+@SecondaryOrange: #FF671F;
+@SecondaryRed: #9A3324;
+@SecondaryGreen: #215732;
+@SecondaryTeal: #007396;
+@SecondaryPurple: #4C12A1;
 
 //Deep Colors
 @MainBlueDeep: #152C5F;
@@ -64,7 +65,7 @@
 
 @firma-logoHeaderBackground-color: @MainBlue;
 @firma-logoHeaderText-color: #fff;
-@firma-navBackground-color: @MainSandPastel;
+@firma-navBackground-color: @MainSand;
 @firma-navBorder-color: @MainSand;
 @firma-navText-color: @MainBlue;
 @firma-navItemText-color-hover: #fff;
@@ -72,7 +73,7 @@
 @firma-navItemBackground-color: transparent;
 @firma-navItemDropdownText-color: #1C2329;
 @firma-navItemDropdownText-color-hover: @MainBlue;
-@firma-navItemDropdownBackground-color: @MainSand;
+@firma-navItemDropdownBackground-color: @MainSandPastel;
 @firma-navItemDropdownBackground-color-hover: #fff;
 
 @firma-panel-headerBackground-color: @MainBlue;
@@ -437,14 +438,14 @@ footer#footer .hoverEditButton a.btn-firma, .hoverEditButton a.btn-firma {
         text-decoration: none;
     }
 
-    .arrow {
+    .breadcrumbArrow {
         display: inline-block;
         position: relative;
         padding: 10px 15px;
         text-align: center;
     }
 
-    .arrow {
+    .breadcrumbArrow {
         &.current {
             background-color: @firma-active-arrow-color;
             border-left-color: @firma-active-arrow-color;

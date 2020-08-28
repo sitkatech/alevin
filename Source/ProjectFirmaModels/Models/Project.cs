@@ -18,10 +18,13 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System;
 using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models
@@ -69,6 +72,32 @@ namespace ProjectFirmaModels.Models
         public decimal GetProjectedFunding()
         {
             return ProjectFundingSourceBudgets.Any() ? ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
+        }
+
+        
+
+        public string GetProjectedFundingCategory(List<double> allProjectedFundingValues)
+        {
+            double standardDeviation = 0;
+            if (!allProjectedFundingValues.Any()) return "N/A";
+
+            var nonZeroProjectedFundingValues = allProjectedFundingValues.Where(x => x > 0).ToList();
+            double avg = nonZeroProjectedFundingValues.Average();
+            standardDeviation = nonZeroProjectedFundingValues.StandardDeviation();
+
+            var projectedFunding = (double) GetProjectedFunding();
+            if (projectedFunding < avg - standardDeviation)
+            {
+                return "Small";
+            }
+
+            if (projectedFunding > avg + standardDeviation)
+            {
+                return "Large";
+            }
+
+            return "Medium";
+
         }
 
         public decimal? GetTargetedFundingForFundingSources(List<int> fundingSourceIDs)
@@ -232,7 +261,35 @@ namespace ProjectFirmaModels.Models
             }
         }
 
+        public bool IsActiveProject()
+        {
+            return !IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.Approved;
+        }
 
+        public bool IsProposal()
+        {
+            return ProjectStage == ProjectStage.Proposal;
+        }
+
+        public bool IsActiveProposal()
+        {
+            return IsProposal() && ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
+        }
+
+        public bool IsPendingProject()
+        {
+            return !IsProposal() && ProjectApprovalStatus != ProjectApprovalStatus.Approved;
+        }
+
+        public bool IsPendingApproval()
+        {
+            return ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval;
+        }
+
+        public bool IsRejected()
+        {
+            return ProjectApprovalStatus == ProjectApprovalStatus.Rejected;
+        }
 
     }
 }

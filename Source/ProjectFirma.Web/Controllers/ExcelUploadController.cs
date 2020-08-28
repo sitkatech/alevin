@@ -133,15 +133,12 @@ namespace ProjectFirma.Web.Controllers
             try
             {
                 budgetStageImports = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
-                // Unsure if this is gone long term, but it's gone for now. -- SLG 6/11/2020
-                //invoiceStageImports = FbmsInvoiceStageImportsHelper.LoadFromXlsFile(excelFileAsStream, FbmsExcelFileHeaderRowOffset);
             }
             catch (Exception ex)
             {
                 return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            //LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, invoiceStageImports, out var countAddedBudgets, out var countAddedInvoices, this.CurrentFirmaSession);
             LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, out var countAddedBudgets, this.CurrentFirmaSession);
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
@@ -154,14 +151,12 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
-            //SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br> {countAddedInvoices.ToGroupedNumeric()} Invoice records were Successfully saved to database.</br>{importTimeString}.");
-            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} Budget records were successfully imported to database. </br>{importTimeString}.");
+            ProjectTaxonomyLeafTest.CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes();
+
+            SetMessageForDisplay($"{countAddedBudgets.ToGroupedNumeric()} FBMS records were successfully imported to database. </br>{importTimeString}.");
             // This is the right thing to return, since this starts off in a modal dialog
             return new ModalDialogFormJsonResult();
         }
-
-
-        // 
 
         private static string GetTaskTimeString(string taskString, TimeSpan elapsedTime)
         {
@@ -182,14 +177,6 @@ namespace ProjectFirma.Web.Controllers
             var existingPayrecs = HttpRequestStorage.DatabaseEntities.StageImpUnexpendedBalancePayRecV3s.ToList();
             existingPayrecs.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             HttpRequestStorage.DatabaseEntities.StageImpUnexpendedBalancePayRecV3s.AddRange(unexpendedPayrecs);
-
-            // Gone for now; may come back as separate import. -- 6/11/2020 -- SLG 
-
-            //countAddedInvoices = invoiceStageImports.Count;
-            //var invoices = invoiceStageImports.Select(x => new StageImpApGenSheet(x)).ToList();
-            //var existingInvoices = HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.ToList();
-            //existingInvoices.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
-            //HttpRequestStorage.DatabaseEntities.StageImpApGenSheets.AddRange(invoices);
 
             // This bulk load creates an obscene number of AuditLog records if we don't suppress them, and
             // they are completely inappropriate.
@@ -272,6 +259,8 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForPnBudgets);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
+            ProjectTaxonomyLeafTest.CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes();
+
             SetMessageForDisplay($"{countAddedPnBudgets.ToGroupedNumeric()} PnBudget records were successfully imported to database.</br>{importTimeString}.");
 
             // This is the right thing to return, since this starts off in a modal dialog
@@ -309,6 +298,8 @@ namespace ProjectFirma.Web.Controllers
         #endregion pnBudgetExcelUpload
 
         #region CommonUploadStuff
+
+        
 
         private ActionResult Common_LoadFromXls_ExceptionHandler(Stream excelFileAsStream, 
                                                                  string optionalOriginalFilename,
@@ -367,6 +358,12 @@ namespace ProjectFirma.Web.Controllers
             {
                 DoPublishingSql(Logger);
 
+                //int blah = 2;
+                //if (1 == blah-1)
+                //{
+                //    //throw new Exception("Fake exception to test ideas..");
+                //}
+
                 // If we get this far, we've succeeded.
                 // Log last import as successful.
                 var processedDateTime = DateTime.Now;
@@ -393,6 +390,8 @@ namespace ProjectFirma.Web.Controllers
                 wasErrorDuringProcessing = true;
             }
 
+            ProjectTaxonomyLeafTest.CallAllTaxonomyLeavesForAllProjectsToCheckForCrashes();
+
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
             string processingTimeString = GetTaskTimeString("Publishing", elapsedTime);
@@ -409,6 +408,38 @@ namespace ProjectFirma.Web.Controllers
             }
             return RedirectToAction(new SitkaRoute<ExcelUploadController>(x => x.ManageExcelUploadsAndEtl()));
         }
+
+        /// <summary>
+        /// Do ObligationRequest matching.
+        /// DoPublishingSql calls this as part of it's proc pReclamationImportFinancialStagingDataImport as well.
+        /// </summary>
+        /// <param name="optionalLogger"></param>
+        public static void DoObligationRequestMatching(ILog optionalLogger)
+        {
+            try
+            {
+                optionalLogger?.Info($"Starting DoObligationRequestMatching");
+                string vendorImportProc = "dbo.pRefreshCostAuthorityObligationNumberMatches";
+                using (SqlConnection sqlConnection = CreateAndOpenSqlConnection())
+                {
+                    using (SqlCommand cmd = new SqlCommand(vendorImportProc, sqlConnection))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        // If we needed parameters, here's how we'd add them.
+                        //cmd.Parameters.AddWithValue("@SocrataDataMartRawJsonImportID", socrataDataMartRawJsonImportID);
+                        //cmd.Parameters.AddWithValue("@BienniumToImport", bienniumToImport);
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+                optionalLogger?.Info($"Ending DoObligationRequestMatching");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw new SitkaDisplayErrorException($"Problem calling SQL: {e.Message}");
+            }
+        }
+
 
         public static void DoPublishingSql(ILog optionalLogger)
         {

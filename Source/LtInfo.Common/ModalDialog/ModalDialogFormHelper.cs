@@ -360,6 +360,16 @@ namespace LtInfo.Common.ModalDialog
             return hasPermission ? ModalDialogFormLink(linkText, dialogUrl, dialogTitle, DefaultDialogWidth, "Save", "Cancel", extraCssClasses, null, null) : new HtmlString(string.Empty);
         }
 
+        public static HtmlString MakeConfirmDialogLink(string linkText, string dialogUrl, string dialogTitle, List<string> extraCssClasses, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink(linkText, dialogUrl, dialogTitle, DefaultDialogWidth, "Confirm", "Cancel", extraCssClasses, null, null) : new HtmlString(string.Empty);
+        }
+
+        public static HtmlString MakeConfirmDialogLink(string linkText, string dialogUrl, string dialogTitle, string saveButtonText, List<string> extraCssClasses, bool hasPermission)
+        {
+            return hasPermission ? ModalDialogFormLink(linkText, dialogUrl, dialogTitle, DefaultDialogWidth, saveButtonText, "Cancel", extraCssClasses, null, null) : new HtmlString(string.Empty);
+        }
+
         public static HtmlString ModalDialogFormLink(string linkText, string dialogUrl, string dialogTitle, int dialogWidth, bool hasPermission, string dialogFormID)
         {
             return hasPermission
@@ -376,6 +386,13 @@ namespace LtInfo.Common.ModalDialog
         {
             return MakeEditIconLink(dialogUrl, dialogTitle, DefaultDialogWidth, hasPermission);
         }
+        /// <summary>
+        /// Magnifying glass
+        /// </summary>
+        public static HtmlString MakeInfoIconLink(string dialogUrl, string dialogTitle, bool hasPermission)
+        {
+            return MakeInfoIconLink(dialogUrl, dialogTitle, DefaultDialogWidth, hasPermission);
+        }
 
         public static HtmlString MakeDeleteIconLink(string dialogUrl, string dialogTitle, bool hasPermission)
         {
@@ -390,6 +407,14 @@ namespace LtInfo.Common.ModalDialog
         public static HtmlString MakeEditIconLink(string dialogUrl, string dialogTitle, int width, bool hasPermission)
         {
             return hasPermission ? ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-edit blue", dialogTitle).ToString(), dialogUrl, dialogTitle, width, SaveButtonID, "Save", "Cancel", new List<string>(), null, null, null) : new HtmlString(string.Empty);
+        }
+
+        /// <summary>
+        ///  Magnifying glass
+        /// </summary>
+        public static HtmlString MakeInfoIconLink(string dialogUrl, string dialogTitle, int width, bool hasPermission)
+        {
+              return hasPermission ? ModalDialogFormLink(null, BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-search gi-1x blue", dialogTitle).ToString(), dialogUrl, dialogTitle, width, HiddenSaveButtonID, "NotARealSaveButton", "Close", new List<string>(), null, null, null) : new HtmlString(string.Empty);
         }
 
         public static HtmlString MakeNewIconButton(string dialogUrl, string dialogTitle, bool hasPermission)

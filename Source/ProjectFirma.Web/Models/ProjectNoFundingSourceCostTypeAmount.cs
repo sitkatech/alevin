@@ -52,6 +52,7 @@ namespace ProjectFirma.Web.Models
             }
             return projectNoFundingSourceCostTypeAmounts;
         }
+
         public static List<ProjectNoFundingSourceCostTypeAmount> CreateFromProjectNoFundingSourceIdentifieds(List<ProjectNoFundingSourceIdentifiedUpdate> projectNoFundingSourceIdentifiedUpdates)
         {
             var projectNoFundingSourceCostTypeAmounts = new List<ProjectNoFundingSourceCostTypeAmount>();

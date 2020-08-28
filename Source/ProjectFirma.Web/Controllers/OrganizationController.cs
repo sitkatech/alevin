@@ -38,6 +38,8 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using MoreLinq;
+using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
@@ -159,6 +161,56 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditProfileTaxonomy(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var taxonomyCompoundKeys = new List<string>();
+            taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyTrunks.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Trunk, x.TaxonomyTrunkID)));
+            taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyBranches.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Branch, x.TaxonomyBranchID)));
+            taxonomyCompoundKeys.AddRange(organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => TaxonomyTierHelpers.GetComboTreeNodeKeyFromTaxonomyLevelAndID(TaxonomyLevel.Leaf, x.TaxonomyLeafID)));
+        
+            var viewModel = new EditProfileTaxonomyViewModel(organization, taxonomyCompoundKeys);
+            return ViewEditProfileTaxonomy(viewModel);
+        }
+        
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProfileTaxonomy(OrganizationPrimaryKey organizationPrimaryKey, EditProfileTaxonomyViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditProfileTaxonomy(viewModel);
+            }
+        
+            HttpRequestStorage.DatabaseEntities.MatchmakerOrganizationTaxonomyTrunks.Load();
+            var matchmakerOrganizationTaxonomyTrunks = HttpRequestStorage.DatabaseEntities.AllMatchmakerOrganizationTaxonomyTrunks.Local;
+        
+            HttpRequestStorage.DatabaseEntities.MatchmakerOrganizationTaxonomyBranches.Load();
+            var matchmakerOrganizationTaxonomyBranches = HttpRequestStorage.DatabaseEntities.AllMatchmakerOrganizationTaxonomyBranches.Local;
+        
+            HttpRequestStorage.DatabaseEntities.MatchmakerOrganizationTaxonomyLeafs.Load();
+            var matchmakerOrganizationTaxonomyLeafs = HttpRequestStorage.DatabaseEntities.AllMatchmakerOrganizationTaxonomyLeafs.Local;
+        
+            viewModel.UpdateModel(organization, matchmakerOrganizationTaxonomyTrunks, matchmakerOrganizationTaxonomyBranches, matchmakerOrganizationTaxonomyLeafs);
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
+        }
+        
+        private PartialViewResult ViewEditProfileTaxonomy(EditProfileTaxonomyViewModel viewModel)
+        {
+            var topLevelTaxonomyTierAsComboTreeNodes = MultiTenantHelpers.GetTaxonomyLevel()
+                .GetTaxonomyTiers(HttpRequestStorage.DatabaseEntities).OrderBy(x => x.SortOrder)
+                .ThenBy(x => x.DisplayName, StringComparer.InvariantCultureIgnoreCase)
+                .Select(x => x.ToComboTreeNode())
+                .ToList();
+            var viewData = new EditProfileTaxonomyViewData(topLevelTaxonomyTierAsComboTreeNodes);
+            return RazorPartialView<EditProfileTaxonomy, EditProfileTaxonomyViewData, EditProfileTaxonomyViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
         [OrganizationManageFeature]
         public JsonResult SyncWithKeystone(string organizationGuidAsString)
         {
@@ -208,13 +260,16 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [OrganizationViewFeature]
-        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey)
+        public ViewResult Detail(OrganizationPrimaryKey organizationPrimaryKey, OrganizationDetailViewData.OrganizationDetailTab? organizationDetailTab)
         {
             var organization = organizationPrimaryKey.EntityObject;
+            var activeTab = organizationDetailTab ?? OrganizationDetailViewData.OrganizationDetailTab.Overview;
             var expendituresDirectlyFromOrganizationViewGoogleChartViewData = GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(organization);
             var expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData = GetCalendarYearExpendituresFromProjectFundingSourcesChartViewData(organization, CurrentFirmaSession);
 
             var mapInitJson = GetMapInitJson(organization, out var hasSpatialData, CurrentPerson);
+            var projectLocationsLayerGeoJson = GetProjectLocationsLayerGeoJson(organization, CurrentPerson);
+            hasSpatialData = hasSpatialData || projectLocationsLayerGeoJson != null;
 
             var performanceMeasures = organization.GetAllActiveProjectsAndProposals(CurrentPerson).ToList()
                 .SelectMany(x => x.PerformanceMeasureActuals)
@@ -222,14 +277,41 @@ namespace ProjectFirma.Web.Controllers
                 .OrderBy(x => x.PerformanceMeasureDisplayName)
                 .ToList();
 
+            var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
+            var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
             var viewData = new OrganizationDetailViewData(CurrentFirmaSession,
-                                                organization,
-                                                mapInitJson,
-                                                hasSpatialData,
-                                                performanceMeasures,
-                                                expendituresDirectlyFromOrganizationViewGoogleChartViewData,
-                                                expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData);
+                                              organization,
+                                              mapInitJson,
+                                              projectLocationsLayerGeoJson,
+                                              hasSpatialData,
+                                              performanceMeasures,
+                                              expendituresDirectlyFromOrganizationViewGoogleChartViewData,
+                                              expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
+                                              topLevelMatchmakerTaxonomyTier,
+                                              maximumTaxonomyLeaves,
+                                              activeTab);
             return RazorView<OrganizationDetail, OrganizationDetailViewData>(viewData);
+        }
+
+        private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, Person person)
+        {
+            var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+
+            var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
+            var projectSimpleLocationsFeatureCollection = new FeatureCollection();
+            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Select(x =>
+            {
+                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true, true);
+                feature.Properties["FeatureColor"] = "#99b3ff";
+                return feature;
+            }).ToList());
+
+            if (projectSimpleLocationsFeatureCollection.Features.Any())
+            {
+                return new LayerGeoJson($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show);
+            }
+
+            return null;
         }
 
         private static MapInitJson GetMapInitJson(Organization organization, out bool hasSpatialData, Person person)
@@ -248,24 +330,14 @@ namespace ProjectFirma.Web.Controllers
                 dbGeometries.Add(organization.OrganizationBoundary);
             }
 
+            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers());
+
             var allActiveProjectsAndProposals = organization.GetAllActiveProjectsAndProposals(person).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 
             var projectsAsSimpleLocations = allActiveProjectsAndProposals.Where(x => x.ProjectLocationSimpleType != ProjectLocationSimpleType.None).ToList();
-            var projectSimpleLocationsFeatureCollection = new FeatureCollection();
-            projectSimpleLocationsFeatureCollection.Features.AddRange(projectsAsSimpleLocations.Select(x =>
-            {
-                var feature = x.MakePointFeatureWithRelevantProperties(x.ProjectLocationPoint, true, true);
-                feature.Properties["FeatureColor"] = "#99b3ff";
-                return feature;
-            }).ToList());
 
             dbGeometries.AddRange(projectsAsSimpleLocations.Select(p => p.ProjectLocationPoint));
 
-            if (projectSimpleLocationsFeatureCollection.Features.Any())
-            {
-                hasSpatialData = true;
-                layers.Add(new LayerGeoJson("Projects", projectSimpleLocationsFeatureCollection, "blue", 1, LayerInitialVisibility.Show));
-            }
 
             var projectDetailLocationsFeatureCollection = allActiveProjectsAndProposals.SelectMany(x => x.ProjectLocations).ToGeoJsonFeatureCollection();
             if (projectDetailLocationsFeatureCollection.Features.Any())
@@ -277,7 +349,6 @@ namespace ProjectFirma.Web.Controllers
 
             var boundingBox = new BoundingBox(dbGeometries);
             //var boundingBox = BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(layers);
-            layers.AddRange(MapInitJson.GetAllGeospatialAreaMapLayers(LayerInitialVisibility.Show));
 
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }
@@ -324,6 +395,91 @@ namespace ProjectFirma.Web.Controllers
                 true);
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
+        }
+
+        private static List<MatchmakerTaxonomyTier> GetTopLevelMatchmakerTaxonomyTier(Organization organization)
+        {
+            if (!(FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker))
+            {
+                return new List<MatchmakerTaxonomyTier>();
+            }
+
+            var matchmakerTierLeaves = organization.MatchmakerOrganizationTaxonomyLeafs.Select(x => new MatchmakerTaxonomyTier(x.TaxonomyLeaf)).ToList();
+            var matchmakerTierBranches = new List<MatchmakerTaxonomyTier>();
+            if (!MultiTenantHelpers.IsTaxonomyLevelLeaf())
+            {
+                // for each leaf, we need to give it its parent branch for display.
+                var leafsGrouped = matchmakerTierLeaves.GroupBy(x => x.TaxonomyLeaf.TaxonomyBranchID);
+                var branchIDs = new List<int>();
+                foreach (var grouping in leafsGrouped)
+                {
+                    var branch = grouping.First().TaxonomyLeaf.TaxonomyBranch;
+                    var matchmakerBranch = new MatchmakerTaxonomyTier(branch, grouping.SortByOrderThenName().ToList());
+                    matchmakerTierBranches.Add(matchmakerBranch);
+                    branchIDs.Add(branch.TaxonomyBranchID);
+                }
+                // also need to add the selected taxonomy branches (with all leafs), if not already added
+                var mmBranches =
+                    organization.MatchmakerOrganizationTaxonomyBranches.Where(x =>
+                            !branchIDs.Contains(x.TaxonomyBranchID)).Select(x =>
+                            new MatchmakerTaxonomyTier(x.TaxonomyBranch,
+                                x.TaxonomyBranch.TaxonomyLeafs.Select(y => new MatchmakerTaxonomyTier(y)).SortByOrderThenName()
+                                    .ToList()))
+                        .ToList();
+                matchmakerTierBranches.AddRange(mmBranches);
+            }
+
+            var matchmakerTierTrunks = new List<MatchmakerTaxonomyTier>();
+            if (MultiTenantHelpers.IsTaxonomyLevelTrunk())
+            {
+                // for each branch, we need to give it its parent trunk for display.
+                var branchesGrouped = matchmakerTierBranches.GroupBy(x => x.TaxonomyBranch.TaxonomyTrunkID);
+                var trunkIDs = new List<int>();
+                foreach (var grouping in branchesGrouped)
+                {
+                    var trunk = grouping.First().TaxonomyBranch.TaxonomyTrunk;
+                    var branches = grouping.ToList();
+                    if (branches.Count == trunk.TaxonomyBranches.Count && branches.Sum(x => x.Children.Count) == trunk.TaxonomyBranches.Sum(x => x.TaxonomyLeafs.Count))
+                    {
+                        // need to display as one row with all branches and all leaves
+                        var leaves = branches.SelectMany(x => x.Children).ToList();
+                        var matchmakerTrunkTest = new MatchmakerTaxonomyTier(trunk, branches.SortByOrderThenName().ToList(), leaves);
+                        matchmakerTierTrunks.Add(matchmakerTrunkTest);
+                    }
+                    else
+                    {
+                        var matchmakerTrunk = new MatchmakerTaxonomyTier(trunk, branches.SortByOrderThenName().ToList());
+                        matchmakerTierTrunks.Add(matchmakerTrunk);
+                    }
+                    
+                    trunkIDs.Add(trunk.TaxonomyTrunkID);
+                }
+                // also need to add the selected taxonomy trunks (with all branches and leaves), if not already added
+                var mmTrunks = new List<MatchmakerTaxonomyTier>();
+                organization.MatchmakerOrganizationTaxonomyTrunks.Where(x =>
+                            !trunkIDs.Contains(x.TaxonomyTrunkID)).ForEach(x =>
+                {
+                    var branches = x.TaxonomyTrunk.TaxonomyBranches
+                        .Select(y => new MatchmakerTaxonomyTier(y, new List<MatchmakerTaxonomyTier>())).SortByOrderThenName().ToList();
+                    var leaves = x.TaxonomyTrunk.TaxonomyBranches.SelectMany(y =>
+                        y.TaxonomyLeafs.Select(z => new MatchmakerTaxonomyTier(z)).SortByOrderThenName()
+                            .ToList()).ToList();
+                    mmTrunks.Add(new MatchmakerTaxonomyTier(x.TaxonomyTrunk, branches, leaves));
+                });
+                matchmakerTierTrunks.AddRange(mmTrunks);
+            }
+
+            switch (MultiTenantHelpers.GetTaxonomyLevel().ToEnum)
+            {
+                case TaxonomyLevelEnum.Trunk:
+                    return matchmakerTierTrunks.SortByOrderThenName().ToList();
+                case TaxonomyLevelEnum.Branch:
+                    return matchmakerTierBranches.SortByOrderThenName().ToList();
+                case TaxonomyLevelEnum.Leaf:
+                    return matchmakerTierLeaves.SortByOrderThenName().ToList();
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         [HttpGet]
