@@ -182,18 +182,15 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             var errors = new List<ValidationResult>();
 
-            if (ProjectExemptReportingYearSimples != null && ProjectExemptReportingYearSimples.Any(x => x.IsExempt))
+            if (ProjectExemptReportingYearSimples != null && ProjectExemptReportingYearSimples.Any(x => x.IsExempt) && string.IsNullOrWhiteSpace(Explanation))
             {
-                if (string.IsNullOrWhiteSpace(Explanation))
-                {
-                    errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
-                }
-                else if (Explanation.Length > ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation)
-                {
-                    errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
-                        FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation),
-                        x => x.Explanation));
-                }
+                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears, x => x.Explanation));
+            }
+            if (!string.IsNullOrWhiteSpace(Explanation) && Explanation.Length > ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation)
+            {
+                errors.Add(new SitkaValidationResult<PerformanceMeasuresViewModel, string>(
+                    FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectFirmaModels.Models.Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation),
+                    x => x.Explanation));
             }
 
             var pmValidationResults = ValidatePerformanceMeasures();
@@ -223,8 +220,18 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 .Where(x => !exemptYears.Contains(x)).ToList();
 
             // validation 1: ensure that at least one PM has values for each year that isn't marked as 'No accomplishments to report' from ProjectCreate Project Implementation start year to min(endyear, currentyear)
-            var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear).Distinct();
-            var missingYears = yearsExpected.GetMissingYears(yearsEntered);
+            // PMs are required when project stage is Implementation, Post-Implementation, or Completed
+            var missingYears = new HashSet<int>();
+            if (project.ProjectStage.RequiresPerformanceMeasureActuals() || project.ProjectStage == ProjectStage.Completed || project.ProjectStage == ProjectStage.PostImplementation)
+            {
+                var yearsEntered = performanceMeasureActualSimples.Select(x => x.CalendarYear).Distinct();
+                missingYears = yearsExpected.GetMissingYears(yearsEntered);
+            }
+            if (missingYears.Any() && !performanceMeasureActualSimples.Any())
+            {
+                // There are missing years, but no PMs entered
+                results.Add(new PerformanceMeasuresValidationResult(FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired));
+            }
 
             // What distinct PerformanceMeasures are being worked with? 
             var pmasGrouped = performanceMeasureActualSimples.GroupBy(pmas => pmas.PerformanceMeasureID.Value);
