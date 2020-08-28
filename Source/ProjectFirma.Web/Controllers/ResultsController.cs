@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Drawing.Charts;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -35,6 +36,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Reports;
@@ -571,64 +573,46 @@ namespace ProjectFirma.Web.Controllers
 
         [FirmaAdminFeature]
         [HttpGet]
-        public ViewResult BiOpAnnualReport(int? year)
+        public ViewResult BiOpAnnualReport()
         {
-            var allYearsAvailable = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                .Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                .Distinct().OrderBy(x => x).ToList();
-
-            if (!year.HasValue)
-            {
-                // get latest year for reported values?
-                year = allYearsAvailable.Max();
-            }
-
-            var yearsAvailableSelectList = allYearsAvailable.ToSelectList(x => x.ToString(), y => y.ToString(), (int) year);
             var firmaPage = FirmaPageTypeEnum.BiOpAnnualReport.GetFirmaPage();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
             var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
-            var performanceMeasureReportingPeriodsToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Where(pmrp => pmrp.PerformanceMeasureReportingPeriodCalendarYear == year).ToList();
 
-            var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute, yearsAvailableSelectList, geoSpatialAreasToInclude, performanceMeasuresToInclude, performanceMeasureReportingPeriodsToInclude);
+            var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute, geoSpatialAreasToInclude, performanceMeasuresToInclude);
             return RazorView<BiOpAnnualReport, BiOpAnnualReportViewData>(viewData);
         }
         
         [FirmaAdminFeature]
-        public GridJsonNetJObjectResult<Project>
+        public GridJsonNetJObjectResult<BioAnnualReportRow>
             BiOpAnnualReportGridJsonData()
         {
 
-            List<int> years = new List<int>();
-            if (!String.IsNullOrEmpty(Request.QueryString[BiOpAnnualReportYearsQueryStringParameter]))
-            {
-                years.AddRange(Request.QueryString[BiOpAnnualReportYearsQueryStringParameter].Split(',').Select(Int32.Parse).ToList());
-            }
-            else
-            {
-                years.Add(HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                    .Select(x => x.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                    .Distinct().OrderBy(x => x).ToList().Max());
-            }
+            var populationAreaTypeIDs = new List<int>{23, 24};
 
             var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
-            var performanceMeasureReportingPeriodsToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Where(pmrp => years.Contains(pmrp.PerformanceMeasureReportingPeriodCalendarYear)).ToList();
             var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, performanceMeasureReportingPeriodsToInclude);
+            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude);
 
-            var performanceMeasureIDs = performanceMeasuresToInclude.Select(x => x.PerformanceMeasureID).ToList();
-            var performanceMeasureReportingPeriodIDs = performanceMeasureReportingPeriodsToInclude.Select(x => x.PerformanceMeasureReportingPeriodID).ToList();
-                
-            var performanceMeasureActualsForYears = HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(
-                x => performanceMeasureIDs.Contains(x.PerformanceMeasureID) && performanceMeasureReportingPeriodIDs.Contains(x.PerformanceMeasureReportingPeriodID)).ToList();
+            var projects = HttpRequestStorage.DatabaseEntities.Projects;
 
-            // Grid should display all projects that have metric actual values for that calendar year. Any project that doesn't have actuals doesn't get reported
-            var projects = performanceMeasureActualsForYears.Select(x => x.Project).Distinct().ToList();
+            var linqQuery = from pma in HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
+                join p in projects on pma.ProjectID equals p.ProjectID
+                join pga in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas on p.ProjectID equals pga
+                    .ProjectID
+                join ga in HttpRequestStorage.DatabaseEntities.GeospatialAreas on pga.GeospatialAreaID equals ga
+                    .GeospatialAreaID
+                join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes on ga.GeospatialAreaTypeID equals
+                    gat.GeospatialAreaTypeID
+                where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID)
+                select new BioAnnualReportRow {PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat};
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, biOpAnnualReportGridSpec);
+            var rows = linqQuery.ToList().DistinctBy(x => $"{x.GeospatialAreaType.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}").ToList();
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BioAnnualReportRow>(rows, biOpAnnualReportGridSpec);
             return gridJsonNetJObjectResult;
         }
-
     }
 }
