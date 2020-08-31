@@ -227,11 +227,49 @@ namespace ProjectFirma.Web.Controllers
         public ViewResult Instructions(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
+            int currentCalendarYear = DateTime.Now.Year;
+            int currentPerformanceMeasureReportingPeriodMaximumYear = currentCalendarYear;
+            if (HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Any())
+            {
+                currentPerformanceMeasureReportingPeriodMaximumYear =
+                    Math.Min(currentCalendarYear, HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Max(pmrp =>
+                        pmrp.PerformanceMeasureReportingPeriodCalendarYear));
+            }
+
+            // If these don't already exist when we call GetLatestNotApprovedProjectUpdateBatchOrCreateNew, it can cause problems.
+            // Arguably these should be made automatically at year boundaries or something, but for now this is at least a bit better
+            // than we found it. -- SLG & BB 8/25/20202
+            EnsurePerformanceMeasureReportingPeriodExistsForRangeOfCalendarYears(currentPerformanceMeasureReportingPeriodMaximumYear, currentCalendarYear);
             var projectUpdateBatch = ProjectUpdateBatchModelExtensions.GetLatestNotApprovedProjectUpdateBatchOrCreateNew(project, CurrentFirmaSession);
             var updateStatus = GetUpdateStatus(projectUpdateBatch);
             var firmaPage = FirmaPageTypeEnum.ProjectUpdateInstructions.GetFirmaPage();
             var viewData = new InstructionsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, firmaPage);
             return RazorView<Instructions, InstructionsViewData>(viewData);
+        }
+
+        private void EnsurePerformanceMeasureReportingPeriodExistsForRangeOfCalendarYears(int startCalendarYear, int endCalendarYear)
+        {
+            Check.Ensure(startCalendarYear <= endCalendarYear, $"{nameof(startCalendarYear)} ({startCalendarYear}) must be less than or equal to {nameof(endCalendarYear)} ({endCalendarYear})");
+
+            bool changesToSave = false;
+            for (int year = startCalendarYear; year <= endCalendarYear; year++)
+            {
+                var existingPerformanceMeasureReportingPeriod = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == year);
+                if (existingPerformanceMeasureReportingPeriod != null)
+                {
+                    continue;
+                }
+
+                var newPerformanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod(year, year.ToString());
+                HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
+                    newPerformanceMeasureReportingPeriod);
+                changesToSave = true;
+            }
+
+            if (changesToSave)
+            {
+                HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
+            }
         }
 
         [HttpPost]
@@ -409,7 +447,9 @@ namespace ProjectFirma.Web.Controllers
                                       .Any(
                                           x =>
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
-                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears);
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears ||
+                                              x.ErrorMessage == FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(ProjectUpdateBatch.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation) ||
+                                              x.ErrorMessage == FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired);
 
             var performanceMeasureSubcategories = performanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
             var performanceMeasureSimples = performanceMeasures.Select(x => new PerformanceMeasureSimple(x)).ToList();
