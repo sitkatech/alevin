@@ -34,48 +34,11 @@
 
 }
 
-@section RightOfPageTitle
-{
-    
-
-        @using (Html.BeginForm(null, null, FormMethod.Get, new { enctype = "multipart/form-data", @class = "form-inline" }))
-        {
-            <label>Years Included</label>
-            @Html.DropDownList("years", ViewDataTyped.YearsAvailable, new { onchange = "refreshGrid(this)", @class = "form-control selectpicker", multiple = "multiple" })
-        }
-    
-}
-
-<script type="text/javascript">
-
-    
-
-    var refreshGrid = function (target) {
-        var form = jQuery(target).parents('form');
-        var queryString = form.serialize();
-        var grid = Sitka.@(ViewDataTyped.BiOpAnnualReportGridName);
-        var selectPicker = jQuery(".selectpicker");
-        selectPicker.prop('disabled', true);
-        selectPicker.selectpicker("refresh");
-
-        grid.loadWithQueryString(queryString, function() {
-            selectPicker.prop('disabled', false);
-            selectPicker.selectpicker("refresh");
-        });
-    }
-
-    jQuery(document).ready(function ()
-    {
-        jQuery(".selectpicker").selectpicker({width:300});
-    });
-
-</script>
 
 <div class="row">
     <div class="col-xs-12">
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }
     </div>
-
 </div>
 
 
