@@ -12,6 +12,7 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 	[GeospatialAreaLayerName] [varchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
 	[DisplayOnAllProjectMaps] [bit] NOT NULL,
 	[LayerIsOnByDefault] [bit] NOT NULL,
+	[IsPopulation] [bit] NOT NULL,
  CONSTRAINT [PK_GeospatialAreaType_GeospatialAreaTypeID] PRIMARY KEY CLUSTERED 
 (
 	[GeospatialAreaTypeID] ASC

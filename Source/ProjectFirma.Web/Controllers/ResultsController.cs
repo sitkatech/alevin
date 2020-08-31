@@ -589,8 +589,8 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<BioAnnualReportRow>
             BiOpAnnualReportGridJsonData()
         {
-
-            var populationAreaTypeIDs = new List<int>{23, 24};
+            var populationAreaTypeIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
+                .Where(x => x.IsPopulation).Select(x => x.GeospatialAreaTypeID).ToList();
 
             var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
             var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
