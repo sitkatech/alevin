@@ -596,20 +596,20 @@ namespace ProjectFirma.Web.Controllers
             var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
             var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude);
 
-            var projects = HttpRequestStorage.DatabaseEntities.Projects;
+            var linqQuery = from p in HttpRequestStorage.DatabaseEntities.Projects
+                join pma in HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals on p.ProjectID equals pma.ProjectID
+                join pmrp in HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods on pma.PerformanceMeasureReportingPeriodID equals pmrp
+                    .PerformanceMeasureReportingPeriodID
+                join pga in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas on p.ProjectID equals pga.ProjectID into pgaJoin
+                from pga in pgaJoin.DefaultIfEmpty()
+                join ga in HttpRequestStorage.DatabaseEntities.GeospatialAreas on pga.GeospatialAreaID equals ga.GeospatialAreaID into gaJoin
+                from ga in gaJoin.DefaultIfEmpty()
+                join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes on ga.GeospatialAreaTypeID equals gat.GeospatialAreaTypeID into gatJoin
+                from gat in gatJoin.DefaultIfEmpty()
+                where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID) || gat == null
+                            select new BioAnnualReportRow { PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat };
 
-            var linqQuery = from pma in HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals
-                join p in projects on pma.ProjectID equals p.ProjectID
-                join pga in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas on p.ProjectID equals pga
-                    .ProjectID
-                join ga in HttpRequestStorage.DatabaseEntities.GeospatialAreas on pga.GeospatialAreaID equals ga
-                    .GeospatialAreaID
-                join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes on ga.GeospatialAreaTypeID equals
-                    gat.GeospatialAreaTypeID
-                where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID)
-                select new BioAnnualReportRow {PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat};
-
-            var rows = linqQuery.ToList().DistinctBy(x => $"{x.GeospatialAreaType.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}").ToList();
+            var rows = linqQuery.ToList().DistinctBy(x => $"{x.GeospatialAreaType?.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}").ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BioAnnualReportRow>(rows, biOpAnnualReportGridSpec);
             return gridJsonNetJObjectResult;
