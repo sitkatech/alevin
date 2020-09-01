@@ -59,6 +59,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.AttachmentsNotesComment).HasColumnName(@"AttachmentsNotesComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.PhotosComment).HasColumnName(@"PhotosComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
             Property(x => x.SubmittedByPersonID).HasColumnName(@"SubmittedByPersonID").HasColumnType("int").IsOptional();
+            Property(x => x.BpaProjectNumber).HasColumnName(@"BpaProjectNumber").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(50);
 
             // Foreign keys
             HasOptional(a => a.OverrideTaxonomyLeaf).WithMany(b => b.ProjectsWhereYouAreTheOverrideTaxonomyLeaf).HasForeignKey(c => c.OverrideTaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID

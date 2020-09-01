@@ -60,7 +60,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int? overrideTaxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID) : this()
+        public Project(int projectID, int? overrideTaxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID, string bpaProjectNumber) : this()
         {
             this.ProjectID = projectID;
             this.OverrideTaxonomyLeafID = overrideTaxonomyLeafID;
@@ -105,6 +105,7 @@ namespace ProjectFirmaModels.Models
             this.AttachmentsNotesComment = attachmentsNotesComment;
             this.PhotosComment = photosComment;
             this.SubmittedByPersonID = submittedByPersonID;
+            this.BpaProjectNumber = bpaProjectNumber;
         }
 
         /// <summary>
@@ -542,6 +543,7 @@ namespace ProjectFirmaModels.Models
         public string AttachmentsNotesComment { get; set; }
         public string PhotosComment { get; set; }
         public int? SubmittedByPersonID { get; set; }
+        public string BpaProjectNumber { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
@@ -608,6 +610,7 @@ namespace ProjectFirmaModels.Models
             public const int ProposalClassificationsComment = 1000;
             public const int AttachmentsNotesComment = 1000;
             public const int PhotosComment = 1000;
+            public const int BpaProjectNumber = 50;
         }
     }
 }
