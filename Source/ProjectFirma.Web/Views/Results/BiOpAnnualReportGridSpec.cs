@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.Results
         {
             AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero()).ToList();
 
-            Add("Population", barr => barr.GeospatialAreaType?.GeospatialAreaTypeName ?? "None Selected", 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Population", barr => barr.GeospatialAreaType?.GeospatialAreaTypeName ?? "None Selected", 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, barr => barr.Project.GetDisplayNameAsUrl(), 250, DhtmlxGridColumnFilterType.Html);
             Add("Year", barr => barr.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("WBS Number", barr => barr.Project.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Text);
@@ -70,8 +70,8 @@ namespace ProjectFirma.Web.Views.Results
 
             Add("Project Cost", barr => (double)barr.Project.GetProjectedFunding() + (double)barr.Project.GetNoFundingSourceIdentifiedAmountOrZero(), 100, DhtmlxGridColumnFormatType.Decimal);
             Add("Project Cost Category", barr => barr.Project.GetProjectedFundingCategory(AllProjectedFundingValues), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Is BPA Funded", barr => barr.Project.IsBPAFunded() ? "Yes" : "No", 50, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Sponsor Organization", barr => barr.Project.GetPrimaryContactOrganization()?.OrganizationName ?? "", 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Is BPA Funded", barr => barr.Project.IsBPAFunded() ? "Yes" : "No", 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Sponsor Organization", barr => barr.Project.GetPrimaryContactOrganization()?.OrganizationName ?? "", 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             foreach (var performanceMeasure in performanceMeasuresToInclude)
             {
