@@ -26,6 +26,7 @@ using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace ProjectFirma.Web.Views.ProjectUpdate
 {
@@ -49,6 +50,10 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.BpaProjectNumber)]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
+        public string BpaProjectNumber { get; set; }
+
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectUpdateBatch.FieldLengths.BasicsComment)]
         public string Comments { get; set; }
@@ -68,6 +73,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             ImplementationStartYear = projectUpdate.ImplementationStartYear;
             CompletionYear = projectUpdate.CompletionYear;
             Comments = comments;
+            BpaProjectNumber = projectUpdate.BpaProjectNumber;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.ProjectUpdate projectUpdate, FirmaSession currentFirmaSession)
@@ -77,6 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             projectUpdate.PlanningDesignStartYear = PlanningDesignStartYear;
             projectUpdate.ImplementationStartYear = ImplementationStartYear;
             projectUpdate.CompletionYear = CompletionYear;
+            projectUpdate.BpaProjectNumber = BpaProjectNumber;
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -112,6 +119,17 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
                 yield return new SitkaValidationResult<BasicsViewModel, int?>(
                     $"The {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in Completed or Post-Implementation stage; the Completion Year must be less than or equal to the current year",
                     m => m.CompletionYear);
+            }
+
+            if (!string.IsNullOrEmpty(BpaProjectNumber))
+            {
+                var regexMatch = Regex.Match(BpaProjectNumber, "^" + ProjectModelExtensions.BpaProjectNumberRegexString);
+                if (!regexMatch.Success)
+                {
+                    yield return new SitkaValidationResult<BasicsViewModel, string>(
+                        $"You must enter a valid {FieldDefinitionEnum.BpaProjectNumber.ToType().GetFieldDefinitionLabel()} (e.g. XXXX-XXX-XX).",
+                        m => m.BpaProjectNumber);
+                }
             }
         }
     }
