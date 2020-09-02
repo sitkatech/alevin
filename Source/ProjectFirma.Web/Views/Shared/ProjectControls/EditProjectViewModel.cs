@@ -22,6 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Text.RegularExpressions;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
@@ -58,6 +59,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.BpaProjectNumber)]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
+        public string BpaProjectNumber { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeaf)]
         [Required(ErrorMessage = "This field is required.")]
         public int? TaxonomyLeafID { get; set; }
@@ -89,6 +94,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             CompletionYear = project.CompletionYear;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
+            BpaProjectNumber = project.BpaProjectNumber;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
@@ -100,6 +106,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
+            project.BpaProjectNumber = BpaProjectNumber;
 
             var secondaryProjectTaxonomyLeavesToUpdate = (SecondaryProjectTaxonomyLeafIDs?.ToList() ?? new List<int>())
                 .Select(x => new SecondaryProjectTaxonomyLeaf(project.ProjectID, x) {TenantID = HttpRequestStorage.Tenant.TenantID})
@@ -159,6 +166,17 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                     $"Cannot have a {FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabel()} " +
                     $"that is the same as the Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}.",
                     m => m.SecondaryProjectTaxonomyLeafIDs);
+            }
+
+            if (!string.IsNullOrEmpty(BpaProjectNumber))
+            {
+                var regexMatch = Regex.Match(BpaProjectNumber, "^" + ProjectModelExtensions.BpaProjectNumberRegexString);
+                if (!regexMatch.Success)
+                {
+                    yield return new SitkaValidationResult<EditProjectViewModel, string>(
+                        $"You must enter a valid {FieldDefinitionEnum.BpaProjectNumber.ToType().GetFieldDefinitionLabel()} (e.g. XXXX-XXX-XX).",
+                        m => m.BpaProjectNumber);
+                }
             }
         }
     }

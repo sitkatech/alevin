@@ -30,6 +30,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Net;
+using System.Text.RegularExpressions;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
 {
@@ -75,6 +77,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCategory)]
         public ProjectCategoryEnum ProjectCategoryEnum { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.BpaProjectNumber)]
+        [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
+        public string BpaProjectNumber { get; set; }
+
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BasicsComment)]
         public string Comments { get; set; }    
@@ -99,6 +105,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CompletionYear = project.CompletionYear;
             ProjectCategoryEnum = project.ProjectCategory.ToEnum;
             Comments = project.BasicsComment;
+            BpaProjectNumber = project.BpaProjectNumber;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
@@ -120,6 +127,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
             project.ProjectCategoryID = (int) ProjectCategoryEnum;
+            project.BpaProjectNumber = BpaProjectNumber;
+
             if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
             {
                 project.BasicsComment = Comments;
@@ -233,6 +242,19 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     $"that is the same as the Primary {FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel()}.",
                     m => m.SecondaryProjectTaxonomyLeafIDs);
             }
+
+            if (!string.IsNullOrEmpty(BpaProjectNumber))
+            {
+                var regexMatch = Regex.Match(BpaProjectNumber, "^" + ProjectModelExtensions.BpaProjectNumberRegexString);
+                if (!regexMatch.Success)
+                {
+                    yield return new SitkaValidationResult<BasicsViewModel, string>(
+                        $"You must enter a valid {FieldDefinitionEnum.BpaProjectNumber.ToType().GetFieldDefinitionLabel()} (e.g. XXXX-XXX-XX).",
+                        m => m.BpaProjectNumber);
+                }
+            }
+
+
         }
     }
 }

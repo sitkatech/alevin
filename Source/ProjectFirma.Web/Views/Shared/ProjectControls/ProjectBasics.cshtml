@@ -142,4 +142,12 @@ Source code is available upon request via <support@sitkatech.com>.
             @ViewDataTyped.Project.LastUpdatedDate.ToShortDateString()
         </div>
     </div>
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.BpaProjectNumber.ToType())
+        </div>
+        <div class="col-xs-6">
+            @ViewDataTyped.Project.GetBpaProjectNumberAsUrl()
+        </div>
+    </div>
 </div>

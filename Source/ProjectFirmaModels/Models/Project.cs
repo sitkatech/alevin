@@ -31,6 +31,7 @@ namespace ProjectFirmaModels.Models
 {
     public partial class Project : IAuditableEntity, IProject
     {
+
         public int GetEntityID() => ProjectID;
 
         public string GetAuditDescriptionString() => ProjectName;

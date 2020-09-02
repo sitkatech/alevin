@@ -25,6 +25,7 @@ using System.Data.Entity.Spatial;
 using System.Drawing;
 using System.Globalization;
 using System.Linq;
+using System.Net;
 using System.Web;
 using GeoJSON.Net.Feature;
 using LtInfo.Common;
@@ -1116,6 +1117,21 @@ namespace ProjectFirma.Web.Models
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Can match 0000-000-00 or 000000000. Used to validate BPA Project Numbers
+        /// </summary>
+        public const string BpaProjectNumberRegexString = "((?<year>[0-9]{4})-(?<sequence>[0-9]{3})-(?<revision>[0-9]{2})|(?<year>[0-9]{4})(?<sequence>[0-9]{3})(?<revision>[0-9]{2}))";
+
+        public static HtmlString GetBpaProjectNumberAsUrl(this Project project)
+        {
+            //example url: https://www.cbfish.org/Project.mvc/Display/2019-008-00
+            var attributes = new Dictionary<string, string>();
+            attributes.Add("target", "_blank");
+            var url = UrlTemplate.MakeHrefString($"https://www.cbfish.org/Project.mvc/Display/{WebUtility.UrlEncode(project.BpaProjectNumber)}", project.BpaProjectNumber, attributes);
+            return url;
+
         }
 
     }
