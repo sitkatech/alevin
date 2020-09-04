@@ -22,6 +22,7 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationState] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationZip] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Description] [dbo].[html] NULL,
+	[MatchmakerOptIn] [bit] NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
