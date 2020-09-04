@@ -34,6 +34,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.OrganizationState).HasColumnName(@"OrganizationState").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(20);
             Property(x => x.OrganizationZip).HasColumnName(@"OrganizationZip").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(20);
             Property(x => x.Description).HasColumnName(@"Description").HasColumnType("varchar").IsOptional();
+            Property(x => x.MatchmakerOptIn).HasColumnName(@"MatchmakerOptIn").HasColumnType("bit").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.PrimaryContactPerson).WithMany(b => b.OrganizationsWhereYouAreThePrimaryContactPerson).HasForeignKey(c => c.PrimaryContactPersonID).WillCascadeOnDelete(false); // FK_Organization_Person_PrimaryContactPersonID_PersonID

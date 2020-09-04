@@ -38,16 +38,17 @@ namespace ProjectFirma.Web.Views.Results
         public BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec { get; set; }
         public string BiOpAnnualReportGridName { get; set; }
         public string BiOpAnnualReportGridDataUrl { get; set; }
-        public IEnumerable<SelectListItem> YearsAvailable { get; set; }
 
-        public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage,
-            TenantAttribute tenantAttribute, IEnumerable<SelectListItem> yearsAvailableSelectList,
-            List<GeospatialAreaType> geoSpatialAreasToInclude, List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude, List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToInclude) 
+        public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, 
+            ProjectFirmaModels.Models.FirmaPage firmaPage, 
+            TenantAttribute tenantAttribute,
+            List<GeospatialAreaType> geoSpatialAreasToInclude, 
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude) 
             : base(currentFirmaSession, firmaPage)
         {
             PageTitle = "BiOp Annual Report";
 
-            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, performanceMeasureReportingPeriodsToInclude)
+            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude)
             {
                 ObjectNameSingular = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(),
                 ObjectNamePlural = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(),
@@ -56,7 +57,6 @@ namespace ProjectFirma.Web.Views.Results
 
             BiOpAnnualReportGridName = "BiOpAnnualReportGrid";
             BiOpAnnualReportGridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridJsonData());
-            YearsAvailable = yearsAvailableSelectList;
         }
     }
 }

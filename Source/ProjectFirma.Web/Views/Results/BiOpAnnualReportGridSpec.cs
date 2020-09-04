@@ -32,59 +32,54 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Results
 {
-    public class BiOpAnnualReportGridSpec : GridSpec<ProjectFirmaModels.Models.Project>
+
+    public class BioAnnualReportRow
+    {
+        public ProjectFirmaModels.Models.PerformanceMeasureActual PerformanceMeasureActual { get; set; }
+        public ProjectFirmaModels.Models.Project Project { get; set; }
+        public GeospatialAreaType GeospatialAreaType { get; set; }
+
+    }
+
+    public class BiOpAnnualReportGridSpec : GridSpec<BioAnnualReportRow>
     {
         private List<double> AllProjectedFundingValues;
-        
+
 
         public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude,
-            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude, 
-            List<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriodsToInclude)
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude)
         {
-            SaveFiltersInCookie = true;
-            AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double) p.GetProjectedFunding() + (double) p.GetNoFundingSourceIdentifiedAmountOrZero()).ToList();
+            AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero()).ToList();
 
-            var primaryContactOrganizationRelationshipType = HttpRequestStorage.DatabaseEntities.OrganizationRelationshipTypes.FirstOrDefault(x => x.IsPrimaryContact);
-
-            Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, p => p.GetDisplayNameAsUrl(), 250, DhtmlxGridColumnFilterType.Html);
-            Add("WBS Number", p => p.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Text);
-            Add($"{FieldDefinitionEnum.ProjectStage.ToType().FieldDefinitionDisplayName} ", p => p.ProjectStage.ProjectStageDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Basin Liason", p => String.Join(",", p.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Population", barr => barr.GeospatialAreaType?.GeospatialAreaTypeName ?? "None Selected", 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, barr => barr.Project.GetDisplayNameAsUrl(), 250, DhtmlxGridColumnFilterType.Html);
+            Add("Year", barr => barr.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("WBS Number", barr => barr.Project.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Text);
+            Add($"{FieldDefinitionEnum.ProjectStage.ToType().FieldDefinitionDisplayName} ", barr => barr.Project.ProjectStage.ProjectStageDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Basin Liason", barr => String.Join(",", barr.Project.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             // from the project location simple point. Maybe we could find a center from detailed locations if the project doesn't have a simple location? -- SMG 8/11/2020
-            Add("Lat", p => $"{p.ProjectLocationPoint?.YCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
-            Add("Lng", p => $"{p.ProjectLocationPoint?.XCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
+            Add("Lat", barr => $"{barr.Project.ProjectLocationPoint?.YCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
+            Add("Lng", barr => $"{barr.Project.ProjectLocationPoint?.XCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
 
             foreach (var geospatialAreaType in geoSpatialAreaTypesToInclude)
             {
                 Add(geospatialAreaType.GeospatialAreaTypeName,
-                    p => String.Join(",", p.ProjectGeospatialAreas.Where(x =>
+                    barr => String.Join(",", barr.Project.ProjectGeospatialAreas.Where(x =>
                         x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialArea.GetDisplayNameAsUrl())).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
             }
 
-            
-            Add("Project Cost", p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero(), 100, DhtmlxGridColumnFormatType.Decimal);
-            Add("Project Cost Category", p => p.GetProjectedFundingCategory(AllProjectedFundingValues), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-
-            Add("Is BPA Funded", p => p.IsBPAFunded() ? "Yes" : "No", 50, DhtmlxGridColumnFilterType.SelectFilterStrict);
-
-            // calendar year(s) of metric
-            Add("Year(s) of Metric", p => string.Join(", ", performanceMeasureReportingPeriodsToInclude.Select(x => x.PerformanceMeasureReportingPeriodCalendarYear.ToString())), 100);
-
-            // sponsor organization
-            Add("Sponsor Organization", p => p.GetPrimaryContactOrganization().OrganizationName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
-
-            // metric name/value * 6
+            Add("Project Cost", barr => (double)barr.Project.GetProjectedFunding() + (double)barr.Project.GetNoFundingSourceIdentifiedAmountOrZero(), 100, DhtmlxGridColumnFormatType.Decimal);
+            Add("Project Cost Category", barr => barr.Project.GetProjectedFundingCategory(AllProjectedFundingValues), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Is BPA Funded", barr => barr.Project.IsBPAFunded() ? "Yes" : "No", 75, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Sponsor Organization", barr => barr.Project.GetPrimaryContactOrganization()?.OrganizationName ?? "", 200, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             foreach (var performanceMeasure in performanceMeasuresToInclude)
             {
                 Add(performanceMeasure.PerformanceMeasureDisplayName,
-                    p => performanceMeasure.PerformanceMeasureActuals.Where(pma =>
-                            pma.ProjectID == p.ProjectID &&
-                            performanceMeasureReportingPeriodsToInclude.Contains(pma.PerformanceMeasureReportingPeriod))
+                    barr => performanceMeasure.PerformanceMeasureActuals.Where(pma =>
+                            pma.ProjectID == barr.Project.ProjectID && pma.PerformanceMeasureReportingPeriod == barr.PerformanceMeasureActual.PerformanceMeasureReportingPeriod)
                         .Sum(pma => pma.ActualValue), 50, DhtmlxGridColumnFormatType.Decimal);
             }
-
-
         }
     }
 }
