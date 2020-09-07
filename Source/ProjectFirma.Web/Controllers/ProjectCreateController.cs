@@ -245,7 +245,7 @@ namespace ProjectFirma.Web.Controllers
                 ProjectCategory.Normal.ProjectCategoryID);
             project.OverrideTaxonomyLeafID = viewModel.TaxonomyLeafID;
             project.OverrideTaxonomyLeaf = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.GetTaxonomyLeaf(project.OverrideTaxonomyLeafID.Value);
-            // This is a highly paranoid check to ensure overrides never get our of wack, which they have in the past. We want to detect these issues as soon
+            // This is a highly paranoid check to ensure overrides never get out of whack, which they have in the past. We want to detect these issues as soon
             // as we possibly can. -- SLG & TK - 8/18/2020
             Check.Ensure(project.GetTaxonomyLeaf() != null, "Checking for bad Taxonomy Leaf data on a new project. This should not blow up.");
             project.ProposingPerson = CurrentFirmaSession.Person;
