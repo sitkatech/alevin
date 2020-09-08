@@ -58,9 +58,8 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
             foreach (var project in allProjects)
             {
                 // This should not crash
-                var currentTaxonomyLeaf = project.GetTaxonomyLeafWithWarning(out var warningMessage);
+                var currentTaxonomyLeaf = project.GetTaxonomyLeaf();
                 Console.WriteLine($"Project Leaf: {project.ProjectName}: TaxonomyLeaf: {currentTaxonomyLeaf.TaxonomyLeafName}");
-                Check.Ensure(warningMessage == string.Empty, $"Potential problem calling GetTaxonomyLeaf() for ProjectID {project.ProjectID} - {project.ProjectName} : {warningMessage}");
             }
         }
 

@@ -43,14 +43,6 @@ namespace ProjectFirmaModels.Models
 
         public TaxonomyLeaf GetTaxonomyLeaf()
         {
-            return GetTaxonomyLeafWithWarning(out string warningMessage);
-        }
-
-        public TaxonomyLeaf GetTaxonomyLeafWithWarning(out string warningMessage)
-        {
-            // Default to no warning
-            warningMessage = "";
-
             // There are two ways we can determine TaxonomyLeaf for a give Project:
 
             // 1) via the Primary Project CAWBS on a CostAuthorityProject record
@@ -79,12 +71,13 @@ namespace ProjectFirmaModels.Models
             Check.Ensure(taxonomyLeafViaCostAuthority != null || taxonomyLeafViaOverrideOnProject != null, $"GetTaxonomyLeaf() - both methods return null. Cannot determine TaxonomyLeaf for  Project: {this.ProjectName} ProjectID: {this.ProjectID} ");
 
             // Next, check to see if they are both set, and to the same thing. Here we can return the
-            // right answer, but we will warn developers that something may be amiss.
+            // right answer, but we will gently warn developers that something may be amiss.(I keep
+            // thinking this can be addressed somehow, but I may be wrong.)
             if (taxonomyLeafViaCostAuthority != null && taxonomyLeafViaOverrideOnProject != null)
             {
                 if (taxonomyLeafViaCostAuthority.TaxonomyLeafID == taxonomyLeafViaOverrideOnProject.TaxonomyLeafID)
                 {
-                    warningMessage = $"GetTaxonomyLeaf() - both methods return a TaxonomyLeaf, but they're the same ({taxonomyLeafViaCostAuthority.TaxonomyLeafID} - {taxonomyLeafViaCostAuthority.TaxonomyLeafName}). You should probably clear the OverrideTaxonomyLeafID on ProjectID {primaryCostAuthorityProject.ProjectID} - {primaryCostAuthorityProject.Project.ProjectName}, since it is redundant. It's also a problem that the data ended up in this state, consider investigating and fixing the bug.";
+                    string warningMessage = $"GetTaxonomyLeaf() - both methods return a TaxonomyLeaf, but they're the same ({taxonomyLeafViaCostAuthority.TaxonomyLeafID} - {taxonomyLeafViaCostAuthority.TaxonomyLeafName}). You should probably clear the OverrideTaxonomyLeafID on ProjectID {primaryCostAuthorityProject.ProjectID} - {primaryCostAuthorityProject.Project.ProjectName}, since it is redundant. It's also a problem that the data ended up in this state, consider investigating and fixing the bug.";
                     _logger.Warn(warningMessage);
                     return taxonomyLeafViaCostAuthority;
                 }

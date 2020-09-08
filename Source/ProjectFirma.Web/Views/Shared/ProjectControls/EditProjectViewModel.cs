@@ -125,8 +125,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
             }
             // Immediate check for problems
-            project.GetTaxonomyLeafWithWarning(out string warningMessage);
-            Check.Ensure(warningMessage == string.Empty, warningMessage);
+            project.GetTaxonomyLeaf();
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

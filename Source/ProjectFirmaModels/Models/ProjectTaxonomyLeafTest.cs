@@ -20,8 +20,7 @@ namespace ProjectFirmaModels.Models
             // This can crash when data is garbled. This test is to make sure this runs for all projects.
             projects.ForEach(p =>
             {
-                p.GetTaxonomyLeafWithWarning(out string warningMessage);
-                Check.Ensure(warningMessage == string.Empty, $"Found warning message for GetTaxonomyLeaf(): {warningMessage}");
+                p.GetTaxonomyLeaf();
             });
         }
     }
