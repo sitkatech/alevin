@@ -75,7 +75,7 @@ namespace ProjectFirma.Web.Views.TaxonomyBranch
                 if (costAuthorityProjects.Any())
                 {
                     var countOfPrimaryCawbsForProject = costAuthorityProjects.Count(cap => cap.IsPrimaryProjectCawbs);
-                    Check.Assert(countOfPrimaryCawbsForProject == 1, $"Found {countOfPrimaryCawbsForProject} set to IsPrimaryProjectCawbs for Project {project.ProjectID} {project.ProjectName}. Should be one and only one Primary CAWBS per project.");
+                    Check.Assert(countOfPrimaryCawbsForProject == 1, $"Found {countOfPrimaryCawbsForProject} CostAuthorityProjects set to IsPrimaryProjectCawbs for ProjectID {project.ProjectID} - {project.ProjectName}. Should be one and only one Primary CAWBS per project.");
                 }
             }
         }
