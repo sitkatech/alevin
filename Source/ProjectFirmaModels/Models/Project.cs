@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
+using log4net;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 
@@ -31,28 +32,58 @@ namespace ProjectFirmaModels.Models
 {
     public partial class Project : IAuditableEntity, IProject
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(Project));
+
         public int GetEntityID() => ProjectID;
 
         public string GetAuditDescriptionString() => ProjectName;
 
         public string GetDisplayName() => ProjectName;
 
+
         public TaxonomyLeaf GetTaxonomyLeaf()
         {
+            // There are two ways we can determine TaxonomyLeaf for a give Project:
+
+            // 1) via the Primary Project CAWBS on a CostAuthorityProject record
             var primaryCostAuthorityProject = this.CostAuthorityProjects.SingleOrDefault(cap => cap.IsPrimaryProjectCawbs);
             TaxonomyLeaf taxonomyLeafViaCostAuthority = primaryCostAuthorityProject?.CostAuthority?.TaxonomyLeaf;
+            // 2) via a deliberate set/override on Project itself, using OverrideTaxonomyLeaf
             TaxonomyLeaf taxonomyLeafViaOverrideOnProject = this.OverrideTaxonomyLeaf;
 
-            // Override should only be used when there is no TaxonomyLeaf available via the CostAuthority relationship,
-            // so we should never see both of these set. For the moment we'll crash if this actually happens. It seems
-            // likely this will prove too brittle but we'll soon see.
+            // When we were first loading up the database, we only used OverrideTaxonomyLeaf when TaxonomyLeaf wasn't
+            // determinable via a CostAuthorityProject record. At the time the code was very
+            // rigid about only using one or the other, and the code didn't tolerate both being set.
             //
-            // Additionally, we expect to have AT LEAST one of these work. We don't want it unset.
+            // But now that Dorothy is up and using the system, it does seem that we can relax a bit, and
+            // start to treat the override like a real override - only used if it is set.
             //
-            //-- SLG 4/20/2020
-            //Check.Ensure(taxonomyLeafViaCostAuthority == null || taxonomyLeafViaOverrideOnProject == null);
-            Check.Ensure(taxonomyLeafViaCostAuthority == null ^ taxonomyLeafViaOverrideOnProject == null, $"Project: {this.ProjectName} ProjectID: {this.ProjectID} taxonomyLeafViaCostAuthority = {taxonomyLeafViaCostAuthority}, taxonomyLeafViaOverrideOnProject = {taxonomyLeafViaOverrideOnProject}");
+            // Now, we use the override if it is provided, and if not, the PrimaryProjectCAWBs.
+            // While we warn internally if they provide the SAME answer (I think we should be able to avoid this being set this way),
+            // we no longer care if both the override and the PrimaryProjectCAWBs have different answers.
+            //
+            // We expect to have AT LEAST one of these work. We don't want TaxonomyLeaf indeterminate.
+            //
+            // SLG 9/7/2020
 
+            // First, make sure at least one of these gives us an answer. We need to be able to figure out
+            // TaxonomyLeaf somehow.
+            Check.Ensure(taxonomyLeafViaCostAuthority != null || taxonomyLeafViaOverrideOnProject != null, $"GetTaxonomyLeaf() - both methods return null. Cannot determine TaxonomyLeaf for  Project: {this.ProjectName} ProjectID: {this.ProjectID} ");
+
+            // Next, check to see if they are both set, and to the same thing. Here we can return the
+            // right answer, but we will gently warn developers that something may be amiss.(I keep
+            // thinking this can be addressed somehow, but I may be wrong.)
+            if (taxonomyLeafViaCostAuthority != null && taxonomyLeafViaOverrideOnProject != null)
+            {
+                if (taxonomyLeafViaCostAuthority.TaxonomyLeafID == taxonomyLeafViaOverrideOnProject.TaxonomyLeafID)
+                {
+                    string warningMessage = $"GetTaxonomyLeaf() - both methods return a TaxonomyLeaf, but they're the same ({taxonomyLeafViaCostAuthority.TaxonomyLeafID} - {taxonomyLeafViaCostAuthority.TaxonomyLeafName}). You should probably clear the OverrideTaxonomyLeafID on ProjectID {primaryCostAuthorityProject.ProjectID} - {primaryCostAuthorityProject.Project.ProjectName}, since it is redundant. It's also a problem that the data ended up in this state, consider investigating and fixing the bug.";
+                    _logger.Warn(warningMessage);
+                    return taxonomyLeafViaCostAuthority;
+                }
+            }
+
+            // Favor the override if it is given
             return taxonomyLeafViaOverrideOnProject ?? taxonomyLeafViaCostAuthority;
         }
 
