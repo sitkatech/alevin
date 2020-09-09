@@ -600,7 +600,7 @@ namespace ProjectFirma.Web.Controllers
                 join pma in HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals on p.ProjectID equals pma.ProjectID
                 join pmrp in HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods on pma.PerformanceMeasureReportingPeriodID equals pmrp
                     .PerformanceMeasureReportingPeriodID
-                join pga in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas.Where(x => populationAreaTypeIDs.Contains(x.GeospatialAreaID)) on p.ProjectID equals pga.ProjectID into pgaJoin
+                join pga in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas on p.ProjectID equals pga.ProjectID into pgaJoin
                 from pga in pgaJoin.DefaultIfEmpty()
                 join ga in HttpRequestStorage.DatabaseEntities.GeospatialAreas on pga.GeospatialAreaID equals ga.GeospatialAreaID into gaJoin
                 from ga in gaJoin.DefaultIfEmpty()
