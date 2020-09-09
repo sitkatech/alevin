@@ -26,6 +26,7 @@ using System.Text.RegularExpressions;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
@@ -101,7 +102,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         {
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.GetTaxonomyLeaf().TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
+            // TaxonomyLeaf gets special handling
+            SetTaxonomyLeaf(project, currentFirmaSession);
             project.ProjectStageID = ProjectStageID;
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
@@ -116,6 +118,21 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
                 HttpRequestStorage.DatabaseEntities.AllSecondaryProjectTaxonomyLeafs.Local,
                 (a, b) => a.TaxonomyLeafID == b.TaxonomyLeafID && a.ProjectID == b.ProjectID,
                 HttpRequestStorage.DatabaseEntities);
+        }
+
+        private void SetTaxonomyLeaf(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
+        {
+            var currentTaxonomyLeaf = project.GetTaxonomyLeaf();
+            // Are we attempting to change the TaxonomyLeaf away from what it is either already overridden to, 
+            // or away from what it currently calculates to? 
+            if (currentTaxonomyLeaf?.TaxonomyLeafID != this.TaxonomyLeafID)
+            {
+                // If so, we need a deliberate override.
+                project.OverrideTaxonomyLeafID = this.TaxonomyLeafID;
+
+            }
+            // Immediate check for problems
+            project.GetTaxonomyLeaf();
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

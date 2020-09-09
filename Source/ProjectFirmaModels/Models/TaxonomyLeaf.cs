@@ -21,12 +21,17 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using ApprovalUtilities.SimpleLogger;
+using log4net;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Email;
 
 namespace ProjectFirmaModels.Models
 {
     public partial class TaxonomyLeaf : IAuditableEntity, IHaveASortOrder
     {
+        private static readonly ILog _logger = LogManager.GetLogger(typeof(TaxonomyLeaf));
+
         public void SetSortOrder(int? value) => TaxonomyLeafSortOrder = value;
 
         public int? GetSortOrder() => TaxonomyLeafSortOrder;
@@ -54,15 +59,26 @@ namespace ProjectFirmaModels.Models
             // Also navigate looking for overrides
             var projectsViaOverrides = this.ProjectsWhereYouAreTheOverrideTaxonomyLeaf.Distinct().ToList();
 
-            // We think there should be no overlap between these two sets! If there is, we something is wrong and we need 
-            // to have a look.
+            // We think there should usually be no overlap between these two sets. If there is, that could indicate a problem
+            // and we might want to have a look.
             var costAuthorityProjectIDs = projectsViaCostAuthorities.Select(p => p.ProjectID).ToList();
             var overrideProjectIDs = projectsViaOverrides.Select(p => p.ProjectID).ToList();
-            bool hasUnexpectedOverlap = costAuthorityProjectIDs.Intersect(overrideProjectIDs).Any();
-            Check.Ensure(!hasUnexpectedOverlap, "Unexpected overlap between routes for Taxonomy leafs.");
+            var undesiredOverlappingProjectIDs = costAuthorityProjectIDs.Intersect(overrideProjectIDs).ToList();
+            bool hasUnexpectedOverlap = undesiredOverlappingProjectIDs.Any();
+            if (hasUnexpectedOverlap)
+            {
+                // We were crashing hard here, but I'm backing it off into just an logged warning. I think these do happen, and
+                // so long as Project.GetTaxonomyLeaf() functions, this is not actually an issue. Time & usage will tell, however, so 
+                // I'm not 100% confident about this conclusion yet.
+                //
+                // -- SLG 9/7/2020
+                var taxonomyLeafErrorMessage = $"Unexpected overlap between routes for Taxonomy leafs. Undesired overlapping Project IDs: {string.Join(", ", undesiredOverlappingProjectIDs)} Override ProjectIDs: {string.Join(", ", overrideProjectIDs)} Cost Authority ProjectIDs: {string.Join(", ", costAuthorityProjectIDs)}.";
+                //Check.Ensure(!hasUnexpectedOverlap, taxonomyLeafErrorMessage);
+                _logger.Warn(taxonomyLeafErrorMessage);
+            }
 
-            // Return the complete set
-            var allRelevantProjects = projectsViaCostAuthorities.Union(projectsViaOverrides).ToList();
+            // Return the complete set (and, yes, we accomodate unexpected overlap with distinct() here.)
+            var allRelevantProjects = projectsViaCostAuthorities.Union(projectsViaOverrides).Distinct().ToList();
             return allRelevantProjects;
         }
     }
