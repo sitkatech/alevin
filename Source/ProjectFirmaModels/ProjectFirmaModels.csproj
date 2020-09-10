@@ -321,6 +321,10 @@
     <Compile Include="Models\Generated\ImportExternalProjectStaging.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStagingConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStagingPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\MatchMakerAreaOfInterestLocation.Binding.cs" />
+    <Compile Include="Models\Generated\MatchMakerAreaOfInterestLocation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\MatchMakerAreaOfInterestLocationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\MatchMakerAreaOfInterestLocationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ImportFinancialImpPayRecUnexpendedV3.Binding.cs" />
     <Compile Include="Models\Generated\ImportFinancialImpPayRecUnexpendedV3.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ImportFinancialImpPayRecUnexpendedV3Configuration.Binding.cs" />
@@ -1041,6 +1045,7 @@
     <Compile Include="Models\IProjectContact.cs" />
     <Compile Include="Models\ISortingGroup.cs" />
     <Compile Include="Models\ExternalMapLayer.cs" />
+    <Compile Include="Models\MatchMakerAreaOfInterestLocation.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyTrunk.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyBranch.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyLeaf.cs" />

@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected Organization()
         {
             this.FundingSources = new HashSet<FundingSource>();
+            this.MatchMakerAreaOfInterestLocations = new HashSet<MatchMakerAreaOfInterestLocation>();
             this.MatchmakerOrganizationTaxonomyBranches = new HashSet<MatchmakerOrganizationTaxonomyBranch>();
             this.MatchmakerOrganizationTaxonomyLeafs = new HashSet<MatchmakerOrganizationTaxonomyLeaf>();
             this.MatchmakerOrganizationTaxonomyTrunks = new HashSet<MatchmakerOrganizationTaxonomyTrunk>();
@@ -35,14 +36,12 @@ namespace ProjectFirmaModels.Models
             this.PersonStewardOrganizations = new HashSet<PersonStewardOrganization>();
             this.ProjectOrganizations = new HashSet<ProjectOrganization>();
             this.ProjectOrganizationUpdates = new HashSet<ProjectOrganizationUpdate>();
-            this.Agreements = new HashSet<Agreement>();
-            this.CostAuthorityObligationRequestsWhereYouAreTheRecipientOrganization = new HashSet<CostAuthorityObligationRequest>();
         }
 
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string vendorNumber, int? reclamationContractorID, string organizationAddress1, string organizationAddress2, string organizationCity, string organizationState, string organizationZip, string description, bool? matchmakerOptIn) : this()
+        public Organization(int organizationID, Guid? organizationGuid, string organizationName, string organizationShortName, int? primaryContactPersonID, bool isActive, string organizationUrl, int? logoFileResourceInfoID, int organizationTypeID, DbGeometry organizationBoundary, string description, bool? matchmakerOptIn, bool useOrganizationBoundaryForMatchmaker, bool? matchmakerCash, bool? matchmakerInKindServices, bool? matchmakerCommercialServices, string matchmakerCashDescription, string matchmakerInKindServicesDescription, string matchmakerCommercialServicesDescription, string matchmakerConstraints, string matchmakerAdditionalInformation) : this()
         {
             this.OrganizationID = organizationID;
             this.OrganizationGuid = organizationGuid;
@@ -54,21 +53,23 @@ namespace ProjectFirmaModels.Models
             this.LogoFileResourceInfoID = logoFileResourceInfoID;
             this.OrganizationTypeID = organizationTypeID;
             this.OrganizationBoundary = organizationBoundary;
-            this.VendorNumber = vendorNumber;
-            this.ReclamationContractorID = reclamationContractorID;
-            this.OrganizationAddress1 = organizationAddress1;
-            this.OrganizationAddress2 = organizationAddress2;
-            this.OrganizationCity = organizationCity;
-            this.OrganizationState = organizationState;
-            this.OrganizationZip = organizationZip;
             this.Description = description;
             this.MatchmakerOptIn = matchmakerOptIn;
+            this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
+            this.MatchmakerCash = matchmakerCash;
+            this.MatchmakerInKindServices = matchmakerInKindServices;
+            this.MatchmakerCommercialServices = matchmakerCommercialServices;
+            this.MatchmakerCashDescription = matchmakerCashDescription;
+            this.MatchmakerInKindServicesDescription = matchmakerInKindServicesDescription;
+            this.MatchmakerCommercialServicesDescription = matchmakerCommercialServicesDescription;
+            this.MatchmakerConstraints = matchmakerConstraints;
+            this.MatchmakerAdditionalInformation = matchmakerAdditionalInformation;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Organization(string organizationName, bool isActive, int organizationTypeID) : this()
+        public Organization(string organizationName, bool isActive, int organizationTypeID, bool useOrganizationBoundaryForMatchmaker) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -76,12 +77,13 @@ namespace ProjectFirmaModels.Models
             this.OrganizationName = organizationName;
             this.IsActive = isActive;
             this.OrganizationTypeID = organizationTypeID;
+            this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Organization(string organizationName, bool isActive, OrganizationType organizationType) : this()
+        public Organization(string organizationName, bool isActive, OrganizationType organizationType, bool useOrganizationBoundaryForMatchmaker) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.OrganizationID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -90,6 +92,7 @@ namespace ProjectFirmaModels.Models
             this.OrganizationTypeID = organizationType.OrganizationTypeID;
             this.OrganizationType = organizationType;
             organizationType.Organizations.Add(this);
+            this.UseOrganizationBoundaryForMatchmaker = useOrganizationBoundaryForMatchmaker;
         }
 
         /// <summary>
@@ -97,7 +100,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static Organization CreateNewBlank(OrganizationType organizationType)
         {
-            return new Organization(default(string), default(bool), organizationType);
+            return new Organization(default(string), default(bool), organizationType, default(bool));
         }
 
         /// <summary>
@@ -106,7 +109,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return FundingSources.Any() || MatchmakerOrganizationTaxonomyBranches.Any() || MatchmakerOrganizationTaxonomyLeafs.Any() || MatchmakerOrganizationTaxonomyTrunks.Any() || OrganizationBoundaryStagings.Any() || OrganizationImages.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any() || Agreements.Any() || CostAuthorityObligationRequestsWhereYouAreTheRecipientOrganization.Any();
+            return FundingSources.Any() || MatchMakerAreaOfInterestLocations.Any() || MatchmakerOrganizationTaxonomyBranches.Any() || MatchmakerOrganizationTaxonomyLeafs.Any() || MatchmakerOrganizationTaxonomyTrunks.Any() || OrganizationBoundaryStagings.Any() || OrganizationImages.Any() || People.Any() || PersonStewardOrganizations.Any() || ProjectOrganizations.Any() || ProjectOrganizationUpdates.Any();
         }
 
         /// <summary>
@@ -119,6 +122,11 @@ namespace ProjectFirmaModels.Models
             if(FundingSources.Any())
             {
                 dependentObjects.Add(typeof(FundingSource).Name);
+            }
+
+            if(MatchMakerAreaOfInterestLocations.Any())
+            {
+                dependentObjects.Add(typeof(MatchMakerAreaOfInterestLocation).Name);
             }
 
             if(MatchmakerOrganizationTaxonomyBranches.Any())
@@ -165,23 +173,13 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(ProjectOrganizationUpdate).Name);
             }
-
-            if(Agreements.Any())
-            {
-                dependentObjects.Add(typeof(Agreement).Name);
-            }
-
-            if(CostAuthorityObligationRequestsWhereYouAreTheRecipientOrganization.Any())
-            {
-                dependentObjects.Add(typeof(CostAuthorityObligationRequest).Name);
-            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MatchmakerOrganizationTaxonomyBranch).Name, typeof(MatchmakerOrganizationTaxonomyLeaf).Name, typeof(MatchmakerOrganizationTaxonomyTrunk).Name, typeof(OrganizationBoundaryStaging).Name, typeof(OrganizationImage).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name, typeof(Agreement).Name, typeof(CostAuthorityObligationRequest).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Organization).Name, typeof(FundingSource).Name, typeof(MatchMakerAreaOfInterestLocation).Name, typeof(MatchmakerOrganizationTaxonomyBranch).Name, typeof(MatchmakerOrganizationTaxonomyLeaf).Name, typeof(MatchmakerOrganizationTaxonomyTrunk).Name, typeof(OrganizationBoundaryStaging).Name, typeof(OrganizationImage).Name, typeof(Person).Name, typeof(PersonStewardOrganization).Name, typeof(ProjectOrganization).Name, typeof(ProjectOrganizationUpdate).Name};
 
 
         /// <summary>
@@ -207,6 +205,11 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in FundingSources.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in MatchMakerAreaOfInterestLocations.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -255,16 +258,6 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
-
-            foreach(var x in Agreements.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
-
-            foreach(var x in CostAuthorityObligationRequestsWhereYouAreTheRecipientOrganization.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
         }
 
         [Key]
@@ -279,13 +272,6 @@ namespace ProjectFirmaModels.Models
         public int? LogoFileResourceInfoID { get; set; }
         public int OrganizationTypeID { get; set; }
         public DbGeometry OrganizationBoundary { get; set; }
-        public string VendorNumber { get; set; }
-        public int? ReclamationContractorID { get; set; }
-        public string OrganizationAddress1 { get; set; }
-        public string OrganizationAddress2 { get; set; }
-        public string OrganizationCity { get; set; }
-        public string OrganizationState { get; set; }
-        public string OrganizationZip { get; set; }
         public string Description { get; set; }
         [NotMapped]
         public HtmlString DescriptionHtmlString
@@ -294,10 +280,20 @@ namespace ProjectFirmaModels.Models
             set { Description = value?.ToString(); }
         }
         public bool? MatchmakerOptIn { get; set; }
+        public bool UseOrganizationBoundaryForMatchmaker { get; set; }
+        public bool? MatchmakerCash { get; set; }
+        public bool? MatchmakerInKindServices { get; set; }
+        public bool? MatchmakerCommercialServices { get; set; }
+        public string MatchmakerCashDescription { get; set; }
+        public string MatchmakerInKindServicesDescription { get; set; }
+        public string MatchmakerCommercialServicesDescription { get; set; }
+        public string MatchmakerConstraints { get; set; }
+        public string MatchmakerAdditionalInformation { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return OrganizationID; } set { OrganizationID = value; } }
 
         public virtual ICollection<FundingSource> FundingSources { get; set; }
+        public virtual ICollection<MatchMakerAreaOfInterestLocation> MatchMakerAreaOfInterestLocations { get; set; }
         public virtual ICollection<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get; set; }
         public virtual ICollection<MatchmakerOrganizationTaxonomyLeaf> MatchmakerOrganizationTaxonomyLeafs { get; set; }
         public virtual ICollection<MatchmakerOrganizationTaxonomyTrunk> MatchmakerOrganizationTaxonomyTrunks { get; set; }
@@ -307,8 +303,6 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PersonStewardOrganization> PersonStewardOrganizations { get; set; }
         public virtual ICollection<ProjectOrganization> ProjectOrganizations { get; set; }
         public virtual ICollection<ProjectOrganizationUpdate> ProjectOrganizationUpdates { get; set; }
-        public virtual ICollection<Agreement> Agreements { get; set; }
-        public virtual ICollection<CostAuthorityObligationRequest> CostAuthorityObligationRequestsWhereYouAreTheRecipientOrganization { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Person PrimaryContactPerson { get; set; }
         public virtual FileResourceInfo LogoFileResourceInfo { get; set; }
@@ -319,12 +313,11 @@ namespace ProjectFirmaModels.Models
             public const int OrganizationName = 200;
             public const int OrganizationShortName = 50;
             public const int OrganizationUrl = 200;
-            public const int VendorNumber = 12;
-            public const int OrganizationAddress1 = 500;
-            public const int OrganizationAddress2 = 500;
-            public const int OrganizationCity = 500;
-            public const int OrganizationState = 20;
-            public const int OrganizationZip = 20;
+            public const int MatchmakerCashDescription = 300;
+            public const int MatchmakerInKindServicesDescription = 300;
+            public const int MatchmakerCommercialServicesDescription = 300;
+            public const int MatchmakerConstraints = 300;
+            public const int MatchmakerAdditionalInformation = 300;
         }
     }
 }
