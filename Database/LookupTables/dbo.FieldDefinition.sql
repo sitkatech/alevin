@@ -186,9 +186,6 @@ VALUES
 (362, N'OrganizationInKindServices', N'In-Kind Services'),
 (363, N'OrganizationCommercialServices', N'Commercial Services'),
 (364, N'AreaOfInterest', N'Area of Interest')
-(360, N'MatchScore', N'Match Score')
-
-
 
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 

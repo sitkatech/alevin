@@ -184,7 +184,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(organization);
-            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, DetailViewData.OrganizationDetailTab.Profile)));
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
         }
 
         private PartialViewResult ViewEditProfileSupplementalInformation(EditProfileSupplementalInformationViewModel viewModel)

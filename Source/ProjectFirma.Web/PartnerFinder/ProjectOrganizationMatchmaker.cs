@@ -116,17 +116,17 @@ namespace ProjectFirma.Web.PartnerFinder
 
             if (matchesLeaf)
             {
-                localMatchInsights.Add($"{matchmakerLeaves.Count} Leaf matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                localMatchInsights.Add($"{matchmakerLeaves.Count} Leaf matches for {project.GetTaxonomyLeaf().TaxonomyLeafName} ");
             }
 
             if (matchesLeafForBranch)
             {
-                localMatchInsights.Add($"{matchmakerLeavesFromSelectedBranches.Count} Leaf for selected branch matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                localMatchInsights.Add($"{matchmakerLeavesFromSelectedBranches.Count} Leaf for selected branch matches for {project.GetTaxonomyLeaf().TaxonomyLeafName} ");
             }
 
             if (matchesLeafForTrunk)
             {
-                localMatchInsights.Add($"{matchmakerLeavesFromSelectedTrunks.Count} Leaf for selected trunk matches for {project.TaxonomyLeaf.TaxonomyLeafName} ");
+                localMatchInsights.Add($"{matchmakerLeavesFromSelectedTrunks.Count} Leaf for selected trunk matches for {project.GetTaxonomyLeaf().TaxonomyLeafName} ");
             }
 
             double taxonomySubScore = matchesLeaf || matchesLeafForBranch || matchesLeafForTrunk ? 1.0 : 0.0;
