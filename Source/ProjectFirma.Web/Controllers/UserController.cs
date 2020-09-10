@@ -506,7 +506,7 @@ namespace ProjectFirma.Web.Controllers
                     var defaultOrganizationType =
                         HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
                     var firmaOrganization =
-                        new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
+                        new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault)
                         {
                             OrganizationGuid = keystoneOrganization.OrganizationGuid,
                             OrganizationShortName = keystoneOrganization.ShortName,

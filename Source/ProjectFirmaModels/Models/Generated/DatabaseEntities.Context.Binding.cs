@@ -89,6 +89,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
+            modelBuilder.Configurations.Add(new MatchMakerAreaOfInterestLocationConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
@@ -367,6 +368,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ImpPnBudget> ImpPnBudgets { get; set; }
         public virtual DbSet<ImpProcessing> ImpProcessings { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
+        public virtual DbSet<MatchMakerAreaOfInterestLocation> AllMatchMakerAreaOfInterestLocations { get; set; }
+        public virtual IQueryable<MatchMakerAreaOfInterestLocation> MatchMakerAreaOfInterestLocations { get { return AllMatchMakerAreaOfInterestLocations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyBranch> AllMatchmakerOrganizationTaxonomyBranches { get; set; }
         public virtual IQueryable<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get { return AllMatchmakerOrganizationTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyLeaf> AllMatchmakerOrganizationTaxonomyLeafs { get; set; }
@@ -920,6 +923,9 @@ namespace ProjectFirmaModels.Models
 
                 case "Location":
                     return Locations.GetLocation(primaryKey);
+
+                case "MatchMakerAreaOfInterestLocation":
+                    return MatchMakerAreaOfInterestLocations.GetMatchMakerAreaOfInterestLocation(primaryKey);
 
                 case "MatchmakerOrganizationTaxonomyBranch":
                     return MatchmakerOrganizationTaxonomyBranches.GetMatchmakerOrganizationTaxonomyBranch(primaryKey);
