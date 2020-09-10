@@ -78,6 +78,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public ProjectCategoryEnum ProjectCategoryEnum { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.BpaProjectNumber)]
+        [MaxLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
         public string BpaProjectNumber { get; set; }
 

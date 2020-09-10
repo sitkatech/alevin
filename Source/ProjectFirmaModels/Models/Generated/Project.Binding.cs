@@ -610,7 +610,7 @@ namespace ProjectFirmaModels.Models
             public const int ProposalClassificationsComment = 1000;
             public const int AttachmentsNotesComment = 1000;
             public const int PhotosComment = 1000;
-            public const int BpaProjectNumber = 50;
+            public const int BpaProjectNumber = 15;
         }
     }
 }
