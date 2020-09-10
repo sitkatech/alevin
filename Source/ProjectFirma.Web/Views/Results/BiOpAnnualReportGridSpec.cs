@@ -49,10 +49,16 @@ namespace ProjectFirma.Web.Views.Results
         public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude,
             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude)
         {
+            
             AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero()).ToList();
 
             Add("Population", barr => barr.GeospatialAreaType?.GeospatialAreaTypeName ?? "None Selected", 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
+
             Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, barr => barr.Project.GetDisplayNameAsUrl(), 250, DhtmlxGridColumnFilterType.Html);
+
+
+
             Add("Year", barr => barr.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("WBS Number", barr => barr.Project.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.ProjectStage.ToType().FieldDefinitionDisplayName} ", barr => barr.Project.ProjectStage.ProjectStageDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
