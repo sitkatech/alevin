@@ -47,18 +47,22 @@ namespace ProjectFirma.Web.Views.Results
 
 
         public BiOpAnnualReportGridSpec(List<GeospatialAreaType> geoSpatialAreaTypesToInclude,
-            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude)
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasuresToInclude,
+            GridOutputFormat gridOutputFormat)
         {
-            
             AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero()).ToList();
 
             Add("Population", barr => barr.GeospatialAreaType?.GeospatialAreaTypeName ?? "None Selected", 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
-
-            Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, barr => barr.Project.GetDisplayNameAsUrl(), 250, DhtmlxGridColumnFilterType.Html);
-
-
-
+            if (gridOutputFormat == GridOutputFormat.Csv)
+            {
+                Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, barr => barr.Project.ProjectName, 250, DhtmlxGridColumnFilterType.Html);
+            }
+            else
+            {
+                Add(FieldDefinitionEnum.Project.ToType().FieldDefinitionDisplayName, barr => barr.Project.GetDisplayNameAsUrl(), 250, DhtmlxGridColumnFilterType.Html);
+            }
+            
             Add("Year", barr => barr.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("WBS Number", barr => barr.Project.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.ProjectStage.ToType().FieldDefinitionDisplayName} ", barr => barr.Project.ProjectStage.ProjectStageDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
@@ -69,9 +73,18 @@ namespace ProjectFirma.Web.Views.Results
 
             foreach (var geospatialAreaType in geoSpatialAreaTypesToInclude)
             {
-                Add(geospatialAreaType.GeospatialAreaTypeName,
-                    barr => String.Join(",", barr.Project.ProjectGeospatialAreas.Where(x =>
-                        x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialArea.GetDisplayNameAsUrl())).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
+                if (gridOutputFormat == GridOutputFormat.Csv)
+                {
+                    Add(geospatialAreaType.GeospatialAreaTypeName,
+                        barr => String.Join(",", barr.Project.ProjectGeospatialAreas.Where(x =>
+                            x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialArea.GetDisplayName())).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
+                }
+                else
+                {
+                    Add(geospatialAreaType.GeospatialAreaTypeName,
+                        barr => String.Join(",", barr.Project.ProjectGeospatialAreas.Where(x =>
+                            x.GeospatialArea.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID).Select(x => x.GeospatialArea.GetDisplayNameAsUrl())).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
+                }
             }
 
             Add("Project Cost", barr => (double)barr.Project.GetProjectedFunding() + (double)barr.Project.GetNoFundingSourceIdentifiedAmountOrZero(), 100, DhtmlxGridColumnFormatType.Decimal);

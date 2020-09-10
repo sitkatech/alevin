@@ -593,13 +593,13 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<BiOpAnnualReportRow>
             BiOpAnnualReportGridJsonData()
         {
-            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(out var rows);
+            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Html, out var rows);
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BiOpAnnualReportRow>(rows, biOpAnnualReportGridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec(out List<BiOpAnnualReportRow> rows)
+        private static BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec(GridOutputFormat gridOutputFormat, out List<BiOpAnnualReportRow> rows)
         {
             var populationAreaTypeIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
                 .Where(x => x.IsPopulation).Select(x => x.GeospatialAreaTypeID).ToList();
@@ -607,7 +607,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures
                 .Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
             var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude);
+            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, gridOutputFormat);
 
             var linqQuery = from p in HttpRequestStorage.DatabaseEntities.Projects
                 join pma in HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals on p.ProjectID equals pma.ProjectID
@@ -620,22 +620,36 @@ namespace ProjectFirma.Web.Controllers
                 join ga in HttpRequestStorage.DatabaseEntities.GeospatialAreas on pga.GeospatialAreaID equals ga
                     .GeospatialAreaID into gaJoin
                 from ga in gaJoin.DefaultIfEmpty()
-                join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes on ga.GeospatialAreaTypeID equals gat
+                join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => populationAreaTypeIDs.Contains(x.GeospatialAreaTypeID)) on ga.GeospatialAreaTypeID equals gat
                     .GeospatialAreaTypeID into gatJoin
                 from gat in gatJoin.DefaultIfEmpty()
-                where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID) || gat == null
+                where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID) || gat == null 
                 select new BiOpAnnualReportRow {PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat};
 
-            rows = linqQuery.ToList().DistinctBy(x =>
-                    $"{x.GeospatialAreaType?.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}")
-                .ToList();
+            // the query and grouping is kind of odd here. But I think it ultimately gets the job done according to the evolving spec - SMG 9/10/2020 [PF-2198]
+            var groupedRows = linqQuery.ToList().GroupBy(x =>
+                $"{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}");
+
+            rows = new List<BiOpAnnualReportRow>();
+            foreach (var groupedRow in groupedRows)
+            {
+                if (groupedRow.Any(x => x.GeospatialAreaType != null))
+                {
+                    rows.AddRange(groupedRow.Where(x => x.GeospatialAreaType != null).DistinctBy(x => $"{x.GeospatialAreaType?.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}"));
+                }
+                else
+                {
+                    rows.Add(groupedRow.FirstOrDefault());
+                }
+            }
+            
             return biOpAnnualReportGridSpec;
         }
 
         [FirmaAdminFeature]
         public CsvDownloadResult BiOpAnnualReportGridCsvDownload()
         {
-            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(out var rows);
+            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Csv, out var rows);
             var csv = rows.ToCsv(biOpAnnualReportGridSpec);
             var descriptor = new DownloadFileDescriptor("BiOpAnnualReport");
             return new CsvDownloadResult(descriptor, csv);

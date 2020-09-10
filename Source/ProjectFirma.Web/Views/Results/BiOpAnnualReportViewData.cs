@@ -25,6 +25,7 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -38,6 +39,7 @@ namespace ProjectFirma.Web.Views.Results
         public BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec { get; set; }
         public string BiOpAnnualReportGridName { get; set; }
         public string BiOpAnnualReportGridDataUrl { get; set; }
+        public string BiOpAnnualReportFullGridDownloadUrl { get; set; }
 
         public BiOpAnnualReportViewData(FirmaSession currentFirmaSession, 
             ProjectFirmaModels.Models.FirmaPage firmaPage, 
@@ -48,15 +50,16 @@ namespace ProjectFirma.Web.Views.Results
         {
             PageTitle = "BiOp Annual Report";
 
-            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude)
+            BiOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, GridOutputFormat.Html)
             {
-                ObjectNameSingular = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel(),
-                ObjectNamePlural = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(),
+                ObjectNameSingular = "Report Row",
+                ObjectNamePlural = "Report Rows",
                 SaveFiltersInCookie = true
             };
 
             BiOpAnnualReportGridName = "BiOpAnnualReportGrid";
             BiOpAnnualReportGridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridJsonData());
+            BiOpAnnualReportFullGridDownloadUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridCsvDownload());
         }
     }
 }
