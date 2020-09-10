@@ -33,7 +33,7 @@ using ProjectFirmaModels.Models;
 namespace ProjectFirma.Web.Views.Results
 {
 
-    public class BioAnnualReportRow
+    public class BiOpAnnualReportRow
     {
         public ProjectFirmaModels.Models.PerformanceMeasureActual PerformanceMeasureActual { get; set; }
         public ProjectFirmaModels.Models.Project Project { get; set; }
@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Results
 
     }
 
-    public class BiOpAnnualReportGridSpec : GridSpec<BioAnnualReportRow>
+    public class BiOpAnnualReportGridSpec : GridSpec<BiOpAnnualReportRow>
     {
         private List<double> AllProjectedFundingValues;
 

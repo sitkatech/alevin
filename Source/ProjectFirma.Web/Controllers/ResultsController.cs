@@ -33,12 +33,15 @@ using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Assessment;
 using ProjectFirma.Web.Views.Reports;
 using ProjectFirma.Web.Views.Shared;
 
@@ -586,7 +589,7 @@ namespace ProjectFirma.Web.Controllers
         }
         
         [FirmaAdminFeature]
-        public GridJsonNetJObjectResult<BioAnnualReportRow>
+        public GridJsonNetJObjectResult<BiOpAnnualReportRow>
             BiOpAnnualReportGridJsonData()
         {
             var populationAreaTypeIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
@@ -607,12 +610,13 @@ namespace ProjectFirma.Web.Controllers
                 join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes on ga.GeospatialAreaTypeID equals gat.GeospatialAreaTypeID into gatJoin
                 from gat in gatJoin.DefaultIfEmpty()
                 where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID) || gat == null
-                            select new BioAnnualReportRow { PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat };
+                            select new BiOpAnnualReportRow { PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat };
 
             var rows = linqQuery.ToList().DistinctBy(x => $"{x.GeospatialAreaType?.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}").ToList();
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BioAnnualReportRow>(rows, biOpAnnualReportGridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BiOpAnnualReportRow>(rows, biOpAnnualReportGridSpec);
             return gridJsonNetJObjectResult;
         }
+
     }
 }
