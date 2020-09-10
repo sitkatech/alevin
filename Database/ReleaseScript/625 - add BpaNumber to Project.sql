@@ -1,8 +1,8 @@
 
  
  alter table dbo.Project
- add BpaProjectNumber varchar(50) null;
+ add BpaProjectNumber varchar(15) null;
 
 
  alter table dbo.ProjectUpdate
- add BpaProjectNumber varchar(50) null;
+ add BpaProjectNumber varchar(15) null;

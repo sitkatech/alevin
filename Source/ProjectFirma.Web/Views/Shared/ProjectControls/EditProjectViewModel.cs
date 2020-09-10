@@ -62,6 +62,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.BpaProjectNumber)]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
+        [MaxLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
         public string BpaProjectNumber { get; set; }
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeaf)]

@@ -159,7 +159,7 @@ namespace ProjectFirmaModels.Models
         {
             public const int ProjectDescription = 4000;
             public const int ProjectLocationNotes = 4000;
-            public const int BpaProjectNumber = 50;
+            public const int BpaProjectNumber = 15;
         }
     }
 }
