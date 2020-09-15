@@ -226,6 +226,15 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.ValidationMessageFor(m => m.CompletionYear)
             </div>
         </div>
+        <div class="form-group">
+            <div class="col-xs-12 col-sm-4 control-label">
+                @Html.LabelWithSugarFor(m => m.BpaProjectNumber)
+            </div>
+            <div class="col-xs-12 col-sm-8">
+                @Html.TextBoxFor(m => m.BpaProjectNumber, new {@class = "form-control"})
+                @Html.ValidationMessageFor(m => m.BpaProjectNumber)
+            </div>
+        </div>
         @if (ViewDataTyped.TenantAttribute.EnableProjectCategories)
         {
             <div class="form-group">

@@ -23,6 +23,15 @@ CREATE TABLE [dbo].[Organization](
 	[OrganizationZip] [varchar](20) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[Description] [dbo].[html] NULL,
 	[MatchmakerOptIn] [bit] NULL,
+	[UseOrganizationBoundaryForMatchmaker] [bit] NOT NULL,
+	[MatchmakerCash] [bit] NULL,
+	[MatchmakerInKindServices] [bit] NULL,
+	[MatchmakerCommercialServices] [bit] NULL,
+	[MatchmakerCashDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerInKindServicesDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerCommercialServicesDescription] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerConstraints] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[MatchmakerAdditionalInformation] [varchar](300) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Organization_OrganizationID] PRIMARY KEY CLUSTERED 
 (
 	[OrganizationID] ASC
@@ -82,3 +91,7 @@ ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [FK_Organization_Te
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [FK_Organization_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[Organization]  WITH CHECK ADD  CONSTRAINT [CK_Organization_OrganizationBoundary_SpatialReferenceID_Must_Be_4326] CHECK  (([OrganizationBoundary] IS NULL OR [OrganizationBoundary].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[Organization] CHECK CONSTRAINT [CK_Organization_OrganizationBoundary_SpatialReferenceID_Must_Be_4326]

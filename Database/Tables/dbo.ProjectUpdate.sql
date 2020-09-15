@@ -18,6 +18,7 @@ CREATE TABLE [dbo].[ProjectUpdate](
 	[EstimatedAnnualOperatingCostDeprecated] [decimal](18, 0) NULL,
 	[PrimaryContactPersonID] [int] NULL,
 	[FundingTypeID] [int] NULL,
+	[BpaProjectNumber] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_ProjectUpdate_ProjectUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateID] ASC
@@ -77,3 +78,7 @@ GO
 ALTER TABLE [dbo].[ProjectUpdate]  WITH CHECK ADD  CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_IsPointData] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint] IS NOT NULL AND [ProjectLocationPoint].[STGeometryType]()='Point'))
 GO
 ALTER TABLE [dbo].[ProjectUpdate] CHECK CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_IsPointData]
+GO
+ALTER TABLE [dbo].[ProjectUpdate]  WITH CHECK ADD  CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_SpatialReferenceID_Must_Be_4326] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[ProjectUpdate] CHECK CONSTRAINT [CK_ProjectUpdate_ProjectLocationPoint_SpatialReferenceID_Must_Be_4326]

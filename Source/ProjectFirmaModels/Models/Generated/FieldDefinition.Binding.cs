@@ -308,6 +308,10 @@ namespace ProjectFirmaModels.Models
         EnableMatchmaker = 358,
         GeospatialAreaMapLayerDisplayAsReferenceLayer = 359,
         MatchScore = 360,
+        OrganizationCash = 361,
+        OrganizationInKindServices = 362,
+        OrganizationCommercialServices = 363,
+        AreaOfInterest = 364,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
@@ -362,6 +366,7 @@ namespace ProjectFirmaModels.Models
         PnBudget = 10053,
         BudgetObjectCode = 10054,
         ObligationItem = 10055,
-        ObligationRequestNumber = 10056
+        ObligationRequestNumber = 10056,
+        BpaProjectNumber = 10057
     }
 }

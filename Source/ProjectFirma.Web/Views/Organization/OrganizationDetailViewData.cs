@@ -100,7 +100,10 @@ namespace ProjectFirma.Web.Views.Organization
         public bool UserHasViewEditProfilePermission { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public string EditProfileMatchmakerOptIn { get; }
+        public string EditProfileSupplementalInformationUrl { get; }
         public string EditProfileTaxonomyUrl { get; }
+        public string EditAreaOfInterestUrl { get; }
+        public string EditAreaOfInterestDialogFormID { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -108,18 +111,21 @@ namespace ProjectFirma.Web.Views.Organization
         public TaxonomyLevel TaxonomyLevel { get; }
         public int MaximumTaxonomyLeaves { get; }
         public OrganizationDetailTab ActiveTab { get; }
+        public bool HasAreaOfInterest { get; set; }
+        public readonly MapInitJson AreaOfInterestMapInitJson;
+        public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             LayerGeoJson projectLocationsLayerGeoJson,
             bool hasSpatialData,
-            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
             ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
             List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
             int maximumTaxonomyLeaves,
-            OrganizationDetailTab activeTab) : base(currentFirmaSession)
+            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson) : base(currentFirmaSession)
         {
             Organization = organization;
             Check.EnsureNotNull(organization);
@@ -236,7 +242,13 @@ namespace ProjectFirma.Web.Views.Organization
                 .HasPermission(currentFirmaSession, organization).HasPermission;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             EditProfileMatchmakerOptIn = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileMatchmakerOptIn(organization));
+            EditProfileSupplementalInformationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileSupplementalInformation(organization));
             EditProfileTaxonomyUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileTaxonomy(organization));
+            EditAreaOfInterestUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerAreaOfInterest(organization));
+            EditAreaOfInterestDialogFormID = OrganizationController.GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
+            HasAreaOfInterest = (Organization.UseOrganizationBoundaryForMatchmaker && Organization.OrganizationBoundary != null) || (!Organization.UseOrganizationBoundaryForMatchmaker && Organization.MatchMakerAreaOfInterestLocations.Any());
+            AreaOfInterestMapInitJson = matchMakerAreaOfInterestInitJson;
+
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
             TaxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();

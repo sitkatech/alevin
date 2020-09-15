@@ -29,3 +29,7 @@ ALTER TABLE [dbo].[NpccProvince]  WITH CHECK ADD  CONSTRAINT [FK_NpccProvince_Te
 REFERENCES [dbo].[Tenant] ([TenantID])
 GO
 ALTER TABLE [dbo].[NpccProvince] CHECK CONSTRAINT [FK_NpccProvince_Tenant_TenantID]
+GO
+ALTER TABLE [dbo].[NpccProvince]  WITH CHECK ADD  CONSTRAINT [CK_NpccProvince_NpccProvinceFeature_SpatialReferenceID_Must_Be_4326] CHECK  (([NpccProvinceFeature] IS NULL OR [NpccProvinceFeature].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[NpccProvince] CHECK CONSTRAINT [CK_NpccProvince_NpccProvinceFeature_SpatialReferenceID_Must_Be_4326]
