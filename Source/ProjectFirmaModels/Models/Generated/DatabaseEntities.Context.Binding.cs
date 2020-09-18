@@ -90,6 +90,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
             modelBuilder.Configurations.Add(new MatchMakerAreaOfInterestLocationConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerKeywordConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerOrganizationClassificationConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
@@ -100,6 +102,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new OrganizationConfiguration());
             modelBuilder.Configurations.Add(new OrganizationBoundaryStagingConfiguration());
             modelBuilder.Configurations.Add(new OrganizationImageConfiguration());
+            modelBuilder.Configurations.Add(new OrganizationMatchmakerKeywordConfiguration());
             modelBuilder.Configurations.Add(new OrganizationRelationshipTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeConfiguration());
             modelBuilder.Configurations.Add(new OrganizationTypeOrganizationRelationshipTypeConfiguration());
@@ -370,6 +373,10 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<MatchMakerAreaOfInterestLocation> AllMatchMakerAreaOfInterestLocations { get; set; }
         public virtual IQueryable<MatchMakerAreaOfInterestLocation> MatchMakerAreaOfInterestLocations { get { return AllMatchMakerAreaOfInterestLocations.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerKeyword> AllMatchmakerKeywords { get; set; }
+        public virtual IQueryable<MatchmakerKeyword> MatchmakerKeywords { get { return AllMatchmakerKeywords.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerOrganizationClassification> AllMatchmakerOrganizationClassifications { get; set; }
+        public virtual IQueryable<MatchmakerOrganizationClassification> MatchmakerOrganizationClassifications { get { return AllMatchmakerOrganizationClassifications.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyBranch> AllMatchmakerOrganizationTaxonomyBranches { get; set; }
         public virtual IQueryable<MatchmakerOrganizationTaxonomyBranch> MatchmakerOrganizationTaxonomyBranches { get { return AllMatchmakerOrganizationTaxonomyBranches.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyLeaf> AllMatchmakerOrganizationTaxonomyLeafs { get; set; }
@@ -392,6 +399,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<OrganizationBoundaryStaging> OrganizationBoundaryStagings { get { return AllOrganizationBoundaryStagings.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationImage> AllOrganizationImages { get; set; }
         public virtual IQueryable<OrganizationImage> OrganizationImages { get { return AllOrganizationImages.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<OrganizationMatchmakerKeyword> AllOrganizationMatchmakerKeywords { get; set; }
+        public virtual IQueryable<OrganizationMatchmakerKeyword> OrganizationMatchmakerKeywords { get { return AllOrganizationMatchmakerKeywords.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<OrganizationRelationshipType> AllOrganizationRelationshipTypes { get; set; }
         public virtual IQueryable<OrganizationRelationshipType> OrganizationRelationshipTypes { get { return AllOrganizationRelationshipTypes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Organization> AllOrganizations { get; set; }
@@ -927,6 +936,12 @@ namespace ProjectFirmaModels.Models
                 case "MatchMakerAreaOfInterestLocation":
                     return MatchMakerAreaOfInterestLocations.GetMatchMakerAreaOfInterestLocation(primaryKey);
 
+                case "MatchmakerKeyword":
+                    return MatchmakerKeywords.GetMatchmakerKeyword(primaryKey);
+
+                case "MatchmakerOrganizationClassification":
+                    return MatchmakerOrganizationClassifications.GetMatchmakerOrganizationClassification(primaryKey);
+
                 case "MatchmakerOrganizationTaxonomyBranch":
                     return MatchmakerOrganizationTaxonomyBranches.GetMatchmakerOrganizationTaxonomyBranch(primaryKey);
 
@@ -985,6 +1000,9 @@ namespace ProjectFirmaModels.Models
 
                 case "OrganizationImage":
                     return OrganizationImages.GetOrganizationImage(primaryKey);
+
+                case "OrganizationMatchmakerKeyword":
+                    return OrganizationMatchmakerKeywords.GetOrganizationMatchmakerKeyword(primaryKey);
 
                 case "OrganizationRelationshipType":
                     return OrganizationRelationshipTypes.GetOrganizationRelationshipType(primaryKey);

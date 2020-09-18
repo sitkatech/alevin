@@ -18,6 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.Linq;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Tag;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectControls
@@ -27,10 +30,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public readonly ProjectFirmaModels.Models.Project Project;
         public readonly TagHelper TagHelper;
 
-        public ProjectBasicsTagsViewData(ProjectFirmaModels.Models.Project project, TagHelper tagHelper)
+        public ProjectBasicsTagsViewData(ProjectFirmaModels.Models.Project project)
         {
             Project = project;
-            TagHelper = tagHelper;
+            TagHelper = new TagHelper(project.ProjectTags.Select(x => new BootstrapTag(x.Tag)).ToList());
         }
     }
 }

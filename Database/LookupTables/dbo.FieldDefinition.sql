@@ -185,7 +185,9 @@ VALUES
 (361, N'OrganizationCash', N'Cash'),
 (362, N'OrganizationInKindServices', N'In-Kind Services'),
 (363, N'OrganizationCommercialServices', N'Commercial Services'),
-(364, N'AreaOfInterest', N'Area of Interest')
+(364, N'AreaOfInterest', N'Area of Interest'),
+(365, N'MatchmakerKeyword', N'Matchmaker Keyword')
+
 
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 

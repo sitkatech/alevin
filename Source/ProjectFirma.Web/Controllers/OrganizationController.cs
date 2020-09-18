@@ -38,10 +38,12 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.GeoJson;
 using MoreLinq;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
+using Detail = ProjectFirma.Web.Views.Organization.OrganizationDetail;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
@@ -347,7 +349,46 @@ namespace ProjectFirma.Web.Controllers
         #endregion Matchmaker Area of Interest
 
 
+        #region Matchmaker Classifications
 
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditMatchMakerClassifications(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var viewModel = new MatchmakerOrganizationClassificationsViewModel(organization, allClassificationSystems);
+            return ViewEditMatchMakerClassifications(organization, allClassificationSystems, viewModel);
+        }
+
+        private PartialViewResult ViewEditMatchMakerClassifications(Organization organization, List<ClassificationSystem> allClassificationSystems, MatchmakerOrganizationClassificationsViewModel viewModel)
+        {
+
+            var viewData = new MatchmakerOrganizationClassificationsViewData(organization, allClassificationSystems);
+            return RazorPartialView<MatchmakerOrganizationClassifications, MatchmakerOrganizationClassificationsViewData, MatchmakerOrganizationClassificationsViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditMatchMakerClassifications(OrganizationPrimaryKey organizationPrimaryKey, MatchmakerOrganizationClassificationsViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditMatchMakerClassifications(organization, allClassificationSystems,  viewModel);
+            }
+
+            viewModel.UpdateModel(CurrentFirmaSession, organization, HttpRequestStorage.DatabaseEntities);
+
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
+        }
+
+
+        #endregion Matchmaker Classifications
 
 
 
@@ -453,6 +494,11 @@ namespace ProjectFirma.Web.Controllers
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
             var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var matchmakerOrganizationClassificationsOrdered = HttpRequestStorage.DatabaseEntities
+                .MatchmakerOrganizationClassifications.Where(x => x.OrganizationID == organization.OrganizationID).OrderBy(x => x.Classification.ClassificationSortOrder).ToList();
+            var matchmakerClassificationsGroupedByClassificationSystem = matchmakerOrganizationClassificationsOrdered
+                .GroupBy(x => x.Classification.ClassificationSystem).ToList();
             var viewData = new OrganizationDetailViewData(CurrentFirmaSession,
                                               organization,
                                               mapInitJson,
@@ -464,8 +510,10 @@ namespace ProjectFirma.Web.Controllers
                                               topLevelMatchmakerTaxonomyTier,
                                               maximumTaxonomyLeaves,
                                               activeTab,
-                                              matchMakerAreaOfInterestInitJson);
-            return RazorView<OrganizationDetail, OrganizationDetailViewData>(viewData);
+                                              matchMakerAreaOfInterestInitJson,
+                                              matchmakerClassificationsGroupedByClassificationSystem,
+                                              allClassificationSystems);
+            return RazorView<Detail, OrganizationDetailViewData>(viewData);
         }
 
         private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, Person person)
