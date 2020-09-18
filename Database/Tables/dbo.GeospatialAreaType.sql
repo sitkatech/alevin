@@ -13,6 +13,10 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 	[DisplayOnAllProjectMaps] [bit] NOT NULL,
 	[LayerIsOnByDefault] [bit] NOT NULL,
 	[IsPopulation] [bit] NOT NULL,
+	[EsuDpsGeospatialAreaTypeID] [int] NULL,
+	[MPGGeospatialAreaTypeID] [int] NULL,
+	[PopulationGeospatialAreaTypeID] [int] NULL,
+	[IncludeInBiOpAnnualReport] [bit] NOT NULL,
  CONSTRAINT [PK_GeospatialAreaType_GeospatialAreaTypeID] PRIMARY KEY CLUSTERED 
 (
 	[GeospatialAreaTypeID] ASC
@@ -34,6 +38,21 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID] FOREIGN KEY([EsuDpsGeospatialAreaTypeID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
+GO
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID]
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID] FOREIGN KEY([MPGGeospatialAreaTypeID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
+GO
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID]
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID] FOREIGN KEY([PopulationGeospatialAreaTypeID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
+GO
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID]
 GO
 ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
