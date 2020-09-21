@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Specialized;
+using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
@@ -46,5 +47,57 @@ namespace ProjectFirma.Web.Models
         {
             return EditMapLayerUrlTemplate.ParameterReplace(geospatialAreaType.GeospatialAreaTypeID);
         }
+
+        public static string GetEsuDpsPopulationStringForProjectInBiOpAnnualReportGrid(this GeospatialAreaType geospatialAreaType, Project project, bool returnRawHtmlUrlString)
+        {
+            var returnString = "";
+
+            if (geospatialAreaType?.EsuDpsGeospatialAreaType != null)
+            {
+                var esuDpsGeospatialAreaType = geospatialAreaType.EsuDpsGeospatialAreaType;
+                var projectGeospatialAreas = project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList();
+                var projectGeospatialAreasWithinType = projectGeospatialAreas.Where(x => x.GeospatialAreaTypeID == esuDpsGeospatialAreaType.GeospatialAreaTypeID).ToList();
+
+                returnString = String.Join(", ", projectGeospatialAreasWithinType.Select(x => returnRawHtmlUrlString ? x.GetDisplayNameAsUrl().ToString() : x.GetDisplayName()));
+
+            }
+
+            return returnString;
+        }
+
+        public static string GetMpgPopulationStringForProjectInBiOpAnnualReportGrid(this GeospatialAreaType geospatialAreaType, Project project, bool returnRawHtmlUrlString)
+        {
+            var returnString = "";
+
+            if (geospatialAreaType?.MPGGeospatialAreaType != null)
+            {
+                var mpgGeospatialAreaType = geospatialAreaType.MPGGeospatialAreaType;
+                var projectGeospatialAreas = project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList();
+                var projectGeospatialAreasWithinType = projectGeospatialAreas.Where(x => x.GeospatialAreaTypeID == mpgGeospatialAreaType.GeospatialAreaTypeID).ToList();
+
+                returnString = String.Join(", ", projectGeospatialAreasWithinType.Select(x => returnRawHtmlUrlString ? x.GetDisplayNameAsUrl().ToString() : x.GetDisplayName()));
+
+            }
+
+            return returnString;
+        }
+
+        public static string GetPopulationStringForProjectInBiOpAnnualReportGrid(this GeospatialAreaType geospatialAreaType, Project project, bool returnRawHtmlUrlString)
+        {
+            var returnString = "";
+
+            if (geospatialAreaType?.PopulationGeospatialAreaType != null)
+            {
+                var populationGeospatialAreaType = geospatialAreaType.PopulationGeospatialAreaType;
+                var projectGeospatialAreas = project.ProjectGeospatialAreas.Select(x => x.GeospatialArea).ToList();
+                var projectGeospatialAreasWithinType = projectGeospatialAreas.Where(x => x.GeospatialAreaTypeID == populationGeospatialAreaType.GeospatialAreaTypeID).ToList();
+
+                returnString = String.Join(", ", projectGeospatialAreasWithinType.Select(x => returnRawHtmlUrlString ? x.GetDisplayNameAsUrl().ToString() : x.GetDisplayName()));
+
+            }
+
+            return returnString;
+        }
+
     }
 }

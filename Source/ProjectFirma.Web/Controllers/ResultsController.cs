@@ -582,7 +582,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.BiOpAnnualReport.GetFirmaPage();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => x.IncludeInBiOpAnnualReport).ToList();
             var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
 
             var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute, geoSpatialAreasToInclude, performanceMeasuresToInclude);
@@ -606,7 +606,7 @@ namespace ProjectFirma.Web.Controllers
 
             var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures
                 .Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
-            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => x.IncludeInBiOpAnnualReport).ToList();
             var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, gridOutputFormat);
 
             var linqQuery = from p in HttpRequestStorage.DatabaseEntities.Projects

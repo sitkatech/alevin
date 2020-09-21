@@ -82,6 +82,7 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
@@ -125,9 +126,11 @@
     <Compile Include="Models\DocumentLibraryDocumentModelExtensions.cs" />
     <Compile Include="Models\DocumentLibraryModelExtensions.cs" />
     <Compile Include="Models\FirmaMenuItemModelExtensions.cs" />
+    <Compile Include="Models\MatchmakerKeywordModelExtensions.cs" />
     <Compile Include="Models\ObligationNumberModelExtensions.cs" />
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
+    <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
     <Compile Include="Models\ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple.cs" />
     <Compile Include="Models\ObligationItemModelExtensions.cs" />
@@ -460,8 +463,11 @@
     <Compile Include="Views\Organization\EditProfileTaxonomyViewModel.cs" />
     <Compile Include="Views\Organization\EditProfileSupplementalInformationViewData.cs" />
     <Compile Include="Views\Organization\EditProfileSupplementalInformationViewModel.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationClassifications.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetail.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationClassificationsViewData.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewData.cs" />
+    <Compile Include="Views\Organization\MatchmakerOrganizationClassificationsViewModel.cs" />
     <Compile Include="Views\Organization\MatchmakerOrganizationLocationDetailViewModel.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreate.cs" />
     <Compile Include="Views\ProjectCreate\PartnerFinderProjectCreateViewData.cs" />
@@ -628,6 +634,15 @@
     <Compile Include="Views\Project\PerformanceMeasureSubcategoriesExpectedValue.cs" />
     <Compile Include="Views\Shared\FirmaIncludesViewData.cs" />
     <Compile Include="Views\Shared\GooglePieChartPopupViewModel.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizations.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizationsViewData.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizationsViewModel.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeywordDetail.cs" />
+    <Compile Include="Views\Shared\MatchmakerKeywordDetailViewData.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\BootstrapOrganizationMatchmakerKeyword.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywordsViewData.cs" />
+    <Compile Include="Views\Shared\MatchmakerOrganizationControls\MatchmakerKeywordHelper.cs" />
     <Compile Include="Views\Shared\ProjectBalanceBurnUp\ProjectBalanceBurnUp.cs" />
     <Compile Include="Views\Shared\ProjectBalanceBurnUp\ProjectBalanceBurnUpViewData.cs" />
     <Compile Include="Views\Shared\ProjectContact\EditContacts.cs" />
@@ -984,6 +999,7 @@
     <Content Include="Views\MapLayer\EditGeospatialAreaMapLayer.cshtml" />
     <Content Include="Views\Organization\EditProfileSupplementalInformation.cshtml" />
     <Content Include="Views\Organization\MatchmakerOrganizationLocationDetail.cshtml" />
+    <Content Include="Views\Organization\MatchmakerOrganizationClassifications.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectCreate\GeospatialAreaViewModel.cs" />
     <Compile Include="Views\ProjectCustomAttributeType\Detail.cs" />
@@ -2089,6 +2105,10 @@
     <Content Include="Views\Reports\Projects.cshtml" />
     <Content Include="Views\Shared\DisplayDocumentLibrary.cshtml" />
     <Content Include="Views\Shared\ProjectPotentialPartner\ProjectPotentialPartnerDetail.cshtml" />
+    <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
+    <Content Include="Views\Shared\MatchmakerKeyword\BulkMatchmakerKeywordOrganizations.cshtml" />
+    <Content Include="Views\Shared\MatchmakerKeywordDetail.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
     <Content Include="Views\ActionItem\ActionItemsDisplay.cshtml" />
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />

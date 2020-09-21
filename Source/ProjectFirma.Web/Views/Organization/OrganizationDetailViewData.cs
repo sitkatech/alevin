@@ -31,6 +31,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -102,8 +103,16 @@ namespace ProjectFirma.Web.Views.Organization
         public string EditProfileMatchmakerOptIn { get; }
         public string EditProfileSupplementalInformationUrl { get; }
         public string EditProfileTaxonomyUrl { get; }
+
         public string EditAreaOfInterestUrl { get; }
         public string EditAreaOfInterestDialogFormID { get; }
+
+        // Might not need these next two?
+        public string EditMatchmakerKeywordsUrl { get; }
+        public string EditMatchmakerKeywordDialogFormID { get; }
+        public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData { get; }
+
+        public string EditOrgClassificationsUrl { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -115,6 +124,9 @@ namespace ProjectFirma.Web.Views.Organization
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
+        public readonly List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>> MatchmakerClassificationsGroupedByClassificationSystem;
+        public readonly List<ProjectFirmaModels.Models.ClassificationSystem> AllClassificationSystems;
+
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
@@ -125,7 +137,10 @@ namespace ProjectFirma.Web.Views.Organization
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
             List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
             int maximumTaxonomyLeaves,
-            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson) : base(currentFirmaSession)
+            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson,
+            List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>>
+                matchmakerClassificationsGroupedByClassificationSystem,
+            List<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems) : base(currentFirmaSession)
         {
             Organization = organization;
             Check.EnsureNotNull(organization);
@@ -249,6 +264,8 @@ namespace ProjectFirma.Web.Views.Organization
             HasAreaOfInterest = (Organization.UseOrganizationBoundaryForMatchmaker && Organization.OrganizationBoundary != null) || (!Organization.UseOrganizationBoundaryForMatchmaker && Organization.MatchMakerAreaOfInterestLocations.Any());
             AreaOfInterestMapInitJson = matchMakerAreaOfInterestInitJson;
 
+            OrganizationMatchmakerKeywordsViewData = new OrganizationMatchmakerKeywordsViewData(organization);
+
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
             TaxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
@@ -256,6 +273,10 @@ namespace ProjectFirma.Web.Views.Organization
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             MaximumTaxonomyLeaves = maximumTaxonomyLeaves;
             ActiveTab = activeTab;
+
+            EditOrgClassificationsUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerClassifications(organization));
+            MatchmakerClassificationsGroupedByClassificationSystem = matchmakerClassificationsGroupedByClassificationSystem;
+            AllClassificationSystems = allClassificationSystems;
         }
     }
 }

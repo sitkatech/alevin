@@ -71,6 +71,11 @@ namespace ProjectFirma.Web.Views.Results
             Add("Lat", barr => $"{barr.Project.ProjectLocationPoint?.YCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
             Add("Lng", barr => $"{barr.Project.ProjectLocationPoint?.XCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
 
+            
+            Add("ESU/DPS", barr => barr.GeospatialAreaType.GetEsuDpsPopulationStringForProjectInBiOpAnnualReportGrid(barr.Project, gridOutputFormat != GridOutputFormat.Csv).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
+            Add("MPG", barr => barr.GeospatialAreaType.GetMpgPopulationStringForProjectInBiOpAnnualReportGrid(barr.Project, gridOutputFormat != GridOutputFormat.Csv).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
+            Add("Population", barr => barr.GeospatialAreaType.GetPopulationStringForProjectInBiOpAnnualReportGrid(barr.Project, gridOutputFormat != GridOutputFormat.Csv).ToHTMLFormattedString(), 100, DhtmlxGridColumnFilterType.Html);
+            
             foreach (var geospatialAreaType in geoSpatialAreaTypesToInclude)
             {
                 if (gridOutputFormat == GridOutputFormat.Csv)
