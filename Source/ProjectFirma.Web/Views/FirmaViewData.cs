@@ -57,6 +57,10 @@ namespace ProjectFirma.Web.Views
         public string RegisterAccountUrl { get; }
         public string ForgotPasswordUrl { get; }
         public string RequestSupportUrl { get; }
+        public Uri CurrentUrl { get; }
+        public string LocalUrl { get; }
+        public string QaUrl { get; }
+        public List<TenantSimple> TenantSimples { get; }
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
         public ViewPageContentViewData CustomFooterViewData { get; }
@@ -65,6 +69,10 @@ namespace ProjectFirma.Web.Views
         public string TenantToolDisplayName { get; }
         public string TenantBannerLogoUrl { get; private set; }
         public FirmaIncludesViewData FirmaIncludesViewData { get; }
+
+        public bool ShowTenantDropdown { get; }
+        public bool ShowEnvironmentLabel { get; }
+        public bool ShowEnvironmentDropdown { get; }
 
         /// <summary>
         /// Call for page without associated FirmaPage
@@ -89,9 +97,14 @@ namespace ProjectFirma.Web.Views
             LogInUrl = FirmaHelpers.GenerateLogInUrl();
             LogOutUrl = FirmaHelpers.GenerateLogOutUrlWithReturnUrl();
 
-            var currentUrl = HttpContext.Current.Request.Url.AbsoluteUri;
-            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(currentUrl);
-            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(currentUrl);
+            CurrentUrl = HttpContext.Current.Request.Url;
+            ForgotPasswordUrl = FirmaHelpers.GenerateForgotPasswordUrlWithReturnUrl(CurrentUrl.AbsoluteUri);
+            RegisterAccountUrl = FirmaHelpers.GenerateCreateAccountWithReturnUrl(CurrentUrl.AbsoluteUri);
+
+            QaUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Qa);
+            LocalUrl = MultiTenantHelpers.GetRelativeUrlForEnvironment(CurrentUrl, FirmaEnvironmentType.Local);
+
+            TenantSimples = MultiTenantHelpers.GetAllTenantSimples();
 
             RequestSupportUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(c => c.Support());
 
@@ -108,6 +121,15 @@ namespace ProjectFirma.Web.Views
             TenantShortDisplayName = MultiTenantHelpers.GetTenantShortDisplayName();
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();
             TenantToolDisplayName = MultiTenantHelpers.GetToolDisplayName();
+            ShowTenantDropdown =
+                // Tenant dropdown can be globally disabled if necessary. (Reclamation needs this, and so might other hard-ish forks.)
+                FirmaWebConfiguration.TenantDropdownEnabled &&
+                (FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local ||
+                 CurrentFirmaSession.IsSitkaAdministrator());
+            ShowEnvironmentLabel = FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType != FirmaEnvironmentType.Prod;
+            ShowEnvironmentDropdown =
+                FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType == FirmaEnvironmentType.Local ||
+                CurrentFirmaSession.IsSitkaAdministrator();
             FirmaIncludesViewData = new FirmaIncludesViewData();
         }
 
