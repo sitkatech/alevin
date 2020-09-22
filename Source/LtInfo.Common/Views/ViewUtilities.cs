@@ -88,6 +88,7 @@ namespace LtInfo.Common.Views
             return String.IsNullOrEmpty(ret) ? ret : ret.Replace("\r\n","\n").Replace("\r","\n").Replace("\n", "<br/>\r\n");
         }
 
+
         /// <summary>
         /// Adds the proper HTTP headers for a file download.  <see>
         ///                                                        <cref>SitkaGlobalBase.AddCachingHeaders</cref>

@@ -31,6 +31,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls;
 
 namespace ProjectFirma.Web.Views.Organization
 {
@@ -100,7 +101,18 @@ namespace ProjectFirma.Web.Views.Organization
         public bool UserHasViewEditProfilePermission { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public string EditProfileMatchmakerOptIn { get; }
+        public string EditProfileSupplementalInformationUrl { get; }
         public string EditProfileTaxonomyUrl { get; }
+
+        public string EditAreaOfInterestUrl { get; }
+        public string EditAreaOfInterestDialogFormID { get; }
+
+        // Might not need these next two?
+        public string EditMatchmakerKeywordsUrl { get; }
+        public string EditMatchmakerKeywordDialogFormID { get; }
+        public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData { get; }
+
+        public string EditOrgClassificationsUrl { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -108,18 +120,27 @@ namespace ProjectFirma.Web.Views.Organization
         public TaxonomyLevel TaxonomyLevel { get; }
         public int MaximumTaxonomyLeaves { get; }
         public OrganizationDetailTab ActiveTab { get; }
+        public bool HasAreaOfInterest { get; set; }
+        public readonly MapInitJson AreaOfInterestMapInitJson;
+        public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
+
+        public readonly List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>> MatchmakerClassificationsGroupedByClassificationSystem;
+        public readonly List<ProjectFirmaModels.Models.ClassificationSystem> AllClassificationSystems;
 
         public OrganizationDetailViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.Organization organization,
             MapInitJson mapInitJson,
             LayerGeoJson projectLocationsLayerGeoJson,
             bool hasSpatialData,
-            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
+            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
             ViewGoogleChartViewData expendituresDirectlyFromOrganizationViewGoogleChartViewData,
             ViewGoogleChartViewData expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
             List<MatchmakerTaxonomyTier> topLevelMatchmakerTaxonomyTier,
             int maximumTaxonomyLeaves,
-            OrganizationDetailTab activeTab) : base(currentFirmaSession)
+            OrganizationDetailTab activeTab, MapInitJson matchMakerAreaOfInterestInitJson,
+            List<IGrouping<ProjectFirmaModels.Models.ClassificationSystem, MatchmakerOrganizationClassification>>
+                matchmakerClassificationsGroupedByClassificationSystem,
+            List<ProjectFirmaModels.Models.ClassificationSystem> allClassificationSystems) : base(currentFirmaSession)
         {
             Organization = organization;
             Check.EnsureNotNull(organization);
@@ -236,7 +257,15 @@ namespace ProjectFirma.Web.Views.Organization
                 .HasPermission(currentFirmaSession, organization).HasPermission;
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             EditProfileMatchmakerOptIn = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileMatchmakerOptIn(organization));
+            EditProfileSupplementalInformationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileSupplementalInformation(organization));
             EditProfileTaxonomyUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileTaxonomy(organization));
+            EditAreaOfInterestUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerAreaOfInterest(organization));
+            EditAreaOfInterestDialogFormID = OrganizationController.GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
+            HasAreaOfInterest = (Organization.UseOrganizationBoundaryForMatchmaker && Organization.OrganizationBoundary != null) || (!Organization.UseOrganizationBoundaryForMatchmaker && Organization.MatchMakerAreaOfInterestLocations.Any());
+            AreaOfInterestMapInitJson = matchMakerAreaOfInterestInitJson;
+
+            OrganizationMatchmakerKeywordsViewData = new OrganizationMatchmakerKeywordsViewData(organization);
+
             TopLevelMatchmakerTaxonomyTier = topLevelMatchmakerTaxonomyTier;
             TaxonomyTrunkDisplayName = FieldDefinitionEnum.TaxonomyTrunk.ToType().GetFieldDefinitionLabel();
             TaxonomyBranchDisplayName = FieldDefinitionEnum.TaxonomyBranch.ToType().GetFieldDefinitionLabel();
@@ -244,6 +273,10 @@ namespace ProjectFirma.Web.Views.Organization
             TaxonomyLevel = MultiTenantHelpers.GetTaxonomyLevel();
             MaximumTaxonomyLeaves = maximumTaxonomyLeaves;
             ActiveTab = activeTab;
+
+            EditOrgClassificationsUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerClassifications(organization));
+            MatchmakerClassificationsGroupedByClassificationSystem = matchmakerClassificationsGroupedByClassificationSystem;
+            AllClassificationSystems = allClassificationSystems;
         }
     }
 }

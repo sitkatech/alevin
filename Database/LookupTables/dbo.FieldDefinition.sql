@@ -181,8 +181,12 @@ VALUES
 (357, N'CustomPageViewableBy', N'Custom Page Viewable By'),
 (358, N'EnableMatchmaker', N'Enable Matchmaker'),
 (359, N'GeospatialAreaMapLayerDisplayAsReferenceLayer', 'Display as Reference Layer?'),
-(360, N'MatchScore', N'Match Score')
-
+(360, N'MatchScore', N'Match Score'),
+(361, N'OrganizationCash', N'Cash'),
+(362, N'OrganizationInKindServices', N'In-Kind Services'),
+(363, N'OrganizationCommercialServices', N'Commercial Services'),
+(364, N'AreaOfInterest', N'Area of Interest'),
+(365, N'MatchmakerKeyword', N'Matchmaker Keyword')
 
 
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
@@ -244,5 +248,5 @@ VALUES
 (10053, N'PnBudget', N'PnBudget'),
 (10054, N'BudgetObjectCode', N'Budget Object Code'),
 (10055, N'ObligationItem', N'Obligation Item'),
-(10056, N'ObligationRequestNumber', N'Obligation Request Number')
-
+(10056, N'ObligationRequestNumber', N'Obligation Request Number'),
+(10057, N'BpaProjectNumber', N'BPA Project Number')

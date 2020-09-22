@@ -71,6 +71,7 @@ namespace ProjectFirmaModels.Models
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
             FundingTypeID = project.FundingTypeID;
+            BpaProjectNumber = project.BpaProjectNumber;
         }
 
         public void LoadSimpleLocationFromProject(Project project)
@@ -88,6 +89,7 @@ namespace ProjectFirmaModels.Models
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
             project.PrimaryContactPersonID = PrimaryContactPersonID;
+            project.BpaProjectNumber = BpaProjectNumber;
         }
         
         public void CommitSimpleLocationToProject(Project project)

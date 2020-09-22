@@ -198,6 +198,7 @@
     <Compile Include="DhtmlWrappers\DhtmlxGridColumnFormatType.cs" />
     <Compile Include="DhtmlWrappers\DhtmlxGridColumnAggregationType.cs" />
     <Compile Include="DhtmlWrappers\DhtmlxGridHtmlHelpersTest.cs" />
+    <Compile Include="DhtmlWrappers\GridOutputFormat.cs" />
     <Compile Include="DhtmlWrappers\SelectProjectsModalDialogForm.cs" />
     <Compile Include="ExcelWorkbookUtilities\AbstractReader.cs" />
     <Compile Include="ExcelWorkbookUtilities\OpenXmlExtensionMethods.cs" />
@@ -207,6 +208,7 @@
     <Compile Include="GeneralUtility.cs" />
     <Compile Include="GeneralUtilityTest.cs" />
     <Compile Include="GeoJson\GeoJsonToSqlGeometryHelper.cs" />
+    <Compile Include="LtInfoGeometryConfiguration.cs" />
     <Compile Include="HeadlessChromePDFUtility.cs" />
     <Compile Include="HealthMonitor\HealthCheckStatus.cs" />
     <Compile Include="HtmlHelperExtensions\DropdownForExtensions.cs" />

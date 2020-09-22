@@ -1,4 +1,8 @@
-﻿using GeoJSON.Net.Feature;
+﻿using System.Collections.Generic;
+using System.Net;
+using System.Web;
+using GeoJSON.Net.Feature;
+using LtInfo.Common;
 using LtInfo.Common.GeoJson;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -32,6 +36,15 @@ namespace ProjectFirma.Web.Models
                 featureCollection.Features.Add(DbGeometryToGeoJsonHelper.FromDbGeometry(projectUpdate.ProjectLocationPoint));
             }
             return featureCollection;
+        }
+
+        public static HtmlString GetBpaProjectNumberAsUrl(this ProjectUpdate projectUpdate)
+        {
+            //example url: https://www.cbfish.org/Project.mvc/Display/2019-008-00
+            var attributes = new Dictionary<string, string>();
+            attributes.Add("target", "_blank");
+            var url = UrlTemplate.MakeHrefString($"https://www.cbfish.org/Project.mvc/Display/{WebUtility.UrlEncode(projectUpdate.BpaProjectNumber)}", projectUpdate.BpaProjectNumber, attributes);
+            return url;
         }
     }
 }

@@ -67,7 +67,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                     <span class="glyphicon glyphicon-trash" style="margin-right: 1em;">
                                     </span>
                                 </a>@(ViewDataTyped.TaxonomyLeafs.Where(x => int.TryParse(x.Value, out somthing)).ToDictionary(x => int.Parse(x.Value), x => x.Text)[secondaryProjectTaxonomyLeafID])
-                                <input type="hidden" name="@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]" value="@secondaryProjectTaxonomyLeafID"/>
+                                <input type="hidden" name="@(Html.NameFor(m => m.SecondaryProjectTaxonomyLeafIDs))[]" value="@secondaryProjectTaxonomyLeafID" />
                             </li>
                         }
                     </ul>
@@ -93,7 +93,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.TextAreaWithMaxLengthFor(m => m.ProjectDescription, new TextAreaForExtensions.TextAreaDimensions(null, 8), null, new List<string> { "form-control" })
                 @Html.ValidationMessageFor(m => m.ProjectDescription)
             </div>
-        </div>       
+        </div>
         <div class="form-group">
             <div class="col-xs-4 control-label">
                 @Html.LabelWithSugarFor(m => m.ProjectStageID)
@@ -134,7 +134,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.PlanningDesignStartYear)
             </div>
             <div class="col-xs-8">
-                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new {style = "width: auto;", @class = "form-control"})
+                @Html.DropDownListFor(m => m.PlanningDesignStartYear, ViewDataTyped.PlanningDesignStartYearRange, new { style = "width: auto;", @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.PlanningDesignStartYear)
             </div>
         </div>
@@ -144,7 +144,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
             </div>
             <div class="col-xs-8">
-                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new {style = "width: auto;", @class = "form-control"})
+                @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new { style = "width: auto;", @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.ImplementationStartYear)
             </div>
         </div>
@@ -154,11 +154,21 @@ Source code is available upon request via <support@sitkatech.com>.
                 @Html.LabelWithSugarFor(m => m.CompletionYear)
             </div>
             <div class="col-xs-8">
-                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new {style = "width: auto;", @class = "form-control"})
+                @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new { style = "width: auto;", @class = "form-control" })
                 @Html.ValidationMessageFor(m => m.CompletionYear)
             </div>
         </div>
-        
+
+        <div class="form-group">
+            <div class="col-xs-4 control-label">
+                @Html.LabelWithSugarFor(m => m.BpaProjectNumber)
+            </div>
+            <div class="col-xs-8">
+                @Html.TextBoxFor(m => m.BpaProjectNumber, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.BpaProjectNumber)
+            </div>
+        </div>
+
         <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
         <script>
             @{

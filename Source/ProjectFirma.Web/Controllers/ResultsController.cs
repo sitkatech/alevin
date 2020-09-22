@@ -33,12 +33,16 @@ using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
+using LtInfo.Common.Views;
 using Microsoft.Ajax.Utilities;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security.Shared;
+using ProjectFirma.Web.Views.Assessment;
 using ProjectFirma.Web.Views.Reports;
 using ProjectFirma.Web.Views.Shared;
 
@@ -578,7 +582,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.BiOpAnnualReport.GetFirmaPage();
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
 
-            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
+            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => x.IncludeInBiOpAnnualReport).ToList();
             var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
 
             var viewData = new BiOpAnnualReportViewData(CurrentFirmaSession, firmaPage, tenantAttribute, geoSpatialAreasToInclude, performanceMeasuresToInclude);
@@ -586,33 +590,69 @@ namespace ProjectFirma.Web.Controllers
         }
         
         [FirmaAdminFeature]
-        public GridJsonNetJObjectResult<BioAnnualReportRow>
+        public GridJsonNetJObjectResult<BiOpAnnualReportRow>
             BiOpAnnualReportGridJsonData()
+        {
+            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Html, out var rows);
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BiOpAnnualReportRow>(rows, biOpAnnualReportGridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        private static BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec(GridOutputFormat gridOutputFormat, out List<BiOpAnnualReportRow> rows)
         {
             var populationAreaTypeIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
                 .Where(x => x.IsPopulation).Select(x => x.GeospatialAreaTypeID).ToList();
 
-            var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
-            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude);
+            var performanceMeasuresToInclude = HttpRequestStorage.DatabaseEntities.PerformanceMeasures
+                .Where(pm => pm.IncludeInBiOpAnnualReport).ToList();
+            var geoSpatialAreasToInclude = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => x.IncludeInBiOpAnnualReport).ToList();
+            var biOpAnnualReportGridSpec = new BiOpAnnualReportGridSpec(geoSpatialAreasToInclude, performanceMeasuresToInclude, gridOutputFormat);
 
             var linqQuery = from p in HttpRequestStorage.DatabaseEntities.Projects
                 join pma in HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals on p.ProjectID equals pma.ProjectID
-                join pmrp in HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods on pma.PerformanceMeasureReportingPeriodID equals pmrp
+                join pmrp in HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods on pma
+                    .PerformanceMeasureReportingPeriodID equals pmrp
                     .PerformanceMeasureReportingPeriodID
-                join pga in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas.Where(x => populationAreaTypeIDs.Contains(x.GeospatialAreaID)) on p.ProjectID equals pga.ProjectID into pgaJoin
+                join pga in HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas on p.ProjectID equals pga.ProjectID into
+                    pgaJoin
                 from pga in pgaJoin.DefaultIfEmpty()
-                join ga in HttpRequestStorage.DatabaseEntities.GeospatialAreas on pga.GeospatialAreaID equals ga.GeospatialAreaID into gaJoin
+                join ga in HttpRequestStorage.DatabaseEntities.GeospatialAreas on pga.GeospatialAreaID equals ga
+                    .GeospatialAreaID into gaJoin
                 from ga in gaJoin.DefaultIfEmpty()
-                join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes on ga.GeospatialAreaTypeID equals gat.GeospatialAreaTypeID into gatJoin
+                join gat in HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.Where(x => populationAreaTypeIDs.Contains(x.GeospatialAreaTypeID)) on ga.GeospatialAreaTypeID equals gat
+                    .GeospatialAreaTypeID into gatJoin
                 from gat in gatJoin.DefaultIfEmpty()
-                where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID) || gat == null
-                            select new BioAnnualReportRow { PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat };
+                where populationAreaTypeIDs.Contains(gat.GeospatialAreaTypeID) || gat == null 
+                select new BiOpAnnualReportRow {PerformanceMeasureActual = pma, Project = p, GeospatialAreaType = gat};
 
-            var rows = linqQuery.ToList().DistinctBy(x => $"{x.GeospatialAreaType?.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}").ToList();
+            // the query and grouping is kind of odd here. But I think it ultimately gets the job done according to the evolving spec - SMG 9/10/2020 [PF-2198]
+            var groupedRows = linqQuery.ToList().GroupBy(x =>
+                $"{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}");
 
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BioAnnualReportRow>(rows, biOpAnnualReportGridSpec);
-            return gridJsonNetJObjectResult;
+            rows = new List<BiOpAnnualReportRow>();
+            foreach (var groupedRow in groupedRows)
+            {
+                if (groupedRow.Any(x => x.GeospatialAreaType != null))
+                {
+                    rows.AddRange(groupedRow.Where(x => x.GeospatialAreaType != null).DistinctBy(x => $"{x.GeospatialAreaType?.GeospatialAreaTypeID}{x.PerformanceMeasureActual.PerformanceMeasureReportingPeriodID}{x.Project.ProjectID}"));
+                }
+                else
+                {
+                    rows.Add(groupedRow.FirstOrDefault());
+                }
+            }
+            
+            return biOpAnnualReportGridSpec;
+        }
+
+        [FirmaAdminFeature]
+        public CsvDownloadResult BiOpAnnualReportGridCsvDownload()
+        {
+            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Csv, out var rows);
+            var csv = rows.ToCsv(biOpAnnualReportGridSpec);
+            var descriptor = new DownloadFileDescriptor("BiOpAnnualReport");
+            return new CsvDownloadResult(descriptor, csv);
         }
     }
 }

@@ -47,6 +47,7 @@ CREATE TABLE [dbo].[Project](
 	[AttachmentsNotesComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[PhotosComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SubmittedByPersonID] [int] NULL,
+	[BpaProjectNumber] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC
@@ -161,6 +162,10 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_CompletionYe
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_CompletionYearHasToBeSetWhenStageIsInCompletedOrPostImplementation]
 GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_DefaultBoundingBox_SpatialReferenceID_Must_Be_4326] CHECK  (([DefaultBoundingBox] IS NULL OR [DefaultBoundingBox].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_DefaultBoundingBox_SpatialReferenceID_Must_Be_4326]
+GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_ImplementationStartYearLessThanEqualToCompletionYear] CHECK  (([ImplementationStartYear] IS NULL OR [CompletionYear] IS NULL OR [CompletionYear]>=[ImplementationStartYear]))
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_ImplementationStartYearLessThanEqualToCompletionYear]
@@ -176,3 +181,7 @@ GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_ProjectLocationPoint_IsPointData] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint] IS NOT NULL AND [ProjectLocationPoint].[STGeometryType]()='Point'))
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_ProjectLocationPoint_IsPointData]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [CK_Project_ProjectLocationPoint_SpatialReferenceID_Must_Be_4326] CHECK  (([ProjectLocationPoint] IS NULL OR [ProjectLocationPoint].[STSrid]=(4326)))
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [CK_Project_ProjectLocationPoint_SpatialReferenceID_Must_Be_4326]

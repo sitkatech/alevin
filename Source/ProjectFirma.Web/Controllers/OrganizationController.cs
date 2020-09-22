@@ -38,9 +38,12 @@ using System.Data.Entity.Spatial;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.DesignByContract;
+using LtInfo.Common.GeoJson;
 using MoreLinq;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirma.Web.Views.Shared.TextControls;
+using Detail = ProjectFirma.Web.Views.Organization.OrganizationDetail;
 using Index = ProjectFirma.Web.Views.Organization.Index;
 using IndexGridSpec = ProjectFirma.Web.Views.Organization.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Organization.IndexViewData;
@@ -109,7 +112,7 @@ namespace ProjectFirma.Web.Controllers
             {
                 return ViewEdit(viewModel, true, null);
             }
-            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID);
+            var organization = new Organization(String.Empty, true, ModelObjectHelpers.NotYetAssignedID, Organization.UseOrganizationBoundaryForMatchmakerDefault);
             viewModel.UpdateModel(organization, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.AllOrganizations.Add(organization);
             HttpRequestStorage.DatabaseEntities.SaveChanges();
@@ -160,6 +163,38 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
+        #region Matchmaker Profile Taxonomy
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditProfileSupplementalInformation(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new EditProfileSupplementalInformationViewModel(organization);
+            return ViewEditProfileSupplementalInformation(viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditProfileSupplementalInformation(OrganizationPrimaryKey organizationPrimaryKey, EditProfileSupplementalInformationViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditProfileSupplementalInformation(viewModel);
+            }
+
+            viewModel.UpdateModel(organization);
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
+        }
+
+        private PartialViewResult ViewEditProfileSupplementalInformation(EditProfileSupplementalInformationViewModel viewModel)
+        {
+            var viewData = new EditProfileSupplementalInformationViewData();
+            return RazorPartialView<EditProfileSupplementalInformation, EditProfileSupplementalInformationViewData, EditProfileSupplementalInformationViewModel>(viewData, viewModel);
+        }
+
         [HttpGet]
         [OrganizationProfileViewEditFeature]
         public PartialViewResult EditProfileTaxonomy(OrganizationPrimaryKey organizationPrimaryKey)
@@ -208,6 +243,163 @@ namespace ProjectFirma.Web.Controllers
             var viewData = new EditProfileTaxonomyViewData(topLevelTaxonomyTierAsComboTreeNodes);
             return RazorPartialView<EditProfileTaxonomy, EditProfileTaxonomyViewData, EditProfileTaxonomyViewModel>(viewData, viewModel);
         }
+
+        #endregion Matchmaker Profile Taxonomy
+
+
+
+
+
+
+
+
+
+
+
+        #region Matchmaker Area of Interest
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var viewModel = new MatchmakerOrganizationLocationDetailViewModel(organization);
+            return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
+        }
+
+        private PartialViewResult ViewEditMatchMakerAreaOfInterest(Organization organization, MatchmakerOrganizationLocationDetailViewModel viewModel)
+        {
+            var mapDivID = $"organization_{organization.OrganizationID}_EditMatchMakerAreaOfInterestDiv";
+
+            var organizationBoundaryFeatureCollection = organization.OrganizationBoundaryToFeatureCollection();
+            FeatureCollection editableLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "SomePropertyOrOther", "SomeValueOrOther");
+
+            LayerInitialVisibility initialVisibilityForOrgBoundary = viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
+            LayerInitialVisibility initialVisibilityForUserEditedBoundary = !viewModel.UseOrganizationBoundaryForMatchmaker ? LayerInitialVisibility.Show : LayerInitialVisibility.Hide;
+
+            var orgBoundaryLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Boundary Geometry", organizationBoundaryFeatureCollection, "red", 1, initialVisibilityForOrgBoundary);
+            LayerGeoJson editableLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", editableLayerGeoJsonFeatureCollection, "red", 1, initialVisibilityForUserEditedBoundary);
+
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+            // Maybe show all Org project layers here? Consider doing later.
+            //layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project));
+            //BoundingBox boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project);
+            var boundingBox = new BoundingBox(organization.OrganizationBoundary);
+            var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox)
+            {
+                AllowFullScreen = false,
+                DisablePopups = true
+            };
+
+            var mapFormID = GenerateEditOrganizationMatchMakerAreaOfInterestFormID(organization);
+            //var uploadGisFileUrl = SitkaRoute<ProjectLocationController>.BuildUrlFromExpression(c => c.ImportGdbFile(project.GetEntityID()));
+            var saveFeatureCollectionUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.EditMatchMakerAreaOfInterest(organization.OrganizationID, null));
+
+            var viewData = new MatchmakerOrganizationLocationDetailViewData(organization, mapInitJson, orgBoundaryLayerGeoJson, mapFormID, saveFeatureCollectionUrl, ProjectLocation.FieldLengths.Annotation, editableLayerGeoJson);
+            return RazorPartialView<MatchmakerOrganizationLocationDetail, MatchmakerOrganizationLocationDetailViewData, MatchmakerOrganizationLocationDetailViewModel>(viewData, viewModel);
+        }
+
+        public static string GenerateEditOrganizationMatchMakerAreaOfInterestFormID(Organization organization)
+        {
+            return $"editOrganizationAreaOfInterestMap_{organization.OrganizationID}";
+        }
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditMatchMakerAreaOfInterest(OrganizationPrimaryKey organizationPrimaryKey, MatchmakerOrganizationLocationDetailViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditMatchMakerAreaOfInterest(organization, viewModel);
+            }
+            organization.UseOrganizationBoundaryForMatchmaker = viewModel.UseOrganizationBoundaryForMatchmaker;
+            SaveOrganizationAreaOfInterestDetailedLocations(viewModel, organization);
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
+        }
+
+        private static void SaveOrganizationAreaOfInterestDetailedLocations(MatchmakerOrganizationLocationDetailViewModel viewModel, Organization organization)
+        {
+            // It's only appropriate to delete the hand drawn boundary if they are actually currently using it.
+            // Otherwise, just keep the last-known value around in case they change their mind and toggle back to it.
+            if (!viewModel.UseOrganizationBoundaryForMatchmaker)
+            {
+                foreach (var organizationLocation in organization.MatchMakerAreaOfInterestLocations.ToList())
+                {
+                    organizationLocation.DeleteFull(HttpRequestStorage.DatabaseEntities);
+                }
+            }
+
+            if (viewModel.WktAndOtherInfos != null)
+            {
+                foreach (var wktAndOtherInfo in viewModel.WktAndOtherInfos)
+                {
+                    // We only save user-drawn layer info for now. Everything else (Organizational boundary) originates elsewhere.
+                    if (wktAndOtherInfo.LayerSource == MatchmakerOrganizationLocationDetailViewModel.WktAndOtherInfo.LayerSourceUserDrawn)
+                    {
+                        organization.MatchMakerAreaOfInterestLocations.Add(new MatchMakerAreaOfInterestLocation(organization, DbGeometry.FromText(wktAndOtherInfo.Wkt, LtInfoGeometryConfiguration.DefaultCoordinateSystemId)));
+                    }
+                }
+            }
+            
+        }
+
+
+        #endregion Matchmaker Area of Interest
+
+
+        #region Matchmaker Classifications
+
+
+        [HttpGet]
+        [OrganizationProfileViewEditFeature]
+        public PartialViewResult EditMatchMakerClassifications(OrganizationPrimaryKey organizationPrimaryKey)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var viewModel = new MatchmakerOrganizationClassificationsViewModel(organization, allClassificationSystems);
+            return ViewEditMatchMakerClassifications(organization, allClassificationSystems, viewModel);
+        }
+
+        private PartialViewResult ViewEditMatchMakerClassifications(Organization organization, List<ClassificationSystem> allClassificationSystems, MatchmakerOrganizationClassificationsViewModel viewModel)
+        {
+
+            var viewData = new MatchmakerOrganizationClassificationsViewData(organization, allClassificationSystems);
+            return RazorPartialView<MatchmakerOrganizationClassifications, MatchmakerOrganizationClassificationsViewData, MatchmakerOrganizationClassificationsViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [OrganizationProfileViewEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditMatchMakerClassifications(OrganizationPrimaryKey organizationPrimaryKey, MatchmakerOrganizationClassificationsViewModel viewModel)
+        {
+            var organization = organizationPrimaryKey.EntityObject;
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+
+            if (!ModelState.IsValid)
+            {
+                return ViewEditMatchMakerClassifications(organization, allClassificationSystems,  viewModel);
+            }
+
+            viewModel.UpdateModel(CurrentFirmaSession, organization, HttpRequestStorage.DatabaseEntities);
+
+            return new ModalDialogFormJsonResult(SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.Detail(organization, OrganizationDetailViewData.OrganizationDetailTab.Profile)));
+        }
+
+
+        #endregion Matchmaker Classifications
+
+
+
+
+
+
+
+
+
+
+
 
         /// <summary>
         /// Dummy get signature so that it can find the post action
@@ -301,6 +493,12 @@ namespace ProjectFirma.Web.Controllers
 
             var topLevelMatchmakerTaxonomyTier = GetTopLevelMatchmakerTaxonomyTier(organization);
             var maximumTaxonomyLeaves = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.Count();
+            var matchMakerAreaOfInterestInitJson = GetOrganizationAreaOfInterestMapInitJson(organization);
+            var allClassificationSystems = HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList();
+            var matchmakerOrganizationClassificationsOrdered = HttpRequestStorage.DatabaseEntities
+                .MatchmakerOrganizationClassifications.Where(x => x.OrganizationID == organization.OrganizationID).OrderBy(x => x.Classification.ClassificationSortOrder).ToList();
+            var matchmakerClassificationsGroupedByClassificationSystem = matchmakerOrganizationClassificationsOrdered
+                .GroupBy(x => x.Classification.ClassificationSystem).ToList();
             var viewData = new OrganizationDetailViewData(CurrentFirmaSession,
                                               organization,
                                               mapInitJson,
@@ -311,8 +509,11 @@ namespace ProjectFirma.Web.Controllers
                                               expendituresReceivedFromOtherOrganizationsViewGoogleChartViewData,
                                               topLevelMatchmakerTaxonomyTier,
                                               maximumTaxonomyLeaves,
-                                              activeTab);
-            return RazorView<OrganizationDetail, OrganizationDetailViewData>(viewData);
+                                              activeTab,
+                                              matchMakerAreaOfInterestInitJson,
+                                              matchmakerClassificationsGroupedByClassificationSystem,
+                                              allClassificationSystems);
+            return RazorView<Detail, OrganizationDetailViewData>(viewData);
         }
 
         private static LayerGeoJson GetProjectLocationsLayerGeoJson(Organization organization, Person person)
@@ -372,6 +573,36 @@ namespace ProjectFirma.Web.Controllers
             return new MapInitJson($"organization_{organization.OrganizationID}_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
         }
 
+        private static MapInitJson GetOrganizationAreaOfInterestMapInitJson(Organization organization)
+        {
+            var layers = MapInitJson.GetAllGeospatialAreaMapLayers();
+
+            var dbGeometries = new List<DbGeometry>();
+
+            // organization boundary layer
+            if (organization.UseOrganizationBoundaryForMatchmaker && organization.OrganizationBoundary != null)
+            {
+                layers.Add(new LayerGeoJson("Organization Boundary",
+                    organization.OrganizationBoundaryToFeatureCollection(), Organization.OrganizationAreaOfInterestMapLayerColor, 1,
+                    LayerInitialVisibility.Show));
+                dbGeometries.Add(organization.OrganizationBoundary);
+            }
+
+            // custom areas of interest
+            if (!organization.UseOrganizationBoundaryForMatchmaker &&
+                organization.MatchMakerAreaOfInterestLocations.Any())
+            {
+                var areaOfInterestLayerGeoJsonFeatureCollection = DbGeometryToGeoJsonHelper.FeatureCollectionFromDbGeometry(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry), "Area Of Interest", "User Set");
+                var areaOfInterestLayerGeoJson = new LayerGeoJson($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel()} Geometries", areaOfInterestLayerGeoJsonFeatureCollection, Organization.OrganizationAreaOfInterestMapLayerColor, 1, LayerInitialVisibility.Show);
+                layers.Add(areaOfInterestLayerGeoJson);
+                dbGeometries.AddRange(organization.MatchMakerAreaOfInterestLocations.Select(x => x.MatchMakerAreaOfInterestLocationGeometry));
+            }
+
+            var boundingBox = new BoundingBox(dbGeometries);
+
+            return new MapInitJson($"organization_{organization.OrganizationID}_area_of_interest_Map", 10, layers, MapInitJson.GetExternalMapLayers(), boundingBox);
+        }
+
         private static ViewGoogleChartViewData GetCalendarYearExpendituresFromOrganizationFundingSourcesChartViewData(Organization organization)
         {
             var yearRange = FirmaDateUtilities.GetRangeOfYearsForReporting();
@@ -388,7 +619,8 @@ namespace ProjectFirma.Web.Controllers
                 chartContainerID,
                 chartTitle,
                 GoogleChartType.ColumnChart,
-                true);
+                true,
+                null);
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
@@ -403,7 +635,8 @@ namespace ProjectFirma.Web.Controllers
             var chartTitle = $"{FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()} By {FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel()}";
             var chartContainerID = chartTitle.Replace(" ", "");
             var filterValues = projects.SelectMany(x => x.ProjectFundingSourceExpenditures).Where(x => x.FundingSource.Organization != organization).Select(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName).Distinct().ToList();
-
+            var organizationTypes = HttpRequestStorage.DatabaseEntities.OrganizationTypes;
+            
             var googleChart = projectFundingSourceExpenditures.ToGoogleChart(x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
                 filterValues,
                 x => x.FundingSource.Organization.OrganizationType.OrganizationTypeName,
@@ -411,7 +644,8 @@ namespace ProjectFirma.Web.Controllers
                 chartContainerID,
                 chartTitle,
                 GoogleChartType.ColumnChart,
-                true);
+                true,
+                organizationTypes.ToDictionary(x => x.OrganizationTypeName, x => x.LegendColor));
 
             return new ViewGoogleChartViewData(googleChart, chartTitle, 400, true);
         }
@@ -625,7 +859,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             var defaultOrganizationType = HttpRequestStorage.DatabaseEntities.OrganizationTypes.GetDefaultOrganizationType();
-            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType)
+            firmaOrganization = new Organization(keystoneOrganization.FullName, true, defaultOrganizationType, Organization.UseOrganizationBoundaryForMatchmakerDefault)
             {
                 OrganizationGuid = keystoneOrganization.OrganizationGuid,
                 OrganizationShortName = keystoneOrganization.ShortName,
