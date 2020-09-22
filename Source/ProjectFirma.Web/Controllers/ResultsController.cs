@@ -645,21 +645,11 @@ namespace ProjectFirma.Web.Controllers
             
             return biOpAnnualReportGridSpec;
         }
-
-        [FirmaAdminFeature]
-        public CsvDownloadResult BiOpAnnualReportGridCsvDownload()
-        {
-            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Csv, out var rows);
-            var csv = rows.ToCsv(biOpAnnualReportGridSpec);
-            var descriptor = new DownloadFileDescriptor("BiOpAnnualReport");
-            return new CsvDownloadResult(descriptor, csv);
-        }
-
+        
         [FirmaAdminFeature]
         public ExcelResult BiOpAnnualReportGridExcelDownload()
         {
             var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Csv, out var rows);
-
             var excel = OpenXmlSpreadSheetDocument.ObjectListToExcelWorksheet(rows, biOpAnnualReportGridSpec, "MainSheet");
             return new ExcelResult(excel, $"BiOpAnnualReport");
         }
