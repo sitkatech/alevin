@@ -76,7 +76,9 @@ end
     distinct
             pr.WBSElement as WbsElementKey,
             pr.WBSElementDescription as WbsElementText,
-            null as ExistingWbsElementID
+            null as ExistingWbsElementID,
+            -- 0 means this is a completely new record, insert. 1 means it's an existing record that just needs a text fixup for WbsElementText
+            0 as JustFixupWbsElementText
     into #PotentiallyNewWbsElements
     from
         ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr
@@ -85,20 +87,40 @@ end
     where
         pr.WBSElement != '#'
 
-    -- Is there a completely matching WBSElement already in the DB?
-    -- We mark these with their WbsElementIDs.
+--select * from #PotentiallyNewWbsElements
+--where WbsElementKey like '%RX.16786911.7000000%'
+
+--select * from ImportFinancial.WbsElement as wbs where wbs.WbsElementKey like '%RX.16786911.7000000%'
+
+    -- Completely matching WBSElement already in the DB?
     update #PotentiallyNewWbsElements
-    set ExistingWbsElementID = existWbs.WbsElementID
+    set ExistingWbsElementID = existWbs.WbsElementID,
+        JustFixupWbsElementText = 0
     from #PotentiallyNewWbsElements as pNewWbs
          inner join ImportFinancial.WbsElement as existWbs on existWbs.WbsElementKey = pNewWbs.WbsElementKey and existWbs.WbsElementText = pNewWbs.WbsElementText
+
+    -- WBSes that match EXCEPT for their WbsElementText? 
+    -- (we'll need to update their WbsElementText)
+    update #PotentiallyNewWbsElements
+    set ExistingWbsElementID = existWbs.WbsElementID,
+        JustFixupWbsElementText = 1
+    from #PotentiallyNewWbsElements as pNewWbs
+         inner join ImportFinancial.WbsElement as existWbs on existWbs.WbsElementKey = pNewWbs.WbsElementKey and existWbs.WbsElementText != pNewWbs.WbsElementText
 
     -- Insert the previously unknown WbsElements (if any)
     insert into ImportFinancial.WbsElement(WbsElementKey, WbsElementText)
     select pNewWbs.WbsElementKey, pNewWbs.WbsElementText
     from #PotentiallyNewWbsElements as pNewWbs
-    where pNewWbs.ExistingWbsElementID is null
+    where pNewWbs.ExistingWbsElementID is null and pNewWbs.JustFixupWbsElementText = 0
 
-    -- This is the "Unknown-unknown Taxonmy Leaf"
+    -- Do text fixups on the Elements whose text labels don't align. Treat this incoming data source as authoritative for the name if we find a discrepancy.
+    update ImportFinancial.WbsElement
+    set WbsElementText = pFixupWbsElements.WbsElementText
+    from #PotentiallyNewWbsElements as pFixupWbsElements
+    inner join  ImportFinancial.WbsElement as wbs on pFixupWbsElements.ExistingWbsElementID = wbs.WbsElementID
+    where pFixupWbsElements.JustFixupWbsElementText = 1
+
+    -- This is the "Unknown-unknown Taxonomy Leaf"
     declare @unknownTaxonomyLeafID int
     set @unknownTaxonomyLeafID = (select TaxonomyLeafID from dbo.TaxonomyLeaf as tl where tl.TaxonomyLeafName = 'xxxx.xxx unknown')
 
