@@ -157,7 +157,8 @@ namespace ProjectFirma.Web.Controllers
                     taxonomyTrunks.Select(x => x.GetDisplayName()).ToList(),
                     x => x.Project.GetTaxonomyLeaf().TaxonomyBranch.TaxonomyTrunk.GetDisplayName(),
                     chartContainerID,
-                    fundingSource.GetDisplayName());
+                    fundingSource.GetDisplayName(),
+                    null);
 
             googleChart?.GoogleChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
 
