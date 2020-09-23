@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.Results
             
             Add("Year", barr => barr.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("WBS Number", barr => barr.Project.CostAuthorityProjects.FirstOrDefault(cap => cap.IsPrimaryProjectCawbs)?.CostAuthority.CostAuthorityWorkBreakdownStructure, 150, DhtmlxGridColumnFilterType.Text);
-            Add($"{FieldDefinitionEnum.ProjectStage.ToType().FieldDefinitionDisplayName} ", barr => barr.Project.ProjectStage.ProjectStageDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add($"{FieldDefinitionEnum.ProjectStage.ToType().FieldDefinitionDisplayName}", barr => barr.Project.ProjectStage.ProjectStageDisplayName, 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
             Add("Basin Liason", barr => String.Join(",", barr.Project.ProjectGeospatialAreas.Select(pga => pga.GeospatialArea).ToList().GetSubbasinLiasonList().Select(pr => pr.GetFullNameFirstLast())), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
             // from the project location simple point. Maybe we could find a center from detailed locations if the project doesn't have a simple location? -- SMG 8/11/2020
             Add("Lat", barr => $"{barr.Project.ProjectLocationPoint?.YCoordinate.ToString()}", 75, DhtmlxGridColumnFilterType.Numeric);
