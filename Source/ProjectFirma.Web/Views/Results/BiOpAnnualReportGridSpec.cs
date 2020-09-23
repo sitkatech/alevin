@@ -52,7 +52,7 @@ namespace ProjectFirma.Web.Views.Results
         {
             AllProjectedFundingValues = HttpRequestStorage.DatabaseEntities.Projects.ToList().Select(p => (double)p.GetProjectedFunding() + (double)p.GetNoFundingSourceIdentifiedAmountOrZero()).ToList();
 
-            Add("Population", barr => barr.GeospatialAreaType?.GeospatialAreaTypeName ?? "None Selected", 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Population Type", barr => barr.GeospatialAreaType?.GeospatialAreaTypeName ?? "None Selected", 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
             if (gridOutputFormat == GridOutputFormat.Csv)
             {
