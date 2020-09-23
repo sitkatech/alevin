@@ -59,7 +59,7 @@ namespace ProjectFirma.Web.Views.Results
 
             BiOpAnnualReportGridName = "BiOpAnnualReportGrid";
             BiOpAnnualReportGridDataUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridJsonData());
-            BiOpAnnualReportFullGridDownloadUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridCsvDownload());
+            BiOpAnnualReportFullGridDownloadUrl = SitkaRoute<ResultsController>.BuildUrlFromExpression(c => c.BiOpAnnualReportGridExcelDownload());
         }
     }
 }
