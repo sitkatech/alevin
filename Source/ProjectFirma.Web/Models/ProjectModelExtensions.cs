@@ -1068,7 +1068,8 @@ namespace ProjectFirma.Web.Models
                 // We'll see where -999 turns up, and if this is still used... -- SLG 6/11/2020. 
 
                 int effectiveCostTypeID = GetEffectiveCostTypeIDForPotentialNullBudgetObjectCode(itemBudget.BudgetObjectCode);
-                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, effectiveCostTypeID, itemBudget.PostingDatePerSplKey.Value.Year, -999);
+                int effectiveCalendarYear = itemBudget.PostingDatePerSplKey.HasValue ? itemBudget.PostingDatePerSplKey.Value.Year : DateUtilities.GetCurrentCalendarYear();
+                var simple = new ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple(itemBudget.FundingSourceID, effectiveCostTypeID, effectiveCalendarYear, -999);
                 obligationItemBudgetSimples.Add(simple);
             }
 
