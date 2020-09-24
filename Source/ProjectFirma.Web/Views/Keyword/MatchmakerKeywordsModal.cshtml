@@ -1,0 +1,35 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="ProjectLocationDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Keyword.MatchmakerKeywordsModal
+
+<div class="panel-body">
+   
+   <p>
+      Enter terms that describe the types of projects you are interested in. You may enter as many keywords as you like. The Matchmaker service will find projects that have the same keywords in their titles or descriptions.
+   </p>
+
+   <p class="systemText">@FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized()</p>
+   @{ OrganizationMatchmakerKeywords.RenderPartialView(Html, ViewDataTyped.OrganizationMatchmakerKeywordsViewData); }
+</div>

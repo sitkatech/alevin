@@ -432,8 +432,15 @@ namespace LtInfo.Common
         public static int GetFiscalYear(this DateTime dateToCheck)
         {
             if (((Month)dateToCheck.Month).GetFiscalQuarter() == FiscalQuarter.First)
+            {
                 return dateToCheck.Year + 1;
+            }
             return dateToCheck.Year;
+        }
+
+        public static int GetCurrentCalendarYear()
+        {
+            return DateTime.Now.Year;
         }
 
         public static int GetFiscalMonth(this DateTime dateToCheck)
@@ -570,5 +577,7 @@ namespace LtInfo.Common
         {
             return Enumerable.Range(startYear, (endYear - startYear) + 1).ToList();
         }
+
+
     }
 }
