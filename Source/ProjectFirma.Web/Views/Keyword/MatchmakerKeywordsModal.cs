@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="BulkMatchmakerKeywordOrganizationsViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectLocationDetail.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,23 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
-using LtInfo.Common.Models;
 
-namespace ProjectFirma.Web.Views.Shared.MatchmakerKeyword
+using System.Web.Mvc;
+using LtInfo.Common.HtmlHelperExtensions;
+using LtInfo.Common.Mvc;
+
+namespace ProjectFirma.Web.Views.Keyword
 {
-    public class BulkMatchmakerKeywordOrganizationsViewModel : FormViewModel
+    public abstract class MatchmakerKeywordsModal : TypedWebPartialViewPage<MatchmakerKeywordsModalViewData, MatchmakerKeywordsModalViewModel>
     {
-        [Required]
-        public List<int> OrganizationIDList { get; set; }
-
-        [Required]
-        [StringLength(ProjectFirmaModels.Models.MatchmakerKeyword.FieldLengths.MatchmakerKeywordName)]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.MatchmakerKeyword)]
-        [RegularExpression(@"^[a-zA-Z0-9-_\s]{1,}$", ErrorMessage = FirmaValidationMessages.LettersNumbersSpacesDashesAndUnderscoresOnly)]
-        public string MatchmakerKeywordName { get; set; }
+        public static void RenderPartialView(HtmlHelper html, MatchmakerKeywordsModalViewData viewData, MatchmakerKeywordsModalViewModel viewModel)
+        {
+            html.RenderRazorSitkaPartial<MatchmakerKeywordsModal, MatchmakerKeywordsModalViewData, MatchmakerKeywordsModalViewModel>(viewData, viewModel);
+        }
     }
 }

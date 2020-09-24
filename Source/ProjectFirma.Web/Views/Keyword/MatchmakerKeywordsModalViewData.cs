@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="BulkMatchmakerKeywordProjects.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="ProjectLocationDetailViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,9 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.Shared.MatchmakerKeyword
+using ProjectFirma.Web.Views.Shared.MatchmakerOrganizationControls;
+
+namespace ProjectFirma.Web.Views.Keyword
 {
-    public abstract class BulkMatchmakerKeywordOrganizations : LtInfo.Common.Mvc.TypedWebPartialViewPage<BulkMatchmakerKeywordOrganizationsViewData, BulkMatchmakerKeywordOrganizationsViewModel>
+    public class MatchmakerKeywordsModalViewData : FirmaUserControlViewData
     {
+        public readonly ProjectFirmaModels.Models.Organization Organization;
+        public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData;
+
+        public MatchmakerKeywordsModalViewData(ProjectFirmaModels.Models.Organization organization)
+        {
+            Organization = organization;
+            OrganizationMatchmakerKeywordsViewData = new OrganizationMatchmakerKeywordsViewData(organization);
+        }
+
+
     }
 }
