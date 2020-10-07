@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             ProjectID = project.ProjectID;
             ProjectName = project.ProjectName;
             ProjectDescription = project.ProjectDescription;
-            ProjectStageID = project.ProjectStageID;            
+            ProjectStageID = project.ProjectStageID;
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             ImplementationStartYear = project.ImplementationStartYear;
             CompletionYear = project.CompletionYear;
@@ -119,11 +119,14 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             }
 
             project.ProposingPersonID = currentFirmaSession.PersonID;
-            project.GetTaxonomyLeaf().TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
+            // NO. You should not directly try to change the TaxonomyLeaf this way. Use override, as shown below.
+            // Incorrect code left in because it keeps cropping up. -- SLG
+            //project.GetTaxonomyLeaf().TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
+            project.OverrideTaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectID = ProjectID ?? ModelObjectHelpers.NotYetAssignedID;
             project.ProjectName = ProjectName;
             project.ProjectDescription = ProjectDescription;
-            project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;          
+            project.ProjectStageID = ProjectStageID ?? ModelObjectHelpers.NotYetAssignedID;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.ImplementationStartYear = ImplementationStartYear;
             project.CompletionYear = CompletionYear;
