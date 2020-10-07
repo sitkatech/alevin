@@ -316,7 +316,6 @@ namespace ProjectFirma.Web.Controllers
                 HttpRequestStorage.DatabaseEntities.AllProjects.Add(project);
             }
 
-
             viewModel.UpdateModel(project, CurrentFirmaSession);
 
             if (project.ProjectStage == ProjectStage.Proposal)
