@@ -593,13 +593,13 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<BiOpAnnualReportRow>
             BiOpAnnualReportGridJsonData()
         {
-            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Html, out var rows);
+            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Html, out var rows, true);
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<BiOpAnnualReportRow>(rows, biOpAnnualReportGridSpec);
             return gridJsonNetJObjectResult;
         }
 
-        private static BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec(GridOutputFormat gridOutputFormat, out List<BiOpAnnualReportRow> rows)
+        private static BiOpAnnualReportGridSpec BiOpAnnualReportGridSpec(GridOutputFormat gridOutputFormat, out List<BiOpAnnualReportRow> rows, bool includeBPAFunded)
         {
             var populationAreaTypeIDs = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes
                 .Where(x => x.IsPopulation).Select(x => x.GeospatialAreaTypeID).ToList();
@@ -642,14 +642,17 @@ namespace ProjectFirma.Web.Controllers
                     rows.Add(groupedRow.FirstOrDefault());
                 }
             }
-            
+
+            // exclude bpa funded rows from the output
+            rows = includeBPAFunded ? rows : rows.Where(x => !x.Project.IsBPAFunded()).ToList();
+
             return biOpAnnualReportGridSpec;
         }
         
         [FirmaAdminFeature]
         public ExcelResult BiOpAnnualReportGridExcelDownload()
         {
-            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Csv, out var rows);
+            var biOpAnnualReportGridSpec = BiOpAnnualReportGridSpec(GridOutputFormat.Csv, out var rows, false);
             var excel = OpenXmlSpreadSheetDocument.ObjectListToExcelWorksheet(rows, biOpAnnualReportGridSpec, "MainSheet");
             return new ExcelResult(excel, $"BiOpAnnualReport");
         }

@@ -152,8 +152,9 @@ namespace ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp
             var projections = project.ProjectFundingSourceBudgets.ToList();
             var fundingSourceNoIdentifieds = project.ProjectNoFundingSourceIdentifieds.ToList();
 
-            List<int> calendarYears = projections.Select(x => x.CalendarYear.Value).ToList();
-            calendarYears = calendarYears.Concat(fundingSourceNoIdentifieds.Select(x => x.CalendarYear.Value)).ToList();
+            List<int> calendarYears = projections.Where(x => x.CalendarYear.HasValue).Select(x => x.CalendarYear.Value).ToList();
+            calendarYears = calendarYears.Concat(fundingSourceNoIdentifieds.Where(x => x.CalendarYear.HasValue).Select(x => x.CalendarYear.Value)).ToList();
+
             calendarYears = calendarYears.Distinct().OrderBy(x => x).ToList();
 
             double cumulativeProjectionAmount = 0;
