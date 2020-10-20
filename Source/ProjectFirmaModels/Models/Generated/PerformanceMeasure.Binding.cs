@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaPerformanceMeasureFixedTargets = new HashSet<GeospatialAreaPerformanceMeasureFixedTarget>();
             this.GeospatialAreaPerformanceMeasureNoTargets = new HashSet<GeospatialAreaPerformanceMeasureNoTarget>();
             this.GeospatialAreaPerformanceMeasureReportingPeriodTargets = new HashSet<GeospatialAreaPerformanceMeasureReportingPeriodTarget>();
+            this.MatchmakerOrganizationPerformanceMeasures = new HashSet<MatchmakerOrganizationPerformanceMeasure>();
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
             this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
@@ -116,7 +117,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ClassificationPerformanceMeasures.Any() || GeospatialAreaPerformanceMeasureFixedTargets.Any() || GeospatialAreaPerformanceMeasureNoTargets.Any() || GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || PerformanceMeasureFixedTargets.Any() || PerformanceMeasureImages.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureSubcategories.Any() || TaxonomyLeafPerformanceMeasures.Any();
+            return ClassificationPerformanceMeasures.Any() || GeospatialAreaPerformanceMeasureFixedTargets.Any() || GeospatialAreaPerformanceMeasureNoTargets.Any() || GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || MatchmakerOrganizationPerformanceMeasures.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureExpecteds.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedUpdates.Any() || PerformanceMeasureFixedTargets.Any() || PerformanceMeasureImages.Any() || PerformanceMeasureNotes.Any() || PerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureSubcategories.Any() || TaxonomyLeafPerformanceMeasures.Any();
         }
 
         /// <summary>
@@ -144,6 +145,11 @@ namespace ProjectFirmaModels.Models
             if(GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any())
             {
                 dependentObjects.Add(typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name);
+            }
+
+            if(MatchmakerOrganizationPerformanceMeasures.Any())
+            {
+                dependentObjects.Add(typeof(MatchmakerOrganizationPerformanceMeasure).Name);
             }
 
             if(PerformanceMeasureActuals.Any())
@@ -221,7 +227,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name, typeof(GeospatialAreaPerformanceMeasureNoTarget).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(PerformanceMeasureFixedTarget).Name, typeof(PerformanceMeasureImage).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasure).Name, typeof(ClassificationPerformanceMeasure).Name, typeof(GeospatialAreaPerformanceMeasureFixedTarget).Name, typeof(GeospatialAreaPerformanceMeasureNoTarget).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(MatchmakerOrganizationPerformanceMeasure).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureExpected).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedUpdate).Name, typeof(PerformanceMeasureFixedTarget).Name, typeof(PerformanceMeasureImage).Name, typeof(PerformanceMeasureNote).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureSubcategory).Name, typeof(TaxonomyLeafPerformanceMeasure).Name};
 
 
         /// <summary>
@@ -262,6 +268,11 @@ namespace ProjectFirmaModels.Models
             }
 
             foreach(var x in GeospatialAreaPerformanceMeasureReportingPeriodTargets.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in MatchmakerOrganizationPerformanceMeasures.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -387,6 +398,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<GeospatialAreaPerformanceMeasureFixedTarget> GeospatialAreaPerformanceMeasureFixedTargets { get; set; }
         public virtual ICollection<GeospatialAreaPerformanceMeasureNoTarget> GeospatialAreaPerformanceMeasureNoTargets { get; set; }
         public virtual ICollection<GeospatialAreaPerformanceMeasureReportingPeriodTarget> GeospatialAreaPerformanceMeasureReportingPeriodTargets { get; set; }
+        public virtual ICollection<MatchmakerOrganizationPerformanceMeasure> MatchmakerOrganizationPerformanceMeasures { get; set; }
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
         public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }

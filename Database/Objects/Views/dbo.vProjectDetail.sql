@@ -10,6 +10,8 @@ p.ProjectID
 , p.ProjectID as PrimaryKey
 , p.TenantID
 , p.ProjectName
+, p.ProjectStageID
+, p.ProjectApprovalStatusID
 , po.OrganizationID as PrimaryContactOrganizationID
 , po.DisplayName as PrimaryContactOrganizationDisplayName
 , p.PrimaryContactPersonID
@@ -75,6 +77,5 @@ go
 /*
 
 select * from dbo.vProjectDetail
-where ProjectID = 13698
 
 */

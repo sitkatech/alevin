@@ -313,6 +313,7 @@ namespace ProjectFirmaModels.Models
         OrganizationCommercialServices = 363,
         AreaOfInterest = 364,
         MatchmakerKeyword = 365,
+        OrganizationKeystoneGuid = 366,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,

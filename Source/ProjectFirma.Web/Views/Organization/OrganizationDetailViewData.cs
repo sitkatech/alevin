@@ -21,6 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Collections.Generic;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Controllers;
@@ -91,13 +92,14 @@ namespace ProjectFirma.Web.Views.Organization
 
         public readonly bool ShowPendingProjects;
 
+        public readonly string OrganizationKeystoneGuidDisplayString;
+
         public bool TenantHasCanStewardProjectsOrganizationRelationship { get; }
         public int NumberOfStewardedProjects { get; }
         public int NumberOfLeadImplementedProjects { get; }
         public int NumberOfProjectsContributedTo { get; }
         public ViewPageContentViewData DescriptionViewData { get; }
 
-        public bool ShowMatchmakerProfile { get; }
         public bool UserHasViewEditProfilePermission { get; }
         public ProjectFirmaModels.Models.FieldDefinition FieldDefinitionForProject { get; }
         public string EditProfileMatchmakerOptIn { get; }
@@ -113,6 +115,7 @@ namespace ProjectFirma.Web.Views.Organization
         public OrganizationMatchmakerKeywordsViewData OrganizationMatchmakerKeywordsViewData { get; }
 
         public string EditOrgClassificationsUrl { get; }
+        public string EditOrgPerformanceMeasuresUrl { get; }
         public List<MatchmakerTaxonomyTier> TopLevelMatchmakerTaxonomyTier { get; }
         public string TaxonomyTrunkDisplayName { get; }
         public string TaxonomyBranchDisplayName { get; }
@@ -121,6 +124,9 @@ namespace ProjectFirma.Web.Views.Organization
         public int MaximumTaxonomyLeaves { get; }
         public OrganizationDetailTab ActiveTab { get; }
         public bool HasAreaOfInterest { get; set; }
+
+        public bool ShowMatchmakerProfileTab { get; }
+
         public readonly MapInitJson AreaOfInterestMapInitJson;
         public readonly LayerGeoJson AreaOfInterestLayerGeoJson;
 
@@ -232,6 +238,13 @@ namespace ProjectFirma.Web.Views.Organization
 
             ShowPendingProjects = currentFirmaSession.Person.CanViewPendingProjects();
 
+            // If they have no permissions, just say "yes" or "no" if GUID set.
+            // If they have manage permissions, show the GUID, otherwise "None". 
+            bool hasOrganizationKeystoneGuid = (organization.OrganizationGuid != null);
+            string hasOrganizationKeystoneGuidBooleanAsString = hasOrganizationKeystoneGuid.ToYesNo();
+            string organizationKeystoneGuidAsStringOrNone = hasOrganizationKeystoneGuid ? organization.OrganizationGuid.ToString() : "None";
+            OrganizationKeystoneGuidDisplayString = UserHasOrganizationManagePermissions ? organizationKeystoneGuidAsStringOrNone : hasOrganizationKeystoneGuidBooleanAsString;
+
             PendingProjectsGridSpec =
                 new ProjectsIncludingLeadImplementingGridSpec(organization, currentFirmaSession, true)
                 {
@@ -251,10 +264,13 @@ namespace ProjectFirma.Web.Views.Organization
             NumberOfLeadImplementedProjects = allAssociatedProjects.Count(x => x.IsActiveProject() && x.GetPrimaryContactOrganization() == Organization);
             NumberOfProjectsContributedTo = allAssociatedProjects.ToList().GetActiveProjects().Count;
             DescriptionViewData = new ViewPageContentViewData(organization, currentFirmaSession);
-            
-            ShowMatchmakerProfile = FirmaWebConfiguration.FeatureMatchMakerEnabled && MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
-            UserHasViewEditProfilePermission = new OrganizationProfileViewEditFeature()
-                .HasPermission(currentFirmaSession, organization).HasPermission;
+
+            UserHasViewEditProfilePermission = new OrganizationProfileViewEditFeature().HasPermission(currentFirmaSession, organization).HasPermission;
+
+            bool matchmakerEnabledForTenant = MultiTenantHelpers.GetTenantAttributeFromCache().EnableMatchmaker;
+            bool matchmakerOptedInForThisOrganization = Organization.MatchmakerOptIn.HasValue && Organization.MatchmakerOptIn.Value;
+            ShowMatchmakerProfileTab = matchmakerEnabledForTenant && (UserHasViewEditProfilePermission || matchmakerOptedInForThisOrganization);
+
             FieldDefinitionForProject = FieldDefinitionEnum.Project.ToType();
             EditProfileMatchmakerOptIn = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileMatchmakerOptIn(organization));
             EditProfileSupplementalInformationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditProfileSupplementalInformation(organization));
@@ -279,6 +295,8 @@ namespace ProjectFirma.Web.Views.Organization
             EditOrgClassificationsUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerClassifications(organization));
             MatchmakerClassificationsGroupedByClassificationSystem = matchmakerClassificationsGroupedByClassificationSystem;
             AllClassificationSystems = allClassificationSystems;
+
+            EditOrgPerformanceMeasuresUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(c => c.EditMatchMakerPerformanceMeasures(organization));
         }
     }
 }
