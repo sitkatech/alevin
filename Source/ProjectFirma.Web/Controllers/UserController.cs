@@ -489,8 +489,7 @@ namespace ProjectFirma.Web.Controllers
                 SendExistingKeystoneUserCreatedMessage(newUser, CurrentPerson);
             }
 
-            SetMessageForDisplay(
-                $"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
+            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 
