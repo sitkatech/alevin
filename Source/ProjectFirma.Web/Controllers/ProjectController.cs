@@ -95,6 +95,8 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel, project, EditProjectType.ExistingProject, project.GetTaxonomyLeaf().GetDisplayName(), project.TotalExpenditures);
             }
             viewModel.UpdateModel(project, CurrentFirmaSession);
+            // We are in a modal, so this won't work.
+            //SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully saved.");
             return new ModalDialogFormJsonResult();
         }
 

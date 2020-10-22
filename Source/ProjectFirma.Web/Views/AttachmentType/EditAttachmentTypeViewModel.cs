@@ -136,7 +136,6 @@ namespace ProjectFirma.Web.Views.AttachmentType
                 yield return new SitkaValidationResult<EditAttachmentTypeViewModel, List<int>>($"Please select at least one file type for this {FieldDefinitionEnum.AttachmentType.ToType().GetFieldDefinitionLabel()}",
                     x => x.FileResourceMimeTypeIDs);
             }
-
         }
     }
 }

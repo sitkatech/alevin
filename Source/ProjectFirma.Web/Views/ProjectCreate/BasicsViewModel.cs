@@ -30,7 +30,6 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Net;
 using System.Text.RegularExpressions;
 
 namespace ProjectFirma.Web.Views.ProjectCreate
@@ -39,7 +38,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
     {
         public int? ProjectID { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeaf)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject)]
         [Required]
         public int? TaxonomyLeafID { get; set; }
 
@@ -84,7 +83,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
 
         [DisplayName("Reviewer Comments")]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BasicsComment)]
-        public string Comments { get; set; }    
+        public string Comments { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -165,6 +164,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
            return GetValidationResults();
         }
 
+
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var projects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 yield return new SitkaValidationResult<BasicsViewModel, ProjectCategoryEnum>($"A valid value for {FieldDefinitionEnum.ProjectCategory.ToType().GetFieldDefinitionLabel()} is required.", m => m.ProjectCategoryEnum);
             }
 
-            if (TaxonomyLeafID == -1)
+            if (!TaxonomyLeafID.HasValue || TaxonomyLeafID == -1)
             {
                 yield return new SitkaValidationResult<BasicsViewModel, int?>($"{MultiTenantHelpers.GetTaxonomyLeafDisplayNameForProject()} is required.", m => m.TaxonomyLeafID);
             }

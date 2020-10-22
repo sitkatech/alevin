@@ -231,6 +231,8 @@ namespace ProjectFirma.Web.Controllers
 
         private ActionResult CreateAndEditBasicsPostImpl(BasicsViewModel viewModel)
         {
+            Check.EnsureNotNull(viewModel);
+
             // To keep a 100% consistent time, we snapshot it so it doesn't change between calls
             var now = DateTime.Now;
 
@@ -243,11 +245,16 @@ namespace ProjectFirma.Web.Controllers
                 ProjectApprovalStatus.Draft.ProjectApprovalStatusID,
                 now,
                 ProjectCategory.Normal.ProjectCategoryID);
+
             project.OverrideTaxonomyLeafID = viewModel.TaxonomyLeafID;
-            project.OverrideTaxonomyLeaf = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.GetTaxonomyLeaf(project.OverrideTaxonomyLeafID.Value);
-            // This is a highly paranoid check to ensure overrides never get out of whack, which they have in the past. We want to detect these issues as soon
-            // as we possibly can. -- SLG & TK - 8/18/2020
-            Check.Ensure(project.GetTaxonomyLeaf() != null, "Checking for bad Taxonomy Leaf data on a new project. This should not blow up.");
+            if (viewModel.TaxonomyLeafID.HasValue)
+            {
+                project.OverrideTaxonomyLeaf = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.GetTaxonomyLeaf(project.OverrideTaxonomyLeafID.Value);
+                // This is a highly paranoid check to ensure overrides never get out of whack, which they have in the past. We want to detect these issues as soon
+                // as we possibly can. -- SLG & TK - 8/18/2020
+                Check.Ensure(project.GetTaxonomyLeaf() != null, "Checking for bad Taxonomy Leaf data. This should not blow up.");
+            }
+
             project.ProposingPerson = CurrentFirmaSession.Person;
             project.ProposingDate = now;
 
@@ -299,7 +306,7 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new BasicsViewData(CurrentFirmaSession, project, proposalSectionsStatus, taxonomyLeafs,
                 fundingTypes, tenantAttribute);
-            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Basics successfully saved.");
+
             return RazorView<Basics, BasicsViewData, BasicsViewModel>(viewData, viewModel);
         }
 
