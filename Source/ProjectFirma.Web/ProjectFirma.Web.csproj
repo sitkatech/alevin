@@ -133,6 +133,8 @@
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\TenantSimple.cs" />
     <Compile Include="PartnerFinder\ProjectOrganizationMatchmaker.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectExpectedPerformanceMeasureModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectReportedPerformanceMeasureModel.cs" />
     <Compile Include="Models\ObligationItemRollUpByYearAndCostTypeAndFundingSourceSimple.cs" />
     <Compile Include="Models\ObligationItemModelExtensions.cs" />
     <Compile Include="Models\ObligationModelExtensions.cs" />
@@ -146,6 +148,7 @@
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectImageModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectOrganizationModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectStatusModel.cs" />
+    <Compile Include="ReportTemplates\Models\ReportTemplateProjectTechnicalAssistanceRequestModel.cs" />
     <Compile Include="ReportTemplates\ProjectFirmaDocxDocument.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateBaseModel.cs" />
     <Compile Include="ReportTemplates\Models\ReportTemplateProjectModel.cs" />
