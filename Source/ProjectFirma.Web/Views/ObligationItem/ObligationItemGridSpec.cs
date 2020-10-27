@@ -17,9 +17,7 @@ namespace ProjectFirma.Web.Views.ObligationItem
 
             Add("Obligation Number", oi => UrlTemplate.MakeHrefString(oi.ObligationNumber.GetDetailUrl(), oi.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName} Key", oi => UrlTemplate.MakeHrefString(oi.GetDetailUrl() ,oi.ObligationItemKey), 80, DhtmlxGridColumnFilterType.Numeric);
-            Add("Vendor", oi => oi.Vendor.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Vendor", oi => oi.Vendor.GetDisplayNameAsUrl(), 500, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
         }
-
-
     }
 }
