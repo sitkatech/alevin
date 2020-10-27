@@ -38,7 +38,7 @@ namespace ProjectFirma.Web.Views.Organization
         public string PullOrganizationFromKeystoneUrl { get; }
         public bool UserIsSitkaAdmin { get; }
         public bool HasOrganizationManagePermissions { get; }
-        public string NewUrl { get; }
+        public string NewOrganizationUrl { get; }
 
         public List<SelectListItem> ActiveOrAllOrganizationsSelectListItems { get; }
         public string ShowOnlyActiveOrAll { get; }
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Views.Organization
 
             PullOrganizationFromKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.PullOrganizationFromKeystone());
             UserIsSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            NewUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
+            NewOrganizationUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
 
             ActiveOrAllOrganizationsSelectListItems = activeOrAllOrganizationsSelectListItems;
             ShowOnlyActiveOrAll = "ShowOnlyActiveOrAll";

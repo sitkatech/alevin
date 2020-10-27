@@ -18,12 +18,14 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common.BootstrapWrappers
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.DhtmlWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ObligationRequest
+@using ProjectFirma.Web.Views.ProjectCreate
 @using ProjectFirma.Web.Views.Shared.SortOrder
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Agreement.AgreementIndex
@@ -40,10 +42,16 @@
         <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasPerformanceMeasureManagePermissions)</div>
     }*@
 
+@section RightOfPageTitle
+{
+   @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewAgreementUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasAgreementManagePermissions)
+   @*@ModalDialogFormHelper.ModalDialogFormLink(string.Format("Pull {0} from Keystone", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), ViewDataTyped.PullOrganizationFromKeystoneUrl, string.Format("Pull {0} from Keystone", FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()), new List<string> { "btn", "btn-firma", "btn-sm" }, ViewDataTyped.UserIsSitkaAdmin)*@
+}
+
 @* Agreement Grid *@
 <div class="row">
     <div class="col-xs-12" style="margin-bottom: 20px;">
-        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AgrementIndexViewPageContentViewData); }
+        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AgreementIndexViewPageContentViewData); }
     </div>
     <div class="col-xs-12">
         @Html.DhtmlxGrid(ViewDataTyped.AgreementGridSpec, ViewDataTyped.AgreementGridName, ViewDataTyped.AgreementGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
