@@ -30,7 +30,6 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 
-
 namespace ProjectFirma.Web.Views.Agreement
 {
     public class AgreementGridSpec : GridSpec<ProjectFirmaModels.Models.Agreement>

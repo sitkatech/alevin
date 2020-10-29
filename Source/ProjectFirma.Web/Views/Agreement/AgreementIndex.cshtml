@@ -35,13 +35,6 @@
     @{ DhtmlxGridIncludes.RenderPartialView(Html); }
 }
 
-
-@*@section RightOfPageTitle
-    {
-        @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasPerformanceMeasureManagePermissions)
-        <div class="pull-right" style="margin-left:10px">@SortOrderHelper.SortOrderModalLink(ViewDataTyped.EditSortOrderUrl, ViewDataTyped.HasPerformanceMeasureManagePermissions)</div>
-    }*@
-
 @section RightOfPageTitle
 {
    @ModalDialogFormHelper.MakeNewIconButton(ViewDataTyped.NewAgreementUrl, string.Format("Create a new {0}", @FieldDefinitionEnum.Agreement.ToType().GetFieldDefinitionLabel()), ViewDataTyped.HasAgreementManagePermissions)

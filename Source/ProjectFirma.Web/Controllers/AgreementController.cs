@@ -1,6 +1,10 @@
-﻿using System.Linq;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
+using LtInfo.Common.Models;
+using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -46,18 +50,6 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        //[ProjectsViewFullListFeature]
-        //public GridJsonNetJObjectResult<Project> IndexGridJsonData()
-        //{
-        //    var fundingTypes = FundingType.All.ToDictionary(x => x.FundingTypeID, x => x);
-        //    var geospatialAreaTypes = HttpRequestStorage.DatabaseEntities.GeospatialAreaTypes.ToList();
-        //    var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList();
-        //    var gridSpec = new IndexGridSpec(CurrentPerson, fundingTypes, geospatialAreaTypes, projectCustomAttributeTypes);
-        //    var projects = HttpRequestStorage.DatabaseEntities.Projects.Include(x => x.PerformanceMeasureActuals).Include(x => x.ProjectFundingSourceBudgets).Include(x => x.ProjectFundingSourceExpenditures).Include(x => x.ProjectImages).Include(x => x.ProjectGeospatialAreas).Include(x => x.ProjectOrganizations).Include(x => x.ProjectCustomAttributes.Select(y => y.ProjectCustomAttributeValues)).Include(x => x.SecondaryProjectTaxonomyLeafs).Include(x => x.ProjectTags.Select(y => y.Tag)).Include(x => x.PrimaryContactPerson).ToList().GetActiveProjects();
-        //    var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
-        //    return gridJsonNetJObjectResult;
-        //}
-
         [AgreementViewFeature]
         public ActionResult AgreementDetail(string agreementNumber)
         {
@@ -97,6 +89,60 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<CostAuthority>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        #region New/Edit Agreement
+
+        [HttpGet]
+        [OrganizationManageFeature]
+        public PartialViewResult NewAgreement()
+        {
+            var viewModel = new AgreementEditViewModel();
+            return AgreementViewEdit(viewModel, CurrentFirmaSession);
+        }
+
+        [HttpPost]
+        [OrganizationManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult NewAgreement(AgreementEditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return AgreementViewEdit(viewModel, CurrentFirmaSession);
+            }
+            var agreement = new Agreement(false, false, viewModel.ContractTypeID.Value);
+            viewModel.UpdateModel(agreement, CurrentFirmaSession);
+            HttpRequestStorage.DatabaseEntities.Agreements.Add(agreement);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"Agreement {agreement.GetDetailLinkUsingAgreementNumber()} successfully created.");
+
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult AgreementViewEdit(AgreementEditViewModel viewModel, FirmaSession currentFirmaSession)
+        {
+            /*
+            var organizationTypesAsSelectListItems = HttpRequestStorage.DatabaseEntities.OrganizationTypes
+                .OrderBy(x => x.OrganizationTypeName)
+                .ToSelectListWithEmptyFirstRow(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture),
+                    x => x.OrganizationTypeName);
+            var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
+            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
+            {
+                activePeople.Add(currentPrimaryContactPerson);
+            }
+            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
+                x => x.GetFullNameFirstLastAndOrg());
+            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            string requestOrganizationChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange());
+            */
+            //var viewData = new AgreementEditViewData(organizationTypesAsSelectListItems, people, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.KeystoneOrganizationGuid);
+
+            var viewData = new AgreementEditViewData();
+            return RazorPartialView<AgreementEdit, AgreementEditViewData, AgreementEditViewModel>(viewData, viewModel);
+        }
+
+        #endregion New/Edit Agreement
 
     }
 }

@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Models
         }
 
         public static HtmlString GetDisplayNameAsUrl(this Organization organization)
-        {          
+        {
             return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.GetDisplayName()) : new HtmlString(null);
         }
 

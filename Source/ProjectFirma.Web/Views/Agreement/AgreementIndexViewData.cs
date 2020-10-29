@@ -38,8 +38,7 @@ namespace ProjectFirma.Web.Views.Agreement
             AgreementGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementGridJsonData());
             AgreementIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
 
-            // FIX; not agreement yet!
-            NewAgreementUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(t => t.New());
+            NewAgreementUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(t => t.NewAgreement());
 
             //AgreementGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.AgreementSubcategory.ToType().GetFieldDefinitionLabelPluralized()}";
             //AgreementGridSpec.CustomExcelDownloadUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());

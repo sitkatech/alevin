@@ -19,17 +19,11 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.ObligationRequest

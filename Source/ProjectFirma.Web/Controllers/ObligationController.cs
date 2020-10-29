@@ -1,6 +1,5 @@
 ﻿using System.Linq;
 using System.Web.Mvc;
-using ApprovalUtilities.Utilities;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
@@ -64,9 +63,6 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
-
-
-
 
         [ObligationViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualObligationIndexGridJsonData()

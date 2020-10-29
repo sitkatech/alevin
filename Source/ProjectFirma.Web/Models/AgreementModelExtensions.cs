@@ -24,6 +24,7 @@ namespace ProjectFirma.Web.Models
             return $"{agreement.AgreementNumber} - {agreement.GetOrganizationDisplayName()} - {agreement.ContractType.ContractTypeDisplayName}";
         }
 
+
         /// <summary>
         /// Convenience accessor for Reclamation Cost Authorities.
         /// </summary>
