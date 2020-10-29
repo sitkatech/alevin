@@ -15,6 +15,7 @@ namespace ProjectFirma.Web.Views.Agreement
         public string AgreementGridDataUrl { get; }
         public string EditSortOrderUrl { get; }
         public bool HasAgreementManagePermissions { get; }
+        public bool ShowAgreementEditingControls { get; }
         public string NewAgreementUrl { get; }
 
 
@@ -38,6 +39,8 @@ namespace ProjectFirma.Web.Views.Agreement
             AgreementGridDataUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(c => c.AgreementGridJsonData());
             AgreementIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
 
+            bool hasAgreementManagementRights = new AgreementManageFeature().HasPermissionByPerson(currentFirmaSession.Person);
+            ShowAgreementEditingControls = FirmaWebConfiguration.FeatureAlevinAgreementCreationAndEditing && hasAgreementManagementRights;
             NewAgreementUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(t => t.NewAgreement());
 
             //AgreementGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.AgreementSubcategory.ToType().GetFieldDefinitionLabelPluralized()}";

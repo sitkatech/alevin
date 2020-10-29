@@ -75,6 +75,8 @@ namespace ProjectFirma.Web.Common
         // Feature Flag Settings
         // FeatureMatchMakerEnabled now has shipped, but leaving this in place so we can see readily how to set up the next Feature.
         //public static readonly bool FeatureMatchMakerEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureMatchMakerEnabled"));
+        public static readonly bool FeatureAlevinAgreementCreationAndEditing = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("FeatureAlevinAgreementCreationAndEditing"));
+
 
         public static string GetCanonicalHost(string hostName, bool useApproximateMatch)
         {

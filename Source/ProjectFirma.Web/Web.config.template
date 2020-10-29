@@ -59,6 +59,7 @@
 
     <!-- Feature Flag Settings -->
     <add key="FeatureMatchMakerEnabled" value="${feature-match-maker-enabled}" />
+    <add key="FeatureAlevinAgreementCreationAndEditing" value="${feature-alevin-agreement-creation-and-editing}" />
 
   </appSettings>
   <system.net>

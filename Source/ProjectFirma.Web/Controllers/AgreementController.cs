@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
         #region New/Edit Agreement
 
         [HttpGet]
-        [OrganizationManageFeature]
+        [AgreementManageFeature]
         public PartialViewResult NewAgreement()
         {
             var viewModel = new AgreementEditViewModel();
@@ -101,7 +101,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [OrganizationManageFeature]
+        [AgreementManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult NewAgreement(AgreementEditViewModel viewModel)
         {
