@@ -33,16 +33,9 @@ namespace ProjectFirma.Web.Views.Agreement
     {
         public IEnumerable<SelectListItem> ContractTypeSelectListItems { get; }
         public IEnumerable<SelectListItem> OrganizationSelectListItems { get; }
-        //public readonly IEnumerable<SelectListItem> OrganizationTypes;
-        //public readonly IEnumerable<SelectListItem> People;
-        //public readonly bool IsInKeystone;
-        //public readonly string RequestOrganizationChangeUrl;
-        //public readonly bool IsSitkaAdmin;
-        //public readonly bool UserHasAdminPermissions;
-        //public readonly Guid? OrganizationGuid;
-        //public readonly string SyncWithKeystoneUrl;
+        public IEnumerable<SelectListItem> ObligationNumberSelectListItems { get; }
 
-        public AgreementEditViewData(/*IEnumerable<SelectListItem> organizationTypes, IEnumerable<SelectListItem> people, bool isInKeystone, string requestOrganizationChangeUrl, bool isSitkaAdmin, bool userHasAdminPermissions, Guid? organizationGuid*/)
+        public AgreementEditViewData()
         {
             var allContractTypes = HttpRequestStorage.DatabaseEntities.ContractTypes.ToList();
             ContractTypeSelectListItems = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);
@@ -50,16 +43,8 @@ namespace ProjectFirma.Web.Views.Agreement
             var activeOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             OrganizationSelectListItems = activeOrganizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
 
-            /*
-            OrganizationTypes = organizationTypes;
-            People = people;
-            IsInKeystone = isInKeystone;
-            RequestOrganizationChangeUrl = requestOrganizationChangeUrl;
-            IsSitkaAdmin = isSitkaAdmin;
-            UserHasAdminPermissions = userHasAdminPermissions;
-            OrganizationGuid = organizationGuid;
-            SyncWithKeystoneUrl = SitkaRoute<OrganizationController>.BuildUrlFromExpression(x => x.SyncWithKeystone(UrlTemplate.Parameter1String));
-            */
+            var availableUnassociatedObligationNumbers = HttpRequestStorage.DatabaseEntities.ObligationNumbers.Where(oNum => !oNum.ReclamationAgreementID.HasValue).ToList();
+            ObligationNumberSelectListItems = availableUnassociatedObligationNumbers.ToSelectListWithEmptyFirstRow(oNum => oNum.ObligationNumberID.ToString(CultureInfo.InvariantCulture), x => x.ObligationNumberKey);
         }
     }
 

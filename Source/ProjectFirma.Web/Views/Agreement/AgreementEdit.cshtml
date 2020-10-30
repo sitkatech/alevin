@@ -33,57 +33,67 @@
         <p id="keystoneParagraph" class="systemText">Because this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() has user accounts associated with it, its Name, Short Name, and Home Page information come from Keystone. To change this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Name, please @ModalDialogFormHelper.ModalDialogFormLink("submit a support request", ViewDataTyped.RequestOrganizationChangeUrl, "Request Support", 800, "Submit Request", "Cancel", new List<string>(), null, null). While you may update this @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()'s Short Name and Home Page here, try syncing from Keystone first.</p>
     }*@
 
-    <div class="form-horizontal">
+<div class="form-horizontal">
 
-           @*<div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.OrganizationName)
-            </div>
-            <div class="col-sm-9">
-                @if (ViewDataTyped.IsInKeystone)
-                {
-                    @Model.OrganizationName
-                    @Html.HiddenFor(x => x.OrganizationName)
-                }
-                else
-                {
-                    @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form-control", style = "width:100%" })
-                    @Html.ValidationMessageFor(m => m.OrganizationName)
-                }
-            </div>
-        </div>*@
-           @*Aped from OrganizationEdit.cshtml*@
+   @*<div class="col-sm-3 control-label">
+              @Html.LabelWithSugarFor(m => m.OrganizationName)
+          </div>
+          <div class="col-sm-9">
+              @if (ViewDataTyped.IsInKeystone)
+              {
+                  @Model.OrganizationName
+                  @Html.HiddenFor(x => x.OrganizationName)
+              }
+              else
+              {
+                  @Html.TextBoxFor(m => m.OrganizationName, new { @class = "form-control", style = "width:100%" })
+                  @Html.ValidationMessageFor(m => m.OrganizationName)
+              }
+          </div>
+      </div>*@
+   @*Aped from OrganizationEdit.cshtml*@
 
-           <div class="form-group">
-              <div class="col-sm-3 control-label">
-                 @Html.LabelWithSugarFor(m => m.AgreementNumber, true)
-              </div>
-              <div class="col-sm-9">
-                 @Html.TextBoxFor(m => m.AgreementNumber, new { @class = "form-control", style = "width:100%" })
-                 @Html.ValidationMessageFor(m => m.AgreementNumber)
-              </div>
-           </div>
+   <div class="form-group">
+      <div class="col-sm-3 control-label">
+         @Html.LabelWithSugarFor(m => m.AgreementNumber, true)
+      </div>
+      <div class="col-sm-9">
+         @Html.TextBoxFor(m => m.AgreementNumber, new { @class = "form-control", style = "width:100%" })
+         @Html.ValidationMessageFor(m => m.AgreementNumber)
+      </div>
+   </div>
 
-           <div class="form-group">
-              <div class="col-sm-3 control-label">
-                 @Html.LabelWithSugarFor(m => m.OrganizationID, true)
-              </div>
-              <div class="col-sm-9">
-                 @Html.SearchableDropDownListFor(m => m.OrganizationID, ViewDataTyped.OrganizationSelectListItems)
-              </div>
-           </div>
+   <div class="form-group">
+      <div class="col-sm-3 control-label">
+         @Html.LabelWithSugarFor(m => m.ObligationNumberID)
+      </div>
+      <div class="col-sm-9">
+         @Html.DropDownListFor(m => m.ObligationNumberID, ViewDataTyped.ObligationNumberSelectListItems, new { @class = "form-control" })
+         @Html.ValidationMessageFor(m => m.ObligationNumberID)
+      </div>
+   </div>
 
-         <div class="form-group">
-              <div class="col-sm-3 control-label">
-                 @Html.LabelWithSugarFor(m => m.ContractTypeID)
-              </div>
-              <div class="col-sm-9">
-                 @Html.DropDownListFor(m => m.ContractTypeID, ViewDataTyped.ContractTypeSelectListItems, new { @class = "form-control" })
-                 @Html.ValidationMessageFor(m => m.ContractTypeID)
-              </div>
-         </div>
+   <div class="form-group">
+      <div class="col-sm-3 control-label">
+         @Html.LabelWithSugarFor(m => m.OrganizationID, true)
+      </div>
+      <div class="col-sm-9">
+         @Html.SearchableDropDownListFor(m => m.OrganizationID, ViewDataTyped.OrganizationSelectListItems)
+      </div>
+   </div>
+
+   <div class="form-group">
+      <div class="col-sm-3 control-label">
+         @Html.LabelWithSugarFor(m => m.ContractTypeID)
+      </div>
+      <div class="col-sm-9">
+         @Html.DropDownListFor(m => m.ContractTypeID, ViewDataTyped.ContractTypeSelectListItems, new { @class = "form-control" })
+         @Html.ValidationMessageFor(m => m.ContractTypeID)
+      </div>
+   </div>
 
 
-    </div>
+</div>
     @Html.HiddenFor(m => m.AgreementID)
 }
 
