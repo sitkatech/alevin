@@ -110,8 +110,6 @@ namespace ProjectFirma.Web.Controllers
                 return AgreementViewEdit(viewModel, CurrentFirmaSession);
             }
 
-            // standard validated function doesn't have H
-
             var agreement = new Agreement(false, false, viewModel.ContractTypeID.Value);
             viewModel.UpdateModelAndSaveChanges(agreement, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
 

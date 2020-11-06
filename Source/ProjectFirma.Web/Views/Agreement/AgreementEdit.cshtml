@@ -18,13 +18,8 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using LtInfo.Common
 @using LtInfo.Common.HtmlHelperExtensions
-@using LtInfo.Common.ModalDialog
-@using LtInfo.Common.Mvc
 @using ProjectFirma.Web.Common
-@using ProjectFirma.Web.Models
-@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Agreement.AgreementEdit
 @using (Html.BeginForm())
 {
@@ -98,36 +93,56 @@
 }
 
 
-@*<script type="text/javascript">
+<script type="text/javascript">
 
-    function syncWithKeystone() {
-        var organizationGuid = "@Html.Raw(ViewDataTyped.OrganizationGuid.ToString())";
-        var urlTemplate = new Sitka.UrlTemplate(@Html.Raw(ViewDataTyped.SyncWithKeystoneUrl.ToJS()));
-        var newUrl = urlTemplate.ParameterReplace(organizationGuid);
+   var agreementElement = jQuery('#' + '@Html.IdFor(m => m.AgreementNumber)');
+   var obligationElement = jQuery('#' + '@Html.IdFor(m => m.ObligationNumberID)');
 
-        var successHandler = function(result) {
-            var shortNameInput = jQuery("#@Html.IdFor(x => x.OrganizationShortName)");
-            var urlInput = jQuery("#@Html.IdFor(x => x.OrganizationUrl)");
-            shortNameInput.val(result.OrganizationShortName);
-            urlInput.val(result.URL);
+   function HookupAgreementNumberToChangeEvents()
+   {
+      console.log('HookupAgreementNumberToChangeEvents');
+      agreementElement.change(AgreementNumberChanged);
+   }
 
-            jQuery("#keystoneParagraph").prepend("<div class=\"alert alert-info\" role=\"alert\">" +
-                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
-                "Sync with Keystone successfully replaced the Short Name and Home Page in this editor. You must save changes to update this Organization.</div>");
-        };
+   function HookupObligationToChangeEvents()
+   {
+      console.log('HookupObligationToChangeEvents');
+      obligationElement.change(ObligationNumberChanged);
+   }
 
-        var errorHandler = function(error) {
-            jQuery("#keystoneParagraph").prepend("<div class=\"alert alert-danger\" role=\"alert\">" +
-                "<button type=\"button\" class=\"close\" data-dismiss=\"alert\" aria-label=\"Close\">&times;</button>" +
-                "Cannot sync with Keystone. Organization not found in Keystone or unable to connect to Keystone.</div>");
-        };
+   function AgreementNumberChanged()
+   {
+      console.log('AgreementNumberChanged');
+      var currentAgreementNumber = agreementElement.val();
+      var currentObligationNumber = jQuery('#' + '@Html.IdFor(m => m.ObligationNumberID)' + ' option:selected' ).text();
+      //console.log('currentAgreementNumber: ' + currentAgreementNumber);
+      //console.log('currentObligationNumber: ' + currentObligationNumber);
+      // If they typed an Agreement Number
+      if (currentAgreementNumber.length > 0)
+      {
+         //console.log('Typed AgreementNumber:  ' + currentAgreementNumber);
+         // And that Agreement Number doesn't agree with the Obligation number
+         if (currentAgreementNumber !== currentObligationNumber)
+         {
+            //console.log('AgreementNumber did not match Obligation number ' + currentObligationNumber + ' attempting to clear..');
+            // Clear the Obligation number
+            obligationElement.val('');
+         }
+      }
+   }
 
-        SitkaAjax.get(newUrl, successHandler, errorHandler);
-    }
+   function ObligationNumberChanged()
+   {
+      console.log('ObligationNumberChanged');
+      var currentObligationNumber = jQuery('#' + '@Html.IdFor(m => m.ObligationNumberID)' + ' option:selected').text();
+      agreementElement.val(currentObligationNumber);
+   }
 
-    jQuery(document).ready(function ()
-    {
-        HookupCheckIfFormIsDirty(undefined, ".submitProject");
-    });
-</script>*@
-<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>
+   jQuery(document).ready(function ()
+   {
+      HookupAgreementNumberToChangeEvents();
+      HookupObligationToChangeEvents();
+   });
+</script>
+
+@*<script type="text/javascript" src="/ScriptsCustom/CkEditorReady.js"></script>*@
