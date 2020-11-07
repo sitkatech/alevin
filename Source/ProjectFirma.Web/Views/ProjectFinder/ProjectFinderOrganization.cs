@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Index.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -19,21 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
-using System.Web.Mvc;
-using ProjectFirmaModels.Models;
-
-namespace ProjectFirma.Web.Views.Evaluation
+namespace ProjectFirma.Web.Views.ProjectFinder
 {
-    public class EditViewData : FirmaViewData
+    public abstract class ProjectFinderOrganization : LtInfo.Common.Mvc.TypedWebViewPage<ProjectFinderOrganizationViewData>
     {
-        public List<SelectListItem> EvaluationStatuses { get; }
-        public List<SelectListItem> EvaluationVisibilities { get; }
-
-        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, List<SelectListItem> evaluationStatuses, List<SelectListItem> evaluationVisibilities) : base(currentFirmaSession, firmaPage)
-        {
-            EvaluationStatuses = evaluationStatuses;
-            EvaluationVisibilities = evaluationVisibilities;
-        }
     }
 }
