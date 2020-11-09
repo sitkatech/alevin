@@ -747,6 +747,8 @@
                         The Matchmaker service finds @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match your profile - the more complete and accurate your profile, the better matches it can make. You may opt-in or out of the Matchmaker service at any time.
                     </p>
                 }
+                @if (ViewDataTyped.ShowMatchmakerProfileTabDetails)
+                {
                 <div class="row" style="margin-top: 20px">
                     <div class="col-xs-12">
                         @if (ViewDataTyped.MatchmakerProjectFinderButtonDisabled)
@@ -816,8 +818,8 @@
                 </div>
                 <div class="row" style="margin-top: 20px">
                     <div class="col-xs-12">
-                        <h4>Demand: @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest</h4>
-                        <p>This organization is interested in supporting  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below. In economic terms, this section describes their "demand."</p>
+                            <h4>Demand: @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() Interest</h4>
+                            <p>This organization is interested in supporting  @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabelPluralized() that match one or more of the criteria below. In economic terms, this section describes their "demand."</p>
                     </div>
                 </div>
 
@@ -1111,7 +1113,12 @@
                         </div>
                     </div>
                 </div>
-            </div>  <!-- Profile tab -->
+                }
+                else
+                {
+                    <p>This @FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel() has not opted-in to the Matchmaker service.</p>
+                }
+
         </div>
     </div>
 </div>
