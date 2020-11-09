@@ -41,10 +41,10 @@ namespace ProjectFirma.Web.Views.Agreement
             ContractTypeSelectListItems = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);
 
             var activeOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
-            OrganizationSelectListItems = activeOrganizations.ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
+            OrganizationSelectListItems = activeOrganizations.OrderBy(ao => ao.OrganizationName).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
 
             var availableUnassociatedObligationNumbers = HttpRequestStorage.DatabaseEntities.ObligationNumbers.Where(oNum => !oNum.ReclamationAgreementID.HasValue).ToList();
-            ObligationNumberSelectListItems = availableUnassociatedObligationNumbers.ToSelectListWithEmptyFirstRow(oNum => oNum.ObligationNumberID.ToString(CultureInfo.InvariantCulture), x => x.ObligationNumberKey);
+            ObligationNumberSelectListItems = availableUnassociatedObligationNumbers.OrderBy(uo => uo.ObligationNumberKey).ToSelectListWithEmptyFirstRow(oNum => oNum.ObligationNumberID.ToString(CultureInfo.InvariantCulture), x => x.ObligationNumberKey);
         }
     }
 
