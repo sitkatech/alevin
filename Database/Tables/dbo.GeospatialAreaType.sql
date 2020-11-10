@@ -39,20 +39,35 @@ CREATE TABLE [dbo].[GeospatialAreaType](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 
 GO
-ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID] FOREIGN KEY([EsuDpsGeospatialAreaTypeID])
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID_GeospatialAreaTypeID] FOREIGN KEY([EsuDpsGeospatialAreaTypeID])
 REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
 GO
-ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID]
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID_GeospatialAreaTypeID]
 GO
-ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID] FOREIGN KEY([MPGGeospatialAreaTypeID])
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID_TenantID_GeospatialAreaTypeID_TenantID] FOREIGN KEY([EsuDpsGeospatialAreaTypeID], [TenantID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID_TenantID_GeospatialAreaTypeID_TenantID]
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID_GeospatialAreaTypeID] FOREIGN KEY([MPGGeospatialAreaTypeID])
 REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
 GO
-ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID]
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID_GeospatialAreaTypeID]
 GO
-ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID] FOREIGN KEY([PopulationGeospatialAreaTypeID])
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID_TenantID_GeospatialAreaTypeID_TenantID] FOREIGN KEY([MPGGeospatialAreaTypeID], [TenantID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID_TenantID_GeospatialAreaTypeID_TenantID]
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID_GeospatialAreaTypeID] FOREIGN KEY([PopulationGeospatialAreaTypeID])
 REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID])
 GO
-ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID]
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID_GeospatialAreaTypeID]
+GO
+ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID_TenantID_GeospatialAreaTypeID_TenantID] FOREIGN KEY([PopulationGeospatialAreaTypeID], [TenantID])
+REFERENCES [dbo].[GeospatialAreaType] ([GeospatialAreaTypeID], [TenantID])
+GO
+ALTER TABLE [dbo].[GeospatialAreaType] CHECK CONSTRAINT [FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID_TenantID_GeospatialAreaTypeID_TenantID]
 GO
 ALTER TABLE [dbo].[GeospatialAreaType]  WITH CHECK ADD  CONSTRAINT [FK_GeospatialAreaType_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])
