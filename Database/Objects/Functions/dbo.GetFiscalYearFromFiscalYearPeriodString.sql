@@ -16,6 +16,7 @@ GO
 
 /*
 
+select dbo.GetFiscalYearFromFiscalYearPeriodString('002/2019')
 select dbo.GetFiscalYearFromFiscalYearPeriodString('001/2020')
 
 */
