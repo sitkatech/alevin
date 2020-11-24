@@ -127,7 +127,7 @@ namespace ProjectFirma.Web.Models
         public static List<Project> GetAssociatedProjects(this GeospatialArea geospatialArea, FirmaSession currentFirmaSession)
         {
             return geospatialArea.ProjectGeospatialAreas.Select(ptc => ptc.Project).ToList()
-                .GetActiveProjectsAndProposals(currentFirmaSession.Person.CanViewProposals());
+                .GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals());
         }
 
         public static Feature MakeFeatureWithRelevantProperties(this GeospatialArea geospatialArea)

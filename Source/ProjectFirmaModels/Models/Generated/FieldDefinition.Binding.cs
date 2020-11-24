@@ -314,6 +314,7 @@ namespace ProjectFirmaModels.Models
         AreaOfInterest = 364,
         MatchmakerKeyword = 365,
         OrganizationKeystoneGuid = 366,
+        ContactRelationshipTypeAcceptsMultipleValues = 367,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,

@@ -5,6 +5,7 @@ using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirmaModels.Models;
 
@@ -12,7 +13,14 @@ namespace ProjectFirma.Web.Models
 {
     public static class ProjectUpdateBatchModelExtensions
     {
-        public static bool IsReadyToSubmit(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.InEditableState() && projectUpdateBatch.IsPassingAllValidationRules() && ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
+        public static bool IsReadyToSubmit(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            bool inEditableState = projectUpdateBatch.InEditableState();
+            bool isPassingAllValidationRules = projectUpdateBatch.IsPassingAllValidationRules();
+            bool projectUpdateBatchHasAlreadyBeenSaved = ModelObjectHelpers.IsRealPrimaryKeyValue(projectUpdateBatch.ProjectUpdateBatchID);
+
+            return inEditableState && isPassingAllValidationRules && projectUpdateBatchHasAlreadyBeenSaved;
+        }
 
         public static bool IsReadyToApprove(this ProjectUpdateBatch projectUpdateBatch) => projectUpdateBatch.IsPassingAllValidationRules();
 
@@ -142,6 +150,9 @@ namespace ProjectFirma.Web.Models
 
             // Custom attributes
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+
+            //Classifications
+            ProjectClassificationsUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             // Technical Assistance Requests - for Idaho
             TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -301,6 +312,15 @@ namespace ProjectFirma.Web.Models
             foreach (var projectOrganizationUpdate in projectOrganizationUpdates)
             {
                 projectOrganizationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
+            }
+        }
+
+        public static void DeleteProjectClassificationUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectClassificationUpdates = projectUpdateBatch.ProjectClassificationUpdates.ToList();
+            foreach (var projectClassificationUpdate in projectClassificationUpdates)
+            {
+                projectClassificationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
             }
         }
         public static void DeleteProjectContactUpdates(this ProjectUpdateBatch projectUpdateBatch)
@@ -579,8 +599,16 @@ namespace ProjectFirma.Web.Models
 
         public static ContactsValidationResult ValidateContacts(this ProjectUpdateBatch projectUpdateBatch)
         {
-            return new ContactsValidationResult(projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactSimple(x))
+            return new ContactsValidationResult(projectUpdateBatch.Project, projectUpdateBatch.ProjectContactUpdates.Select(x => new ProjectContactSimple(x))
                 .ToList());
+        }
+
+        public static ClassificationsValidationResult ValidateClassifications(this ProjectUpdateBatch projectUpdateBatch)
+        {
+            var projectClassificationSimples = ProjectUpdateController.GetProjectClassificationSimples(projectUpdateBatch);
+            var classificationLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
+            var classificationSystemsLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
+            return new ClassificationsValidationResult(projectClassificationSimples, classificationLabel, classificationSystemsLabel);
         }
 
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
@@ -699,6 +727,9 @@ namespace ProjectFirma.Web.Models
             // Technical Assistance Requests - for Idaho
             TechnicalAssistanceRequestUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
 
+            //Project Classifications
+            ProjectClassificationsUpdateModelExtensions.CommitChangesToProject(projectUpdateBatch, databaseEntities);
+
         }
 
         private static void PushTransitionRecordsToAuditLog(this ProjectUpdateBatch projectUpdateBatch)
@@ -753,6 +784,7 @@ namespace ProjectFirma.Web.Models
             // 4/17/20 TK - We removed the ability to edit expenditures. No longer need to check for valid on them.
             // 5/28/2020 - SLG leaving in expenditures line for now to aid merges. We'll see if it helps.
             return projectUpdateBatch.AreProjectBasicsValid() && 
+                   projectUpdateBatch.AreContactsValid() &&
                    //projectUpdateBatch.AreExpendituresValid() && 
                    projectUpdateBatch.AreReportedPerformanceMeasuresValid() &&
                    projectUpdateBatch.IsProjectLocationSimpleValid() &&
