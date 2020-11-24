@@ -1,5 +1,7 @@
 
 
+
+
 delete from dbo.ProjectStatus where TenantID != 12
 delete from dbo.FirmaPageImage where TenantID != 12
 delete from dbo.DocumentLibraryDocumentRole where TenantID != 12
@@ -67,10 +69,13 @@ delete from dbo.PerformanceMeasureImage where TenantID != 12
 
 delete from dbo.PersonStewardOrganization where TenantID != 12
 delete from dbo.PersonStewardTaxonomyBranch where TenantID != 12
+
+/*
 -- There's two-way bindings here between Person and Organziation that make things difficult
 update dbo.Organization set PrimaryContactPersonID = null where TenantID != 12
 alter table dbo.Person alter column OrganizationID int null
 update dbo.Person set OrganizationID = null where TenantID != 12
+*/
 delete from dbo.Notification where TenantID != 12
 
 
@@ -79,17 +84,48 @@ delete from dbo.CustomPageImage where TenantID != 12
 delete from dbo.FirmaHomePageImage where TenantID != 12
 
 -- Problems start here?
-delete from dbo.TenantAttribute where TenantID != 12
+
+-- PF framework needs TenantAttributes to be present for all Tenants. Since we aren't killing Tenants, these need to stay too.
+--delete from dbo.TenantAttribute where TenantID != 12 --and TenantID != 1
 delete from dbo.FundingSource where TenantID != 12
-delete from dbo.Organization where TenantID != 12
-delete from dbo.FileResourceInfo where TenantID != 12
+-- We might not need every Org, but it's not a big table so figuring it out isn't interesting - just keep everything.
+--delete from dbo.Organization where TenantID != 12
+-- Kill all the Files infos we can, but we have to retain what TenantAttribute needs, as well as Organization
+delete from dbo.FileResourceInfo where TenantID != 12 and FileResourceInfoID not in 
+    (
+     select distinct TenantSquareLogoFileResourceInfoID as FileResourceInfoID from dbo.TenantAttribute where TenantSquareLogoFileResourceInfoID is not null 
+     union
+     select distinct TenantBannerLogoFileResourceInfoID as FileResourceInfoID from dbo.TenantAttribute where TenantBannerLogoFileResourceInfoID is not null
+     union
+     select distinct TenantStyleSheetFileResourceInfoID as FileResourceInfoID from dbo.TenantAttribute where TenantStyleSheetFileResourceInfoID is not null
+     union
+     select distinct TenantFactSheetLogoFileResourceInfoID as FileResourceInfoID from dbo.TenantAttribute where TenantFactSheetLogoFileResourceInfoID is not null
+     union
+     select distinct LogoFileResourceInfoID as FileResourceInfoID from dbo.Organization where LogoFileResourceInfoID is not null
+     )
+
+--select * from dbo.TenantAttribute
+--select * from dbo.FileResourceInfo
 
 delete from dbo.ReleaseNote where UpdatePersonID in (select p.PersonID from dbo.Person as p where TenantID != 12)
 delete from dbo.ImportExternalProjectStaging where CreatePersonID in (select p.PersonID from dbo.Person as p where TenantID != 12)
 delete from dbo.PersonStewardGeospatialArea where PersonID in (select p.PersonID from dbo.Person as p where TenantID != 12)
 
-delete from dbo.Person where TenantID != 12
+delete from dbo.Person where TenantID != 12 and PersonID not in
+                    (
+                        -- All remaining FileResources should be wanted/needed by TenantAttribute table, which we can't kill entirely.
+                        select distinct fri.CreatePersonID as PersonID from dbo.FileResourceInfo as fri
+                        union
+                        -- Again, respect what the TenantAttribute table needs to keep around
+                        select distinct ta.PrimaryContactPersonID as PersonID from dbo.TenantAttribute as ta
+                        union
+                        -- People mentioned in Orgs need to stick around too
+                        select distinct org.PrimaryContactPersonID as PersonID from dbo.Organization as org
+                    )
 alter table dbo.Person alter column OrganizationID int not null
+
+--select * from dbo.Person
+--select * from dbo.Organization
 
 --delete from dbo.FileResourceInfo where TenantID != 12
 delete from dbo.EvaluationCriteria where TenantID != 12
@@ -148,7 +184,6 @@ delete from dbo.ProjectAssessmentQuestion where TenantID != 12
 delete from dbo.ActionItem where TenantID != 12
 delete from dbo.FundingSourceCustomAttribute where TenantID != 12
 delete from dbo.PerformanceMeasureExpectedSubcategoryOption where TenantID != 12
-delete from dbo.Organization where TenantID != 12
 delete from dbo.ProjectImage where TenantID != 12
 delete from dbo.GeospatialAreaPerformanceMeasureFixedTarget where TenantID != 12
 delete from dbo.GeospatialAreaImage where TenantID != 12
@@ -161,7 +196,8 @@ delete from dbo.TechnicalAssistanceParameter where TenantID != 12
 delete from dbo.SubbasinLiason where TenantID != 12
 delete from dbo.MatchmakerKeyword where TenantID != 12
 delete from dbo.FirmaHomePageImage where TenantID != 12
-delete from dbo.TenantAttribute where TenantID != 12
+-- No, we need to keep this around
+--delete from dbo.TenantAttribute where TenantID != 12
 delete from dbo.PerformanceMeasureFixedTarget where TenantID != 12
 delete from dbo.PerformanceMeasureExpected where TenantID != 12
 delete from dbo.PersonSettingGridColumn where TenantID != 12
@@ -181,7 +217,8 @@ delete from dbo.FirmaSession where TenantID != 12
 delete from dbo.PersonSettingGridColumnSetting where TenantID != 12
 delete from dbo.ExternalMapLayer where TenantID != 12
 delete from dbo.OrganizationTypeOrganizationRelationshipType where TenantID != 12
-delete from dbo.OrganizationType where TenantID != 12
+-- Organization needs this
+--delete from dbo.OrganizationType where TenantID != 12
 delete from dbo.DocumentLibrary where TenantID != 12
 delete from dbo.County where TenantID != 12
 delete from dbo.DocumentLibraryDocumentCategory where TenantID != 12
@@ -214,3 +251,8 @@ delete from dbo.ProjectNote where TenantID != 12
 delete from dbo.ProjectUpdate where TenantID != 12
 delete from dbo.ProjectCustomGridConfiguration where TenantID != 12
 
+
+
+/*
+select * from dbo.TenantAttribute
+*/
