@@ -367,6 +367,8 @@
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunk.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunkConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\MatchmakerOrganizationTaxonomyTrunkPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerSubScoreType.Binding.cs" />
+    <Compile Include="Models\Generated\MatchmakerSubScoreTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\MeasurementUnitType.Binding.cs" />
     <Compile Include="Models\Generated\MeasurementUnitTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Notification.Binding.cs" />
@@ -575,6 +577,10 @@
     <Compile Include="Models\Generated\ProjectClassification.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectClassificationConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectClassificationPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassificationUpdate.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassificationUpdate.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectClassificationUpdateConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectClassificationUpdatePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectColorByType.Binding.cs" />
     <Compile Include="Models\Generated\ProjectColorByTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectConfiguration.Binding.cs" />
@@ -1056,6 +1062,7 @@
     <Compile Include="Models\GeospatialAreaPerformanceMeasureReportingPeriodTarget.cs" />
     <Compile Include="Models\GeospatialAreaType.cs" />
     <Compile Include="Models\ICanDeleteFull.cs" />
+    <Compile Include="Models\IProjectClassification.cs" />
     <Compile Include="Models\ExcelUpload\FbmsInvoiceStageImport.cs" />
     <Compile Include="Models\ImpProcessing.cs" />
     <Compile Include="Models\IProjectContact.cs" />
@@ -1086,6 +1093,7 @@
     <Compile Include="Models\BudgetObjectCode.cs" />
     <Compile Include="Models\ProjectBudgetFinancialsForExcel.cs" />
     <Compile Include="Models\ProjectCalendarYearExpenditure.cs" />
+    <Compile Include="Models\ProjectClassificationUpdate.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroup.cs" />
     <Compile Include="Models\ProjectCustomAttributeGroupProjectCategory.cs" />
     <Compile Include="Models\ProjectCustomGridConfiguration.cs" />
@@ -1160,7 +1168,7 @@
     <Compile Include="UnitTestCommon\TestPerformanceMeasureReportingPeriod.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategory.cs" />
     <Compile Include="UnitTestCommon\TestPerformanceMeasureSubcategoryOption.cs" />
-    <Compile Include="Models\ProjectLocationTest.cs" />
+    <Compile Include="Models\GeometryTest.cs" />
     <Compile Include="UnitTestCommon\TestTenant.cs" />
     <Compile Include="UnitTestCommon\TestPerson.cs" />
     <Compile Include="UnitTestCommon\TestProject.cs" />

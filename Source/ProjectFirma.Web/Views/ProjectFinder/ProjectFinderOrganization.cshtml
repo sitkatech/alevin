@@ -22,6 +22,7 @@
 @using LtInfo.Common.DhtmlWrappers
 @using Newtonsoft.Json
 @using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -117,6 +118,7 @@
             _.each(self.projectLocationsLayer._layers,
                 function(marker, key) {
                     marker.setIcon(defaultIcon);
+                    marker.setZIndexOffset(1);
                 });
         }
 
@@ -270,23 +272,36 @@
                     });
             }
 
+            // Select the map marker, but don't zoom to it
+            var rowSelectEvent = function(rowId) {
+                _.each(allMarkers,
+                    function (marker, index) {
+                        if (rowId == marker.id) {
+                            projectFirmaMap.resetMapIconsToDefault();
+                            marker.setIcon(clickedMarkerIcon);
+                            marker.setZIndexOffset(1000);
+                        } 
+                    });
+            }
+
             // wait for grid to be initialized. Kind of hacky, but I think it's relatively appropriate
             var waitForGridAndInitBinding = function() {
                 if (Sitka.@(ViewDataTyped.ProjectFinderGridName) !== undefined) {
                     grid = Sitka.@(ViewDataTyped.ProjectFinderGridName).grid;
                     grid.attachEvent("onFilterEnd",
                         function() {
-
                             filterEndEvent();
+                        });
+                    grid.attachEvent("onRowSelect",
+                        function(id, ind) {
+                            rowSelectEvent(id);
                         });
                 } else {
 
                     setTimeout(waitForGridAndInitBinding, 250);
                 }
             }
-
             waitForGridAndInitBinding();
-
         });
 
     </script>
@@ -298,14 +313,14 @@
 }
 
 <div style="padding-top: 10px;">
-    <p>The @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() listed below may be associated with @ViewDataTyped.Organization.GetDisplayName() by one or all of the following: @FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.TaxonomySystemName.ToType().GetFieldDefinitionLabel(),  @FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel(), or @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabel().</p>
-    <p>Use the filters below to search for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() by type, or click a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s name to see more details. Selecting a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from the grid will display the results in the map.</p>
+    <p>The <a href="https://www.sitkatech.com/documents/78/ProjectFirmaServiceOverview_MatchmakerService.pdf" title="ProjectFirma Overview PDF - Matchmaker Service" target="_blank">Matchmaker Service <small><span class="glyphicon glyphicon-download-alt"></span></small></a> has matched the @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() listed below with the profile for @ViewDataTyped.Organization.GetDisplayNameWithoutAbbreviationAsUrl() based on one or all of the following: @FieldDefinitionEnum.AreaOfInterest.ToType().GetFieldDefinitionLabel(), @FieldDefinitionEnum.MatchmakerKeyword.ToType().GetFieldDefinitionLabelPluralized(), @MultiTenantHelpers.GetTenantFieldDefinitionEnumForMatchmakerTaxonomy().ToType().GetFieldDefinitionLabelPluralized(), @MultiTenantHelpers.GetTenantNameForClassificationForMatchmaker(true), or @FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized(). This list does not show @ProjectStage.Completed.ProjectStageDisplayName, @ProjectStage.Terminated.ProjectStageDisplayName, or @ProjectStage.Deferred.ProjectStageDisplayName @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized().</p>
+    <p>Use the filters to search for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized(), or click a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()'s name to see more details. Selecting a @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() from the grid will display its location in the map.</p>
 </div>
 <div class="row">
-    <div class="col-md-7 project-finder-grid">
+    <div class="col-lg-7 col-md-8 project-finder-grid">
         @Html.DhtmlxGrid(ViewDataTyped.ProjectFinderGridSpec, ViewDataTyped.ProjectFinderGridName, ViewDataTyped.ProjectFinderGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
-    <div class="col-md-5">
+    <div class="col-lg-5 col-md-4">
         <div id="@ViewDataTyped.ProjectLocationsMapInitJson.MapDivID" style="margin: 20px 0 5px 0"></div>
         <p>To zoom hold down shift and drag a rectangle</p>
     </div>

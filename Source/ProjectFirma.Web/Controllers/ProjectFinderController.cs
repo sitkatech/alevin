@@ -1,29 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Linq;
-using System.Web.Mvc;
-using LtInfo.Common;
-using LtInfo.Common.GeoJson;
+﻿using LtInfo.Common.GeoJson;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.PartnerFinder;
-using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Security.Shared;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirma.Web.Views.Organization;
-using ProjectFirma.Web.Views.ProjectCustomGrid;
 using ProjectFirma.Web.Views.ProjectFinder;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirmaModels.Models;
-using static ProjectFirmaModels.Models.Organization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Controllers
 {
 
     public class ProjectFinderController : FirmaBaseController
     {
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [AnonymousUnclassifiedFeature]
         [HttpGet]
         public ViewResult Organization(OrganizationPrimaryKey organizationPrimaryKey)
         {
@@ -33,7 +28,7 @@ namespace ProjectFirma.Web.Controllers
 
             var projectFinderGridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
-            var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
+            var projectsToShow = projectMatchmakerScoresForOrganization.Select(x => x.Project).Where(x => x.ProjectStage.ShouldIncludeInMatchmaker()).ToList();
 
 
             var filterValues = ResultsController.GetDefaultFilterValuesForFilterType(ProjectMapCustomization.DefaultLocationFilterType.ToEnum, true);
@@ -43,8 +38,7 @@ namespace ProjectFirma.Web.Controllers
                 new LayerGeoJson($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}",
                     projectsToShow.MappedPointsToGeoJsonFeatureCollection(true, true), "blue", 1,
                     LayerInitialVisibility.Show);
-            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson,
-                initialCustomization, "ProjectLocationsMap", true);
+            var projectLocationsMapInitJson = new ProjectLocationsMapInitJson(projectLocationsLayerGeoJson, initialCustomization, "ProjectLocationsMap", true);
 
             projectLocationsMapInitJson.Layers.AddRange(HttpRequestStorage.DatabaseEntities.Organizations.GetBoundaryLayerGeoJson());
 
@@ -85,7 +79,7 @@ namespace ProjectFirma.Web.Controllers
 
         private void DisplayMatchMakerToastMessagesIfAny(Organization organization,
             List<PartnerOrganizationMatchMakerScore> projectMatchmakerScoresForOrganization,
-            Dictionary<MatchMakerScoreSubScoreInsight.MatchmakerSubScoreType, bool> profileCompletionDictionary,
+            Dictionary<MatchmakerSubScoreTypeEnum, bool> profileCompletionDictionary,
             bool organizationHasOptedIn)
         {
 
@@ -95,21 +89,21 @@ namespace ProjectFirma.Web.Controllers
 
             if (!organizationHasOptedIn)
             {
-                SetErrorForDisplay($"The {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.GetDisplayName()}) has not opted in to the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Matchmaker service. If you are the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} please fill out your {linkToOrgProfile} as completely as possible and Opt-In to the service.");
+                SetErrorForDisplay($"The {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) has not opted in to the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Matchmaker service. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) will need to fill out the {linkToOrgProfile} as completely as possible and Opt-In to the service.");
                 return;
             }
 
             // When Org profile is not filled out at all (no matches are possible)
             if (!profileCompletionDictionary.Values.Any(x => x))
             {
-                SetErrorForDisplay($"The profile for your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.GetDisplayName()}) is empty, so it’s not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. Please fill out your {linkToOrgProfile} as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder");
+                SetErrorForDisplay($"The profile for your {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ({organization.OrganizationName}) is empty, so it’s not possible to identify {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) will need to fill out the {linkToOrgProfile} as completely as possible before using the {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Finder");
                 return;
             }
 
             // When Org profile is partially filled out and there are no matches
             if (profileCompletionDictionary.Values.Any(x => x == false) && !projectMatchmakerScoresForOrganization.Any())
             {
-                SetWarningForDisplay($"0 {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches found. Please fill out your {linkToOrgProfile} as completely as possible to increase your potential for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches.");
+                SetWarningForDisplay($"0 {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches found. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) should fill out the {linkToOrgProfile} as completely as possible to increase the potential for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches.");
                 return;
             }
 
@@ -117,28 +111,28 @@ namespace ProjectFirma.Web.Controllers
             // When Org profile is partially filled out and matches exist
             if (profileCompletionDictionary.Values.Any(x => x == false) && projectMatchmakerScoresForOrganization.Any())
             {
-                SetWarningForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be found for {profileCompletionDictionary.Values.Count(x => x)} out of {profileCompletionDictionary.Values.Count} match categories. Complete your {linkToOrgProfile} to access all your {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches!");
+                SetWarningForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} can only be found for {profileCompletionDictionary.Values.Count(x => x)} out of {profileCompletionDictionary.Values.Count} match categories. The {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) should fill out their {linkToOrgProfile} to access more potential {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} matches!");
                 return;
             }
 
             // When Org profile is completely filled out and there are no matches
             if (profileCompletionDictionary.Values.All(x => x != false) && !projectMatchmakerScoresForOrganization.Any())
             {
-                SetWarningForDisplay($"No matches just yet! To increase potential matches, add more detail where possible to your {linkToOrgProfile}.");
+                SetWarningForDisplay($"No matches just yet! To increase potential matches, the {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} ({(organization.PrimaryContactPerson?.GetFullNameFirstLast() ?? $"no {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}")}) should add more detail where possible to their {linkToOrgProfile}.");
             }
 
         }
 
 
         // All projects that match with the organization
-        [LoggedInAndNotUnassignedRoleUnclassifiedFeature]
+        [AnonymousUnclassifiedFeature]
         public GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore> ProjectFinderGridFullJsonData(OrganizationPrimaryKey organizationPrimaryKey)
         {
             var organization = organizationPrimaryKey.EntityObject;
             var organizationHasOptedIn = organization.MatchmakerOptIn ?? false;
             var gridSpec = new ProjectFinderGridSpec();
             var projectMatchmakerScoresForOrganization = organizationHasOptedIn ? new ProjectOrganizationMatchmaker().GetPartnerOrganizationMatchMakerScoresForParticularOrganization(CurrentFirmaSession, organization) : new List<PartnerOrganizationMatchMakerScore>();
-            var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldShowOnMap()).ToList();
+            var projectMatchmakerScoresExcludingInvalidStages = projectMatchmakerScoresForOrganization.Where(x => x.Project.ProjectStage.ShouldIncludeInMatchmaker()).ToList();
 
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<PartnerOrganizationMatchMakerScore>(projectMatchmakerScoresExcludingInvalidStages, gridSpec, x => x.Project.PrimaryKey);
             return gridJsonNetJObjectResult;
