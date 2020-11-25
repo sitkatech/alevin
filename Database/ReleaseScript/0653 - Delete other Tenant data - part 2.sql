@@ -1,7 +1,5 @@
 
 
-
-
 delete from dbo.ProjectStatus where TenantID != 12
 delete from dbo.FirmaPageImage where TenantID != 12
 delete from dbo.DocumentLibraryDocumentRole where TenantID != 12

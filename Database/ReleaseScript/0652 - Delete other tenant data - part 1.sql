@@ -1,10 +1,6 @@
-
-
 --select * from dbo.Tenant
 
-
 --begin tran
-
 
 delete from dbo.ProjectOrganization
 where TenantID != 12
