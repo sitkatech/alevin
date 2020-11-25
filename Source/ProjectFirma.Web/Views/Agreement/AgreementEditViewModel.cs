@@ -18,21 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-using System;
+
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
-using ProjectFirma.Web.KeystoneDataService;
-using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Security;
 
 namespace ProjectFirma.Web.Views.Agreement
 {
@@ -49,8 +44,12 @@ namespace ProjectFirma.Web.Views.Agreement
         [FieldDefinitionDisplay(FieldDefinitionEnum.Organization)]
         public int? OrganizationID { get; set; }
 
+        [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ContractType)]
         public int? ContractTypeID { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Obligation)]
+        public int? ObligationNumberID { get; set; }
 
         /// <summary>
         /// Needed by the ModelBinder
@@ -64,82 +63,45 @@ namespace ProjectFirma.Web.Views.Agreement
             AgreementNumber = agreement.AgreementNumber;
             OrganizationID = agreement.OrganizationID;
             ContractTypeID = agreement.ContractTypeID;
+            var associatedObligationNumber = agreement.ObligationNumbersWhereYouAreTheReclamationAgreement.SingleOrDefault();
+            ObligationNumberID = associatedObligationNumber?.ObligationNumberID;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.Agreement agreement,
-                                FirmaSession currentFirmaSession)
+        public void UpdateModelAndSaveChanges(ProjectFirmaModels.Models.Agreement agreement,
+                                              FirmaSession currentFirmaSession,
+                                              DatabaseEntities databaseEntities)
         {
-            agreement.AgreementNumber = this.AgreementNumber;
+            agreement.AgreementNumber = this.AgreementNumber.ToUpper();
             agreement.OrganizationID = this.OrganizationID;
             agreement.ContractTypeID = this.ContractTypeID.Value;
+
+            // We need to save the Agreement in order to get it's primary key before it can be associated
+            // with an ObligationNumber
+            HttpRequestStorage.DatabaseEntities.Agreements.Add(agreement);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            Check.Ensure(agreement.AgreementID > 0, "Was expecting valid primary key by now");
+
+            if (this.ObligationNumberID.HasValue)
+            {
+                var obligationNumber = databaseEntities.ObligationNumbers.Single(oNum => oNum.ObligationNumberID == this.ObligationNumberID.Value);
+                obligationNumber.ReclamationAgreementID = agreement.AgreementID;
+                // Save changes to ObligationNumber
+                HttpRequestStorage.DatabaseEntities.SaveChanges();
+            }
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
 
-            /*
-            bool isNewOrganization = this.OrganizationID <= 0;
-
-            // If New organization, make sure Org name not already taken by existing Org
-            if (isNewOrganization)
+            if (this.ObligationNumberID.HasValue)
             {
-                var existingOrg = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(o => o.OrganizationName.ToLower() == this.OrganizationName.ToLower());
-                if (existingOrg != null)
+                var requestedObligationNumber = HttpRequestStorage.DatabaseEntities.ObligationNumbers.Single(oNum => oNum.ObligationNumberID == this.ObligationNumberID.Value);
+                if (requestedObligationNumber.ObligationNumberKey.ToUpper() != this.AgreementNumber.ToUpper())
                 {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, string>($"There is already an Organization named {this.OrganizationName}.", x => x.OrganizationName));
+                    validationResults.Add(new SitkaValidationResult<AgreementEditViewModel, string>($"If you want to associate to Obligation {requestedObligationNumber.ObligationNumberKey},<br/> Agreement Number must be the same as the Obligation Number (\"{requestedObligationNumber.ObligationNumberKey}\"),<br/> and not \"{this.AgreementNumber}\".", x => x.AgreementNumber));
                 }
             }
-            else
-            // If Existing Organization being edited, and name is being changed, make sure Org name not already taken by other Org
-            {
-                var existingOrgWithCurrentID = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(o => o.OrganizationID == this.OrganizationID);
-                Check.EnsureNotNull(existingOrgWithCurrentID, $"Was expecting to find existing record for Organization with OrganizationID {this.OrganizationID}; please contact Sitka support");
-                bool organizationNameIsBeingChanged = existingOrgWithCurrentID.OrganizationName.ToLower() != this.OrganizationName.ToLower();
-                if (organizationNameIsBeingChanged)
-                {
-                    var existingOrgWithNewName = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(o => o.OrganizationName.ToLower() == this.OrganizationName.ToLower());
-                    if (existingOrgWithNewName != null)
-                    {
-                        validationResults.Add(new SitkaValidationResult<EditViewModel, string>($"There is already another Organization named {this.OrganizationName}.", x => x.OrganizationName));
-                    }
-                }
-            }
-
-            if (string.IsNullOrEmpty(OrganizationShortName))
-            {
-                validationResults.Add(new SitkaValidationResult<EditViewModel, string>("The Short Name field is required.", x => x.OrganizationShortName));
-            }
-
-            if (LogoFileResourceData != null && LogoFileResourceData.ContentLength > MaxLogoSizeInBytes)
-            {
-                var errorMessage = $"Logo is too large - must be less than {FileUtility.FormatBytes(MaxLogoSizeInBytes)}. Your logo was {FileUtility.FormatBytes(LogoFileResourceData.ContentLength)}.";
-                validationResults.Add(new SitkaValidationResult<EditViewModel, HttpPostedFileBase>(errorMessage, x => x.LogoFileResourceData));
-            }
-
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(HttpRequestStorage.FirmaSession);
-            if (KeystoneOrganizationGuid.HasValue && isSitkaAdmin)
-            {
-                var organization = HttpRequestStorage.DatabaseEntities.Organizations.SingleOrDefault(x => x.KeystoneOrganizationGuid == KeystoneOrganizationGuid);
-                if (organization != null && organization.OrganizationID != OrganizationID)
-                {
-                    validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("This Guid is already associated with an Organization", x => x.KeystoneOrganizationGuid));
-                }
-                else
-                {
-                    try
-                    {
-                        var keystoneClient = new KeystoneDataClient();
-                        var keystoneOrganization = keystoneClient.GetOrganization(KeystoneOrganizationGuid.Value);
-                    }
-                    catch (Exception)
-                    {
-                        validationResults.Add(new SitkaValidationResult<EditViewModel, Guid?>("Organization Guid not found in Keystone", x => x.KeystoneOrganizationGuid));
-                    }
-                    
-                }
-            }
-            */
 
             return validationResults;
         }
