@@ -96,6 +96,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyBranchConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyLeafConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationTaxonomyTrunkConfiguration());
+            modelBuilder.Configurations.Add(new MatchmakerSubScoreTypeConfiguration());
             modelBuilder.Configurations.Add(new NotificationConfiguration());
             modelBuilder.Configurations.Add(new NotificationProjectConfiguration());
             modelBuilder.Configurations.Add(new NpccProvinceConfiguration());
@@ -197,9 +198,6 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestConfiguration());
             modelBuilder.Configurations.Add(new TechnicalAssistanceRequestUpdateConfiguration());
             modelBuilder.Configurations.Add(new TenantAttributeConfiguration());
-            modelBuilder.Configurations.Add(new tmpFishProject1Configuration());
-            modelBuilder.Configurations.Add(new tmpFishProject2DissolveConfiguration());
-            modelBuilder.Configurations.Add(new tmpFishProject2PopulationDissolveConfiguration());
             modelBuilder.Configurations.Add(new TrainingVideoConfiguration());
             modelBuilder.Configurations.Add(new FiscalQuarterConfiguration());
             modelBuilder.Configurations.Add(new ImportFinancialImpPayRecUnexpendedV3Configuration());
@@ -387,6 +385,7 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<MatchmakerOrganizationTaxonomyLeaf> MatchmakerOrganizationTaxonomyLeafs { get { return AllMatchmakerOrganizationTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<MatchmakerOrganizationTaxonomyTrunk> AllMatchmakerOrganizationTaxonomyTrunks { get; set; }
         public virtual IQueryable<MatchmakerOrganizationTaxonomyTrunk> MatchmakerOrganizationTaxonomyTrunks { get { return AllMatchmakerOrganizationTaxonomyTrunks.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<MatchmakerSubScoreType> MatchmakerSubScoreTypes { get; set; }
         public virtual DbSet<NotificationProject> AllNotificationProjects { get; set; }
         public virtual IQueryable<NotificationProject> NotificationProjects { get { return AllNotificationProjects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Notification> AllNotifications { get; set; }
@@ -612,9 +611,6 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<TechnicalAssistanceRequestUpdate> TechnicalAssistanceRequestUpdates { get { return AllTechnicalAssistanceRequestUpdates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<TenantAttribute> AllTenantAttributes { get; set; }
         public virtual IQueryable<TenantAttribute> TenantAttributes { get { return AllTenantAttributes.Where(x => x.TenantID == TenantID); } }
-        public virtual DbSet<tmpFishProject1> tmpFishProject1s { get; set; }
-        public virtual DbSet<tmpFishProject2Dissolve> tmpFishProject2Dissolves { get; set; }
-        public virtual DbSet<tmpFishProject2PopulationDissolve> tmpFishProject2PopulationDissolves { get; set; }
         public virtual DbSet<TrainingVideo> AllTrainingVideos { get; set; }
         public virtual IQueryable<TrainingVideo> TrainingVideos { get { return AllTrainingVideos.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Vendor> Vendors { get; set; }
@@ -961,9 +957,7 @@ namespace ProjectFirmaModels.Models
                     return MatchmakerOrganizationTaxonomyTrunks.GetMatchmakerOrganizationTaxonomyTrunk(primaryKey);
 
                 case "MatchmakerSubScoreType":
-                    var matchmakerSubScoreType = MatchmakerSubScoreType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
-                    Check.RequireNotNullThrowNotFound(matchmakerSubScoreType, "MatchmakerSubScoreType", primaryKey);
-                    return matchmakerSubScoreType;
+                    return MatchmakerSubScoreTypes.GetMatchmakerSubScoreType(primaryKey);
 
                 case "MeasurementUnitType":
                     var measurementUnitType = MeasurementUnitType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
@@ -1493,15 +1487,6 @@ namespace ProjectFirmaModels.Models
                     var tenant = Tenant.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(tenant, "Tenant", primaryKey);
                     return tenant;
-
-                case "tmpFishProject1":
-                    return tmpFishProject1s.GettmpFishProject1(primaryKey);
-
-                case "tmpFishProject2Dissolve":
-                    return tmpFishProject2Dissolves.GettmpFishProject2Dissolve(primaryKey);
-
-                case "tmpFishProject2PopulationDissolve":
-                    return tmpFishProject2PopulationDissolves.GettmpFishProject2PopulationDissolve(primaryKey);
 
                 case "TrainingVideo":
                     return TrainingVideos.GetTrainingVideo(primaryKey);
