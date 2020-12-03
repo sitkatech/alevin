@@ -24,6 +24,7 @@ values
 SET IDENTITY_INSERT dbo.ProjectRelevantCostType OFF
 
 
+
 -- dbo.ProjectOrganization
 --select * from dbo.ProjectOrganization where ProjectID = 14202
 --delete from dbo.ProjectOrganization where ProjectID = 14202
@@ -79,6 +80,12 @@ values
 SET IDENTITY_INSERT dbo.PerformanceMeasureExpected OFF
 
 
+--select * from  PerformanceMeasureExpectedSubcategoryOption where PerformanceMeasureExpectedID = 11035
+
+
+
+
+
 --select * from dbo.ProjectAssessmentQuestion  where ProjectID =14202
 --delete from dbo.ProjectNoFundingSourceIdentified where ProjectID =14202
 
@@ -104,7 +111,7 @@ SET IDENTITY_INSERT dbo.ProjectNoFundingSourceIdentified OFF
 --delete from dbo.ProjectContact where ProjectID =14202
 SET IDENTITY_INSERT dbo.ProjectContact ON
 
-insert dbo.ProjectContact(ProjectContactID, TenantID, ProjectID, ContactID,ContactRelationshipTypeID)
+insert dbo.ProjectContact(ProjectContactID, TenantID, ProjectID, ContactID, ContactRelationshipTypeID)
 values
 
 (963, 12, 14202, 6016, 5),
@@ -182,6 +189,19 @@ values
 (19758,12, 14202, 52)
 
 SET IDENTITY_INSERT dbo.ProjectCustomAttribute OFF
+
+
+--select * from dbo.ProjectCustomAttributeValue where ProjectCustomAttributeID = 19758
+--delete from dbo.ProjectCustomAttributeValue where ProjectCustomAttributeID = 19758
+
+SET IDENTITY_INSERT dbo.ProjectCustomAttributeValue ON
+
+insert dbo.ProjectCustomAttributeValue(ProjectCustomAttributeValueID, TenantID, ProjectCustomAttributeID, AttributeValue)
+values
+
+(23609, 12, 19758, 'Complex')
+
+SET IDENTITY_INSERT dbo.ProjectCustomAttributeValue OFF
 
 --select * from dbo.ActionItem where ProjectID =14202
 --select * from dbo.ProjectInternalNote where ProjectID =14202
