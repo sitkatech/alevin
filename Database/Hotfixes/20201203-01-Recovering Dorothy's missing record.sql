@@ -1,6 +1,4 @@
-select * from dbo.Project where ProjectID = 14202
-
--- dbo.Project
+--select * from dbo.Project where ProjectID = 14202
 
 SET IDENTITY_INSERT dbo.Project ON
 
