@@ -139,7 +139,9 @@ namespace ProjectFirma.Web.Controllers
                 return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(budgetStageImports, out var countAddedBudgets, this.CurrentFirmaSession);
+            // GROOT
+
+            LoadFbmsRecordsFromExcelFileObjectsIntoStagingTable(budgetStageImports, out var countAddedBudgets, this.CurrentFirmaSession);
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
             string importTimeString = GetTaskTimeString("Import", elapsedTime);
@@ -148,6 +150,7 @@ namespace ProjectFirma.Web.Controllers
             var newImpProcessingForFbms = new ImpProcessing(ImpProcessingTableType.FBMS);
             newImpProcessingForFbms.UploadDate = endTime;
             newImpProcessingForFbms.UploadPerson = this.CurrentFirmaSession.Person;
+            newImpProcessingForFbms.UploadedFiscalYears = null;
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForFbms);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
@@ -163,13 +166,9 @@ namespace ProjectFirma.Web.Controllers
             return $"{taskString} took {elapsedTime.TotalSeconds:0.0} seconds ({elapsedTime.TotalMinutes:0.00} minutes)";
         }
 
-        public static void LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(
-                                        List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> budgetStageImports,
-                                        // gone for now.
-                                        //List<FbmsInvoiceStageImport> invoiceStageImports, 
-                                        out int countAddedBudgets,
-                                        //out int countAddedInvoices,
-                                        FirmaSession optionalCurrentFirmaSession)
+        public static void LoadFbmsRecordsFromExcelFileObjectsIntoStagingTable(List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> budgetStageImports,
+                                                                               out int countAddedBudgets,
+                                                                               FirmaSession optionalCurrentFirmaSession)
         {
             // Now using unexpended payrecs
             countAddedBudgets = budgetStageImports.Count;
@@ -246,7 +245,7 @@ namespace ProjectFirma.Web.Controllers
                 return Common_LoadFromXls_ExceptionHandler(excelFileAsStream, optionalOriginalFilename, ex);
             }
 
-            LoadPnBudgetsRecordsFromExcelFileObjectsIntoStagingTable(pnBudgetStageImports, out var countAddedPnBudgets, this.CurrentFirmaSession);
+            LoadPnBudgetsRecordsFromExcelFileObjectsIntoStagingTable(pnBudgetStageImports, out var countAddedPnBudgets, out var importedFiscalYears, this.CurrentFirmaSession);
 
             DateTime endTime = DateTime.Now;
             var elapsedTime = endTime - startTime;
@@ -256,6 +255,7 @@ namespace ProjectFirma.Web.Controllers
             var newImpProcessingForPnBudgets = new ImpProcessing(ImpProcessingTableType.PNBudget);
             newImpProcessingForPnBudgets.UploadDate = endTime;
             newImpProcessingForPnBudgets.UploadPerson = this.CurrentFirmaSession.Person;
+            newImpProcessingForPnBudgets.UploadedFiscalYears = String.Join(", ", importedFiscalYears);
             HttpRequestStorage.DatabaseEntities.ImpProcessings.Add(newImpProcessingForPnBudgets);
             HttpRequestStorage.DatabaseEntities.SaveChanges(this.CurrentFirmaSession);
 
@@ -270,6 +270,7 @@ namespace ProjectFirma.Web.Controllers
         public static void LoadPnBudgetsRecordsFromExcelFileObjectsIntoStagingTable(
                                         List<PnBudgetsStageImport> pnBudgetStageImports,
                                         out int countAddedPnBudgets,
+                                        out List<int> importedFiscalYears,
                                         FirmaSession optionalCurrentFirmaSession)
         {
             // Count how many PNBudgets are being uploaded
@@ -281,6 +282,10 @@ namespace ProjectFirma.Web.Controllers
             existingPnBudgets.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
             // Put in the new PNBudgets in their place
             HttpRequestStorage.DatabaseEntities.StageImpPnBudgets.AddRange(stagePnBudgetsBeingLoaded);
+            // Which FiscalYears were imported?
+            importedFiscalYears = stagePnBudgetsBeingLoaded.Select(pnb =>
+                Views.Shared.ProjectRunningBalanceObligationsAndExpenditures.FiscalMonthPeriodHelper
+                    .GetFiscalYearForFiscalYearPeriodString(pnb.FiscalYearPeriod)).Distinct().OrderBy(fy => fy).ToList();
 
             // This bulk load creates an obscene number of AuditLog records if we don't suppress them, and
             // they are completely inappropriate.

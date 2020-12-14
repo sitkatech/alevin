@@ -19,12 +19,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         public static int GetCalendarMonthNumberForFiscalMonthPeriod(int fiscalMonthPeriod)
         {
             string paddedMonth = fiscalMonthPeriod.ToString().PadLeft(3, '0');
-            DateTime temp = SqlGetCalendarDateTimeForFiscalYearPeriod($"{paddedMonth}/2019");
+            DateTime temp = SqlGetCalendarDateTimeForFiscalYearPeriodString($"{paddedMonth}/2019");
             return temp.Month;
         }
 
-        public static DateTime SqlGetCalendarDateTimeForFiscalYearPeriod(string fiscalYearPeriodString)
+        public static int GetFiscalYearForFiscalYearPeriodString(string fiscalYearPeriodString)
         {
+            var calendarDate = SqlGetCalendarDateTimeForFiscalYearPeriodString(fiscalYearPeriodString);
+            return calendarDate.GetFiscalYear();
+        }
+
+        public static DateTime SqlGetCalendarDateTimeForFiscalYearPeriodString(string fiscalYearPeriodString)
+        {
+            string dateTimeAsString = string.Empty;
             DateTime dateTime;
 
             try
@@ -37,14 +44,21 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
                         // If we needed parameters, here's how we'd add them.
                         cmd.CommandText = $"Select { calendarDateFiscalYearPeriodFunction} ('{fiscalYearPeriodString}')";
                         //cmd.Parameters.AddWithValue("@fiscalYearPeriodString", fiscalYearPeriodString);
-                        dateTime = DateTime.Parse(cmd.ExecuteScalar().ToString());
+                        dateTimeAsString = cmd.ExecuteScalar().ToString();
+                        dateTime = DateTime.Parse(dateTimeAsString);
                     }
                 }
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw new SitkaDisplayErrorException($"Problem calling SQL: {e.Message}");
+                // If you find yourself here, is your fiscalYearPeriodString valid? In range?
+                if (dateTimeAsString == String.Empty)
+                {
+                    // We'll have an empty string for dateTimeAsString when we get null back from the SQL command
+                    dateTimeAsString = "[null]";
+                }
+                throw new SitkaDisplayErrorException($"Problem calling SQL: {e.Message}. fiscalYearPeriodString:\"{fiscalYearPeriodString}\" - Resulting Date Time: {dateTimeAsString}");
             }
 
             return dateTime;

@@ -77,12 +77,13 @@
 
 <div>
    <div><span style="font-weight: bold">Latest Publishing Processing for FBMS:</span> @(ViewDataTyped.GetLastFbmsLastProcessedDateAndPersonString())</div>
-   <div><span style="font-weight: bold">Latest Publishing Processing for PNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetProcessedDateAndPersonString())</div>
+   <div><span style="font-weight: bold">Latest Publishing Processing for PNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetProcessedDateAndPersonAndFiscalYearsString())</div>
    <br />
    @if (ViewDataTyped.PublishingProcessingIsNeeded)
    {
       <div>
          <div><span style="font-weight: bold">** Publishing Processing is needed **</span></div>
+         <div><span style="font-weight: bold">Uploaded PNBudgets Fiscal Years to be processed: @ViewDataTyped.GetLastPnBudgetFiscalYearsUploadedString()</span></div>
       </div>
       <br />
    }

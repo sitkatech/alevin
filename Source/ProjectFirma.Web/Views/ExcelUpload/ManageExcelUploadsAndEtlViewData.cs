@@ -13,6 +13,8 @@ namespace ProjectFirma.Web.Views.ExcelUpload
 
         public string DoPublishingProcessingPostUrl { get; set; }
 
+
+
         public bool PublishingProcessingIsNeeded
         {
             get
@@ -29,13 +31,13 @@ namespace ProjectFirma.Web.Views.ExcelUpload
         public ImpProcessing LatestImportProcessingForPnBudget;
 
         public ManageExcelUploadsAndEtlViewData(FirmaSession currentFirmaSession,
-                                       ProjectFirmaModels.Models.FirmaPage firmaPage,
-                                       string uploadFbmsSpreadSheetUrl,
-                                       string uploadPnBudgetsSpreadSheetUrl,
-                                       string doPublishingProcessingPostUrl,
-                                       string uploadFbmsFormID,
-                                       string uploadPnBudgetsFormID
-                                       ) : base(currentFirmaSession, firmaPage)
+                                               ProjectFirmaModels.Models.FirmaPage firmaPage,
+                                               string uploadFbmsSpreadSheetUrl,
+                                               string uploadPnBudgetsSpreadSheetUrl,
+                                               string doPublishingProcessingPostUrl,
+                                               string uploadFbmsFormID,
+                                               string uploadPnBudgetsFormID
+                                               ) : base(currentFirmaSession, firmaPage)
         {
             PageTitle = $"Upload Budget and Invoice Data";
             UploadFbmsSpreadSheetUrl = uploadFbmsSpreadSheetUrl;
@@ -76,6 +78,37 @@ namespace ProjectFirma.Web.Views.ExcelUpload
         {
             var lastPnBudgetProcessedDate = LatestImportProcessingForPnBudget?.LastProcessedDate;
             return lastPnBudgetProcessedDate != null ? $"{lastPnBudgetProcessedDate.ToString()} - {LatestImportProcessingForPnBudget.LastProcessedPerson.GetFullNameFirstLast()}" : "Unknown";
+        }
+
+        public string GetLastPnBudgetProcessedDateAndPersonAndFiscalYearsString()
+        {
+            var lastPnBudgetProcessedDate = LatestImportProcessingForPnBudget?.LastProcessedDate;
+            return lastPnBudgetProcessedDate != null ? $"{lastPnBudgetProcessedDate.ToString()} - {LatestImportProcessingForPnBudget.LastProcessedPerson.GetFullNameFirstLast()} - FY {GetLastPnBudgetFiscalYearsProcessedString()}" : "Unknown";
+        }
+
+
+
+        /// <summary>
+        /// Return "2019, 2020" for example
+        /// These are the fiscal years for the *LAST SUCCESSFUL* processing run.
+        /// </summary>
+        /// <returns></returns>
+        public string GetLastPnBudgetFiscalYearsProcessedString()
+        {
+            var lastPnBudgetProcessedDate = LatestImportProcessingForPnBudget?.LastProcessedDate;
+            var lastUploadedFiscalYearsThatNeedProcessing = lastPnBudgetProcessedDate!= null ? LatestImportProcessingForPnBudget?.UploadedFiscalYears : string.Empty;
+            return lastUploadedFiscalYearsThatNeedProcessing != null ? lastUploadedFiscalYearsThatNeedProcessing : "Unknown";
+        }
+
+        /// <summary>
+        /// Return "2019, 2020" for example
+        /// These are the fiscal years in the last UPLOAD. These may or may not have been processed.
+        /// </summary>
+        /// <returns></returns>
+        public string GetLastPnBudgetFiscalYearsUploadedString()
+        {
+            var lastUploadedFiscalYearsThatNeedProcessing = LatestImportProcessingForPnBudget?.UploadedFiscalYears;
+            return lastUploadedFiscalYearsThatNeedProcessing != null ? lastUploadedFiscalYearsThatNeedProcessing : "Unknown";
         }
 
     }

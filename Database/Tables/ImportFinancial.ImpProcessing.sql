@@ -7,6 +7,7 @@ CREATE TABLE [ImportFinancial].[ImpProcessing](
 	[ImpProcessingTableTypeID] [int] NOT NULL,
 	[UploadDate] [datetime] NULL,
 	[UploadPersonID] [int] NULL,
+	[UploadedFiscalYears] [varchar](50) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LastProcessedDate] [datetime] NULL,
 	[LastProcessedPersonID] [int] NULL,
  CONSTRAINT [PK_ImpProcessing_ImpProcessingID] PRIMARY KEY CLUSTERED 

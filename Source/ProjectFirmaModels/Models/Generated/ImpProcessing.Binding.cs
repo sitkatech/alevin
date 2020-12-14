@@ -31,12 +31,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ImpProcessing(int impProcessingID, int impProcessingTableTypeID, DateTime? uploadDate, int? uploadPersonID, DateTime? lastProcessedDate, int? lastProcessedPersonID) : this()
+        public ImpProcessing(int impProcessingID, int impProcessingTableTypeID, DateTime? uploadDate, int? uploadPersonID, string uploadedFiscalYears, DateTime? lastProcessedDate, int? lastProcessedPersonID) : this()
         {
             this.ImpProcessingID = impProcessingID;
             this.ImpProcessingTableTypeID = impProcessingTableTypeID;
             this.UploadDate = uploadDate;
             this.UploadPersonID = uploadPersonID;
+            this.UploadedFiscalYears = uploadedFiscalYears;
             this.LastProcessedDate = lastProcessedDate;
             this.LastProcessedPersonID = lastProcessedPersonID;
         }
@@ -117,6 +118,7 @@ namespace ProjectFirmaModels.Models
         public int ImpProcessingTableTypeID { get; set; }
         public DateTime? UploadDate { get; set; }
         public int? UploadPersonID { get; set; }
+        public string UploadedFiscalYears { get; set; }
         public DateTime? LastProcessedDate { get; set; }
         public int? LastProcessedPersonID { get; set; }
         [NotMapped]
@@ -128,7 +130,7 @@ namespace ProjectFirmaModels.Models
 
         public static class FieldLengths
         {
-
+            public const int UploadedFiscalYears = 50;
         }
     }
 }
