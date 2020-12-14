@@ -76,6 +76,10 @@ select dbo.GetCalendarDateForStartOfFiscalYearPeriod('015/2020') as CalendarDate
 select dbo.GetCalendarDateForStartOfFiscalYearPeriod('016/2020') as CalendarDate
 
 
+select dbo.GetCalendarDateForStartOfFiscalYearPeriod('000/2020') as CalendarDate
+
+
+
 
 */
 
