@@ -37,22 +37,22 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         public void TestGetCalendarDateTimeForFiscalYearPeriod()
         {
             
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("001/2020").Year == 2019);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("002/2020").Year == 2019);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("003/2020").Year == 2019);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("004/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("005/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("006/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("007/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("008/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("009/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("010/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("011/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("012/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("013/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("014/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("015/2020").Year == 2020);
-            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriod("016/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("001/2020").Year == 2019);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("002/2020").Year == 2019);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("003/2020").Year == 2019);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("004/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("005/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("006/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("007/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("008/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("009/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("010/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("011/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("012/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("013/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("014/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("015/2020").Year == 2020);
+            Check.Ensure(FiscalMonthPeriodHelper.SqlGetCalendarDateTimeForFiscalYearPeriodString("016/2020").Year == 2020);
 
         }
 

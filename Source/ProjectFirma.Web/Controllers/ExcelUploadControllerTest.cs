@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
 
             FileStream excelFileStream = new FileStream(pathToSampleFbmsExcelFileThatWouldBeUploaded, FileMode.Open, FileAccess.Read);
             List<FbmsBudgetStageImportPayrecV3UnexpendedBalance> payrecV3s = FbmsBudgetStageImportsHelper.LoadFbmsBudgetStageImportPayrecV3UnexpendedBalancesFromXlsFile(excelFileStream, ExcelUploadController.FbmsExcelFileHeaderRowOffset);
-            ExcelUploadController.LoadFbmsRecordsFromExcelFileObjectsIntoPairedStagingTables(payrecV3s, out int countOfCountAddedBudgets, null);
+            ExcelUploadController.LoadFbmsRecordsFromExcelFileObjectsIntoStagingTable(payrecV3s, out int countOfCountAddedBudgets, null);
         }
 
     }
