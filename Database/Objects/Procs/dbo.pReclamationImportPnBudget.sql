@@ -86,13 +86,15 @@ from #PreviouslyUnknownWbsElements as new_wbs
 drop table #PreviouslyUnknownWbsElements
 
 -- What years are referenced in the incoming import?
+/*
 select distinct dbo.GetFiscalYearFromFiscalYearPeriodString(FiscalYearPeriod) from ImportFinancial.ImpPnBudget
+*/
 
 -- Clean out the target table using ONLY fiscal years NOT being
 -- directly imported by this latest incoming set of data. Specifically,
 -- if only FY 2020 is being imported, leave alone previous records for FY 2018, FY 2019, etc.
 /*
-select * from ImportFinancial.WbsElementPnBudget 
+select * from ImportFinancial.WbsElementPnBudget
 where FiscalYear in (select distinct dbo.GetFiscalYearFromFiscalYearPeriodString(FiscalYearPeriod) from ImportFinancial.ImpPnBudget)
 */
 
@@ -118,7 +120,6 @@ insert into ImportFinancial.WbsElementPnBudget (WbsElementID,
                                                 TotalObligations,
                                                 TotalExpenditures,
                                                 UndeliveredOrders)
--- 17,994 rows
 select
     wbs.WbsElementID,
     ca.CostAuthorityID,

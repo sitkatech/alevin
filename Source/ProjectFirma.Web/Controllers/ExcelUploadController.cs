@@ -277,6 +277,12 @@ namespace ProjectFirma.Web.Controllers
             countAddedPnBudgets = pnBudgetStageImports.Count;
             // Get the PNBudgets database objects prepared for import
             var stagePnBudgetsBeingLoaded = pnBudgetStageImports.Select(x => new StageImpPnBudget(x)).ToList();
+            // Deliberately ignore fiscalYearPeriods starting with month 000. These represent the start of the Fiscal Year, but the system as we
+            // currently have it structured doesn't really have a place for this kind of data. We'll see what Dorothy thinks of this.
+            stagePnBudgetsBeingLoaded = stagePnBudgetsBeingLoaded.Where(pnb =>
+                !Views.Shared.ProjectRunningBalanceObligationsAndExpenditures.FiscalMonthPeriodHelper
+                    .IsFiscalYearPeriodStringForZeroMonth(pnb.FiscalYearPeriod)).ToList();
+
             // Clear out the existing PNBudgets from the database
             var existingPnBudgets = HttpRequestStorage.DatabaseEntities.StageImpPnBudgets.ToList();
             existingPnBudgets.ForEach(x => x.Delete(HttpRequestStorage.DatabaseEntities));
@@ -445,6 +451,10 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
+        /// <summary>
+        /// The publishing command can take longer than the default 30 seconds
+        /// </summary>
+        public const int PublishingSqlCommandTimeoutInSeconds = 600;
 
         public static void DoPublishingSql(ILog optionalLogger)
         {
@@ -457,6 +467,7 @@ namespace ProjectFirma.Web.Controllers
                     using (SqlCommand cmd = new SqlCommand(vendorImportProc, sqlConnection))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.CommandTimeout = PublishingSqlCommandTimeoutInSeconds;
                         // If we needed parameters, here's how we'd add them.
                         //cmd.Parameters.AddWithValue("@SocrataDataMartRawJsonImportID", socrataDataMartRawJsonImportID);
                         //cmd.Parameters.AddWithValue("@BienniumToImport", bienniumToImport);

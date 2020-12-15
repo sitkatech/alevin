@@ -29,6 +29,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
             return calendarDate.GetFiscalYear();
         }
 
+        public static bool IsFiscalYearPeriodStringForZeroMonth(string fiscalYearPeriodString)
+        {
+            return (fiscalYearPeriodString.StartsWith("000/"));
+        }
+
         public static DateTime SqlGetCalendarDateTimeForFiscalYearPeriodString(string fiscalYearPeriodString)
         {
             string dateTimeAsString = string.Empty;
