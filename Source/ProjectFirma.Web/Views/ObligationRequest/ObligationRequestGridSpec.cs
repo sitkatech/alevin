@@ -46,6 +46,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                 , 100
                 , DhtmlxGridColumnFilterType.Html);
 
+            // Status
+            Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString(), a => a.ObligationRequestStatus.ObligationRequestStatusDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
             //IsMod
             Add(FieldDefinitionEnum.IsModification.ToType().ToGridHeaderString("Is Modification?"), a => a.IsModification.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
