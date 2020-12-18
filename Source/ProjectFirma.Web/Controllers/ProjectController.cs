@@ -569,7 +569,6 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-
         [ProjectsInProposalStageViewListFeature]
         public ViewResult Proposed()
         {
@@ -675,7 +674,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureExpectedExcelSpec = new PerformanceMeasureExpectedExcelSpec();
             var performanceMeasureExpecteds = (projects.SelectMany(p => p.PerformanceMeasureExpecteds)).ToList();
             var wsPerformanceMeasureExpecteds = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet(
-                $"Expected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}s",
+                $"Expected {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}",
                 performanceMeasureExpectedExcelSpec,
                 performanceMeasureExpecteds);
             workSheets.Add(wsPerformanceMeasureExpecteds);
