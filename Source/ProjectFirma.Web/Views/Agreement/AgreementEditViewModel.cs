@@ -84,36 +84,45 @@ namespace ProjectFirma.Web.Views.Agreement
             }
             Check.Ensure(agreement.AgreementID > 0, "Was expecting valid primary key by now");
 
-            if (this.ObligationNumberID.HasValue)
+            // Is Obligation already set in the Agreement?
+            var currentObligationNumber = agreement.ObligationNumbersWhereYouAreTheReclamationAgreement.SingleOrDefault();
+            bool currentObligationNumberSet = currentObligationNumber != null;
+
+            // Did the user set an Obligation number in their form POST?
+            bool obligationWasSetInFormPost = this.ObligationNumberID.HasValue;
+
+            // Do we need to clear the current Obligation?
+            bool needToClearCurrentObligationNumber = currentObligationNumberSet;
+
+            // Do we need to set the Obligation?
+            bool needToSetObligation = obligationWasSetInFormPost;
+
+            // Special case: User is setting Obligation to what it is already set to.
+            if (obligationWasSetInFormPost && currentObligationNumberSet)
             {
-                bool needToSetObligation = true;
-                // Obligation number already set?
-                var currentObligationNumber = agreement.ObligationNumbersWhereYouAreTheReclamationAgreement.SingleOrDefault();
-                if (currentObligationNumber != null)
+                // Is the Agreement already wired to this Obligation?
+                if (currentObligationNumber.ObligationNumberID == this.ObligationNumberID.Value)
                 {
-                    // Is the Agreement already wired to this Obligation?
-                    if (currentObligationNumber.ObligationNumberID == this.ObligationNumberID.Value)
-                    {
-                        // Nothing to do
-                        needToSetObligation = false;
-                    }
-                    else
-                    {
-                        // But if it is another, different obligation, we need to clear the other
-                        currentObligationNumber.ReclamationAgreement = null;
-                        currentObligationNumber.ReclamationAgreementID = null;
-                    }
+                    // Nothing to do
+                    needToSetObligation = false;
+                    needToClearCurrentObligationNumber = false;
                 }
-
-                if (needToSetObligation)
-                {
-                    var obligationNumber = databaseEntities.ObligationNumbers.Single(oNum => oNum.ObligationNumberID == this.ObligationNumberID.Value);
-                    obligationNumber.ReclamationAgreementID = agreement.AgreementID;
-                }
-
-                // Save changes to ObligationNumber
-                HttpRequestStorage.DatabaseEntities.SaveChanges();
             }
+
+            if (needToClearCurrentObligationNumber)
+            {
+                currentObligationNumber.ReclamationAgreement = null;
+                currentObligationNumber.ReclamationAgreementID = null;
+            }
+
+            if (needToSetObligation)
+            {
+                var obligationNumber = databaseEntities.ObligationNumbers.Single(oNum => oNum.ObligationNumberID == this.ObligationNumberID.Value);
+                obligationNumber.ReclamationAgreementID = agreement.AgreementID;
+            }
+
+            // Save changes to ObligationNumber
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
