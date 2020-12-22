@@ -148,24 +148,6 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult AgreementViewEdit(AgreementEditViewModel viewModel, FirmaSession currentFirmaSession)
         {
-            /*
-            var organizationTypesAsSelectListItems = HttpRequestStorage.DatabaseEntities.OrganizationTypes
-                .OrderBy(x => x.OrganizationTypeName)
-                .ToSelectListWithEmptyFirstRow(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.OrganizationTypeName);
-            var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
-            {
-                activePeople.Add(currentPrimaryContactPerson);
-            }
-            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
-                x => x.GetFullNameFirstLastAndOrg());
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            string requestOrganizationChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange());
-            */
-            //var viewData = new AgreementEditViewData(organizationTypesAsSelectListItems, people, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.KeystoneOrganizationGuid);
-
             var viewData = new AgreementEditViewData();
             return RazorPartialView<AgreementEdit, AgreementEditViewData, AgreementEditViewModel>(viewData, viewModel);
         }
