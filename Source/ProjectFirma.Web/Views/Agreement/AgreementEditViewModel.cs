@@ -86,8 +86,31 @@ namespace ProjectFirma.Web.Views.Agreement
 
             if (this.ObligationNumberID.HasValue)
             {
-                var obligationNumber = databaseEntities.ObligationNumbers.Single(oNum => oNum.ObligationNumberID == this.ObligationNumberID.Value);
-                obligationNumber.ReclamationAgreementID = agreement.AgreementID;
+                bool needToSetObligation = true;
+                // Obligation number already set?
+                var currentObligationNumber = agreement.ObligationNumbersWhereYouAreTheReclamationAgreement.SingleOrDefault();
+                if (currentObligationNumber != null)
+                {
+                    // Is the Agreement already wired to this Obligation?
+                    if (currentObligationNumber.ObligationNumberID == this.ObligationNumberID.Value)
+                    {
+                        // Nothing to do
+                        needToSetObligation = false;
+                    }
+                    else
+                    {
+                        // But if it is another, different obligation, we need to clear the other
+                        currentObligationNumber.ReclamationAgreement = null;
+                        currentObligationNumber.ReclamationAgreementID = null;
+                    }
+                }
+
+                if (needToSetObligation)
+                {
+                    var obligationNumber = databaseEntities.ObligationNumbers.Single(oNum => oNum.ObligationNumberID == this.ObligationNumberID.Value);
+                    obligationNumber.ReclamationAgreementID = agreement.AgreementID;
+                }
+
                 // Save changes to ObligationNumber
                 HttpRequestStorage.DatabaseEntities.SaveChanges();
             }
