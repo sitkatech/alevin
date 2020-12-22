@@ -94,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult NewAgreement()
         {
             var viewModel = new AgreementEditViewModel();
-            return AgreementViewEdit(viewModel, CurrentFirmaSession);
+            return AgreementViewEdit(viewModel, CurrentFirmaSession, null);
         }
 
         [HttpPost]
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return AgreementViewEdit(viewModel, CurrentFirmaSession);
+                return AgreementViewEdit(viewModel, CurrentFirmaSession, null);
             }
 
             var agreement = new Agreement(false, false, viewModel.ContractTypeID.Value);
@@ -122,7 +122,7 @@ namespace ProjectFirma.Web.Controllers
             var agreement = agreementPrimaryKey.EntityObject;
 
             var viewModel = new AgreementEditViewModel(agreement);
-            return AgreementViewEdit(viewModel, CurrentFirmaSession);
+            return AgreementViewEdit(viewModel, CurrentFirmaSession, agreement);
         }
 
         [HttpPost]
@@ -130,12 +130,12 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult EditBasics(AgreementPrimaryKey agreementPrimaryKey, AgreementEditViewModel viewModel)
         {
+            var agreement = agreementPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return AgreementViewEdit(viewModel, CurrentFirmaSession);
+                return AgreementViewEdit(viewModel, CurrentFirmaSession, agreement);
             }
 
-            var agreement = agreementPrimaryKey.EntityObject;
             viewModel.UpdateModelAndSaveChanges(agreement, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
 
             SetMessageForDisplay($"Agreement {agreement.GetDetailLinkUsingAgreementNumber()} saved.");
@@ -145,10 +145,9 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult(redirectUrl);
         }
 
-
-        private PartialViewResult AgreementViewEdit(AgreementEditViewModel viewModel, FirmaSession currentFirmaSession)
+        private PartialViewResult AgreementViewEdit(AgreementEditViewModel viewModel, FirmaSession currentFirmaSession, Agreement optionalAgreement)
         {
-            var viewData = new AgreementEditViewData();
+            var viewData = new AgreementEditViewData(optionalAgreement);
             return RazorPartialView<AgreementEdit, AgreementEditViewData, AgreementEditViewModel>(viewData, viewModel);
         }
 
