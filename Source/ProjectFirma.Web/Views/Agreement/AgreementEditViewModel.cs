@@ -75,10 +75,13 @@ namespace ProjectFirma.Web.Views.Agreement
             agreement.OrganizationID = this.OrganizationID;
             agreement.ContractTypeID = this.ContractTypeID.Value;
 
-            // We need to save the Agreement in order to get it's primary key before it can be associated
-            // with an ObligationNumber
-            HttpRequestStorage.DatabaseEntities.Agreements.Add(agreement);
-            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            if (agreement.AgreementID <= 0)
+            {
+                // We need to save the Agreement in order to get it's primary key before it can be associated
+                // with an ObligationNumber
+                HttpRequestStorage.DatabaseEntities.Agreements.Add(agreement);
+                HttpRequestStorage.DatabaseEntities.SaveChanges();
+            }
             Check.Ensure(agreement.AgreementID > 0, "Was expecting valid primary key by now");
 
             if (this.ObligationNumberID.HasValue)

@@ -115,6 +115,37 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        [HttpGet]
+        [AgreementManageFeature]
+        public PartialViewResult EditBasics(AgreementPrimaryKey agreementPrimaryKey)
+        {
+            var agreement = agreementPrimaryKey.EntityObject;
+
+            var viewModel = new AgreementEditViewModel(agreement);
+            return AgreementViewEdit(viewModel, CurrentFirmaSession);
+        }
+
+        [HttpPost]
+        [AgreementManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBasics(AgreementPrimaryKey agreementPrimaryKey, AgreementEditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return AgreementViewEdit(viewModel, CurrentFirmaSession);
+            }
+
+            var agreement = agreementPrimaryKey.EntityObject;
+            viewModel.UpdateModelAndSaveChanges(agreement, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+
+            SetMessageForDisplay($"Agreement {agreement.GetDetailLinkUsingAgreementNumber()} saved.");
+
+            // They may have edited the Agreement Number, so we need to redirect in case this has happened.
+            string redirectUrl = SitkaRoute<AgreementController>.BuildAbsoluteUrlHttpsFromExpression(x => x.AgreementDetail(viewModel.AgreementNumber));
+            return new ModalDialogFormJsonResult(redirectUrl);
+        }
+
+
         private PartialViewResult AgreementViewEdit(AgreementEditViewModel viewModel, FirmaSession currentFirmaSession)
         {
             /*
