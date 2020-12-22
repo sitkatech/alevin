@@ -1,0 +1,1 @@
+exec sp_rename 'Reclamation.AK_Reclamation_AgreementNumber', 'AK_Agreement_AgreementNumber', 'OBJECT'
