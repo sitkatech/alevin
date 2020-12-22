@@ -1,10 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -12,6 +8,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.CostAuthority;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
@@ -143,6 +140,53 @@ namespace ProjectFirma.Web.Controllers
         }
 
         #endregion New/Edit Agreement
+
+        #region Delete Agreement
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult DeleteAgreement(AgreementPrimaryKey agreementPrimaryKey)
+        {
+            var agreement = agreementPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(agreement.AgreementID);
+            return ViewDeleteAgreement(agreement, viewModel);
+        }
+
+        private PartialViewResult ViewDeleteAgreement(Agreement agreement, ConfirmDialogFormViewModel viewModel)
+        {
+            var confirmMessage = $"Are you sure you want to delete Agreement Number {agreement.AgreementNumber}?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteAgreement(AgreementPrimaryKey agreementPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var agreement = agreementPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteAgreement(agreement, viewModel);
+            }
+
+            Check.Ensure(agreement.AgreementCanBeDeleted(), $"Agreement {agreement.AgreementNumber} can't be deleted.");
+
+            // Unhook ObligationNumber from the Reclamation.Agreement object we are deleting
+            foreach (var obligationNumber in agreement.ObligationNumbersWhereYouAreTheReclamationAgreement)
+            {
+                obligationNumber.ReclamationAgreement = null;
+                obligationNumber.ReclamationAgreementID = null;
+            }
+            // We do NOT want to DeleteFull here, since we never want to delete when the Agreement has associations with any
+            // other objects.
+            string agreementNumber = agreement.AgreementNumber;
+            agreement.Delete(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay($"Successfully deleted Agreement \"{agreementNumber}\".");
+            return new ModalDialogFormJsonResult();
+        }
+
+        #endregion Delete Agreement
 
     }
 }

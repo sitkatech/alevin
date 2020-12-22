@@ -27,10 +27,10 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Tag
 {
-    public class IndexGridSpec : GridSpec<ProjectFirmaModels.Models.Tag>
+    public class TagIndexGridSpec : GridSpec<ProjectFirmaModels.Models.Tag>
     {
-        public IndexGridSpec(bool hasDeletePermissions)
-        {            
+        public TagIndexGridSpec(bool hasDeletePermissions)
+        {
             if (hasDeletePermissions)
             {
                 Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(TagModelExtensions.GetDeleteUrl(x), true), 30);
