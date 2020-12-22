@@ -1,10 +1,6 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
+﻿using System.Linq;
 using System.Web.Mvc;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.Models;
-using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -12,6 +8,7 @@ using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.CostAuthority;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
@@ -97,7 +94,7 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult NewAgreement()
         {
             var viewModel = new AgreementEditViewModel();
-            return AgreementViewEdit(viewModel, CurrentFirmaSession);
+            return AgreementViewEdit(viewModel, CurrentFirmaSession, null);
         }
 
         [HttpPost]
@@ -107,7 +104,7 @@ namespace ProjectFirma.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return AgreementViewEdit(viewModel, CurrentFirmaSession);
+                return AgreementViewEdit(viewModel, CurrentFirmaSession, null);
             }
 
             var agreement = new Agreement(false, false, viewModel.ContractTypeID.Value);
@@ -118,31 +115,90 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult AgreementViewEdit(AgreementEditViewModel viewModel, FirmaSession currentFirmaSession)
+        [HttpGet]
+        [AgreementManageFeature]
+        public PartialViewResult EditBasics(AgreementPrimaryKey agreementPrimaryKey)
         {
-            /*
-            var organizationTypesAsSelectListItems = HttpRequestStorage.DatabaseEntities.OrganizationTypes
-                .OrderBy(x => x.OrganizationTypeName)
-                .ToSelectListWithEmptyFirstRow(x => x.OrganizationTypeID.ToString(CultureInfo.InvariantCulture),
-                    x => x.OrganizationTypeName);
-            var activePeople = HttpRequestStorage.DatabaseEntities.People.GetActivePeople();
-            if (currentPrimaryContactPerson != null && !activePeople.Contains(currentPrimaryContactPerson))
-            {
-                activePeople.Add(currentPrimaryContactPerson);
-            }
-            var people = activePeople.OrderBy(x => x.GetFullNameLastFirst()).ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(CultureInfo.InvariantCulture),
-                x => x.GetFullNameFirstLastAndOrg());
-            var isSitkaAdmin = new SitkaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var userHasAdminPermissions = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            string requestOrganizationChangeUrl = SitkaRoute<HelpController>.BuildUrlFromExpression(x => x.RequestOrganizationNameChange());
-            */
-            //var viewData = new AgreementEditViewData(organizationTypesAsSelectListItems, people, isInKeystone, requestOrganizationChangeUrl, isSitkaAdmin, userHasAdminPermissions, viewModel.KeystoneOrganizationGuid);
+            var agreement = agreementPrimaryKey.EntityObject;
 
-            var viewData = new AgreementEditViewData();
+            var viewModel = new AgreementEditViewModel(agreement);
+            return AgreementViewEdit(viewModel, CurrentFirmaSession, agreement);
+        }
+
+        [HttpPost]
+        [AgreementManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditBasics(AgreementPrimaryKey agreementPrimaryKey, AgreementEditViewModel viewModel)
+        {
+            var agreement = agreementPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return AgreementViewEdit(viewModel, CurrentFirmaSession, agreement);
+            }
+
+            viewModel.UpdateModelAndSaveChanges(agreement, CurrentFirmaSession, HttpRequestStorage.DatabaseEntities);
+
+            SetMessageForDisplay($"Agreement {agreement.GetDetailLinkUsingAgreementNumber()} saved.");
+
+            // They may have edited the Agreement Number, so we need to redirect in case this has happened.
+            string redirectUrl = SitkaRoute<AgreementController>.BuildAbsoluteUrlHttpsFromExpression(x => x.AgreementDetail(viewModel.AgreementNumber));
+            return new ModalDialogFormJsonResult(redirectUrl);
+        }
+
+        private PartialViewResult AgreementViewEdit(AgreementEditViewModel viewModel, FirmaSession currentFirmaSession, Agreement optionalAgreement)
+        {
+            var viewData = new AgreementEditViewData(optionalAgreement);
             return RazorPartialView<AgreementEdit, AgreementEditViewData, AgreementEditViewModel>(viewData, viewModel);
         }
 
         #endregion New/Edit Agreement
+
+        #region Delete Agreement
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult DeleteAgreement(AgreementPrimaryKey agreementPrimaryKey)
+        {
+            var agreement = agreementPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel(agreement.AgreementID);
+            return ViewDeleteAgreement(agreement, viewModel);
+        }
+
+        private PartialViewResult ViewDeleteAgreement(Agreement agreement, ConfirmDialogFormViewModel viewModel)
+        {
+            var confirmMessage = $"Are you sure you want to delete Agreement Number {agreement.AgreementNumber}?";
+            var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult DeleteAgreement(AgreementPrimaryKey agreementPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var agreement = agreementPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewDeleteAgreement(agreement, viewModel);
+            }
+
+            Check.Ensure(agreement.AgreementCanBeDeleted(), $"Agreement {agreement.AgreementNumber} can't be deleted.");
+
+            // Unhook ObligationNumber from the Reclamation.Agreement object we are deleting
+            foreach (var obligationNumber in agreement.ObligationNumbersWhereYouAreTheReclamationAgreement)
+            {
+                obligationNumber.ReclamationAgreement = null;
+                obligationNumber.ReclamationAgreementID = null;
+            }
+            // We do NOT want to DeleteFull here, since we never want to delete when the Agreement has associations with any
+            // other objects.
+            string agreementNumber = agreement.AgreementNumber;
+            agreement.Delete(HttpRequestStorage.DatabaseEntities);
+            SetMessageForDisplay($"Successfully deleted Agreement \"{agreementNumber}\".");
+            return new ModalDialogFormJsonResult();
+        }
+
+        #endregion Delete Agreement
 
     }
 }

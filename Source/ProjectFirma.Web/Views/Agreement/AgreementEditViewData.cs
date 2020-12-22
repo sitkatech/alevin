@@ -31,20 +31,47 @@ namespace ProjectFirma.Web.Views.Agreement
 {
     public class AgreementEditViewData : FirmaUserControlViewData
     {
-        public IEnumerable<SelectListItem> ContractTypeSelectListItems { get; }
-        public IEnumerable<SelectListItem> OrganizationSelectListItems { get; }
-        public IEnumerable<SelectListItem> ObligationNumberSelectListItems { get; }
+        public IEnumerable<SelectListItem> ObligationNumberSelectListItems { get; set; }
+        public IEnumerable<SelectListItem> OrganizationSelectListItems { get; set; }
+        public IEnumerable<SelectListItem> ContractTypeSelectListItems { get; set; }
 
-        public AgreementEditViewData()
+        /// <summary>
+        /// For all-new (create)
+        /// </summary>
+        public AgreementEditViewData() : this(null)
         {
-            var allContractTypes = HttpRequestStorage.DatabaseEntities.ContractTypes.ToList();
-            ContractTypeSelectListItems = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);
+        }
+
+        /// <summary>
+        /// For existing (edit)
+        /// </summary>
+        /// <param name="optionalAgreement">Optional Agreement. Use null if all-new Agreement</param>
+        public AgreementEditViewData(ProjectFirmaModels.Models.Agreement optionalAgreement)
+        {
+            var availableUnassociatedObligationNumbers = HttpRequestStorage.DatabaseEntities.ObligationNumbers.Where(oNum => !oNum.ReclamationAgreementID.HasValue).ToList();
+            if (optionalAgreement != null)
+            {
+                var alreadySetObligationNumber = optionalAgreement.ObligationNumbersWhereYouAreTheReclamationAgreement.SingleOrDefault();
+                // Also include Obligation we are already hooked to if Agreement is provided
+                if (alreadySetObligationNumber != null)
+                {
+                    availableUnassociatedObligationNumbers.Add(alreadySetObligationNumber);
+                }
+            }
+            ObligationNumberSelectListItems = availableUnassociatedObligationNumbers.OrderBy(uo => uo.ObligationNumberKey).ToSelectListWithEmptyFirstRow(oNum => oNum.ObligationNumberID.ToString(CultureInfo.InvariantCulture), x => x.ObligationNumberKey);
 
             var activeOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.GetActiveOrganizations();
             OrganizationSelectListItems = activeOrganizations.OrderBy(ao => ao.OrganizationName).ToSelectListWithEmptyFirstRow(x => x.OrganizationID.ToString(CultureInfo.InvariantCulture), x => x.OrganizationName);
 
-            var availableUnassociatedObligationNumbers = HttpRequestStorage.DatabaseEntities.ObligationNumbers.Where(oNum => !oNum.ReclamationAgreementID.HasValue).ToList();
-            ObligationNumberSelectListItems = availableUnassociatedObligationNumbers.OrderBy(uo => uo.ObligationNumberKey).ToSelectListWithEmptyFirstRow(oNum => oNum.ObligationNumberID.ToString(CultureInfo.InvariantCulture), x => x.ObligationNumberKey);
+            var allContractTypes = HttpRequestStorage.DatabaseEntities.ContractTypes.ToList();
+            ContractTypeSelectListItems = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);
+
+        }
+
+
+        private void SetUpAgreementEditViewData(ProjectFirmaModels.Models.Agreement optionalAgreement)
+        {
+
         }
     }
 
