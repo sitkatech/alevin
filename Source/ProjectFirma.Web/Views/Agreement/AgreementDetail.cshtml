@@ -23,6 +23,7 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
 @using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Agreement
@@ -92,8 +93,7 @@
         <div class="panel panelFirma">
             <div class="panel-heading panelTitle">
                 <h2>
-                    @*No edit for Agreement to start with, but  likely won't have one ever.*@
-                    @*@ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureUrl, string.Format("Edit {0}: {1}", MultiTenantHelpers.GetPerformanceMeasureName(), ViewDataTyped.PerformanceMeasure.PerformanceMeasureDisplayName), 1000, ViewDataTyped.UserHasPerformanceMeasureOverviewManagePermissions)*@
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditAgreementBasicsUrl, string.Format("Edit Agreement: {0}", ViewDataTyped.Agreement.AgreementNumber), 1000, ViewDataTyped.UserHasAgreementManagePermissions)
                     Basics
                 </h2>
             </div>

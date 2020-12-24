@@ -19,6 +19,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ImpProcessingTableTypeID).HasColumnName(@"ImpProcessingTableTypeID").HasColumnType("int").IsRequired();
             Property(x => x.UploadDate).HasColumnName(@"UploadDate").HasColumnType("datetime").IsOptional();
             Property(x => x.UploadPersonID).HasColumnName(@"UploadPersonID").HasColumnType("int").IsOptional();
+            Property(x => x.UploadedFiscalYears).HasColumnName(@"UploadedFiscalYears").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(50);
             Property(x => x.LastProcessedDate).HasColumnName(@"LastProcessedDate").HasColumnType("datetime").IsOptional();
             Property(x => x.LastProcessedPersonID).HasColumnName(@"LastProcessedPersonID").HasColumnType("int").IsOptional();
 

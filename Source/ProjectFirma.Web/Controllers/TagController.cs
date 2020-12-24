@@ -38,7 +38,6 @@ using Edit = ProjectFirma.Web.Views.Tag.Edit;
 using EditViewData = ProjectFirma.Web.Views.Tag.EditViewData;
 using EditViewModel = ProjectFirma.Web.Views.Tag.EditViewModel;
 using Index = ProjectFirma.Web.Views.Tag.Index;
-using IndexGridSpec = ProjectFirma.Web.Views.Tag.IndexGridSpec;
 using IndexViewData = ProjectFirma.Web.Views.Tag.IndexViewData;
 
 namespace ProjectFirma.Web.Controllers
@@ -57,7 +56,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Tag> IndexGridJsonData()
         {
             var hasTagDeletePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var gridSpec = new IndexGridSpec(hasTagDeletePermission);
+            var gridSpec = new TagIndexGridSpec(hasTagDeletePermission);
             var tags = HttpRequestStorage.DatabaseEntities.Tags.OrderBy(x => x.TagName).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Tag>(tags, gridSpec);
             return gridJsonNetJObjectResult;

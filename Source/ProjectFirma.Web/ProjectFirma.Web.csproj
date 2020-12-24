@@ -1992,7 +1992,7 @@
     <Compile Include="Views\Tag\EditViewModel.cs" />
     <Compile Include="Views\Tag\EditViewModelTest.cs" />
     <Compile Include="Views\Tag\Index.cs" />
-    <Compile Include="Views\Tag\IndexGridSpec.cs" />
+    <Compile Include="Views\Tag\TagIndexGridSpec.cs" />
     <Compile Include="Views\Tag\IndexViewData.cs" />
     <Compile Include="Views\Tag\Detail.cs" />
     <Compile Include="Views\Tag\DetailViewData.cs" />

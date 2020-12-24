@@ -46,6 +46,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                 , 100
                 , DhtmlxGridColumnFilterType.Html);
 
+            // Status
+            Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString(), a => a.ObligationRequestStatus.ObligationRequestStatusDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+
             //IsMod
             Add(FieldDefinitionEnum.IsModification.ToType().ToGridHeaderString("Is Modification?"), a => a.IsModification.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
@@ -61,8 +64,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             // Funding Priority
             Add(FieldDefinitionEnum.FundingPriority.ToType().ToGridHeaderString(), a => a.ReclamationObligationRequestFundingPriority?.ObligationRequestFundingPriorityDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
-            // Projected Obligation
-            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), a => a.ProjectedObligation, 100, DhtmlxGridColumnFormatType.Currency);
+            // Total Projected Obligation
+            Add(FieldDefinitionEnum.TotalProjectedObligation.ToType().ToGridHeaderString(), a => a.TotalProjectedObligation, 100, DhtmlxGridColumnFormatType.Currency);
 
             // Target Award Date
             Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetAwardDate, 120);

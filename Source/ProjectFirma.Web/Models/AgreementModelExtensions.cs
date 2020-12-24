@@ -24,7 +24,6 @@ namespace ProjectFirma.Web.Models
             return $"{agreement.AgreementNumber} - {agreement.GetOrganizationDisplayName()} - {agreement.ContractType.ContractTypeDisplayName}";
         }
 
-
         /// <summary>
         /// Convenience accessor for Reclamation Cost Authorities.
         /// </summary>
@@ -62,6 +61,12 @@ namespace ProjectFirma.Web.Models
             return SitkaRoute<AgreementController>.BuildLinkFromExpression(c => c.AgreementDetail(agreement.AgreementNumber), agreement.GetFullDisplayName());
         }
 
+        public static readonly UrlTemplate<int> DeleteAgreementUrlTemplate = new UrlTemplate<int>(SitkaRoute<AgreementController>.BuildUrlFromExpression(t => t.DeleteAgreement(UrlTemplate.Parameter1Int)));
+        public static string GetDeleteAgreementUrl(this Agreement agreement)
+        {
+            return DeleteAgreementUrlTemplate.ParameterReplace(agreement.AgreementID);
+        }
+
         /// <summary>
         /// Get the Projects associated with this Agreement
         /// </summary>
@@ -72,6 +77,40 @@ namespace ProjectFirma.Web.Models
             var costAuthorities = agreement.GetReclamationCostAuthorities();
             var projects = costAuthorities.SelectMany(x => x.GetAssociatedProjects()).Distinct().ToList();
             return projects;
+        }
+
+        public static bool AgreementHasProjectAssociations(this Agreement agreement)
+        {
+            bool hasProjectAssociations = GetAssociatedProjects(agreement).Any();
+            return hasProjectAssociations;
+        }
+
+        public static bool AgreementHasCostAuthorityAssociations(this Agreement agreement)
+        {
+            bool hasCostAuthorityAssociations = agreement.GetReclamationCostAuthorities().Any();
+            return hasCostAuthorityAssociations;
+        }
+
+        public static bool AgreementHasReclamationStagingCostAuthorityAgreementAssociations(this Agreement agreement)
+        {
+            bool hasReclamationStagingCostAuthorityAgreementAssociations = agreement.ReclamationStagingCostAuthorityAgreements.Any();
+            return hasReclamationStagingCostAuthorityAgreementAssociations;
+        }
+
+        /// <summary>
+        /// Can this Agreement be safely deleted?
+        /// </summary>
+        /// <param name="agreement"></param>
+        /// <returns></returns>
+        public static bool AgreementCanBeDeleted(this Agreement agreement)
+        {
+            bool noCostAuthorityAssociations = !AgreementHasCostAuthorityAssociations(agreement);
+            bool noProjectAssociations = !AgreementHasProjectAssociations(agreement);
+            bool noReclamationStagingCostAuthorityAgreementAssociations = !AgreementHasReclamationStagingCostAuthorityAgreementAssociations(agreement);
+
+            bool noBlockingAssociations = noCostAuthorityAssociations && noProjectAssociations && noReclamationStagingCostAuthorityAgreementAssociations;
+
+            return noBlockingAssociations;
         }
 
     }

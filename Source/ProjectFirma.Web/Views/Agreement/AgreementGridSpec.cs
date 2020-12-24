@@ -36,6 +36,12 @@ namespace ProjectFirma.Web.Views.Agreement
     {
         public AgreementGridSpec(FirmaSession currentFirmaSession)
         {
+            var hasAgreementDeletePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            if (hasAgreementDeletePermission)
+            {
+                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteAgreementUrl(), x.AgreementCanBeDeleted()), 30);
+            }
+
             // AgreementNumber
             Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
             // Projects

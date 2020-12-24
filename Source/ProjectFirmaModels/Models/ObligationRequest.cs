@@ -1,4 +1,6 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using System.Linq;
+
+namespace ProjectFirmaModels.Models
 {
     public partial class ObligationRequest : IAuditableEntity
     {
@@ -8,6 +10,12 @@
             return $"ObligationRequest: {this.ObligationRequestID}";
         }
 
-        public decimal? ProjectedObligation => null;
+        public decimal? TotalProjectedObligation
+        {
+            get
+            {
+                return this.CostAuthorityObligationRequests.Sum(o => o.ProjectedObligation);
+            }
+        }
     }
 }

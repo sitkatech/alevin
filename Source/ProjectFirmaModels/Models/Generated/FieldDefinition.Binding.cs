@@ -370,6 +370,7 @@ namespace ProjectFirmaModels.Models
         BudgetObjectCode = 10054,
         ObligationItem = 10055,
         ObligationRequestNumber = 10056,
-        BpaProjectNumber = 10057
+        BpaProjectNumber = 10057,
+        TotalProjectedObligation = 10058
     }
 }

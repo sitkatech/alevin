@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Views.Tag
     public class TagGridSpec : GridSpec<ProjectFirmaModels.Models.Tag>
     {
         public TagGridSpec(bool hasManagePermissions)
-        {            
+        {
             if (hasManagePermissions)
             {
                 Add(string.Empty,
