@@ -19,9 +19,9 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System.Collections.Generic;
 using ProjectFirma.Web.Views.Map;
 using ProjectFirmaModels.Models;
+using System.Collections.Generic;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 {
@@ -36,6 +36,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         public List<Person> SubbasinLiasons { get; }
 
 
+        //public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, 
+        //    Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas)
         public ProjectLocationSummaryViewData(IProject project, ProjectLocationSummaryMapInitJson projectLocationSummaryMapInitJson, Dictionary<int, string> dictionaryGeoNotes, List<GeospatialAreaType> geospatialAreaTypes, List<ProjectFirmaModels.Models.GeospatialArea> geospatialAreas, List<Person> subbasinLiasons)
         {
             ProjectLocationNotes = project.ProjectLocationNotes;
