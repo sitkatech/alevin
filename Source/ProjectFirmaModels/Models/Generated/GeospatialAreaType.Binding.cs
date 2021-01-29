@@ -37,7 +37,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool layerIsOnByDefault, bool isPopulation, int? esuDpsGeospatialAreaTypeID, int? mPGGeospatialAreaTypeID, int? populationGeospatialAreaTypeID, bool includeInBiOpAnnualReport) : this()
+        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool onByDefaultOnProjectMap, bool isPopulation, int? esuDpsGeospatialAreaTypeID, int? mPGGeospatialAreaTypeID, int? populationGeospatialAreaTypeID, bool includeInBiOpAnnualReport, bool onByDefaultOnOtherMaps) : this()
         {
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
             this.GeospatialAreaTypeName = geospatialAreaTypeName;
@@ -46,18 +46,19 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaTypeDefinition = geospatialAreaTypeDefinition;
             this.GeospatialAreaLayerName = geospatialAreaLayerName;
             this.DisplayOnAllProjectMaps = displayOnAllProjectMaps;
-            this.LayerIsOnByDefault = layerIsOnByDefault;
+            this.OnByDefaultOnProjectMap = onByDefaultOnProjectMap;
             this.IsPopulation = isPopulation;
             this.EsuDpsGeospatialAreaTypeID = esuDpsGeospatialAreaTypeID;
             this.MPGGeospatialAreaTypeID = mPGGeospatialAreaTypeID;
             this.PopulationGeospatialAreaTypeID = populationGeospatialAreaTypeID;
             this.IncludeInBiOpAnnualReport = includeInBiOpAnnualReport;
+            this.OnByDefaultOnOtherMaps = onByDefaultOnOtherMaps;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaType(string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool layerIsOnByDefault, bool isPopulation, bool includeInBiOpAnnualReport) : this()
+        public GeospatialAreaType(string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool onByDefaultOnProjectMap, bool isPopulation, bool includeInBiOpAnnualReport, bool onByDefaultOnOtherMaps) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.GeospatialAreaTypeID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -66,9 +67,10 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaTypeNamePluralized = geospatialAreaTypeNamePluralized;
             this.GeospatialAreaLayerName = geospatialAreaLayerName;
             this.DisplayOnAllProjectMaps = displayOnAllProjectMaps;
-            this.LayerIsOnByDefault = layerIsOnByDefault;
+            this.OnByDefaultOnProjectMap = onByDefaultOnProjectMap;
             this.IsPopulation = isPopulation;
             this.IncludeInBiOpAnnualReport = includeInBiOpAnnualReport;
+            this.OnByDefaultOnOtherMaps = onByDefaultOnOtherMaps;
         }
 
 
@@ -77,7 +79,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static GeospatialAreaType CreateNewBlank()
         {
-            return new GeospatialAreaType(default(string), default(string), default(string), default(bool), default(bool), default(bool), default(bool));
+            return new GeospatialAreaType(default(string), default(string), default(string), default(bool), default(bool), default(bool), default(bool), default(bool));
         }
 
         /// <summary>
@@ -218,12 +220,13 @@ namespace ProjectFirmaModels.Models
         }
         public string GeospatialAreaLayerName { get; set; }
         public bool DisplayOnAllProjectMaps { get; set; }
-        public bool LayerIsOnByDefault { get; set; }
+        public bool OnByDefaultOnProjectMap { get; set; }
         public bool IsPopulation { get; set; }
         public int? EsuDpsGeospatialAreaTypeID { get; set; }
         public int? MPGGeospatialAreaTypeID { get; set; }
         public int? PopulationGeospatialAreaTypeID { get; set; }
         public bool IncludeInBiOpAnnualReport { get; set; }
+        public bool OnByDefaultOnOtherMaps { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaTypeID; } set { GeospatialAreaTypeID = value; } }
 
