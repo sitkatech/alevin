@@ -48,6 +48,7 @@ CREATE TABLE [dbo].[Project](
 	[PhotosComment] [varchar](1000) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[SubmittedByPersonID] [int] NULL,
 	[BpaProjectNumber] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LocationIsPrivate] [bit] NOT NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC

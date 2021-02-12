@@ -189,10 +189,9 @@ VALUES
 (365, N'MatchmakerKeyword', N'Keyword'),
 (366, N'OrganizationKeystoneGuid', N'Keystone Organization GUID'),
 (367, N'ContactRelationshipTypeAcceptsMultipleValues', N'Accepts Multiple Values'),
-(368, 'OrganizationTypeLayerOnByDefault', 'Layer on by Default?'),
-(369, 'GeospatialAreaTypeOnByDefaultOnOtherMaps', 'Layer on by default on all maps other than the Project Map?')
-
-
+(368, N'OrganizationTypeLayerOnByDefault', N'Layer on by Default?'),
+(369, N'GeospatialAreaTypeOnByDefaultOnOtherMaps', N'Layer on by default on all maps other than the Project Map?'),
+(370, N'ProjectLocationIsPrivate', N'Location Privacy')
 
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
@@ -235,14 +234,14 @@ VALUES
 (10035, N'StatusUpcomingActivities', N'Upcoming Activities'),
 (10036, N'StatusRisksOrIssues', N'Risks/Issues'),
 --(10037, N'StatusNotes', N'Notes'), This field has been removed from Alevin. Renamed to ProjectProjectStatusComment to align with PF for reporting. Feel free to replace this with a new FieldDefinition -- 2/21/2020 TK
-(10038,N'ActionItem', N'Action Item'),
-(10039,N'ActionItemState', N'Action Item State'),
-(10040,N'ActionItemAssignedToPerson', N'Assigned To'),
-(10041,N'ActionItemAssignedOnDate', N'Assigned On'),
-(10042,N'ActionItemDueByDate', N'Due By'),
-(10043,N'ActionItemCompletedOnDate', N'Completed On'),
-(10044,N'ActionItemProjectStatus', N'Related Project Status Update'),
-(10045,N'ActionItemText', N'Action Item Text'),
+(10038, N'ActionItem', N'Action Item'),
+(10039, N'ActionItemState', N'Action Item State'),
+(10040, N'ActionItemAssignedToPerson', N'Assigned To'),
+(10041, N'ActionItemAssignedOnDate', N'Assigned On'),
+(10042, N'ActionItemDueByDate', N'Due By'),
+(10043, N'ActionItemCompletedOnDate', N'Completed On'),
+(10044, N'ActionItemProjectStatus', N'Related Project Status Update'),
+(10045, N'ActionItemText', N'Action Item Text'),
 (10046, N'PrimaryCostAuthorityWorkBreakdownStructure', N'Primary Cost Authority Work Breakdown Structure'),
 (10047, N'SecondaryCostAuthorityWorkBreakdownStructure', N'Secondary Cost Authority Work Breakdown Structure'),
 (10048, N'Obligation', N'Obligation'),
