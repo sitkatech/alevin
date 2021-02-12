@@ -317,6 +317,7 @@ namespace ProjectFirmaModels.Models
         ContactRelationshipTypeAcceptsMultipleValues = 367,
         OrganizationTypeLayerOnByDefault = 368,
         GeospatialAreaTypeOnByDefaultOnOtherMaps = 369,
+        ProjectLocationIsPrivate = 370,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,

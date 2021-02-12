@@ -26,7 +26,15 @@ namespace ProjectFirmaModels.Models
     public interface IProject
     {
         int GetEntityID();
+        Project GetProject();
+        bool HasProjectLocationPoint(bool includePrivateLocation);
+        // Only use ProjectLocationPoint to updated project location
         DbGeometry ProjectLocationPoint { get; set; }
+        DbGeometry GetProjectLocationPoint(bool showLocationIfPrivate);
+        bool HasProjectLocationDetailed(bool includePrivateLocation);
+
+        IEnumerable<IProjectLocation> GetProjectLocationDetailed(bool showLocationIfPrivate);
+
         string GetDisplayName();
         ProjectLocationSimpleType ProjectLocationSimpleType { get; }
         int ProjectLocationSimpleTypeID { get; set; }
@@ -43,7 +51,6 @@ namespace ProjectFirmaModels.Models
         decimal? GetEstimatedTotalRegardlessOfFundingType();
         IEnumerable<IProjectCustomAttribute> GetProjectCustomAttributes();
         IEnumerable<IQuestionAnswer> GetQuestionAnswers();
-        IEnumerable<IProjectLocation> GetProjectLocationDetails();
         DbGeometry GetDefaultBoundingBox();
         IEnumerable<GeospatialArea> GetProjectGeospatialAreas();
         decimal GetProjectedFunding();
@@ -53,5 +60,6 @@ namespace ProjectFirmaModels.Models
 
         bool IsProject { get; }
         bool IsProjectUpdate { get; }
+        bool LocationIsPrivate { get; set; }
     }
 }
