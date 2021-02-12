@@ -19,6 +19,7 @@ CREATE TABLE [dbo].[ProjectUpdate](
 	[PrimaryContactPersonID] [int] NULL,
 	[FundingTypeID] [int] NULL,
 	[BpaProjectNumber] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[LocationIsPrivate] [bit] NOT NULL,
  CONSTRAINT [PK_ProjectUpdate_ProjectUpdateID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectUpdateID] ASC

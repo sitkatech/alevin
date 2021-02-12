@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? primaryContactPersonID, int? fundingTypeID, string bpaProjectNumber) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? primaryContactPersonID, int? fundingTypeID, string bpaProjectNumber, bool locationIsPrivate) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -48,12 +48,13 @@ namespace ProjectFirmaModels.Models
             this.PrimaryContactPersonID = primaryContactPersonID;
             this.FundingTypeID = fundingTypeID;
             this.BpaProjectNumber = bpaProjectNumber;
+            this.LocationIsPrivate = locationIsPrivate;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateBatchID, int projectStageID, string projectDescription, int projectLocationSimpleTypeID) : this()
+        public ProjectUpdate(int projectUpdateBatchID, int projectStageID, string projectDescription, int projectLocationSimpleTypeID, bool locationIsPrivate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -62,12 +63,13 @@ namespace ProjectFirmaModels.Models
             this.ProjectStageID = projectStageID;
             this.ProjectDescription = projectDescription;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleTypeID;
+            this.LocationIsPrivate = locationIsPrivate;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch, ProjectStage projectStage, string projectDescription, ProjectLocationSimpleType projectLocationSimpleType) : this()
+        public ProjectUpdate(ProjectUpdateBatch projectUpdateBatch, ProjectStage projectStage, string projectDescription, ProjectLocationSimpleType projectLocationSimpleType, bool locationIsPrivate) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.ProjectUpdateID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
@@ -76,6 +78,7 @@ namespace ProjectFirmaModels.Models
             this.ProjectStageID = projectStage.ProjectStageID;
             this.ProjectDescription = projectDescription;
             this.ProjectLocationSimpleTypeID = projectLocationSimpleType.ProjectLocationSimpleTypeID;
+            this.LocationIsPrivate = locationIsPrivate;
         }
 
         /// <summary>
@@ -83,7 +86,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public static ProjectUpdate CreateNewBlank(ProjectUpdateBatch projectUpdateBatch, ProjectStage projectStage, ProjectLocationSimpleType projectLocationSimpleType)
         {
-            return new ProjectUpdate(projectUpdateBatch, projectStage, default(string), projectLocationSimpleType);
+            return new ProjectUpdate(projectUpdateBatch, projectStage, default(string), projectLocationSimpleType, default(bool));
         }
 
         /// <summary>
@@ -145,6 +148,7 @@ namespace ProjectFirmaModels.Models
         public int? PrimaryContactPersonID { get; set; }
         public int? FundingTypeID { get; set; }
         public string BpaProjectNumber { get; set; }
+        public bool LocationIsPrivate { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
