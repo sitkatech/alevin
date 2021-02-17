@@ -46,8 +46,8 @@ namespace ProjectFirma.Web.Views.Organization
                 FileResourceData.SaveAs(gdbFile.FullName);
 
                 var ogr2OgrCommandLineRunner = new Ogr2OgrCommandLineRunner(FirmaWebConfiguration.Ogr2OgrExecutable,
-                    LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
-                    FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
+                                                                            LtInfoGeometryConfiguration.DefaultCoordinateSystemId,
+                                                                            FirmaWebConfiguration.HttpRuntimeExecutionTimeout.TotalMilliseconds);
 
                 List<string> featureClassNames = null;
                 try
