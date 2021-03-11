@@ -39,6 +39,11 @@ where (TenantID != 1 and TenantID != 12)
 delete from dbo.OrganizationType
 where (TenantID != 1 and TenantID != 12)
 
+-- Make sure we've disabled other tenants
+update dbo.Tenant
+set TenantEnabled = 0
+where (TenantID != 1 and TenantID != 12)
+
 -- I think this could cause problems in C# at runtime, but it will execute if uncommented - everything else 
 -- is cleaned up.
 /*
