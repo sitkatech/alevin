@@ -39,14 +39,6 @@ where TenantID not in (12)
 delete from dbo.OrganizationType
 where TenantID not in (12)
 
--- Make sure we've disabled other tenants
-update dbo.Tenant
-set TenantEnabled = 0
-where TenantID not in (12)
-
--- I think this could cause problems in C# at runtime, but it will execute if uncommented - everything else 
--- is cleaned up.
-
 update dbo.Tenant
 set CanonicalHostNameLocal = 'local.xxx',
     CanonicalHostNameQa = 'qa.xxx',
