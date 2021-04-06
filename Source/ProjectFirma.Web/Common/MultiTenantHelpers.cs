@@ -28,6 +28,7 @@ using System.Linq;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.ModalDialog;
+using MoreLinq;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
@@ -49,7 +50,7 @@ namespace ProjectFirma.Web.Common
 
         public static Tenant GetTenantFromHostUrl(Uri urlHost)
         {
-            var tenant = Tenant.All.SingleOrDefault(x => urlHost.Host.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase));
+            var tenant = Tenant.All.Where(x => urlHost.Host.Equals(FirmaWebConfiguration.FirmaEnvironment.GetCanonicalHostNameForEnvironment(x), StringComparison.InvariantCultureIgnoreCase)).SingleOrFallback(() => FirmaWebConfiguration.DefaultTenant);
             Check.RequireNotNull(tenant, $"[GetTenantFromHostUrl] Could not determine tenant from host \"{urlHost}\"");
             return tenant;
         }
@@ -336,20 +337,50 @@ namespace ProjectFirma.Web.Common
 
         public static ProjectUpdateSetting GetProjectUpdateConfiguration()
         {
-            var projectUpdateConfiguration = HttpRequestStorage.DatabaseEntities.ProjectUpdateSettings.SingleOrDefault(x =>
-                x.TenantID == HttpRequestStorage.Tenant.TenantID);
+            return GetProjectUpdateConfiguration(HttpRequestStorage.Tenant.TenantID);
+        }
+
+        public static ProjectUpdateSetting GetProjectUpdateConfigurationForBackgroundJob(int tenantID)
+        {
+            return GetProjectUpdateConfiguration(tenantID);
+        }
+
+        private static ProjectUpdateSetting GetProjectUpdateConfiguration(int tenantID)
+        {
+            // need to load the ProjectUpdateSettings to ensure that when this static method is called (e.g. from a background job) it gets the up to date settings
+            HttpRequestStorage.DatabaseEntities.AllProjectUpdateSettings.Load();
+            var projectUpdateConfiguration = HttpRequestStorage.DatabaseEntities.AllProjectUpdateSettings.SingleOrDefault(x =>
+                x.TenantID == tenantID);
             if (projectUpdateConfiguration == null)
             {
                 // 3/27/2020 TK - You need to create an entry for your tenant in dbo.ProjectUpdateSetting
                 throw new SitkaDisplayErrorException(
-                    $"{GetTenantAttributeFromCache().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
+                    $"Tenant ID {tenantID} {GetTenantAttributeFromCache().TenantShortDisplayName} does not have a configuration entry for Project Update Settings. Please <a href=\"mailto: {FirmaWebConfiguration.SitkaSupportEmail}?subject=Project Update Settings are not configured\">contact support</a> to get this issue resolved.");
             }
             return projectUpdateConfiguration;
         }
 
-        public static DateTime GetStartDayOfReportingYear()
+        public static DateTime GetStartDayOfReportingPeriod()
         {
-            return HttpRequestStorage.Tenant.ReportingYearStartDate;
+            var projectUpdateConfiguration = GetProjectUpdateConfiguration();
+            return projectUpdateConfiguration.ProjectUpdateKickOffDate ?? HttpRequestStorage.Tenant.FiscalYearStartDate;
+        }
+
+        public static DateTime GetStartDayOfReportingPeriodForBackgroundJob(int tenantID)
+        {
+            var projectUpdateConfiguration = GetProjectUpdateConfigurationForBackgroundJob(tenantID);
+            return projectUpdateConfiguration.ProjectUpdateKickOffDate.GetValueOrDefault();
+        }
+
+        public static DateTime GetEndDayOfReportingPeriod()
+        {
+            var projectUpdateConfiguration = GetProjectUpdateConfiguration();
+            return projectUpdateConfiguration.ProjectUpdateCloseOutDate.GetValueOrDefault();
+        }
+
+        public static DateTime GetStartDayOfFiscalYear()
+        {
+            return HttpRequestStorage.Tenant.FiscalYearStartDate;
         }
 
         public static bool UseFiscalYears()

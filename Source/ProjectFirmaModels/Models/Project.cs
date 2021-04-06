@@ -101,8 +101,13 @@ namespace ProjectFirmaModels.Models
         public Person GetPrimaryContact() => PrimaryContactPerson ??
                                              GetPrimaryContactOrganization()?.PrimaryContactPerson;
 
-        public decimal GetProjectedFunding()
+        public List<Person> GetContactsWhoCanManageProject()
         {
+            return ProjectContacts.ToList().Where(x => x.ContactRelationshipType.CanManageProject).Select(x => x.Contact).ToList();
+        }
+
+
+        public decimal GetProjectedFunding()        {
             return ProjectFundingSourceBudgets.Any() ? ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount.GetValueOrDefault()) : 0;
         }
 
@@ -198,6 +203,17 @@ namespace ProjectFirmaModels.Models
             }
             var primaryContactPerson = GetPrimaryContact();
             return person.PersonID == primaryContactPerson?.PersonID;
+        }
+
+        public bool IsPersonContactThatCanManageProject(Person person)
+        {
+            if (person == null)
+            {
+                return false;
+            }
+
+            var contacts = GetContactsWhoCanManageProject();
+            return contacts.Any(x => x.PersonID == person.PersonID);
         }
 
         public IEnumerable<IQuestionAnswer> GetQuestionAnswers()

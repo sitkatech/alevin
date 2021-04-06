@@ -33,13 +33,11 @@ using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using MoreLinq;
-using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirmaModels.Models;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
@@ -139,19 +137,25 @@ namespace ProjectFirma.Web.Models
             }
 
             bool isPersonThePrimaryContact = project.IsPersonThePrimaryContact(currentFirmaSession.Person);
+            bool isPersonContactThatCanManageProject = project.IsPersonContactThatCanManageProject(currentFirmaSession.Person);
             bool isProjectInPersonsOrganization = currentFirmaSession.Person.Organization.IsMyProject(project);
             bool userHasProjectStewardPermissionsForProject = currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(project));
 
-            bool isUsersProject = isPersonThePrimaryContact || isProjectInPersonsOrganization || userHasProjectStewardPermissionsForProject;
+            bool isUsersProject = isPersonThePrimaryContact || isPersonContactThatCanManageProject || isProjectInPersonsOrganization || userHasProjectStewardPermissionsForProject;
 
             return isUsersProject;
         }
 
+        // Keep this function 100% aligned with IsMyProject(Project project) for consistency!!!
         public static bool IsMyProject(this vProjectDetail projectDetail, FirmaSession currentFirmaSession)
         {
             var personID = currentFirmaSession.PersonID;
             var isPrimaryContact = projectDetail.PrimaryContactPersonID == personID;
-            return !currentFirmaSession.IsAnonymousUser() && (isPrimaryContact || currentFirmaSession.Person.Organization.IsMyProject(projectDetail) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(projectDetail)));
+
+            var contactsWhoCanManageProject = projectDetail.ProjectContactsWhoCanManageProjectConcatenated?.Split(new[] { "," }, StringSplitOptions.RemoveEmptyEntries).Select(x => int.Parse(x.Trim())).ToList();
+            var isPersonContactThatCanManageProject = personID.HasValue && contactsWhoCanManageProject != null && contactsWhoCanManageProject.Contains(personID.Value);
+
+            return !currentFirmaSession.IsAnonymousUser() && (isPrimaryContact || isPersonContactThatCanManageProject || currentFirmaSession.Person.Organization.IsMyProject(projectDetail) || currentFirmaSession.Person.PersonStewardOrganizations.Any(x => x.Organization.IsMyProject(projectDetail)));
         }
 
         public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this IProject projectUpdate)
@@ -576,14 +580,14 @@ namespace ProjectFirma.Web.Models
             return showPendingProjects ? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.GetDisplayName()).ToList() : new List<Project>();
         }
 
-        public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmitted(this IQueryable<Project> projects)
+        public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForBackgroundJob(this IQueryable<Project> projects, int tenantID)
         {
-            return projects.GetUpdatableProjects().Where(x => x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
+            return projects.GetUpdatableProjectsForBackgroundJob(tenantID).Where(x => x.GetLatestUpdateState() != ProjectUpdateState.Submitted).ToList();
         }
 
-        public static List<Project> GetUpdatableProjects(this IQueryable<Project> projects)
+        public static List<Project> GetUpdatableProjectsForBackgroundJob(this IQueryable<Project> projects, int tenantID)
         {
-            return projects.Where(x => x.IsUpdateMandatory()).ToList();
+            return projects.Where(x => x.IsUpdateMandatoryForBackgroundJob(tenantID)).ToList();
         }
 
         public static bool IsForwardLookingFactSheetRelevant(this Project project)
@@ -621,7 +625,7 @@ namespace ProjectFirma.Web.Models
         public static Person GetLatestUpdateSubmittalPerson(this Project project)
         {
             var latestSubmittals = project.ProjectUpdateBatches.Select(x => x.GetLatestProjectUpdateHistorySubmitted()).Where(x => x != null).ToList();
-            return latestSubmittals.Any() ? latestSubmittals.OrderBy(x => x.TransitionDate).First().UpdatePerson : null;
+            return latestSubmittals.Any() ? latestSubmittals.OrderByDescending(x => x.TransitionDate).First().UpdatePerson : null;
         }
 
         public static string GetProjectCustomAttributesValue(this Project project, ProjectCustomAttributeType projectCustomAttributeType)
@@ -816,6 +820,19 @@ namespace ProjectFirma.Web.Models
 
         public static bool IsUpdateMandatory(this Project project)
         {
+            return IsUpdateMandatory(project, FirmaDateUtilities.LastReportingPeriodStartDate());
+        }
+
+        public static bool IsUpdateMandatoryForBackgroundJob(this Project project, int tenantID)
+        {
+            var lastReportingPeriodStartDate =
+                FirmaDateUtilities.LastReportingPeriodStartDateForBackgroundJob(
+                    MultiTenantHelpers.GetStartDayOfReportingPeriodForBackgroundJob(tenantID));
+            return IsUpdateMandatory(project, lastReportingPeriodStartDate);
+        }
+
+        private static bool IsUpdateMandatory(this Project project, DateTime lastReportingPeriodStartDate)
+        {
             if (project.IsPendingProject())
             {
                 return false;
@@ -833,7 +850,8 @@ namespace ProjectFirma.Web.Models
                 return true;
             }
 
-            if (!latestUpdateBatch.IsApproved())
+            // last update was not approved, or was approved before the reporting period start
+            if (!latestUpdateBatch.IsApproved() || latestUpdateBatch.LastUpdateDate.IsDateBefore(lastReportingPeriodStartDate))
             {
                 return true;
             }

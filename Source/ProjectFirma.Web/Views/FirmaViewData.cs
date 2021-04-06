@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views
         public List<TenantSimple> TenantSimples { get; }
         public ViewPageContentViewData ViewPageContentViewData { get; }
         public LtInfoMenuItem HelpMenu { get; private set; }
-        public ViewPageContentViewData CustomFooterViewData { get; }
+        public CustomFooterViewData CustomFooterViewData { get; }
         public string TenantName { get; private set; }
         public string TenantShortDisplayName { get; private set; }
         public string TenantToolDisplayName { get; }
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Views
 
             var currentPersonCanManage = new FirmaPageManageFeature().HasPermission(currentFirmaSession, firmaPage).HasPermission;
             ViewPageContentViewData = firmaPage != null ? new ViewPageContentViewData(firmaPage, currentPersonCanManage) : null;
-            CustomFooterViewData = new ViewPageContentViewData(FirmaPageTypeEnum.CustomFooter.GetFirmaPage(), currentPersonCanManage);
+            CustomFooterViewData = new CustomFooterViewData(FirmaPageTypeEnum.CustomFooter.GetFirmaPage(), currentPersonCanManage, this.CurrentFirmaSession);
             TenantName = MultiTenantHelpers.GetTenantName();
             TenantShortDisplayName = MultiTenantHelpers.GetTenantShortDisplayName();
             TenantBannerLogoUrl = MultiTenantHelpers.GetTenantBannerLogoUrl();

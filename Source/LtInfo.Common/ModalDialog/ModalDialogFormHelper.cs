@@ -236,6 +236,25 @@ namespace LtInfo.Common.ModalDialog
                 optionalDialogFormID, null, false, DisabledState.NotDisabled);
         }
 
+        public static HtmlString ModalDialogFormLink(string linkID,
+            string linkText,
+            string dialogContentUrl,
+            string dialogTitle,
+            int? dialogWidth,
+            string saveButtonID,
+            string saveButtonText,
+            string cancelButtonText,
+            List<string> extraCssClasses,
+            string onJavascriptReadyFunction,
+            string postData,
+            string optionalDialogFormID,
+            string hoverText)
+        {
+            return ModalDialogFormLink(linkID, linkText, dialogContentUrl, dialogTitle, dialogWidth, saveButtonID,
+                saveButtonText, cancelButtonText, extraCssClasses, onJavascriptReadyFunction, postData,
+                optionalDialogFormID, hoverText, false, DisabledState.NotDisabled);
+        }
+
 
         public static HtmlString ModalDialogFormLink(string linkID,
             string linkText,

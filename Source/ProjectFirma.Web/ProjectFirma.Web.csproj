@@ -723,6 +723,7 @@
     <Compile Include="Views\Shared\SortOrder\EditSortOrderInGroupViewModel.cs" />
     <Compile Include="Views\Shared\DisplayDocumentLibrary.cs" />
     <Compile Include="Views\Shared\DisplayDocumentLibraryViewData.cs" />
+    <Compile Include="Views\Shared\CustomFooterViewData.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyBranch\TaxonomyBranchReclamationBiDirectionalTaxonomyLeafTests.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
@@ -2143,6 +2144,7 @@
     <Content Include="Views\Shared\MatchmakerOrganizationControls\OrganizationMatchmakerKeywords.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\SitkaLeftRightListbox.cshtml" />
     <Content Include="Views\Shared\ProjectClassification\ProjectClassifications.cshtml" />
+    <Content Include="Views\Shared\EditorTemplates\DateTimeNoYear.cshtml" />
     <Content Include="Views\ActionItem\ActionItemsDisplay.cshtml" />
     <Content Include="Views\ActionItem\Edit.cshtml" />
     <Content Include="Views\ExcelUpload\ManageExcelUploadsAndEtl.cshtml" />
@@ -2229,8 +2231,8 @@
     <Reference Include="Keystone.Common.OpenID, Version=1.0.0.11, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Keystone.Common.OpenID.1.0.0.11\lib\net45\Keystone.Common.OpenID.dll</HintPath>
     </Reference>
-    <Reference Include="log4net, Version=1.2.15.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
-      <HintPath>..\NuGetPackages\log4net.2.0.5\lib\net45-full\log4net.dll</HintPath>
+    <Reference Include="log4net, Version=2.0.12.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\log4net.2.0.12\lib\net45\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.AspNet.Identity.Core, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\NuGetPackages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>

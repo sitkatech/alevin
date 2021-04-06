@@ -77,6 +77,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new FirmaPageImageConfiguration());
             modelBuilder.Configurations.Add(new FirmaPageTypeConfiguration());
             modelBuilder.Configurations.Add(new FirmaSessionConfiguration());
+            modelBuilder.Configurations.Add(new FirmaSystemAuthenticationTypeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeConfiguration());
             modelBuilder.Configurations.Add(new FundingSourceCustomAttributeTypeConfiguration());
@@ -89,6 +90,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new GeospatialAreaPerformanceMeasureReportingPeriodTargetConfiguration());
             modelBuilder.Configurations.Add(new GeospatialAreaTypeConfiguration());
             modelBuilder.Configurations.Add(new ImportExternalProjectStagingConfiguration());
+            modelBuilder.Configurations.Add(new LastSQLServerDatabaseBackupConfiguration());
             modelBuilder.Configurations.Add(new MatchMakerAreaOfInterestLocationConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerKeywordConfiguration());
             modelBuilder.Configurations.Add(new MatchmakerOrganizationClassificationConfiguration());
@@ -340,6 +342,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<FirmaPageType> FirmaPageTypes { get; set; }
         public virtual DbSet<FirmaSession> AllFirmaSessions { get; set; }
         public virtual IQueryable<FirmaSession> FirmaSessions { get { return AllFirmaSessions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<FirmaSystemAuthenticationType> FirmaSystemAuthenticationTypes { get; set; }
         public virtual DbSet<FiscalQuarter> FiscalQuarters { get; set; }
         public virtual DbSet<FundingSourceCustomAttribute> AllFundingSourceCustomAttributes { get; set; }
         public virtual IQueryable<FundingSourceCustomAttribute> FundingSourceCustomAttributes { get { return AllFundingSourceCustomAttributes.Where(x => x.TenantID == TenantID); } }
@@ -369,6 +372,7 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<ImportFinancialImpPayRecUnexpendedV3> ImportFinancialImpPayRecUnexpendedV3s { get; set; }
         public virtual DbSet<ImpPnBudget> ImpPnBudgets { get; set; }
         public virtual DbSet<ImpProcessing> ImpProcessings { get; set; }
+        public virtual DbSet<LastSQLServerDatabaseBackup> LastSQLServerDatabaseBackups { get; set; }
         public virtual DbSet<Location> Locations { get; set; }
         public virtual DbSet<MatchMakerAreaOfInterestLocation> AllMatchMakerAreaOfInterestLocations { get; set; }
         public virtual IQueryable<MatchMakerAreaOfInterestLocation> MatchMakerAreaOfInterestLocations { get { return AllMatchMakerAreaOfInterestLocations.Where(x => x.TenantID == TenantID); } }
@@ -854,6 +858,9 @@ namespace ProjectFirmaModels.Models
                 case "FirmaSession":
                     return FirmaSessions.GetFirmaSession(primaryKey);
 
+                case "FirmaSystemAuthenticationType":
+                    return FirmaSystemAuthenticationTypes.GetFirmaSystemAuthenticationType(primaryKey);
+
                 case "FiscalQuarter":
                     return FiscalQuarters.GetFiscalQuarter(primaryKey);
 
@@ -929,6 +936,9 @@ namespace ProjectFirmaModels.Models
                     var impProcessingTableType = ImpProcessingTableType.All.SingleOrDefault(x => x.PrimaryKey == primaryKey);
                     Check.RequireNotNullThrowNotFound(impProcessingTableType, "ImpProcessingTableType", primaryKey);
                     return impProcessingTableType;
+
+                case "LastSQLServerDatabaseBackup":
+                    return LastSQLServerDatabaseBackups.GetLastSQLServerDatabaseBackup(primaryKey);
 
                 case "Location":
                     return Locations.GetLocation(primaryKey);

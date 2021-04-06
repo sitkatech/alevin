@@ -47,7 +47,6 @@ namespace ProjectFirma.Web.Views.TechnicalAssistanceRequest
             FiscalYearStrings = fiscalYearStrings;
             PersonSimples = personSimples;
             UserCanAllocate = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(currentFirmaSession, project).HasPermission;
-
         }
     }
 }
