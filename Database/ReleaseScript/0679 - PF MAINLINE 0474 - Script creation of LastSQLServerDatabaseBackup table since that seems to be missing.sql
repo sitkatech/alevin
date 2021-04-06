@@ -1,11 +1,11 @@
 
 -- Can't do the rename since the table doesn't seem to exist
 --exec sp_rename 'dbo.PK_LastSQLServerDatabaseBackup', 'PK_LastSQLServerDatabaseBackup_LastSQLServerDatabaseBackupID', 'OBJECT'
-
+/*
 USE [ProjectFirma]
 GO
 
-/****** Object:  Table [dbo].[LastSQLServerDatabaseBackup]    Script Date: 3/25/2021 8:27:39 PM ******/
+
 SET ANSI_NULLS ON
 GO
 
@@ -34,3 +34,4 @@ CREATE TABLE [dbo].[LastSQLServerDatabaseBackup](
 GO
 
 
+*/

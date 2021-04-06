@@ -33,22 +33,12 @@ using LtInfo.Common.GeoJson;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using MoreLinq;
-using NUnit.Framework;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.ProjectUpdate;
 using ProjectFirma.Web.Views.Shared;
-using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirmaModels.Models;
-using System;
-using System.Collections.Generic;
-using System.Data.Entity.Spatial;
-using System.Drawing;
-using System.EnterpriseServices.Internal;
-using System.Globalization;
-using System.Linq;
-using System.Web;
 using ProjectCustomAttributesValidationResult = ProjectFirma.Web.Views.ProjectCreate.ProjectCustomAttributesValidationResult;
 
 namespace ProjectFirma.Web.Models

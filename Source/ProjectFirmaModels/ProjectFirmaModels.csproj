@@ -258,6 +258,8 @@
     <Compile Include="Models\Generated\FirmaSessionConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FirmaSessionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FirmaSystemAuthenticationType.Binding.cs" />
+    <Compile Include="Models\Generated\FirmaSystemAuthenticationType.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\FirmaSystemAuthenticationTypeConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\FirmaSystemAuthenticationTypePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\FiscalQuarter.Binding.cs" />
     <Compile Include="Models\Generated\FiscalQuarter.DatabaseContextExtensions.cs" />
@@ -323,10 +325,6 @@
     <Compile Include="Models\Generated\ImportExternalProjectStaging.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStagingConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ImportExternalProjectStagingPrimaryKey.Binding.cs" />
-    <Compile Include="Models\Generated\LastSQLServerDatabaseBackup.Binding.cs" />
-    <Compile Include="Models\Generated\LastSQLServerDatabaseBackup.DatabaseContextExtensions.cs" />
-    <Compile Include="Models\Generated\LastSQLServerDatabaseBackupConfiguration.Binding.cs" />
-    <Compile Include="Models\Generated\LastSQLServerDatabaseBackupPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ImportFinancialImpPayRecUnexpendedV3.Binding.cs" />
     <Compile Include="Models\Generated\ImportFinancialImpPayRecUnexpendedV3.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ImportFinancialImpPayRecUnexpendedV3Configuration.Binding.cs" />
@@ -341,6 +339,10 @@
     <Compile Include="Models\Generated\ImpProcessingPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ImpProcessingTableType.Binding.cs" />
     <Compile Include="Models\Generated\ImpProcessingTableTypePrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\LastSQLServerDatabaseBackup.Binding.cs" />
+    <Compile Include="Models\Generated\LastSQLServerDatabaseBackup.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\LastSQLServerDatabaseBackupConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\LastSQLServerDatabaseBackupPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Location.Binding.cs" />
     <Compile Include="Models\Generated\Location.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\LocationConfiguration.Binding.cs" />
