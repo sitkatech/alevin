@@ -1,4 +1,5 @@
-﻿using System.Web;
+﻿using System;
+using System.Web;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
@@ -8,11 +9,11 @@ namespace ProjectFirma.Web.Views.Shared
 {
     public class ViewPageContentViewData
     {
-        public readonly HtmlString FirmaPageContentHtmlString;
-        public readonly string FirmaPageDisplayName;
-        public readonly bool ShowEditButton;
-        public readonly bool HasPageContent;
-        public readonly string EditPageContentUrl;
+        public HtmlString FirmaPageContentHtmlString { get; }
+        public string FirmaPageDisplayName { get; }
+        public bool ShowEditButton { get; }
+        public bool HasPageContent { get; }
+        public string EditPageContentUrl { get; }
 
         public ViewPageContentViewData(ProjectFirmaModels.Models.FirmaPage firmaPage, bool showEditButton)
         {

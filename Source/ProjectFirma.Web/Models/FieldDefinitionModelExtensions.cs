@@ -37,6 +37,11 @@ namespace ProjectFirma.Web.Models
         public static string GetFieldDefinitionLabel(this FieldDefinition fieldDefinition)
         {
             var fieldDefinitionData = fieldDefinition.GetFieldDefinitionData();
+            return fieldDefinition.GetFieldDefinitionLabelImpl(fieldDefinitionData);
+        }
+
+        private static string GetFieldDefinitionLabelImpl(this FieldDefinition fieldDefinition, IFieldDefinitionData fieldDefinitionData)
+        {
             if (fieldDefinitionData != null && !String.IsNullOrWhiteSpace(fieldDefinitionData.FieldDefinitionLabel))
             {
                 return fieldDefinitionData.FieldDefinitionLabel;
@@ -69,6 +74,22 @@ namespace ProjectFirma.Web.Models
         public static string GetContentUrl(this FieldDefinition fieldDefinition)
         {
             return SitkaRoute<FieldDefinitionController>.BuildUrlFromExpression(x => x.FieldDefinitionDetails(fieldDefinition.FieldDefinitionID));
+        }
+
+        public static IFieldDefinitionData GetFieldDefinitionDataForBackgroundJob(this FieldDefinition fieldDefinition, int tenantID)
+        {
+            return fieldDefinition.FieldDefinitionDatas.SingleOrDefault(x => x.TenantID == tenantID);
+        }
+
+        public static string GetFieldDefinitionLabelForBackgroundJob(this FieldDefinition fieldDefinition, int tenantID)
+        {
+            var fieldDefinitionData = fieldDefinition.GetFieldDefinitionDataForBackgroundJob(tenantID);
+            return fieldDefinition.GetFieldDefinitionLabelImpl(fieldDefinitionData);
+        }
+
+        public static string GetFieldDefinitionLabelPluralizedForBackgroundJob(this FieldDefinition fieldDefinition, int tenantID)
+        {
+            return PluralizationService.Pluralize(fieldDefinition.GetFieldDefinitionLabelForBackgroundJob(tenantID));
         }
     }
 }

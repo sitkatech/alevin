@@ -17,23 +17,25 @@ namespace ProjectFirma.Web.ScheduledJobs
         public FileResourceInfo ToolLogo { get; set; }
         public string ReminderEmailSubject { get; set; }
         public string ContactSupportEmail { get; set; }
+        public int TenantID { get; set; }
 
         private const string ReminderMessageTemplate = @"Hello {0},<br/><br/>
 {1}
-<div style=""font-weight:bold"">Your <a href=""{2}"">projects that require an update</a> are:</div>
+<div style=""font-weight:bold"">Your <a href=""{2}"">{3} that require an update</a> are:</div>
 <div style=""margin-left: 15px"">
-    {3}
+    {4}
 </div>";
 
 
         public ProjectUpdateNotificationHelper(string contactSupportEmail, string introContent, string reminderSubject,
-            FileResourceInfo toolLogo, string toolDisplayName)
+            FileResourceInfo toolLogo, string toolDisplayName, int tenantID)
         {
             ContactSupportEmail = contactSupportEmail;
             IntroContent = introContent;
             ReminderEmailSubject = reminderSubject;
             ToolLogo = toolLogo;
             ToolName = toolDisplayName;
+            TenantID = tenantID;
         }
 
         public List<Notification> SendProjectUpdateReminderMessage(
@@ -51,7 +53,8 @@ namespace ProjectFirma.Web.ScheduledJobs
                 new List<string>(),
                 new List<Person> {primaryContactPerson},
                 DateTime.Now, projects,
-                NotificationType.ProjectUpdateReminder);
+                NotificationType.ProjectUpdateReminder,
+                ToolName);
             return sendProjectUpdateReminderMessage;
         }
 
@@ -63,6 +66,10 @@ namespace ProjectFirma.Web.ScheduledJobs
             var projectsRequiringAnUpdateUrl =
                 SitkaRoute<ProjectUpdateController>.BuildAbsoluteUrlHttpsFromExpression(x =>
                     x.MyProjectsRequiringAnUpdate());
+            var tenantCanonicalHostUrl = FirmaWebConfiguration.GetCanonicalHostForBackgroundJob(TenantID);
+            projectsRequiringAnUpdateUrl =
+                SitkaRoute<ProjectUpdateController>.ReplaceHostNameForBackgroundJob(projectsRequiringAnUpdateUrl,
+                    tenantCanonicalHostUrl);
 
             var emailContent = GetEmailContentWithGeneratedSignature(projectsRequiringAnUpdateUrl,
                 person.GetFullNameFirstLast(), String.Join("<br/>", projectListAsHtmlStrings));
@@ -84,6 +91,7 @@ namespace ProjectFirma.Web.ScheduledJobs
                 fullNameFirstLast,
                 IntroContent,
                 projectsRequiringAnUpdateUrl,
+                FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(TenantID),
                 projectListConcatenated);
             var emailContent = $"{body}<br/>{signature}";
             return emailContent;
@@ -103,21 +111,23 @@ namespace ProjectFirma.Web.ScheduledJobs
 
             return GetEmailContent(
                 SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(x => x.MyProjectsRequiringAnUpdate()),
-                $"<em>Organization {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()}</em>",
-                "<p><em>A list of the recipient’s projects that require an update and do not have an update submitted yet will appear here.&nbsp;</em></p>",
+                $"<em>Organization {FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabelForBackgroundJob(TenantID)}</em>",
+                $"<p><em>A list of the recipient’s {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(TenantID)} that require an update and do not have an update submitted yet will appear here.&nbsp;</em></p>",
                 signature
             );
         }
 
-        private static IEnumerable<string> GenerateProjectListAsHtmlStrings(
+        private IEnumerable<string> GenerateProjectListAsHtmlStrings(
             IReadOnlyCollection<Project> projects)
         {
             var projectsRemaining = projects;
+            var tenantCanonicalHostName = FirmaWebConfiguration.GetCanonicalHostForBackgroundJob(TenantID);
             var projectListAsHtmlStrings = projectsRemaining.OrderBy(project => project.GetDisplayName()).Select(project =>
             {
                 var projectUrl =
                     SitkaRoute<ProjectController>.BuildAbsoluteUrlHttpsFromExpression(controller =>
                         controller.Detail(project));
+                projectUrl = SitkaRoute<ProjectController>.ReplaceHostNameForBackgroundJob(projectUrl, tenantCanonicalHostName);
                 return $@"<div style=""font-size:smaller""><a href=""{projectUrl}"">{project.ProjectName}</a></div>";
             }).ToList();
 
@@ -132,7 +142,7 @@ namespace ProjectFirma.Web.ScheduledJobs
 Thank you,<br />
 {ToolName} team<br/><br/><img src=""{logoUrl}"" width=""160"" />
 <p>
-P.S. - You received this email because you are listed as the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()} for these projects. If you feel that you should not be the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabel()} for one or more of these projects, please <a href=""mailto:{ContactSupportEmail}"">contact support</a>.
+P.S. - You received this email because you are listed as the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabelForBackgroundJob(TenantID)} for these {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(TenantID)}. If you feel that you should not be the {FieldDefinitionEnum.ProjectPrimaryContact.ToType().GetFieldDefinitionLabelForBackgroundJob(TenantID)} for one or more of these {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralizedForBackgroundJob(TenantID)}, please <a href=""mailto:{ContactSupportEmail}"">contact support</a>.
 </p>";
         }
     }
