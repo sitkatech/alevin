@@ -921,7 +921,7 @@
     <Content Include="Content\DHTMLX_Enterprise_v6_5_1\samples\treegrid\common\dataset.json" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\whatsnew.txt" />
-    <Content Include="Libraries\SqlServerSpatial110.dll">
+    <Content Include="SqlServerSpatial110.dll">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="phantomjs-license.txt">
