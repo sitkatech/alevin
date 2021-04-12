@@ -1,16 +1,12 @@
 
 -- Can't do the rename since the table doesn't seem to exist
 --exec sp_rename 'dbo.PK_LastSQLServerDatabaseBackup', 'PK_LastSQLServerDatabaseBackup_LastSQLServerDatabaseBackupID', 'OBJECT'
-/*
-USE [ProjectFirma]
-GO
 
 
-SET ANSI_NULLS ON
-GO
+IF  NOT EXISTS (SELECT * FROM sys.objects 
+WHERE object_id = OBJECT_ID(N'[dbo].[LastSQLServerDatabaseBackup]') AND type in (N'U'))
 
-SET QUOTED_IDENTIFIER ON
-GO
+BEGIN
 
 CREATE TABLE [dbo].[LastSQLServerDatabaseBackup](
 	[LastSQLServerDatabaseBackupID] [int] IDENTITY(1,1) NOT NULL,
@@ -33,5 +29,7 @@ CREATE TABLE [dbo].[LastSQLServerDatabaseBackup](
 ) ON [PRIMARY]
 GO
 
+END
 
-*/
+
+
