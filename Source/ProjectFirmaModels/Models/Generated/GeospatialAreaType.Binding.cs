@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected GeospatialAreaType()
         {
             this.GeospatialAreas = new HashSet<GeospatialArea>();
+            this.GeospatialAreaRawDatas = new HashSet<GeospatialAreaRawData>();
             this.GeospatialAreaTypesWhereYouAreTheEsuDpsGeospatialAreaType = new HashSet<GeospatialAreaType>();
             this.GeospatialAreaTypesWhereYouAreTheMPGGeospatialAreaType = new HashSet<GeospatialAreaType>();
             this.GeospatialAreaTypesWhereYouAreThePopulationGeospatialAreaType = new HashSet<GeospatialAreaType>();
@@ -37,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool onByDefaultOnProjectMap, bool isPopulation, int? esuDpsGeospatialAreaTypeID, int? mPGGeospatialAreaTypeID, int? populationGeospatialAreaTypeID, bool includeInBiOpAnnualReport, bool onByDefaultOnOtherMaps) : this()
+        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool onByDefaultOnProjectMap, bool isPopulation, int? esuDpsGeospatialAreaTypeID, int? mPGGeospatialAreaTypeID, int? populationGeospatialAreaTypeID, bool includeInBiOpAnnualReport, bool onByDefaultOnOtherMaps, string serviceUrl) : this()
         {
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
             this.GeospatialAreaTypeName = geospatialAreaTypeName;
@@ -53,6 +54,7 @@ namespace ProjectFirmaModels.Models
             this.PopulationGeospatialAreaTypeID = populationGeospatialAreaTypeID;
             this.IncludeInBiOpAnnualReport = includeInBiOpAnnualReport;
             this.OnByDefaultOnOtherMaps = onByDefaultOnOtherMaps;
+            this.ServiceUrl = serviceUrl;
         }
 
         /// <summary>
@@ -88,7 +90,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return GeospatialAreas.Any() || GeospatialAreaTypesWhereYouAreTheEsuDpsGeospatialAreaType.Any() || GeospatialAreaTypesWhereYouAreTheMPGGeospatialAreaType.Any() || GeospatialAreaTypesWhereYouAreThePopulationGeospatialAreaType.Any() || ProjectCustomGridConfigurations.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any();
+            return GeospatialAreas.Any() || GeospatialAreaRawDatas.Any() || GeospatialAreaTypesWhereYouAreTheEsuDpsGeospatialAreaType.Any() || GeospatialAreaTypesWhereYouAreTheMPGGeospatialAreaType.Any() || GeospatialAreaTypesWhereYouAreThePopulationGeospatialAreaType.Any() || ProjectCustomGridConfigurations.Any() || ProjectGeospatialAreaTypeNotes.Any() || ProjectGeospatialAreaTypeNoteUpdates.Any();
         }
 
         /// <summary>
@@ -101,6 +103,11 @@ namespace ProjectFirmaModels.Models
             if(GeospatialAreas.Any())
             {
                 dependentObjects.Add(typeof(GeospatialArea).Name);
+            }
+
+            if(GeospatialAreaRawDatas.Any())
+            {
+                dependentObjects.Add(typeof(GeospatialAreaRawData).Name);
             }
 
             if(GeospatialAreaTypesWhereYouAreTheEsuDpsGeospatialAreaType.Any())
@@ -138,7 +145,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialAreaType).Name, typeof(GeospatialArea).Name, typeof(ProjectCustomGridConfiguration).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(GeospatialAreaType).Name, typeof(GeospatialArea).Name, typeof(GeospatialAreaRawData).Name, typeof(ProjectCustomGridConfiguration).Name, typeof(ProjectGeospatialAreaTypeNote).Name, typeof(ProjectGeospatialAreaTypeNoteUpdate).Name};
 
 
         /// <summary>
@@ -164,6 +171,11 @@ namespace ProjectFirmaModels.Models
         {
 
             foreach(var x in GeospatialAreas.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in GeospatialAreaRawDatas.ToList())
             {
                 x.DeleteFull(dbContext);
             }
@@ -227,10 +239,12 @@ namespace ProjectFirmaModels.Models
         public int? PopulationGeospatialAreaTypeID { get; set; }
         public bool IncludeInBiOpAnnualReport { get; set; }
         public bool OnByDefaultOnOtherMaps { get; set; }
+        public string ServiceUrl { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaTypeID; } set { GeospatialAreaTypeID = value; } }
 
         public virtual ICollection<GeospatialArea> GeospatialAreas { get; set; }
+        public virtual ICollection<GeospatialAreaRawData> GeospatialAreaRawDatas { get; set; }
         public virtual ICollection<GeospatialAreaType> GeospatialAreaTypesWhereYouAreTheEsuDpsGeospatialAreaType { get; set; }
         public virtual ICollection<GeospatialAreaType> GeospatialAreaTypesWhereYouAreTheMPGGeospatialAreaType { get; set; }
         public virtual ICollection<GeospatialAreaType> GeospatialAreaTypesWhereYouAreThePopulationGeospatialAreaType { get; set; }
@@ -247,6 +261,7 @@ namespace ProjectFirmaModels.Models
             public const int GeospatialAreaTypeName = 200;
             public const int GeospatialAreaTypeNamePluralized = 200;
             public const int GeospatialAreaLayerName = 255;
+            public const int ServiceUrl = 1000;
         }
     }
 }
