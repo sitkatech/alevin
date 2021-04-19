@@ -30,6 +30,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.PopulationGeospatialAreaTypeID).HasColumnName(@"PopulationGeospatialAreaTypeID").HasColumnType("int").IsOptional();
             Property(x => x.IncludeInBiOpAnnualReport).HasColumnName(@"IncludeInBiOpAnnualReport").HasColumnType("bit").IsRequired();
             Property(x => x.OnByDefaultOnOtherMaps).HasColumnName(@"OnByDefaultOnOtherMaps").HasColumnType("bit").IsRequired();
+            Property(x => x.ServiceUrl).HasColumnName(@"ServiceUrl").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
 
             // Foreign keys
             HasOptional(a => a.EsuDpsGeospatialAreaType).WithMany(b => b.GeospatialAreaTypesWhereYouAreTheEsuDpsGeospatialAreaType).HasForeignKey(c => c.EsuDpsGeospatialAreaTypeID).WillCascadeOnDelete(false); // FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID_GeospatialAreaTypeID

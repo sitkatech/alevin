@@ -2,6 +2,8 @@
 dbo	AuditLog	ProjectID					
 dbo	AuditLog	RecordID					
 dbo	FundingSourceCustomAttributeType	IncludeInFundingSourceGrid					
+dbo	GeospatialArea	ExternalID					
+dbo	GeospatialAreaStaging	ExternalID					
 dbo	Organization	ReclamationContractorID					
 dbo	Person	ReclamationStaffID					
 HangFire	AggregatedCounter	Id					

@@ -66,8 +66,8 @@ values
 (81, 'ManageProjectFactSheet', 'Manage Project Fact Sheet', 1),
 (82, 'ManageContactTypes', 'Manage Contact Types', 1),
 (83, 'ManageOrganizationTypes', 'Manage Organization Types', 1),
-(84, 'InternalMapLayers', 'Internal Map Layers', 1)
-
+(84, 'InternalMapLayers', 'Internal Map Layers', 1),
+(85, 'ExternallySourcedGeospatialAreasInstructions', 'Externally Sourced Geospatial Areas Instructions', 1)
 
 
 -- Alevin only page types always start after ProjectFirma page types and begin at 10000

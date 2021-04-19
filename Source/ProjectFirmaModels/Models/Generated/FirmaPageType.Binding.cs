@@ -199,6 +199,7 @@ namespace ProjectFirmaModels.Models
         ManageContactTypes = 82,
         ManageOrganizationTypes = 83,
         InternalMapLayers = 84,
+        ExternallySourcedGeospatialAreasInstructions = 85,
         AgreementList = 10000,
         CostAuthorityList = 10001,
         ObligationRequestList = 10002,

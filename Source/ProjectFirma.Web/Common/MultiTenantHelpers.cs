@@ -460,6 +460,11 @@ namespace ProjectFirma.Web.Common
             }
         }
 
+        public static bool AreGeospatialAreasExternallySourced()
+        {
+            return GetTenantAttributeFromCache().AreGeospatialAreasExternallySourced;
+        }
+
         public static bool DisplayReportsLink()
         {
             return GetTenantAttributeFromCache().EnableReports;
