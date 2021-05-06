@@ -4169,8 +4169,8 @@
   </ProjectExtensions>
   <PropertyGroup>
     <PostBuildEvent>echo moving SqlServerTypes to the bin folder so they do not need to be installed on the server.
-echo copy "$(SolutionDir)\Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
-copy "$(SolutionDir)\Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
+echo copy "$(SolutionDir)Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
+copy "$(SolutionDir)Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
 </PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
