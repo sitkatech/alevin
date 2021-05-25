@@ -87,7 +87,7 @@
   -->
   <system.web>
     <!-- this next line seems to be needed since moving to ASP.Net 4.0 - otherwise validation errors occur even despite the presence of ValidateInput(false) attribute on the controller action and the ValidatePageRequest=false in the page directive -->
-    <httpRuntime targetFramework="4.8" requestValidationMode="2.0" maxRequestLength="${max-request-length}" maxUrlLength="${max-request-url-length}" maxQueryStringLength="${max-request-querystring-length}" ${httpruntime-executiontimeout-optional}/>
+    <httpRuntime targetFramework="4.8" requestValidationMode="2.0" requestPathInvalidCharacters="&lt;,&gt;,*,%,&amp;,\,?" maxRequestLength="${max-request-length}" maxUrlLength="${max-request-url-length}" maxQueryStringLength="${max-request-querystring-length}" ${httpruntime-executiontimeout-optional}/>
     <compilation debug="true" targetFramework="4.8"/>
     <!-- ASP.NET session cookie should be httponly and secure -->
     <httpCookies httpOnlyCookies="true" requireSSL="${redirect-to-https}" lockItem="true"/>
