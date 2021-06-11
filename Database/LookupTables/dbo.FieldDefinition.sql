@@ -192,7 +192,8 @@ VALUES
 (368, N'OrganizationTypeLayerOnByDefault', N'Layer on by Default?'),
 (369, N'GeospatialAreaTypeOnByDefaultOnOtherMaps', N'Layer on by default on all maps other than the Project Map?'),
 (370, N'ProjectLocationIsPrivate', N'Location Privacy'),
-(371, N'CanContactTypeManageProject', N'Can Manage the Project?')
+(371, N'CanContactTypeManageProject', N'Can Manage the Project?'),
+(372, N'TrackAccomplishments', N'Track Accomplishments')
 
 
 
