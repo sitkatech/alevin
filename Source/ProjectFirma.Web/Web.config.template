@@ -24,7 +24,7 @@
 
     <add key="UseMvcExtensionInUrl" value="false"/>
     <add key="SitkaEmailRedirect" value="${sitka-email-redirect}"/>
-    <add key="IsEmailEnabled" value="true"/>
+    <add key="IsEmailEnabled" value="false"/>
     <add key="MailLogBcc" value=""/>
     <add key="MaximumAllowedUploadFileSize" value="${max-file-upload-size}"/>
     <add key="MaximumAllowedUploadImageSize" value="${max-image-upload-size}"/>
