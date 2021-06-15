@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CanDeletePersonReturnsTrueForNewlyCreatedUserDeletingOtherNewlyCreatedUserWithAuditLogs()
         {
-            var tenant = Tenant.SitkaTechnologyGroup;
+            var tenant = Tenant.BureauOfReclamation;
             var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.First(x => x.TenantID == tenant.TenantID && x.OrganizationShortName == "Sitka");
 
             var person1 = TestFramework.TestPerson.Create(tenant);
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CanDeletePersonReturnsTrueForNewlyCreatedUserDeletingOtherNewlyCreatedUserWithoutAuditLogs()
         {
-            var tenant = Tenant.SitkaTechnologyGroup;
+            var tenant = Tenant.BureauOfReclamation;
             var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.First(x => x.TenantID == tenant.TenantID && x.OrganizationShortName == "Sitka");
 
             var person1 = TestFramework.TestPerson.Create(tenant);
@@ -80,7 +80,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CanDeletePersonShouldReturnFalseIfPersonAttemptsToDeleteSelf()
         {
-            var tenant = Tenant.SitkaTechnologyGroup;
+            var tenant = Tenant.BureauOfReclamation;
             var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.First(x => x.TenantID == tenant.TenantID && x.OrganizationShortName == "Sitka");
             var person = TestFramework.TestPerson.Create(tenant);
             person.CreateDate = DateTime.Now;
@@ -100,7 +100,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CanDeletePersonReturnsFalseWhenPersonHasNonApprovedAuditLogEntries()
         {
-            var tenant = Tenant.SitkaTechnologyGroup;
+            var tenant = Tenant.BureauOfReclamation;
             var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.First(x => x.TenantID == tenant.TenantID && x.OrganizationShortName == "Sitka");
             var person1 = TestFramework.TestPerson.Create(tenant);
             person1.CreateDate = DateTime.Now;
@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Models
         [Test]
         public void CanDeletePersonReturnsFalseWhenPersonIsRelatedToAnythingOtherThanApprovedAuditLogEntries()
         {
-            var tenant = Tenant.SitkaTechnologyGroup;
+            var tenant = Tenant.BureauOfReclamation;
             var organization = HttpRequestStorage.DatabaseEntities.AllOrganizations.First(x => x.TenantID == tenant.TenantID && x.OrganizationShortName == "Sitka");
             var originalOrganizationPrimaryContactPerson = organization.PrimaryContactPerson;
             var person1 = TestFramework.TestPerson.Create(tenant);
