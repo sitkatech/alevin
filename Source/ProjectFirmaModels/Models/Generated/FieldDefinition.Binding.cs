@@ -320,6 +320,7 @@ namespace ProjectFirmaModels.Models
         ProjectLocationIsPrivate = 370,
         CanContactTypeManageProject = 371,
         TrackAccomplishments = 372,
+        ShowExpectedPerformanceMeasuresOnFactSheet = 373,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,

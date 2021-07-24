@@ -193,8 +193,8 @@ VALUES
 (369, N'GeospatialAreaTypeOnByDefaultOnOtherMaps', N'Layer on by default on all maps other than the Project Map?'),
 (370, N'ProjectLocationIsPrivate', N'Location Privacy'),
 (371, N'CanContactTypeManageProject', N'Can Manage the Project?'),
-(372, N'TrackAccomplishments', N'Track Accomplishments')
-
+(372, N'TrackAccomplishments', N'Track Accomplishments'),
+(373, N'ShowExpectedPerformanceMeasuresOnFactSheet', N'Show Expected Performance Measures on Fact Sheet?')
 
 
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
