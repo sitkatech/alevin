@@ -66,6 +66,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-md-6">
             <div class="panel panelFirma">
                 <div class="panel-heading panelTitle">
+                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditDetailBasicsUrl, string.Format("Edit User: {0}", ViewDataTyped.Person.GetFullNameFirstLast()), 1000, ViewDataTyped.UserHasPersonManagePermissions)
                     Basics
                 </div>
                 <div class="panel-body">
@@ -102,12 +103,12 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     }
 
-                    @if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
+                    @*@if (ViewDataTyped.UserHasPersonManagePermissions || ViewDataTyped.IsViewingSelf)
                     {
                         <div class="alert" role="alert">
                             This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
                         </div>
-                    }
+                    }*@
 
                     @*  Impersonate User Button  *@
                     @if (ViewDataTyped.CurrentPersonCanBeImpersonatedByCurrentUser)

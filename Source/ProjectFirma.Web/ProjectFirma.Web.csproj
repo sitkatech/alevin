@@ -2030,6 +2030,9 @@
     <Compile Include="Views\Tenant\EditBasicsViewData.cs" />
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
+    <Compile Include="Views\User\EditUser.cs" />
+    <Compile Include="Views\User\EditUserViewData.cs" />
+    <Compile Include="Views\User\EditUserViewModel.cs" />
     <Compile Include="Views\User\ImpersonateUserButton.ascx.cs">
       <DependentUpon>ImpersonateUserButton.cshtml</DependentUpon>
     </Compile>
@@ -2165,6 +2168,7 @@
     <Content Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceObligationsAndExpenditures.cshtml" />
     <Content Include="Views\Shared\ProjectBalanceBurnUp\ProjectBalanceBurnUp.cshtml" />
     <Content Include="Views\Results\BiOpAnnualReport.cshtml" />
+    <Content Include="Views\User\EditUser.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
