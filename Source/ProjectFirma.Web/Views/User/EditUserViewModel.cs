@@ -36,17 +36,22 @@ namespace ProjectFirma.Web.Views.User
         public int PersonID { get; set; }
 
         [Required]
+        [DisplayName("First Name")]
         public string FirstName { get; set; }
 
         [Required]
+        [DisplayName("Last Name")]
         public string LastName { get; set; }
 
         [Required]
+        [DisplayName("Email")]
         public string Email { get; set; }
 
+        [DisplayName("Phone Number")]
         public string PhoneNumber { get; set; }
 
         [Required]
+        [DisplayName("Organization")]
         public int OrganizationID { get; set; }
 
         [Required]
@@ -75,6 +80,12 @@ namespace ProjectFirma.Web.Views.User
         public void UpdateModel(Person personBeingEdited, FirmaSession currentFirmaSession)
         {
 
+            personBeingEdited.FirstName = FirstName;
+            personBeingEdited.LastName = LastName;
+            personBeingEdited.Email = Email;
+            personBeingEdited.Phone = PhoneNumber;
+            personBeingEdited.OrganizationID = OrganizationID;
+            personBeingEdited.LoginName = Username;
         }
     }
 }

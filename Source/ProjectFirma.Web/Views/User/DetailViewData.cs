@@ -33,6 +33,7 @@ namespace ProjectFirma.Web.Views.User
         public Person Person { get; }
         public string EditPersonOrganizationPrimaryContactUrl { get; }
         public string IndexUrl { get; }
+        public string EditDetailBasicsUrl { get; }
 
         public bool UserHasPersonViewPermissions { get; }
         public bool UserHasPersonManagePermissions { get; }
@@ -75,6 +76,7 @@ namespace ProjectFirma.Web.Views.User
 
             EditPersonOrganizationPrimaryContactUrl = SitkaRoute<PersonOrganizationController>.BuildUrlFromExpression(c => c.EditPersonOrganizationPrimaryContacts(personToView));
             IndexUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Index());
+            EditDetailBasicsUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.EditUser(personToView.PrimaryKey));
 
             // And again, here we should take Current FirmaSession, not the person. -- SLG & SG
             UserHasPersonViewPermissions = new UserViewFeature().HasPermission(currentFirmaSession, personToView).HasPermission;

@@ -146,6 +146,38 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [UserEditFeature]
+        public PartialViewResult EditUser(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new EditUserViewModel(person);
+            return ViewEditUser(viewModel);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult EditUser(PersonPrimaryKey personPrimaryKey, EditUserViewModel viewModel)
+        {
+            var personBeingEdited = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEditUser(viewModel);
+            }
+
+            viewModel.UpdateModel(personBeingEdited, CurrentFirmaSession);
+            return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewEditUser(EditUserViewModel viewModel)
+        {
+            var allOrganizations = HttpRequestStorage.DatabaseEntities.Organizations.ToList().OrderBy(x => x.OrganizationName).ToList();
+            var organizationsSelectList = allOrganizations.ToSelectList(x => x.OrganizationID.ToString(), x => x.OrganizationName);
+            var viewData = new EditUserViewData(organizationsSelectList);
+            return RazorPartialView<EditUser, EditUserViewData, EditUserViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [UserEditFeature]
         public PartialViewResult Delete(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;

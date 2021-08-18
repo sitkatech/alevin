@@ -30,6 +30,12 @@ namespace ProjectFirma.Web.Views.User
         public string Password { get; set; }
 
         [Required]
+        [PasswordPropertyText]
+        [ValidatePassword]
+        [DisplayName("Confirm Password")]
+        public string ConfirmPassword { get; set; }
+
+        [Required]
         [DisplayName("Organization")]
         public int OrganizationID { get; set; }
 
@@ -37,6 +43,11 @@ namespace ProjectFirma.Web.Views.User
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var errors = new List<ValidationResult>();
+
+            if (Password != ConfirmPassword)
+            {
+                errors.Add(new SitkaValidationResult<CreateAccountViewModel, string>("Passwords must match.", z => z.Password));
+            }
 
             if (!VerifyPasswordComplexity(Password))
             {
