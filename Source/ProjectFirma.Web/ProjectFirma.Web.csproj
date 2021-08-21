@@ -2045,6 +2045,7 @@
     <Compile Include="Views\User\InviteViewData.cs" />
     <Compile Include="Views\User\CreateAccountViewModel.cs" />
     <Compile Include="Views\User\InviteViewModel.cs" />
+    <Compile Include="Views\User\PasswordHelper.cs" />
     <Compile Include="Views\Vendor\VendorDetail.cs" />
     <Compile Include="Views\Vendor\VendorDetailViewData.cs" />
     <Compile Include="Views\Vendor\VendorIndex.cs" />

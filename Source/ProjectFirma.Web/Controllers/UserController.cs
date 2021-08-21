@@ -178,6 +178,44 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpGet]
         [UserEditFeature]
+        public PartialViewResult ChangePassword(PersonPrimaryKey personPrimaryKey)
+        {
+            var person = personPrimaryKey.EntityObject;
+            var viewModel = new ChangePasswordViewModel(person);
+            return ViewChangePassword(viewModel);
+        }
+
+        [HttpPost]
+        [UserEditFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult ChangePassword(PersonPrimaryKey personPrimaryKey, ChangePasswordViewModel viewModel)
+        {
+            var personBeingEdited = personPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewChangePassword(viewModel);
+            }
+
+            var personAccount = personBeingEdited.PersonLoginAccount;
+
+            var saltAndHash = PBKDF2PasswordHash.CreateHash(viewModel.NewPassword);
+            personAccount.PasswordSalt = saltAndHash.PasswordSalt;
+            personAccount.PasswordHash = saltAndHash.PasswordHashed;
+
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{personBeingEdited.GetFullNameFirstLast()}'s password had been updated.");
+             return new ModalDialogFormJsonResult();
+        }
+
+        private PartialViewResult ViewChangePassword(ChangePasswordViewModel viewModel)
+        {
+            var viewData = new ChangePasswordViewData();
+            return RazorPartialView<ChangePassword, ChangePasswordViewData, ChangePasswordViewModel>(viewData, viewModel);
+        }
+
+        [HttpGet]
+        [UserEditFeature]
         public PartialViewResult Delete(PersonPrimaryKey personPrimaryKey)
         {
             var person = personPrimaryKey.EntityObject;
@@ -453,7 +491,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         public ActionResult CreateAccount(CreateAccountViewModel viewModel)
         {
-
+            
             if (!ModelState.IsValid)
             {
                 return ViewCreateAccount(viewModel);
@@ -464,7 +502,7 @@ namespace ProjectFirma.Web.Controllers
             var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByEmail(viewModel.Email, false);
             if (existingUser != null)
             {
-                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.</a>.");
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
                 return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
             }
 
@@ -478,14 +516,14 @@ namespace ProjectFirma.Web.Controllers
             HttpRequestStorage.DatabaseEntities.SaveChanges();
 
 
-            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
+            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role.");
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 
         private static Person CreateNewFirmaPersonWithoutKeystone(Organization userOrganization, CreateAccountViewModel viewModel)
         {
             var firmaPerson = new Person(Guid.NewGuid(), viewModel.FirstName, viewModel.LastName,
-                viewModel.Email, Role.Normal, DateTime.Now, true, userOrganization, false,
+                viewModel.Email, Role.Unassigned, DateTime.Now, true, userOrganization, false,
                 viewModel.Email);
             HttpRequestStorage.DatabaseEntities.AllPeople.Add(firmaPerson);
             return firmaPerson;
@@ -587,7 +625,7 @@ namespace ProjectFirma.Web.Controllers
             var existingUser = HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid(keystoneUser.UserGuid);
             if (existingUser != null)
             {
-                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.</a>.");
+                SetMessageForDisplay($"{existingUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} already has an account.");
                 return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(existingUser)));
             }
 
@@ -604,7 +642,7 @@ namespace ProjectFirma.Web.Controllers
                 SendExistingKeystoneUserCreatedMessage(newUser, CurrentPerson);
             }
 
-            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role</a>.");
+            SetMessageForDisplay($"{newUser.GetFullNameFirstLastAndOrgAsUrl(CurrentFirmaSession)} successfully added. You may want to assign them a role.");
             return RedirectToAction(new SitkaRoute<UserController>(x => x.Detail(newUser)));
         }
 

@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -26,6 +27,8 @@ using DocumentFormat.OpenXml.Bibliography;
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using LtInfo.Common.Security;
+using Microsoft.Web.Mvc.Controls;
 using ProjectFirma.Web.Common;
 using Person = ProjectFirmaModels.Models.Person;
 
@@ -62,13 +65,42 @@ namespace ProjectFirma.Web.Views.User
 
         public ChangePasswordViewModel(Person person)
         {
-
+            PersonID = person.PrimaryKey;
 
         }
 
-        public void UpdateModel(Person personBeingEdited, FirmaSession currentFirmaSession)
-        {
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            var errors = new List<ValidationResult>();
+            var personLoginAccount = HttpRequestStorage.DatabaseEntities.Person.PersonLoginAccount;
+
+            if (!PBKDF2PasswordHash.ValidatePassword(personLoginAccount.PasswordSalt, OldPassword, personLoginAccount.PasswordHash))
+            {
+                errors.Add(new SitkaValidationResult<ChangePasswordViewModel, string>("Bad password", z => z.OldPassword));
+            }
+
+            if (string.IsNullOrEmpty(NewPassword))
+            {
+                errors.Add(new SitkaValidationResult<ChangePasswordViewModel, string>("Please specify a new password", z => z.NewPassword));
+            }
+
+            if (string.IsNullOrEmpty(ConfirmNewPassword))
+            {
+                errors.Add(new SitkaValidationResult<ChangePasswordViewModel, string>("Please confirm the new password", z => z.ConfirmNewPassword));
+            }
+
+            if (NewPassword != ConfirmNewPassword)
+            {
+                errors.Add(new SitkaValidationResult<ChangePasswordViewModel, string>("Passwords must match.", z => z.NewPassword));
+            }
+
+            if (!PasswordHelper.VerifyPasswordComplexity(NewPassword))
+            {
+                errors.Add(new ValidationResult(PasswordHelper.GetPasswordComplexityErrorMessage(NewPassword)));
+            }
+
+            return errors;
         }
     }
 }

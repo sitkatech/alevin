@@ -247,7 +247,7 @@ Source code is available upon request via <support@sitkatech.com>.
                             }
                         </ul>
                         <ul class="nav navbar-nav navbar-right">
-                            @if (Request.IsAuthenticated)
+                            @if (!ViewDataTyped.CurrentFirmaSession.IsAnonymousUser())
                             {
                                 <li class="dropdown">
                                     <a class="dropdown-toggle" href="#" type="button" id="dropdownMenuUser" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">

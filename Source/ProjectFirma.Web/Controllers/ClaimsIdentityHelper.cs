@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
                             HttpRequestStorage.DatabaseEntities.People.GetPersonByPersonGuid);
                         break;
                     case AuthenticationType.LocalAuth:
-                        personFromClaimsIdentity = GetPersonFromLocalClaims(authenticationManager.User);
+                        personFromClaimsIdentity = GetPersonFromLocalClaims(authenticationManager);
                         break;
                     default:
                         throw new ArgumentOutOfRangeException();
@@ -76,8 +76,10 @@ namespace ProjectFirma.Web.Controllers
             }
         }
 
-        private static Person GetPersonFromLocalClaims(ClaimsPrincipal principal)
+        private static Person GetPersonFromLocalClaims(IAuthenticationManager authenticationManager)
         {
+            var principal = authenticationManager.User;
+
             if (!principal.Identity.IsAuthenticated)
             {
                 return null;
@@ -85,7 +87,12 @@ namespace ProjectFirma.Web.Controllers
 
             var name = principal.Identity.Name;
             var guid = Guid.Parse(name);
-            var firmaSession = HttpRequestStorage.DatabaseEntities.FirmaSessions.Single(x => x.FirmaSessionGuid == guid);
+            var firmaSession = HttpRequestStorage.DatabaseEntities.FirmaSessions.SingleOrDefault(x => x.FirmaSessionGuid == guid);
+            if (firmaSession == null)
+            {
+                authenticationManager.SignOut();
+                return null;
+            }
 
             return firmaSession.Person;
         }

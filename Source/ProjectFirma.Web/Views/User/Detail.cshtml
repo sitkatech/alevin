@@ -109,14 +109,23 @@ Source code is available upon request via <support@sitkatech.com>.
                             This information can be <a target="_blank" class="alert-link" href="@ViewDataTyped.Person.GetKeystoneEditLink()">edited here</a>
                         </div>
                     }*@
+                    
+                    @if (ViewDataTyped.IsViewingSelf)
+                    {
+                        <div>
+                            @ModalDialogFormHelper.MakeEditIconButton(ViewDataTyped.ChangePasswordUrl, "Change Password", "Change Password", ViewDataTyped.IsViewingSelf)
+                        </div>
+                    }
 
                     @*  Impersonate User Button  *@
                     @if (ViewDataTyped.CurrentPersonCanBeImpersonatedByCurrentUser)
                     {
-                        <div>
+                        <div style="margin-top: 15px;">
                             @{ ImpersonateUserButton.RenderPartialView(Html, new ImpersonateUserButtonViewData(ViewDataTyped.CurrentFirmaSession, ViewDataTyped.Person)); }
                         </div>
                     }
+                    
+                    
 
                 </div>
             </div>
