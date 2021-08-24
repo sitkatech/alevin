@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="UserListFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="UserAdminFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -24,8 +24,8 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("View User Index")]
-    public class UserListFeature : FirmaAdminFeature
+    [SecurityFeatureDescription("Admin Users")]
+    public class UserAdminFeature : FirmaAdminFeature
     {
  
 

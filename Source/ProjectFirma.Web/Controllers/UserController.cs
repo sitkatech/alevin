@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(SitkaSmtpClient));
 
-        [UserListFeature]
+        [UserAdminFeature]
         public ViewResult Index()
         {
             const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum =
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
         }
 
-        [UserListFeature]
+        [UserAdminFeature]
         public ViewResult ViewIndex(string gridDataUrl)
         {
             var firmaPage = FirmaPageTypeEnum.UsersList.GetFirmaPage();
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [UserListFeature]
+        [UserAdminFeature]
         public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
             var gridSpec = new IndexGridSpec(CurrentFirmaSession);
