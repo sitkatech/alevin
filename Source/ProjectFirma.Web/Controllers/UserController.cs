@@ -53,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(SitkaSmtpClient));
 
-        [UserEditFeature]
+        [UserListFeature]
         public ViewResult Index()
         {
             const IndexGridSpec.UsersStatusFilterTypeEnum filterTypeEnum =
@@ -61,7 +61,7 @@ namespace ProjectFirma.Web.Controllers
             return ViewIndex(SitkaRoute<UserController>.BuildUrlFromExpression(x => x.IndexGridJsonData(filterTypeEnum)));
         }
 
-        [UserEditFeature]
+        [UserListFeature]
         public ViewResult ViewIndex(string gridDataUrl)
         {
             var firmaPage = FirmaPageTypeEnum.UsersList.GetFirmaPage();
@@ -86,7 +86,7 @@ namespace ProjectFirma.Web.Controllers
             return RazorView<Index, IndexViewData>(viewData);
         }
 
-        [UserEditFeature]
+        [UserListFeature]
         public GridJsonNetJObjectResult<Person> IndexGridJsonData(IndexGridSpec.UsersStatusFilterTypeEnum usersStatusFilterType)
         {
             var gridSpec = new IndexGridSpec(CurrentFirmaSession);
@@ -182,7 +182,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var person = personPrimaryKey.EntityObject;
             var viewModel = new ChangePasswordViewModel(person);
-            return ViewChangePassword(viewModel);
+            return ViewChangePassword(viewModel, CurrentFirmaSession);
         }
 
         [HttpPost]
@@ -193,7 +193,7 @@ namespace ProjectFirma.Web.Controllers
             var personBeingEdited = personPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewChangePassword(viewModel);
+                return ViewChangePassword(viewModel, CurrentFirmaSession);
             }
 
             var personAccount = personBeingEdited.PersonLoginAccount;
@@ -208,9 +208,10 @@ namespace ProjectFirma.Web.Controllers
              return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewChangePassword(ChangePasswordViewModel viewModel)
+        private PartialViewResult ViewChangePassword(ChangePasswordViewModel viewModel, FirmaSession currentFirmaSession)
         {
-            var viewData = new ChangePasswordViewData();
+            var isSelfEdit = viewModel.PersonID == currentFirmaSession.PersonID;
+            var viewData = new ChangePasswordViewData(isSelfEdit);
             return RazorPartialView<ChangePassword, ChangePasswordViewData, ChangePasswordViewModel>(viewData, viewModel);
         }
 

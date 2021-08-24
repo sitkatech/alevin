@@ -38,7 +38,6 @@ namespace ProjectFirma.Web.Views.User
     {
         public int PersonID { get; set; }
 
-        [Required]
         [PasswordPropertyText]
         [ValidatePassword]
         [DisplayName("Old Password")]
@@ -75,7 +74,9 @@ namespace ProjectFirma.Web.Views.User
             var errors = new List<ValidationResult>();
             var personLoginAccount = HttpRequestStorage.DatabaseEntities.Person.PersonLoginAccount;
 
-            if (!PBKDF2PasswordHash.ValidatePassword(personLoginAccount.PasswordSalt, OldPassword, personLoginAccount.PasswordHash))
+            var isSelfEdit = personLoginAccount.PersonID == PersonID;
+
+            if (isSelfEdit && !PBKDF2PasswordHash.ValidatePassword(personLoginAccount.PasswordSalt, OldPassword, personLoginAccount.PasswordHash))
             {
                 errors.Add(new SitkaValidationResult<ChangePasswordViewModel, string>("Bad password", z => z.OldPassword));
             }

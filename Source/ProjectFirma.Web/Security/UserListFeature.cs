@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ChangePasswordViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="UserListFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,16 +18,16 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+using System;
+using System.Collections.Generic;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.User
+namespace ProjectFirma.Web.Security
 {
-    public class ChangePasswordViewData : FirmaUserControlViewData
+    [SecurityFeatureDescription("View User Index")]
+    public class UserListFeature : FirmaAdminFeature
     {
-        public bool IsSelfEdit { get; }
+ 
 
-        public ChangePasswordViewData(bool isSelfEdit)
-        {
-            IsSelfEdit = isSelfEdit;
-        }
     }
 }
