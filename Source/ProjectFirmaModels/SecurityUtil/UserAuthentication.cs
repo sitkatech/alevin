@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.SecurityUtil
                     //personLoginAccount.LastAttemptedLoginDate = DateTime.Now;
                 }
 
-                Check.Require(isValidLogin, $"Bad login or password for {userAndPersonInfoForLogging}");
+                Check.Require(isValidLogin, $"Incorrect password for {userAndPersonInfoForLogging}");
                 Check.Require(personLoginAccount.Person.IsActive, $"Person record is inactivated, {userAndPersonInfoForLogging}");
                 //Check.Require(!userHasExpiredPasswordAsComputedBeforeLogin, $"SecUser account password is expired, {userAndPersonInfoForLogging}");
                 return personLoginAccount;
