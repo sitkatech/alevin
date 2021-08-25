@@ -94,6 +94,10 @@ namespace ProjectFirma.Web.Controllers
                 return null;
             }
 
+            if (firmaSession.OriginalPerson != null)
+            {
+                return firmaSession.OriginalPerson;
+            }
             return firmaSession.Person;
         }
 
