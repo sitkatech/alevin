@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="BudgetStageImports.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="FbmsBudgetStageImportPayrecV3UnexpendedBalances.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -26,6 +26,9 @@ using LtInfo.Common.DesignByContract;
 
 namespace ProjectFirmaModels.Models.ExcelUpload
 {
+    /// <summary>
+    /// FBMS/PayRec CSRO Spreadsheet Importer
+    /// </summary>
     public class FbmsBudgetStageImportPayrecV3UnexpendedBalances : List<FbmsBudgetStageImportPayrecV3UnexpendedBalance>
     {
         public const string FbmsUnexpendedPayrecV3SheetName = "Analysis 1 - PayRec v3 BW_SS...";

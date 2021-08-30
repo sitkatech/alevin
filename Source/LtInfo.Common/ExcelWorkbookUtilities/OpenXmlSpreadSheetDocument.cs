@@ -131,7 +131,20 @@ namespace LtInfo.Common.ExcelWorkbookUtilities
         private static string GetCellValue(SpreadsheetDocument document, Cell cell)
         {
             var stringTablePart = document.WorkbookPart.SharedStringTablePart;
-            var value = cell.CellValue != null ? cell.CellValue.InnerXml : String.Empty;
+            string value;
+            if (cell.CellValue != null)
+            {
+                value = cell.CellValue.InnerXml;
+            }
+            else if (!string.IsNullOrEmpty(cell.InnerText))
+            {
+                value = cell.InnerText;
+            }
+            else
+            {
+                value = String.Empty;
+            }
+
 
             if (cell.DataType != null && cell.DataType.Value == CellValues.SharedString)
             {
