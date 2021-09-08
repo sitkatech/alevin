@@ -27,6 +27,7 @@ using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Security.Shared;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Security;
+using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -55,6 +56,7 @@ namespace ProjectFirma.Web.Controllers
         [CrossAreaRoute]
         public ActionResult LogOn()
         {
+            SitkaHttpApplication.Logger.Info($"AccountController - LogOn() - AuthType:{FirmaWebConfiguration.AuthenticationType}PersonID:{HttpRequestStorage.FirmaSession.PersonID}, email?:{HttpRequestStorage.FirmaSession.Person?.Email}");
             //look up cookie and return to url we were previously on, otherwise homepage.
             var returnUrl = Request.Cookies["ReturnURL"];
 
@@ -75,6 +77,7 @@ namespace ProjectFirma.Web.Controllers
         {
             // If we are impersonating, we drop back to the original user instead of fully logging out.
             var currentFirmaSession = HttpRequestStorage.FirmaSession;
+            SitkaHttpApplication.Logger.Info($"AccountController - LogOff() - AuthType:{FirmaWebConfiguration.AuthenticationType}, PersonID:{currentFirmaSession.PersonID}, email?:{currentFirmaSession.Person?.Email}");
             if (currentFirmaSession.IsImpersonating())
             {
                 var previousPageUri = Request.UrlReferrer;
@@ -96,6 +99,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ActionResult SignoutCleanup(string sid)
         {
+            SitkaHttpApplication.Logger.Info($"AccountController - SignoutCleanup() - AuthType:{FirmaWebConfiguration.AuthenticationType}");
             var cp = (ClaimsPrincipal)HttpContext.User;
             var sidClaim = cp.FindFirst("sid");
             if (sidClaim != null && sidClaim.Value == sid)

@@ -90,6 +90,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaSession = HttpRequestStorage.DatabaseEntities.FirmaSessions.SingleOrDefault(x => x.FirmaSessionGuid == guid);
             if (firmaSession == null)
             {
+                SitkaHttpApplication.Logger.Info($"ClaimsIdentityHelper - GetPersonFromLocalClaims() - Session Not Found - Signing out - AuthType:{FirmaWebConfiguration.AuthenticationType}");
                 authenticationManager.SignOut();
                 return null;
             }
@@ -104,6 +105,7 @@ namespace ProjectFirma.Web.Controllers
 
         public static void IdentitySignOut(IAuthenticationManager authenticationManager)
         {
+            SitkaHttpApplication.Logger.Info($"ClaimsIdentityHelper - IdentitySignOut() - AuthType:{FirmaWebConfiguration.AuthenticationType}");
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
             var authenticationApplicationCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
             HttpContext.Current.Request.Cookies.Remove(authenticationApplicationCookieName);

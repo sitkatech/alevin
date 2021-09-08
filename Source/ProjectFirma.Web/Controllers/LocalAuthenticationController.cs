@@ -28,6 +28,7 @@ using System.Collections.Generic;
 using System.Security.Claims;
 using System.Web;
 using System.Web.Mvc;
+using LtInfo.Common;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -48,6 +49,7 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult LocalAuthLogon(LocalAuthLogonViewModel viewModel)
         {
             RequireLocalAuthMode();
+            SitkaHttpApplication.Logger.Info($"LocalAuthenticationController - LocalAuthLogon() - AuthType:{FirmaWebConfiguration.AuthenticationType}");
             DateTime currentDateTime = DateTime.Now;
 
             var personLoginAccount = ProjectFirmaModels.SecurityUtil.UserAuthentication.Validate(HttpRequestStorage.DatabaseEntities, viewModel.UserName, viewModel.Password, this.CurrentTenant.TenantID);
@@ -71,6 +73,7 @@ namespace ProjectFirma.Web.Controllers
             var authenticationManager = ctx.Authentication;
             authenticationManager.SignIn(id);
 
+            SitkaHttpApplication.Logger.Info($"LocalAuthenticationController - Logged In PersonID:{personLoginAccount.PersonID}, email:{personLoginAccount.Person.Email}");
             // Just show home page for now..
             return new RedirectResult(SitkaRoute<HomeController>.BuildUrlFromExpression(c => c.Index()));
         }
