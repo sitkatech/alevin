@@ -77,7 +77,7 @@ namespace ProjectFirma.Web
                     {
                         AuthenticationType = CookieAuthenticationType,
                         CookieManager = new SystemWebChunkingCookieManager(),
-                        CookieName = $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}",
+                        CookieName = ClaimsIdentityHelper.GetAuthenticationApplicationCookieName(tenant),
                         CookieSecure = cookieSecureOption
                     });
 
@@ -91,7 +91,7 @@ namespace ProjectFirma.Web
                                 ResponseType = "id_token token",
                                 Scope = "openid all_claims keystone",
                                 UseTokenLifetime = false,
-                                SignInAsAuthenticationType = "Cookies",
+                                SignInAsAuthenticationType = CookieAuthenticationType,
                                 CallbackPath = new PathString("/Account/LogOn"),
                                 ClientId = tenantAttributes.KeystoneOpenIDClientIdentifier,
                                 ClientSecret = tenantAttributes.KeystoneOpenIDClientSecret,

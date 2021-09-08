@@ -89,7 +89,19 @@ namespace ProjectFirma.Web.Controllers
             }
 
             // Otherwise, we just log off normally
-            Request.GetOwinContext().Authentication.SignOut();
+            
+            switch (FirmaWebConfiguration.AuthenticationType)
+            {
+                case AuthenticationType.KeystoneAuth:
+                    Request.GetOwinContext().Authentication.SignOut();
+                    break;
+                case AuthenticationType.LocalAuth:
+                    Request.GetOwinContext().Authentication.SignOut();
+                    Request.GetOwinContext().Authentication.SignOut(FirmaOwinStartup.CookieAuthenticationType);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
             var currentPerson = HttpRequestStorage.Person;
             currentFirmaSession.Delete(HttpRequestStorage.DatabaseEntities);
             HttpRequestStorage.DatabaseEntities.SaveChanges(currentPerson);
@@ -104,7 +116,7 @@ namespace ProjectFirma.Web.Controllers
             var sidClaim = cp.FindFirst("sid");
             if (sidClaim != null && sidClaim.Value == sid)
             {
-                Request.GetOwinContext().Authentication.SignOut("Cookies");
+                Request.GetOwinContext().Authentication.SignOut(FirmaOwinStartup.CookieAuthenticationType);
             }
 
             return Content(string.Empty);

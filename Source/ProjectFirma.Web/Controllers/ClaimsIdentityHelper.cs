@@ -107,12 +107,15 @@ namespace ProjectFirma.Web.Controllers
         {
             SitkaHttpApplication.Logger.Info($"ClaimsIdentityHelper - IdentitySignOut() - AuthType:{FirmaWebConfiguration.AuthenticationType}");
             authenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie, DefaultAuthenticationTypes.ExternalCookie);
-            var authenticationApplicationCookieName = $"{HttpRequestStorage.Tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
+            var authenticationApplicationCookieName = GetAuthenticationApplicationCookieName(HttpRequestStorage.Tenant);
             HttpContext.Current.Request.Cookies.Remove(authenticationApplicationCookieName);
             HttpRequestStorage.FirmaSession.Person = null;
             HttpRequestStorage.FirmaSession.OriginalPerson = null;
         }
 
-
+        public static string GetAuthenticationApplicationCookieName(Tenant tenant)
+        {
+            return $"{tenant.TenantName}_{FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType}";
+        }
     }
 }
