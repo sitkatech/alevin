@@ -335,6 +335,7 @@
     <Compile Include="Security\ProjectAgreementEditFeature.cs" />
     <Compile Include="Security\TechnicalAssistanceRequestsViewFeature.cs" />
     <Compile Include="Security\ProjectInternalNoteManageAsAdminFeature.cs" />
+    <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\Agreement\AgreementEditViewData.cs" />
@@ -2032,10 +2033,13 @@
     <Compile Include="Views\Tenant\EditBasicsViewModel.cs" />
     <Compile Include="Views\Tenant\DetailGridSpec.cs" />
     <Compile Include="Views\User\ChangePassword.cs" />
-    <Compile Include="Views\User\EditUser.cs" />
     <Compile Include="Views\User\ChangePasswordViewData.cs" />
-    <Compile Include="Views\User\EditUserViewData.cs" />
     <Compile Include="Views\User\ChangePasswordViewModel.cs" />
+    <Compile Include="Views\User\CreateAccount.cs" />
+    <Compile Include="Views\User\CreateAccountViewData.cs" />
+    <Compile Include="Views\User\CreateAccountViewModel.cs" />
+    <Compile Include="Views\User\EditUser.cs" />
+    <Compile Include="Views\User\EditUserViewData.cs" />
     <Compile Include="Views\User\EditUserViewModel.cs" />
     <Compile Include="Views\User\ImpersonateUserButton.ascx.cs">
       <DependentUpon>ImpersonateUserButton.cshtml</DependentUpon>
