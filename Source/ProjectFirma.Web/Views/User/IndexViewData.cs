@@ -47,7 +47,7 @@ namespace ProjectFirma.Web.Views.User
             GridName = "UserGrid";
             GridDataUrl = gridDataUrl;
             InviteUserUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.Invite());
-            CreateAccountUrl = SitkaRoute<UserController>.BuildUrlFromExpression(x => x.CreateAccount());
+            CreateAccountUrl = FirmaWebConfiguration.AuthenticationType == AuthenticationType.LocalAuth ? SitkaRoute<UserController>.BuildUrlFromExpression(x => x.CreateAccount()) : string.Empty;
             UserIsFirmaAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             ActiveOnlyOrAllUsersSelectListItems = activeOnlyOrAllUsersSelectListItems;

@@ -79,7 +79,6 @@ namespace ProjectFirma.Web.Controllers
         private static Person GetPersonFromLocalClaims(IAuthenticationManager authenticationManager)
         {
             var principal = authenticationManager.User;
-
             if (!principal.Identity.IsAuthenticated)
             {
                 return null;
