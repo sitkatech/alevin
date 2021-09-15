@@ -33,7 +33,7 @@ namespace ProjectFirma.Web.Views.Admin
         public AdminDetailViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = $"Admin Detail";
-            MostRecentLogFileDownloadLink = SitkaRoute<AdminController>.BuildUrlFromExpression(x => x.DownloadMostRecentLogFile());
+            MostRecentLogFileDownloadLink = SitkaRoute<AdminController>.BuildUrlFromExpression(x => x.DownloadWebLogFileZipArchive());
 
             
         }

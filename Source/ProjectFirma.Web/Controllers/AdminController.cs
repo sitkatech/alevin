@@ -18,10 +18,12 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
+using System.IO.Compression;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Admin;
 using System.Web.Mvc;
-using DocumentFormat.OpenXml.Drawing;
+using LtInfo.Common;
 using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Controllers
@@ -38,11 +40,15 @@ namespace ProjectFirma.Web.Controllers
 
         [HttpPost]
         [FirmaAdminFeature]
-        public FilePathResult DownloadMostRecentLogFile()
+        public FileContentResult DownloadWebLogFileZipArchive()
         {
-            const string logFileName = "Web.log";
-            var filePath = System.IO.Path.Combine(FirmaWebConfiguration.LogFileFolder.FullName, logFileName);
-            return File(filePath, "text/plain", logFileName);
+            var webLogZipFileName = "WebLogZipFile.zip";
+            using (var tempFile = DisposableTempFile.MakeDisposableTempFileEndingIn(webLogZipFileName))
+            {
+                ZipFile.CreateFromDirectory(FirmaWebConfiguration.LogFileFolder.FullName, tempFile.FileInfo.FullName);
+                var zipFileBytes = System.IO.File.ReadAllBytes(tempFile.FileInfo.FullName);
+                return File(zipFileBytes, "application/zip", webLogZipFileName);
+            }
         }
     }
 }
