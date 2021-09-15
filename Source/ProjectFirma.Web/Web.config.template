@@ -143,6 +143,7 @@
       <param name="File" value="C:\Sitka\Alevin\Logs\WEB.log"/>
       <param name="AppendToFile" value="true"/>
       <rollingStyle value="Date"/>
+      <maxSizeRollBackups value="60"/>
       <datePattern value="yyyyMMdd"/>
       <lockingModel type="log4net.Appender.FileAppender+MinimalLock"/>
       <layout type="log4net.Layout.PatternLayout">
