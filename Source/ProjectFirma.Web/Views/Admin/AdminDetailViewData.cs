@@ -19,17 +19,21 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using System.Web;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Admin
 {
     public class AdminDetailViewData : FirmaViewData
     {
+        public string MostRecentLogFileDownloadLink { get; }
         
         public AdminDetailViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = $"Admin Detail";
-
+            MostRecentLogFileDownloadLink = SitkaRoute<AdminController>.BuildUrlFromExpression(x => x.DownloadMostRecentLogFile());
 
             
         }

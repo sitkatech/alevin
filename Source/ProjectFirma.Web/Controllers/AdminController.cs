@@ -21,6 +21,8 @@ Source code is available upon request via <support@sitkatech.com>.
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Admin;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Drawing;
+using ProjectFirma.Web.Common;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -34,5 +36,12 @@ namespace ProjectFirma.Web.Controllers
            return RazorView<AdminDetail, AdminDetailViewData>(viewData);
        }
 
+       [HttpPost]
+       [FirmaAdminFeature]
+       public FilePathResult DownloadMostRecentLogFile()
+       {
+           var filePath = System.IO.Path.Combine(FirmaWebConfiguration.LogFileFolder.FullName, "Web.log");
+            return File(filePath, "text/plain", "Web.log");
+        }
     }
 }
