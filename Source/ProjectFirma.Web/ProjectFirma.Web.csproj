@@ -312,7 +312,6 @@
     <Compile Include="Security\FundingSourceCustomAttributeEditFeature.cs" />
     <Compile Include="Security\ObligationItemViewFeature.cs" />
     <Compile Include="Security\PnBudgetViewFeature.cs" />
-    <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Security\VendorViewFeature.cs" />
     <Compile Include="Security\GeospatialAreaPerformanceMeasureTargetManageFeature.cs" />
     <Compile Include="Security\OrganizationBackgroundEditFeature.cs" />
