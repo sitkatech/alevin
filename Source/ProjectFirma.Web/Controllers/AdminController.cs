@@ -28,20 +28,21 @@ namespace ProjectFirma.Web.Controllers
 {
     public class AdminController : FirmaBaseController
     {
-       [HttpGet]
-       [FirmaAdminFeature]
-       public ActionResult AdminDetail()
-       {
-           var viewData = new AdminDetailViewData(CurrentFirmaSession);
-           return RazorView<AdminDetail, AdminDetailViewData>(viewData);
-       }
+        [HttpGet]
+        [FirmaAdminFeature]
+        public ActionResult AdminDetail()
+        {
+            var viewData = new AdminDetailViewData(CurrentFirmaSession);
+            return RazorView<AdminDetail, AdminDetailViewData>(viewData);
+        }
 
-       [HttpPost]
-       [FirmaAdminFeature]
-       public FilePathResult DownloadMostRecentLogFile()
-       {
-           var filePath = System.IO.Path.Combine(FirmaWebConfiguration.LogFileFolder.FullName, "Web.log");
-            return File(filePath, "text/plain", "Web.log");
+        [HttpPost]
+        [FirmaAdminFeature]
+        public FilePathResult DownloadMostRecentLogFile()
+        {
+            const string logFileName = "Web.log";
+            var filePath = System.IO.Path.Combine(FirmaWebConfiguration.LogFileFolder.FullName, logFileName);
+            return File(filePath, "text/plain", logFileName);
         }
     }
 }
