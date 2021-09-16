@@ -1,0 +1,55 @@
+﻿SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+CREATE TABLE [dbo].[sysdiagrams](
+	[name] [sysname] COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[principal_id] [int] NOT NULL,
+	[diagram_id] [int] IDENTITY(1,1) NOT NULL,
+	[version] [int] NULL,
+	[definition] [varbinary](max) NULL,
+PRIMARY KEY CLUSTERED 
+(
+	[diagram_id] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY],
+ CONSTRAINT [UK_principal_name] UNIQUE NONCLUSTERED 
+(
+	[principal_id] ASC,
+	[name] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+
+EXEC sys.sp_addextendedproperty @name=N'microsoft_database_tools_support', @value=1 , @level0type=N'SCHEMA',@level0name=N'dbo', @level1type=N'TABLE',@level1name=N'sysdiagrams'
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+CREATE TABLE [dbo].[tblC1](
+	[ColC1Int] [int] IDENTITY(1,1) NOT NULL,
+	[ColC1String] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
+	[ColC1Binary] [varbinary](100) NULL,
+ CONSTRAINT [PK_tblC1_ColC1Int] PRIMARY KEY CLUSTERED 
+(
+	[ColC1Int] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+SET ANSI_NULLS ON
+SET QUOTED_IDENTIFIER ON
+CREATE TABLE [dbo].[tblB1](
+	[ColB1Int] [int] NOT NULL,
+	[ColC1Int] [int] NOT NULL,
+	[ColB1String] [varchar](100) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[ColB1Binary] [varbinary](100) NOT NULL,
+ CONSTRAINT [PK_tblB1_ColB1Int] PRIMARY KEY CLUSTERED 
+(
+	[ColB1Int] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+ALTER TABLE [dbo].[tblB1]  WITH CHECK ADD  CONSTRAINT [FK_tblB1_ColC1Int_tblC1_ColC1Int] FOREIGN KEY([ColC1Int])
+REFERENCES [dbo].[tblC1] ([ColC1Int])
+ALTER TABLE [dbo].[tblB1] CHECK CONSTRAINT [FK_tblB1_ColC1Int_tblC1_ColC1Int]
+GO
+SET IDENTITY_INSERT [dbo].[tblC1] ON 
+
+INSERT [dbo].[tblC1] ([ColC1Int], [ColC1String], [ColC1Binary]) VALUES (1, N'Hi there ¦ unicode', 0x012345)
+INSERT [dbo].[tblC1] ([ColC1Int], [ColC1String], [ColC1Binary]) VALUES (2, N'Hi there Some More', 0x00123454)
+SET IDENTITY_INSERT [dbo].[tblC1] OFF
+INSERT [dbo].[tblB1] ([ColB1Int], [ColC1Int], [ColB1String], [ColB1Binary]) VALUES (1001, 1, N'Hi there', 0x012345)
