@@ -343,6 +343,7 @@
     <Compile Include="Views\Admin\ExportSqlData.cs" />
     <Compile Include="Views\Admin\ExportSqlDataViewData.cs" />
     <Compile Include="Views\Admin\ExportSqlDataViewModel.cs" />
+    <Compile Include="Views\Admin\RunSqlScript.cs" />
     <Compile Include="Views\Admin\UpdateSite.cs" />
     <Compile Include="Views\Agreement\AgreementEditViewData.cs" />
     <Compile Include="Views\Agreement\AgreementEditViewModel.cs" />
@@ -1028,6 +1029,7 @@
     <Content Include="Views\Admin\AdminDetail.cshtml" />
     <Content Include="Views\Admin\ExportSqlData.cshtml" />
     <Content Include="Views\Admin\UpdateSite.cshtml" />
+    <Content Include="Views\Admin\RunSqlScript.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />

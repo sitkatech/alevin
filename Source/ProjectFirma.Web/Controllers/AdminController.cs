@@ -163,6 +163,67 @@ namespace ProjectFirma.Web.Controllers
 
             return Content(htmlWrapper, "text/html");
         }
+        [FirmaAdminFeature]
+        public ViewResult RunSqlScript()
+        {
+            var viewData = new UpdateSiteViewData(CurrentFirmaSession);
+            var viewModel = new UpdateSiteViewModel();
+            return RazorView<UpdateSite, UpdateSiteViewData, UpdateSiteViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        public ActionResult RunSqlScript(UpdateSiteViewModel viewModel)
+        {
+            var outputMessages = new List<string>();
+            Action<string> logFunction = outputMessages.Add;
+
+            string statusString = "Unknown";
+
+            if (ModelState.IsValid)
+            {
+                var webSiteDir = new DirectoryInfo(HttpContext.Server.MapPath("/").TrimEnd('\\'));
+
+                var dbServerName = HttpRequestStorage.DatabaseEntities.Database.Connection.DataSource;
+                var dbName = HttpRequestStorage.DatabaseEntities.Database.Connection.Database;
+
+                var installer = new WebAppInstallerUtility(webSiteDir, viewModel.PostedFileBase, dbName, dbServerName, logFunction);
+
+                try
+                {
+                    // Do the complete installation process
+                    installer.DoInstallation();
+                    // Only mark success here
+                    statusString = "Success!";
+                }
+                catch (Exception e)
+                {
+                    logFunction(e.ToString());
+                    statusString = "Failure";
+                }
+            }
+
+            var outputMessagesLines = string.Join("\r\n", outputMessages);
+
+            // We have to resort to a super simple, primitive view, otherwise most every deploy will throw a false alarm 
+            // about a crash only related to changing the views in the middle of a request. These are meaningless, but very disturbing.
+            // 
+            // Add a little html formatting, otherwise this is totally hard to read
+            string backButton = SitkaRoute<AdminController>.BuildLinkFromExpression(c => c.UpdateSite(), "Back to Update Site");
+
+            string htmlWrapper = string.Format(@"
+<html>
+<body>
+<h1>{0}</h1>
+{1}
+<pre>
+{2}
+</pre>
+</body>
+</html>", statusString, backButton, Server.HtmlEncode(outputMessagesLines));
+
+            return Content(htmlWrapper, "text/html");
+        }
 
     }
 }
