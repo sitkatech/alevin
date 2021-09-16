@@ -7,21 +7,21 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Views.Admin
 {
-    public abstract class UpdateSite : TypedWebViewPage<UpdateSiteViewData, UpdateSiteViewModel>
+    public abstract class RunSqlScript : TypedWebViewPage<RunSqlScriptViewData, RunSqlScriptViewModel>
     {
     }
 
-    public class UpdateSiteViewData : FirmaViewData
+    public class RunSqlScriptViewData : FirmaViewData
     {
         public readonly string BackUrl;
         
-        public UpdateSiteViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
+        public RunSqlScriptViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = "Update Site";
         }
     }
 
-    public class UpdateSiteViewModel : IValidatableObject
+    public class RunSqlScriptViewModel : IValidatableObject
     {        
         [DisplayName("Posted file")]
         public HttpPostedFileBase PostedFileBase { get; set; }

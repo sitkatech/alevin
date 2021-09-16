@@ -166,14 +166,14 @@ namespace ProjectFirma.Web.Controllers
         [FirmaAdminFeature]
         public ViewResult RunSqlScript()
         {
-            var viewData = new UpdateSiteViewData(CurrentFirmaSession);
-            var viewModel = new UpdateSiteViewModel();
-            return RazorView<UpdateSite, UpdateSiteViewData, UpdateSiteViewModel>(viewData, viewModel);
+            var viewData = new RunSqlScriptViewData(CurrentFirmaSession);
+            var viewModel = new RunSqlScriptViewModel();
+            return RazorView<RunSqlScript, RunSqlScriptViewData, RunSqlScriptViewModel>(viewData, viewModel);
         }
 
         [HttpPost]
         [FirmaAdminFeature]
-        public ActionResult RunSqlScript(UpdateSiteViewModel viewModel)
+        public ActionResult RunSqlScript(RunSqlScriptViewModel viewModel)
         {
             var outputMessages = new List<string>();
             Action<string> logFunction = outputMessages.Add;
@@ -209,7 +209,7 @@ namespace ProjectFirma.Web.Controllers
             // about a crash only related to changing the views in the middle of a request. These are meaningless, but very disturbing.
             // 
             // Add a little html formatting, otherwise this is totally hard to read
-            string backButton = SitkaRoute<AdminController>.BuildLinkFromExpression(c => c.UpdateSite(), "Back to Update Site");
+            string backButton = SitkaRoute<AdminController>.BuildLinkFromExpression(c => c.RunSqlScript(), "Back to Update Site");
 
             string htmlWrapper = string.Format(@"
 <html>
