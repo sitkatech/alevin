@@ -340,6 +340,10 @@
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\Admin\AdminDetail.cs" />
     <Compile Include="Views\Admin\AdminDetailViewData.cs" />
+    <Compile Include="Views\Admin\ExportSqlData.cs" />
+    <Compile Include="Views\Admin\ExportSqlDataViewData.cs" />
+    <Compile Include="Views\Admin\ExportSqlDataViewModel.cs" />
+    <Compile Include="Views\Admin\UpdateSite.cs" />
     <Compile Include="Views\Agreement\AgreementEditViewData.cs" />
     <Compile Include="Views\Agreement\AgreementEditViewModel.cs" />
     <Compile Include="Views\Agreement\AgreementEditViewModelTest.cs" />
@@ -1022,6 +1026,8 @@
     <Content Include="Views\ObligationRequest\ConfirmObligationRequestUnmatch.cshtml" />
     <Content Include="Views\Agreement\AgreementEdit.cshtml" />
     <Content Include="Views\Admin\AdminDetail.cshtml" />
+    <Content Include="Views\Admin\ExportSqlData.cshtml" />
+    <Content Include="Views\Admin\UpdateSite.cshtml" />
     <None Include="Views\ProjectCreate\GeospatialArea.cshtml" />
     <Content Include="Views\Evaluation\Index.cshtml" />
     <Content Include="Views\Evaluation\Edit.cshtml" />
@@ -3910,6 +3916,10 @@
     <ProjectReference Include="..\ProjectFirmaModels\ProjectFirmaModels.csproj">
       <Project>{5c78ffe9-5dd5-4a8e-882c-f49549f6fbf8}</Project>
       <Name>ProjectFirmaModels</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Toad.WebInstaller\Toad.WebInstaller.csproj">
+      <Project>{11afd0aa-b7d4-41b8-af6b-fda5ecfa05f3}</Project>
+      <Name>Toad.WebInstaller</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

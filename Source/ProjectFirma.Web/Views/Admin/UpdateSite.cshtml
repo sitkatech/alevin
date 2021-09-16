@@ -1,0 +1,12 @@
+﻿
+@inherits ProjectFirma.Web.Views.Admin.UpdateSite
+
+
+<p>Select new TDR Version Package file (.ZIP)</p>
+@using (Html.BeginForm("UpdateSite", "Admin", FormMethod.Post, new {enctype = "multipart/form-data"}))
+{
+    <input type="file" style="width: 800px;" id="@Html.IdFor(m => m.PostedFileBase)" name="@Html.NameFor(m => m.PostedFileBase)" />
+    <span>@Html.ValidationMessageFor(m => m.PostedFileBase)</span>
+    <br/>
+    <input type="submit" id="btnSubmit" value="Upload" />
+}

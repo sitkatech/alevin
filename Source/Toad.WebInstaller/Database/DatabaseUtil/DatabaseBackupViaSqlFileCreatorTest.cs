@@ -56,6 +56,30 @@ namespace Toad.WebInstaller.Database.DatabaseUtil
             }
         }
 
+        [Test]
+        [UseReporter(typeof(DiffReporter))]
+        public void CanScriptOutAlevinDatabase()
+        {
+
+
+            try
+            {
+                var testSubject = new DatabaseBackupViaSqlFileCreator(DatabaseServer, "AlevinDB");
+
+                // Act
+                // ---
+                string sqlBackup = testSubject.CreateSqlBackup();
+
+                // Assert
+                // ------
+                Approvals.Verify(sqlBackup);
+            }
+            finally
+            {
+
+            }
+        }
+
         private void SetupTestDatabase(SqlConnection initialConn)
         {
             string createTestDatabaseSql = string.Format("create database {0}", _testDatabaseName);
