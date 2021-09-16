@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xs:schema id="database_audit_report" targetNamespace="http://tempuri.org/database_audit_report.xsd"
+	elementFormDefault="qualified" xmlns="http://tempuri.org/database_audit_report.xsd" xmlns:mstns="http://tempuri.org/database_audit_report.xsd"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema">
+	<xs:element name="DiffReport">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="Databases">
+					<xs:complexType>
+						<xs:sequence>
+							<xs:element name="Database">
+								<xs:complexType>
+									<xs:sequence>
+										<xs:element name="ObjectDifference">
+											<xs:complexType>
+												<xs:sequence>
+													<xs:element name="Name" type="xs:string" />
+													<xs:element name="Type" type="xs:string" />
+													<xs:element name="History">
+														<xs:complexType>
+															<xs:sequence>
+																<xs:element name="HistoryItem">
+																	<xs:complexType>
+																		<xs:sequence>
+																			<xs:element name="Action" type="xs:string" />
+																			<xs:element name="Contact" type="xs:string" />
+																			<xs:element name="Note" type="xs:string" />
+																			<xs:element name="Version" type="xs:string" />
+																		</xs:sequence>
+																	</xs:complexType>
+																</xs:element>
+															</xs:sequence>
+														</xs:complexType>
+													</xs:element>
+												</xs:sequence>
+											</xs:complexType>
+										</xs:element>
+									</xs:sequence>
+									<xs:attribute name="Name" type="xs:string" />
+								</xs:complexType>
+							</xs:element>
+						</xs:sequence>
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Date" type="xs:string" />
+				<xs:element name="PreviousLabel" type="xs:string" />
+				<xs:element name="CurrentLabel" type="xs:string" />
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+</xs:schema>

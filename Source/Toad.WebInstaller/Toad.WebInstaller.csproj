@@ -1,0 +1,196 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{11AFD0AA-B7D4-41B8-AF6B-FDA5ECFA05F3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Toad.WebInstaller</RootNamespace>
+    <AssemblyName>Toad.WebInstaller</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
+    <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="ApprovalTests, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalTests.3.0.13\lib\net40\ApprovalTests.dll</HintPath>
+    </Reference>
+    <Reference Include="ApprovalUtilities, Version=3.0.0.0, Culture=neutral, PublicKeyToken=11bd7d124fc62e0f, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.dll</HintPath>
+    </Reference>
+    <Reference Include="ApprovalUtilities.Net45, Version=3.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\ApprovalUtilities.3.0.13\lib\net45\ApprovalUtilities.Net45.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.ConnectionInfo">
+      <HintPath>C:\Program Files\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.SqlServer.ConnectionInfo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Management.Sdk.Sfc">
+      <HintPath>C:\Program Files\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.SqlServer.Management.Sdk.Sfc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Smo">
+      <HintPath>C:\Program Files\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.SqlServer.Smo.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlEnum">
+      <HintPath>C:\Program Files\Microsoft SQL Server\120\SDK\Assemblies\Microsoft.SqlServer.SqlEnum.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.SqlClrProvider">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.Web.Infrastructure">
+      <Private>True</Private>
+      <HintPath>..\..\..\Lorax\NuGetPackages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.6.3.13283, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <HintPath>..\NuGetPackages\NUnit.2.6.3\lib\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lorax\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lorax\NuGetPackages\Microsoft.AspNet.Mvc.5.2.3\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lorax\NuGetPackages\Microsoft.AspNet.Razor.3.2.3\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lorax\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lorax\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Lorax\NuGetPackages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ServerLogZipper.cs" />
+    <Compile Include="DatabaseMigration\DatabaseMigrationFileInfo.cs" />
+    <Compile Include="DatabaseMigration\DatabaseMigrationFileInfoSet.cs" />
+    <Compile Include="DatabaseMigration\DatabaseMigrationFileInfoSetTest.cs" />
+    <Compile Include="DatabaseMigration\DatabaseMigrationFileInfoTest.cs" />
+    <Compile Include="DatabaseMigration\DatabaseMigrator.cs" />
+    <Compile Include="DatabaseMigration\DatabaseMigratorTest.cs" />
+    <Compile Include="DatabaseMigration\IntRange.cs" />
+    <Compile Include="DatabaseMigration\DatabaseScriptTablesAndCompareTask.cs" />
+    <Compile Include="DatabaseMigration\SqlFileInfo.cs" />
+    <Compile Include="Database\DatabaseUtil\CommandLineProcessRunner.cs" />
+    <Compile Include="Database\DatabaseUtil\DatabaseBackupViaSqlFileCreator.cs" />
+    <Compile Include="Database\DatabaseUtil\DatabaseBackupViaSqlFileCreatorTest.cs" />
+    <Compile Include="Database\DatabaseUtil\DatabaseServer.cs" />
+    <Compile Include="Database\DatabaseUtil\DatabaseServerDict.cs" />
+    <Compile Include="Database\DatabaseUtil\DatabaseTableScripter.cs" />
+    <Compile Include="Database\DatabaseUtil\DatabaseTableScripterTest.cs" />
+    <Compile Include="Database\DatabaseUtil\ErrorHelper.cs" />
+    <Compile Include="Database\DatabaseUtil\FileHelper.cs" />
+    <Compile Include="Database\DatabaseUtil\SchemaRecompiler.cs" />
+    <Compile Include="Database\DatabaseUtil\SchemaRecompilerSqlObject.cs" />
+    <Compile Include="Database\DatabaseUtil\SqlExecuteSafe.cs" />
+    <Compile Include="Database\DatabaseUtil\SqlServerTransactionConnection.cs" />
+    <Compile Include="Database\DatabaseUtil\Test\FileHelperTest.cs" />
+    <Compile Include="Database\Test\BatchSeparationTest.cs" />
+    <Compile Include="Database\Test\SchemaRecompilerTest.cs" />
+    <Compile Include="InstallerCookerTest.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="InstallerCooker.cs" />
+    <Compile Include="WebAppInstallerConfig.cs" />
+    <Compile Include="WebAppInstallerUtility.cs" />
+    <Compile Include="WebAppInstallerUtilityTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DatabaseMigration\Test\DatabaseMigrationFiles\10 With Some Additional Stuff.sql" />
+    <Content Include="DatabaseMigration\Test\DatabaseMigrationFiles\11.sql" />
+    <Content Include="DatabaseMigration\Test\DatabaseMigrationFiles\8.sql" />
+    <Content Include="DatabaseMigration\Test\DatabaseMigrationFiles\9.sql" />
+    <Content Include="DatabaseMigration\Test\DatabaseMigrationFiles\IgnoreMe.txt" />
+    <Content Include="DatabaseMigration\Test\DatabaseMigrationFiles\_otherA.sql" />
+    <Content Include="DatabaseMigration\Test\DatabaseMigrationFiles\_otherB.sql" />
+    <EmbeddedResource Include="Database\DatabaseUtil\ListAllUserExecutableObjectsSpTrUdfVw.sql" />
+    <Content Include="Database\DatabaseUtil\Test\SqlScripts\dbo.SqlScript1.sql" />
+    <Content Include="Database\DatabaseUtil\Test\SqlScripts\okprefix.SqlScript2.sql" />
+    <Content Include="Database\DatabaseUtil\Test\SqlScripts\Recursive\SqlScript4.firstextension.sql" />
+    <Content Include="Database\Test\Source\SqlJobs\SqlJobScript.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config" />
+    <None Include="Database\DatabaseUtil\database_audit_report.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Database\DatabaseUtil\database_audit_report.xsx">
+      <DependentUpon>database_audit_report.xsd</DependentUpon>
+    </None>
+    <None Include="Database\DatabaseUtil\Test\SqlScripts\Recursive\SqlScript3.prc" />
+    <None Include="Database\Test\Source\Bad\dbo.procNotThereSelect.prc" />
+    <None Include="Database\Test\Source\Good\dbo.procAbcSelect.prc" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LtInfo.Common\LtInfo.Common.csproj">
+      <Project>{C6586AD8-9357-4FA3-92AE-A2ED5EACDACC}</Project>
+      <Name>Lorax.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="InstallerCookerTestFiles\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
+  <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
