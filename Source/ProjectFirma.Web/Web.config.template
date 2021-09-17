@@ -105,6 +105,11 @@
     <trace enabled="${template-trace-enabled}" pageOutput="false" mostRecent="true" requestLimit="100" localOnly="true"/>
   </system.web>
   <system.webServer>
+    <security>
+      <requestFiltering>
+        <requestLimits maxAllowedContentLength="${max-request-length}"></requestLimits>
+      </requestFiltering>
+    </security>
     <httpCompression>
       <dynamicTypes>
         <add mimeType="application/json" enabled="true" />
