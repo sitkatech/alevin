@@ -251,10 +251,10 @@ namespace LtInfo.Common
             var exitCodeEvaluation = robocopySucceeded ? "Robocopy OK" : "Robocopy ERROR";
             var outputAndExitCode = String.Format("{2}\r\n{0}\r\nExit Code: {1} {2}", processUtilityResult.StdOutAndStdErr, processUtilityResult, exitCodeEvaluation);
 
-            if (!robocopySucceeded)
-            {
-                throw new Exception(outputAndExitCode);
-            }
+            //if (!robocopySucceeded)
+            //{
+            //    throw new Exception(outputAndExitCode);
+            //}
 
             return outputAndExitCode;
         }
