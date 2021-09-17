@@ -4210,8 +4210,8 @@
 echo copy "$(SolutionDir)Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
 copy "$(SolutionDir)Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
 echo Copy Microsoft SqlServer DLLs for Web Installer over to output folder
-echo copy "$(ProjectDir)..\Toad.WebInstaller\bin\Microsoft.SqlServer*.*" "$(TargetDir)
-copy "$(ProjectDir)..\Toad.WebInstaller\bin\Microsoft.SqlServer*.*" "$(TargetDir)</PostBuildEvent>
+echo copy "$(SolutionDir)Libraries\SqlServerForInstaller\*.dll" "$(TargetDir)" /y
+copy "$(SolutionDir)Libraries\SqlServerForInstaller\*.dll" "$(TargetDir)" /y</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>

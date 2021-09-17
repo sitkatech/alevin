@@ -183,8 +183,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>echo Copy Microsoft SqlServer DLLs for Web Installer over to output folder - Toad.WebInstaller
+echo copy "$(SolutionDir)Libraries\SqlServerForInstaller\*.dll" "$(TargetDir)" /y
+copy "$(SolutionDir)Libraries\SqlServerForInstaller\*.dll" "$(TargetDir)" /y</PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
