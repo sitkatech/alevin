@@ -2,7 +2,7 @@
 @inherits ProjectFirma.Web.Views.Admin.UpdateSite
 
 
-<p>Select new TDR Version Package file (.ZIP)</p>
+<p>Select new website Version Package file (.ZIP)</p>
 @using (Html.BeginForm("UpdateSite", "Admin", FormMethod.Post, new {enctype = "multipart/form-data"}))
 {
     <input type="file" style="width: 800px;" id="@Html.IdFor(m => m.PostedFileBase)" name="@Html.NameFor(m => m.PostedFileBase)" />

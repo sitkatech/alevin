@@ -28,12 +28,12 @@ namespace ProjectFirma.Web.Views.Admin
 {
     public class AdminDetailViewData : FirmaViewData
     {
-        public string MostRecentLogFileDownloadLink { get; }
+        public string LogFileDownloadLink { get; }
         
         public AdminDetailViewData(FirmaSession currentFirmaSession) : base(currentFirmaSession)
         {
             PageTitle = $"Admin Detail";
-            MostRecentLogFileDownloadLink = SitkaRoute<AdminController>.BuildUrlFromExpression(x => x.DownloadWebLogFileZipArchive());
+            LogFileDownloadLink = SitkaRoute<AdminController>.BuildUrlFromExpression(x => x.DownloadWebLogFileZipArchive());
 
             
         }
