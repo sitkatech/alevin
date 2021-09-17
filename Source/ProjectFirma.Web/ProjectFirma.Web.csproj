@@ -4209,7 +4209,9 @@
     <PostBuildEvent>echo moving SqlServerTypes to the bin folder so they do not need to be installed on the server.
 echo copy "$(SolutionDir)Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
 copy "$(SolutionDir)Libraries\SqlServerTypes\*.dll" "$(TargetDir)" /y
-</PostBuildEvent>
+echo Copy Microsoft SqlServer DLLs for Web Installer over to output folder
+echo copy "$(ProjectDir)..\Toad.WebInstaller\bin\Microsoft.SqlServer*.*" "$(TargetDir)
+copy "$(ProjectDir)..\Toad.WebInstaller\bin\Microsoft.SqlServer*.*" "$(TargetDir)</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
