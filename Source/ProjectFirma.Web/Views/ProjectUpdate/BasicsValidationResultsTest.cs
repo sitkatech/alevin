@@ -63,7 +63,7 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
             Assert.That(!warningMessages.Contains(FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear));
 
             // This should always be the next calendar year, I believe -- SLG 1/2/2020 (writing after this test started crashing)
-            int nextCalendarYear = DateTime.Now.Year + 1;
+            int nextCalendarYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting() + 1;
 
             projectUpdate.ProjectStageID = ProjectStage.PlanningDesign.ProjectStageID;
             projectUpdate.PlanningDesignStartYear = nextCalendarYear;
