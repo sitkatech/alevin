@@ -57,6 +57,7 @@ namespace Toad.WebInstaller.Database.DatabaseUtil
         }
 
         [Test]
+        [Ignore("11/9/21 TK - Not needed currently")]
         [UseReporter(typeof(DiffReporter))]
         public void CanScriptOutAlevinDatabase()
         {
