@@ -76,6 +76,10 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectCategory)]
         public ProjectCategoryEnum ProjectCategoryEnum { get; set; }
 
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
+        public int? SolicitationID { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.BpaProjectNumber)]
         [MaxLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
@@ -105,6 +109,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             CompletionYear = project.CompletionYear;
             ProjectCategoryEnum = project.ProjectCategory.ToEnum;
             Comments = project.BasicsComment;
+            SolicitationID = project.SolicitationID;
             BpaProjectNumber = project.BpaProjectNumber;
         }
 
@@ -117,7 +122,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                 HttpRequestStorage.DatabaseEntities.AllImportExternalProjectStagings.Remove(importExternalProjectStagingToDelete);
             }
 
-            project.ProposingPersonID = currentFirmaSession.PersonID;
+            project.SolicitationID = SolicitationID;
+            if (!project.ProposingPersonID.HasValue)
+            {
+                project.ProposingPersonID = currentFirmaSession.PersonID;
+            }
             // NO. You should not directly try to change the TaxonomyLeaf this way. Use override, as shown below.
             // Incorrect code left in because it keeps cropping up. -- SLG
             //project.GetTaxonomyLeaf().TaxonomyLeafID = TaxonomyLeafID ?? ModelObjectHelpers.NotYetAssignedID;

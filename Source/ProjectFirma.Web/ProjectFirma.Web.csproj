@@ -87,6 +87,7 @@
     <Compile Include="Controllers\LocalAuthenticationController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
+    <Compile Include="Controllers\SolicitationController.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
     <Compile Include="Models\RestApiClient.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
+    <Compile Include="Models\SolicitationModelExtensions.cs" />
     <Compile Include="Models\TenantSimple.cs" />
     <Compile Include="PartnerFinder\MatchMakerScoreSubScoreInsight.cs" />
     <Compile Include="PartnerFinder\PartnerOrganizationMatchMakerScore.cs" />
@@ -744,6 +746,12 @@
     <Compile Include="Views\Shared\CustomFooterViewData.cs" />
     <Compile Include="Views\SiteMonitor\SiteMonitorNagios.cs" />
     <Compile Include="Views\TaxonomyBranch\TaxonomyBranchReclamationBiDirectionalTaxonomyLeafTests.cs" />
+    <Compile Include="Views\Solicitation\Edit.cs" />
+    <Compile Include="Views\Solicitation\EditViewData.cs" />
+    <Compile Include="Views\Solicitation\EditViewModel.cs" />
+    <Compile Include="Views\Solicitation\Index.cs" />
+    <Compile Include="Views\Solicitation\IndexGridSpec.cs" />
+    <Compile Include="Views\Solicitation\IndexViewData.cs" />
     <Compile Include="Views\TaxonomyLeaf\ProjectForTaxonomyLeafGridSpec.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContent.cs" />
     <Compile Include="Views\ReleaseNote\EditReleaseNoteRtfContentViewData.cs" />
@@ -766,6 +774,7 @@
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Common\LabelWithSugarForExtensionsTest.GenerateLabelWithSugarForNotYetDefinedFieldDefinitionTest.approved.txt" />
     <Content Include="Content\angular\directives\input-type-file.js" />
+    <Content Include="Content\angular\ng-number.js" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.css" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.js" />
     <Content Include="Content\bootstrap-toggle\bootstrap-toggle.min.css" />
@@ -874,6 +883,7 @@
     <Content Include="Content\fancybox\fancybox_overlay.png" />
     <Content Include="Content\fancybox\fancybox_sprite%402x.png" />
     <Content Include="Content\fancybox\fancybox_sprite.png" />
+    <Content Include="Content\img\NCRPProjectTracker\Projects-Logo.png" />
     <Content Include="Content\img\Reclamation_logo_icon.png" />
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
@@ -2198,6 +2208,8 @@
     <Content Include="Views\Results\BiOpAnnualReport.cshtml" />
     <Content Include="Views\User\EditUser.cshtml" />
     <Content Include="Views\User\ChangePassword.cshtml" />
+    <Content Include="Views\Solicitation\Index.cshtml" />
+    <Content Include="Views\Solicitation\Edit.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />

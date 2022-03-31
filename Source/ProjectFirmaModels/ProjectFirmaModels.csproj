@@ -877,6 +877,10 @@
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeaf.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\SecondaryProjectTaxonomyLeafPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\Solicitation.Binding.cs" />
+    <Compile Include="Models\Generated\Solicitation.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SolicitationConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\SolicitationPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPnBudget.Binding.cs" />
     <Compile Include="Models\Generated\StageImpPnBudget.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\StageImpPnBudgetConfiguration.Binding.cs" />
@@ -1128,6 +1132,7 @@
     <Compile Include="Models\ReportTemplate.cs" />
     <Compile Include="Models\ReportTemplateModel.cs" />
     <Compile Include="Models\ReportTemplateModelType.cs" />
+    <Compile Include="Models\Solicitation.cs" />
     <Compile Include="Models\ObligationRequest.cs" />
     <Compile Include="Models\ObligationRequestSubmissionNote.cs" />
     <Compile Include="Models\ContractType.cs" />

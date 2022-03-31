@@ -107,6 +107,8 @@ namespace ProjectFirmaModels.Models
             this.SubmittedByPersonID = submittedByPersonID;
             this.BpaProjectNumber = bpaProjectNumber;
             this.LocationIsPrivate = locationIsPrivate;
+            this.SolicitationID = solicitationID;
+            this.OtherPartners = otherPartners;
         }
 
         /// <summary>
@@ -548,6 +550,8 @@ namespace ProjectFirmaModels.Models
         public int? SubmittedByPersonID { get; set; }
         public string BpaProjectNumber { get; set; }
         public bool LocationIsPrivate { get; set; }
+        public int? SolicitationID { get; set; }
+        public string OtherPartners { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
@@ -592,6 +596,7 @@ namespace ProjectFirmaModels.Models
         public virtual Person SubmittedByPerson { get; set; }
         public ProjectApprovalStatus ProjectApprovalStatus { get { return ProjectApprovalStatus.AllLookupDictionary[ProjectApprovalStatusID]; } }
         public ProjectCategory ProjectCategory { get { return ProjectCategory.AllLookupDictionary[ProjectCategoryID]; } }
+        public virtual Solicitation Solicitation { get; set; }
 
         public static class FieldLengths
         {
@@ -614,6 +619,7 @@ namespace ProjectFirmaModels.Models
             public const int ProposalClassificationsComment = 1000;
             public const int AttachmentsNotesComment = 1000;
             public const int PhotosComment = 1000;
+            public const int OtherPartners = 500;
             public const int BpaProjectNumber = 15;
         }
     }

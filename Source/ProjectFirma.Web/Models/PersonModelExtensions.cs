@@ -139,7 +139,7 @@ namespace ProjectFirma.Web.Models
             {
                 return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().Where(x => x.ProjectStage != ProjectStage.Terminated).ToList();
             }
-            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals()).ToList();
+            return person.ProjectsWhereYouAreThePrimaryContactPerson.ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals(), currentFirmaSession).ToList();
         }
 
         /// <summary>

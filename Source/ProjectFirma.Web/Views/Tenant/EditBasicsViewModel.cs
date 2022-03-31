@@ -142,6 +142,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.EnableMatchmaker)]
         public bool EnableMatchmaker { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.EnableSolicitations)]
+        public bool EnableSolicitations { get; set; }
+
         [DisplayName("Source Geospatial Areas Externally?")]
         public bool AreGeospatialAreasExternallySourced { get; set; }
 
@@ -181,6 +184,7 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableMatchmaker = tenantAttribute.EnableMatchmaker;
             AreGeospatialAreasExternallySourced = tenantAttribute.AreGeospatialAreasExternallySourced;
             TrackAccomplishments = tenantAttribute.TrackAccomplishments;
+            EnableSolicitations = tenantAttribute.EnableSolicitations;
         }
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
@@ -220,6 +224,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.EnableMatchmaker = EnableMatchmaker;
             tenantAttribute.AreGeospatialAreasExternallySourced = AreGeospatialAreasExternallySourced;
             tenantAttribute.TrackAccomplishments = TrackAccomplishments;
+            tenantAttribute.EnableSolicitations = EnableSolicitations;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

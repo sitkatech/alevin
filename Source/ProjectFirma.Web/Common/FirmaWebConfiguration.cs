@@ -45,6 +45,7 @@ namespace ProjectFirma.Web.Common
         public static readonly string PsInfoDataCenterUrl = SitkaConfiguration.GetRequiredAppSetting("PsInfoDataCenterUrl");
         public static readonly string VitalSignsUrl = SitkaConfiguration.GetRequiredAppSetting("VitalSignsUrl");
         public static readonly string NEPAtlasUrl = SitkaConfiguration.GetRequiredAppSetting("NEPAtlasUrl");
+        public static readonly string ActionAgendaUrl = SitkaConfiguration.GetRequiredAppSetting("ActionAgendaUrl");
         public static readonly string OngoingProgramsUrl = SitkaConfiguration.GetRequiredAppSetting("OngoingProgramsUrl");
         public static readonly string PSARDashboardUrl = SitkaConfiguration.GetRequiredAppSetting("PSARDashboardUrl");
         public static readonly string SpatialHubUrl = SitkaConfiguration.GetRequiredAppSetting("SpatialHubUrl");
@@ -57,7 +58,8 @@ namespace ProjectFirma.Web.Common
         public static readonly Guid KeystoneWebServiceApplicationGuid = Guid.Parse(SitkaConfiguration.GetRequiredAppSetting("KeystoneWebServiceApplicationGuid"));
         
         public static readonly string KeystoneOpenIDUrl = SitkaConfiguration.GetRequiredAppSetting("KeystoneOpenIDUrl");
-
+        public static readonly string ProjectFirmaKeystoneApiClientCertificatePfxBase64 = SitkaConfiguration.GetRequiredAppSetting("ProjectFirmaKeystoneApiClientCertificatePfxBase64");
+        public static readonly string ProjectFirmaKeystoneApiClientCertificatePfxPassword = SitkaConfiguration.GetRequiredAppSetting("ProjectFirmaKeystoneApiClientCertificatePfxPassword");
         public static readonly DirectoryInfo LogFileFolder = ParseLogFileFolder();
 
         public static readonly string RecaptchaPublicKey = SitkaConfiguration.GetRequiredAppSetting("RecaptchaPublicKey");

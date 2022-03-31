@@ -32,6 +32,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FundingTypeID).HasColumnName(@"FundingTypeID").HasColumnType("int").IsOptional();
             Property(x => x.BpaProjectNumber).HasColumnName(@"BpaProjectNumber").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(15);
             Property(x => x.LocationIsPrivate).HasColumnName(@"LocationIsPrivate").HasColumnType("bit").IsRequired();
+            Property(x => x.OtherPartners).HasColumnName(@"OtherPartners").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
 
             // Foreign keys
             HasRequired(a => a.ProjectUpdateBatch).WithMany(b => b.ProjectUpdates).HasForeignKey(c => c.ProjectUpdateBatchID).WillCascadeOnDelete(false); // FK_ProjectUpdate_ProjectUpdateBatch_ProjectUpdateBatchID

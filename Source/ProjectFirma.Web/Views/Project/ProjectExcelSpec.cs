@@ -95,10 +95,10 @@ namespace ProjectFirma.Web.Views.Project
         {
             AddColumn($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} ID", x => x.Project.ProjectID);
             AddColumn($"{FieldDefinitionEnum.ProjectName.ToType().GetFieldDefinitionLabel()}", x => x.Project.ProjectName);
-            AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ID", x => x.Organization.OrganizationID);
-            AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Name", x => x.Organization.OrganizationName);
-            AddColumn($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.Organization.GetPrimaryContactPersonWithOrgAsString());
-            AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.Organization.OrganizationType?.OrganizationTypeName);
+            AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} ID", x => x.Organization?.OrganizationID);
+            AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Name", x => x.Organization != null ? x.Organization.OrganizationName : x.OtherPartners);
+            AddColumn($"{FieldDefinitionEnum.OrganizationPrimaryContact.ToType().GetFieldDefinitionLabel()} for {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", x => x.Organization != null ? x.Organization.GetPrimaryContactPersonWithOrgAsString() : "N/A");
+            AddColumn(FieldDefinitionEnum.OrganizationType.ToType().GetFieldDefinitionLabel(), x => x.Organization != null ? x.Organization.OrganizationType?.OrganizationTypeName : "N/A");
             AddColumn($"{FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()} Relationship To {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", x => x.OrganizationRelationshipTypeName);
         }
     }

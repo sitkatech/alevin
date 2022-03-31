@@ -77,7 +77,10 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
         public bool HasExistingProjectUpdate { get; set; }
 
         public int? OldProjectStageID { get; set; }
-        
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
+        public int? SolicitationID { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -98,6 +101,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             PlanningDesignStartYear = project.PlanningDesignStartYear;
             CompletionYear = project.CompletionYear;
             HasExistingProjectUpdate = hasExistingProjectUpdate;
+            SolicitationID = project.SolicitationID;
             BpaProjectNumber = project.BpaProjectNumber;
         }
 
@@ -111,6 +115,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             project.ImplementationStartYear = ImplementationStartYear;
             project.PlanningDesignStartYear = PlanningDesignStartYear;
             project.CompletionYear = CompletionYear;
+            project.SolicitationID = SolicitationID;
             project.BpaProjectNumber = BpaProjectNumber;
 
             var secondaryProjectTaxonomyLeavesToUpdate = (SecondaryProjectTaxonomyLeafIDs?.ToList() ?? new List<int>())

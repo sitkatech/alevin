@@ -109,6 +109,11 @@ namespace ProjectFirma.Web.Controllers
         public PartialViewResult ProjectTypeSelection()
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var solicitations = new List<Solicitation>();
+            if (tenantAttribute.EnableSolicitations)
+            {
+                solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
+            }
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
             var viewModel = new ProjectTypeSelectionViewModel();
             return RazorPartialView<ProjectTypeSelection, ProjectTypeSelectionViewData, ProjectTypeSelectionViewModel>(viewData, viewModel);
@@ -120,6 +125,11 @@ namespace ProjectFirma.Web.Controllers
         public ActionResult ProjectTypeSelection(ProjectTypeSelectionViewModel viewModel)
         {
             var tenantAttribute = MultiTenantHelpers.GetTenantAttributeFromCache();
+            var solicitations = new List<Solicitation>();
+            if (tenantAttribute.EnableSolicitations)
+            {
+                solicitations = HttpRequestStorage.DatabaseEntities.Solicitations.ToList();
+            }
             var viewData = new ProjectTypeSelectionViewData(tenantAttribute);
 
             if (!ModelState.IsValid)
@@ -1829,7 +1839,12 @@ namespace ProjectFirma.Web.Controllers
         {
             var applicableWizardSections = project.GetApplicableProposalWizardSections(true, project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
-            var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
+            var nextProjectUpdateSection = applicableWizardSections.Where(x =>
+                    x.SortOrder > currentSection.SortOrder &&
+                    (currentSection.SectionDisplayName !=
+                     ProjectCreateSection.BulkSetSpatialInformation.ProjectCreateSectionDisplayName ||
+                     x.ProjectWorkflowSectionGrouping != ProjectWorkflowSectionGrouping.SpatialInformation))
+                .OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;
             return Redirect(nextSection);
         }

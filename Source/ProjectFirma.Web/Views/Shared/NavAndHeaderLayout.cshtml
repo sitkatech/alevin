@@ -75,7 +75,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                         <ul class="dropdown-menu" role="menu">
                                             <li class=""><a title="About Puget Sound Info" href="@string.Format("{0}About", FirmaWebConfiguration.PsInfoUrl)" class="navigation-dropdown-item">About Puget Sound Info</a></li>
                                             <li class="divider"></li>
-                                            <li class=""><a title="Action Agenda" href="@ViewDataTyped.FirmaHomeUrl" class="navigation-dropdown-item">2018-2022 Action Agenda Tracker</a></li>
+                                            <li class=""><a title="Action Agenda" href="@FirmaWebConfiguration.ActionAgendaUrl" class="navigation-dropdown-item">Action Agenda Online</a></li>
                                             <li class=""><a title="NEP Atlas" href="@FirmaWebConfiguration.NEPAtlasUrl" class="navigation-dropdown-item">NEP Atlas</a></li>
                                             <li class=""><a title="Ongoing Programs" href="@FirmaWebConfiguration.OngoingProgramsUrl" class="navigation-dropdown-item">Ongoing Programs</a></li>
                                             <li class=""><a title="PSAR Dashboard" href="@FirmaWebConfiguration.PSARDashboardUrl" class="navigation-dropdown-item">PSAR Dashboard</a></li>
@@ -94,12 +94,13 @@ Source code is available upon request via <support@sitkatech.com>.
                         }
                         else if (ViewDataTyped.TenantName == "NCRPProjectTracker")
                         {
-                            <div style="display: flex; align-items: center;">
+                            <div style="display: flex; align-items: center; flex-wrap: wrap">
                                 <a href="@FirmaWebConfiguration.NCRPHomeUrl">
                                     <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
                                 </a>
+                                <div class="menuDivider"></div>
                                 <a href="@ViewDataTyped.FirmaHomeUrl">
-                                    <span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                                    <img class="headerLogo" src="~/Content/img/NCRPProjectTracker/Projects-Logo.jpg" alt="@ViewDataTyped.TenantToolDisplayName" />
                                 </a>
                             </div>
                         }
@@ -246,6 +247,23 @@ Source code is available upon request via <support@sitkatech.com>.
                         },
                         html: true
                     });
+
+                if ("@(ViewDataTyped.TenantName == "NCRPProjectTracker")" === "True") {
+                    var heightOfTopSections = 0;
+                    jQuery(".optionalContainer").each(function () {
+                        heightOfTopSections = heightOfTopSections + $(this).height();
+                    });
+                    var heightCss = "calc(100vh - " + heightOfTopSections + "px)";
+                    jQuery("#homepageCarousel").css("height", heightCss);
+                    // for small screens, adjust height so "Explore" link does not overlap the Title and Caption
+                    var heightOfTitleAndCaption = jQuery(".main-text").height();
+                    jQuery(".carousel-caption").each(function() {
+                        heightOfTitleAndCaption = heightOfTitleAndCaption + $(this).height();
+                    });
+                    if (jQuery("#homepageCarousel").height() < heightOfTitleAndCaption) {
+                        jQuery("#homepageCarousel").css("height", "calc(100vh + " + jQuery(".carousel-caption").height() + "px)");
+                    }
+                }
             });
             // ]]>
         </script>

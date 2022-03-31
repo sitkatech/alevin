@@ -39,7 +39,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature, int geospatialAreaTypeID, string geospatialAreaDescriptionContent, string geospatialAreaShortName, string externalID) : this()
+        public GeospatialArea(int geospatialAreaID, string geospatialAreaName, DbGeometry geospatialAreaFeature, int geospatialAreaTypeID, string geospatialAreaDescriptionContent, string geospatialAreaShortName, string externalID, string layerColor) : this()
         {
             this.GeospatialAreaID = geospatialAreaID;
             this.GeospatialAreaName = geospatialAreaName;
@@ -48,6 +48,7 @@ namespace ProjectFirmaModels.Models
             this.GeospatialAreaDescriptionContent = geospatialAreaDescriptionContent;
             this.GeospatialAreaShortName = geospatialAreaShortName;
             this.ExternalID = externalID;
+            this.LayerColor = layerColor;
         }
 
         /// <summary>
@@ -237,6 +238,7 @@ namespace ProjectFirmaModels.Models
         }
         public string GeospatialAreaShortName { get; set; }
         public string ExternalID { get; set; }
+        public string LayerColor { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaID; } set { GeospatialAreaID = value; } }
 
@@ -257,6 +259,7 @@ namespace ProjectFirmaModels.Models
             public const int GeospatialAreaName = 150;
             public const int GeospatialAreaShortName = 200;
             public const int ExternalID = 100;
+            public const int LayerColor = 10;
         }
     }
 }

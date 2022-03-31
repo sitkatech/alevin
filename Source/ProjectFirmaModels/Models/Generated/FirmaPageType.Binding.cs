@@ -200,6 +200,8 @@ namespace ProjectFirmaModels.Models
         ManageOrganizationTypes = 83,
         InternalMapLayers = 84,
         ExternallySourcedGeospatialAreasInstructions = 85,
+        SolicitationIndex = 86
+        ExternallySourcedGeospatialAreasInstructions = 85,
         AgreementList = 10000,
         CostAuthorityList = 10001,
         ObligationRequestList = 10002,

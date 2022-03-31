@@ -190,6 +190,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new ReleaseNoteConfiguration());
             modelBuilder.Configurations.Add(new ReportTemplateConfiguration());
             modelBuilder.Configurations.Add(new SecondaryProjectTaxonomyLeafConfiguration());
+            modelBuilder.Configurations.Add(new SolicitationConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SubbasinLiasonConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
@@ -595,6 +596,8 @@ namespace ProjectFirmaModels.Models
         public virtual IQueryable<ReportTemplate> ReportTemplates { get { return AllReportTemplates.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SecondaryProjectTaxonomyLeaf> AllSecondaryProjectTaxonomyLeafs { get; set; }
         public virtual IQueryable<SecondaryProjectTaxonomyLeaf> SecondaryProjectTaxonomyLeafs { get { return AllSecondaryProjectTaxonomyLeafs.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Solicitation> AllSolicitations { get; set; }
+        public virtual IQueryable<Solicitation> Solicitations { get { return AllSolicitations.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<StageImpPnBudget> StageImpPnBudgets { get; set; }
         public virtual DbSet<StageImpUnexpendedBalancePayRecV3> StageImpUnexpendedBalancePayRecV3s { get; set; }
         public virtual DbSet<StateProvince> AllStateProvinces { get; set; }
@@ -1450,6 +1453,9 @@ namespace ProjectFirmaModels.Models
 
                 case "SecondaryProjectTaxonomyLeaf":
                     return SecondaryProjectTaxonomyLeafs.GetSecondaryProjectTaxonomyLeaf(primaryKey);
+
+                case "Solicitation":
+                    return Solicitations.GetSolicitation(primaryKey);
 
                 case "StageImpPnBudget":
                     return StageImpPnBudgets.GetStageImpPnBudget(primaryKey);

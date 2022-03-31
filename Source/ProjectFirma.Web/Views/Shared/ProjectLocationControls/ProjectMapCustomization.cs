@@ -109,7 +109,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             return projectStagesForMap;
         }
 
-        public static List<ProjectFirmaModels.Models.Project> ProjectsForMap(bool showProposals)
+        public static List<ProjectFirmaModels.Models.Project> ProjectsForMap(bool showProposals,
+            FirmaSession firmaSession)
         {
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
             var activeProjectsAndProposals = new List<ProjectFirmaModels.Models.Project>(allProjects.GetActiveProjectsAndProposals(showProposals));
