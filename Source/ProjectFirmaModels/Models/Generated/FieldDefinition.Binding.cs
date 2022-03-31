@@ -323,8 +323,7 @@ namespace ProjectFirmaModels.Models
         ShowExpectedPerformanceMeasuresOnFactSheet = 373,
         Solicitation = 374,
         EnableSolicitations = 375,
-        OtherPartners = 376
-        ShowExpectedPerformanceMeasuresOnFactSheet = 373,
+        OtherPartners = 376,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,

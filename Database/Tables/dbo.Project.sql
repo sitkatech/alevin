@@ -141,7 +141,6 @@ REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
 GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID] FOREIGN KEY([OverrideTaxonomyLeafID])
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Solicitation_SolicitationID] FOREIGN KEY([SolicitationID])
 REFERENCES [dbo].[Solicitation] ([SolicitationID])
 GO
@@ -152,7 +151,7 @@ REFERENCES [dbo].[Solicitation] ([SolicitationID], [TenantID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Solicitation_SolicitationID_TenantID]
 GO
-ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_TaxonomyLeafID] FOREIGN KEY([TaxonomyLeafID])
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID] FOREIGN KEY([OverrideTaxonomyLeafID])
 REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID]

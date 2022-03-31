@@ -113,7 +113,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             FirmaSession firmaSession)
         {
             var allProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList();
-            var activeProjectsAndProposals = new List<ProjectFirmaModels.Models.Project>(allProjects.GetActiveProjectsAndProposals(showProposals));
+            var activeProjectsAndProposals = new List<ProjectFirmaModels.Models.Project>(allProjects.GetActiveProjectsAndProposals(showProposals, firmaSession));
             var activeAndNotPrivate = activeProjectsAndProposals.Where(x => !x.LocationIsPrivate).ToList();
             var activeWhereShouldShowOnMap = activeAndNotPrivate.Where(x => x.ProjectStage.ShouldShowOnMap())
                 .OrderBy(x => x.ProjectStage.ProjectStageID).ToList();

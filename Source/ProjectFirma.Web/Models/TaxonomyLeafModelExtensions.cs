@@ -56,7 +56,7 @@ namespace ProjectFirma.Web.Models
 
         public static List<Project> GetAssociatedProjects(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
         {
-            return taxonomyLeaf.Projects.ToList().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals(), currentFirmaSession);
+            return taxonomyLeaf.GetProjects().GetActiveProjectsAndProposals(currentFirmaSession.CanViewProposals(), currentFirmaSession);
         }
 
         public static List<Project> GetAssociatedPrimaryAndSecondaryProjects(this TaxonomyLeaf taxonomyLeaf, FirmaSession currentFirmaSession)
