@@ -46,6 +46,7 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnFinalStatusUpdateStatus FinalStatusUpdateStatus = ProjectCustomGridColumnFinalStatusUpdateStatus.Instance;
         public static readonly ProjectCustomGridColumnProjectCategory ProjectCategory = ProjectCustomGridColumnProjectCategory.Instance;
         public static readonly ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords NumberOfExpectedPerformanceMeasureRecords = ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords.Instance;
+        public static readonly ProjectCustomGridColumnSolicitation Solicitation = ProjectCustomGridColumnSolicitation.Instance;
         public static readonly ProjectCustomGridColumnNPCCProvince NPCCProvince = ProjectCustomGridColumnNPCCProvince.Instance;
 
         public static readonly List<ProjectCustomGridColumn> All;
@@ -56,7 +57,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, ProjectedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory, NumberOfExpectedPerformanceMeasureRecords, NPCCProvince };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, ProjectedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory, NumberOfExpectedPerformanceMeasureRecords, Solicitation, NPCCProvince };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -184,6 +185,8 @@ namespace ProjectFirmaModels.Models
                     return ProjectStatus;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     return SecondaryTaxonomyLeaf;
+                case ProjectCustomGridColumnEnum.Solicitation:
+                    return Solicitation;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -219,7 +222,8 @@ namespace ProjectFirmaModels.Models
         FinalStatusUpdateStatus = 26,
         ProjectCategory = 27,
         NumberOfExpectedPerformanceMeasureRecords = 28,
-        NPCCProvince = 29
+        Solicitation = 29,
+        NPCCProvince = 30
     }
 
     public partial class ProjectCustomGridColumnProjectName : ProjectCustomGridColumn
@@ -384,9 +388,15 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords Instance = new ProjectCustomGridColumnNumberOfExpectedPerformanceMeasureRecords(28, @"NumberOfExpectedPerformanceMeasureRecords", @"# of Expected Performance Measures Records", true);
     }
 
+    public partial class ProjectCustomGridColumnSolicitation : ProjectCustomGridColumn
+    {
+        private ProjectCustomGridColumnSolicitation(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnSolicitation Instance = new ProjectCustomGridColumnSolicitation(29, @"Solicitation", @"Solicitation", true);
+    }
+
     public partial class ProjectCustomGridColumnNPCCProvince : ProjectCustomGridColumn
     {
         private ProjectCustomGridColumnNPCCProvince(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
-        public static readonly ProjectCustomGridColumnNPCCProvince Instance = new ProjectCustomGridColumnNPCCProvince(29, @"NPCCProvince", @"NPCC Province", true);
+        public static readonly ProjectCustomGridColumnNPCCProvince Instance = new ProjectCustomGridColumnNPCCProvince(30, @"NPCCProvince", @"NPCC Province", true);
     }
 }

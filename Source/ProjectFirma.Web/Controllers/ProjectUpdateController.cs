@@ -3433,7 +3433,7 @@ namespace ProjectFirma.Web.Controllers
             var editOrganizationsViewData = new EditOrganizationsViewData(projectUpdateBatch.ProjectUpdate, CurrentFirmaSession, 
                 allOrganizations, allPeople, allOrganizationRelationshipTypes);
 
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.OrganizationRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact());
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectUpdateBatch.ProjectOrganizationUpdates.Select(x => new ProjectOrganizationRelationship(x.ProjectUpdateBatch.Project, x.Organization, x.OrganizationRelationshipType)).ToList(), projectUpdateBatch.ProjectUpdate.GetPrimaryContact(), projectUpdateBatch.ProjectUpdate.OtherPartners);
             var viewData = new OrganizationsViewData(CurrentFirmaSession, projectUpdateBatch, updateStatus, editOrganizationsViewData, organizationsValidationResult,projectOrganizationsDetailViewData);
 
             return RazorView<Organizations, OrganizationsViewData, OrganizationsViewModel>(viewData, viewModel);
@@ -3454,12 +3454,12 @@ namespace ProjectFirma.Web.Controllers
             var isNotesUpdated = DiffNotesAndAttachmentsImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isCustomAttributesUpdated = DiffProjectCustomAttributesImpl(projectUpdateBatch.ProjectID).HasChanged;
             var isClassificationsUpdated = DiffClassificationsImpl(projectUpdateBatch.ProjectID).HasChanged;
+            var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             //Must be called last, since basics actually changes the Project object which can break the other Diff functions
             var isBasicsUpdated = DiffBasicsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
 
-            var isOrganizationsUpdated = DiffOrganizationsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
             var isContactsUpdated = DiffContactsImpl(projectUpdateBatch.ProjectID).HasChanged;
 
@@ -3515,7 +3515,12 @@ namespace ProjectFirma.Web.Controllers
             projectUpdateBatch.TickleLastUpdateDate(CurrentFirmaSession);
             var applicableWizardSections = projectUpdateBatch.GetApplicableWizardSections(CurrentFirmaSession, true, projectUpdateBatch.Project.HasEditableCustomAttributes(CurrentFirmaSession));
             var currentSection = applicableWizardSections.Single(x => x.SectionDisplayName.Equals(currentSectionName, StringComparison.InvariantCultureIgnoreCase));
-            var nextProjectUpdateSection = applicableWizardSections.Where(x => x.SortOrder > currentSection.SortOrder).OrderBy(x => x.SortOrder).FirstOrDefault();
+            var nextProjectUpdateSection = applicableWizardSections.Where(x =>
+                    x.SortOrder > currentSection.SortOrder &&
+                    (currentSection.SectionDisplayName !=
+                     ProjectUpdateSection.BulkSetSpatialInformation.ProjectUpdateSectionDisplayName ||
+                     x.ProjectWorkflowSectionGrouping != ProjectWorkflowSectionGrouping.SpatialInformation))
+                .OrderBy(x => x.SortOrder).FirstOrDefault();
             var nextSection = viewModel.AutoAdvance && nextProjectUpdateSection != null ? nextProjectUpdateSection.SectionUrl : currentSection.SectionUrl;
             return Redirect(nextSection);
         }
@@ -3594,7 +3599,7 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => organizationsOnlyInOriginal.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassDeletedElement));
 
-            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectUpdate.GetPrimaryContact());
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, projectUpdate.GetPrimaryContact(), projectUpdate.OtherPartners);
         }
 
         private string GeneratePartialViewForOriginalOrganizations(
@@ -3614,12 +3619,12 @@ namespace ProjectFirma.Web.Controllers
                 .Where(x => organizationsOnlyInUpdated.Contains(x, comparer)).ToList()
                 .ForEach(x => x.SetDisplayCssClass(HtmlDiffContainer.DisplayCssClassAddedElement));
 
-            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project.GetPrimaryContact());
+            return GeneratePartialViewForOrganizationsAsString(projectOrganizations, project.GetPrimaryContact(), project.OtherPartners);
         }
 
-        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Person primaryContactPerson)
+        private string GeneratePartialViewForOrganizationsAsString(IEnumerable<ProjectOrganization> projectOrganizations, Person primaryContactPerson, string otherPartners)
         {
-            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.OrganizationRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson);
+            var viewData = new ProjectOrganizationsDetailViewData(projectOrganizations.Select(x => new ProjectOrganizationRelationship(x.Project, x.Organization, x.OrganizationRelationshipType, x.GetDisplayCssClass())).ToList(), primaryContactPerson, otherPartners);
             var partialViewAsString = RenderPartialViewToString(ProjectOrganizationsPartialViewPath, viewData);
             return partialViewAsString;
         }

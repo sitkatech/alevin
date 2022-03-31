@@ -61,6 +61,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.SubmittedByPersonID).HasColumnName(@"SubmittedByPersonID").HasColumnType("int").IsOptional();
             Property(x => x.BpaProjectNumber).HasColumnName(@"BpaProjectNumber").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(15);
             Property(x => x.LocationIsPrivate).HasColumnName(@"LocationIsPrivate").HasColumnType("bit").IsRequired();
+            Property(x => x.SolicitationID).HasColumnName(@"SolicitationID").HasColumnType("int").IsOptional();
+            Property(x => x.OtherPartners).HasColumnName(@"OtherPartners").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
 
             // Foreign keys
             HasOptional(a => a.OverrideTaxonomyLeaf).WithMany(b => b.ProjectsWhereYouAreTheOverrideTaxonomyLeaf).HasForeignKey(c => c.OverrideTaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID
@@ -68,6 +70,7 @@ namespace ProjectFirmaModels.Models
             HasOptional(a => a.ProposingPerson).WithMany(b => b.ProjectsWhereYouAreTheProposingPerson).HasForeignKey(c => c.ProposingPersonID).WillCascadeOnDelete(false); // FK_Project_Person_ProposingPersonID_PersonID
             HasOptional(a => a.ReviewedByPerson).WithMany(b => b.ProjectsWhereYouAreTheReviewedByPerson).HasForeignKey(c => c.ReviewedByPersonID).WillCascadeOnDelete(false); // FK_Project_Person_ReviewedByPersonID_PersonID
             HasOptional(a => a.SubmittedByPerson).WithMany(b => b.ProjectsWhereYouAreTheSubmittedByPerson).HasForeignKey(c => c.SubmittedByPersonID).WillCascadeOnDelete(false); // FK_Project_Person_SubmittedByPersonID_PersonID
+            HasOptional(a => a.Solicitation).WithMany(b => b.Projects).HasForeignKey(c => c.SolicitationID).WillCascadeOnDelete(false); // FK_Project_Solicitation_SolicitationID
         }
     }
 }

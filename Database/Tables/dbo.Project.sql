@@ -49,6 +49,8 @@ CREATE TABLE [dbo].[Project](
 	[SubmittedByPersonID] [int] NULL,
 	[BpaProjectNumber] [varchar](15) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[LocationIsPrivate] [bit] NOT NULL,
+	[SolicitationID] [int] NULL,
+	[OtherPartners] [varchar](500) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
  CONSTRAINT [PK_Project_ProjectID] PRIMARY KEY CLUSTERED 
 (
 	[ProjectID] ASC
@@ -138,6 +140,16 @@ ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_ProjectStage
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_ProjectStage_ProjectStageID]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Solicitation_SolicitationID] FOREIGN KEY([SolicitationID])
+REFERENCES [dbo].[Solicitation] ([SolicitationID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Solicitation_SolicitationID]
+GO
+ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_Solicitation_SolicitationID_TenantID] FOREIGN KEY([SolicitationID], [TenantID])
+REFERENCES [dbo].[Solicitation] ([SolicitationID], [TenantID])
+GO
+ALTER TABLE [dbo].[Project] CHECK CONSTRAINT [FK_Project_Solicitation_SolicitationID_TenantID]
 GO
 ALTER TABLE [dbo].[Project]  WITH CHECK ADD  CONSTRAINT [FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID] FOREIGN KEY([OverrideTaxonomyLeafID])
 REFERENCES [dbo].[TaxonomyLeaf] ([TaxonomyLeafID])

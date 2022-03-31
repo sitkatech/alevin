@@ -248,7 +248,7 @@ namespace ProjectFirma.Web.Controllers
             var projectNotificationGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.ProjectNotificationsGridJsonData(project));
 
             var projectAssociatedOrganizations = project.GetAssociatedOrganizationRelationships(tenantAttribute.ExcludeTargetedFundingOrganizations);
-            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact());
+            var projectOrganizationsDetailViewData = new ProjectOrganizationsDetailViewData(projectAssociatedOrganizations, project.GetPrimaryContact(), project.OtherPartners);
 
             var projectContactsDetailViewData = new ProjectContactsDetailViewData(project.GetAssociatedContactRelationships(), project.PrimaryContactPerson, CurrentFirmaSession);
             var editContactsUrl = SitkaRoute<ProjectContactController>.BuildUrlFromExpression(c => c.EditContacts(project));
@@ -605,6 +605,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new ProposalsGridSpec(CurrentFirmaSession);
             var proposals = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetProposalsVisibleToUser(CurrentFirmaSession);
+
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(proposals, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -622,18 +623,18 @@ namespace ProjectFirma.Web.Controllers
         {
             var gridSpec = new PendingGridSpec(CurrentFirmaSession);
             var pendingProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetPendingProjects(CurrentPerson.CanViewPendingProjects());
-            List<Project> filteredProposals;
+            List<Project> filteredPendingProjects;
             if (CurrentFirmaSession.Role == Role.Normal)
             {
-                filteredProposals = pendingProjects.Where(x =>
-                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID))
+                filteredPendingProjects = pendingProjects.Where(x =>
+                        x.GetAssociatedOrganizations().Select(y => y.OrganizationID).Contains(CurrentPerson.OrganizationID) || (x.ProposingPersonID.HasValue && x.ProposingPersonID == CurrentFirmaSession.PersonID))
                     .ToList();
             }
             else
             {
-                filteredProposals = pendingProjects;
+                filteredPendingProjects = pendingProjects;
             }
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredProposals, gridSpec);
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(filteredPendingProjects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
@@ -681,6 +682,10 @@ namespace ProjectFirma.Web.Controllers
 
             var organizationsSpec = new ProjectImplementingOrganizationOrProjectFundingOrganizationExcelSpec();
             var projectOrganizations = projects.SelectMany(p => p.GetAssociatedOrganizationRelationships()).ToList();
+            var otherPartnersLabel = FieldDefinitionEnum.OtherPartners.ToType().GetFieldDefinitionLabel();
+            var projectOtherPartners = projects.Where(x => !string.IsNullOrWhiteSpace(x.OtherPartners)).Select(x => new ProjectOrganizationRelationship(x, x.OtherPartners, otherPartnersLabel)).ToList();
+            projectOrganizations.AddRange(projectOtherPartners);
+            projectOrganizations = projectOrganizations.OrderBy(x => x.Project.ProjectID).ToList();
             var wsOrganizations = ExcelWorkbookSheetDescriptorFactory.MakeWorksheet($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabelPluralized()}", organizationsSpec, projectOrganizations);
             workSheets.Add(wsOrganizations);
 
@@ -853,7 +858,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
-                    .ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals());
+                    .ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals(), CurrentFirmaSession);
             return projectsFound;
         }
 

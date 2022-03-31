@@ -31,7 +31,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? primaryContactPersonID, int? fundingTypeID, string bpaProjectNumber, bool locationIsPrivate) : this()
+        public ProjectUpdate(int projectUpdateID, int projectUpdateBatchID, int projectStageID, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? primaryContactPersonID, int? fundingTypeID, string bpaProjectNumber, bool locationIsPrivate, string otherPartners) : this()
         {
             this.ProjectUpdateID = projectUpdateID;
             this.ProjectUpdateBatchID = projectUpdateBatchID;
@@ -49,6 +49,7 @@ namespace ProjectFirmaModels.Models
             this.FundingTypeID = fundingTypeID;
             this.BpaProjectNumber = bpaProjectNumber;
             this.LocationIsPrivate = locationIsPrivate;
+            this.OtherPartners = otherPartners;
         }
 
         /// <summary>
@@ -149,6 +150,7 @@ namespace ProjectFirmaModels.Models
         public int? FundingTypeID { get; set; }
         public string BpaProjectNumber { get; set; }
         public bool LocationIsPrivate { get; set; }
+        public string OtherPartners { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectUpdateID; } set { ProjectUpdateID = value; } }
 
@@ -164,6 +166,7 @@ namespace ProjectFirmaModels.Models
             public const int ProjectDescription = 4000;
             public const int ProjectLocationNotes = 4000;
             public const int BpaProjectNumber = 15;
+            public const int OtherPartners = 500;
         }
     }
 }

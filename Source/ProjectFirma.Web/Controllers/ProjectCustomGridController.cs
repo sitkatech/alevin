@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Controllers
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Reports.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.Where(x => x.TenantID == CurrentTenant.TenantID).ToDictionary(x => x.ProjectID);
             var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations, ProjectCustomGridType.Reports.ToEnum,  projectDetails, CurrentTenant);
-            var projects = GetProjectEnumerableWithIncludesForPerformance().GetActiveProjectsAndProposals(true);
+            var projects = GetProjectEnumerableWithIncludesForPerformance().GetActiveProjectsAndProposals(true, CurrentFirmaSession);
             
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
@@ -221,7 +221,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
-            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant);
+            var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomDefaultGridConfigurations, ProjectCustomGridType.Default.ToEnum, projectDetails, CurrentTenant, false);
             var featuredProjects = HttpRequestStorage.DatabaseEntities.Projects.Where(p => p.IsFeatured).ToList().GetActiveProjects();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(featuredProjects, gridSpec);
             return gridJsonNetJObjectResult;
