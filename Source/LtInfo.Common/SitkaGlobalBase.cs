@@ -276,9 +276,10 @@ namespace LtInfo.Common
 
         public string GetErrorPageHtml(bool isLocal, CookieCollection cookies, Exception getLastError)
         {
+            var errorMessage = String.Empty;
             try
             {
-                var errorMessage = Instance.ErrorHtml;
+                errorMessage = Instance.ErrorHtml;
                 if (getLastError != null)
                 {
                     var sitkaException = GetSitkaDisplayableExceptionIfAny(getLastError);
@@ -310,7 +311,7 @@ namespace LtInfo.Common
             {
                 // Catch and log anything that goes wrong in this error handler, we don't let it escape so that it doesn't start the error handling over again
                 SitkaLogger.Instance.LogDetailedErrorMessage(ex);
-                return WrapExceptionDetailsInHtml(String.Format("Secondary exception occurred while trying to display error message, original error message lost.\r\nSecondary Exception Details:\r\n{0}", ex));
+                return WrapExceptionDetailsInHtml($"Secondary exception occurred while trying to display error message, original error message may have been lost.\r\nOriginal Error: {errorMessage}\r\nSecondary Exception Details:\r\n{ex}");
             }
         }
 
