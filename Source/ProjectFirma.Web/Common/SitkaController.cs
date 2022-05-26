@@ -413,9 +413,10 @@ namespace ProjectFirma.Web.Common
                         cell.CellValue = new CellValue(tableColumn.Key);
                         cell.DataType = new EnumValue<CellValues>(CellValues.String);
 
-                        var bCellValue = string.Join(", ", tableColumnFiltersDictionary[tableColumn.Key]);
                         var cell2 = OpenXmlSpreadSheetDocument.InsertCellInWorksheet("B", rowIndex, newWorksheetPart);
-                        cell2.CellValue = new CellValue(bCellValue);
+                        var gridFiltersIfAny = tableColumnFiltersDictionary[tableColumn.Key] ?? new List<string>();
+                        var cell2Value = string.Join(", ", gridFiltersIfAny);
+                        cell2.CellValue = new CellValue(cell2Value);
                         cell2.DataType = new EnumValue<CellValues>(CellValues.String);
                     }
 
