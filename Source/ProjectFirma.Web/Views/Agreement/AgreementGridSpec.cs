@@ -59,7 +59,13 @@ namespace ProjectFirma.Web.Views.Agreement
             // Contract Type
             Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
+            //Add(FieldDefinitionEnum.date)
             Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.AgreementCostAuthorities.Count, 80);
+
+            //Start and end date of agreement
+            Add("Start Date", a => a.StartDate, 80);
+            Add("End Date", a => a.EndDate, 80);
+
         }
 
         private static HtmlString GetProjectHrefsString(ProjectFirmaModels.Models.Agreement agreement)

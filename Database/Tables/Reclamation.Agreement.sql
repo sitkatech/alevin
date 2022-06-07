@@ -18,6 +18,8 @@ CREATE TABLE [Reclamation].[Agreement](
 	[FinancialReporting] [nvarchar](255) COLLATE SQL_Latin1_General_CP1_CI_AS NULL,
 	[OrganizationID] [int] NULL,
 	[ContractTypeID] [int] NOT NULL,
+	[StartDate] [datetime] NULL,
+	[EndDate] [datetime] NULL,
  CONSTRAINT [PK_Agreement_AgreementID] PRIMARY KEY CLUSTERED 
 (
 	[AgreementID] ASC

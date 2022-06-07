@@ -23,11 +23,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using ClosedXML.Excel;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using System;
 
 namespace ProjectFirma.Web.Views.Agreement
 {
@@ -48,6 +50,16 @@ namespace ProjectFirma.Web.Views.Agreement
         [FieldDefinitionDisplay(FieldDefinitionEnum.ContractType)]
         public int? ContractTypeID { get; set; }
 
+        //? Make it required or not?
+        [Required]
+        //[FieldDefinitionDisplay(FieldDefinitionEnum.StartDate)]
+        public DateTime? StartDate { get; set;}
+        
+        //? Make it required or not?
+        [Required]
+        //[FieldDefinitionDisplay(FieldDefinitionEnum.End)]
+        public DateTime? EndDate { get; set;}
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.Obligation)]
         public int? ObligationNumberID { get; set; }
 
@@ -63,6 +75,8 @@ namespace ProjectFirma.Web.Views.Agreement
             AgreementNumber = agreement.AgreementNumber;
             OrganizationID = agreement.OrganizationID;
             ContractTypeID = agreement.ContractTypeID;
+            StartDate = agreement.StartDate;
+            EndDate = agreement.EndDate;
             var associatedObligationNumber = agreement.ObligationNumbersWhereYouAreTheReclamationAgreement.SingleOrDefault();
             ObligationNumberID = associatedObligationNumber?.ObligationNumberID;
         }
@@ -74,6 +88,8 @@ namespace ProjectFirma.Web.Views.Agreement
             agreement.AgreementNumber = this.AgreementNumber.ToUpper();
             agreement.OrganizationID = this.OrganizationID;
             agreement.ContractTypeID = this.ContractTypeID.Value;
+            agreement.StartDate = this.StartDate;
+            agreement.EndDate = this.EndDate;
 
             if (agreement.AgreementID <= 0)
             {

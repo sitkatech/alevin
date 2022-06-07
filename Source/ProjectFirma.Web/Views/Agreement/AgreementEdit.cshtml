@@ -78,14 +78,34 @@
    </div>
 
    <div class="form-group">
-      <div class="col-sm-3 control-label">
-         @Html.LabelWithSugarFor(m => m.ContractTypeID)
-      </div>
-      <div class="col-sm-9">
-         @Html.DropDownListFor(m => m.ContractTypeID, ViewDataTyped.ContractTypeSelectListItems, new { @class = "form-control" })
-         @Html.ValidationMessageFor(m => m.ContractTypeID)
-      </div>
+       <div class="col-sm-3 control-label">
+           @Html.LabelWithSugarFor(m => m.ContractTypeID)
+       </div>
+       <div class="col-sm-9">
+           @Html.DropDownListFor(m => m.ContractTypeID, ViewDataTyped.ContractTypeSelectListItems, new { @class = "form-control" })
+           @Html.ValidationMessageFor(m => m.ContractTypeID)
+       </div>
    </div>
+   <div class="form-group">
+       <div class="col-sm-3 control-label">
+           @Html.LabelWithSugarFor(x => x.StartDate)
+       </div>
+       <div class="col-sm-9">
+           @Html.EditorFor(m => m.StartDate, new { @class = "form-control" })
+           @Html.ValidationMessageFor(m => m.StartDate)
+       </div>
+   </div>
+   <div class="form-group">
+       <div class="col-sm-3 control-label">
+           @Html.LabelWithSugarFor(x => x.EndDate)
+       </div>
+       <div class="col-sm-9">
+           @Html.EditorFor(m => m.EndDate, new { @class = "form-control" })
+           @Html.ValidationMessageFor(m => m.EndDate)
+       </div>
+   </div>
+
+
 
 
 </div>
