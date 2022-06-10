@@ -63,7 +63,7 @@
          @Html.LabelWithSugarFor(m => m.ObligationNumberID)
       </div>
       <div class="col-sm-9">
-         @Html.DropDownListFor(m => m.ObligationNumberID, ViewDataTyped.ObligationNumberSelectListItems, new { @class = "form-control" })
+         @Html.SearchableDropDownListFor(m => m.ObligationNumberID, ViewDataTyped.ObligationNumberSelectListItems)
          @Html.ValidationMessageFor(m => m.ObligationNumberID)
       </div>
    </div>

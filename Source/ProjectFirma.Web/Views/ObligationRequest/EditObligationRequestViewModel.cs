@@ -40,6 +40,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         [FieldDefinitionDisplay(FieldDefinitionEnum.Agreement)]
         public int? AgreementID { get; set; }
 
+        //[FieldDefinitionDisplay(FieldDefinitionEnum.ModNumber)]
+        public int? ModNumber { get; set; }
+
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ContractType)]
         public int ContractTypeID { get; set; }
@@ -83,6 +86,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         {
             IsModification = obligationRequest.IsModification;
             AgreementID = obligationRequest.AgreementID;
+            ModNumber = obligationRequest.ModNumber;
             ContractTypeID = obligationRequest.ContractTypeID;
             ObligationRequestStatusID = obligationRequest.ObligationRequestStatusID;
             DescriptionOfNeed = obligationRequest.DescriptionOfNeed;
@@ -98,10 +102,12 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             if (IsModification)
             {
                 obligationRequest.AgreementID = AgreementID;
+                obligationRequest.ModNumber = ModNumber;
             }
             else
             {
                 obligationRequest.AgreementID = null;
+                obligationRequest.ModNumber = null;
             }
             obligationRequest.IsModification = IsModification;
             obligationRequest.ContractTypeID = ContractTypeID;

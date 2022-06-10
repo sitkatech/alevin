@@ -36,7 +36,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         public IEnumerable<SelectListItem> FundingPriorities { get; }
         public AgreementJsonList AgreementJsonList { get; }
         public ViewPageContentViewData ProjectStatusFirmaPage { get; }
-        
+        public int ModNumber { get; }
+
 
         public EditObligationRequestViewData(
              ProjectFirmaModels.Models.FirmaPage projectStatusFirmaPage
@@ -44,7 +45,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             , List<ProjectFirmaModels.Models.Agreement> allAgreements
             , List<ContractType> allContractTypes
             , List<ObligationRequestStatus> allObligationRequestStatuses
-            , List<ObligationRequestFundingPriority> allFundingPriorities) : base(currentFirmaSession)
+            , List<ObligationRequestFundingPriority> allFundingPriorities
+        ) : base(currentFirmaSession)
         {
             Agreements = allAgreements.OrderBy(x => x.AgreementNumber).ToSelectListWithEmptyFirstRow(x => x.AgreementID.ToString(), x => $"{x.AgreementNumber} - {x.Organization?.GetDisplayName()}");
             ContractTypes = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);

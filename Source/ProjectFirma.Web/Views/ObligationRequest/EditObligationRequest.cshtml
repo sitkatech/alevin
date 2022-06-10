@@ -79,6 +79,16 @@
                     </div>
                 </div>
 
+                <div class="form-group" id="modNumberEditorDiv">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ModNumber, true)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.EditorFor(m => m.ModNumber, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ModNumber)
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <div class="col-sm-4 control-label">
                         @Html.LabelWithSugarFor(m => m.ContractTypeID)
@@ -133,7 +143,7 @@
                         @Html.LabelWithSugarFor(x => x.Palt)
                     </div>
                     <div class="col-sm-8">
-                        @Html.EditorFor(m => m.Palt, new { @class = "form-control"})
+                        @Html.EditorFor(m => m.Palt, new { @class = "form-control" })
                         @Html.ValidationMessageFor(m => m.Palt)
                     </div>
                 </div>
@@ -158,7 +168,7 @@
 
 }
 
-    <script type="text/javascript">
+<script type="text/javascript">
     jQuery(document).ready(function() {
         var obligationRequestJsons = @Html.Raw(JObject.FromObject(ViewDataTyped.AgreementJsonList.AgreementJsons).ToString(Formatting.None));
         @*var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
@@ -218,7 +228,7 @@
             formatSubmittalDate();
         });
 
-       
+
 
         jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]').change(function () {
             var value = false;
@@ -227,15 +237,19 @@
             }
             if (value) {
                 jQuery('#agreementIDEditorDiv').show();
+                jQuery('#modNumberEditorDiv').show();
             } else {
                 jQuery('#agreementIDEditorDiv').hide();
+                jQuery('#modNumberEditorDiv').hide();
                 jQuery("#@Html.IdFor(m => m.AgreementID)").val("");
                 jQuery("select[name=@Html.NameFor(m => m.AgreementID)] option[value='']").text();
+                jQuery("#@Html.IdFor(m => m.ModNumber)").val("");
+                jQuery("select[name=@Html.NameFor(m => m.ModNumber)] option[value='']").text();
             }
 
         });
 
-      
+
         var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsModification)]');
         var value = false;
         radio.each(function () {
@@ -244,14 +258,16 @@
                 value = true;
             }
         });
-       
+
         if (value) {
             jQuery('#agreementIDEditorDiv').show();
+            jQuery('#modNumberEditorDiv').show();
         } else {
             jQuery('#agreementIDEditorDiv').hide();
+            jQuery('#modNumberEditorDiv').hide();
         }
     });
 
 
-    </script>
+</script>
 

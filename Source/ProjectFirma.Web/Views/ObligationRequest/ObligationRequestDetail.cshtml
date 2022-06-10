@@ -100,14 +100,19 @@
                </div>
             </div>
 
-            <div class="row">
-               <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</div>
-               <div class="col-xs-7">
-                  @(ViewDataTyped.ObligationRequest.Agreement != null ? UrlTemplate.MakeHrefString(ViewDataTyped.ObligationRequest.Agreement.GetDetailUrl(), ViewDataTyped.ObligationRequest.Agreement.GetDisplayName()) : new HtmlString(string.Empty))
-               </div>
-            </div>
+             <div class="row">
+                 <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.Agreement.ToType())</div>
+                 <div class="col-xs-7">
+                     @(ViewDataTyped.ObligationRequest.Agreement != null ? UrlTemplate.MakeHrefString(ViewDataTyped.ObligationRequest.Agreement.GetDetailUrl(), ViewDataTyped.ObligationRequest.Agreement.GetDisplayName()) : new HtmlString(string.Empty))
+                 </div>
+             </div>
+             
+             <div class="row">
+                 <div class="col-xs-5 fieldLabel text-right">Mod Number</div>
+                 <div class="col-xs-7">@ViewDataTyped.ObligationRequest.ModNumber</div>
+             </div>
 
-            <div class="row">
+             <div class="row">
                <div class="col-xs-5 fieldLabel text-right">@Html.LabelWithSugarFor(FieldDefinitionEnum.ContractType.ToType())</div>
                <div class="col-xs-7">@ViewDataTyped.ObligationRequest.ContractType.ContractTypeDisplayName</div>
             </div>
