@@ -50,14 +50,10 @@ namespace ProjectFirma.Web.Views.Agreement
         [FieldDefinitionDisplay(FieldDefinitionEnum.ContractType)]
         public int? ContractTypeID { get; set; }
 
-        //? Make it required or not?
-        [Required]
-        //[FieldDefinitionDisplay(FieldDefinitionEnum.StartDate)]
+        [DisplayName("Start Date")]
         public DateTime? StartDate { get; set;}
         
-        //? Make it required or not?
-        [Required]
-        //[FieldDefinitionDisplay(FieldDefinitionEnum.End)]
+        [DisplayName("End Date")]
         public DateTime? EndDate { get; set;}
 
         [FieldDefinitionDisplay(FieldDefinitionEnum.Obligation)]

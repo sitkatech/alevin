@@ -261,4 +261,5 @@ VALUES
 (10055, N'ObligationItem', N'Obligation Item'),
 (10056, N'ObligationRequestNumber', N'Obligation Request Number'),
 (10057, N'BpaProjectNumber', N'BPA Project Number'),
-(10058, N'TotalProjectedObligation', N'Total Projected Obligation')
+(10058, N'TotalProjectedObligation', N'Total Projected Obligation'),
+(10059, N'ModNumber', N'Mod Number')

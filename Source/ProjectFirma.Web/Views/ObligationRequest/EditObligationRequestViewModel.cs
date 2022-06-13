@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         [FieldDefinitionDisplay(FieldDefinitionEnum.Agreement)]
         public int? AgreementID { get; set; }
 
-        //[FieldDefinitionDisplay(FieldDefinitionEnum.ModNumber)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ModNumber)]
         public int? ModNumber { get; set; }
 
         [Required]
