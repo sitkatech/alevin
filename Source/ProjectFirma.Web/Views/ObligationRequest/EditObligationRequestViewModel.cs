@@ -125,14 +125,37 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             var errors = new List<ValidationResult>();
 
             // Agreement is required if is mod
-            if (IsModification && !AgreementID.HasValue)
+            if (IsModification)
             {
-                errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>($"An Agreement must be selected if the Obligation Request is a modification to an existing Agreement.", x => x.AgreementID));
+                if (!AgreementID.HasValue)
+                {
+                    errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>(
+                        $"An Agreement must be selected if the Obligation Request is a modification to an existing Agreement.",
+                        x => x.AgreementID));
+                }
+
+                if (!ModNumber.HasValue)
+                {
+                    errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>(
+                        $"A Mod number must be entered if the Obligation Request is a modification to an existing Agreement.",
+                        x => x.ModNumber));
+                }
             }
 
             if (Palt.HasValue && (Palt > 365 || Palt < 1))
             {
                 errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>("The PALT value must be between 1 and 365", x => x.Palt));
+            }
+
+            if (IsModification && AgreementID.HasValue)
+            {
+                var foo = HttpRequestStorage.DatabaseEntities.ObligationRequests.Where(
+                    x => x.AgreementID == AgreementID).Select(x => x.ModNumber);
+                if (foo.Any(x => x.HasValue && x.Value == ModNumber))
+                {
+                    errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>(
+                        "Mod number must be unique for the selected agreement", x=>x.ModNumber));
+                }
             }
 
             return errors;
