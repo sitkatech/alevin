@@ -16,9 +16,14 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         }
 
 
-        public ClassificationsValidationResult(List<ProjectClassificationSimple> projectClassificationSimple, string classificationFieldDefinitionLabel, string classificationSystemFieldDefinitionLabel)
+        public ClassificationsValidationResult(List<ProjectClassificationSimple> projectClassificationSimple, string classificationFieldDefinitionLabel, string classificationSystemFieldDefinitionLabel, bool isAdminProject)
         {
             _warningMessages = new List<string>();
+            //if isAdminProject classifications are not required
+            if (isAdminProject)
+            {
+                return;
+            }
 
 
             if (!projectClassificationSimple.Any())
