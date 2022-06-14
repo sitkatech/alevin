@@ -150,6 +150,11 @@ namespace ProjectFirma.Web.Views.Agreement
                 }
             }
 
+            if (this.StartDate > this.EndDate)
+            {
+                validationResults.Add(new SitkaValidationResult<AgreementEditViewModel, string>($"The end date, {this.EndDate.ToStringDate()}, cannot be after the start date, {this.StartDate.ToStringDate()}.", x=>x.AgreementNumber));
+            }
+
             return validationResults;
         }
 
