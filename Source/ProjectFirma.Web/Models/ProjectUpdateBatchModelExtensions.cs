@@ -605,13 +605,18 @@ namespace ProjectFirma.Web.Models
             var projectClassificationSimples = ProjectUpdateController.GetProjectClassificationSimples(projectUpdateBatch);
             var classificationLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
             var classificationSystemsLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
-            return new ClassificationsValidationResult(projectClassificationSimples, classificationLabel, classificationSystemsLabel);
+            var isAdminProject = projectUpdateBatch.Project.ProjectCategory == ProjectCategory.Administrative;
+            return new ClassificationsValidationResult(projectClassificationSimples, classificationLabel, classificationSystemsLabel, isAdminProject);
         }
 
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)
         {           
             var incomplete = !projectUpdateBatch.ProjectUpdate.HasProjectLocationPoint(true) &&
                              string.IsNullOrWhiteSpace(projectUpdateBatch.ProjectUpdate.ProjectLocationNotes);
+            if (projectUpdateBatch.Project.ProjectCategory == ProjectCategory.Administrative)
+            {
+                incomplete = false;
+            }
 
             var locationSimpleValidationResult = new LocationSimpleValidationResult(incomplete);
 
@@ -627,6 +632,11 @@ namespace ProjectFirma.Web.Models
         {
             var projectGeospatialAreaTypeNoteUpdate = projectUpdateBatch.ProjectGeospatialAreaTypeNoteUpdates.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
             var incomplete = projectUpdateBatch.ProjectGeospatialAreaUpdates.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && projectGeospatialAreaTypeNoteUpdate == null;
+            //geospatial areas are not required for admin projects
+            if (projectUpdateBatch.Project.ProjectCategory == ProjectCategory.Administrative)
+            {
+                incomplete = false;
+            }
             var geospatialAreaValidationResult = new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
             return geospatialAreaValidationResult;
         }

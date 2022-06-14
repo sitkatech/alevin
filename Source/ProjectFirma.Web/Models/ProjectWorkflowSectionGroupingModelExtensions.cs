@@ -97,12 +97,18 @@ namespace ProjectFirma.Web.Models
                     {
                         projectSectionSimples = geospatialAreaTypes
                             .OrderBy(x => x.GeospatialAreaTypeName).ToList().Select((geospatialAreaType, index) =>
-                                new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized,
+                            {
+                                //geospatial areas are not required if its an admin project
+                                var hasCompletionStatus = true;
+                                var isProjectGeospatialAreaComplete = !ignoreStatus && geospatialAreaType.IsProjectGeospatialAreaValid(project);
+                                return new ProjectSectionSimple(geospatialAreaType.GeospatialAreaTypeNamePluralized,
                                     maxSortOrder + index + 1,
-                                    true, projectWorkflowSectionGrouping,
+                                    hasCompletionStatus,
+                                    projectWorkflowSectionGrouping,
                                     SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(y =>
                                         y.EditGeospatialArea(project, geospatialAreaType)),
-                                    !ignoreStatus && geospatialAreaType.IsProjectGeospatialAreaValid(project), false));
+                                    isProjectGeospatialAreaComplete, false);
+                            });
 
                     }
 

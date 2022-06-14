@@ -1009,7 +1009,8 @@ namespace ProjectFirma.Web.Controllers
                 projectUpdate.ProjectLocationSimpleType.ToEnum,
                 projectUpdate.ProjectLocationNotes,
                 projectUpdateBatch.LocationSimpleComment,
-                projectUpdate.LocationIsPrivate);
+                projectUpdate.LocationIsPrivate,
+                projectUpdate.ProjectCategoryID == (int)ProjectCategoryEnum.Administrative);
             return ViewLocationSimple(project, projectUpdateBatch, viewModel);
         }
 
