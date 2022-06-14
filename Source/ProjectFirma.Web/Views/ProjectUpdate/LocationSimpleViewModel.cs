@@ -43,8 +43,8 @@ namespace ProjectFirma.Web.Views.ProjectUpdate
         }
 
         public LocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, 
-            string projectLocationNotes, string comments, bool locationIsPrivate)
-            : base(projectLocationPoint, projectLocationSimpleType, projectLocationNotes, locationIsPrivate)
+            string projectLocationNotes, string comments, bool locationIsPrivate, bool isAdminProject)
+            : base(projectLocationPoint, projectLocationSimpleType, projectLocationNotes, locationIsPrivate, isAdminProject)
         {
             Comments = comments;
         }

@@ -294,6 +294,11 @@ namespace ProjectFirma.Web.Models
         {
             var projectGeospatialAreaTypeNoteUpdate = project.ProjectGeospatialAreaTypeNotes.SingleOrDefault(x => x.GeospatialAreaTypeID == geospatialAreaType.GeospatialAreaTypeID);
             var incomplete = project.ProjectGeospatialAreas.All(x => x.GeospatialArea.GeospatialAreaTypeID != geospatialAreaType.GeospatialAreaTypeID) && projectGeospatialAreaTypeNoteUpdate == null;
+            //if project is Admin then geospatial areas are not required
+            if (project.ProjectCategory == ProjectCategory.Administrative)
+            {
+                incomplete = false;
+            }
             return new GeospatialAreaValidationResult(incomplete, geospatialAreaType);
         }
 

@@ -39,6 +39,8 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.ProposalClassificationsComment)]
         public string Comments { get; set; }
 
+        public bool IsAdminProject { get; set; }
+
         /// <summary>
         /// Needed by the ModelBinder
         /// </summary>
@@ -50,6 +52,7 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         {
             ProjectClassificationSimples = projectClassificationSimples;
             Comments = project.ProposalClassificationsComment;
+            IsAdminProject = project.ProjectCategory == ProjectCategory.Administrative;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, List<ProjectClassificationSimple> projectClassificationSimples)
@@ -95,6 +98,13 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var validationResults = new List<ValidationResult>();
+
+            //if this is an admin project the classification is not required
+            if (IsAdminProject)
+            {
+                return new List<ValidationResult>();
+            }
+
 
             if (!ProjectClassificationSimples.Any())
             {

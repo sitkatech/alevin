@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var project = projectPrimaryKey.EntityObject;
             var viewModel = new ProjectLocationSimpleViewModel(project.GetProjectLocationPoint(true), project.ProjectLocationSimpleType.ToEnum, 
-                project.ProjectLocationNotes, project.LocationIsPrivate);
+                project.ProjectLocationNotes, project.LocationIsPrivate, project.ProjectCategory == ProjectCategory.Administrative);
             return ViewEditProjectLocationSummaryPoint(project, viewModel);
         }
 

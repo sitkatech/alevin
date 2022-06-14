@@ -50,6 +50,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public bool LocationIsPrivate { get; set; }
 
+        public bool IsAdminProject { get; set; }
+
         /// <summary>
         /// Needed by model binder
         /// </summary>
@@ -58,7 +60,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
         }
 
         public ProjectLocationSimpleViewModel(DbGeometry projectLocationPoint, ProjectLocationSimpleTypeEnum projectLocationSimpleType, 
-            string projectLocationNotes, bool locationIsPrivate)
+            string projectLocationNotes, bool locationIsPrivate, bool isAdminProject)
         {
             ProjectLocationSimpleType = projectLocationSimpleType;
             if (projectLocationPoint != null)
@@ -73,6 +75,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             }
             ProjectLocationNotes = projectLocationNotes;
             LocationIsPrivate = locationIsPrivate;
+            IsAdminProject = isAdminProject;
         }
 
         public virtual void UpdateModel(IProject iProject)
@@ -103,6 +106,12 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
 
         public IEnumerable<ValidationResult> GetValidationResults()
         {
+            //Simple location is not required for Admin projects
+            if (IsAdminProject)
+            {
+                return new List<ValidationResult>();
+            }
+
             var errors = new List<ValidationResult>();
 
             if (ProjectLocationSimpleType == ProjectLocationSimpleTypeEnum.PointOnMap && (!ProjectLocationPointX.HasValue || !ProjectLocationPointY.HasValue))
