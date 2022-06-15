@@ -18,6 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
+@using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -122,6 +123,14 @@
                 <div class="row">
                     <div class="col-xs-5 fieldLabel text-right">Obligations</div>
                     <div class="col-xs-7">@AgreementGridSpec.GetObligationHrefsString(ViewDataTyped.Agreement)</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">Start Date</div>
+                    <div class="col-xs-7">@ViewDataTyped.Agreement.StartDate.ToStringDate()</div>
+                </div>
+                <div class="row">
+                    <div class="col-xs-5 fieldLabel text-right">End Date</div>
+                    <div class="col-xs-7">@ViewDataTyped.Agreement.EndDate.ToStringDate()</div>
                 </div>
 
                 @*There are more fields we can show here, just am not doing it to start with. -- SLG*@

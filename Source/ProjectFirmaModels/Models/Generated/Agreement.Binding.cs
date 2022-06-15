@@ -35,7 +35,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Agreement(int agreementID, int? original_ReclamationAgreementID, string agreementNumber, double? contractorLU, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID) : this()
+        public Agreement(int agreementID, int? original_ReclamationAgreementID, string agreementNumber, double? contractorLU, bool isContingent, bool isIncrementalFunding, string oldAgreementNumber, string cOR, double? technicalRepresentative, string bOC, string contractNumber, string expirationDate, string financialReporting, int? organizationID, int contractTypeID, DateTime? startDate, DateTime? endDate) : this()
         {
             this.AgreementID = agreementID;
             this.Original_ReclamationAgreementID = original_ReclamationAgreementID;
@@ -52,6 +52,8 @@ namespace ProjectFirmaModels.Models
             this.FinancialReporting = financialReporting;
             this.OrganizationID = organizationID;
             this.ContractTypeID = contractTypeID;
+            this.StartDate = startDate;
+            this.EndDate = endDate;
         }
 
         /// <summary>
@@ -202,6 +204,8 @@ namespace ProjectFirmaModels.Models
         public string FinancialReporting { get; set; }
         public int? OrganizationID { get; set; }
         public int ContractTypeID { get; set; }
+        public DateTime? StartDate { get; set; }
+        public DateTime? EndDate { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return AgreementID; } set { AgreementID = value; } }
 

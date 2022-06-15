@@ -23,11 +23,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using ClosedXML.Excel;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using System;
 
 namespace ProjectFirma.Web.Views.Agreement
 {
@@ -48,6 +50,12 @@ namespace ProjectFirma.Web.Views.Agreement
         [FieldDefinitionDisplay(FieldDefinitionEnum.ContractType)]
         public int? ContractTypeID { get; set; }
 
+        [DisplayName("Start Date")]
+        public DateTime? StartDate { get; set;}
+        
+        [DisplayName("End Date")]
+        public DateTime? EndDate { get; set;}
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.Obligation)]
         public int? ObligationNumberID { get; set; }
 
@@ -63,6 +71,8 @@ namespace ProjectFirma.Web.Views.Agreement
             AgreementNumber = agreement.AgreementNumber;
             OrganizationID = agreement.OrganizationID;
             ContractTypeID = agreement.ContractTypeID;
+            StartDate = agreement.StartDate;
+            EndDate = agreement.EndDate;
             var associatedObligationNumber = agreement.ObligationNumbersWhereYouAreTheReclamationAgreement.SingleOrDefault();
             ObligationNumberID = associatedObligationNumber?.ObligationNumberID;
         }
@@ -74,6 +84,8 @@ namespace ProjectFirma.Web.Views.Agreement
             agreement.AgreementNumber = this.AgreementNumber.ToUpper();
             agreement.OrganizationID = this.OrganizationID;
             agreement.ContractTypeID = this.ContractTypeID.Value;
+            agreement.StartDate = this.StartDate;
+            agreement.EndDate = this.EndDate;
 
             if (agreement.AgreementID <= 0)
             {
@@ -136,6 +148,11 @@ namespace ProjectFirma.Web.Views.Agreement
                 {
                     validationResults.Add(new SitkaValidationResult<AgreementEditViewModel, string>($"If you want to associate to Obligation {requestedObligationNumber.ObligationNumberKey},<br/> Agreement Number must be the same as the Obligation Number (\"{requestedObligationNumber.ObligationNumberKey}\"),<br/> and not \"{this.AgreementNumber}\".", x => x.AgreementNumber));
                 }
+            }
+
+            if (this.StartDate > this.EndDate)
+            {
+                validationResults.Add(new SitkaValidationResult<AgreementEditViewModel, DateTime?>($"The start date, {this.StartDate.ToStringDate()}, cannot be after the end date, {this.EndDate.ToStringDate()}.", x=>x.StartDate));
             }
 
             return validationResults;

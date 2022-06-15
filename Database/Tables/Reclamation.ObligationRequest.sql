@@ -25,12 +25,21 @@ CREATE TABLE [Reclamation].[ObligationRequest](
 	[DateSentForDeptReview] [datetime] NULL,
 	[DCApprovalDate] [datetime] NULL,
 	[ActualAwardDate] [datetime] NULL,
+	[ModNumber] [int] NULL,
  CONSTRAINT [PK_ObligationRequest_ObligationRequestID] PRIMARY KEY CLUSTERED 
 (
 	[ObligationRequestID] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 
+GO
+CREATE UNIQUE NONCLUSTERED INDEX [AK_ObligationRequest_AgreementID_ModNumber] ON [Reclamation].[ObligationRequest]
+(
+	[ModNumber] ASC,
+	[AgreementID] ASC
+)
+WHERE ([IsModification]=(1) AND [ModNumber] IS NOT NULL AND [AgreementID] IS NOT NULL)
+WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, SORT_IN_TEMPDB = OFF, IGNORE_DUP_KEY = OFF, DROP_EXISTING = OFF, ONLINE = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 GO
 ALTER TABLE [Reclamation].[ObligationRequest]  WITH CHECK ADD  CONSTRAINT [FK_ObligationRequest_Agreement_AgreementID] FOREIGN KEY([AgreementID])
 REFERENCES [Reclamation].[Agreement] ([AgreementID])

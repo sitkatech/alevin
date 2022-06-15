@@ -95,7 +95,7 @@ namespace ProjectFirma.Web.Controllers
             var allContractTypes = HttpRequestStorage.DatabaseEntities.ContractTypes.ToList();
             var allRequestStatuses = ObligationRequestStatus.All;
             var allFundingPriorities = ObligationRequestFundingPriority.All;
-            var viewData = new EditObligationRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allAgreements,allContractTypes, allRequestStatuses, allFundingPriorities );
+            var viewData = new EditObligationRequestViewData(projectStatusFirmaPage, CurrentFirmaSession, allAgreements,allContractTypes, allRequestStatuses, allFundingPriorities);
             return RazorPartialView<EditObligationRequest, EditObligationRequestViewData, EditObligationRequestViewModel>(viewData, viewModel);
         }
 

@@ -23,6 +23,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.Office2010.Word;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
@@ -65,7 +66,6 @@ namespace ProjectFirma.Web.Views.Agreement
 
             var allContractTypes = HttpRequestStorage.DatabaseEntities.ContractTypes.ToList();
             ContractTypeSelectListItems = allContractTypes.OrderBy(x => x.ContractTypeDisplayName).ToSelectListWithEmptyFirstRow(x => x.ContractTypeID.ToString(), x => x.ContractTypeDisplayName);
-
         }
 
 

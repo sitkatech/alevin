@@ -30,6 +30,8 @@ namespace ProjectFirmaModels.Models
             Property(x => x.FinancialReporting).HasColumnName(@"FinancialReporting").HasColumnType("nvarchar").IsOptional().HasMaxLength(255);
             Property(x => x.OrganizationID).HasColumnName(@"OrganizationID").HasColumnType("int").IsOptional();
             Property(x => x.ContractTypeID).HasColumnName(@"ContractTypeID").HasColumnType("int").IsRequired();
+            Property(x => x.StartDate).HasColumnName(@"StartDate").HasColumnType("datetime").IsOptional();
+            Property(x => x.EndDate).HasColumnName(@"EndDate").HasColumnType("datetime").IsOptional();
 
             // Foreign keys
             HasOptional(a => a.Organization).WithMany(b => b.Agreements).HasForeignKey(c => c.OrganizationID).WillCascadeOnDelete(false); // FK_Agreement_Organization_OrganizationID

@@ -76,6 +76,8 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             // Target Submittal Date
             Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetSubmittalDate, 120);
           
+            // Mod number
+            Add(FieldDefinitionEnum.ModNumber.ToType().ToGridHeaderString(), a => a.ModNumber?.ToString(), 60, DhtmlxGridColumnFilterType.Numeric);
         }
     }
 }

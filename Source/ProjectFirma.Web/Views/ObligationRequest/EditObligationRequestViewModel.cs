@@ -40,6 +40,9 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         [FieldDefinitionDisplay(FieldDefinitionEnum.Agreement)]
         public int? AgreementID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ModNumber)]
+        public int? ModNumber { get; set; }
+
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ContractType)]
         public int ContractTypeID { get; set; }
@@ -83,6 +86,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
         {
             IsModification = obligationRequest.IsModification;
             AgreementID = obligationRequest.AgreementID;
+            ModNumber = obligationRequest.ModNumber;
             ContractTypeID = obligationRequest.ContractTypeID;
             ObligationRequestStatusID = obligationRequest.ObligationRequestStatusID;
             DescriptionOfNeed = obligationRequest.DescriptionOfNeed;
@@ -98,10 +102,12 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             if (IsModification)
             {
                 obligationRequest.AgreementID = AgreementID;
+                obligationRequest.ModNumber = ModNumber;
             }
             else
             {
                 obligationRequest.AgreementID = null;
+                obligationRequest.ModNumber = null;
             }
             obligationRequest.IsModification = IsModification;
             obligationRequest.ContractTypeID = ContractTypeID;
@@ -119,14 +125,37 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             var errors = new List<ValidationResult>();
 
             // Agreement is required if is mod
-            if (IsModification && !AgreementID.HasValue)
+            if (IsModification)
             {
-                errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>($"An Agreement must be selected if the Obligation Request is a modification to an existing Agreement.", x => x.AgreementID));
+                if (!AgreementID.HasValue)
+                {
+                    errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>(
+                        $"An Agreement must be selected if the Obligation Request is a modification to an existing Agreement.",
+                        x => x.AgreementID));
+                }
+
+                if (!ModNumber.HasValue)
+                {
+                    errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>(
+                        $"A Mod number must be entered if the Obligation Request is a modification to an existing Agreement.",
+                        x => x.ModNumber));
+                }
             }
 
             if (Palt.HasValue && (Palt > 365 || Palt < 1))
             {
                 errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>("The PALT value must be between 1 and 365", x => x.Palt));
+            }
+
+            if (IsModification && AgreementID.HasValue)
+            {
+                var foo = HttpRequestStorage.DatabaseEntities.ObligationRequests.Where(
+                    x => x.AgreementID == AgreementID).Select(x => x.ModNumber);
+                if (foo.Any(x => x.HasValue && x.Value == ModNumber))
+                {
+                    errors.Add(new SitkaValidationResult<EditObligationRequestViewModel, int?>(
+                        "Mod number must be unique for the selected agreement", x=>x.ModNumber));
+                }
             }
 
             return errors;
