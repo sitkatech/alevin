@@ -29,6 +29,8 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureActualSubcategoryOptionUpdates = new HashSet<PerformanceMeasureActualSubcategoryOptionUpdate>();
             this.PerformanceMeasureExpectedSubcategoryOptions = new HashSet<PerformanceMeasureExpectedSubcategoryOption>();
             this.PerformanceMeasureExpectedSubcategoryOptionUpdates = new HashSet<PerformanceMeasureExpectedSubcategoryOptionUpdate>();
+            this.SubprojectPerformanceMeasureActualSubcategoryOptions = new HashSet<SubprojectPerformanceMeasureActualSubcategoryOption>();
+            this.SubprojectPerformanceMeasureExpectedSubcategoryOptions = new HashSet<SubprojectPerformanceMeasureExpectedSubcategoryOption>();
         }
 
         /// <summary>
@@ -84,7 +86,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any();
+            return PerformanceMeasureActualSubcategoryOptions.Any() || PerformanceMeasureActualSubcategoryOptionUpdates.Any() || PerformanceMeasureExpectedSubcategoryOptions.Any() || PerformanceMeasureExpectedSubcategoryOptionUpdates.Any() || SubprojectPerformanceMeasureActualSubcategoryOptions.Any() || SubprojectPerformanceMeasureExpectedSubcategoryOptions.Any();
         }
 
         /// <summary>
@@ -113,13 +115,23 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name);
             }
+
+            if(SubprojectPerformanceMeasureActualSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectPerformanceMeasureActualSubcategoryOption).Name);
+            }
+
+            if(SubprojectPerformanceMeasureExpectedSubcategoryOptions.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectPerformanceMeasureExpectedSubcategoryOption).Name);
+            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(PerformanceMeasureActualSubcategoryOptionUpdate).Name, typeof(PerformanceMeasureExpectedSubcategoryOption).Name, typeof(PerformanceMeasureExpectedSubcategoryOptionUpdate).Name, typeof(SubprojectPerformanceMeasureActualSubcategoryOption).Name, typeof(SubprojectPerformanceMeasureExpectedSubcategoryOption).Name};
 
 
         /// <summary>
@@ -163,6 +175,16 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in SubprojectPerformanceMeasureActualSubcategoryOptions.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in SubprojectPerformanceMeasureExpectedSubcategoryOptions.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -179,6 +201,8 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PerformanceMeasureActualSubcategoryOptionUpdate> PerformanceMeasureActualSubcategoryOptionUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOption> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public virtual ICollection<PerformanceMeasureExpectedSubcategoryOptionUpdate> PerformanceMeasureExpectedSubcategoryOptionUpdates { get; set; }
+        public virtual ICollection<SubprojectPerformanceMeasureActualSubcategoryOption> SubprojectPerformanceMeasureActualSubcategoryOptions { get; set; }
+        public virtual ICollection<SubprojectPerformanceMeasureExpectedSubcategoryOption> SubprojectPerformanceMeasureExpectedSubcategoryOptions { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
 
