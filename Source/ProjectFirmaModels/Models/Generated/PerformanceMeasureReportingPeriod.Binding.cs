@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
             this.PerformanceMeasureActuals = new HashSet<PerformanceMeasureActual>();
             this.PerformanceMeasureActualUpdates = new HashSet<PerformanceMeasureActualUpdate>();
             this.PerformanceMeasureReportingPeriodTargets = new HashSet<PerformanceMeasureReportingPeriodTarget>();
+            this.SubprojectPerformanceMeasureActuals = new HashSet<SubprojectPerformanceMeasureActual>();
         }
 
         /// <summary>
@@ -68,7 +69,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureReportingPeriodTargets.Any();
+            return GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any() || PerformanceMeasureActuals.Any() || PerformanceMeasureActualUpdates.Any() || PerformanceMeasureReportingPeriodTargets.Any() || SubprojectPerformanceMeasureActuals.Any();
         }
 
         /// <summary>
@@ -97,13 +98,18 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(PerformanceMeasureReportingPeriodTarget).Name);
             }
+
+            if(SubprojectPerformanceMeasureActuals.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectPerformanceMeasureActual).Name);
+            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureReportingPeriod).Name, typeof(GeospatialAreaPerformanceMeasureReportingPeriodTarget).Name, typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualUpdate).Name, typeof(PerformanceMeasureReportingPeriodTarget).Name, typeof(SubprojectPerformanceMeasureActual).Name};
 
 
         /// <summary>
@@ -147,6 +153,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in SubprojectPerformanceMeasureActuals.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -161,6 +172,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<PerformanceMeasureActual> PerformanceMeasureActuals { get; set; }
         public virtual ICollection<PerformanceMeasureActualUpdate> PerformanceMeasureActualUpdates { get; set; }
         public virtual ICollection<PerformanceMeasureReportingPeriodTarget> PerformanceMeasureReportingPeriodTargets { get; set; }
+        public virtual ICollection<SubprojectPerformanceMeasureActual> SubprojectPerformanceMeasureActuals { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

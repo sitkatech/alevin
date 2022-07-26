@@ -193,6 +193,11 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new SolicitationConfiguration());
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SubbasinLiasonConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureActualConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureActualSubcategoryOptionConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureExpectedConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureExpectedSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new SupportRequestLogConfiguration());
             modelBuilder.Configurations.Add(new TagConfiguration());
             modelBuilder.Configurations.Add(new TaxonomyBranchConfiguration());
@@ -605,6 +610,16 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<SubbasinLiason> AllSubbasinLiasons { get; set; }
         public virtual IQueryable<SubbasinLiason> SubbasinLiasons { get { return AllSubbasinLiasons.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Subbasin> Subbasins { get; set; }
+        public virtual DbSet<SubprojectPerformanceMeasureActual> AllSubprojectPerformanceMeasureActuals { get; set; }
+        public virtual IQueryable<SubprojectPerformanceMeasureActual> SubprojectPerformanceMeasureActuals { get { return AllSubprojectPerformanceMeasureActuals.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<SubprojectPerformanceMeasureActualSubcategoryOption> AllSubprojectPerformanceMeasureActualSubcategoryOptions { get; set; }
+        public virtual IQueryable<SubprojectPerformanceMeasureActualSubcategoryOption> SubprojectPerformanceMeasureActualSubcategoryOptions { get { return AllSubprojectPerformanceMeasureActualSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<SubprojectPerformanceMeasureExpected> AllSubprojectPerformanceMeasureExpecteds { get; set; }
+        public virtual IQueryable<SubprojectPerformanceMeasureExpected> SubprojectPerformanceMeasureExpecteds { get { return AllSubprojectPerformanceMeasureExpecteds.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<SubprojectPerformanceMeasureExpectedSubcategoryOption> AllSubprojectPerformanceMeasureExpectedSubcategoryOptions { get; set; }
+        public virtual IQueryable<SubprojectPerformanceMeasureExpectedSubcategoryOption> SubprojectPerformanceMeasureExpectedSubcategoryOptions { get { return AllSubprojectPerformanceMeasureExpectedSubcategoryOptions.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<Subproject> AllSubprojects { get; set; }
+        public virtual IQueryable<Subproject> Subprojects { get { return AllSubprojects.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SupportRequestLog> AllSupportRequestLogs { get; set; }
         public virtual IQueryable<SupportRequestLog> SupportRequestLogs { get { return AllSupportRequestLogs.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Tag> AllTags { get; set; }
@@ -1471,6 +1486,21 @@ namespace ProjectFirmaModels.Models
 
                 case "Subbasin":
                     return Subbasins.GetSubbasin(primaryKey);
+
+                case "SubprojectPerformanceMeasureActual":
+                    return SubprojectPerformanceMeasureActuals.GetSubprojectPerformanceMeasureActual(primaryKey);
+
+                case "SubprojectPerformanceMeasureActualSubcategoryOption":
+                    return SubprojectPerformanceMeasureActualSubcategoryOptions.GetSubprojectPerformanceMeasureActualSubcategoryOption(primaryKey);
+
+                case "SubprojectPerformanceMeasureExpected":
+                    return SubprojectPerformanceMeasureExpecteds.GetSubprojectPerformanceMeasureExpected(primaryKey);
+
+                case "SubprojectPerformanceMeasureExpectedSubcategoryOption":
+                    return SubprojectPerformanceMeasureExpectedSubcategoryOptions.GetSubprojectPerformanceMeasureExpectedSubcategoryOption(primaryKey);
+
+                case "Subproject":
+                    return Subprojects.GetSubproject(primaryKey);
 
                 case "SupportRequestLog":
                     return SupportRequestLogs.GetSupportRequestLog(primaryKey);
