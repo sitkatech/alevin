@@ -41,8 +41,9 @@
 }
 
 <style>
+    table.tableFixedHead { border-collapse: separate; }
     .tableFixedHead tbody { overflow-y: auto; height: 300px; }
-    .tableFixedHead thead th { position: sticky; top: 0; background-color: #fff; }
+    .tableFixedHead thead th { position: sticky; top: 0; background-color: #fff; border-top: 1px solid #ddd !important; }
 </style>
     <div class="table-responsive" style="max-height: 450px;">
         <table class="table table-condensed table-bordered tableFixedHead">
