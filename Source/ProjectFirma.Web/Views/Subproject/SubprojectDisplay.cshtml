@@ -26,14 +26,7 @@
 @inherits ProjectFirma.Web.Views.Subproject.SubprojectDisplay
 
 <div>
-    @if (ViewDataTyped.UserCanCreateSubproject.HasPermission)
-    {
-        <div class="text-right" style="margin-bottom: 15px;">
-            <span>
-                @ModalDialogFormHelper.ModalDialogFormLink(string.Format("<button class='btn btn-firma'><span class='glyphicon glyphicon-plus-sign' style='margin-right: 3px'></span>Add {0}</button>", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), ViewDataTyped.AddNewActionItemUrl, string.Format("Add New {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), 700, "Add", "Cancel", new List<string> {  }, null, null)
-            </span>
-        </div>
-    }
+  
 
     @Html.DhtmlxGrid(ViewDataTyped.SubprojectGridSpec, ViewDataTyped.SubprojectGridName, ViewDataTyped.SubprojectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
 </div>

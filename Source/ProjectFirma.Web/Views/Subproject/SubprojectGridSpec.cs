@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.Subproject
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Delete(x.PrimaryKey)), true), 30, DhtmlxGridColumnFilterType.None);
             //Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), ModalDialogFormHelper.DefaultDialogWidth, "Edit Subproject")), 30, DhtmlxGridColumnFilterType.None);
             Add("Implementation Start Year", x => x.ImplementationStartYear.DisplayValue(), 120);
-            Add("Completion Year", x => x.CompleteionYear.DisplayValue(), 120);
+            Add("Completion Year", x => x.CompletionYear.DisplayValue(), 120);
             Add("Project Stage", x => x.ProjectStage.ProjectStageDisplayName, 120);
             Add("Notes", x => x.Notes, 120);
         }
@@ -50,7 +50,7 @@ namespace ProjectFirma.Web.Views.Subproject
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Delete(x.PrimaryKey)), true), 30, DhtmlxGridColumnFilterType.None);
             //Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), ModalDialogFormHelper.DefaultDialogWidth, "Edit Subproject")), 30, DhtmlxGridColumnFilterType.None);
             Add("Implementation Start Year", x => x.ImplementationStartYear.DisplayValue(), 120);
-            Add("Completion Year", x => x.CompleteionYear.DisplayValue(), 120);
+            Add("Completion Year", x => x.CompletionYear.DisplayValue(), 120);
             Add("Project Stage", x => x.ProjectStage.ProjectStageDisplayName, 120);
             Add("Notes", x => x.Notes, 120);
         }
@@ -58,12 +58,19 @@ namespace ProjectFirma.Web.Views.Subproject
 
     public class SubprojectGridSpec : GridSpec<ProjectFirmaModels.Models.Subproject>
     {
-        public SubprojectGridSpec()
+        public SubprojectGridSpec(ProjectPrimaryKey projectPrimaryKey)
         {
+            ObjectNameSingular = "Subproject";
+            ObjectNamePlural = "Subprojects";
+
+            var contentUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(x => x.New(projectPrimaryKey));
+            CreateEntityModalDialogForm = new ModalDialogForm(contentUrl, 950, $"Create a new Subproject");
+
+
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Delete(x.PrimaryKey)), true), 30, DhtmlxGridColumnFilterType.None);
             //Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), ModalDialogFormHelper.DefaultDialogWidth, "Edit Subproject")), 30, DhtmlxGridColumnFilterType.None);
             Add("Implementation Start Year", x => x.ImplementationStartYear.DisplayValue(), 120);
-            Add("Completion Year", x => x.CompleteionYear.DisplayValue(), 120);
+            Add("Completion Year", x => x.CompletionYear.DisplayValue(), 120);
             Add("Project Stage", x => x.ProjectStage.ProjectStageDisplayName, 120);
             Add("Notes", x => x.Notes, 120);
         }

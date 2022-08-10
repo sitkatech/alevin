@@ -20,7 +20,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectStageID).HasColumnName(@"ProjectStageID").HasColumnType("int").IsRequired();
             Property(x => x.ImplementationStartYear).HasColumnName(@"ImplementationStartYear").HasColumnType("int").IsOptional();
-            Property(x => x.CompleteionYear).HasColumnName(@"CompleteionYear").HasColumnType("int").IsOptional();
+            Property(x => x.CompletionYear).HasColumnName(@"CompletionYear").HasColumnType("int").IsOptional();
             Property(x => x.Notes).HasColumnName(@"Notes").HasColumnType("varchar").IsOptional();
 
             // Foreign keys

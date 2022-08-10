@@ -8,7 +8,7 @@ CREATE TABLE [dbo].[Subproject](
 	[ProjectID] [int] NOT NULL,
 	[ProjectStageID] [int] NOT NULL,
 	[ImplementationStartYear] [int] NULL,
-	[CompleteionYear] [int] NULL,
+	[CompletionYear] [int] NULL,
 	[Notes] [dbo].[html] NULL,
  CONSTRAINT [PK_Subproject_SubprojectID] PRIMARY KEY CLUSTERED 
 (

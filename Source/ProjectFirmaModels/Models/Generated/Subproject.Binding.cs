@@ -32,13 +32,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Subproject(int subprojectID, int projectID, int projectStageID, int? implementationStartYear, int? completeionYear, string notes) : this()
+        public Subproject(int subprojectID, int projectID, int projectStageID, int? implementationStartYear, int? completionYear, string notes) : this()
         {
             this.SubprojectID = subprojectID;
             this.ProjectID = projectID;
             this.ProjectStageID = projectStageID;
             this.ImplementationStartYear = implementationStartYear;
-            this.CompleteionYear = completeionYear;
+            this.CompletionYear = completionYear;
             this.Notes = notes;
         }
 
@@ -148,7 +148,7 @@ namespace ProjectFirmaModels.Models
         public int ProjectID { get; set; }
         public int ProjectStageID { get; set; }
         public int? ImplementationStartYear { get; set; }
-        public int? CompleteionYear { get; set; }
+        public int? CompletionYear { get; set; }
         public string Notes { get; set; }
         [NotMapped]
         public HtmlString NotesHtmlString

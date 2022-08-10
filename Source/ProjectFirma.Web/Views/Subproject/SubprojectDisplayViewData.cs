@@ -11,9 +11,8 @@ namespace ProjectFirma.Web.Views.Subproject
         public string SubprojectGridDataUrl { get; }
         public PermissionCheckResult UserCanViewSubproject { get; }
         public PermissionCheckResult UserCanCreateSubproject { get; }
-        public string AddNewActionItemUrl { get; }
-
-        public SubprojectDisplayViewData(ProjectFirmaModels.Models.Project project, SubprojectGridSpec subprojectGridSpec, string subprojectGridName, string subprojectGridDataUrl, PermissionCheckResult userCanViewSubproject, PermissionCheckResult userCanCreateSubproject, string addNewActionItemUrl)
+        
+        public SubprojectDisplayViewData(ProjectFirmaModels.Models.Project project, SubprojectGridSpec subprojectGridSpec, string subprojectGridName, string subprojectGridDataUrl, PermissionCheckResult userCanViewSubproject, PermissionCheckResult userCanCreateSubproject)
         {
             Project = project;
             SubprojectGridSpec = subprojectGridSpec;
@@ -21,7 +20,6 @@ namespace ProjectFirma.Web.Views.Subproject
             SubprojectGridDataUrl = subprojectGridDataUrl;
             UserCanViewSubproject = userCanViewSubproject;
             UserCanCreateSubproject = userCanCreateSubproject;
-            AddNewActionItemUrl = addNewActionItemUrl;
         }
     }
 }

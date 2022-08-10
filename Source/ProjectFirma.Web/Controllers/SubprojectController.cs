@@ -16,11 +16,11 @@ namespace ProjectFirma.Web.Controllers
 {
     public class SubprojectController : FirmaBaseController
     {
-        [SubprojectViewFeature]
+        [FirmaAdminFeature]
         public GridJsonNetJObjectResult<Subproject> SubprojectGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new SubprojectGridSpec();
+            var gridSpec = new SubprojectGridSpec(projectPrimaryKey);
             var Subproject = project.Subprojects.ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Subproject>(Subproject, gridSpec);
             return gridJsonNetJObjectResult;
@@ -63,18 +63,17 @@ namespace ProjectFirma.Web.Controllers
         //[SubprojectCreateFeature]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey)
         {
-            //var subproject = projectPrimaryKey.EntityObject;
-            //var viewModel = new EditViewModel()
-            //{
-            //    SubprojecttateEnum = SubprojecttateEnum.Incomplete,
-            //    ProjectID = project.ProjectID,
-            //    AssignedOnDate = DateTime.Now,
-            //    DueByDate = DateTime.Now
-            //};
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new EditViewModel()
+            {
+               
+                ProjectID = project.ProjectID
 
-            //return ViewEdit(viewModel);
-            return new ModalDialogFormJsonResult();
+               
+            };
 
+            return ViewEdit(viewModel);
+        
         }
 
         [HttpPost]
@@ -156,20 +155,17 @@ namespace ProjectFirma.Web.Controllers
         //    return ViewEdit(viewModel);
         //}
 
-        //private PartialViewResult ViewEdit(EditViewModel viewModel)
-        //{
-        //    var firmaPage = FirmaPageTypeEnum.SubprojectEditDialog.GetFirmaPage();
-        //    var peopleSelectListItems = HttpRequestStorage.DatabaseEntities.People.AsEnumerable()
-        //        .ToSelectListWithEmptyFirstRow(x => x.PersonID.ToString(), x => x.GetFullNameFirstLastAndOrg());
+        private PartialViewResult ViewEdit(EditViewModel viewModel)
+        {
+            var firmaPage = FirmaPageTypeEnum.SubprojectEditDialog.GetFirmaPage();
 
-        //    var projectProjectStatuses = HttpRequestStorage.DatabaseEntities.ProjectProjectStatuses.Where(pps => pps.ProjectID == viewModel.ProjectID);
-        //    var projectProjectStatusesSelectListItems = projectProjectStatuses.Any() 
-        //        ? projectProjectStatuses.AsEnumerable().ToSelectListWithEmptyFirstRow(x => x.ProjectProjectStatusID.ToString(), x => x.GetDropdownDisplayName()) 
-        //        : new List<SelectListItem>().AsEnumerable();
+            var projectStages =
+                ProjectStage.All.ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(),
+                    y => y.ProjectStageDisplayName);
 
-        //    var viewData = new EditViewData(CurrentFirmaSession, firmaPage, peopleSelectListItems, projectProjectStatusesSelectListItems);
-        //    return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
-        //}
+            var viewData = new EditViewData(CurrentFirmaSession, firmaPage, projectStages);
+            return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
+        }
 
         //[HttpPost]
         //[SubprojectManageFeature]

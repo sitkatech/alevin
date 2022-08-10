@@ -37,35 +37,14 @@ namespace ProjectFirma.Web.Views.Subproject
         public int ProjectID { get; set; }
 
         [Required]
-        public int ActionItemID { get; set; }
+        public int SubprojectID { get; set; }
 
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemText)]
+        public int ProjectStageID { get; set; }
         [Required]
-        [StringLength(ProjectFirmaModels.Models.ActionItem.FieldLengths.ActionItemText)]
-        public string ActionItemText { get; set; }
-
-        //[Required]
-        //[FieldDefinitionDisplay(FieldDefinitionEnum.Subprojecttate)]
-        //public SubprojecttateEnum SubprojecttateEnum { get; set; }
-
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemAssignedToPerson)]
-        public int AssignedToPersonID { get; set; }
-
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemAssignedOnDate)]
-        public DateTime AssignedOnDate { get; set; }
-
-        [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemDueByDate)]
-        public DateTime DueByDate { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemCompletedOnDate)]
-        public DateTime? CompletedOnDate { get; set; }
-
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ActionItemProjectStatus)]
-        public int? ProjectProjectStatusID { get; set; }
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ImplementationStartYear)]
+        public int? ImplementationStartYear { get; set; }
+        public int? CompletionYear { get; set; }
+        public string Notes { get; set; }
         
         /// <summary>
         /// Needed by the ModelBinder
@@ -74,38 +53,30 @@ namespace ProjectFirma.Web.Views.Subproject
         {
         }
 
-        public EditViewModel(ProjectFirmaModels.Models.ActionItem actionItem)
+        public EditViewModel(ProjectFirmaModels.Models.Subproject subproject)
         {
-            ActionItemID = actionItem.ActionItemID;
-            ProjectID = actionItem.ProjectID;
-            ActionItemText = actionItem.ActionItemText;
-            //SubprojecttateEnum = actionItem.Subprojecttate.ToEnum;
-            AssignedToPersonID = actionItem.AssignedToPersonID;
-            AssignedOnDate = actionItem.AssignedOnDate;
-            DueByDate = actionItem.DueByDate;
-            CompletedOnDate = actionItem.CompletedOnDate;
-            ProjectProjectStatusID = actionItem.ProjectProjectStatusID;
+            ProjectID = subproject.ProjectID;
+            SubprojectID = subproject.SubprojectID;
+            ProjectStageID = subproject.ProjectStageID;
+            ImplementationStartYear = subproject.ImplementationStartYear;
+            CompletionYear = subproject.CompletionYear;
+            Notes = subproject.Notes;
         }
 
-        public void UpdateModel(ProjectFirmaModels.Models.ActionItem actionItem, FirmaSession currentFirmaSession)
+        public void UpdateModel(ProjectFirmaModels.Models.Subproject subproject, FirmaSession currentFirmaSession)
         {
-            actionItem.ProjectID = ProjectID;
-            actionItem.ActionItemText = ActionItemText;
-            //actionItem.SubprojecttateID = (int) SubprojecttateEnum;
-            actionItem.AssignedToPersonID = AssignedToPersonID;
-            actionItem.AssignedOnDate = AssignedOnDate;
-            actionItem.DueByDate = DueByDate;
-            actionItem.CompletedOnDate = CompletedOnDate;
-            actionItem.ProjectProjectStatusID = ProjectProjectStatusID;
+            subproject.ProjectStageID = ProjectStageID;
+            subproject.ImplementationStartYear = ImplementationStartYear;
+            subproject.CompletionYear = CompletionYear;
+            subproject.Notes = Notes;
+
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             var validationResults = new List<ValidationResult>();
 
-            // todo: Due by date cant be before the assigned date
-
-            // todo: Completed date can't be before the assigned date
+            
 
             return validationResults;
         }

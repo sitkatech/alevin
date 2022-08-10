@@ -461,16 +461,15 @@ namespace ProjectFirma.Web.Controllers
 
         private static SubprojectDisplayViewData BuildSubprojectDisplayViewData(Project project, FirmaSession currentFirmaSession)
         {
-            var subprojectGridSpec = new SubprojectGridSpec();
+            var subprojectGridSpec = new SubprojectGridSpec(project.PrimaryKey);
             const string subprojectGridName = "Subprojects";
-            var subrpojectGridDataUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.SubprojectGridJsonData(project.PrimaryKey));
-            var userCanViewSubrpoject = new SubprojectViewFeature().HasPermission(currentFirmaSession, project);
-            var userCanCreateSubrpoject = new SubprojectCreateFeature().HasPermission(currentFirmaSession, project);
-            var addNewSubprojectUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.New(project));
+            var subprojectGridDataUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.SubprojectGridJsonData(project.PrimaryKey));
+            var userCanViewSubproject = new SubprojectViewFeature().HasPermission(currentFirmaSession, project);
+            var userCanCreateSubproject = new SubprojectCreateFeature().HasPermission(currentFirmaSession, project);
 
-            var subrpojectDisplayViewData = new SubprojectDisplayViewData(project, subprojectGridSpec,
-                subprojectGridName, subrpojectGridDataUrl, userCanViewSubrpoject, userCanCreateSubrpoject, addNewSubprojectUrl);
-            return subrpojectDisplayViewData;
+            var subprojectDisplayViewData = new SubprojectDisplayViewData(project, subprojectGridSpec,
+                subprojectGridName, subprojectGridDataUrl, userCanViewSubproject, userCanCreateSubproject);
+            return subprojectDisplayViewData;
         }
 
         private static List<ProjectStage> GetActiveProjectStages(Project project)
@@ -867,7 +866,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<Subproject> SubprojectGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new SubprojectGridSpec();
+            var gridSpec = new SubprojectGridSpec(projectPrimaryKey);
             var subprojects = project.Subprojects.Where(sp => sp.ProjectID == projectPrimaryKey.EntityObject.ProjectID).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Subproject>(subprojects, gridSpec);
             return gridJsonNetJObjectResult;

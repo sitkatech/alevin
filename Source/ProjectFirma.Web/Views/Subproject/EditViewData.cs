@@ -28,15 +28,12 @@ namespace ProjectFirma.Web.Views.Subproject
 {
     public class EditViewData : FirmaViewData
     {
-        public ViewPageContentViewData PageContentViewData { get; }
-        public IEnumerable<SelectListItem> ProjectProjectStatusSelectListItems { get; }
-        public IEnumerable<SelectListItem> PeopleSelectListItems { get; }
-
-        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<SelectListItem> peopleSelectListItems, IEnumerable<SelectListItem> projectProjectStatusSelectListItems) : base(currentFirmaSession, firmaPage)
+        
+        public IEnumerable<SelectListItem> ProjectStageSelectListItems { get; }
+        
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<SelectListItem> projectStageSelectListItems) : base(currentFirmaSession, firmaPage)
         {
-            PageContentViewData = new ViewPageContentViewData(firmaPage, true);
-            ProjectProjectStatusSelectListItems = projectProjectStatusSelectListItems;
-            PeopleSelectListItems = peopleSelectListItems;
+            ProjectStageSelectListItems = projectStageSelectListItems;
         }
     }
 }

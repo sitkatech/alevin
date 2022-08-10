@@ -34,11 +34,7 @@
     }
 </style>
 
-<div class="row">
-    <div class="col-md-12">
-        @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.PageContentViewData); }
-    </div>
-</div>
+
 
 @using (Html.BeginForm())
 {
@@ -46,60 +42,44 @@
 <div class="form-horizontal">
     @Html.HiddenFor(m => m.ProjectID)
     @* todo: Assigned to person *@
+
+
     <div class="form-group">
         <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.AssignedToPersonID)
+            @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
         </div>
         <div class="col-sm-9">
-            @Html.SearchableDropDownListFor(m => m.AssignedToPersonID, ViewDataTyped.PeopleSelectListItems)
-            @Html.ValidationMessageFor(m => m.AssignedToPersonID)
+            @Html.EditorFor(m => m.ImplementationStartYear, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.ImplementationStartYear)
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.AssignedOnDate)
+            @Html.LabelWithSugarFor(m => m.CompletionYear)
         </div>
         <div class="col-sm-9">
-            @Html.EditorFor(m => m.AssignedOnDate, new { style = "width:100%", @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.AssignedOnDate)
+            @Html.EditorFor(m => m.CompletionYear, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.CompletionYear)
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.DueByDate)
+            @Html.LabelWithSugarFor(m => m.Notes)           
         </div>
         <div class="col-sm-9">
-            @Html.EditorFor(m => m.DueByDate, new { style = "width:100%", @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.DueByDate)
+            @Html.TextAreaFor(m => m.Notes, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Notes)
         </div>
     </div>
-    <div class="form-group">
-        <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.CompletedOnDate)
-        </div>
-        <div class="col-sm-9">
-            @Html.EditorFor(m => m.CompletedOnDate, new { style = "width:100%", @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.CompletedOnDate)
-        </div>
-    </div>
-    <div class="form-group">
-        <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m => m.ActionItemText)
-        </div>
-        <div class="col-sm-9">
-            @Html.TextAreaFor(m => m.ActionItemText, new { style = "width:100%", @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.ActionItemText)
-        </div>
-    </div>
-    @if (ViewDataTyped.ProjectProjectStatusSelectListItems.Any())
+    @if (ViewDataTyped.ProjectStageSelectListItems.Any())
     {
         <div class="form-group">
             <div class="col-sm-3 control-label">
-                @Html.LabelWithSugarFor(m => m.ProjectProjectStatusID)
+                @Html.LabelWithSugarFor(m => m.ProjectStageID)
             </div>
             <div class="col-sm-9">
-                @Html.SearchableDropDownListFor(m => m.ProjectProjectStatusID, ViewDataTyped.ProjectProjectStatusSelectListItems)
-                @Html.ValidationMessageFor(m => m.ProjectProjectStatusID)
+                @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStageSelectListItems)
+                @Html.ValidationMessageFor(m => m.ProjectStageID)
             </div>
         </div>
     }
