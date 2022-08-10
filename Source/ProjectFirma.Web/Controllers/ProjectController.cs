@@ -54,6 +54,7 @@ using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp;
+using ProjectFirma.Web.Views.Subproject;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -240,6 +241,9 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
+
+            var subprojectGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.SubprojectGridJsonData(project));
+
             var auditLogsGridSpec = new AuditLogsGridSpec(CurrentFirmaSession) {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
             var auditLogsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(project));
 
@@ -293,6 +297,8 @@ namespace ProjectFirma.Web.Controllers
                                                                                               ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList);
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
+            var userCanViewSubprojects = new SubprojectViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var subprojectDisplayViewData = BuildSubprojectDisplayViewData(project, CurrentFirmaSession);
 
             // Project Running Balance - All Contracts Version
             // -----------------------------------------------
@@ -332,6 +338,8 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureActualsUrl,
                 editReportedExpendituresUrl,
                 reportFinancialsByCostType,
+                subprojectDisplayViewData,
+                userCanViewSubprojects,
                 auditLogsGridSpec,
                 auditLogsGridDataUrl,
                 editExternalLinksUrl,
@@ -449,6 +457,20 @@ namespace ProjectFirma.Web.Controllers
             var actionItemsDisplayViewData = new ActionItemsDisplayViewData(project, actionItemsGridSpec,
                 actionItemsGridName, actionItemsGridDataUrl, userCanViewActionItems, userCanCreateActionItems, addNewActionItemUrl);
             return actionItemsDisplayViewData;
+        }
+
+        private static SubprojectDisplayViewData BuildSubprojectDisplayViewData(Project project, FirmaSession currentFirmaSession)
+        {
+            var subprojectGridSpec = new SubprojectGridSpec();
+            const string subprojectGridName = "Subprojects";
+            var subrpojectGridDataUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.SubprojectGridJsonData(project.PrimaryKey));
+            var userCanViewSubrpoject = new SubprojectViewFeature().HasPermission(currentFirmaSession, project);
+            var userCanCreateSubrpoject = new SubprojectCreateFeature().HasPermission(currentFirmaSession, project);
+            var addNewSubprojectUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.New(project));
+
+            var subrpojectDisplayViewData = new SubprojectDisplayViewData(project, subprojectGridSpec,
+                subprojectGridName, subrpojectGridDataUrl, userCanViewSubrpoject, userCanCreateSubrpoject, addNewSubprojectUrl);
+            return subrpojectDisplayViewData;
         }
 
         private static List<ProjectStage> GetActiveProjectStages(Project project)
@@ -839,6 +861,15 @@ namespace ProjectFirma.Web.Controllers
             var gridSpec = new AuditLogsGridSpec(CurrentFirmaSession);
             var auditLogs = HttpRequestStorage.DatabaseEntities.AuditLogs.GetAuditLogEntriesForProject(projectPrimaryKey.EntityObject).OrderByDescending(x => x.AuditLogDate).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
+            return gridJsonNetJObjectResult;
+        }
+
+        public GridJsonNetJObjectResult<Subproject> SubprojectGridJsonData(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var gridSpec = new SubprojectGridSpec();
+            var subprojects = project.Subprojects.Where(sp => sp.ProjectID == projectPrimaryKey.EntityObject.ProjectID).ToList();
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Subproject>(subprojects, gridSpec);
             return gridJsonNetJObjectResult;
         }
 
