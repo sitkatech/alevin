@@ -43,7 +43,7 @@
         border-collapse: separate;
     }
 
-    table.tableFixedHead tbody { overflow-y: auto; height: 300px; }
+    table.tableFixedHead tbody { overflow-y: auto; }
     table.tableFixedHead thead { position: sticky; top: 0; z-index: 1; background-color: #fff; }
 
     th.centeredWithTopBorder {
@@ -78,7 +78,7 @@
     {
         if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
         {
-            <div class="table-responsive tableFixHeader" style="max-height: 600px;">
+            <div class="table-responsive" style="max-height: 800px;">
                 <table class="table table-condensed table-bordered tableFixedHead tableFixedFirstColumn">
                     <thead>
                         <tr>
