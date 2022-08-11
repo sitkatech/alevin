@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="ProjectContactsDetail.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    <copyright file="SubprojectDisplay.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
     Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
     <author>Sitka Technology Group</author>
     </copyright>
@@ -26,8 +26,6 @@
 @inherits ProjectFirma.Web.Views.Subproject.SubprojectDisplay
 
 <div>
-  
-
     @Html.DhtmlxGrid(ViewDataTyped.SubprojectGridSpec, ViewDataTyped.SubprojectGridName, ViewDataTyped.SubprojectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
 </div>
 

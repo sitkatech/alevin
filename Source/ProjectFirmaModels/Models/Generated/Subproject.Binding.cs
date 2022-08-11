@@ -32,47 +32,53 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Subproject(int subprojectID, int projectID, int projectStageID, int? implementationStartYear, int? completionYear, string notes) : this()
+        public Subproject(int subprojectID, int projectID, int subprojectStageID, int? implementationStartYear, int? completionYear, string notes, string subprojectName, string subprojectDescription) : this()
         {
             this.SubprojectID = subprojectID;
             this.ProjectID = projectID;
-            this.ProjectStageID = projectStageID;
+            this.SubprojectStageID = subprojectStageID;
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
             this.Notes = notes;
+            this.SubprojectName = subprojectName;
+            this.SubprojectDescription = subprojectDescription;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Subproject(int projectID, int projectStageID) : this()
+        public Subproject(int projectID, int subprojectStageID, string subprojectName, string subprojectDescription) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.SubprojectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
-            this.ProjectStageID = projectStageID;
+            this.SubprojectStageID = subprojectStageID;
+            this.SubprojectName = subprojectName;
+            this.SubprojectDescription = subprojectDescription;
         }
 
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Subproject(Project project, ProjectStage projectStage) : this()
+        public Subproject(Project project, ProjectStage subprojectStage, string subprojectName, string subprojectDescription) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.SubprojectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.Subprojects.Add(this);
-            this.ProjectStageID = projectStage.ProjectStageID;
+            this.SubprojectStageID = subprojectStage.ProjectStageID;
+            this.SubprojectName = subprojectName;
+            this.SubprojectDescription = subprojectDescription;
         }
 
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Subproject CreateNewBlank(Project project, ProjectStage projectStage)
+        public static Subproject CreateNewBlank(Project project, ProjectStage subprojectStage)
         {
-            return new Subproject(project, projectStage);
+            return new Subproject(project, subprojectStage, default(string), default(string));
         }
 
         /// <summary>
@@ -146,7 +152,7 @@ namespace ProjectFirmaModels.Models
         public int SubprojectID { get; set; }
         public int TenantID { get; set; }
         public int ProjectID { get; set; }
-        public int ProjectStageID { get; set; }
+        public int SubprojectStageID { get; set; }
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
         public string Notes { get; set; }
@@ -156,6 +162,8 @@ namespace ProjectFirmaModels.Models
             get { return Notes == null ? null : new HtmlString(Notes); }
             set { Notes = value?.ToString(); }
         }
+        public string SubprojectName { get; set; }
+        public string SubprojectDescription { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return SubprojectID; } set { SubprojectID = value; } }
 
@@ -163,11 +171,12 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<SubprojectPerformanceMeasureExpected> SubprojectPerformanceMeasureExpecteds { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
-        public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
+        public ProjectStage SubprojectStage { get { return ProjectStage.AllLookupDictionary[SubprojectStageID]; } }
 
         public static class FieldLengths
         {
-
+            public const int SubprojectName = 140;
+            public const int SubprojectDescription = 4000;
         }
     }
 }

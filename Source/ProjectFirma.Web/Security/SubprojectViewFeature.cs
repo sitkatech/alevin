@@ -27,39 +27,9 @@ using ProjectFirma.Web.Security.Shared;
 namespace ProjectFirma.Web.Security
 {
     [SecurityFeatureDescription("View Subproject")]
-    public class SubprojectViewFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Project>
+    public class SubprojectViewFeature : AnonymousUnclassifiedFeature
     {
-        public SubprojectViewFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal })
-        {
-
-        }
-        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Project contextModelObject)
-        {
-            if (contextModelObject.IsRejected() || contextModelObject.IsProposal() || contextModelObject.IsPendingProject())
-            {
-                return new ProjectCreateFeature().HasPermission(firmaSession, contextModelObject);
-            }
-            else
-            {
-                var hasPermissionByPerson = HasPermissionByFirmaSession(firmaSession);
-                if (!hasPermissionByPerson)
-                {
-                    return new PermissionCheckResult($"You do not have permission to view {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
-                }
-
-                var projectIsEditableByUser = new ProjectUpdateAdminFeatureWithProjectContext().HasPermission(firmaSession, contextModelObject).HasPermission || contextModelObject.IsMyProject(firmaSession);
-                if (projectIsEditableByUser)
-                {
-                    return new PermissionCheckResult();
-                }
-
-                return new PermissionCheckResult($"You do not have permission to view {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()} for this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}");
-            }
-        }
-        public void DemandPermission(FirmaSession firmaSession, Project contextModelObject)
-        {
-            throw new System.NotImplementedException();
-        }
+   
 
     }
 }

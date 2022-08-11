@@ -9,17 +9,14 @@ namespace ProjectFirma.Web.Views.Subproject
         public SubprojectGridSpec SubprojectGridSpec { get; }
         public string SubprojectGridName { get; }
         public string SubprojectGridDataUrl { get; }
-        public PermissionCheckResult UserCanViewSubproject { get; }
-        public PermissionCheckResult UserCanCreateSubproject { get; }
         
-        public SubprojectDisplayViewData(ProjectFirmaModels.Models.Project project, SubprojectGridSpec subprojectGridSpec, string subprojectGridName, string subprojectGridDataUrl, PermissionCheckResult userCanViewSubproject, PermissionCheckResult userCanCreateSubproject)
+        
+        public SubprojectDisplayViewData(ProjectFirmaModels.Models.Project project, SubprojectGridSpec subprojectGridSpec, string subprojectGridName, string subprojectGridDataUrl)
         {
             Project = project;
             SubprojectGridSpec = subprojectGridSpec;
             SubprojectGridName = subprojectGridName;
             SubprojectGridDataUrl = subprojectGridDataUrl;
-            UserCanViewSubproject = userCanViewSubproject;
-            UserCanCreateSubproject = userCanCreateSubproject;
         }
     }
 }

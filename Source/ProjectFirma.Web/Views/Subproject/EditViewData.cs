@@ -20,7 +20,11 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
 using System.Web.Mvc;
+using LtInfo.Common.Mvc;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
@@ -28,12 +32,20 @@ namespace ProjectFirma.Web.Views.Subproject
 {
     public class EditViewData : FirmaViewData
     {
-        
+        public IEnumerable<SelectListItem> ImplementationStartYearRange { get; }
+        public IEnumerable<SelectListItem> CompletionYearRange { get; }
         public IEnumerable<SelectListItem> ProjectStageSelectListItems { get; }
-        
-        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<SelectListItem> projectStageSelectListItems) : base(currentFirmaSession, firmaPage)
+        public IEnumerable<ProjectStage> ProjectStagesModels { get; }
+        public bool TenantUsesFiscalYears { get; }
+
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<ProjectStage> projectStages) : base(currentFirmaSession, firmaPage)
         {
-            ProjectStageSelectListItems = projectStageSelectListItems;
+            ProjectStageSelectListItems = projectStages.ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(),
+                y => y.ProjectStageDisplayName); ;
+            ImplementationStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
+            CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
+            ProjectStagesModels = projectStages;
+            TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
     }
 }

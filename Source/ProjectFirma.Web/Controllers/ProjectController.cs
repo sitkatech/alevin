@@ -294,7 +294,7 @@ namespace ProjectFirma.Web.Controllers
                                                                                               ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList);
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
-            var userCanViewSubprojects = new SubprojectViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
+            var userCanViewSubprojects = new SubprojectViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
             var subprojectDisplayViewData = BuildSubprojectDisplayViewData(project, CurrentFirmaSession);
 
             // Project Running Balance - All Contracts Version
@@ -458,14 +458,14 @@ namespace ProjectFirma.Web.Controllers
 
         private static SubprojectDisplayViewData BuildSubprojectDisplayViewData(Project project, FirmaSession currentFirmaSession)
         {
-            var subprojectGridSpec = new SubprojectGridSpec(project.PrimaryKey);
+            var subprojectGridSpec = new SubprojectGridSpec(project.PrimaryKey, currentFirmaSession);
             const string subprojectGridName = "Subprojects";
             var subprojectGridDataUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.SubprojectGridJsonData(project.PrimaryKey));
-            var userCanViewSubproject = new SubprojectViewFeature().HasPermission(currentFirmaSession, project);
-            var userCanCreateSubproject = new SubprojectCreateFeature().HasPermission(currentFirmaSession, project);
+            var userCanViewSubproject = new SubprojectViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userCanCreateSubproject = new SubprojectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             var subprojectDisplayViewData = new SubprojectDisplayViewData(project, subprojectGridSpec,
-                subprojectGridName, subprojectGridDataUrl, userCanViewSubproject, userCanCreateSubproject);
+                subprojectGridName, subprojectGridDataUrl);
             return subprojectDisplayViewData;
         }
 

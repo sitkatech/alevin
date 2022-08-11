@@ -37,13 +37,28 @@ namespace ProjectFirma.Web.Views.Subproject
         public int ProjectID { get; set; }
 
         [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
+        public string SubprojectName { get; set; }
+
+        [Required]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
+        public string SubprojectDescription { get; set; }
+
+        [Required]
         public int SubprojectID { get; set; }
 
-        public int ProjectStageID { get; set; }
+        [Required(ErrorMessage = "Subproject Stage field is required.")]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
+        public int SubprojectStageID { get; set; }
+
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ImplementationStartYear)]
         public int? ImplementationStartYear { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
+
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectNote)]
         public string Notes { get; set; }
         
         /// <summary>
@@ -56,8 +71,10 @@ namespace ProjectFirma.Web.Views.Subproject
         public EditViewModel(ProjectFirmaModels.Models.Subproject subproject)
         {
             ProjectID = subproject.ProjectID;
+            SubprojectName = subproject.SubprojectName;
+            SubprojectDescription = subproject.SubprojectDescription;
             SubprojectID = subproject.SubprojectID;
-            ProjectStageID = subproject.ProjectStageID;
+            SubprojectStageID = subproject.SubprojectStageID;
             ImplementationStartYear = subproject.ImplementationStartYear;
             CompletionYear = subproject.CompletionYear;
             Notes = subproject.Notes;
@@ -65,7 +82,9 @@ namespace ProjectFirma.Web.Views.Subproject
 
         public void UpdateModel(ProjectFirmaModels.Models.Subproject subproject, FirmaSession currentFirmaSession)
         {
-            subproject.ProjectStageID = ProjectStageID;
+            subproject.SubprojectName = SubprojectName;
+            subproject.SubprojectDescription = SubprojectDescription;
+            subproject.SubprojectStageID = SubprojectStageID;
             subproject.ImplementationStartYear = ImplementationStartYear;
             subproject.CompletionYear = CompletionYear;
             subproject.Notes = Notes;
@@ -74,12 +93,34 @@ namespace ProjectFirma.Web.Views.Subproject
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
-            var validationResults = new List<ValidationResult>();
+            if (CompletionYear < ImplementationStartYear)
+            {
+                yield return new SitkaValidationResult<EditViewModel, int?>(
+                    FirmaValidationMessages.CompletionYearGreaterThanEqualToImplementationStartYear,
+                    m => m.CompletionYear);
+            }
 
-            
+            if (SubprojectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
+            {
+                yield return new SitkaValidationResult<EditViewModel, int?>($"Since the Subproject is in the Completed stage, the Completion year is required", m => m.CompletionYear);
+            }
 
-            return validationResults;
+            if (SubprojectStageID == ProjectStage.PostImplementation.ProjectStageID && !CompletionYear.HasValue)
+            {
+                yield return new SitkaValidationResult<EditViewModel, int?>($"Since the Subproject is in the Post-Implementation stage, the Completion year is required", m => m.CompletionYear);
+            }
+
+            var isCompletedOrPostImplementation = SubprojectStageID == ProjectStage.Completed.ProjectStageID || SubprojectStageID == ProjectStage.PostImplementation.ProjectStageID;
+            var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
+            if (isCompletedOrPostImplementation && CompletionYear > currentYear)
+            {
+                yield return new SitkaValidationResult<EditViewModel, int?>(
+                    $"The Subproject is in Completed or Post-Implementation stage; the Completion Year must be less than or equal to the current year",
+                    m => m.CompletionYear);
+            }
+
         }
-
+        
     }
+
 }

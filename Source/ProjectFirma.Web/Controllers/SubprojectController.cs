@@ -17,31 +17,12 @@ namespace ProjectFirma.Web.Controllers
 {
     public class SubprojectController : FirmaBaseController
     {
-        [FirmaAdminFeature]
+        [SubprojectViewFeature]
         public GridJsonNetJObjectResult<Subproject> SubprojectGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new SubprojectGridSpec(projectPrimaryKey);
+            var gridSpec = new SubprojectGridSpec(projectPrimaryKey, CurrentFirmaSession);
             var Subproject = project.Subprojects.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Subproject>(Subproject, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
-        /*[UserViewFeature]
-        public GridJsonNetJObjectResult<Subproject> SubprojectUserGridJsonData(PersonPrimaryKey personPrimaryKey)
-        {
-            var person = personPrimaryKey.EntityObject;
-            var gridSpec = new SubprojectUserGridSpec(CurrentFirmaSession);
-            var Subproject = person.SubprojectWhereYouAreTheAssignedToPerson.ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Subproject>(Subproject, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-        */
-        //[SubprojectAdminFeature]
-        public GridJsonNetJObjectResult<Subproject> SubprojectIndexGridJsonData()
-        {
-            var gridSpec = new SubprojectAdminGridSpec(CurrentFirmaSession);
-            var Subproject = HttpRequestStorage.DatabaseEntities.Subprojects.ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Subproject>(Subproject, gridSpec);
             return gridJsonNetJObjectResult;
         }
@@ -70,9 +51,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
 
-            var Subproject = new Subproject(project.ProjectID, ModelObjectHelpers.NotYetAssignedID);
-            //var Subproject = new Subproject(ModelObjectHelpers.NotYetAssignedID, viewModel.ProjectStageID, viewModel.CompletionYear, viewModel.ImplementationStartYear, viewModel.Notes);
-
+            var Subproject = new Subproject(project.ProjectID, ModelObjectHelpers.NotYetAssignedID, "", "");
 
             viewModel.UpdateModel(Subproject, CurrentFirmaSession);
              HttpRequestStorage.DatabaseEntities.AllSubprojects.Add(Subproject);
@@ -96,8 +75,7 @@ namespace ProjectFirma.Web.Controllers
             var firmaPage = FirmaPageTypeEnum.SubprojectEditDialog.GetFirmaPage();
 
             var projectStages =
-                ProjectStage.All.ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(),
-                    y => y.ProjectStageDisplayName);
+                ProjectStage.All.ToList();
 
             var viewData = new EditViewData(CurrentFirmaSession, firmaPage, projectStages);
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
