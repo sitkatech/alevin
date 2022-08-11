@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
+using DocumentFormat.OpenXml.EMMA;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
 using LtInfo.Common.MvcResults;
@@ -45,22 +46,8 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        //[SubprojectAdminFeature]
-        //public ViewResult Index()
-        //{
-        //    return ViewIndex(SitkaRoute<SubprojectController>.BuildUrlFromExpression(x => x.SubprojectIndexGridJsonData()));
-        //}
-
-        //[SubprojectAdminFeature]
-        //public ViewResult ViewIndex(string gridDataUrl)
-        //{
-        //    //var firmaPage = FirmaPageTypeEnum.SubprojectIndexList.GetFirmaPage();
-        //    //var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl);
-        //    //return RazorView<Index, IndexViewData>(viewData);
-        //}
-
         [HttpGet]
-        //[SubprojectCreateFeature]
+        [SubprojectCreateFeature]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -68,12 +55,8 @@ namespace ProjectFirma.Web.Controllers
             {
                
                 ProjectID = project.ProjectID
-
-               
             };
-
             return ViewEdit(viewModel);
-        
         }
 
         [HttpPost]
@@ -81,79 +64,32 @@ namespace ProjectFirma.Web.Controllers
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditViewModel viewModel)
         {
-            //if (!ModelState.IsValid)
-            //{
-            //    return ViewEdit(viewModel);
-            //}
+            var project = projectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
 
-            /* var Subproject = new Subproject(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
+            var Subproject = new Subproject(project.ProjectID, ModelObjectHelpers.NotYetAssignedID);
+            //var Subproject = new Subproject(ModelObjectHelpers.NotYetAssignedID, viewModel.ProjectStageID, viewModel.CompletionYear, viewModel.ImplementationStartYear, viewModel.Notes);
 
-             viewModel.UpdateModel(Subproject, CurrentFirmaSession);
-             HttpRequestStorage.DatabaseEntities.AllSubproject.Add(Subproject);
 
-             var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(Subproject);
-             if (shouldCreateProjectProjectStatus)
-             {
-                 CreateNewProjectProjectStatus(Subproject);
-             }
+            viewModel.UpdateModel(Subproject, CurrentFirmaSession);
+             HttpRequestStorage.DatabaseEntities.AllSubprojects.Add(Subproject);
 
-             SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()}.");*/
+             SetMessageForDisplay($"Successfully added new Subproject.");
             return new ModalDialogFormJsonResult();
         }
 
-        //[HttpGet]
-        //[SubprojectCreateFeature]
-        //public PartialViewResult NewForProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey)
-        //{
-        //    var project = projectPrimaryKey.EntityObject;
-        //    var projectProjectStatus = projectProjectStatusPrimaryKey.EntityObject;
 
-        //    var viewModel = new EditViewModel()
-        //    {
-        //        SubprojecttateEnum = SubprojecttateEnum.Incomplete,
-        //        ProjectID = project.ProjectID,
-        //        ProjectProjectStatusID = projectProjectStatus.ProjectProjectStatusID,
-        //        AssignedOnDate = DateTime.Now,
-        //        DueByDate = DateTime.Now
-        //    };
-
-        //    return ViewEdit(viewModel);
-        //}
-
-        //[HttpPost]
-        //[SubprojectCreateFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //public ActionResult NewForProjectStatus(ProjectPrimaryKey projectPrimaryKey, ProjectProjectStatusPrimaryKey projectProjectStatusPrimaryKey, EditViewModel viewModel)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return ViewEdit(viewModel);
-        //    }
-
-        //    var Subproject = new Subproject(ModelObjectHelpers.NotYetAssignedID, ModelObjectHelpers.NotYetAssignedID, DateTime.Now, DateTime.Now, ModelObjectHelpers.NotYetAssignedID);
-
-        //    viewModel.UpdateModel(Subproject, CurrentFirmaSession);
-        //    HttpRequestStorage.DatabaseEntities.AllSubproject.Add(Subproject);
-
-        //    var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(Subproject);
-        //    if (shouldCreateProjectProjectStatus)
-        //    {
-        //        CreateNewProjectProjectStatus(Subproject);
-        //    }
-
-        //    SetMessageForDisplay($"Successfully added new {FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()}.");
-        //    return new ModalDialogFormJsonResult();
-        //}
-
-
-        //[HttpGet]
-        //[SubprojectManageFeature]
-        //public PartialViewResult Edit(SubprojectPrimaryKey SubprojectPrimaryKey)
-        //{
-        //    var Subproject = SubprojectPrimaryKey.EntityObject;
-        //    var viewModel = new EditViewModel(Subproject);
-        //    return ViewEdit(viewModel);
-        //}
+        [HttpGet]
+        [SubprojectManageFeature]
+        public PartialViewResult Edit(SubprojectPrimaryKey subprojectPrimaryKey)
+        {
+            var Subproject = subprojectPrimaryKey.EntityObject;
+            var viewModel = new EditViewModel(Subproject);
+            return ViewEdit(viewModel);
+        }
 
         private PartialViewResult ViewEdit(EditViewModel viewModel)
         {
@@ -167,75 +103,22 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<Edit, EditViewData, EditViewModel>(viewData, viewModel);
         }
 
-        //[HttpPost]
-        //[SubprojectManageFeature]
-        //[AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        //public ActionResult Edit(SubprojectPrimaryKey subprojectPrimaryKey, EditViewModel viewModel)
-        //{
-        //    var Subproject = subprojectPrimaryKey.EntityObject;
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return ViewEdit(viewModel);
-        //    }
+        [HttpPost]
+        [SubprojectManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult Edit(SubprojectPrimaryKey subprojectPrimaryKey, EditViewModel viewModel)
+        {
+            var Subproject = subprojectPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewEdit(viewModel);
+            }
 
-        //    var shouldCreateProjectProjectStatus = IsNewProjectProjectStatusNeeded(viewModel, Subproject);
-        //    viewModel.UpdateModel(Subproject, CurrentFirmaSession);
+            viewModel.UpdateModel(Subproject, CurrentFirmaSession);
+            SetMessageForDisplay($"Successfully edited Subproject.");
+            return new ModalDialogFormJsonResult();
+        }
 
-        //    if (shouldCreateProjectProjectStatus)
-        //    {
-        //        CreateNewProjectProjectStatus(Subproject);
-        //    }
-
-        //    //SetMessageForDisplay($"Successfully edited {FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()}.");
-        //    return new ModalDialogFormJsonResult();
-        //}
-
-        //private static bool IsNewProjectProjectStatusNeeded(EditViewModel viewModel, Subproject subproject)
-        //{
-        //    var previouslyIncomplete = subproject.Subprojecttate == Subprojecttate.Incomplete;
-        //    var nowComplete = (int)viewModel.SubprojecttateEnum == Subprojecttate.Complete.SubprojecttateID;
-
-        //    return viewModel.ProjectProjectStatusID == null && previouslyIncomplete && nowComplete;
-        //}
-
-        //private static bool IsNewProjectProjectStatusNeeded(Subproject Subproject)
-        //{
-        //    return Subproject.ProjectProjectStatusID == null && Subproject.Subprojecttate == Subprojecttate.Complete;
-        //}
-
-        //private void CreateNewProjectProjectStatus(Subproject subproject)
-        //{
-        //    var project = subproject.Project;
-
-        //    var finalStatusReport = project.ProjectProjectStatuses.Where(x => x.IsFinalStatusUpdate);
-        //    if (finalStatusReport.Any())
-        //    {
-        //        return;
-        //    }
-
-        //    var lastStatusReport = project.ProjectProjectStatuses
-        //        .OrderByDescending(x => x.ProjectProjectStatusCreateDate).FirstOrDefault();
-
-        //    var defaultProjectStatus = HttpRequestStorage.DatabaseEntities.ProjectStatuses
-        //        .OrderBy(ps => ps.ProjectStatusSortOrder).First();
-        //    var projectStatus = lastStatusReport?.ProjectStatus ?? defaultProjectStatus;
-
-        //    var projectProjectStatus = new ProjectProjectStatus(project, projectStatus, DateTime.Now,
-        //        CurrentFirmaSession.Person, DateTime.Now, false);
-        //    projectProjectStatus.Subproject.Add(Subproject);
-
-        //    projectProjectStatus.ProjectProjectStatusRecentActivities =
-        //        $"This is a system generated {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} indicating the related {FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()} " +
-        //        $"has been marked {Subproject.Subprojecttate.SubprojecttateDisplayName} " + 
-        //        $"by {CurrentFirmaSession.Person.GetFullNameFirstLastAndOrgShortName()} for this project ({project.GetDisplayName()}).";
-
-        //    projectProjectStatus.ProjectProjectStatusComment =
-        //        $"When marked {Subproject.Subprojecttate.SubprojecttateDisplayName}, the related {FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()} text read: {Subproject.SubprojectText}";
-
-        //    project.ProjectProjectStatuses.Add(projectProjectStatus);
-
-        //    HttpRequestStorage.DatabaseEntities.SaveChanges();
-        //}
 
         [HttpGet]
         [SubprojectManageFeature]

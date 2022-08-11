@@ -241,9 +241,6 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditProjectPermissions);
             var entityExternalLinksViewData = new EntityExternalLinksViewData(ExternalLink.CreateFromEntityExternalLink(new List<IEntityExternalLink>(project.ProjectExternalLinks)));
 
-
-            var subprojectGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.SubprojectGridJsonData(project));
-
             var auditLogsGridSpec = new AuditLogsGridSpec(CurrentFirmaSession) {ObjectNameSingular = "Change", ObjectNamePlural = "Changes", SaveFiltersInCookie = true};
             var auditLogsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(tc => tc.AuditLogsGridJsonData(project));
 
@@ -862,16 +859,7 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
         }
-
-        public GridJsonNetJObjectResult<Subproject> SubprojectGridJsonData(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            var gridSpec = new SubprojectGridSpec(projectPrimaryKey);
-            var subprojects = project.Subprojects.Where(sp => sp.ProjectID == projectPrimaryKey.EntityObject.ProjectID).ToList();
-            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Subproject>(subprojects, gridSpec);
-            return gridJsonNetJObjectResult;
-        }
-
+        
         [AnonymousUnclassifiedFeature]
         public ActionResult Search(string searchCriteria)
         {
