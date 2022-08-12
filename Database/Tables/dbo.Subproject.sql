@@ -6,7 +6,7 @@ CREATE TABLE [dbo].[Subproject](
 	[SubprojectID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
-	[SubprojectStageID] [int] NOT NULL,
+	[ProjectStageID] [int] NOT NULL,
 	[ImplementationStartYear] [int] NULL,
 	[CompletionYear] [int] NULL,
 	[Notes] [dbo].[html] NULL,
@@ -34,7 +34,7 @@ REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
 GO
 ALTER TABLE [dbo].[Subproject] CHECK CONSTRAINT [FK_Subproject_Project_ProjectID_TenantID]
 GO
-ALTER TABLE [dbo].[Subproject]  WITH CHECK ADD  CONSTRAINT [FK_Subproject_ProjectStage_ProjectStageID] FOREIGN KEY([SubprojectStageID])
+ALTER TABLE [dbo].[Subproject]  WITH CHECK ADD  CONSTRAINT [FK_Subproject_ProjectStage_ProjectStageID] FOREIGN KEY([ProjectStageID])
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
 ALTER TABLE [dbo].[Subproject] CHECK CONSTRAINT [FK_Subproject_ProjectStage_ProjectStageID]

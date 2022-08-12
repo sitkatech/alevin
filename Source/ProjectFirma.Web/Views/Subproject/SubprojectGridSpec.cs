@@ -52,12 +52,10 @@ namespace ProjectFirma.Web.Views.Subproject
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), "Edit Subproject", true, hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
             Add("Subproject Name", x => x.SubprojectName, 120);
             Add("Subproject Description", x => x.SubprojectDescription, 120);
-            Add("Subproject ID", x => x.SubprojectID, 60);
-            Add("Project ID", x => x.ProjectID, 60);
             Add("Implementation Start Year", x => x.ImplementationStartYear.DisplayValue(), 120);
             Add("Completion Year", x => x.CompletionYear.DisplayValue(), 120);
-            Add("Project Stage", x => x.SubprojectStage.ProjectStageDisplayName, 120);
-            Add("Notes", x => x.Notes, 120);
+            Add("Project Stage", x => x.ProjectStage.ProjectStageDisplayName, 120);
+            Add("Notes", x => x.Notes, 220);
         }
     }
 
