@@ -18,10 +18,12 @@ namespace ProjectFirmaModels.Models
             Property(x => x.SubprojectID).HasColumnName(@"SubprojectID").HasColumnType("int").IsRequired().HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
             Property(x => x.TenantID).HasColumnName(@"TenantID").HasColumnType("int").IsRequired();
             Property(x => x.ProjectID).HasColumnName(@"ProjectID").HasColumnType("int").IsRequired();
-            Property(x => x.ProjectStageID).HasColumnName(@"ProjectStageID").HasColumnType("int").IsRequired();
+            Property(x => x.SubprojectStageID).HasColumnName(@"SubprojectStageID").HasColumnType("int").IsRequired();
             Property(x => x.ImplementationStartYear).HasColumnName(@"ImplementationStartYear").HasColumnType("int").IsOptional();
-            Property(x => x.CompleteionYear).HasColumnName(@"CompleteionYear").HasColumnType("int").IsOptional();
+            Property(x => x.CompletionYear).HasColumnName(@"CompletionYear").HasColumnType("int").IsOptional();
             Property(x => x.Notes).HasColumnName(@"Notes").HasColumnType("varchar").IsOptional();
+            Property(x => x.SubprojectName).HasColumnName(@"SubprojectName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(140);
+            Property(x => x.SubprojectDescription).HasColumnName(@"SubprojectDescription").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(4000);
 
             // Foreign keys
             HasRequired(a => a.Project).WithMany(b => b.Subprojects).HasForeignKey(c => c.ProjectID).WillCascadeOnDelete(false); // FK_Subproject_Project_ProjectID
