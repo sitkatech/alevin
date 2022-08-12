@@ -93,7 +93,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             viewModel.UpdateModel(Subproject, CurrentFirmaSession);
-            SetMessageForDisplay($"Successfully edited Subproject.");
+            SetMessageForDisplay($"Successfully edited Subproject {Subproject.SubprojectName}.");
             return new ModalDialogFormJsonResult();
         }
 
@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewDelete(Subproject Subproject, ConfirmDialogFormViewModel viewModel)
         {
             var confirmMessage =
-                $"Are you sure you want to delete this subproject?";
+                $"Are you sure you want to delete the Subproject {Subproject.SubprojectName}?";
             var viewData = new ConfirmDialogFormViewData(confirmMessage, true);
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
@@ -126,7 +126,7 @@ namespace ProjectFirma.Web.Controllers
                 return ViewDelete(Subproject, viewModel);
             }
 
-            var message = $"Subproject successfully deleted.";
+            var message = $"Subproject {Subproject.SubprojectName} has been successfully deleted.";
             Subproject.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();

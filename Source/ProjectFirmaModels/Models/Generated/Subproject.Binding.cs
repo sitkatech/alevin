@@ -32,11 +32,11 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Subproject(int subprojectID, int projectID, int subprojectStageID, int? implementationStartYear, int? completionYear, string notes, string subprojectName, string subprojectDescription) : this()
+        public Subproject(int subprojectID, int projectID, int projectStageID, int? implementationStartYear, int? completionYear, string notes, string subprojectName, string subprojectDescription) : this()
         {
             this.SubprojectID = subprojectID;
             this.ProjectID = projectID;
-            this.SubprojectStageID = subprojectStageID;
+            this.ProjectStageID = projectStageID;
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
             this.Notes = notes;
@@ -47,13 +47,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Subproject(int projectID, int subprojectStageID, string subprojectName, string subprojectDescription) : this()
+        public Subproject(int projectID, int projectStageID, string subprojectName, string subprojectDescription) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.SubprojectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             
             this.ProjectID = projectID;
-            this.SubprojectStageID = subprojectStageID;
+            this.ProjectStageID = projectStageID;
             this.SubprojectName = subprojectName;
             this.SubprojectDescription = subprojectDescription;
         }
@@ -61,14 +61,14 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public Subproject(Project project, ProjectStage subprojectStage, string subprojectName, string subprojectDescription) : this()
+        public Subproject(Project project, ProjectStage projectStage, string subprojectName, string subprojectDescription) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.SubprojectID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
             this.ProjectID = project.ProjectID;
             this.Project = project;
             project.Subprojects.Add(this);
-            this.SubprojectStageID = subprojectStage.ProjectStageID;
+            this.ProjectStageID = projectStage.ProjectStageID;
             this.SubprojectName = subprojectName;
             this.SubprojectDescription = subprojectDescription;
         }
@@ -76,9 +76,9 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static Subproject CreateNewBlank(Project project, ProjectStage subprojectStage)
+        public static Subproject CreateNewBlank(Project project, ProjectStage projectStage)
         {
-            return new Subproject(project, subprojectStage, default(string), default(string));
+            return new Subproject(project, projectStage, default(string), default(string));
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace ProjectFirmaModels.Models
         public int SubprojectID { get; set; }
         public int TenantID { get; set; }
         public int ProjectID { get; set; }
-        public int SubprojectStageID { get; set; }
+        public int ProjectStageID { get; set; }
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
         public string Notes { get; set; }
@@ -171,7 +171,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<SubprojectPerformanceMeasureExpected> SubprojectPerformanceMeasureExpecteds { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
-        public ProjectStage SubprojectStage { get { return ProjectStage.AllLookupDictionary[SubprojectStageID]; } }
+        public ProjectStage ProjectStage { get { return ProjectStage.AllLookupDictionary[ProjectStageID]; } }
 
         public static class FieldLengths
         {
