@@ -213,6 +213,7 @@ namespace ProjectFirmaModels.Models
         VendorList = 10009,
         PnBudgetList = 10010,
         ObligationItemList = 10011,
-        BiOpAnnualReport = 10012
+        BiOpAnnualReport = 10012,
+        SubprojectEditDialog = 10013
     }
 }

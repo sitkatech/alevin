@@ -1015,6 +1015,7 @@
     <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Subproject.cs" />
     <Compile Include="Models\CustomPageRole.cs" />
     <Compile Include="Models\ComboTreeNode.cs" />
     <Compile Include="Models\CostAuthorityObligationRequestPotentialObligationNumberMatch.cs" />

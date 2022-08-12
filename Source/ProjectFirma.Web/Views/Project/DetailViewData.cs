@@ -38,6 +38,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Views.ActionItem;
+using ProjectFirma.Web.Views.Subproject;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.Shared.ProjectAttachment;
 using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
@@ -133,6 +134,9 @@ namespace ProjectFirma.Web.Views.Project
         public DisplayProjectCustomAttributesViewData DisplayProjectCustomAttributeTypesViewData { get; private set; }
         public ProjectTimelineDisplayViewData ProjectTimelineDisplayViewData { get; }
         public ActionItemsDisplayViewData ActionItemsDisplayViewData { get; }
+
+        public SubprojectDisplayViewData SubprojectDisplayViewData { get; }
+
         public bool UserCanViewActionItems { get; }
 
         public List<ProjectEvaluation> ProjectEvaluationsUserHasAccessTo { get; }
@@ -174,7 +178,7 @@ namespace ProjectFirma.Web.Views.Project
             string editSimpleProjectLocationUrl, string editDetailedProjectLocationUrl,
             string editProjectOrganizationsUrl, string editPerformanceMeasureExpectedsUrl,
             string editPerformanceMeasureActualsUrl, string editReportedExpendituresUrl,
-            bool reportFinancialsByCostType, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
+            bool reportFinancialsByCostType, SubprojectDisplayViewData subprojectDisplayViewData, bool userCanViewSubproject, AuditLogsGridSpec auditLogsGridSpec, string auditLogsGridDataUrl,
             string editExternalLinksUrl, ProjectNotificationGridSpec projectNotificationGridSpec,
             string projectNotificationGridName, string projectNotificationGridDataUrl, bool userCanEditProposal,
             ProjectOrganizationsDetailViewData projectOrganizationsDetailViewData,
@@ -254,7 +258,7 @@ namespace ProjectFirma.Web.Views.Project
                 {
                     projectAlerts.Add(
                         $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
-                } 
+                }
                 else if (projectApprovalStatus == ProjectApprovalStatus.PendingApproval)
                 {
                     if (userHasProjectAdminPermissions || currentPerson.IsPersonAProjectOwnerWhoCanStewardProjects() && currentPerson.CanStewardProject(project))
@@ -427,7 +431,7 @@ namespace ProjectFirma.Web.Views.Project
 
             ProjectAttachmentsDetailViewData = new ProjectAttachmentsDetailViewData(
                 EntityAttachment.CreateFromProjectAttachment(project.ProjectAttachments),
-                SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(x => x.New(project)), 
+                SitkaRoute<ProjectAttachmentController>.BuildUrlFromExpression(x => x.New(project)),
                 project.ProjectName,
                 new ProjectEditAsAdminFeature().HasPermission(currentFirmaSession, project).HasPermission,
                 project.GetAllAttachmentTypes().ToList(),
@@ -459,6 +463,8 @@ namespace ProjectFirma.Web.Views.Project
             // Project Running Balance (New Version)
             ProjectRunningBalanceObligationsAndExpendituresViewData = projectRunningBalanceObligationsAndExpendituresViewData;
             ProjectBalanceBurnUpViewData = projectBalanceBurnUpViewData;
+
+            SubprojectDisplayViewData = subprojectDisplayViewData;
         }
     }
 }

@@ -6,10 +6,12 @@ CREATE TABLE [dbo].[Subproject](
 	[SubprojectID] [int] IDENTITY(1,1) NOT NULL,
 	[TenantID] [int] NOT NULL,
 	[ProjectID] [int] NOT NULL,
-	[ProjectStageID] [int] NOT NULL,
+	[SubprojectStageID] [int] NOT NULL,
 	[ImplementationStartYear] [int] NULL,
-	[CompleteionYear] [int] NULL,
+	[CompletionYear] [int] NULL,
 	[Notes] [dbo].[html] NULL,
+	[SubprojectName] [varchar](140) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
+	[SubprojectDescription] [varchar](4000) COLLATE SQL_Latin1_General_CP1_CI_AS NOT NULL,
  CONSTRAINT [PK_Subproject_SubprojectID] PRIMARY KEY CLUSTERED 
 (
 	[SubprojectID] ASC
@@ -32,10 +34,10 @@ REFERENCES [dbo].[Project] ([ProjectID], [TenantID])
 GO
 ALTER TABLE [dbo].[Subproject] CHECK CONSTRAINT [FK_Subproject_Project_ProjectID_TenantID]
 GO
-ALTER TABLE [dbo].[Subproject]  WITH CHECK ADD  CONSTRAINT [FK_Subproject_ProjectStage_ProjectStageID] FOREIGN KEY([ProjectStageID])
+ALTER TABLE [dbo].[Subproject]  WITH CHECK ADD  CONSTRAINT [FK_Subproject_ProjectStage_SubprojectStageID_ProjectStageID] FOREIGN KEY([SubprojectStageID])
 REFERENCES [dbo].[ProjectStage] ([ProjectStageID])
 GO
-ALTER TABLE [dbo].[Subproject] CHECK CONSTRAINT [FK_Subproject_ProjectStage_ProjectStageID]
+ALTER TABLE [dbo].[Subproject] CHECK CONSTRAINT [FK_Subproject_ProjectStage_SubprojectStageID_ProjectStageID]
 GO
 ALTER TABLE [dbo].[Subproject]  WITH CHECK ADD  CONSTRAINT [FK_Subproject_Tenant_TenantID] FOREIGN KEY([TenantID])
 REFERENCES [dbo].[Tenant] ([TenantID])

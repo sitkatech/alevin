@@ -1,0 +1,124 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="Edit.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+    Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+    <author>Sitka Technology Group</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Views.Shared
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.Subproject.Edit
+
+<style>
+    .delete-action-item-button .btn-firma .glyphicon {
+        color: white;
+    }
+
+    .delete-action-item-button .btn-firma {
+        margin-left: 15px;
+    }
+</style>
+
+
+
+@using (Html.BeginForm())
+{
+    
+<div class="form-horizontal">
+    @Html.HiddenFor(m => m.ProjectID)
+
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.SubprojectName)           
+        </div>
+        <div class="col-sm-9">
+            @Html.TextBoxFor(m => m.SubprojectName, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SubprojectName)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.SubprojectDescription)           
+        </div>
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.SubprojectDescription, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.SubprojectDescription)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.ImplementationStartYear)
+        </div>
+        <div class="col-sm-9">
+            @Html.DropDownListFor(m => m.ImplementationStartYear, ViewDataTyped.ImplementationStartYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+            @Html.ValidationMessageFor(m => m.ImplementationStartYear)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.CompletionYear)
+            @{
+                // The following required icon is used for dynamically displaying the required icon for the completion year when the project
+                // is in certain stages. Added some simple javascript in the ConstrainProjectYears.js file to handle the changes since that
+                // is what is already being used to make the years dynamic upon selection of other years. If we have to do much more
+                // like this we should probably change this to all be angular -- 10/14/2020 SMG [PF-2281]
+                var completedDateRequiredProjectStageIDs = ViewDataTyped.SubprojectStagesModels.Where(x => x == ProjectStage.Completed || x == ProjectStage.PostImplementation).Select(x => x.ProjectStageID).ToList();
+            }
+            <sup style="display: @(completedDateRequiredProjectStageIDs.Contains(Model.SubprojectStageID) ? "inline-block" : "none");" data-show-when-project-stage-in="@String.Join(",", completedDateRequiredProjectStageIDs)">
+                <span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span>
+            </sup>
+        </div>
+        <div class="col-sm-9">
+            @Html.DropDownListFor(m => m.CompletionYear, ViewDataTyped.CompletionYearRange, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" } })
+            @Html.ValidationMessageFor(m => m.CompletionYear)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m => m.Notes)           
+        </div>
+        <div class="col-sm-9">
+            @Html.TextAreaFor(m => m.Notes, new { style = "width:100%", @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Notes)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3 control-label">
+            @Html.LabelWithSugarFor(m=>m.SubprojectStageID)
+        </div>
+        <div class="col-sm-9">
+            @Html.DropDownListFor(m => m.SubprojectStageID, ViewDataTyped.SubprojectStageSelectListItems, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" }})
+            @Html.ValidationMessageFor(m => m.SubprojectStageID)
+        </div>
+    </div>
+    <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
+    <script>
+        @{
+            var implementationYears = ViewDataTyped.ImplementationStartYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+            var completionYears = ViewDataTyped.CompletionYearRange.Where(x => !string.IsNullOrWhiteSpace(x.Value)).Select(x => x.Value).ToList();
+        }
+
+        initializeSubprojectYearConstraining(
+            "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
+            "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(),
+            "@Html.IdFor(x => x.SubprojectStageID)",
+             @ViewDataTyped.TenantUsesFiscalYears.ToString().ToLower())
+    </script>
+</div>
+}

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="SubprojectViewFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="Edit.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,18 +18,9 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
-using System.Collections.Generic;
-using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
-using ProjectFirma.Web.Security.Shared;
-
-namespace ProjectFirma.Web.Security
+namespace ProjectFirma.Web.Views.Subproject
 {
-    [SecurityFeatureDescription("View Subproject")]
-    public class SubprojectViewFeature : AnonymousUnclassifiedFeature
+    public abstract class Edit : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditViewData, EditViewModel>
     {
-   
-
     }
 }

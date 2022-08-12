@@ -56,3 +56,44 @@ function initializeYearConstraining(planningYearInputId,
 
 
 }
+
+// Setup automatic constraining of subproject year selection inputs to valid years only
+function initializeSubprojectYearConstraining(implementationYearId, implementationMinYear, implementationMaxYear,
+    completionYearId, completionMinYear, completionMaxYear, projectStageElementID, tenantUsesFiscalYears) {
+
+    function constrainYearOptions() {
+        var implementationStartSelect = jQuery("#" + implementationYearId);
+        var completedSelect = jQuery("#" + completionYearId);
+
+        var minImplementationYear = implementationMinYear;
+        filterYearOptions(minImplementationYear, implementationMaxYear, implementationStartSelect, tenantUsesFiscalYears);
+
+        var minCompletionYear = Math.max(completionMinYear, minImplementationYear, implementationStartSelect.val());
+        filterYearOptions(minCompletionYear, completionMaxYear, completedSelect, tenantUsesFiscalYears);
+    }
+
+    constrainYearOptions();
+
+    document.getElementById(implementationYearId).addEventListener("change", constrainYearOptions);
+    document.getElementById(completionYearId).addEventListener("change", constrainYearOptions);
+
+    if (projectStageElementID) {
+        var projectStageSelect = jQuery("#" + projectStageElementID);
+        var allRequiredIconsToBeChecked = jQuery('[data-show-when-project-stage-in]');
+        projectStageSelect.on('change',
+            function () {
+                var projectStageIDSelected = $(this).val();
+                allRequiredIconsToBeChecked.each(function (index) {
+                    var stagesThatWouldEnableRequiredIcon = $(this).data('show-when-project-stage-in').split(",");
+                    if (stagesThatWouldEnableRequiredIcon.includes(projectStageIDSelected.toString())) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                });
+
+            });
+    }
+
+
+}
