@@ -49,7 +49,7 @@ namespace ProjectFirma.Web.Views.Subproject
 
         [Required(ErrorMessage = "Subproject Stage field is required.")]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
-        public int ProjectStageID { get; set; }
+        public int SubprojectStageID { get; set; }
 
         [Required]
         [FieldDefinitionDisplay(FieldDefinitionEnum.ImplementationStartYear)]
@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.Subproject
             SubprojectName = subproject.SubprojectName;
             SubprojectDescription = subproject.SubprojectDescription;
             SubprojectID = subproject.SubprojectID;
-            ProjectStageID = subproject.ProjectStageID;
+            SubprojectStageID = subproject.SubprojectStageID;
             ImplementationStartYear = subproject.ImplementationStartYear;
             CompletionYear = subproject.CompletionYear;
             Notes = subproject.Notes;
@@ -84,7 +84,7 @@ namespace ProjectFirma.Web.Views.Subproject
         {
             subproject.SubprojectName = SubprojectName;
             subproject.SubprojectDescription = SubprojectDescription;
-            subproject.ProjectStageID = ProjectStageID;
+            subproject.SubprojectStageID = SubprojectStageID;
             subproject.ImplementationStartYear = ImplementationStartYear;
             subproject.CompletionYear = CompletionYear;
             subproject.Notes = Notes;
@@ -100,17 +100,17 @@ namespace ProjectFirma.Web.Views.Subproject
                     m => m.CompletionYear);
             }
 
-            if (ProjectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
+            if (SubprojectStageID == ProjectStage.Completed.ProjectStageID && !CompletionYear.HasValue)
             {
                 yield return new SitkaValidationResult<EditViewModel, int?>($"Since the Subproject is in the Completed stage, the Completion year is required", m => m.CompletionYear);
             }
 
-            if (ProjectStageID == ProjectStage.PostImplementation.ProjectStageID && !CompletionYear.HasValue)
+            if (SubprojectStageID == ProjectStage.PostImplementation.ProjectStageID && !CompletionYear.HasValue)
             {
                 yield return new SitkaValidationResult<EditViewModel, int?>($"Since the Subproject is in the Post-Implementation stage, the Completion year is required", m => m.CompletionYear);
             }
 
-            var isCompletedOrPostImplementation = ProjectStageID == ProjectStage.Completed.ProjectStageID || ProjectStageID == ProjectStage.PostImplementation.ProjectStageID;
+            var isCompletedOrPostImplementation = SubprojectStageID == ProjectStage.Completed.ProjectStageID || SubprojectStageID == ProjectStage.PostImplementation.ProjectStageID;
             var currentYear = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
             if (isCompletedOrPostImplementation && CompletionYear > currentYear)
             {

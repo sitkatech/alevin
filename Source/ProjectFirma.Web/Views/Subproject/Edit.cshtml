@@ -78,9 +78,9 @@
                 // is in certain stages. Added some simple javascript in the ConstrainProjectYears.js file to handle the changes since that
                 // is what is already being used to make the years dynamic upon selection of other years. If we have to do much more
                 // like this we should probably change this to all be angular -- 10/14/2020 SMG [PF-2281]
-                var completedDateRequiredProjectStageIDs = ViewDataTyped.ProjectStagesModels.Where(x => x == ProjectStage.Completed || x == ProjectStage.PostImplementation).Select(x => x.ProjectStageID).ToList();
+                var completedDateRequiredProjectStageIDs = ViewDataTyped.SubprojectStagesModels.Where(x => x == ProjectStage.Completed || x == ProjectStage.PostImplementation).Select(x => x.ProjectStageID).ToList();
             }
-            <sup style="display: @(completedDateRequiredProjectStageIDs.Contains(Model.ProjectStageID) ? "inline-block" : "none");" data-show-when-project-stage-in="@String.Join(",", completedDateRequiredProjectStageIDs)">
+            <sup style="display: @(completedDateRequiredProjectStageIDs.Contains(Model.SubprojectStageID) ? "inline-block" : "none");" data-show-when-project-stage-in="@String.Join(",", completedDateRequiredProjectStageIDs)">
                 <span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px;"></span>
             </sup>
         </div>
@@ -100,11 +100,11 @@
     </div>
     <div class="form-group">
         <div class="col-sm-3 control-label">
-            @Html.LabelWithSugarFor(m=>m.ProjectStageID)
+            @Html.LabelWithSugarFor(m=>m.SubprojectStageID)
         </div>
         <div class="col-sm-9">
-            @Html.DropDownListFor(m => m.ProjectStageID, ViewDataTyped.ProjectStageSelectListItems, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" }})
-            @Html.ValidationMessageFor(m => m.ProjectStageID)
+            @Html.DropDownListFor(m => m.SubprojectStageID, ViewDataTyped.SubprojectStageSelectListItems, new Dictionary<string, object>() { { "style", "width: auto" }, { "class", "form-control" }})
+            @Html.ValidationMessageFor(m => m.SubprojectStageID)
         </div>
     </div>
     <script type="text/javascript" src="/Views/Shared/ConstrainProjectYears.js"></script>
@@ -117,7 +117,7 @@
         initializeSubprojectYearConstraining(
             "@Html.IdFor(x => x.ImplementationStartYear)", @implementationYears.Min(), @implementationYears.Max(),
             "@Html.IdFor(x => x.CompletionYear)", @completionYears.Min(), @completionYears.Max(),
-            "@Html.IdFor(x => x.ProjectStageID)",
+            "@Html.IdFor(x => x.SubprojectStageID)",
              @ViewDataTyped.TenantUsesFiscalYears.ToString().ToLower())
     </script>
 </div>

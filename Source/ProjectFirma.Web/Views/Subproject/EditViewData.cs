@@ -34,17 +34,17 @@ namespace ProjectFirma.Web.Views.Subproject
     {
         public IEnumerable<SelectListItem> ImplementationStartYearRange { get; }
         public IEnumerable<SelectListItem> CompletionYearRange { get; }
-        public IEnumerable<SelectListItem> ProjectStageSelectListItems { get; }
-        public IEnumerable<ProjectStage> ProjectStagesModels { get; }
+        public IEnumerable<SelectListItem> SubprojectStageSelectListItems { get; }
+        public IEnumerable<ProjectStage> SubprojectStagesModels { get; }
         public bool TenantUsesFiscalYears { get; }
 
-        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<ProjectStage> projectStages) : base(currentFirmaSession, firmaPage)
+        public EditViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FirmaPage firmaPage, IEnumerable<ProjectStage> subprojectStages) : base(currentFirmaSession, firmaPage)
         {
-            ProjectStageSelectListItems = projectStages.ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(),
+            SubprojectStageSelectListItems = subprojectStages.ToSelectListWithEmptyFirstRow(x => x.ProjectStageID.ToString(),
                 y => y.ProjectStageDisplayName); ;
             ImplementationStartYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
             CompletionYearRange = FirmaDateUtilities.YearsForUserInput().ToSelectListWithEmptyFirstRow(x => x.CalendarYear.ToString(CultureInfo.InvariantCulture), x => x.CalendarYearDisplay).ToList();
-            ProjectStagesModels = projectStages;
+            SubprojectStagesModels = subprojectStages;
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
     }

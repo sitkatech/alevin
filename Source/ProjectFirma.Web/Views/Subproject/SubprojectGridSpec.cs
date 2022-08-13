@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Views.Subproject
             Add("Subproject Description", x => x.SubprojectDescription, 120);
             Add("Implementation Start Year", x => x.ImplementationStartYear.DisplayValue(), 120);
             Add("Completion Year", x => x.CompletionYear.DisplayValue(), 120);
-            Add("Project Stage", x => x.ProjectStage.ProjectStageDisplayName, 120);
+            Add("Project Stage", x => x.SubprojectStage.ProjectStageDisplayName, 120);
             Add("Notes", x => x.Notes, 220);
         }
     }
