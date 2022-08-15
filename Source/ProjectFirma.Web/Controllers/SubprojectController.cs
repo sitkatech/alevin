@@ -132,5 +132,44 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
+        private static List<ProjectStage> GetActiveSubprojectStages(Subproject subproject)
+        {
+            var activeProjectStages = new List<ProjectStage> { ProjectStage.Proposal, ProjectStage.PlanningDesign, ProjectStage.Implementation, ProjectStage.Completed, ProjectStage.PostImplementation };
+
+            if (subproject.SubprojectStage == ProjectStage.Terminated)
+            {
+                activeProjectStages.Remove(ProjectStage.Implementation);
+                activeProjectStages.Remove(ProjectStage.Completed);
+                activeProjectStages.Remove(ProjectStage.PostImplementation);
+
+                activeProjectStages.Add(subproject.SubprojectStage);
+            }
+            else if (subproject.SubprojectStage == ProjectStage.Deferred)
+            {
+                activeProjectStages.Add(subproject.SubprojectStage);
+            }
+
+            activeProjectStages = activeProjectStages.OrderBy(p => p.SortOrder).ToList();
+            return activeProjectStages;
+        }
+
+        [SubprojectViewFeature]
+        public ViewResult Detail(SubprojectPrimaryKey subprojectPrimaryKey)
+        {
+            var subproject = subprojectPrimaryKey.EntityObject;
+            var subprojectStages = GetActiveSubprojectStages(subproject);
+
+            bool userHasEditSubprojectPermissions = new SubprojectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+
+            var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject, false);
+           
+            var viewData = new DetailViewData(CurrentFirmaSession,
+                subproject,
+                subprojectStages,
+                subprojectBasicsViewData,
+                userHasEditSubprojectPermissions);
+            return RazorView<Detail, DetailViewData>(viewData);
+        }
+
     }
 }
