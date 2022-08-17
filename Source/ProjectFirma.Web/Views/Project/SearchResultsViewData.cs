@@ -28,11 +28,13 @@ namespace ProjectFirma.Web.Views.Project
     public class SearchResultsViewData : FirmaViewData
     {
         public List<ProjectFirmaModels.Models.Project> EntitySearchResults { get; }
+        public List<ProjectFirmaModels.Models.Subproject> SubprojectsSearchResults { get; }
         public string SearchCriteria { get; }
 
-        public SearchResultsViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Project> entitySearchResults, string searchCriteria) : base(currentFirmaSession)
+        public SearchResultsViewData(FirmaSession currentFirmaSession, List<ProjectFirmaModels.Models.Project> entitySearchResults, List<ProjectFirmaModels.Models.Subproject> subprojectsSearchResults, string searchCriteria) : base(currentFirmaSession)
         {
             EntitySearchResults = entitySearchResults;
+            SubprojectsSearchResults = subprojectsSearchResults;
             SearchCriteria = searchCriteria;
             PageTitle = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Search";
         }

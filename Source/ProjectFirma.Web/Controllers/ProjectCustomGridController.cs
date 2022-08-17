@@ -108,7 +108,7 @@ namespace ProjectFirma.Web.Controllers
             var projectCustomGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Full.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
             var projectDetails = HttpRequestStorage.DatabaseEntities.vProjectDetails.ToDictionary(x => x.ProjectID);
             var gridSpec = new ProjectCustomGridSpec(CurrentFirmaSession, projectCustomGridConfigurations, ProjectCustomGridType.Full.ToEnum, projectDetails, CurrentTenant);
-            var projects = GetProjectEnumerableWithIncludesForPerformance().GetActiveProjects();
+            var projects = GetProjectEnumerableWithIncludesForPerformance();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Project>(projects, gridSpec);
             return gridJsonNetJObjectResult;
         }
