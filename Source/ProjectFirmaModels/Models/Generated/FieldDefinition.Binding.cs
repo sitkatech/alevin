@@ -381,6 +381,7 @@ namespace ProjectFirmaModels.Models
         ObligationRequestNumber = 10056,
         BpaProjectNumber = 10057,
         TotalProjectedObligation = 10058,
-        ModNumber = 10059
+        ModNumber = 10059,
+        Subproject = 10060
     }
 }

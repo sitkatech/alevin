@@ -868,7 +868,9 @@ namespace ProjectFirma.Web.Controllers
                 searchCriteria = String.Empty;
             }
             var projectsFound = GetViewableProjectsFromSearchCriteria(searchCriteria);
-            return SearchImpl(searchCriteria, projectsFound);
+            var subprojectsFound = GetViewableSubprojectsFromSearchCriteria(searchCriteria);
+
+            return SearchImpl(searchCriteria, projectsFound, subprojectsFound);
         }
 
         private List<Project> GetViewableProjectsFromSearchCriteria(string searchCriteria)
@@ -880,15 +882,27 @@ namespace ProjectFirma.Web.Controllers
             return projectsFound;
         }
 
-        [AnonymousUnclassifiedFeature]
-        public ActionResult SearchImpl(string searchCriteria, List<Project> projectsFound)
+        private List<Subproject> GetViewableSubprojectsFromSearchCriteria(string searchCriteria)
         {
-            if (projectsFound.Count == 1)
+            var subprojectIDsFound = HttpRequestStorage.DatabaseEntities.Subprojects
+                .GetSubprojectFindResultsForSubprojectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.SubprojectID);
+            var subprojectsFound =
+                HttpRequestStorage.DatabaseEntities.Subprojects.Where(x => subprojectIDsFound.Contains(x.SubprojectID))
+                    .ToList();
+            return subprojectsFound;
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ActionResult SearchImpl(string searchCriteria, List<Project> projectsFound, List<Subproject> subprojectsFound)
+        {
+            if (projectsFound.Count == 1 && !subprojectsFound.Any())
             {
                 return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(projectsFound.Single())));
             }
 
-            var viewData = new SearchResultsViewData(CurrentFirmaSession, projectsFound, searchCriteria);
+            //todo: in the future, if a single subproject is found and no projects are found, redirect to the detail page for the subproject
+
+            var viewData = new SearchResultsViewData(CurrentFirmaSession, projectsFound, subprojectsFound, searchCriteria);
             return RazorView<SearchResults, SearchResultsViewData>(viewData);
         }
 
