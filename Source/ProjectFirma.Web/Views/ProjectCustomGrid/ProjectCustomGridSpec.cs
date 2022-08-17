@@ -398,6 +398,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                         : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100,
                     DhtmlxGridColumnFilterType.Html);
             }
+
+            Add("Is Pending Project", x => x.IsPendingProject().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
         }
     }
 }
