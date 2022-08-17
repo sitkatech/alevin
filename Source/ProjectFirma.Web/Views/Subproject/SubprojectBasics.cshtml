@@ -46,31 +46,6 @@ Source code is available upon request via <support@sitkatech.com>.
 
 <div class="basicsLayout">
 
-    @*@{ ProjectTaxonomy.RenderPartialView(Html, ViewDataTyped.ProjectTaxonomyViewData); }
-
-        @if (ViewDataTyped.TenantAttribute.EnableSecondaryProjectTaxonomyLeaf && ViewDataTyped.SecondaryTaxonomyLeaves.Any())
-        {
-            <hr />
-            <div class="row">
-                <div class="col-xs-12">
-                    <label>
-                        @Html.LabelWithSugarFor(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly)
-                        @FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized()
-                    </label>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-xs-12">
-                    <ul>
-                        @foreach (var taxonomyLeaf in ViewDataTyped.SecondaryTaxonomyLeaves)
-                        {
-                            <li>@(taxonomyLeaf.GetDisplayNameAsUrl())</li>
-                        }
-                    </ul>
-                </div>
-            </div>
-        }*@
-    
     @{
         var implementationStartYear = ViewDataTyped.Subproject.ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ViewDataTyped.Subproject.ImplementationStartYear.Value) : null;
         var completionYear = ViewDataTyped.Subproject.CompletionYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ViewDataTyped.Subproject.CompletionYear.Value) : null;
