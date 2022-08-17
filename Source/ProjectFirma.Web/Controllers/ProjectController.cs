@@ -858,7 +858,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDsFound = HttpRequestStorage.DatabaseEntities.Projects.GetProjectFindResultsForProjectNameAndDescriptionAndNumber(searchCriteria).Select(x => x.ProjectID);
             var projectsFound =
                 HttpRequestStorage.DatabaseEntities.Projects.Where(x => projectIDsFound.Contains(x.ProjectID))
-                    .ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals(), CurrentFirmaSession);
+                    .ToList();
             return projectsFound;
         }
 
