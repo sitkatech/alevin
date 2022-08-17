@@ -85,5 +85,6 @@ values
 (10009, 'VendorList', 'Vendor List', 1),
 (10010, 'PnBudgetList', 'PnBudget Import List', 1),
 (10011, 'ObligationItemList', 'Obligation Item List', 1),
-(10012, 'BiOpAnnualReport', 'BiOp Annual Report', 1)
+(10012, 'BiOpAnnualReport', 'BiOp Annual Report', 1),
+(10013, 'SubprojectEditDialog', 'Subproject Edit Dialog', 1)
 

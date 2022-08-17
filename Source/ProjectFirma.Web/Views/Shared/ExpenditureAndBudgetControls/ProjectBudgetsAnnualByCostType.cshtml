@@ -38,6 +38,38 @@
         font-style: italic;
         color: #6e6e6e;
     }
+
+    table.tableFixedHead {
+        border-collapse: separate;
+    }
+
+    table.tableFixedHead tbody { overflow-y: auto; }
+    table.tableFixedHead thead { position: sticky; top: 0; z-index: 1; background-color: #fff; }
+
+    th.centeredWithTopBorder {
+        text-align: center;
+        border-top: 1px solid #ddd !important;
+    }
+
+    table.tableFixedFirstColumn {
+        border-collapse: separate;
+    }
+
+    table.tableFixedFirstColumn thead tr:first-child th:first-child {
+        position: sticky;
+        top: 0;
+        left: 0;
+        z-index: 2;
+        background-color: #fff;
+    }
+
+    table.tableFixedFirstColumn td:first-child {
+        position: sticky;
+        left: 0;
+        border: 1px solid #ddd;
+        background-color: #fff;
+    }
+
 </style>
 <div class="table-responsive" style="margin-top: 25px; overflow-x: hidden">
     @* Funding Sources *@
@@ -46,21 +78,21 @@
     {
         if (ViewDataTyped.Project.FundingTypeID == FundingType.BudgetVariesByYear.FundingTypeID)
         {
-            <div class="table-responsive tableFixHeader">
-                <table class="table table-condensed table-bordered">
+            <div class="table-responsive" style="max-height: 800px;">
+                <table class="table table-condensed table-bordered tableFixedHead tableFixedFirstColumn">
                     <thead>
                         <tr>
-                            <th rowspan="2">
+                            <th rowspan="2" class="centeredWithTopBorder">
                                 <span> @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForFundingSource) / @Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForCostType)</span>
                             </th>
                             @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
                             {
 
-                                <th colspan="3" style="text-align: center">
+                                <th colspan="3" class="centeredWithTopBorder">
                                     <span>@calendarYear</span>
                                 </th>
                             }
-                            <th colspan="3" style="text-align: center">Totals</th>
+                            <th colspan="3" class="centeredWithTopBorder">Totals</th>
                         </tr>
                         <tr>
                             @foreach (var calendarYear in @ViewDataTyped.CalendarYears)
@@ -93,7 +125,8 @@
                             var currentFundingSource = groupedByFundingSource.First().FundingSource;
 
                             <tr class="info">
-                                <td style="text-align: left; white-space: nowrap;" colspan="@(ViewDataTyped.CalendarYears.Count * 3 + 4)">@Html.Raw(currentFundingSource.GetDisplayNameAsUrl())</td>
+                                <td style="text-align: left; white-space: nowrap; border-right: 0;" colspan="4">@Html.Raw(currentFundingSource.GetDisplayNameAsUrl())</td>
+                                <td style="text-align: left; white-space: nowrap; border-left: 0;" colspan="@(ViewDataTyped.CalendarYears.Count * 3)"></td>
                             </tr>
                             foreach (var groupedByCostType in groupedByFundingSource.GroupBy(x => x.CostType).OrderBy(x => GetCostTypeNameOrNullString(x.Key)))
                             {
@@ -130,7 +163,7 @@
 
                         }
                         <tr>
-                            <th style="text-align: left">Grand Total</th>
+                            <td style="text-align: left; font-weight: bold;">Grand Total</td>
                             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                             {
                                 <th class="text-right">
@@ -160,7 +193,7 @@
             <h4>@FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel()</h4>
             @* No Funding Source Identified Funds for per year budget *@
             <div class="table-responsive tableFixHeader">
-                <table class="table table-condensed table-bordered">
+                <table class="table table-condensed table-bordered tableFixedFirstColumn">
                     <thead>
                         <tr>
                             <th>
@@ -200,7 +233,7 @@
 
                         
                         <tr>
-                            <th style="text-align: left">Grand Total</th>
+                            <td style="text-align: left; font-weight: bold;">Grand Total</td>
                             @foreach (var calendarYear in ViewDataTyped.CalendarYears)
                             {
                                 <th class="text-right">

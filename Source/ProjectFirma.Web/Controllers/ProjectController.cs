@@ -54,6 +54,7 @@ using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
 using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp;
+using ProjectFirma.Web.Views.Subproject;
 using Detail = ProjectFirma.Web.Views.Project.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Project.DetailViewData;
 using Index = ProjectFirma.Web.Views.Project.Index;
@@ -293,6 +294,8 @@ namespace ProjectFirma.Web.Controllers
                                                                                               ProjectPotentialPartnerListDisplayMode.ProjectDetailViewPartialList);
             var userCanViewActionItems = new ActionItemViewFeature().HasPermission(CurrentFirmaSession, project).HasPermission;
             var actionItemsDisplayViewData = BuildActionItemsDisplayViewData(project, CurrentFirmaSession);
+            var userCanViewSubprojects = new SubprojectViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var subprojectDisplayViewData = BuildSubprojectDisplayViewData(project, CurrentFirmaSession);
 
             // Project Running Balance - All Contracts Version
             // -----------------------------------------------
@@ -332,6 +335,8 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureActualsUrl,
                 editReportedExpendituresUrl,
                 reportFinancialsByCostType,
+                subprojectDisplayViewData,
+                userCanViewSubprojects,
                 auditLogsGridSpec,
                 auditLogsGridDataUrl,
                 editExternalLinksUrl,
@@ -449,6 +454,19 @@ namespace ProjectFirma.Web.Controllers
             var actionItemsDisplayViewData = new ActionItemsDisplayViewData(project, actionItemsGridSpec,
                 actionItemsGridName, actionItemsGridDataUrl, userCanViewActionItems, userCanCreateActionItems, addNewActionItemUrl);
             return actionItemsDisplayViewData;
+        }
+
+        private static SubprojectDisplayViewData BuildSubprojectDisplayViewData(Project project, FirmaSession currentFirmaSession)
+        {
+            var subprojectGridSpec = new SubprojectGridSpec(project.PrimaryKey, currentFirmaSession);
+            const string subprojectGridName = "Subprojects";
+            var subprojectGridDataUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.SubprojectGridJsonData(project.PrimaryKey));
+            var userCanViewSubproject = new SubprojectViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
+            var userCanCreateSubproject = new SubprojectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
+            var subprojectDisplayViewData = new SubprojectDisplayViewData(project, subprojectGridSpec,
+                subprojectGridName, subprojectGridDataUrl);
+            return subprojectDisplayViewData;
         }
 
         private static List<ProjectStage> GetActiveProjectStages(Project project)
@@ -841,7 +859,7 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<AuditLog>(auditLogs, gridSpec);
             return gridJsonNetJObjectResult;
         }
-
+        
         [AnonymousUnclassifiedFeature]
         public ActionResult Search(string searchCriteria)
         {
