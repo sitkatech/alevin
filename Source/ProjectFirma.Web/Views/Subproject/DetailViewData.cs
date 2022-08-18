@@ -50,6 +50,11 @@ namespace ProjectFirma.Web.Views.Subproject
 
         public SubprojectBasicsViewData SubprojectBasicsViewData { get; }
 
+        public string EditPerformanceMeasureExpectedsUrl { get; }
+
+        public PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData { get; }
+
+
 
         public List<ProjectStage> SubprojectStages { get; }
 
@@ -60,7 +65,9 @@ namespace ProjectFirma.Web.Views.Subproject
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Subproject subproject,
             List<ProjectStage> subprojectStages,
             SubprojectBasicsViewData subprojectBasicsViewData,
-            bool userHasEditSubprojectPermissions)
+            bool userHasEditSubprojectPermissions,
+            //string editPerformanceMeasureExpectedsUrl,
+            PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData)
             : base(currentFirmaSession, subproject)
         {
             EditSubprojectUrl =
@@ -71,6 +78,8 @@ namespace ProjectFirma.Web.Views.Subproject
             var proposedSubprojectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Detail(Subproject.Project.PrimaryKey)) + "#subprojects";
             SubprojectListUrl = proposedSubprojectListUrl;
             SubprojectBasicsViewData = subprojectBasicsViewData;
+            //EditPerformanceMeasureExpectedsUrl = editPerformanceMeasureExpectedsUrl;
+            PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;
 
         }
     }

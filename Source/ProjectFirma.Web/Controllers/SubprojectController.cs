@@ -11,6 +11,7 @@ using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.Subproject;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Controllers
@@ -156,9 +157,12 @@ namespace ProjectFirma.Web.Controllers
         [SubprojectViewFeature]
         public ViewResult Detail(SubprojectPrimaryKey subprojectPrimaryKey)
         {
+
             var subproject = subprojectPrimaryKey.EntityObject;
             var subprojectStages = GetActiveSubprojectStages(subproject);
+            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureSortOrder)), true);
 
+            //var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(subproject));
             bool userHasEditSubprojectPermissions = new SubprojectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject, false);
@@ -167,7 +171,10 @@ namespace ProjectFirma.Web.Controllers
                 subproject,
                 subprojectStages,
                 subprojectBasicsViewData,
-                userHasEditSubprojectPermissions);
+                userHasEditSubprojectPermissions,
+                performanceMeasureExpectedsSummaryViewData
+                //editPerformanceMeasureExpectedsUrl
+                );
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

@@ -27,7 +27,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
     {
         public readonly List<IPerformanceMeasureValue> PerformanceMeasureExpecteds;
 
-        public PerformanceMeasureExpectedSummaryViewData(List<IPerformanceMeasureValue> performanceMeasureExpecteds)
+        public PerformanceMeasureExpectedSummaryViewData(List<IPerformanceMeasureValue> performanceMeasureExpecteds, bool isSubproject)
         {
             PerformanceMeasureExpecteds = performanceMeasureExpecteds;
         }
