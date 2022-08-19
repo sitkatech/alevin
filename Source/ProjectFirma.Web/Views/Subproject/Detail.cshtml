@@ -43,6 +43,8 @@
     <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
     <script src="@Url.Content("~/Content/bootstrap-toc/bootstrap-toc.min.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Content/angular/angular-messages.min.js")"></script>
+    
+    <script src="~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js"></script>
 }
 
 <style type="text/css">
@@ -98,33 +100,33 @@
                 arrowClass = "singleArrow";
             }
 
-         <div class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.ProjectStageDisplayName</div>
+            <div class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.ProjectStageDisplayName</div>
         }
     </div>
 </div>
 
 
-    <div class="panel panelFirma">
-        <div class="panel-heading panelTitle">
-            <h3 class="subproject-detail-heading">
-                @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubprojectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Subproject.SubprojectName), 950, ViewDataTyped.UserHasEditSubprojectPermissions)
-                Basics
-            </h3>
-        </div>
-        <div class="panel-body">
-            @{ SubprojectBasics.RenderPartialView(Html, ViewDataTyped.SubprojectBasicsViewData); }
-        </div>
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        <h3 class="subproject-detail-heading">
+            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubprojectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Subproject.SubprojectName), 950, ViewDataTyped.UserHasEditSubprojectPermissions)
+            Basics
+        </h3>
     </div>
+    <div class="panel-body">
+        @{ SubprojectBasics.RenderPartialView(Html, ViewDataTyped.SubprojectBasicsViewData); }
+    </div>
+</div>
 
 
-    <div class="panel panelFirma">
-        @*<div class="panel-heading panelTitle">
-            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-            <h3 class="project-detail-heading">
-                Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
-            </h3>
-        </div>*@
-        <div class="panel-body">
-            @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
-        </div>
+<div class="panel panelFirma">
+    <div class="panel-heading panelTitle">
+        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubprojectPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditSubprojectPermissions)
+        <h3 class="project-detail-heading">
+            Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
+        </h3>
     </div>
+    <div class="panel-body">
+        @{ PerformanceMeasureExpectedSummary.RenderPartialView(Html, ViewDataTyped.PerformanceMeasureExpectedSummaryViewData); }
+    </div>
+</div>

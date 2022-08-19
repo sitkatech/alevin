@@ -122,7 +122,6 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureExpectedControll
 
     $scope.createNewRow = function (performanceMeasure) {
         var newPerformanceMeasureExpected = {
-            ProjectID: performanceMeasure.ProjectID,
             PerformanceMeasureID: performanceMeasure.PerformanceMeasureID,
             CalendarYear: new Date().getFullYear(),
             ExpectedValue: null,

@@ -455,8 +455,7 @@ namespace ProjectFirma.Web.Controllers
                 configurePerformanceMeasuresUrl = SitkaRoute<PerformanceMeasureController>.BuildUrlFromExpression(x => x.Manage());
             }
 
-            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(
-                new List<ProjectSimple> {new ProjectSimple(project)}, performanceMeasures, project.ProjectID, false, configurePerformanceMeasuresUrl);
+            var editPerformanceMeasureExpectedsViewData = new EditPerformanceMeasureExpectedViewData(performanceMeasures, false, configurePerformanceMeasuresUrl);
 
             var viewData = new ExpectedPerformanceMeasureValuesViewData(CurrentFirmaSession, project, proposalSectionsStatus, editPerformanceMeasureExpectedsViewData);
             return RazorView<ExpectedPerformanceMeasureValues, ExpectedPerformanceMeasureValuesViewData, ExpectedPerformanceMeasureValuesViewModel>(viewData, viewModel);

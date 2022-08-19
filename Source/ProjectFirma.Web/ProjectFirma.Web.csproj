@@ -76,6 +76,7 @@
     <Compile Include="Controllers\ObligationRequestController.cs" />
     <Compile Include="Controllers\ObligationRequestSubmissionNotesController.cs" />
     <Compile Include="Controllers\PnBudgetController.cs" />
+    <Compile Include="Controllers\SubprojectPerformanceMeasureExpectedController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
@@ -290,8 +291,6 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
-    <Compile Include="Security\SubprojectEditAsAdminFeature.cs" />
-    <Compile Include="Security\SubprojectCreateFeature.cs" />
     <Compile Include="Security\SubprojectViewFeature.cs" />
     <Compile Include="Security\SubprojectManageFeature.cs" />
     <Compile Include="Security\AttachmentTypeManageFeature.cs" />

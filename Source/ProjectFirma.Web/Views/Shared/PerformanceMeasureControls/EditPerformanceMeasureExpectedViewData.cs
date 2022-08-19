@@ -33,32 +33,30 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
 {
     public class EditPerformanceMeasureExpectedViewData : FirmaUserControlViewData
     {
-        public readonly List<PerformanceMeasureSimple> AllPerformanceMeasures;
-        public readonly List<PerformanceMeasureSubcategorySimple> AllPerformanceMeasureSubcategories;
-        public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
-        public readonly List<ProjectSimple> AllProjects;
-        public readonly int? ProjectID;
-        public readonly bool UsePanelLayout;
-        public readonly string PerformanceMeasureExpectedFormID;
+        public List<PerformanceMeasureSimple> AllPerformanceMeasures { get; }
+        public List<PerformanceMeasureSubcategorySimple> AllPerformanceMeasureSubcategories { get; }
+        public List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions { get; }
+        public bool UsePanelLayout { get; }
+        public string PerformanceMeasureExpectedFormID { get; }
 
         public string ConfigurePerformanceMeasuresUrl { get; }
 
-        public EditPerformanceMeasureExpectedViewData(List<ProjectSimple> allProjects, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, int projectID, bool usePanelLayout, string configurePerformanceMeasuresUrl)
+        public EditPerformanceMeasureExpectedViewData(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool usePanelLayout, string configurePerformanceMeasuresUrl)
         {
-            ProjectID = projectID;
+  
             AllPerformanceMeasures = allPerformanceMeasures.SortByOrderThenName().Select(x => new PerformanceMeasureSimple(x)).ToList();
             var performanceMeasureSubcategories =
                 allPerformanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
             AllPerformanceMeasureSubcategories = performanceMeasureSubcategories.Select(x => new PerformanceMeasureSubcategorySimple(x)).ToList();
             AllPerformanceMeasureSubcategoryOptions = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
-            AllProjects = allProjects;
             UsePanelLayout = usePanelLayout;
             ConfigurePerformanceMeasuresUrl = configurePerformanceMeasuresUrl;
-            PerformanceMeasureExpectedFormID = $"performanceMeasureExpectedForm{projectID}";
+            PerformanceMeasureExpectedFormID = $"performanceMeasureExpectedForm";
         }
 
+
         public EditPerformanceMeasureExpectedViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, string configurePerformanceMeasuresUrl)
-            : this(new List<ProjectSimple> { new ProjectSimple(project)}, allPerformanceMeasures, project.ProjectID, true, configurePerformanceMeasuresUrl)
+            : this(allPerformanceMeasures, true, configurePerformanceMeasuresUrl)
         {
         }
     }

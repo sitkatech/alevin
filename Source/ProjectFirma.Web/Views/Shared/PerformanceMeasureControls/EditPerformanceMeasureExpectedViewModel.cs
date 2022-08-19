@@ -74,6 +74,39 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
                     }
                 }
             }
+        }          
+        
+        public virtual void UpdateModel(List<SubprojectPerformanceMeasureExpected> currentPerformanceMeasureExpecteds, IList<SubprojectPerformanceMeasureExpected> allPerformanceMeasureExpecteds, IList<SubprojectPerformanceMeasureExpectedSubcategoryOption> allPerformanceMeasureExpectedSubcategoryOptions, ProjectFirmaModels.Models.Subproject subproject)
+        {
+            // Remove all existing associations
+            currentPerformanceMeasureExpecteds.ForEach(pmav =>
+            {
+                pmav.SubprojectPerformanceMeasureExpectedSubcategoryOptions.ToList().ForEach(pmavso => allPerformanceMeasureExpectedSubcategoryOptions.Remove(pmavso));
+                allPerformanceMeasureExpecteds.Remove(pmav);
+            });
+            currentPerformanceMeasureExpecteds.Clear();
+
+            if (PerformanceMeasureExpecteds != null)
+            {
+                // Completely rebuild the list
+                foreach (var performanceMeasureExpectedSimple in PerformanceMeasureExpecteds)
+                {
+                    var performanceMeasureExpected = new SubprojectPerformanceMeasureExpected(subproject.SubprojectID, performanceMeasureExpectedSimple.PerformanceMeasureID) {ExpectedValue = performanceMeasureExpectedSimple.ExpectedValue};
+                    allPerformanceMeasureExpecteds.Add(performanceMeasureExpected);                                   
+                    if (performanceMeasureExpectedSimple.PerformanceMeasureExpectedSubcategoryOptions != null)
+                    {
+                        performanceMeasureExpectedSimple.PerformanceMeasureExpectedSubcategoryOptions.Where(y => ModelObjectHelpers.IsRealPrimaryKeyValue(y.PerformanceMeasureSubcategoryOptionID))
+                            .ToList()
+                            .ForEach(
+                                y =>
+                                    allPerformanceMeasureExpectedSubcategoryOptions.Add(
+                                        new SubprojectPerformanceMeasureExpectedSubcategoryOption(performanceMeasureExpected.SubprojectPerformanceMeasureExpectedID,
+                                            y.PerformanceMeasureSubcategoryOptionID,
+                                            y.PerformanceMeasureID,
+                                            y.PerformanceMeasureSubcategoryID)));
+                    }
+                }
+            }
         }        
     }
 }

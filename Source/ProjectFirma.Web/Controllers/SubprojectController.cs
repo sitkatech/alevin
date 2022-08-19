@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [SubprojectCreateFeature]
+        [SubprojectManageFeature]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -42,7 +42,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [SubprojectCreateFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditViewModel viewModel)
         {
@@ -162,8 +162,8 @@ namespace ProjectFirma.Web.Controllers
             var subprojectStages = GetActiveSubprojectStages(subproject);
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureSortOrder)), true);
 
-            //var editPerformanceMeasureExpectedsUrl = SitkaRoute<PerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForProject(subproject));
-            bool userHasEditSubprojectPermissions = new SubprojectEditAsAdminFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
+            bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject, false);
            
@@ -172,8 +172,9 @@ namespace ProjectFirma.Web.Controllers
                 subprojectStages,
                 subprojectBasicsViewData,
                 userHasEditSubprojectPermissions,
+                editPerformanceMeasureExpectedsUrl,
                 performanceMeasureExpectedsSummaryViewData
-                //editPerformanceMeasureExpectedsUrl
+                
                 );
             return RazorView<Detail, DetailViewData>(viewData);
         }

@@ -40,9 +40,8 @@ namespace ProjectFirma.Web.Views.Subproject
             ObjectNamePlural = "Subprojects";
 
             var hasSubprojectManagePermission = new SubprojectManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var hasSubprojectCreatePermission = new SubprojectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
-            if (hasSubprojectCreatePermission)
+            if (hasSubprojectManagePermission)
             {
                 var createNewSubprojectUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(x => x.New(projectPrimaryKey));
                 CreateEntityModalDialogForm = new ModalDialogForm(createNewSubprojectUrl, 950, $"Create a new Subproject");
