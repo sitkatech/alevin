@@ -9,10 +9,13 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Subproject;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
 using ProjectFirmaModels.Models;
+using Detail = ProjectFirma.Web.Views.Subproject.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Subproject.DetailViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -161,7 +164,7 @@ namespace ProjectFirma.Web.Controllers
             var subproject = subprojectPrimaryKey.EntityObject;
             var subprojectStages = GetActiveSubprojectStages(subproject);
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureSortOrder)), true);
-
+            var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(subproject);
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
             bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
@@ -173,10 +176,21 @@ namespace ProjectFirma.Web.Controllers
                 subprojectBasicsViewData,
                 userHasEditSubprojectPermissions,
                 editPerformanceMeasureExpectedsUrl,
-                performanceMeasureExpectedsSummaryViewData
-                
+                performanceMeasureExpectedsSummaryViewData,
+                performanceMeasureReportedValuesGroupedViewData
                 );
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        private static PerformanceMeasureReportedValuesGroupedViewData BuildPerformanceMeasureReportedValuesGroupedViewData(Subproject subproject)
+        {
+            var performanceMeasureReportedValues = subproject.GetPerformanceMeasureReportedValues();
+            var performanceMeasureSubcategoriesCalendarYearReportedValues =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues.OrderBy(x => x.PerformanceMeasure.GetSortOrder()).ThenBy(x => x.PerformanceMeasure.GetDisplayName())));
+            var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
+                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList(),
+                false);
+            return performanceMeasureReportedValuesGroupedViewData;
         }
 
     }

@@ -44,6 +44,17 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
             HideByDefault = hideByDefault;
         }
 
+        public PerformanceMeasureReportedValuesGroupedViewData(List<PerformanceMeasureSubcategoriesCalendarYearReportedValue> performanceMeasureSubcategoriesCalendarYearReportedValues,
+            List<CalendarYearString> calendarYearsForPerformanceMeasures,
+            bool hideByDefault)
+        {
+            CalendarYearsForPerformanceMeasures = calendarYearsForPerformanceMeasures;
+            PerformanceMeasureSubcategoriesCalendarYearReportedValues = performanceMeasureSubcategoriesCalendarYearReportedValues;
+            ExemptReportingYears = new List<string>();//exemptReportingYears;
+            ExemptionExplanation = "";//exemptionExplanation;
+            HideByDefault = hideByDefault;
+        }
+
         public string HideByDefaultStyle()
         {
             return $"display: {(HideByDefault ? "none" : "table")};";
