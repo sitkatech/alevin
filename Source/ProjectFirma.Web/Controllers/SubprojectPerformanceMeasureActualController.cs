@@ -147,7 +147,7 @@ namespace ProjectFirma.Web.Controllers
                                   //            x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears ||
                                   //            x.ErrorMessage == FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation) ||
                                   //            x.ErrorMessage == FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired);
-            var viewData = new EditPerformanceMeasureActualsViewData(subproject, performanceMeasures, false);
+            var viewData = new EditPerformanceMeasureActualsViewData(performanceMeasures, false);
             return RazorPartialView<EditPerformanceMeasureActuals, EditPerformanceMeasureActualsViewData, EditPerformanceMeasureActualsViewModel>(viewData, viewModel);
         }
     }

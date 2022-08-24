@@ -95,7 +95,6 @@ namespace ProjectFirma.Web.Views.ProjectCreate
                     }
 
                     var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(x.PerformanceMeasureActualID.GetValueOrDefault(),
-                        x.ProjectID.GetValueOrDefault(),
                         x.PerformanceMeasureID.GetValueOrDefault(),
                         x.ActualValue.GetValueOrDefault(),
                         performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);

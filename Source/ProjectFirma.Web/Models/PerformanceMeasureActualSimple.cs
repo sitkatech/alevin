@@ -30,9 +30,10 @@ namespace ProjectFirma.Web.Models
 {
     public class PerformanceMeasureActualSimple
     {
-        public int? PerformanceMeasureActualID { get; set; }        
-        [Required]
-        public int? ProjectID { get; set; }
+        /// <summary>
+        /// This may be used by SubprojectPerformanceMeasureActualID, when this class is used for SubprojectPerformanceMeasureActuals
+        /// </summary>
+        public int? PerformanceMeasureActualID { get; set; }
         [Required]
         public int? PerformanceMeasureID { get; set; }
         [DisplayName("Calendar Year")]
@@ -53,11 +54,10 @@ namespace ProjectFirma.Web.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasureActualSimple(int performanceMeasureActualID, int projectID, int performanceMeasureID, int calendarYear, double actualValue, int performanceMeasureReportingPeriodID)
+        public PerformanceMeasureActualSimple(int performanceMeasureActualID, int performanceMeasureID, int calendarYear, double actualValue, int performanceMeasureReportingPeriodID)
             : this()
         {
             PerformanceMeasureActualID = performanceMeasureActualID;
-            ProjectID = projectID;
             PerformanceMeasureID = performanceMeasureID;
             CalendarYear = calendarYear;
             ActualValue = actualValue;
@@ -71,7 +71,6 @@ namespace ProjectFirma.Web.Models
             : this()
         {
             PerformanceMeasureActualID = performanceMeasureActual.PerformanceMeasureActualID;
-            ProjectID = performanceMeasureActual.ProjectID;
             PerformanceMeasureID = performanceMeasureActual.PerformanceMeasureID;
             CalendarYear = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
             ActualValue = performanceMeasureActual.ActualValue;
@@ -83,7 +82,6 @@ namespace ProjectFirma.Web.Models
             : this()
         {
             PerformanceMeasureActualID = performanceMeasureActual.SubprojectPerformanceMeasureActualID;
-            ProjectID = performanceMeasureActual.SubprojectID;
             PerformanceMeasureID = performanceMeasureActual.PerformanceMeasureID;
             CalendarYear = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
             ActualValue = performanceMeasureActual.ActualValue;
@@ -100,7 +98,6 @@ namespace ProjectFirma.Web.Models
                     x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear).ToList();
             var reportingPeriod = reportingPeriods.Single();
             PerformanceMeasureActualID = decrementingPerformanceMeasureActual;
-            ProjectID = performanceMeasureExpected.ProjectID;
             PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
             CalendarYear = calendarYear;
             ActualValue = null;
@@ -116,7 +113,6 @@ namespace ProjectFirma.Web.Models
                     x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear).ToList();
             var reportingPeriod = reportingPeriods.Single();
             PerformanceMeasureActualID = decrementingPerformanceMeasureActual;
-            ProjectID = performanceMeasureExpected.SubprojectID;
             PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
             CalendarYear = calendarYear;
             ActualValue = null;

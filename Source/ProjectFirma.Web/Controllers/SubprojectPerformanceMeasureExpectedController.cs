@@ -21,7 +21,7 @@ namespace ProjectFirma.Web.Controllers
             var subproject = subprojectPrimaryKey.EntityObject;
             var subprojectPerformanceMeasureExpectedSimples = subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder).ThenBy(x=>x.PerformanceMeasure.GetDisplayName()).Select(x => new PerformanceMeasureExpectedSimple(x)).ToList();
             var viewModel = new EditPerformanceMeasureExpectedViewModel(subprojectPerformanceMeasureExpectedSimples);
-            return ViewEditPerformanceMeasureExpecteds(subproject, viewModel);
+            return ViewEditPerformanceMeasureExpecteds(viewModel);
         }
 
         [HttpPost]
@@ -32,7 +32,7 @@ namespace ProjectFirma.Web.Controllers
             var subproject = subprojectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditPerformanceMeasureExpecteds(subproject, viewModel);
+                return ViewEditPerformanceMeasureExpecteds(viewModel);
             }
             var currentPerformanceMeasureExpecteds = subproject.SubprojectPerformanceMeasureExpecteds.ToList();
             return UpdatePerformanceMeasureExpecteds(viewModel, currentPerformanceMeasureExpecteds, subproject);
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditPerformanceMeasureExpecteds(Subproject subproject, EditPerformanceMeasureExpectedViewModel viewModel)
+        private PartialViewResult ViewEditPerformanceMeasureExpecteds(EditPerformanceMeasureExpectedViewModel viewModel)
         {
             var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList();
             var configurePerformanceMeasuresUrl = string.Empty;

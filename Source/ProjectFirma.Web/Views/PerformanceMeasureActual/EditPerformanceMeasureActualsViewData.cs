@@ -36,16 +36,12 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         public readonly List<PerformanceMeasureSubcategorySimple> AllPerformanceMeasureSubcategories;
         public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
         
-        public readonly int? ProjectID;
-        public readonly int? SubprojectID;
         public readonly List<CalendarYearString> CalendarYearStrings;
         public readonly bool ShowExemptYears;
 
-        private EditPerformanceMeasureActualsViewData(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, int? projectID, int? subprojectID, bool showExemptYears)
+        public EditPerformanceMeasureActualsViewData(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
         {
             ShowExemptYears = showExemptYears;
-            ProjectID = projectID;
-            SubprojectID = subprojectID;
             AllPerformanceMeasures = allPerformanceMeasures.SortByOrderThenName().Select(x => new PerformanceMeasureSimple(x)).ToList();
             var performanceMeasureSubcategories =
                 allPerformanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
@@ -56,13 +52,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         }
 
         public EditPerformanceMeasureActualsViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
-            : this(allPerformanceMeasures, project.ProjectID, null, showExemptYears)
+            : this(allPerformanceMeasures,showExemptYears)
         {
         }
 
-        public EditPerformanceMeasureActualsViewData(ProjectFirmaModels.Models.Subproject subproject, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
-            : this(allPerformanceMeasures, null, subproject.SubprojectID, showExemptYears)
-        {
-        }
     }
 }
