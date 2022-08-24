@@ -3,6 +3,7 @@ using System.Linq;
 using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -31,6 +32,39 @@ namespace ProjectFirma.Web.Models
             var orderedPerformanceMeasureValues = performanceMeasureReportedValues.OrderByDescending(pma => pma.CalendarYear).ThenBy(pma => pma.PerformanceMeasureID).ToList();
             return orderedPerformanceMeasureValues;
         }
+        public static List<int> GetProjectUpdateImplementationStartToCompletionYearRange(this Subproject projectUpdate)
+        {
+            var startYear = projectUpdate?.ImplementationStartYear;
+            return GetYearRangesImpl(projectUpdate, startYear);
+        }
+        private static List<int> GetYearRangesImpl(Subproject projectUpdate, int? startYear)
+        {
+            var currentYearToUse = FirmaDateUtilities.CalculateCurrentYearToUseForUpToAllowableInputInReporting();
+            if (projectUpdate != null)
+            {
+                if (startYear.HasValue && startYear.Value < MultiTenantHelpers.GetMinimumYear() &&
+                    (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value < MultiTenantHelpers.GetMinimumYear()))
+                {
+                    // both start and completion year are before the minimum year, so no year range required
+                    return new List<int>();
+                }
 
+                if (startYear.HasValue && startYear.Value > currentYearToUse && (projectUpdate.CompletionYear.HasValue && projectUpdate.CompletionYear.Value > currentYearToUse))
+                {
+                    return new List<int>();
+                }
+
+                if (startYear.HasValue && projectUpdate.CompletionYear.HasValue && startYear.Value > projectUpdate.CompletionYear.Value)
+                {
+                    return new List<int>();
+                }
+            }
+            return FirmaDateUtilities.CalculateCalendarYearRangeAccountingForExistingYears(new List<int>(),
+                startYear,
+                projectUpdate?.CompletionYear,
+                currentYearToUse,
+                MultiTenantHelpers.GetMinimumYear(),
+                currentYearToUse);
+        }
     }
 }

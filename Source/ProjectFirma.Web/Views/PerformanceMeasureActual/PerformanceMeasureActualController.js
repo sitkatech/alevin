@@ -44,7 +44,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
             $scope.AngularViewData.AllPerformanceMeasures,
             "PerformanceMeasureID",
             performanceMeasureGroup.PerformanceMeasureID);
-        var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
+        var newPerformanceMeasureActual = $scope.createNewRow(performanceMeasureToAdd);
         $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
     }
 
@@ -60,25 +60,10 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
 
     $scope.resetPerformanceMeasureToAdd = function () { $scope.PerformanceMeasureToAdd = null; };
 
-    $scope.resetProjectToAdd = function () { $scope.ProjectToAdd = $scope.getProject(angularModelAndViewData.AngularViewData.ProjectID); };
-
     $scope.filteredPerformanceMeasures = function () {
         return _($scope.AngularViewData.AllPerformanceMeasures).value();
     };
 
-    $scope.filteredProjects = function () {
-        return _($scope.AngularViewData.AllProjects).sortBy(["DisplayName"]).value();
-    };
-
-    $scope.getProjectName = function (performanceMeasureActual)
-    {
-        var projectToFind = $scope.getProject(performanceMeasureActual.ProjectID);
-        return projectToFind.DisplayName;
-    };
-
-    $scope.getProject = function (projectId) {
-        return _.find($scope.AngularViewData.AllProjects, function (f) { return projectId == f.ProjectID; });
-    };
 
     $scope.getPerformanceMeasureName = function (performanceMeasureActual) {
         var performanceMeasureToFind = $scope.getPerformanceMeasure(performanceMeasureActual.PerformanceMeasureID);
@@ -126,14 +111,14 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
                 $scope.AngularViewData.AllPerformanceMeasures,
                 "PerformanceMeasureID",
                 $scope.PerformanceMeasureToAdd);
-            var newPerformanceMeasureActual = $scope.createNewRow($scope.ProjectToAdd, performanceMeasureToAdd);
+            var newPerformanceMeasureActual = $scope.createNewRow(performanceMeasureToAdd);
             $scope.AngularModel.PerformanceMeasureActuals.push(newPerformanceMeasureActual);
         }
     };
 
-    $scope.createNewRow = function (project, performanceMeasure) {
+    $scope.createNewRow = function (performanceMeasure) {
         var newPerformanceMeasureActual = {
-            ProjectID: project.ProjectID,
+            ProjectID: $scope.AngularViewData.ProjectID,
             PerformanceMeasureID: performanceMeasure.PerformanceMeasureID,
             CalendarYear: null,
             ActualValue: null,
@@ -194,6 +179,6 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
 
     $scope.AngularModel = angularModelAndViewData.AngularModel;
     $scope.AngularViewData = angularModelAndViewData.AngularViewData;
-    $scope.resetProjectToAdd();
+
 });
 

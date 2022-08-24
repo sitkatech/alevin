@@ -79,6 +79,18 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureReportingPeriodID = performanceMeasureActual.PerformanceMeasureReportingPeriodID;
         }
 
+        public PerformanceMeasureActualSimple(SubprojectPerformanceMeasureActual performanceMeasureActual)
+            : this()
+        {
+            PerformanceMeasureActualID = performanceMeasureActual.SubprojectPerformanceMeasureActualID;
+            ProjectID = performanceMeasureActual.SubprojectID;
+            PerformanceMeasureID = performanceMeasureActual.PerformanceMeasureID;
+            CalendarYear = performanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear;
+            ActualValue = performanceMeasureActual.ActualValue;
+            PerformanceMeasureActualSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureActual);
+            PerformanceMeasureReportingPeriodID = performanceMeasureActual.PerformanceMeasureReportingPeriodID;
+        }
+
 
         public PerformanceMeasureActualSimple(PerformanceMeasureExpected performanceMeasureExpected, int calendarYear, int decrementingPerformanceMeasureActual)
             : this()
@@ -89,6 +101,22 @@ namespace ProjectFirma.Web.Models
             var reportingPeriod = reportingPeriods.Single();
             PerformanceMeasureActualID = decrementingPerformanceMeasureActual;
             ProjectID = performanceMeasureExpected.ProjectID;
+            PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
+            CalendarYear = calendarYear;
+            ActualValue = null;
+            PerformanceMeasureActualSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptionsToActual(performanceMeasureExpected);
+            PerformanceMeasureReportingPeriodID = reportingPeriod.PerformanceMeasureReportingPeriodID;
+        }
+
+        public PerformanceMeasureActualSimple(SubprojectPerformanceMeasureExpected performanceMeasureExpected, int calendarYear, int decrementingPerformanceMeasureActual)
+            : this()
+        {
+            var reportingPeriods =
+                HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.Where(x =>
+                    x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear).ToList();
+            var reportingPeriod = reportingPeriods.Single();
+            PerformanceMeasureActualID = decrementingPerformanceMeasureActual;
+            ProjectID = performanceMeasureExpected.SubprojectID;
             PerformanceMeasureID = performanceMeasureExpected.PerformanceMeasureID;
             CalendarYear = calendarYear;
             ActualValue = null;

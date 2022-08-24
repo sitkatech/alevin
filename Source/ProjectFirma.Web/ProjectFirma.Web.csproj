@@ -65,6 +65,7 @@
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Common\UnsupportedBudgetMode.cs" />
+    <Compile Include="Controllers\SubprojectPerformanceMeasureActualController.cs" />
     <Compile Include="Controllers\SubprojectController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ExcelUploadControllerTest.cs" />

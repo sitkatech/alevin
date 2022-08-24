@@ -55,6 +55,7 @@ namespace ProjectFirma.Web.Views.Subproject
         public PerformanceMeasureExpectedSummaryViewData PerformanceMeasureExpectedSummaryViewData { get; }
 
         public PerformanceMeasureReportedValuesGroupedViewData PerformanceMeasureReportedValuesGroupedViewData { get; }
+        public string EditPerformanceMeasureActualsUrl { get; }
 
 
 
@@ -69,6 +70,7 @@ namespace ProjectFirma.Web.Views.Subproject
             SubprojectBasicsViewData subprojectBasicsViewData,
             bool userHasEditSubprojectPermissions,
             string editPerformanceMeasureExpectedsUrl,
+            string editPerformanceMeasureActualsUrl,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData)
             : base(currentFirmaSession, subproject)
@@ -83,6 +85,7 @@ namespace ProjectFirma.Web.Views.Subproject
             SubprojectBasicsViewData = subprojectBasicsViewData;
             EditSubprojectPerformanceMeasureExpectedsUrl = editPerformanceMeasureExpectedsUrl;
             PerformanceMeasureExpectedSummaryViewData = performanceMeasureExpectedSummaryViewData;
+            EditPerformanceMeasureActualsUrl = editPerformanceMeasureActualsUrl;
             PerformanceMeasureReportedValuesGroupedViewData = performanceMeasureReportedValuesGroupedViewData;
         }
     }

@@ -35,26 +35,33 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
         public readonly List<PerformanceMeasureSimple> AllPerformanceMeasures;
         public readonly List<PerformanceMeasureSubcategorySimple> AllPerformanceMeasureSubcategories;
         public readonly List<PerformanceMeasureSubcategoryOptionSimple> AllPerformanceMeasureSubcategoryOptions;
-        public readonly List<ProjectSimple> AllProjects;
+        
         public readonly int? ProjectID;
+        public readonly int? SubprojectID;
         public readonly List<CalendarYearString> CalendarYearStrings;
         public readonly bool ShowExemptYears;
 
-        private EditPerformanceMeasureActualsViewData(List<ProjectSimple> allProjects, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, ProjectFirmaModels.Models.Project project, bool showExemptYears)
+        private EditPerformanceMeasureActualsViewData(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, int? projectID, int? subprojectID, bool showExemptYears)
         {
             ShowExemptYears = showExemptYears;
-            ProjectID = project.ProjectID;
+            ProjectID = projectID;
+            SubprojectID = subprojectID;
             AllPerformanceMeasures = allPerformanceMeasures.SortByOrderThenName().Select(x => new PerformanceMeasureSimple(x)).ToList();
             var performanceMeasureSubcategories =
                 allPerformanceMeasures.SelectMany(x => x.PerformanceMeasureSubcategories).Distinct(new HavePrimaryKeyComparer<PerformanceMeasureSubcategory>()).ToList();
             AllPerformanceMeasureSubcategories = performanceMeasureSubcategories.Select(x => new PerformanceMeasureSubcategorySimple(x)).ToList();
             AllPerformanceMeasureSubcategoryOptions = performanceMeasureSubcategories.SelectMany(y => y.PerformanceMeasureSubcategoryOptions.Select(z => new PerformanceMeasureSubcategoryOptionSimple(z))).ToList();
-            AllProjects = allProjects;
+
             CalendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
         }
 
         public EditPerformanceMeasureActualsViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
-            : this(new List<ProjectSimple> {new ProjectSimple(project)}, allPerformanceMeasures, project, showExemptYears)
+            : this(allPerformanceMeasures, project.ProjectID, null, showExemptYears)
+        {
+        }
+
+        public EditPerformanceMeasureActualsViewData(ProjectFirmaModels.Models.Subproject subproject, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
+            : this(allPerformanceMeasures, null, subproject.SubprojectID, showExemptYears)
         {
         }
     }

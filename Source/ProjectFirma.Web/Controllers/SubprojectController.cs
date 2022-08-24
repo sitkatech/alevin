@@ -168,6 +168,8 @@ namespace ProjectFirma.Web.Controllers
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
             bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
+            var editPerformanceMeasureActualsUrl = SitkaRoute<SubprojectPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(subproject));
+
             var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject, false);
            
             var viewData = new DetailViewData(CurrentFirmaSession,
@@ -176,9 +178,9 @@ namespace ProjectFirma.Web.Controllers
                 subprojectBasicsViewData,
                 userHasEditSubprojectPermissions,
                 editPerformanceMeasureExpectedsUrl,
+                editPerformanceMeasureActualsUrl,
                 performanceMeasureExpectedsSummaryViewData,
-                performanceMeasureReportedValuesGroupedViewData
-                );
+                performanceMeasureReportedValuesGroupedViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 
