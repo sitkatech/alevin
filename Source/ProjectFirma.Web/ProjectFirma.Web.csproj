@@ -1745,10 +1745,10 @@
     <Compile Include="Views\Assessment\NewQuestion.cs" />
     <Compile Include="Views\Assessment\NewQuestionViewData.cs" />
     <Compile Include="Views\Assessment\NewQuestionViewModel.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewData.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModel.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModelTest.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActuals.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActualsViewData.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModel.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModelTest.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureExpectedGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportedValuesGridSpec.cs" />
     <Compile Include="Views\FundingSource\Edit.cs" />
@@ -2580,7 +2580,7 @@
     </Content>
     <Content Include="Security\FirmaFeatureTest.AdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures.approved.txt" />
     <Content Include="Security\FirmaFeatureTest.SitkaAdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures.approved.txt" />
-    <Content Include="Views\PerformanceMeasureActual\PerformanceMeasureActualController.js" />
+    <Content Include="Views\Shared\PerformanceMeasureActual\PerformanceMeasureActualController.js" />
     <Content Include="Content\img\built_by_ei.png" />
     <Content Include="Content\img\built_by_sitka.png" />
     <Content Include="Content\img\funding_org_epa.png" />
@@ -3837,7 +3837,7 @@
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Detail.cshtml" />
     <Content Include="Views\Assessment\Manage.cshtml" />
-    <Content Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
+    <Content Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
     <Content Include="Views\FundingSource\Edit.cshtml" />
     <Content Include="Views\FundingSource\Index.cshtml" />
     <Content Include="Views\FundingSource\Detail.cshtml" />

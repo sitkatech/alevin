@@ -18,17 +18,17 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.SortOrder;
+using ProjectFirmaModels.Models;
 using PerformanceMeasureSubcategoryOptionSimple = ProjectFirma.Web.Models.PerformanceMeasureSubcategoryOptionSimple;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasureActual
+namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureActual
 {
     public class EditPerformanceMeasureActualsViewData : FirmaUserControlViewData
     {

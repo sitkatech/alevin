@@ -24,15 +24,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasureActual
+namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureActual
 {
     public class EditPerformanceMeasureActualsViewModel : FormViewModel, IValidatableObject
     {

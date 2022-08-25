@@ -18,7 +18,7 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.PerformanceMeasureActual
+namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureActual
 {
     public abstract class EditPerformanceMeasureActuals : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditPerformanceMeasureActualsViewData, EditPerformanceMeasureActualsViewModel>
     {
