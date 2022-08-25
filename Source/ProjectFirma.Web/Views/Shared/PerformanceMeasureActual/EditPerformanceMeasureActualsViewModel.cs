@@ -218,18 +218,18 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureActual
                         y.PerformanceMeasureSubcategoryOptionID == null))
                 .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
-            var performanceMeasureActualsWithValuesInExemptYearsDisplayNames = PerformanceMeasureActuals
-                ?.Where(x => exemptYears.Contains(x.CalendarYear))
-                .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
+            if(exemptYears != null && exemptYears.Any()){
+                var performanceMeasureActualsWithValuesInExemptYearsDisplayNames = PerformanceMeasureActuals
+                    ?.Where(x => exemptYears.Contains(x.CalendarYear))
+                    .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
+                performanceMeasureActualsWithValuesInExemptYearsDisplayNames?.ForEach(x =>
+                    errors.Add(new ValidationResult(
+                        $"{x} has reported values for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.")));
+            }
             performanceMeasureActualsWithMissingDataDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows with missing data. All values are required.")));
 
             performanceMeasureActualsWithDuplicatesDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.")));
-
-            performanceMeasureActualsWithValuesInExemptYearsDisplayNames?.ForEach(x =>
-                errors.Add(new ValidationResult(
-                    $"{x} has reported values for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.")));
-            
 
             return errors;
         }
