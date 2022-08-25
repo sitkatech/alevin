@@ -22,7 +22,6 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.PerformanceMeasureActual;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirmaModels.Models;
 using System;
@@ -30,6 +29,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureActual;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -68,15 +68,12 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [PerformanceMeasureActualFromProjectManageFeature]
-        public PartialViewResult EditPerformanceMeasureActualsForProject(SubprojectPrimaryKey subprojectPrimaryKey)
+        [PerformanceMeasureActualFromSubprojectManageFeature]
+        public PartialViewResult EditPerformanceMeasureActualsForSubproject(SubprojectPrimaryKey subprojectPrimaryKey)
         {
             var subproject = subprojectPrimaryKey.EntityObject;
-
             var expectedPerformanceMeasures = subproject.SubprojectPerformanceMeasureExpecteds;
-
             var reportedPerformanceMeasures = subproject.SubprojectPerformanceMeasureActuals;
-
             var performanceMeasureActualSimples = new List<PerformanceMeasureActualSimple>();
 
             if (reportedPerformanceMeasures.Any())
@@ -92,31 +89,22 @@ namespace ProjectFirma.Web.Controllers
                 PrePopulateReportedPerformanceMeasures(subproject, expectedPerformanceMeasures, performanceMeasureActualSimples);
             }
 
-
-            //var projectExemptReportingYears = subproject.GetPerformanceMeasuresExemptReportingYears().Select(x => new ProjectExemptReportingYearSimple(x)).ToList();
-            //var currentExemptedYears = projectExemptReportingYears.Select(x => x.CalendarYear).ToList();
-            //var endYear = DateTime.Now.Year;
-            //var startYear = subproject.ImplementationStartYear ?? endYear;
-            //var possibleYearsToExempt = FirmaDateUtilities.GetRangeOfYears(startYear, endYear).OrderBy(x => x).ToList();
-            //projectExemptReportingYears.AddRange(
-            //    possibleYearsToExempt.Where(x => !currentExemptedYears.Contains(x)).Select((x, index) => new ProjectExemptReportingYearSimple(-(index + 1), subproject.SubprojectID, x)));
-
-            var viewModel = new EditPerformanceMeasureActualsViewModel(performanceMeasureActualSimples//,
-                //subproject.PerformanceMeasureActualYearsExemptionExplanation,
-                //projectExemptReportingYears.OrderBy(x => x.CalendarYear).ToList()
+            var viewModel = new EditPerformanceMeasureActualsViewModel(performanceMeasureActualSimples,
+                "",
+                new List<ProjectExemptReportingYearSimple>()
                 );
-            return ViewEditPerformanceMeasureActuals(subproject, viewModel);
+            return ViewEditPerformanceMeasureActuals(viewModel);
         }
 
         [HttpPost]
-        [PerformanceMeasureActualFromProjectManageFeature]
+        [PerformanceMeasureActualFromSubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult EditPerformanceMeasureActualsForProject(SubprojectPrimaryKey subprojectPrimaryKey, EditPerformanceMeasureActualsViewModel viewModel)
+        public ActionResult EditPerformanceMeasureActualsForSubproject(SubprojectPrimaryKey subprojectPrimaryKey, EditPerformanceMeasureActualsViewModel viewModel)
         {
             var subproject = subprojectPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
-                return ViewEditPerformanceMeasureActuals(subproject, viewModel);
+                return ViewEditPerformanceMeasureActuals(viewModel);
             }
             var currentPerformanceMeasureActuals = subproject.SubprojectPerformanceMeasureActuals.ToList();
             return UpdatePerformanceMeasureActuals(viewModel, currentPerformanceMeasureActuals, subproject);
@@ -136,17 +124,9 @@ namespace ProjectFirma.Web.Controllers
             return new ModalDialogFormJsonResult();
         }
 
-        private PartialViewResult ViewEditPerformanceMeasureActuals(Subproject subproject, EditPerformanceMeasureActualsViewModel viewModel)
+        private PartialViewResult ViewEditPerformanceMeasureActuals(EditPerformanceMeasureActualsViewModel viewModel)
         {
-            var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList().SortByOrderThenName().ToList();
-            //var showExemptYears = subproject.GetPerformanceMeasuresExemptReportingYears().Any() ||
-                                  //ModelState.Values.SelectMany(x => x.Errors)
-                                  //    .Any(
-                                  //        x =>
-                                  //            x.ErrorMessage == FirmaValidationMessages.ExplanationNotNecessaryForProjectExemptYears ||
-                                  //            x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears ||
-                                  //            x.ErrorMessage == FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation) ||
-                                  //            x.ErrorMessage == FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired);
+            var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList();
             var viewData = new EditPerformanceMeasureActualsViewData(performanceMeasures, false);
             return RazorPartialView<EditPerformanceMeasureActuals, EditPerformanceMeasureActualsViewData, EditPerformanceMeasureActualsViewModel>(viewData, viewModel);
         }

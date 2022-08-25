@@ -55,7 +55,7 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
         }
 
 
-        public EditPerformanceMeasureExpectedViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, string configurePerformanceMeasuresUrl)
+        public EditPerformanceMeasureExpectedViewData(List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, string configurePerformanceMeasuresUrl)
             : this(allPerformanceMeasures, true, configurePerformanceMeasuresUrl)
         {
         }

@@ -50,11 +50,6 @@ namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureActual
 
             CalendarYearStrings = FirmaDateUtilities.ReportingYearsForUserInput().OrderByDescending(x => x.CalendarYear).ToList();
         }
-
-        public EditPerformanceMeasureActualsViewData(ProjectFirmaModels.Models.Project project, List<ProjectFirmaModels.Models.PerformanceMeasure> allPerformanceMeasures, bool showExemptYears)
-            : this(allPerformanceMeasures,showExemptYears)
-        {
-        }
-
+        
     }
 }
