@@ -37,18 +37,18 @@ namespace ProjectFirma.Web.Views.Subproject
         public int ProjectID { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectName)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SubprojectName)]
         public string SubprojectName { get; set; }
 
         [Required]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectDescription)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SubprojectDescription)]
         public string SubprojectDescription { get; set; }
 
         [Required]
         public int SubprojectID { get; set; }
 
         [Required(ErrorMessage = "Subproject Stage field is required.")]
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectStage)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SubprojectStage)]
         public int SubprojectStageID { get; set; }
 
         [Required]
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.Subproject
         [FieldDefinitionDisplay(FieldDefinitionEnum.CompletionYear)]
         public int? CompletionYear { get; set; }
 
-        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectNote)]
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SubprojectNote)]
         public string Notes { get; set; }
         
         /// <summary>

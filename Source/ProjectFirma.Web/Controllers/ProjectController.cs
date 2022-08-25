@@ -461,8 +461,6 @@ namespace ProjectFirma.Web.Controllers
             var subprojectGridSpec = new SubprojectGridSpec(project.PrimaryKey, currentFirmaSession);
             const string subprojectGridName = "Subprojects";
             var subprojectGridDataUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.SubprojectGridJsonData(project.PrimaryKey));
-            var userCanViewSubproject = new SubprojectViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var userCanCreateSubproject = new SubprojectManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             var subprojectDisplayViewData = new SubprojectDisplayViewData(project, subprojectGridSpec,
                 subprojectGridName, subprojectGridDataUrl);

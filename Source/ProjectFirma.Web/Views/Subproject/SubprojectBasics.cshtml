@@ -54,7 +54,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <hr />
     <div class="row">
         <div class="col-xs-5">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectName.ToType())
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectName.ToType())
         </div>
         <div class="col-xs-7">
             @ViewDataTyped.Subproject.SubprojectName
@@ -62,7 +62,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="row">
         <div class="col-xs-5">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectStage.ToType())
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectStage.ToType())
         </div>
         <div class="col-xs-7">
             @ViewDataTyped.Subproject.SubprojectStage.ProjectStageDisplayName
@@ -70,7 +70,7 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
     <div class="row">
         <div class="col-xs-12">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectDescription.ToType())
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectDescription.ToType())
         </div>
         <div class="col-xs-12" style="padding-left: 20px">
             @Html.Raw(ViewDataTyped.Subproject.SubprojectDescription.HtmlEncodeWithBreaks())
@@ -98,7 +98,7 @@ Source code is available upon request via <support@sitkatech.com>.
     <hr />
     <div class="row">
         <div class="col-xs-12">
-            @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectNote.ToType())
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectNote.ToType())
         </div>
         <div class="col-xs-12" style="padding-left: 20px">
             @Html.Raw(ViewDataTyped.Subproject.Notes.HtmlEncodeWithBreaks())
