@@ -292,6 +292,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
+    <Compile Include="Security\PerformanceMeasureActualFromSubprojectManageFeature.cs" />
     <Compile Include="Security\SubprojectViewFeature.cs" />
     <Compile Include="Security\SubprojectManageFeature.cs" />
     <Compile Include="Security\AttachmentTypeManageFeature.cs" />

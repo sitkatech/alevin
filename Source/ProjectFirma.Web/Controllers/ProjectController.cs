@@ -900,7 +900,10 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(projectsFound.Single())));
             }
 
-            //todo: in the future, if a single subproject is found and no projects are found, redirect to the detail page for the subproject
+            if (!projectsFound.Any() && subprojectsFound.Count == 1)
+            {
+                return RedirectToAction(new SitkaRoute<SubprojectController>(x => x.Detail(subprojectsFound.Single())));
+            }
 
             var viewData = new SearchResultsViewData(CurrentFirmaSession, projectsFound, subprojectsFound, searchCriteria);
             return RazorView<SearchResults, SearchResultsViewData>(viewData);

@@ -168,7 +168,7 @@ namespace ProjectFirma.Web.Controllers
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
             bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
-            var editPerformanceMeasureActualsUrl = SitkaRoute<SubprojectPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForProject(subproject));
+            var editPerformanceMeasureActualsUrl = SitkaRoute<SubprojectPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForSubproject(subproject));
 
             var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject, false);
            

@@ -4,6 +4,7 @@ using System.Web;
 using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Models
@@ -17,7 +18,7 @@ namespace ProjectFirma.Web.Models
                     .OrderBy(x => x.SubprojectName)
                     .ToList();
         }
-        public static HtmlString GetDisplayNameAsUrl(this Subproject subproject) => UrlTemplate.MakeHrefString("#", subproject.SubprojectName);
+        public static HtmlString GetDisplayNameAsUrl(this Subproject subproject) => UrlTemplate.MakeHrefString(SitkaRoute<SubprojectController>.BuildUrlFromExpression(t => t.Detail(subproject.PrimaryKey)), subproject.SubprojectName);
 
         public static List<SubprojectPerformanceMeasureReportedValue> GetPerformanceMeasureReportedValues(this Subproject subproject)
         {

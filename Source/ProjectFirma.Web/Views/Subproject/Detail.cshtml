@@ -141,11 +141,11 @@
     <div class="panel-body">
         @if (ViewDataTyped.Subproject.IsProposal())
         {
-            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
+            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabelPluralized() in the Proposal stage.</p>
         }
         else if (ViewDataTyped.Subproject.SubprojectStage == ProjectStage.PlanningDesign)
         {
-            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
+            <p class="systemText">Reported @MultiTenantHelpers.GetPerformanceMeasureNamePluralized() are not relevant for @FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabelPluralized() in the Planning/Design stage.</p>
         }
         else
         {

@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Views.Subproject
         {
             Subproject = subproject;
             HtmlPageTitle = subproject.SubprojectName;
-            EntityName = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}";
+            EntityName = $"{FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()}";
         }
     }
 }
