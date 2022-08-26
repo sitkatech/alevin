@@ -33,6 +33,7 @@ using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Subproject;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
 using Detail = ProjectFirma.Web.Views.Subproject.Detail;
 using DetailViewData = ProjectFirma.Web.Views.Subproject.DetailViewData;
@@ -191,7 +192,18 @@ namespace ProjectFirma.Web.Controllers
             var editPerformanceMeasureActualsUrl = SitkaRoute<SubprojectPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForSubproject(subproject));
 
             var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject);
-           
+
+            var subprojectNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(subproject.SubprojectNotes),
+                SitkaRoute<SubprojectNoteController>.BuildUrlFromExpression(x => x.New(subprojectPrimaryKey)),
+                subproject.GetDisplayName(),
+                userHasEditSubprojectPermissions);
+            var internalNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(subproject.SubprojectInternalNotes),
+                SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(x => x.New(subproject)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
+                subproject.GetDisplayName(),
+                userHasEditSubprojectPermissions);
+
             var viewData = new DetailViewData(CurrentFirmaSession,
                 subproject,
                 subprojectStages,
@@ -200,7 +212,9 @@ namespace ProjectFirma.Web.Controllers
                 editPerformanceMeasureExpectedsUrl,
                 editPerformanceMeasureActualsUrl,
                 performanceMeasureExpectedsSummaryViewData,
-                performanceMeasureReportedValuesGroupedViewData);
+                performanceMeasureReportedValuesGroupedViewData,
+                subprojectNotesViewData,
+                internalNotesViewData);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

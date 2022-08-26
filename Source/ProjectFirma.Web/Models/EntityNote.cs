@@ -84,8 +84,20 @@ namespace ProjectFirma.Web.Models
             return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
         }
 
-        public static List<EntityNote> CreateFromEntityNote(
-            IEnumerable<ObligationRequestSubmissionNote> entityNotes)
+        public static List<EntityNote> CreateFromEntityNote(IEnumerable<ObligationRequestSubmissionNote> entityNotes)
+        {
+            return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
+        }
+
+        public static List<EntityNote> CreateFromEntityNote(IEnumerable<SubprojectNote> entityNotes)
+        {
+            return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
+        }
+        //public static List<EntityNote> CreateFromEntityNote(IEnumerable<SubprojectNoteUpdate> entityNotes)
+        //{
+        //    return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
+        //}
+        public static List<EntityNote> CreateFromEntityNote(IEnumerable<SubprojectInternalNote> entityNotes)
         {
             return entityNotes.Select(x => new EntityNote(x.GetLastUpdated(), x.GetLastUpdatedBy(), x.GetDeleteUrl(), x.GetEditUrl(), x.Note, null)).ToList();
         }

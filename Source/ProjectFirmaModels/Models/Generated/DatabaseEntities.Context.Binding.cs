@@ -194,6 +194,8 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SubbasinLiasonConfiguration());
             modelBuilder.Configurations.Add(new SubprojectConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectInternalNoteConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectNoteConfiguration());
             modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureActualConfiguration());
             modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureActualSubcategoryOptionConfiguration());
             modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureExpectedConfiguration());
@@ -610,6 +612,10 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<SubbasinLiason> AllSubbasinLiasons { get; set; }
         public virtual IQueryable<SubbasinLiason> SubbasinLiasons { get { return AllSubbasinLiasons.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Subbasin> Subbasins { get; set; }
+        public virtual DbSet<SubprojectInternalNote> AllSubprojectInternalNotes { get; set; }
+        public virtual IQueryable<SubprojectInternalNote> SubprojectInternalNotes { get { return AllSubprojectInternalNotes.Where(x => x.TenantID == TenantID); } }
+        public virtual DbSet<SubprojectNote> AllSubprojectNotes { get; set; }
+        public virtual IQueryable<SubprojectNote> SubprojectNotes { get { return AllSubprojectNotes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SubprojectPerformanceMeasureActual> AllSubprojectPerformanceMeasureActuals { get; set; }
         public virtual IQueryable<SubprojectPerformanceMeasureActual> SubprojectPerformanceMeasureActuals { get { return AllSubprojectPerformanceMeasureActuals.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SubprojectPerformanceMeasureActualSubcategoryOption> AllSubprojectPerformanceMeasureActualSubcategoryOptions { get; set; }
@@ -1486,6 +1492,12 @@ namespace ProjectFirmaModels.Models
 
                 case "Subbasin":
                     return Subbasins.GetSubbasin(primaryKey);
+
+                case "SubprojectInternalNote":
+                    return SubprojectInternalNotes.GetSubprojectInternalNote(primaryKey);
+
+                case "SubprojectNote":
+                    return SubprojectNotes.GetSubprojectNote(primaryKey);
 
                 case "SubprojectPerformanceMeasureActual":
                     return SubprojectPerformanceMeasureActuals.GetSubprojectPerformanceMeasureActual(primaryKey);

@@ -55,7 +55,6 @@ namespace ProjectFirma.Web.Views.Subproject
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.ImplementationStartYear.DisplayValue(), 120);
             Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.CompletionYear.DisplayValue(), 120);
             Add(FieldDefinitionEnum.SubprojectStage.ToType().ToGridHeaderString(), x => x.SubprojectStage.ProjectStageDisplayName, 120);
-            Add(FieldDefinitionEnum.SubprojectNote.ToType().ToGridHeaderString(), x => x.Notes, 220);
         }
     }
 

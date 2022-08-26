@@ -77,7 +77,6 @@ namespace ProjectFirma.Web.Views.Subproject
             SubprojectStageID = subproject.SubprojectStageID;
             ImplementationStartYear = subproject.ImplementationStartYear;
             CompletionYear = subproject.CompletionYear;
-            Notes = subproject.Notes;
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Subproject subproject, FirmaSession currentFirmaSession)
@@ -87,8 +86,6 @@ namespace ProjectFirma.Web.Views.Subproject
             subproject.SubprojectStageID = SubprojectStageID;
             subproject.ImplementationStartYear = ImplementationStartYear;
             subproject.CompletionYear = CompletionYear;
-            subproject.Notes = Notes;
-
         }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)

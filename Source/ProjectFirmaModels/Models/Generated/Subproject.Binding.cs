@@ -25,6 +25,8 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Subproject()
         {
+            this.SubprojectInternalNotes = new HashSet<SubprojectInternalNote>();
+            this.SubprojectNotes = new HashSet<SubprojectNote>();
             this.SubprojectPerformanceMeasureActuals = new HashSet<SubprojectPerformanceMeasureActual>();
             this.SubprojectPerformanceMeasureExpecteds = new HashSet<SubprojectPerformanceMeasureExpected>();
         }
@@ -32,14 +34,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Subproject(int subprojectID, int projectID, int subprojectStageID, int? implementationStartYear, int? completionYear, string notes, string subprojectName, string subprojectDescription) : this()
+        public Subproject(int subprojectID, int projectID, int subprojectStageID, int? implementationStartYear, int? completionYear, string subprojectName, string subprojectDescription) : this()
         {
             this.SubprojectID = subprojectID;
             this.ProjectID = projectID;
             this.SubprojectStageID = subprojectStageID;
             this.ImplementationStartYear = implementationStartYear;
             this.CompletionYear = completionYear;
-            this.Notes = notes;
             this.SubprojectName = subprojectName;
             this.SubprojectDescription = subprojectDescription;
         }
@@ -87,7 +88,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return SubprojectPerformanceMeasureActuals.Any() || SubprojectPerformanceMeasureExpecteds.Any();
+            return SubprojectInternalNotes.Any() || SubprojectNotes.Any() || SubprojectPerformanceMeasureActuals.Any() || SubprojectPerformanceMeasureExpecteds.Any();
         }
 
         /// <summary>
@@ -97,6 +98,16 @@ namespace ProjectFirmaModels.Models
         {
             var dependentObjects = new List<string>();
             
+            if(SubprojectInternalNotes.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectInternalNote).Name);
+            }
+
+            if(SubprojectNotes.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectNote).Name);
+            }
+
             if(SubprojectPerformanceMeasureActuals.Any())
             {
                 dependentObjects.Add(typeof(SubprojectPerformanceMeasureActual).Name);
@@ -112,7 +123,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Subproject).Name, typeof(SubprojectPerformanceMeasureActual).Name, typeof(SubprojectPerformanceMeasureExpected).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Subproject).Name, typeof(SubprojectInternalNote).Name, typeof(SubprojectNote).Name, typeof(SubprojectPerformanceMeasureActual).Name, typeof(SubprojectPerformanceMeasureExpected).Name};
 
 
         /// <summary>
@@ -137,6 +148,16 @@ namespace ProjectFirmaModels.Models
         public void DeleteChildren(DatabaseEntities dbContext)
         {
 
+            foreach(var x in SubprojectInternalNotes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
+            foreach(var x in SubprojectNotes.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
+
             foreach(var x in SubprojectPerformanceMeasureActuals.ToList())
             {
                 x.DeleteFull(dbContext);
@@ -155,18 +176,13 @@ namespace ProjectFirmaModels.Models
         public int SubprojectStageID { get; set; }
         public int? ImplementationStartYear { get; set; }
         public int? CompletionYear { get; set; }
-        public string Notes { get; set; }
-        [NotMapped]
-        public HtmlString NotesHtmlString
-        { 
-            get { return Notes == null ? null : new HtmlString(Notes); }
-            set { Notes = value?.ToString(); }
-        }
         public string SubprojectName { get; set; }
         public string SubprojectDescription { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return SubprojectID; } set { SubprojectID = value; } }
 
+        public virtual ICollection<SubprojectInternalNote> SubprojectInternalNotes { get; set; }
+        public virtual ICollection<SubprojectNote> SubprojectNotes { get; set; }
         public virtual ICollection<SubprojectPerformanceMeasureActual> SubprojectPerformanceMeasureActuals { get; set; }
         public virtual ICollection<SubprojectPerformanceMeasureExpected> SubprojectPerformanceMeasureExpecteds { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }

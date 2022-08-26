@@ -65,6 +65,8 @@
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Common\UnsupportedBudgetMode.cs" />
+    <Compile Include="Controllers\SubprojectInternalNoteController.cs" />
+    <Compile Include="Controllers\SubprojectNoteController.cs" />
     <Compile Include="Controllers\SubprojectPerformanceMeasureActualController.cs" />
     <Compile Include="Controllers\SubprojectController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
@@ -140,6 +142,8 @@
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
+    <Compile Include="Models\SubprojectNoteModelExtensions.cs" />
+    <Compile Include="Models\SubprojectInternalNoteModelExtensions.cs" />
     <Compile Include="Models\RestApiClient.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\SolicitationModelExtensions.cs" />
