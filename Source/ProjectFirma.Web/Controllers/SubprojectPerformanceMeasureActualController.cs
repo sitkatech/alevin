@@ -36,37 +36,6 @@ namespace ProjectFirma.Web.Controllers
     public class SubprojectPerformanceMeasureActualController : FirmaBaseController
     {
 
-        private void PrePopulateReportedPerformanceMeasures(Subproject subproject, ICollection<SubprojectPerformanceMeasureExpected> expectedPerformanceMeasures,
-            List<PerformanceMeasureActualSimple> performanceMeasureActualSimples)
-        {
-            var sortedExpectedPerformanceMeasures =  expectedPerformanceMeasures.OrderBy(pam => pam.PerformanceMeasure.PerformanceMeasureSortOrder)
-                .ThenBy(x => x.PerformanceMeasure.GetDisplayName()).ToList();
-            var yearRange = subproject.GetProjectUpdateImplementationStartToCompletionYearRange();
-            var reportingPeriods = HttpRequestStorage.DatabaseEntities.PerformanceMeasureReportingPeriods.ToList();
-            var performanceMeasureActualIDToUse = -1;
-            foreach (var calendarYear in yearRange)
-            {
-                var reportingPeriod =
-                    reportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == calendarYear);
-                if (reportingPeriod == null)
-                {
-                    var newPerformanceMeasureReportingPeriod =
-                        new PerformanceMeasureReportingPeriod(calendarYear, calendarYear.ToString());
-                    HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Add(
-                        newPerformanceMeasureReportingPeriod);
-                    HttpRequestStorage.DatabaseEntities.SaveChanges(CurrentFirmaSession);
-                }
-
-                foreach (var sortedExpectedPerformanceMeasure in sortedExpectedPerformanceMeasures)
-                {
-                    var performanceMeasureActual = new PerformanceMeasureActualSimple(sortedExpectedPerformanceMeasure,
-                        calendarYear, performanceMeasureActualIDToUse);
-                    performanceMeasureActualSimples.Add(performanceMeasureActual);
-                    performanceMeasureActualIDToUse--;
-                }
-            }
-        }
-
         [HttpGet]
         [PerformanceMeasureActualFromSubprojectManageFeature]
         public PartialViewResult EditPerformanceMeasureActualsForSubproject(SubprojectPrimaryKey subprojectPrimaryKey)
@@ -84,10 +53,7 @@ namespace ProjectFirma.Web.Controllers
                         .Select(x => new PerformanceMeasureActualSimple(x))
                         .ToList();
             }
-            else
-            {
-                PrePopulateReportedPerformanceMeasures(subproject, expectedPerformanceMeasures, performanceMeasureActualSimples);
-            }
+
 
             var viewModel = new EditPerformanceMeasureActualsViewModel(performanceMeasureActualSimples,
                 "",

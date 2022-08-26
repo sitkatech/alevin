@@ -4,5 +4,5 @@ VALUES
 
 INSERT [dbo].[FieldDefinitionDefault] ([FieldDefinitionID], [DefaultDefinition])
 VALUES
-(10063, N'Stage of a Subproject')
+(10063, N'Where a subproject exists in the subproject life cycle - Planning/Design, Implementation, Complete, Terminated, etc.')
 

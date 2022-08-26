@@ -25,18 +25,30 @@ using ProjectFirmaModels.Models;
 
 namespace ProjectFirma.Web.Security
 {
-    [SecurityFeatureDescription("Edit {0} Actual Value From Project", FieldDefinitionEnum.PerformanceMeasure)]
-    public class PerformanceMeasureActualFromSubprojectManageFeature : FirmaFeature
+    [SecurityFeatureDescription("Edit {0} Actual Value From Subproject", FieldDefinitionEnum.PerformanceMeasure)]
+    public class PerformanceMeasureActualFromSubprojectManageFeature : FirmaFeatureWithContext, IFirmaBaseFeatureWithContext<Subproject>
     {
-        public PerformanceMeasureActualFromSubprojectManageFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward }) { }
-        //public PermissionCheckResult HasPermission(FirmaSession firmaSession, Subproject contextModelObject)
-        //{
-        //    if (contextModelObject.SubprojectStage == ProjectStage.PlanningDesign)
-        //    {
-        //        return new PermissionCheckResult(
-        //            $"Reported {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} are not relevant for projects in the Planning/Design stage.");
-        //    }
-        //    PerformanceMeasureActualFromSubprojectManageFeature()
-        //}
+        private readonly FirmaFeatureWithContextImpl<Subproject> _firmaFeatureWithContextImpl;
+
+        public PerformanceMeasureActualFromSubprojectManageFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+        {
+            _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Subproject>(this);
+            ActionFilter = _firmaFeatureWithContextImpl;
+        }
+
+        public void DemandPermission(FirmaSession firmaSession, Subproject contextModelObject)
+        {
+            _firmaFeatureWithContextImpl.DemandPermission(firmaSession, contextModelObject);
+        }
+
+        public PermissionCheckResult HasPermission(FirmaSession firmaSession, Subproject contextModelObject)
+        {
+            if (contextModelObject.SubprojectStage == ProjectStage.PlanningDesign)
+            {
+                return new PermissionCheckResult(
+                    $"Reported {FieldDefinitionEnum.PerformanceMeasure.ToType().GetFieldDefinitionLabelPluralized()} are not relevant for subprojects in the Planning/Design stage.");
+            }
+            return new PermissionCheckResult();
+        }
     }
 }

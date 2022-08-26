@@ -75,10 +75,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
 
-            var Subproject = new Subproject(project.ProjectID, ModelObjectHelpers.NotYetAssignedID, "", "");
+            var subproject = new Subproject(project.ProjectID, ModelObjectHelpers.NotYetAssignedID, "", "");
 
-            viewModel.UpdateModel(Subproject, CurrentFirmaSession);
-             HttpRequestStorage.DatabaseEntities.AllSubprojects.Add(Subproject);
+            viewModel.UpdateModel(subproject, CurrentFirmaSession);
+             HttpRequestStorage.DatabaseEntities.AllSubprojects.Add(subproject);
 
              SetMessageForDisplay($"Successfully added new Subproject.");
             return new ModalDialogFormJsonResult();
