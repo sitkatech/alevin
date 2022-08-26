@@ -183,14 +183,14 @@ namespace ProjectFirma.Web.Controllers
 
             var subproject = subprojectPrimaryKey.EntityObject;
             var subprojectStages = GetActiveSubprojectStages(subproject);
-            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureSortOrder)), true);
+            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(subproject);
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
             bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             var editPerformanceMeasureActualsUrl = SitkaRoute<SubprojectPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForSubproject(subproject));
 
-            var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject, false);
+            var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject);
            
             var viewData = new DetailViewData(CurrentFirmaSession,
                 subproject,

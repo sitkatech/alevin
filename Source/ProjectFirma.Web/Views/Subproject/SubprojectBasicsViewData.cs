@@ -30,25 +30,11 @@ namespace ProjectFirma.Web.Views.Subproject
     public class SubprojectBasicsViewData
     {
         public ProjectFirmaModels.Models.Subproject Subproject { get; }
-        //public ProjectTaxonomyViewData ProjectTaxonomyViewData { get; }
         public TenantAttribute TenantAttribute { get; set; }
-        public IEnumerable<ProjectFirmaModels.Models.TaxonomyLeaf> SecondaryTaxonomyLeaves;
-        //public bool IsNotTaxonomyLevelLeaf { get; }
-        //public bool IsNotTaxonomyLevelLeafOrBranch { get; }
 
-        public SubprojectBasicsViewData(ProjectFirmaModels.Models.Subproject subproject,
-            bool userHasProjectBudgetManagePermissions)
+        public SubprojectBasicsViewData(ProjectFirmaModels.Models.Subproject subproject)
         {
             Subproject = subproject;
-            //IsNotTaxonomyLevelLeaf = !MultiTenantHelpers.IsTaxonomyLevelLeaf();
-            //IsNotTaxonomyLevelLeafOrBranch = !MultiTenantHelpers.IsTaxonomyLevelBranch() && IsNotTaxonomyLevelLeaf;
-            //ProjectTaxonomyViewData = new ProjectTaxonomyViewData(project, taxonomyLevel);
-            //TenantAttribute = tenantAttribute;
-
-            //if (tenantAttribute.EnableSecondaryProjectTaxonomyLeaf)
-            //{
-            //    SecondaryTaxonomyLeaves = Project.SecondaryProjectTaxonomyLeafs.Select(x => x.TaxonomyLeaf).OrderBy(x => x.GetDisplayName());
-            //}
         }
         
     }

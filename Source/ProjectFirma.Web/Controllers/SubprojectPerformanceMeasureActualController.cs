@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="PerformanceMeasureActualController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="SubprojectPerformanceMeasureActualController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -127,7 +127,8 @@ namespace ProjectFirma.Web.Controllers
         private PartialViewResult ViewEditPerformanceMeasureActuals(EditPerformanceMeasureActualsViewModel viewModel)
         {
             var performanceMeasures = PerformanceMeasureModelExtensions.GetReportablePerformanceMeasures().ToList();
-            var viewData = new EditPerformanceMeasureActualsViewData(performanceMeasures, false);
+            var showExemptYears = false;//Exempt years does not apply to subprojects
+            var viewData = new EditPerformanceMeasureActualsViewData(performanceMeasures, showExemptYears);
             return RazorPartialView<EditPerformanceMeasureActuals, EditPerformanceMeasureActualsViewData, EditPerformanceMeasureActualsViewModel>(viewData, viewModel);
         }
     }
