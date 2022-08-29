@@ -72,7 +72,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-xs-12">
             @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectDescription.ToType())
         </div>
-        <div class="col-xs-12" style="padding-left: 20px">
+        <div class="col-xs-12" style="padding-left: 20px; word-break: break-word">
             @Html.Raw(ViewDataTyped.Subproject.SubprojectDescription.HtmlEncodeWithBreaks())
         </div>
     </div>
