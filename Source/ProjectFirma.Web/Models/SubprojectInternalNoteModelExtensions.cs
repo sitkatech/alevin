@@ -8,12 +8,12 @@ namespace ProjectFirma.Web.Models
     {
         public static string GetDeleteUrl(this SubprojectInternalNote subprojectInternalNote)
         {
-            return SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(c => c.DeleteSubprojectInternalNote(subprojectInternalNote));
+            return SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(c => c.DeleteSubprojectInternalNote(subprojectInternalNote.SubprojectInternalNoteID));
         }
 
         public static string GetEditUrl(this SubprojectInternalNote subprojectInternalNote)
         {
-            return SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(c => c.Edit(subprojectInternalNote));
+            return SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(c => c.Edit(subprojectInternalNote.SubprojectInternalNoteID));
         }
     }
 }

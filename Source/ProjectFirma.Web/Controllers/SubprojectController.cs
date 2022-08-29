@@ -189,6 +189,8 @@ namespace ProjectFirma.Web.Controllers
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
             bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
+            bool performanceMeasureActualFromSubprojectManageFeature = new PerformanceMeasureActualFromSubprojectManageFeature().HasPermission(CurrentFirmaSession, subproject).HasPermission;
+
             var editPerformanceMeasureActualsUrl = SitkaRoute<SubprojectPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForSubproject(subproject));
 
             var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject);
@@ -200,7 +202,7 @@ namespace ProjectFirma.Web.Controllers
                 userHasEditSubprojectPermissions);
             var internalNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(subproject.SubprojectInternalNotes),
-                SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(x => x.New(subproject)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
+                SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(x => x.New(subprojectPrimaryKey)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
                 subproject.GetDisplayName(),
                 userHasEditSubprojectPermissions);
 
@@ -214,7 +216,8 @@ namespace ProjectFirma.Web.Controllers
                 performanceMeasureExpectedsSummaryViewData,
                 performanceMeasureReportedValuesGroupedViewData,
                 subprojectNotesViewData,
-                internalNotesViewData);
+                internalNotesViewData,
+                performanceMeasureActualFromSubprojectManageFeature);
             return RazorView<Detail, DetailViewData>(viewData);
         }
 

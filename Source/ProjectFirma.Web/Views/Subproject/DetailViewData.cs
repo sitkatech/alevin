@@ -41,8 +41,9 @@ namespace ProjectFirma.Web.Views.Subproject
 {
     public class DetailViewData : SubprojectViewData
     {
-        public bool UserHasSubprojectAdminPermissions { get; }
         public bool UserHasEditSubprojectPermissions { get; }
+
+        public bool PerformanceMeasureActualFromSubprojectManageFeature { get; }
 
         public string EditSubprojectUrl { get; }
 
@@ -75,7 +76,8 @@ namespace ProjectFirma.Web.Views.Subproject
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
             EntityNotesViewData subprojectNotesViewData,
-            EntityNotesViewData internalNotesViewData)
+            EntityNotesViewData internalNotesViewData,
+            bool performanceMeasureActualFromSubprojectManageFeature)
             : base(currentFirmaSession, subproject)
         {
             EditSubprojectUrl =
@@ -92,6 +94,8 @@ namespace ProjectFirma.Web.Views.Subproject
             PerformanceMeasureReportedValuesGroupedViewData = performanceMeasureReportedValuesGroupedViewData;
             SubprojectNotesViewData = subprojectNotesViewData;
             InternalNotesViewData = internalNotesViewData;
+            PerformanceMeasureActualFromSubprojectManageFeature = performanceMeasureActualFromSubprojectManageFeature;
+
         }
     }
 }

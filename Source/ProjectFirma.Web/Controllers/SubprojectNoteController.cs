@@ -97,7 +97,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !subprojectNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{subprojectNote.Subproject.GetDisplayName()}'?"
+                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()} '{subprojectNote.Subproject.GetDisplayName()}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectNote.ToType().GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);

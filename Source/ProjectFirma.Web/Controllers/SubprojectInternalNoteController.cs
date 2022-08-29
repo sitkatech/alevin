@@ -13,7 +13,7 @@ namespace ProjectFirma.Web.Controllers
     {
         [HttpGet]
         [SubprojectManageFeature]
-        public PartialViewResult New(Subproject subproject)
+        public PartialViewResult New(SubprojectPrimaryKey subprojectPrimaryKey)
         {
             var viewModel = new EditNoteViewModel();
             return ViewEdit(viewModel);
@@ -22,12 +22,13 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult New(Subproject subproject, EditNoteViewModel viewModel)
+        public ActionResult New(SubprojectPrimaryKey subprojectPrimaryKey, EditNoteViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
                 return ViewEdit(viewModel);
             }
+            var subproject = subprojectPrimaryKey.EntityObject;
             var subprojectInternalNote = SubprojectInternalNote.CreateNewBlank(subproject);
             viewModel.UpdateModel(subprojectInternalNote, CurrentFirmaSession);
             HttpRequestStorage.DatabaseEntities.AllSubprojectInternalNotes.Add(subprojectInternalNote);
@@ -35,7 +36,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectInternalNoteManageAsAdminFeature]
+        [SubprojectManageFeature]
         public PartialViewResult Edit(SubprojectInternalNotePrimaryKey subprojectInternalNotePrimaryKey)
         {
             var subprojectInternalNote = subprojectInternalNotePrimaryKey.EntityObject;
@@ -44,7 +45,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectInternalNoteManageAsAdminFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(SubprojectInternalNotePrimaryKey subprojectInternalNotePrimaryKey, EditNoteViewModel viewModel)
         {
@@ -64,7 +65,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectInternalNoteManageAsAdminFeature]
+        [SubprojectManageFeature]
         public PartialViewResult DeleteSubprojectInternalNote(SubprojectInternalNotePrimaryKey subprojectInternalNotePrimaryKey)
         {
             var subprojectInternalNote = subprojectInternalNotePrimaryKey.EntityObject;
@@ -76,7 +77,7 @@ namespace ProjectFirma.Web.Controllers
         {
             var canDelete = !subprojectInternalNote.HasDependentObjects();
             var confirmMessage = canDelete
-                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} '{subprojectInternalNote.Subproject.GetDisplayName()}'?"
+                ? $"Are you sure you want to delete this note for {FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()} '{subprojectInternalNote.Subproject.GetDisplayName()}'?"
                 : ConfirmDialogFormViewData.GetStandardCannotDeleteMessage($"{FieldDefinitionEnum.ProjectInternalNote.ToType().GetFieldDefinitionLabel()}");
 
             var viewData = new ConfirmDialogFormViewData(confirmMessage, canDelete);
@@ -85,9 +86,9 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectInternalNoteManageAsAdminFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult DeleteProjectInternalNote(SubprojectInternalNotePrimaryKey subprojectInternalNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult DeleteSubprojectInternalNote(SubprojectInternalNotePrimaryKey subprojectInternalNotePrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
             var subprojectInternalNote = subprojectInternalNotePrimaryKey.EntityObject;
             if (!ModelState.IsValid)
