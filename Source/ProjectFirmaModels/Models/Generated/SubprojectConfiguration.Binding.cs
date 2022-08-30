@@ -21,7 +21,6 @@ namespace ProjectFirmaModels.Models
             Property(x => x.SubprojectStageID).HasColumnName(@"SubprojectStageID").HasColumnType("int").IsRequired();
             Property(x => x.ImplementationStartYear).HasColumnName(@"ImplementationStartYear").HasColumnType("int").IsOptional();
             Property(x => x.CompletionYear).HasColumnName(@"CompletionYear").HasColumnType("int").IsOptional();
-            Property(x => x.Notes).HasColumnName(@"Notes").HasColumnType("varchar").IsOptional();
             Property(x => x.SubprojectName).HasColumnName(@"SubprojectName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(140);
             Property(x => x.SubprojectDescription).HasColumnName(@"SubprojectDescription").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(4000);
 

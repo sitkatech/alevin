@@ -19,6 +19,7 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
+using LtInfo.Common;
 using ProjectFirmaModels.Models;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
@@ -35,27 +36,25 @@ namespace ProjectFirma.Web.Views.Subproject
     {
         public SubprojectGridSpec(ProjectPrimaryKey projectPrimaryKey, FirmaSession currentFirmaSession)
         {
-            ObjectNameSingular = "Subproject";
-            ObjectNamePlural = "Subprojects";
+            ObjectNameSingular = FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel();
+            ObjectNamePlural = FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabelPluralized();
 
             var hasSubprojectManagePermission = new SubprojectManageFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var hasSubprojectCreatePermission = new SubprojectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
-            if (hasSubprojectCreatePermission)
+            if (hasSubprojectManagePermission)
             {
                 var createNewSubprojectUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(x => x.New(projectPrimaryKey));
-                CreateEntityModalDialogForm = new ModalDialogForm(createNewSubprojectUrl, 950, $"Create a new Subproject");
+                CreateEntityModalDialogForm = new ModalDialogForm(createNewSubprojectUrl, 950, $"Create a new {ObjectNameSingular}");
 
             }
 
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Delete(x.PrimaryKey)), hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), "Edit Subproject", true, hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
-            Add("Subproject Name", x => x.SubprojectName, 120);
-            Add("Subproject Description", x => x.SubprojectDescription, 120);
-            Add("Implementation Start Year", x => x.ImplementationStartYear.DisplayValue(), 120);
-            Add("Completion Year", x => x.CompletionYear.DisplayValue(), 120);
-            Add("Project Stage", x => x.SubprojectStage.ProjectStageDisplayName, 120);
-            Add("Notes", x => x.Notes, 220);
+            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), $"Edit {ObjectNameSingular}", true, hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
+            Add(FieldDefinitionEnum.SubprojectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(SitkaRoute<SubprojectController>.BuildUrlFromExpression(t => t.Detail(x.PrimaryKey)), x.SubprojectName), 120);
+            Add(FieldDefinitionEnum.SubprojectDescription.ToType().ToGridHeaderString(), x => x.SubprojectDescription, 120);
+            Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.ImplementationStartYear.DisplayValue(), 120);
+            Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.CompletionYear.DisplayValue(), 120);
+            Add(FieldDefinitionEnum.SubprojectStage.ToType().ToGridHeaderString(), x => x.SubprojectStage.ProjectStageDisplayName, 120);
         }
     }
 

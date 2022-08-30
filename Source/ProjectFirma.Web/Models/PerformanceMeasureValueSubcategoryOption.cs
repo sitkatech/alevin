@@ -85,7 +85,19 @@ namespace ProjectFirma.Web.Models
             return allPossibleSubcategoryOptionsForPerformanceMeasureValue.Select(x => new PerformanceMeasureActualSubcategoryOptionSimple(x, performanceMeasureActual)).ToList();
         }
 
+        public static List<PerformanceMeasureActualSubcategoryOptionSimple> GetAllPossibleSubcategoryOptions(SubprojectPerformanceMeasureActual performanceMeasureActual)
+        {
+            var allPossibleSubcategoryOptionsForPerformanceMeasureValue = GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(performanceMeasureActual);
+            return allPossibleSubcategoryOptionsForPerformanceMeasureValue.Select(x => new PerformanceMeasureActualSubcategoryOptionSimple(x, performanceMeasureActual)).ToList();
+        }
+
         public static List<PerformanceMeasureActualSubcategoryOptionSimple> GetAllPossibleSubcategoryOptionsToActual(PerformanceMeasureExpected performanceMeasureExpected)
+        {
+            var allPossibleSubcategoryOptionsForPerformanceMeasureValue = GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(performanceMeasureExpected);
+            return allPossibleSubcategoryOptionsForPerformanceMeasureValue.Select(x => new PerformanceMeasureActualSubcategoryOptionSimple(x, performanceMeasureExpected)).ToList();
+        }
+
+        public static List<PerformanceMeasureActualSubcategoryOptionSimple> GetAllPossibleSubcategoryOptionsToActual(SubprojectPerformanceMeasureExpected performanceMeasureExpected)
         {
             var allPossibleSubcategoryOptionsForPerformanceMeasureValue = GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(performanceMeasureExpected);
             return allPossibleSubcategoryOptionsForPerformanceMeasureValue.Select(x => new PerformanceMeasureActualSubcategoryOptionSimple(x, performanceMeasureExpected)).ToList();
@@ -101,6 +113,12 @@ namespace ProjectFirma.Web.Models
         {
             var allPossibleSubcategoryOptionsForPerformanceMeasureValue = GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(performanceMeasureExpectedUpdate);
             return allPossibleSubcategoryOptionsForPerformanceMeasureValue.Select(x => new PerformanceMeasureActualSubcategoryOptionUpdateSimple(x, performanceMeasureExpectedUpdate)).ToList();
+        }
+
+        public static List<PerformanceMeasureExpectedSubcategoryOptionSimple> GetAllPossibleSubcategoryOptions(SubprojectPerformanceMeasureExpected subprojectPerformanceMeasureExpected)
+        {
+            var allPossibleSubcategoryOptionsForPerformanceMeasureValue = GetAllPossibleSubcategoryOptionsForPerformanceMeasureValue(subprojectPerformanceMeasureExpected);
+            return allPossibleSubcategoryOptionsForPerformanceMeasureValue.Select(x => new PerformanceMeasureExpectedSubcategoryOptionSimple(x, subprojectPerformanceMeasureExpected)).ToList();
         }
     }
 }

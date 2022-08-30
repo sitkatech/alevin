@@ -382,6 +382,10 @@ namespace ProjectFirmaModels.Models
         BpaProjectNumber = 10057,
         TotalProjectedObligation = 10058,
         ModNumber = 10059,
-        Subproject = 10060
+        Subproject = 10060,
+        SubprojectName = 10061,
+        SubprojectDescription = 10062,
+        SubprojectStage = 10063,
+        SubprojectNote = 10064
     }
 }

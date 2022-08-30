@@ -53,6 +53,7 @@ namespace ProjectFirma.Web
                 "~/Views/Shared/TextControls/{0}.cshtml",
                 "~/Views/Shared/ExpenditureAndBudgetControls/{0}.cshtml",
                 "~/Views/Shared/PerformanceMeasureControls/{0}.cshtml",
+                "~/Views/Shared/PerformanceMeasureActual/{0}.cshtml",
                 "~/Views/Shared/ProjectControls/{0}.cshtml",
                 "~/Views/Shared/ProjectLocationControls/{0}.cshtml",
                 "~/Views/Shared/ProjectGeospatialAreaControls/{0}.cshtml",

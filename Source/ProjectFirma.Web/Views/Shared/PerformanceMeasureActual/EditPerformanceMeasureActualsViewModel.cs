@@ -24,15 +24,15 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
-using ProjectFirma.Web.Common;
-using ProjectFirmaModels.Models;
 using LtInfo.Common;
 using LtInfo.Common.DesignByContract;
 using LtInfo.Common.Models;
+using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
+using ProjectFirmaModels.Models;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasureActual
+namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureActual
 {
     public class EditPerformanceMeasureActualsViewModel : FormViewModel, IValidatableObject
     {
@@ -65,7 +65,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
         {
 
-            UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions, allPerformanceMeasureReportingPeriods);
+            UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions, allPerformanceMeasureReportingPeriods, project);
             var currentProjectExemptYears = project.GetPerformanceMeasuresExemptReportingYears();
             HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
             var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
@@ -74,17 +74,37 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
             {
                 // Completely rebuild the list
                 projectExemptReportingYears =
-                    ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => new ProjectExemptReportingYear(x.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)).ToList();
+                    ProjectExemptReportingYears.Where(x => x.IsExempt).Select(x => new ProjectExemptReportingYear(project.ProjectID, x.CalendarYear, ProjectExemptReportingType.PerformanceMeasures.ProjectExemptReportingTypeID)).ToList();
             }
             currentProjectExemptYears.Merge(projectExemptReportingYears, allProjectExemptYears, (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
             project.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
+        }
+
+        public void UpdateModel(List<SubprojectPerformanceMeasureActual> currentPerformanceMeasureActuals,
+            IList<SubprojectPerformanceMeasureActual> allPerformanceMeasureActuals,
+            IList<SubprojectPerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
+
+            ProjectFirmaModels.Models.Subproject subproject,
+            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
+        {
+
+            UpdateModelImpl(currentPerformanceMeasureActuals, allPerformanceMeasureActuals, allPerformanceMeasureActualSubcategoryOptions, allPerformanceMeasureReportingPeriods, subproject);
+
+            var currentProjectExemptYears = new List<ProjectExemptReportingYear>();
+            HttpRequestStorage.DatabaseEntities.ProjectExemptReportingYears.Load();
+            var allProjectExemptYears = HttpRequestStorage.DatabaseEntities.AllProjectExemptReportingYears.Local;
+            var projectExemptReportingYears = new List<ProjectExemptReportingYear>();
+
+            currentProjectExemptYears.Merge(projectExemptReportingYears, allProjectExemptYears, (x, y) => x.ProjectID == y.ProjectID && x.CalendarYear == y.CalendarYear && x.ProjectExemptReportingTypeID == y.ProjectExemptReportingTypeID, HttpRequestStorage.DatabaseEntities);
+            //subproject.PerformanceMeasureActualYearsExemptionExplanation = Explanation;
         }
 
         private void UpdateModelImpl(List<ProjectFirmaModels.Models.PerformanceMeasureActual> currentPerformanceMeasureActuals,
             IList<ProjectFirmaModels.Models.PerformanceMeasureActual> allPerformanceMeasureActuals,
 
             IList<PerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
-            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods)
+            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods,
+            ProjectFirmaModels.Models.Project project)
         {
             // Remove all existing associations
             currentPerformanceMeasureActuals.ForEach(pmav =>
@@ -109,7 +129,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                         performanceMeasureReportingPeriodsFromDatabase.Add(performanceMeasureReportingPeriod);
                         HttpRequestStorage.DatabaseEntities.SaveChanges();
                     }
-                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(performanceMeasureActualSimple.ProjectID.Value, performanceMeasureActualSimple.PerformanceMeasureID.Value, performanceMeasureActualSimple.ActualValue.Value, performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
+                    var performanceMeasureActual = new ProjectFirmaModels.Models.PerformanceMeasureActual(project.ProjectID, performanceMeasureActualSimple.PerformanceMeasureID.Value, performanceMeasureActualSimple.ActualValue.Value, performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
                     allPerformanceMeasureActuals.Add(performanceMeasureActual);
                     if (performanceMeasureActualSimple.PerformanceMeasureActualSubcategoryOptions != null)
                     {
@@ -117,6 +137,52 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                             y =>
                                 allPerformanceMeasureActualSubcategoryOptions.Add(new PerformanceMeasureActualSubcategoryOption(
                                     performanceMeasureActual.PerformanceMeasureActualID,
+                                    y.PerformanceMeasureSubcategoryOptionID.Value,
+                                    y.PerformanceMeasureID,
+                                    y.PerformanceMeasureSubcategoryID)));
+                    }
+                }
+            }
+        }
+
+        private void UpdateModelImpl(List<SubprojectPerformanceMeasureActual> currentPerformanceMeasureActuals,
+            IList<SubprojectPerformanceMeasureActual> allPerformanceMeasureActuals,
+
+            IList<SubprojectPerformanceMeasureActualSubcategoryOption> allPerformanceMeasureActualSubcategoryOptions,
+            IList<PerformanceMeasureReportingPeriod> allPerformanceMeasureReportingPeriods,
+            ProjectFirmaModels.Models.Subproject subproject)
+        {
+            // Remove all existing associations
+            currentPerformanceMeasureActuals.ForEach(pmav =>
+            {
+                pmav.SubprojectPerformanceMeasureActualSubcategoryOptions.ToList().ForEach(pmavso => allPerformanceMeasureActualSubcategoryOptions.Remove(pmavso));
+                allPerformanceMeasureActuals.Remove(pmav);
+            });
+            currentPerformanceMeasureActuals.Clear();
+
+            if (PerformanceMeasureActuals != null)
+            {
+                var performanceMeasureReportingPeriodsFromDatabase = HttpRequestStorage.DatabaseEntities.AllPerformanceMeasureReportingPeriods.Local;
+                // Completely rebuild the list
+                foreach (var performanceMeasureActualSimple in PerformanceMeasureActuals)
+                {
+
+                    var performanceMeasureReportingPeriod = allPerformanceMeasureReportingPeriods.SingleOrDefault(x => x.PerformanceMeasureReportingPeriodCalendarYear == performanceMeasureActualSimple.CalendarYear);
+                    if (performanceMeasureReportingPeriod == null)
+                    {
+                        Check.EnsureNotNull(performanceMeasureActualSimple.PerformanceMeasureID, "We need to have a performance measure.");
+                        performanceMeasureReportingPeriod = new PerformanceMeasureReportingPeriod((int)performanceMeasureActualSimple.PerformanceMeasureID, performanceMeasureActualSimple.CalendarYear, performanceMeasureActualSimple.CalendarYear.ToString());
+                        performanceMeasureReportingPeriodsFromDatabase.Add(performanceMeasureReportingPeriod);
+                        HttpRequestStorage.DatabaseEntities.SaveChanges();
+                    }
+                    var performanceMeasureActual = new SubprojectPerformanceMeasureActual(subproject.SubprojectID, performanceMeasureActualSimple.PerformanceMeasureID.Value, performanceMeasureActualSimple.ActualValue.Value, performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodID);
+                    allPerformanceMeasureActuals.Add(performanceMeasureActual);
+                    if (performanceMeasureActualSimple.PerformanceMeasureActualSubcategoryOptions != null)
+                    {
+                        performanceMeasureActualSimple.PerformanceMeasureActualSubcategoryOptions.ForEach(
+                            y =>
+                                allPerformanceMeasureActualSubcategoryOptions.Add(new SubprojectPerformanceMeasureActualSubcategoryOption(
+                                    performanceMeasureActual.SubprojectPerformanceMeasureActualID,
                                     y.PerformanceMeasureSubcategoryOptionID.Value,
                                     y.PerformanceMeasureID,
                                     y.PerformanceMeasureSubcategoryID)));
@@ -152,18 +218,18 @@ namespace ProjectFirma.Web.Views.PerformanceMeasureActual
                         y.PerformanceMeasureSubcategoryOptionID == null))
                 .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
-            var performanceMeasureActualsWithValuesInExemptYearsDisplayNames = PerformanceMeasureActuals
-                ?.Where(x => exemptYears.Contains(x.CalendarYear))
-                .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
+            if(exemptYears != null && exemptYears.Any()){
+                var performanceMeasureActualsWithValuesInExemptYearsDisplayNames = PerformanceMeasureActuals
+                    ?.Where(x => exemptYears.Contains(x.CalendarYear))
+                    .Select(x => x.PerformanceMeasureActualName).Distinct().ToList();
 
+                performanceMeasureActualsWithValuesInExemptYearsDisplayNames?.ForEach(x =>
+                    errors.Add(new ValidationResult(
+                        $"{x} has reported values for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.")));
+            }
             performanceMeasureActualsWithMissingDataDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has rows with missing data. All values are required.")));
 
             performanceMeasureActualsWithDuplicatesDisplayNames?.ForEach(x => errors.Add(new ValidationResult($"{x} has duplicate rows. The {FieldDefinitionEnum.PerformanceMeasureSubcategory.ToType().GetFieldDefinitionLabelPluralized()} must be unique for each {MultiTenantHelpers.GetPerformanceMeasureName()}. Collapse the duplicate rows into one entry row then save the page.")));
-
-            performanceMeasureActualsWithValuesInExemptYearsDisplayNames?.ForEach(x =>
-                errors.Add(new ValidationResult(
-                    $"{x} has reported values for exempt years. For years which it is indicated that there are no accomplishments to report, you cannot enter {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}. You must either correct the years for which you have no accomplishments to report, or the reported {MultiTenantHelpers.GetPerformanceMeasureNamePluralized()}.")));
-            
 
             return errors;
         }

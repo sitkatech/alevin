@@ -65,6 +65,9 @@
     <Compile Include="Common\SitkaControllerObsoleteFunctions.cs" />
     <Compile Include="Common\SitkaRoute.cs" />
     <Compile Include="Common\UnsupportedBudgetMode.cs" />
+    <Compile Include="Controllers\SubprojectInternalNoteController.cs" />
+    <Compile Include="Controllers\SubprojectNoteController.cs" />
+    <Compile Include="Controllers\SubprojectPerformanceMeasureActualController.cs" />
     <Compile Include="Controllers\SubprojectController.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\ExcelUploadControllerTest.cs" />
@@ -76,6 +79,7 @@
     <Compile Include="Controllers\ObligationRequestController.cs" />
     <Compile Include="Controllers\ObligationRequestSubmissionNotesController.cs" />
     <Compile Include="Controllers\PnBudgetController.cs" />
+    <Compile Include="Controllers\SubprojectPerformanceMeasureExpectedController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
@@ -138,6 +142,8 @@
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
+    <Compile Include="Models\SubprojectNoteModelExtensions.cs" />
+    <Compile Include="Models\SubprojectInternalNoteModelExtensions.cs" />
     <Compile Include="Models\RestApiClient.cs" />
     <Compile Include="Models\SitkaLeftRightListbox.cs" />
     <Compile Include="Models\SolicitationModelExtensions.cs" />
@@ -290,7 +296,7 @@
     <Compile Include="Models\ProjectExpenditureByCostType.cs" />
     <Compile Include="ReportTemplates\ReportTemplateTests.cs" />
     <Compile Include="ScheduledJobs\CleanUpStaleFirmaSessionsJob.cs" />
-    <Compile Include="Security\SubprojectCreateFeature.cs" />
+    <Compile Include="Security\PerformanceMeasureActualFromSubprojectManageFeature.cs" />
     <Compile Include="Security\SubprojectViewFeature.cs" />
     <Compile Include="Security\SubprojectManageFeature.cs" />
     <Compile Include="Security\AttachmentTypeManageFeature.cs" />
@@ -345,6 +351,11 @@
     <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\Subproject\Detail.cs" />
+    <Compile Include="Views\Subproject\DetailViewData.cs" />
+    <Compile Include="Views\Subproject\SubprojectBasicsViewData.cs" />
+    <Compile Include="Views\Subproject\SubprojectBasics.cs" />
+    <Compile Include="Views\Subproject\SubprojectViewData.cs" />
     <Compile Include="Views\Subproject\SubprojectDisplay.cs" />
     <Compile Include="Views\Subproject\SubprojectDisplayViewData.cs" />
     <Compile Include="Views\Subproject\SubprojectGridSpec.cs" />
@@ -1738,10 +1749,10 @@
     <Compile Include="Views\Assessment\NewQuestion.cs" />
     <Compile Include="Views\Assessment\NewQuestionViewData.cs" />
     <Compile Include="Views\Assessment\NewQuestionViewModel.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewData.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModel.cs" />
-    <Compile Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModelTest.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActuals.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActualsViewData.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModel.cs" />
+    <Compile Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActualsViewModelTest.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureExpectedGridSpec.cs" />
     <Compile Include="Views\PerformanceMeasure\PerformanceMeasureReportedValuesGridSpec.cs" />
     <Compile Include="Views\FundingSource\Edit.cs" />
@@ -2204,6 +2215,8 @@
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\Solicitation\Index.cshtml" />
     <Content Include="Views\Solicitation\Edit.cshtml" />
+    <Content Include="Views\Subproject\Detail.cshtml" />
+    <Content Include="Views\Subproject\SubprojectBasics.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
     <Content Include="Views\User\Invite.cshtml" />
     <Content Include="Views\Shared\ProjectControls\EditProjectCustomAttributes.cshtml" />
@@ -2571,7 +2584,7 @@
     </Content>
     <Content Include="Security\FirmaFeatureTest.AdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures.approved.txt" />
     <Content Include="Security\FirmaFeatureTest.SitkaAdministratorsCanAccessAllFeaturesAndUnassignedCantAccessAnyFeatures.approved.txt" />
-    <Content Include="Views\PerformanceMeasureActual\PerformanceMeasureActualController.js" />
+    <Content Include="Views\Shared\PerformanceMeasureActual\PerformanceMeasureActualController.js" />
     <Content Include="Content\img\built_by_ei.png" />
     <Content Include="Content\img\built_by_sitka.png" />
     <Content Include="Content\img\funding_org_epa.png" />
@@ -3828,7 +3841,7 @@
     <Content Include="Views\Tag\Index.cshtml" />
     <Content Include="Views\Tag\Detail.cshtml" />
     <Content Include="Views\Assessment\Manage.cshtml" />
-    <Content Include="Views\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
+    <Content Include="Views\Shared\PerformanceMeasureActual\EditPerformanceMeasureActuals.cshtml" />
     <Content Include="Views\FundingSource\Edit.cshtml" />
     <Content Include="Views\FundingSource\Index.cshtml" />
     <Content Include="Views\FundingSource\Detail.cshtml" />

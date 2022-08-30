@@ -263,4 +263,8 @@ VALUES
 (10057, N'BpaProjectNumber', N'BPA Project Number'),
 (10058, N'TotalProjectedObligation', N'Total Projected Obligation'),
 (10059, N'ModNumber', N'Mod Number'),
-(10060, N'Subproject', N'Subproject')
+(10060, N'Subproject', N'Subproject'),
+(10061, N'SubprojectName', N'Subproject Name'),
+(10062, N'SubprojectDescription', N'Subproject Description'),
+(10063, N'SubprojectStage', N'Subproject Stage'),
+(10064, N'SubprojectNote', N'Subproject Note')

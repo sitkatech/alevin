@@ -22,7 +22,6 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
-using ProjectFirma.Web.Views.PerformanceMeasureActual;
 using ProjectFirma.Web.Views.Shared.SortOrder;
 using ProjectFirmaModels.Models;
 using System;
@@ -30,6 +29,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureActual;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Controllers
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationNecessaryForProjectExemptYears ||
                                               x.ErrorMessage == FirmaValidationMessages.ExplanationForProjectExemptYearsExceedsMax(Project.FieldLengths.PerformanceMeasureActualYearsExemptionExplanation) ||
                                               x.ErrorMessage == FirmaValidationMessages.PerformanceMeasureOrExemptYearsRequired);
-            var viewData = new EditPerformanceMeasureActualsViewData(project, performanceMeasures, showExemptYears);
+            var viewData = new EditPerformanceMeasureActualsViewData(performanceMeasures, showExemptYears);
             return RazorPartialView<EditPerformanceMeasureActuals, EditPerformanceMeasureActualsViewData, EditPerformanceMeasureActualsViewModel>(viewData, viewModel);
         }
     }

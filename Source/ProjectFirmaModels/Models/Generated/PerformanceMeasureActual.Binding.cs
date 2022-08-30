@@ -26,7 +26,6 @@ namespace ProjectFirmaModels.Models
         protected PerformanceMeasureActual()
         {
             this.PerformanceMeasureActualSubcategoryOptions = new HashSet<PerformanceMeasureActualSubcategoryOption>();
-            this.SubprojectPerformanceMeasureActualSubcategoryOptionsWhereYouAreTheSubprojectPerformanceMeasureActual = new HashSet<SubprojectPerformanceMeasureActualSubcategoryOption>();
         }
 
         /// <summary>
@@ -88,7 +87,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return PerformanceMeasureActualSubcategoryOptions.Any() || SubprojectPerformanceMeasureActualSubcategoryOptionsWhereYouAreTheSubprojectPerformanceMeasureActual.Any();
+            return PerformanceMeasureActualSubcategoryOptions.Any();
         }
 
         /// <summary>
@@ -102,18 +101,13 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(PerformanceMeasureActualSubcategoryOption).Name);
             }
-
-            if(SubprojectPerformanceMeasureActualSubcategoryOptionsWhereYouAreTheSubprojectPerformanceMeasureActual.Any())
-            {
-                dependentObjects.Add(typeof(SubprojectPerformanceMeasureActualSubcategoryOption).Name);
-            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name, typeof(SubprojectPerformanceMeasureActualSubcategoryOption).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(PerformanceMeasureActual).Name, typeof(PerformanceMeasureActualSubcategoryOption).Name};
 
 
         /// <summary>
@@ -142,11 +136,6 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
-
-            foreach(var x in SubprojectPerformanceMeasureActualSubcategoryOptionsWhereYouAreTheSubprojectPerformanceMeasureActual.ToList())
-            {
-                x.DeleteFull(dbContext);
-            }
         }
 
         [Key]
@@ -160,7 +149,6 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return PerformanceMeasureActualID; } set { PerformanceMeasureActualID = value; } }
 
         public virtual ICollection<PerformanceMeasureActualSubcategoryOption> PerformanceMeasureActualSubcategoryOptions { get; set; }
-        public virtual ICollection<SubprojectPerformanceMeasureActualSubcategoryOption> SubprojectPerformanceMeasureActualSubcategoryOptionsWhereYouAreTheSubprojectPerformanceMeasureActual { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }

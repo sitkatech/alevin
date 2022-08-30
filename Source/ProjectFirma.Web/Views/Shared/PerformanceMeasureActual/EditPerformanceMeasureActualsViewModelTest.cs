@@ -18,14 +18,14 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
+
 using System.Collections.Generic;
 using System.Linq;
-using ProjectFirmaModels.Models;
 using NUnit.Framework;
 using ProjectFirma.Web.Models;
 using TestFramework = ProjectFirmaModels.UnitTestCommon.TestFramework;
 
-namespace ProjectFirma.Web.Views.PerformanceMeasureActual
+namespace ProjectFirma.Web.Views.Shared.PerformanceMeasureActual
 {
     [TestFixture]
     public class EditPerformanceMeasureActualsViewModelTest

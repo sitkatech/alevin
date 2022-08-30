@@ -1,0 +1,99 @@
+﻿@*-----------------------------------------------------------------------
+<copyright file="SubprojectBasics.cshtml" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*@
+@using LtInfo.Common.Views
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Views.Shared.ProjectControls
+@inherits ProjectFirma.Web.Views.Subproject.SubprojectBasics
+
+<style>
+    .basicsLayout .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .basicsLayout .row div {
+        padding-left: 0;
+        padding-right: 5px;
+    }
+
+    .basicsLayout hr {
+        margin-top: 5px;
+        margin-bottom: 5px;
+    }
+</style>
+
+<script src="@Url.Content("~/Content/bootstrap-tags/bootstrap-tags.min.js")" type="text/javascript"></script>
+
+<div class="basicsLayout">
+
+    @{
+        var implementationStartYear = ViewDataTyped.Subproject.ImplementationStartYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ViewDataTyped.Subproject.ImplementationStartYear.Value) : null;
+        var completionYear = ViewDataTyped.Subproject.CompletionYear.HasValue ? MultiTenantHelpers.FormatReportingYear(ViewDataTyped.Subproject.CompletionYear.Value) : null;
+    }
+
+    <hr />
+    <div class="row">
+        <div class="col-xs-5">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectName.ToType())
+        </div>
+        <div class="col-xs-7">
+            @ViewDataTyped.Subproject.SubprojectName
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-5">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectStage.ToType())
+        </div>
+        <div class="col-xs-7">
+            @ViewDataTyped.Subproject.SubprojectStage.ProjectStageDisplayName
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.SubprojectDescription.ToType())
+        </div>
+        <div class="col-xs-12" style="padding-left: 20px; word-break: break-word">
+            @Html.Raw(ViewDataTyped.Subproject.SubprojectDescription.HtmlEncodeWithBreaks())
+        </div>
+    </div>
+
+    <hr />
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.ImplementationStartYear.ToType())
+        </div>
+        <div class="col-xs-6">
+            @implementationStartYear
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6">
+            @Html.LabelWithSugarFor(FieldDefinitionEnum.CompletionYear.ToType())
+        </div>
+        <div class="col-xs-6">
+            @completionYear
+        </div>
+    </div>
+    
+    <hr />
+</div>

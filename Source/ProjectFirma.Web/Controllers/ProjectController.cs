@@ -461,8 +461,6 @@ namespace ProjectFirma.Web.Controllers
             var subprojectGridSpec = new SubprojectGridSpec(project.PrimaryKey, currentFirmaSession);
             const string subprojectGridName = "Subprojects";
             var subprojectGridDataUrl = SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.SubprojectGridJsonData(project.PrimaryKey));
-            var userCanViewSubproject = new SubprojectViewFeature().HasPermissionByFirmaSession(currentFirmaSession);
-            var userCanCreateSubproject = new SubprojectCreateFeature().HasPermissionByFirmaSession(currentFirmaSession);
 
             var subprojectDisplayViewData = new SubprojectDisplayViewData(project, subprojectGridSpec,
                 subprojectGridName, subprojectGridDataUrl);
@@ -900,7 +898,10 @@ namespace ProjectFirma.Web.Controllers
                 return RedirectToAction(new SitkaRoute<ProjectController>(x => x.Detail(projectsFound.Single())));
             }
 
-            //todo: in the future, if a single subproject is found and no projects are found, redirect to the detail page for the subproject
+            if (!projectsFound.Any() && subprojectsFound.Count == 1)
+            {
+                return RedirectToAction(new SitkaRoute<SubprojectController>(x => x.Detail(subprojectsFound.Single())));
+            }
 
             var viewData = new SearchResultsViewData(CurrentFirmaSession, projectsFound, subprojectsFound, searchCriteria);
             return RazorView<SearchResults, SearchResultsViewData>(viewData);

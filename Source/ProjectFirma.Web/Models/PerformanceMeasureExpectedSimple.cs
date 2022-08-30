@@ -26,6 +26,15 @@ namespace ProjectFirma.Web.Models
 {
     public class PerformanceMeasureExpectedSimple
     {
+        public string DefinitionAndGuidanceUrl { get; set; }
+        /// <summary>
+        /// This may be used by SubprojectPerformanceMeasureExpectedID, when this class is used for SubprojectPerformanceMeasureExpecteds
+        /// </summary>
+        public int PerformanceMeasureExpectedID { get; set; }
+        public string DisplayName { get; set; }
+        public int PerformanceMeasureID { get; set; }
+        public double? ExpectedValue { get; set; }
+        public List<PerformanceMeasureExpectedSubcategoryOptionSimple> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -73,11 +82,15 @@ namespace ProjectFirma.Web.Models
             PerformanceMeasureExpectedSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(performanceMeasureExpected);
         }
 
-        public string DefinitionAndGuidanceUrl { get; set; }
-        public int PerformanceMeasureExpectedID { get; set; }
-        public string DisplayName { get; set; }
-        public int PerformanceMeasureID { get; set; }
-        public double? ExpectedValue { get; set; }        
-        public List<PerformanceMeasureExpectedSubcategoryOptionSimple> PerformanceMeasureExpectedSubcategoryOptions { get; set; }
+        public PerformanceMeasureExpectedSimple(SubprojectPerformanceMeasureExpected subprojectPerformanceMeasureExpected) : this()
+        {
+            PerformanceMeasureExpectedID = subprojectPerformanceMeasureExpected.SubprojectPerformanceMeasureExpectedID;
+            DisplayName = subprojectPerformanceMeasureExpected.PerformanceMeasure.PerformanceMeasureDisplayName;
+            DefinitionAndGuidanceUrl = subprojectPerformanceMeasureExpected.PerformanceMeasure.GetDefinitionAndGuidanceUrl();
+            PerformanceMeasureID = subprojectPerformanceMeasureExpected.PerformanceMeasureID;
+            ExpectedValue = subprojectPerformanceMeasureExpected.ExpectedValue;
+            PerformanceMeasureExpectedSubcategoryOptions = PerformanceMeasureValueSubcategoryOption.GetAllPossibleSubcategoryOptions(subprojectPerformanceMeasureExpected);
+        }
+
     }
 }

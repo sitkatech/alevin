@@ -115,7 +115,7 @@ Source code is available upon request via <support@sitkatech.com>.
         <div class="col-xs-12">
             @Html.LabelWithSugarFor(FieldDefinitionEnum.ProjectDescription.ToType())
         </div>
-        <div class="col-xs-12" style="padding-left: 20px">
+        <div class="col-xs-12" style="padding-left: 20px; word-break: break-word">
             @Html.Raw(ViewDataTyped.Project.ProjectDescription.HtmlEncodeWithBreaks())
         </div>
     </div>

@@ -1,4 +1,24 @@
-﻿using System;
+﻿/*-----------------------------------------------------------------------
+<copyright file="SubprojectController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
+<author>Sitka Technology Group</author>
+</copyright>
+
+<license>
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU Affero General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+Source code is available upon request via <support@sitkatech.com>.
+</license>
+-----------------------------------------------------------------------*/
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Mvc;
@@ -9,9 +29,14 @@ using LtInfo.Common.MvcResults;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Project;
 using ProjectFirma.Web.Views.Subproject;
 using ProjectFirma.Web.Views.Shared;
+using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls;
+using ProjectFirma.Web.Views.Shared.TextControls;
 using ProjectFirmaModels.Models;
+using Detail = ProjectFirma.Web.Views.Subproject.Detail;
+using DetailViewData = ProjectFirma.Web.Views.Subproject.DetailViewData;
 
 namespace ProjectFirma.Web.Controllers
 {
@@ -28,7 +53,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [SubprojectCreateFeature]
+        [SubprojectManageFeature]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey)
         {
             var project = projectPrimaryKey.EntityObject;
@@ -41,7 +66,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [SubprojectCreateFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(ProjectPrimaryKey projectPrimaryKey, EditViewModel viewModel)
         {
@@ -51,10 +76,10 @@ namespace ProjectFirma.Web.Controllers
                 return ViewEdit(viewModel);
             }
 
-            var Subproject = new Subproject(project.ProjectID, ModelObjectHelpers.NotYetAssignedID, "", "");
+            var subproject = new Subproject(project.ProjectID, ModelObjectHelpers.NotYetAssignedID, "", "");
 
-            viewModel.UpdateModel(Subproject, CurrentFirmaSession);
-             HttpRequestStorage.DatabaseEntities.AllSubprojects.Add(Subproject);
+            viewModel.UpdateModel(subproject, CurrentFirmaSession);
+             HttpRequestStorage.DatabaseEntities.AllSubprojects.Add(subproject);
 
              SetMessageForDisplay($"Successfully added new Subproject.");
             return new ModalDialogFormJsonResult();
@@ -130,6 +155,81 @@ namespace ProjectFirma.Web.Controllers
             Subproject.DeleteFull(HttpRequestStorage.DatabaseEntities);
             SetMessageForDisplay(message);
             return new ModalDialogFormJsonResult();
+        }
+
+        private static List<ProjectStage> GetActiveSubprojectStages(Subproject subproject)
+        {
+            var activeProjectStages = new List<ProjectStage> { ProjectStage.Proposal, ProjectStage.PlanningDesign, ProjectStage.Implementation, ProjectStage.Completed, ProjectStage.PostImplementation };
+
+            if (subproject.SubprojectStage == ProjectStage.Terminated)
+            {
+                activeProjectStages.Remove(ProjectStage.Implementation);
+                activeProjectStages.Remove(ProjectStage.Completed);
+                activeProjectStages.Remove(ProjectStage.PostImplementation);
+
+                activeProjectStages.Add(subproject.SubprojectStage);
+            }
+            else if (subproject.SubprojectStage == ProjectStage.Deferred)
+            {
+                activeProjectStages.Add(subproject.SubprojectStage);
+            }
+
+            activeProjectStages = activeProjectStages.OrderBy(p => p.SortOrder).ToList();
+            return activeProjectStages;
+        }
+
+        [SubprojectViewFeature]
+        public ViewResult Detail(SubprojectPrimaryKey subprojectPrimaryKey)
+        {
+
+            var subproject = subprojectPrimaryKey.EntityObject;
+            var subprojectStages = GetActiveSubprojectStages(subproject);
+            var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureSortOrder)));
+            var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(subproject);
+            var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
+            bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+
+            bool performanceMeasureActualFromSubprojectManageFeature = new PerformanceMeasureActualFromSubprojectManageFeature().HasPermission(CurrentFirmaSession, subproject).HasPermission;
+
+            var editPerformanceMeasureActualsUrl = SitkaRoute<SubprojectPerformanceMeasureActualController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureActualsForSubproject(subproject));
+
+            var subprojectBasicsViewData = new SubprojectBasicsViewData(subproject);
+
+            var subprojectNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(subproject.SubprojectNotes),
+                SitkaRoute<SubprojectNoteController>.BuildUrlFromExpression(x => x.New(subprojectPrimaryKey)),
+                subproject.GetDisplayName(),
+                userHasEditSubprojectPermissions);
+            var internalNotesViewData = new EntityNotesViewData(
+                EntityNote.CreateFromEntityNote(subproject.SubprojectInternalNotes),
+                SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(x => x.New(subprojectPrimaryKey)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
+                subproject.GetDisplayName(),
+                userHasEditSubprojectPermissions);
+
+            var viewData = new DetailViewData(CurrentFirmaSession,
+                subproject,
+                subprojectStages,
+                subprojectBasicsViewData,
+                userHasEditSubprojectPermissions,
+                editPerformanceMeasureExpectedsUrl,
+                editPerformanceMeasureActualsUrl,
+                performanceMeasureExpectedsSummaryViewData,
+                performanceMeasureReportedValuesGroupedViewData,
+                subprojectNotesViewData,
+                internalNotesViewData,
+                performanceMeasureActualFromSubprojectManageFeature);
+            return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        private static PerformanceMeasureReportedValuesGroupedViewData BuildPerformanceMeasureReportedValuesGroupedViewData(Subproject subproject)
+        {
+            var performanceMeasureReportedValues = subproject.GetPerformanceMeasureReportedValues();
+            var performanceMeasureSubcategoriesCalendarYearReportedValues =
+                PerformanceMeasureSubcategoriesCalendarYearReportedValue.CreateFromPerformanceMeasuresAndCalendarYears(new List<IPerformanceMeasureReportedValue>(performanceMeasureReportedValues.OrderBy(x => x.PerformanceMeasure.GetSortOrder()).ThenBy(x => x.PerformanceMeasure.GetDisplayName())));
+            var performanceMeasureReportedValuesGroupedViewData = new PerformanceMeasureReportedValuesGroupedViewData(performanceMeasureSubcategoriesCalendarYearReportedValues,
+                performanceMeasureReportedValues.Select(x => x.CalendarYear).Distinct().Select(x => new CalendarYearString(x)).ToList(),
+                false);
+            return performanceMeasureReportedValuesGroupedViewData;
         }
 
     }

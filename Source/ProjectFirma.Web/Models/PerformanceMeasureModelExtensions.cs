@@ -171,6 +171,11 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Project> { project });
         }
 
+        public static List<SubprojectPerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, Subproject subproject)
+        {
+            return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Subproject> { subproject });
+        }
+
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, ProjectUpdateBatch projectUpdateBatch)
         {
             return performanceMeasure.GetReportedPerformanceMeasureValues(new List<ProjectUpdateBatch> { projectUpdateBatch });
@@ -179,6 +184,12 @@ namespace ProjectFirma.Web.Models
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
         {
             var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
+            return performanceMeasureReportedValues;
+        }
+
+        public static List<SubprojectPerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Subproject> subprojects)
+        {
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, subprojects);
             return performanceMeasureReportedValues;
         }
 

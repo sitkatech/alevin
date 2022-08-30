@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditPerformanceMeasureActuals.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
+<copyright file="SubprojectBasicsViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
 Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
 <author>Sitka Technology Group</author>
 </copyright>
@@ -18,9 +18,24 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-namespace ProjectFirma.Web.Views.PerformanceMeasureActual
+
+using ProjectFirma.Web.Common;
+using ProjectFirmaModels.Models;
+using System.Collections.Generic;
+using System.Linq;
+using ProjectFirma.Web.Views.Shared.ProjectControls;
+
+namespace ProjectFirma.Web.Views.Subproject
 {
-    public abstract class EditPerformanceMeasureActuals : LtInfo.Common.Mvc.TypedWebPartialViewPage<EditPerformanceMeasureActualsViewData, EditPerformanceMeasureActualsViewModel>
+    public class SubprojectBasicsViewData
     {
+        public ProjectFirmaModels.Models.Subproject Subproject { get; }
+        public TenantAttribute TenantAttribute { get; set; }
+
+        public SubprojectBasicsViewData(ProjectFirmaModels.Models.Subproject subproject)
+        {
+            Subproject = subproject;
+        }
+        
     }
 }

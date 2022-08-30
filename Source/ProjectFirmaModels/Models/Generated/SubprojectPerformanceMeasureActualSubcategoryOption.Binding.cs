@@ -57,13 +57,13 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MinimalConstructor required fields, using objects whenever possible
         /// </summary>
-        public SubprojectPerformanceMeasureActualSubcategoryOption(PerformanceMeasureActual subprojectPerformanceMeasureActual, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory) : this()
+        public SubprojectPerformanceMeasureActualSubcategoryOption(SubprojectPerformanceMeasureActual subprojectPerformanceMeasureActual, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory) : this()
         {
             // Mark this as a new object by setting primary key with special value
             this.SubprojectPerformanceMeasureActualSubcategoryOptionID = ModelObjectHelpers.MakeNextUnsavedPrimaryKeyValue();
-            this.SubprojectPerformanceMeasureActualID = subprojectPerformanceMeasureActual.PerformanceMeasureActualID;
+            this.SubprojectPerformanceMeasureActualID = subprojectPerformanceMeasureActual.SubprojectPerformanceMeasureActualID;
             this.SubprojectPerformanceMeasureActual = subprojectPerformanceMeasureActual;
-            subprojectPerformanceMeasureActual.SubprojectPerformanceMeasureActualSubcategoryOptionsWhereYouAreTheSubprojectPerformanceMeasureActual.Add(this);
+            subprojectPerformanceMeasureActual.SubprojectPerformanceMeasureActualSubcategoryOptions.Add(this);
             this.PerformanceMeasureSubcategoryOptionID = performanceMeasureSubcategoryOption.PerformanceMeasureSubcategoryOptionID;
             this.PerformanceMeasureSubcategoryOption = performanceMeasureSubcategoryOption;
             performanceMeasureSubcategoryOption.SubprojectPerformanceMeasureActualSubcategoryOptions.Add(this);
@@ -78,7 +78,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Creates a "blank" object of this type and populates primitives with defaults
         /// </summary>
-        public static SubprojectPerformanceMeasureActualSubcategoryOption CreateNewBlank(PerformanceMeasureActual subprojectPerformanceMeasureActual, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory)
+        public static SubprojectPerformanceMeasureActualSubcategoryOption CreateNewBlank(SubprojectPerformanceMeasureActual subprojectPerformanceMeasureActual, PerformanceMeasureSubcategoryOption performanceMeasureSubcategoryOption, PerformanceMeasure performanceMeasure, PerformanceMeasureSubcategory performanceMeasureSubcategory)
         {
             return new SubprojectPerformanceMeasureActualSubcategoryOption(subprojectPerformanceMeasureActual, performanceMeasureSubcategoryOption, performanceMeasure, performanceMeasureSubcategory);
         }
@@ -136,7 +136,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return SubprojectPerformanceMeasureActualSubcategoryOptionID; } set { SubprojectPerformanceMeasureActualSubcategoryOptionID = value; } }
 
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
-        public virtual PerformanceMeasureActual SubprojectPerformanceMeasureActual { get; set; }
+        public virtual SubprojectPerformanceMeasureActual SubprojectPerformanceMeasureActual { get; set; }
         public virtual PerformanceMeasureSubcategoryOption PerformanceMeasureSubcategoryOption { get; set; }
         public virtual PerformanceMeasure PerformanceMeasure { get; set; }
         public virtual PerformanceMeasureSubcategory PerformanceMeasureSubcategory { get; set; }
