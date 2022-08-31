@@ -51,7 +51,7 @@ namespace ProjectFirma.Web.Views.Subproject
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Delete(x.PrimaryKey)), hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), $"Edit {ObjectNameSingular}", true, hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
             Add(FieldDefinitionEnum.SubprojectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(SitkaRoute<SubprojectController>.BuildUrlFromExpression(t => t.Detail(x.PrimaryKey)), x.SubprojectName), 120);
-            Add(FieldDefinitionEnum.SubprojectDescription.ToType().ToGridHeaderString(), x => x.SubprojectDescription, 120);
+            Add(FieldDefinitionEnum.SubprojectDescription.ToType().ToGridHeaderString(), x => x.SubprojectDescription, 320);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.ImplementationStartYear.DisplayValue(), 120);
             Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.CompletionYear.DisplayValue(), 120);
             Add(FieldDefinitionEnum.SubprojectStage.ToType().ToGridHeaderString(), x => x.SubprojectStage.ProjectStageDisplayName, 120);
