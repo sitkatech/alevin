@@ -109,6 +109,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [DisplayName("Enable Accomplishments Dashboard")]
         public bool EnableAccomplishmentsDashboard { get; set; }
 
+        [DisplayName("Enable Simple Accomplishments Dashboard")]
+        public bool EnableSimpleAccomplishmentsDashboard { get; set; }
+
         [DisplayName("Enable Secondary Project Taxonomy Leaf")]
         public bool EnableSecondaryProjectTaxonomyLeaf { get; set; }
 
@@ -171,6 +174,7 @@ namespace ProjectFirma.Web.Views.Tenant
             ProjectExternalDataSourceEnabled = tenantAttribute.ProjectExternalDataSourceEnabled;
             ShowProposalsToThePublic = tenantAttribute.ShowProposalsToThePublic;
             EnableAccomplishmentsDashboard = tenantAttribute.EnableAccomplishmentsDashboard;
+            EnableSimpleAccomplishmentsDashboard = tenantAttribute.EnableSimpleAccomplishmentsDashboard;
             EnableSecondaryProjectTaxonomyLeaf = tenantAttribute.EnableSecondaryProjectTaxonomyLeaf;
             CanManageCustomAttributes = tenantAttribute.CanManageCustomAttributes;
             ExcludeTargetedFundingOrganizations = tenantAttribute.ExcludeTargetedFundingOrganizations;
@@ -193,6 +197,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.ToolDisplayName = ToolDisplayName;
             tenantAttribute.ShowProposalsToThePublic = ShowProposalsToThePublic.GetValueOrDefault();
             tenantAttribute.EnableAccomplishmentsDashboard = EnableAccomplishmentsDashboard;
+            tenantAttribute.EnableSimpleAccomplishmentsDashboard = EnableSimpleAccomplishmentsDashboard;
             tenantAttribute.EnableSecondaryProjectTaxonomyLeaf = EnableSecondaryProjectTaxonomyLeaf;
             tenantAttribute.CanManageCustomAttributes = CanManageCustomAttributes;
             tenantAttribute.ExcludeTargetedFundingOrganizations = ExcludeTargetedFundingOrganizations;

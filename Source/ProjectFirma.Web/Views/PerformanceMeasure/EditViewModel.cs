@@ -60,6 +60,9 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
         [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureCanBeChartedCumulatively)]
         public bool? CanBeChartedCumulatively { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.PerformanceMeasureGroup)]
+        public int? PerformanceMeasureGroupID { get; set; }
+
         [Required]
         [DisplayName("Included in BiOp Annual Report")]
         public bool IncludedInBiOpAnnualReport { get; set; }
@@ -80,6 +83,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             PerformanceMeasureDefinition = performanceMeasure.PerformanceMeasureDefinition;
             IsSummable = performanceMeasure.IsSummable;
             CanBeChartedCumulatively = performanceMeasure.CanBeChartedCumulatively;
+            PerformanceMeasureGroupID = performanceMeasure.PerformanceMeasureGroupID;
             IncludedInBiOpAnnualReport = performanceMeasure.IncludeInBiOpAnnualReport;
         }
 
@@ -91,6 +95,7 @@ namespace ProjectFirma.Web.Views.PerformanceMeasure
             performanceMeasure.PerformanceMeasureDefinition = PerformanceMeasureDefinition;
             performanceMeasure.IsSummable = IsSummable.GetValueOrDefault(); // will never be null due to RequiredAttribute
             performanceMeasure.CanBeChartedCumulatively = CanBeChartedCumulatively.GetValueOrDefault(); // will never be null due to RequiredAttribute
+            performanceMeasure.PerformanceMeasureGroupID = PerformanceMeasureGroupID;
             performanceMeasure.IncludeInBiOpAnnualReport = IncludedInBiOpAnnualReport;
         }
 

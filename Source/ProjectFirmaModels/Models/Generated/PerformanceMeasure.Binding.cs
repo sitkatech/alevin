@@ -53,7 +53,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation, bool canBeChartedCumulatively, bool includeInBiOpAnnualReport) : this()
+        public PerformanceMeasure(int performanceMeasureID, string criticalDefinitions, string projectReporting, string performanceMeasureDisplayName, int measurementUnitTypeID, int performanceMeasureTypeID, string performanceMeasureDefinition, string dataSourceText, string externalDataSourceUrl, string chartCaption, int? performanceMeasureSortOrder, bool isSummable, int performanceMeasureDataSourceTypeID, string importance, string additionalInformation, bool canBeChartedCumulatively, bool includeInBiOpAnnualReport, int? performanceMeasureGroupID) : this()
         {
             this.PerformanceMeasureID = performanceMeasureID;
             this.CriticalDefinitions = criticalDefinitions;
@@ -72,6 +72,7 @@ namespace ProjectFirmaModels.Models
             this.AdditionalInformation = additionalInformation;
             this.CanBeChartedCumulatively = canBeChartedCumulatively;
             this.IncludeInBiOpAnnualReport = includeInBiOpAnnualReport;
+            this.PerformanceMeasureGroupID = performanceMeasureGroupID;
         }
 
         /// <summary>
@@ -435,6 +436,7 @@ namespace ProjectFirmaModels.Models
         }
         public bool CanBeChartedCumulatively { get; set; }
         public bool IncludeInBiOpAnnualReport { get; set; }
+        public int? PerformanceMeasureGroupID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return PerformanceMeasureID; } set { PerformanceMeasureID = value; } }
 
@@ -465,6 +467,7 @@ namespace ProjectFirmaModels.Models
         public MeasurementUnitType MeasurementUnitType { get { return MeasurementUnitType.AllLookupDictionary[MeasurementUnitTypeID]; } }
         public PerformanceMeasureType PerformanceMeasureType { get { return PerformanceMeasureType.AllLookupDictionary[PerformanceMeasureTypeID]; } }
         public PerformanceMeasureDataSourceType PerformanceMeasureDataSourceType { get { return PerformanceMeasureDataSourceType.AllLookupDictionary[PerformanceMeasureDataSourceTypeID]; } }
+        public virtual PerformanceMeasureGroup PerformanceMeasureGroup { get; set; }
 
         public static class FieldLengths
         {

@@ -298,6 +298,11 @@ namespace ProjectFirma.Web.Common
             return GetTenantAttributeFromCache().EnableAccomplishmentsDashboard;
         }
 
+        public static bool DisplaySimpleAccomplishmentDashboard()
+        {
+            return GetTenantAttributeFromCache().EnableSimpleAccomplishmentsDashboard;
+        }
+
         public static bool TrackAccomplishments()
         {
             return GetTenantAttributeFromCache().TrackAccomplishments;

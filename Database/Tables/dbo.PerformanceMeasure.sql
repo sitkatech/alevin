@@ -21,6 +21,7 @@ CREATE TABLE [dbo].[PerformanceMeasure](
 	[AdditionalInformation] [dbo].[html] NULL,
 	[CanBeChartedCumulatively] [bit] NOT NULL,
 	[IncludeInBiOpAnnualReport] [bit] NOT NULL,
+	[PerformanceMeasureGroupID] [int] NULL,
  CONSTRAINT [PK_PerformanceMeasure_PerformanceMeasureID] PRIMARY KEY CLUSTERED 
 (
 	[PerformanceMeasureID] ASC
@@ -42,6 +43,16 @@ ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_Performan
 REFERENCES [dbo].[PerformanceMeasureDataSourceType] ([PerformanceMeasureDataSourceTypeID])
 GO
 ALTER TABLE [dbo].[PerformanceMeasure] CHECK CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureDataSourceType_PerformanceMeasureDataSourceTypeID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureGroup_PerformanceMeasureGroupID] FOREIGN KEY([PerformanceMeasureGroupID])
+REFERENCES [dbo].[PerformanceMeasureGroup] ([PerformanceMeasureGroupID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasure] CHECK CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureGroup_PerformanceMeasureGroupID]
+GO
+ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureGroup_PerformanceMeasureGroupID_TenantID] FOREIGN KEY([PerformanceMeasureGroupID], [TenantID])
+REFERENCES [dbo].[PerformanceMeasureGroup] ([PerformanceMeasureGroupID], [TenantID])
+GO
+ALTER TABLE [dbo].[PerformanceMeasure] CHECK CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureGroup_PerformanceMeasureGroupID_TenantID]
 GO
 ALTER TABLE [dbo].[PerformanceMeasure]  WITH CHECK ADD  CONSTRAINT [FK_PerformanceMeasure_PerformanceMeasureType_PerformanceMeasureTypeID] FOREIGN KEY([PerformanceMeasureTypeID])
 REFERENCES [dbo].[PerformanceMeasureType] ([PerformanceMeasureTypeID])
