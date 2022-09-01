@@ -68,7 +68,9 @@ values
 (83, 'ManageOrganizationTypes', 'Manage Organization Types', 1),
 (84, 'InternalMapLayers', 'Internal Map Layers', 1),
 (85, 'ExternallySourcedGeospatialAreasInstructions', 'Externally Sourced Geospatial Areas Instructions', 1),
-(86, 'SolicitationIndex', 'Solicitation Index', 1)
+(86, 'SolicitationIndex', 'Solicitation Index', 1),
+(87, 'ManagePerformanceMeasures', 'ManagePerformanceMeasures', 1)
+
 
 -- Alevin only page types always start after ProjectFirma page types and begin at 10000
 insert into dbo.FirmaPageType(FirmaPageTypeID, FirmaPageTypeName, FirmaPageTypeDisplayName, FirmaPageRenderTypeID)

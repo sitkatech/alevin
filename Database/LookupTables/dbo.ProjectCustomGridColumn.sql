@@ -32,4 +32,6 @@ values
 (27, 'ProjectCategory', 'Project Category', 1),
 (28, 'NumberOfExpectedPerformanceMeasureRecords', '# of Expected Performance Measures Records', 1),
 (29, 'Solicitation', 'Solicitation', 1),
-(30, 'NPCCProvince', 'NPCC Province', 1)
+(30, 'FundingSources', 'Funding Sources', 1),
+(31, 'Organizations', 'Organizations', 1),
+(3000, 'NPCCProvince', 'NPCC Province', 1)

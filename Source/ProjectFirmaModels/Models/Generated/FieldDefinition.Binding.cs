@@ -324,6 +324,7 @@ namespace ProjectFirmaModels.Models
         Solicitation = 374,
         EnableSolicitations = 375,
         OtherPartners = 376,
+        PerformanceMeasureGroup = 377,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
