@@ -7,7 +7,7 @@ namespace ProjectFirma.Web.Security
     public class ObligationRequestSubmissionNoteFeature : FirmaFeature
     {
         public ObligationRequestSubmissionNoteFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin })
+            : base(new List<Role> { Role.ESAAdmin, Role.Admin })
         {
         }
     }

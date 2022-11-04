@@ -8,7 +8,7 @@ namespace ProjectFirma.Web.Security
     public class ObligationRequestIndexViewFeature : FirmaFeature
     {
         public ObligationRequestIndexViewFeature()
-            : base(new List<Role> { Role.SitkaAdmin, Role.Admin})
+            : base(new List<Role> { Role.ESAAdmin, Role.Admin})
         {
         }
     }
