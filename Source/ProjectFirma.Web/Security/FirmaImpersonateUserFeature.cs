@@ -10,7 +10,7 @@ namespace ProjectFirma.Web.Security
 
         public FirmaImpersonateUserFeature()
               // On Reclamation, we allow plain Admins to impersonate on QA. 
-            : base(new List<Role> {Role.SitkaAdmin, Role.Admin})
+            : base(new List<Role> {Role.ESAAdmin, Role.Admin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Person>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
