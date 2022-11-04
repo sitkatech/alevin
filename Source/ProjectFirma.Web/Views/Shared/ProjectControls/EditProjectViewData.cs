@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProjectViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="EditProjectViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -60,7 +60,8 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             decimal? totalExpenditures,
             List<ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafs,
             IEnumerable<ProjectFirmaModels.Models.ProjectCustomAttributeType> projectCustomAttributeTypes,
-            TenantAttribute tenantAttribute)
+            TenantAttribute tenantAttribute,
+            IEnumerable<SelectListItem> solicitationOptions)
         {
             EditProjectType = editProjectType;
             TaxonomyLeafDisplayName = taxonomyLeafDisplayName;
@@ -81,8 +82,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectControls
             ProjectCustomAttributeTypes = projectCustomAttributeTypes;
             TenantAttribute = tenantAttribute;
             TenantUsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
-            SolicitationOptions = HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(
-                x => x.SolicitationID.ToString(), y => y.SolicitationName);
+            SolicitationOptions = solicitationOptions;
         }
     }
 }

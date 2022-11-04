@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="UserController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="UserController.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -136,7 +136,7 @@ namespace ProjectFirma.Web.Controllers
 
         private PartialViewResult ViewEditRoles(EditRolesViewModel viewModel)
         {
-            var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.SitkaAdmin});
+            var roles = CurrentPerson.IsSitkaAdministrator() ? Role.All : Role.All.Except(new[] {Role.ESAAdmin});
             var rolesAsSelectListItems =
                 roles.ToSelectListWithEmptyFirstRow(x => x.RoleID.ToString(CultureInfo.InvariantCulture),
                     x => x.GetRoleDisplayName());

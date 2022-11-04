@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditRolesViewModel.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="EditRolesViewModel.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -58,7 +58,7 @@ namespace ProjectFirma.Web.Views.User
             var downgradingFromSteward = personBeingEdited.Role == ProjectFirmaModels.Models.Role.ProjectSteward &&
                                          RoleID != ProjectFirmaModels.Models.Role.ProjectSteward.RoleID &&
                                          RoleID != ProjectFirmaModels.Models.Role.Admin.RoleID &&
-                                         RoleID != ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID;
+                                         RoleID != ProjectFirmaModels.Models.Role.ESAAdmin.RoleID;
 
             personBeingEdited.RoleID = RoleID ?? ModelObjectHelpers.NotYetAssignedID;
             personBeingEdited.ReceiveSupportEmails = ShouldReceiveSupportEmails;

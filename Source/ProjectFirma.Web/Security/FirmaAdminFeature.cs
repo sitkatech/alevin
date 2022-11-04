@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FirmaAdminFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="FirmaAdminFeature.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -26,7 +26,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("_Admin for ProjectFirma")]
     public class FirmaAdminFeature : FirmaFeature
     {
-        public FirmaAdminFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin }) { }
+        public FirmaAdminFeature() : base(new List<Role> { Role.ESAAdmin, Role.Admin }) { }
 
         public PermissionCheckResult HasPermission(FirmaSession firmaSession)
         {

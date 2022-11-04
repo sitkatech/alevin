@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="EditViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -36,7 +36,7 @@ namespace ProjectFirma.Web.Views.FundingSource
             Organizations = organizations;
             var currentPerson = currentFirmaSession.Person;
             CurrentPerson = currentPerson;
-            AllowPersonToSetOrganization = new List<ProjectFirmaModels.Models.Role> { ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.SitkaAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
+            AllowPersonToSetOrganization = new List<ProjectFirmaModels.Models.Role> { ProjectFirmaModels.Models.Role.Admin, ProjectFirmaModels.Models.Role.ESAAdmin }.Any(x => x.RoleID == currentPerson.RoleID);
         }
     }
 }

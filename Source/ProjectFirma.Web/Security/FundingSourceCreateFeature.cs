@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FundingSourceManageFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="FundingSourceManageFeature.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -28,7 +28,7 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Create New {0}", FieldDefinitionEnum.FundingSource)]
     public class FundingSourceCreateFeature : FirmaFeature
     {
-        public FundingSourceCreateFeature() : base(new List<Role> {Role.Admin, Role.SitkaAdmin, Role.ProjectSteward})
+        public FundingSourceCreateFeature() : base(new List<Role> {Role.Admin, Role.ESAAdmin, Role.ProjectSteward})
         {
         }
 

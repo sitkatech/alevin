@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FirmaFeatureTest.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="FirmaFeatureTest.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -111,7 +111,7 @@ namespace ProjectFirma.Web.Security
             {
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
                 bool allowsAdmin = obj.GrantedRoles.Contains(Role.Admin);
-                bool allowsSitkaAdmin = obj.GrantedRoles.Contains(Role.SitkaAdmin);
+                bool allowsSitkaAdmin = obj.GrantedRoles.Contains(Role.ESAAdmin);
                 bool allowsAdminOrSitkaAdmin = allowsAdmin || allowsSitkaAdmin;
                 if (!allowsAdminOrSitkaAdmin && obj.GrantedRoles.Count != 0)
                 {
@@ -146,7 +146,7 @@ namespace ProjectFirma.Web.Security
             foreach (var type in types)
             {
                 var obj = FirmaBaseFeature.InstantiateFeature(type);
-                if (!obj.GrantedRoles.Contains(Role.SitkaAdmin) && obj.GrantedRoles.Count != 0)
+                if (!obj.GrantedRoles.Contains(Role.ESAAdmin) && obj.GrantedRoles.Count != 0)
                 {
                     var errorMessage = $"Feature {type.FullName} is not available to Administrators";
                     listOfErrors.Add(errorMessage);

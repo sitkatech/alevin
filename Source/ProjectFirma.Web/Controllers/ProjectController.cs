@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="ProjectController.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -47,6 +47,7 @@ using System.Web.Mvc;
 using System.Web.UI.WebControls;
 using log4net;
 using LtInfo.Common.ModalDialog;
+using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
@@ -131,6 +132,12 @@ namespace ProjectFirma.Web.Controllers
             var defaultPrimaryContact = project?.GetPrimaryContact() ?? CurrentPerson.Organization.PrimaryContactPerson;
             var projectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasEditPermission(CurrentFirmaSession));
             var tenantAttribute = HttpRequestStorage.DatabaseEntities.TenantAttributes.SingleOrDefault(x => x.TenantID == HttpRequestStorage.DatabaseEntities.TenantID);
+            var solicitationOptions = HttpRequestStorage.DatabaseEntities.Solicitations.GetActiveSolicitations().ToSelectListWithEmptyFirstRow(x => x.SolicitationID.ToString(), y => y.SolicitationName).ToList();
+            // need to include the current Solicitation if it is inactive so saving the Basics admin editor does not null out the solicitation
+            if (project?.Solicitation != null && !project.Solicitation.IsActive)
+            {
+                solicitationOptions.Add(new SelectListItem{ Value = project.Solicitation.SolicitationID.ToString() , Text = project.Solicitation.SolicitationName });
+            }
             var viewData = new EditProjectViewData(editProjectType,
                 taxonomyLeafDisplayName,
                 ProjectStage.All.Except(new[] {ProjectStage.Proposal}), organizations,
@@ -139,7 +146,8 @@ namespace ProjectFirma.Web.Controllers
                 totalExpenditures,
                 taxonomyLeafs,
                 projectCustomAttributeTypes,
-                tenantAttribute
+                tenantAttribute,
+                solicitationOptions
             );
             return RazorPartialView<EditProject, EditProjectViewData, EditProjectViewModel>(viewData, viewModel);
         }
@@ -1158,42 +1166,6 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var viewModel = new ConfirmDialogFormViewModel();
             return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
         }
-
-        [ProjectsViewFullListFeature]
-        public FileContentResult FactSheetPdf(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            Uri factSheetUrl = new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetForPdf(project)).BuildAbsoluteUrlHttpsFromExpression());
-            var pdfFileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
-
-            return MakeFactSheetPdfFileFromUrl(factSheetUrl, pdfFileName);
-        }
-
-        [ProjectsViewFullListFeature]
-        public FileContentResult FactSheetWithCustomAttributesPdf(ProjectPrimaryKey projectPrimaryKey)
-        {
-            var project = projectPrimaryKey.EntityObject;
-            Uri factSheetUrl = new Uri(new SitkaRoute<ProjectController>(c => c.FactSheetWithCustomAttributesForPdf(project)).BuildAbsoluteUrlHttpsFromExpression());
-            var pdfFileName = $"{project.ProjectName.ToLower().Replace(" ", "-")}-fact-sheet.pdf";
-
-            return MakeFactSheetPdfFileFromUrl(factSheetUrl, pdfFileName);
-        }
-
-        private FileContentResult MakeFactSheetPdfFileFromUrl(Uri factSheetUrl, string fileName)
-        {
-            using (var outputPdfFile = new DisposableTempFile())
-            {
-                var pdfConversionSettings = new HeadlessChromePDFUtility.HeadlessChromePdfConversionSettings();
-                HeadlessChromePDFUtility.ConvertURLToPDFWithHeadlessChrome(factSheetUrl, outputPdfFile.FileInfo, pdfConversionSettings);
-
-                var fileContents = FileUtility.FileToString(outputPdfFile.FileInfo);
-                Check.Assert(fileContents.StartsWith("%PDF-"), "Should be a PDF file and have the starting bytes for PDF");
-
-                var content = System.IO.File.ReadAllBytes(outputPdfFile.FileInfo.FullName);
-                return File(content, "application/pdf", fileName);
-            }
-        }
-
         [ObligationViewFeature]
         public GridJsonNetJObjectResult<WbsElementObligationItemBudget> ContractualInvoiceGridJsonData(ProjectPrimaryKey projectPrimaryKey)
         {

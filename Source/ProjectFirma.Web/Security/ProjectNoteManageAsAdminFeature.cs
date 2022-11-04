@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
 <copyright file="ProjectNoteManageFeature.cs" company="Tahoe Regional Planning Agency">
 Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
-<author>Sitka Technology Group</author>
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -30,7 +30,7 @@ namespace ProjectFirma.Web.Security
         private readonly FirmaFeatureWithContextImpl<ProjectNote> _firmaFeatureWithContextImpl;
 
         public ProjectNoteManageAsAdminFeature()
-            : base(new List<Role> { Role.Normal, Role.SitkaAdmin, Role.Admin, Role.ProjectSteward })
+            : base(new List<Role> { Role.Normal, Role.ESAAdmin, Role.Admin, Role.ProjectSteward })
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<ProjectNote>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

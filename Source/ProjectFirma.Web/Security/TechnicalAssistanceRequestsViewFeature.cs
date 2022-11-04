@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="TechnicalAssistanceRequestsViewFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="TechnicalAssistanceRequestsViewFeature.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -26,6 +26,6 @@ namespace ProjectFirma.Web.Security
     [SecurityFeatureDescription("Can view Technical Assistance Requests")]
     public class TechnicalAssistanceRequestsViewFeature : FirmaFeature
     {
-        public TechnicalAssistanceRequestsViewFeature() : base(new List<Role> { Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal }) { }
+        public TechnicalAssistanceRequestsViewFeature() : base(new List<Role> { Role.ESAAdmin, Role.Admin, Role.ProjectSteward, Role.Normal }) { }
     }
 }

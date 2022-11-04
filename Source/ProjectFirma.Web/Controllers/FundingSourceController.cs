@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="FundingSourceController.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="FundingSourceController.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Controllers
             var viewModel = new EditViewModel
             {
                 // If the person is not an admin, we want to default the Funding Source organization to their own Organization
-                OrganizationID = new List<Role> {Role.Admin, Role.SitkaAdmin}.Any(x => x.RoleID == CurrentPerson.RoleID)
+                OrganizationID = new List<Role> {Role.Admin, Role.ESAAdmin}.Any(x => x.RoleID == CurrentPerson.RoleID)
                     ? (int?) null
                     : CurrentPerson.OrganizationID,
                 IsActive = true

@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="IndexGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="IndexGridSpec.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -43,7 +43,7 @@ namespace ProjectFirma.Web.Views.Organization
             var projectFundingSourceBudgetsDictionary = HttpRequestStorage.DatabaseEntities.ProjectFundingSourceBudgets
                 .GroupBy(x => x.FundingSourceID)
                 .ToDictionary(x => x.Key, y => y.ToList());
-            var peopleDictionary = HttpRequestStorage.DatabaseEntities.People
+            var peopleDictionary = HttpRequestStorage.DatabaseEntities.People.Where(x => x.IsActive)
                 .GroupBy(x => x.OrganizationID)
                 .ToDictionary(x => x.Key, y => y.ToList());
 

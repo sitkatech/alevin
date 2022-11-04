@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectCustomGridSpec.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="ProjectCustomGridSpec.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -203,7 +203,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.FundingSources:
-                    Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => UrlTemplate.MakeHrefString(y.GetDetailUrl(), y.FundingSourceName)))), 300, DhtmlxGridColumnFilterType.Html);
+                    Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => y.GetDisplayNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.Organizations:
                     Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetAssociatedOrganizations().OrderBy(y => y.OrganizationShortName).Select(y => y.GetShortNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);
@@ -286,7 +286,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var statusUpdateLabel = FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel();
             var sitkaAdminPersonIDs =
                 HttpRequestStorage.DatabaseEntities.AllPeople.Where(x =>
-                    x.RoleID == ProjectFirmaModels.Models.Role.SitkaAdmin.RoleID).Select(x => x.PersonID).ToList();
+                    x.RoleID == ProjectFirmaModels.Models.Role.ESAAdmin.RoleID).Select(x => x.PersonID).ToList();
 
             // Mandatory fields before
             AddMandatoryFieldsBefore(userHasTagManagePermissions, userHasReportDownloadPermissions, userHasDeletePermissionsAndShouldShowColumn, projectCustomGridTypeEnum);

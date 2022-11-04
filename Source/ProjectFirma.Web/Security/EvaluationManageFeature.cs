@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EvaluationManageFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="EvaluationManageFeature.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -31,7 +31,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Evaluation> _firmaFeatureWithContextImpl;
 
-        public EvaluationManageFeature(): base(new List<Role>{Role.Admin, Role.SitkaAdmin})
+        public EvaluationManageFeature(): base(new List<Role>{Role.Admin, Role.ESAAdmin})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Evaluation>(this);
             ActionFilter = _firmaFeatureWithContextImpl;

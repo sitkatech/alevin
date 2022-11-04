@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="UserEditFeature.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="UserEditFeature.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Security
     {
         private readonly FirmaFeatureWithContextImpl<Person> _firmaFeatureWithContextImpl;
 
-        public UserEditFeature() : base(new List<Role>() {Role.SitkaAdmin, Role.Admin, Role.ProjectSteward, Role.Normal})
+        public UserEditFeature() : base(new List<Role>() {Role.ESAAdmin, Role.Admin, Role.ProjectSteward, Role.Normal})
         {
             _firmaFeatureWithContextImpl = new FirmaFeatureWithContextImpl<Person>(this);
             ActionFilter = _firmaFeatureWithContextImpl;
@@ -64,7 +64,7 @@ namespace ProjectFirma.Web.Security
 
             var userHasEditPermission = !firmaSession.IsAnonymousUser() &&
                                         (firmaSession.Person.Role == Role.Admin ||
-                                         firmaSession.Person.Role == Role.SitkaAdmin);
+                                         firmaSession.Person.Role == Role.ESAAdmin);
             if (userViewingOwnPage || userHasEditPermission)
             {
                 return new PermissionCheckResult();

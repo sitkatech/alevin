@@ -1,7 +1,7 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectPerformanceMeasurePermissionsTest.cs" company="Tahoe Regional Planning Agency and Sitka Technology Group">
-Copyright (c) Tahoe Regional Planning Agency and Sitka Technology Group. All rights reserved.
-<author>Sitka Technology Group</author>
+<copyright file="ProjectPerformanceMeasurePermissionsTest.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+<author>Environmental Science Associates</author>
 </copyright>
 
 <license>
@@ -49,7 +49,7 @@ namespace ProjectFirmaModels.Models
             userAdmin.RoleID = Role.Admin.RoleID;
 
             var userSitkaAdmin = TestFramework.TestPerson.Create();
-            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+            userSitkaAdmin.RoleID = Role.ESAAdmin.RoleID;
 
             // Deferred Project
             // ----------------
@@ -251,7 +251,7 @@ namespace ProjectFirmaModels.Models
             userAdmin.RoleID = Role.Admin.RoleID;
 
             var userSitkaAdmin = TestFramework.TestPerson.Create();
-            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+            userSitkaAdmin.RoleID = Role.ESAAdmin.RoleID;
 
             // Planning/Design Project
             // ----------------
@@ -293,7 +293,7 @@ namespace ProjectFirmaModels.Models
             userAdmin.RoleID = Role.Admin.RoleID;
 
             var userSitkaAdmin = TestFramework.TestPerson.Create();
-            userSitkaAdmin.RoleID = Role.SitkaAdmin.RoleID;
+            userSitkaAdmin.RoleID = Role.ESAAdmin.RoleID;
 
             // Planning/Design Project
             // ----------------
