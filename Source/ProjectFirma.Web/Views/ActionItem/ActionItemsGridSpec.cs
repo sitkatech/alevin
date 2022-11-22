@@ -34,6 +34,7 @@ namespace ProjectFirma.Web.Views.ActionItem
         {
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => x.CreateNotificationMailToLink(), 30, DhtmlxGridColumnFilterType.None);
             Add($"{FieldDefinitionEnum.ActionItemText.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemText, 200, DhtmlxGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}", x => x.Project.GetDisplayNameAsUrl(), 150, DhtmlxGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.ActionItemAssignedToPerson.ToType().GetFieldDefinitionLabel()}", x => x.AssignedToPerson.GetFullNameFirstLastAsUrl(currentFirmaSession), 150, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);

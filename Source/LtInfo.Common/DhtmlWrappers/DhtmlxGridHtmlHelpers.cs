@@ -41,6 +41,7 @@ namespace LtInfo.Common.DhtmlWrappers
         public static readonly HtmlString EditIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x blue");
         public static readonly HtmlString DeleteIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash gi-1x blue");
         public static readonly HtmlString OkCircleIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIconWithHiddenText("glyphicon-ok-circle gi-1x blue", "Yes");
+        public static readonly HtmlString EmailIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-envelope gi-1x blue");
 
         public const string EditIcon = "<img src=\"/Content/img/bg-edit-single.png\" />";
         public const string DeleteIcon = "<img src=\"/Content/img/bg-delete-single.png\" />";

@@ -1,4 +1,6 @@
-﻿using LtInfo.Common;
+﻿using System;
+using System.Text;
+using LtInfo.Common;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
@@ -56,6 +58,25 @@ namespace ProjectFirma.Web.Models
                 ? "glyphicon-ok text-success"
                 : "glyphicon-remove text-danger";
             return new HtmlString($"<span title=\"{FieldDefinitionEnum.ActionItemState.ToType().FieldDefinitionDisplayName}\"><span class=\"glyphicon {glyphiconClass}\" aria-hidden=\"true\"></span> {actionItem.ActionItemState.ActionItemStateDisplayName}</span>");
+        }
+
+        public static HtmlString CreateNotificationMailToLink(this ActionItem actionItem)
+        {
+            var subjectText = HttpUtility.UrlPathEncode($"Action required on  {actionItem.Project.ProjectName}");
+            var mailTo = HttpUtility.UrlPathEncode(actionItem.AssignedToPerson.Email);
+            var body = $"Hi {actionItem.AssignedToPerson.GetFullNameFirstLast()}, \r\n\r\n";
+            body += $"{actionItem.ActionItemText}\r\n";
+            body += $"Due by Date: {actionItem.DueByDate.ToShortDateString()}\r\n\r\n";
+            var projectDetailLink = SitkaRoute<ProjectController>.BuildAbsoluteUrlFromExpression(x => x.Detail(actionItem.Project.PrimaryKey));
+            body += $"Project: {actionItem.Project.ProjectName}\r\n";
+            body += $"Link to Project: {projectDetailLink}\r\n\r\n";
+            body += $"Action Item State: {actionItem.ActionItemState.ActionItemStateDisplayName}\r\n";
+            body += $"Assigned On Date: {actionItem.AssignedOnDate.ToShortDateString()}\r\n";
+            body += $"Related Habitat Coordination Call Update: {actionItem.ProjectProjectStatus.GetDropdownDisplayName()}\r\n\r\n";
+            body += $"Thank You, \r\n\r\n";
+            var mailToLink = new HtmlString($"<a href=\"mailto:{mailTo}?subject={subjectText}&body={HttpUtility.UrlPathEncode(body)}\">{DhtmlxGridHtmlHelpers.EmailIconBootstrap}</a>");
+
+            return mailToLink;
         }
 
     }
