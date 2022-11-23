@@ -62,7 +62,7 @@ namespace ProjectFirma.Web.Models
 
         public static HtmlString CreateNotificationMailToLink(this ActionItem actionItem)
         {
-            var subjectText = HttpUtility.UrlPathEncode($"Action required on  {actionItem.Project.ProjectName}");
+            var subjectText = HttpUtility.UrlPathEncode($"Action required on: {actionItem.Project.ProjectName}");
             var mailTo = HttpUtility.UrlPathEncode(actionItem.AssignedToPerson.Email);
             var body = $"Hi {actionItem.AssignedToPerson.GetFullNameFirstLast()}, \r\n\r\n";
             body += $"{actionItem.ActionItemText}\r\n";
