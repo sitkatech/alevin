@@ -51,6 +51,9 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
         public ViewPageContentViewData GeospatialAreaDescriptionViewPageContentViewData { get; }
 
+        public int ColumnIndexForFilterOnLoad { get; }
+        public List<string> ProjectStagesToBeSelectedOnLoad { get; }
+
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.GeospatialArea geospatialArea, 
                             MapInitJson mapInitJson, LayerGeoJson projectLocationsLayerGeoJson, ViewGoogleChartViewData viewGoogleChartViewData, 
                             List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
@@ -75,6 +78,10 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             PerformanceMeasureChartViewDatas = performanceMeasures.Select(x=>geospatialArea.GetPerformanceMeasureChartViewData(x, currentFirmaSession)).ToList();
 
             GeospatialAreaDescriptionViewPageContentViewData = new ViewPageContentViewData(geospatialArea, currentFirmaSession);
+
+            ColumnIndexForFilterOnLoad = 6;
+            ProjectStagesToBeSelectedOnLoad = new List<string>() { ProjectStage.Proposal.ProjectStageDisplayName, ProjectStage.PlanningDesign.ProjectStageDisplayName, ProjectStage.Implementation.ProjectStageDisplayName, ProjectStage.PostImplementation.ProjectStageDisplayName };
+
         }
 
         
