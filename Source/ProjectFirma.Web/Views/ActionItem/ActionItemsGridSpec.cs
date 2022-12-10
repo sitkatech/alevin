@@ -30,6 +30,7 @@ namespace ProjectFirma.Web.Views.ActionItem
 {
     public class ActionItemsAdminGridSpec : GridSpec<ProjectFirmaModels.Models.ActionItem>
     {
+        public int IndexOfActionItemStateColumn = 7;
         public ActionItemsAdminGridSpec(FirmaSession currentFirmaSession)
         {
             Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, DhtmlxGridColumnFilterType.None);

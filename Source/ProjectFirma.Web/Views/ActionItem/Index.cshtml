@@ -36,3 +36,27 @@
 <div style="margin-top: 10px">
     @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
+
+
+<script type="text/javascript">
+
+
+    jQuery(document).ready(function()
+    {
+
+        var sitkaGridContainer = Sitka.@ViewDataTyped.GridName;
+        var dhtmlxGrid = sitkaGridContainer.grid;
+
+        dhtmlxGrid.attachEvent("onXLE", function () {
+
+            jQuery(dhtmlxGrid.getFilterElement(6)).selectpicker("val", "@ViewDataTyped.ActionItemStateToBeSelectedOnLoad");
+
+            dhtmlxGrid.filterByAll();
+        });
+
+
+
+    });
+
+
+</script>
