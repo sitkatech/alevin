@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -933,6 +933,10 @@
     <Compile Include="Models\Generated\SubprojectPerformanceMeasureExpectedSubcategoryOptionConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\SubprojectPerformanceMeasureExpectedSubcategoryOptionPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SubprojectPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\SubprojectProjectStatus.Binding.cs" />
+    <Compile Include="Models\Generated\SubprojectProjectStatus.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SubprojectProjectStatusConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\SubprojectProjectStatusPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SupportRequestLog.Binding.cs" />
     <Compile Include="Models\Generated\SupportRequestLog.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\SupportRequestLogConfiguration.Binding.cs" />

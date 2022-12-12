@@ -26,6 +26,7 @@ namespace ProjectFirmaModels.Models
         protected ProjectStatus()
         {
             this.ProjectProjectStatuses = new HashSet<ProjectProjectStatus>();
+            this.SubprojectProjectStatuses = new HashSet<SubprojectProjectStatus>();
         }
 
         /// <summary>
@@ -69,7 +70,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return ProjectProjectStatuses.Any();
+            return ProjectProjectStatuses.Any() || SubprojectProjectStatuses.Any();
         }
 
         /// <summary>
@@ -83,13 +84,18 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(ProjectProjectStatus).Name);
             }
+
+            if(SubprojectProjectStatuses.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectProjectStatus).Name);
+            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectStatus).Name, typeof(ProjectProjectStatus).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(ProjectStatus).Name, typeof(ProjectProjectStatus).Name, typeof(SubprojectProjectStatus).Name};
 
 
         /// <summary>
@@ -118,6 +124,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in SubprojectProjectStatuses.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -132,6 +143,7 @@ namespace ProjectFirmaModels.Models
         public int PrimaryKey { get { return ProjectStatusID; } set { ProjectStatusID = value; } }
 
         public virtual ICollection<ProjectProjectStatus> ProjectProjectStatuses { get; set; }
+        public virtual ICollection<SubprojectProjectStatus> SubprojectProjectStatuses { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
 
         public static class FieldLengths

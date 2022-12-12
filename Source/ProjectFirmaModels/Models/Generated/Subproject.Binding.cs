@@ -29,6 +29,7 @@ namespace ProjectFirmaModels.Models
             this.SubprojectNotes = new HashSet<SubprojectNote>();
             this.SubprojectPerformanceMeasureActuals = new HashSet<SubprojectPerformanceMeasureActual>();
             this.SubprojectPerformanceMeasureExpecteds = new HashSet<SubprojectPerformanceMeasureExpected>();
+            this.SubprojectProjectStatuses = new HashSet<SubprojectProjectStatus>();
         }
 
         /// <summary>
@@ -88,7 +89,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return SubprojectInternalNotes.Any() || SubprojectNotes.Any() || SubprojectPerformanceMeasureActuals.Any() || SubprojectPerformanceMeasureExpecteds.Any();
+            return SubprojectInternalNotes.Any() || SubprojectNotes.Any() || SubprojectPerformanceMeasureActuals.Any() || SubprojectPerformanceMeasureExpecteds.Any() || SubprojectProjectStatuses.Any();
         }
 
         /// <summary>
@@ -117,13 +118,18 @@ namespace ProjectFirmaModels.Models
             {
                 dependentObjects.Add(typeof(SubprojectPerformanceMeasureExpected).Name);
             }
+
+            if(SubprojectProjectStatuses.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectProjectStatus).Name);
+            }
             return dependentObjects.Distinct().ToList();
         }
 
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Subproject).Name, typeof(SubprojectInternalNote).Name, typeof(SubprojectNote).Name, typeof(SubprojectPerformanceMeasureActual).Name, typeof(SubprojectPerformanceMeasureExpected).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Subproject).Name, typeof(SubprojectInternalNote).Name, typeof(SubprojectNote).Name, typeof(SubprojectPerformanceMeasureActual).Name, typeof(SubprojectPerformanceMeasureExpected).Name, typeof(SubprojectProjectStatus).Name};
 
 
         /// <summary>
@@ -167,6 +173,11 @@ namespace ProjectFirmaModels.Models
             {
                 x.DeleteFull(dbContext);
             }
+
+            foreach(var x in SubprojectProjectStatuses.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
         }
 
         [Key]
@@ -185,6 +196,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<SubprojectNote> SubprojectNotes { get; set; }
         public virtual ICollection<SubprojectPerformanceMeasureActual> SubprojectPerformanceMeasureActuals { get; set; }
         public virtual ICollection<SubprojectPerformanceMeasureExpected> SubprojectPerformanceMeasureExpecteds { get; set; }
+        public virtual ICollection<SubprojectProjectStatus> SubprojectProjectStatuses { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
         public virtual Project Project { get; set; }
         public ProjectStage SubprojectStage { get { return ProjectStage.AllLookupDictionary[SubprojectStageID]; } }
