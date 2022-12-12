@@ -907,6 +907,10 @@
     <Compile Include="Models\Generated\SubbasinPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Subproject.Binding.cs" />
     <Compile Include="Models\Generated\Subproject.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SubprojectActionItem.Binding.cs" />
+    <Compile Include="Models\Generated\SubprojectActionItem.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\SubprojectActionItemConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\SubprojectActionItemPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\SubprojectConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\SubprojectInternalNote.Binding.cs" />
     <Compile Include="Models\Generated\SubprojectInternalNote.DatabaseContextExtensions.cs" />

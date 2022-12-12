@@ -25,6 +25,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         protected Subproject()
         {
+            this.SubprojectActionItems = new HashSet<SubprojectActionItem>();
             this.SubprojectInternalNotes = new HashSet<SubprojectInternalNote>();
             this.SubprojectNotes = new HashSet<SubprojectNote>();
             this.SubprojectPerformanceMeasureActuals = new HashSet<SubprojectPerformanceMeasureActual>();
@@ -89,7 +90,7 @@ namespace ProjectFirmaModels.Models
         /// <returns></returns>
         public bool HasDependentObjects()
         {
-            return SubprojectInternalNotes.Any() || SubprojectNotes.Any() || SubprojectPerformanceMeasureActuals.Any() || SubprojectPerformanceMeasureExpecteds.Any() || SubprojectProjectStatuses.Any();
+            return SubprojectActionItems.Any() || SubprojectInternalNotes.Any() || SubprojectNotes.Any() || SubprojectPerformanceMeasureActuals.Any() || SubprojectPerformanceMeasureExpecteds.Any() || SubprojectProjectStatuses.Any();
         }
 
         /// <summary>
@@ -99,6 +100,11 @@ namespace ProjectFirmaModels.Models
         {
             var dependentObjects = new List<string>();
             
+            if(SubprojectActionItems.Any())
+            {
+                dependentObjects.Add(typeof(SubprojectActionItem).Name);
+            }
+
             if(SubprojectInternalNotes.Any())
             {
                 dependentObjects.Add(typeof(SubprojectInternalNote).Name);
@@ -129,7 +135,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Dependent type names of this entity
         /// </summary>
-        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Subproject).Name, typeof(SubprojectInternalNote).Name, typeof(SubprojectNote).Name, typeof(SubprojectPerformanceMeasureActual).Name, typeof(SubprojectPerformanceMeasureExpected).Name, typeof(SubprojectProjectStatus).Name};
+        public static readonly List<string> DependentEntityTypeNames = new List<string> {typeof(Subproject).Name, typeof(SubprojectActionItem).Name, typeof(SubprojectInternalNote).Name, typeof(SubprojectNote).Name, typeof(SubprojectPerformanceMeasureActual).Name, typeof(SubprojectPerformanceMeasureExpected).Name, typeof(SubprojectProjectStatus).Name};
 
 
         /// <summary>
@@ -153,6 +159,11 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         public void DeleteChildren(DatabaseEntities dbContext)
         {
+
+            foreach(var x in SubprojectActionItems.ToList())
+            {
+                x.DeleteFull(dbContext);
+            }
 
             foreach(var x in SubprojectInternalNotes.ToList())
             {
@@ -192,6 +203,7 @@ namespace ProjectFirmaModels.Models
         [NotMapped]
         public int PrimaryKey { get { return SubprojectID; } set { SubprojectID = value; } }
 
+        public virtual ICollection<SubprojectActionItem> SubprojectActionItems { get; set; }
         public virtual ICollection<SubprojectInternalNote> SubprojectInternalNotes { get; set; }
         public virtual ICollection<SubprojectNote> SubprojectNotes { get; set; }
         public virtual ICollection<SubprojectPerformanceMeasureActual> SubprojectPerformanceMeasureActuals { get; set; }

@@ -195,6 +195,7 @@ namespace ProjectFirmaModels.Models
             modelBuilder.Configurations.Add(new StateProvinceConfiguration());
             modelBuilder.Configurations.Add(new SubbasinLiasonConfiguration());
             modelBuilder.Configurations.Add(new SubprojectConfiguration());
+            modelBuilder.Configurations.Add(new SubprojectActionItemConfiguration());
             modelBuilder.Configurations.Add(new SubprojectInternalNoteConfiguration());
             modelBuilder.Configurations.Add(new SubprojectNoteConfiguration());
             modelBuilder.Configurations.Add(new SubprojectPerformanceMeasureActualConfiguration());
@@ -616,6 +617,8 @@ namespace ProjectFirmaModels.Models
         public virtual DbSet<SubbasinLiason> AllSubbasinLiasons { get; set; }
         public virtual IQueryable<SubbasinLiason> SubbasinLiasons { get { return AllSubbasinLiasons.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<Subbasin> Subbasins { get; set; }
+        public virtual DbSet<SubprojectActionItem> AllSubprojectActionItems { get; set; }
+        public virtual IQueryable<SubprojectActionItem> SubprojectActionItems { get { return AllSubprojectActionItems.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SubprojectInternalNote> AllSubprojectInternalNotes { get; set; }
         public virtual IQueryable<SubprojectInternalNote> SubprojectInternalNotes { get { return AllSubprojectInternalNotes.Where(x => x.TenantID == TenantID); } }
         public virtual DbSet<SubprojectNote> AllSubprojectNotes { get; set; }
@@ -1501,6 +1504,9 @@ namespace ProjectFirmaModels.Models
 
                 case "Subbasin":
                     return Subbasins.GetSubbasin(primaryKey);
+
+                case "SubprojectActionItem":
+                    return SubprojectActionItems.GetSubprojectActionItem(primaryKey);
 
                 case "SubprojectInternalNote":
                     return SubprojectInternalNotes.GetSubprojectInternalNote(primaryKey);
