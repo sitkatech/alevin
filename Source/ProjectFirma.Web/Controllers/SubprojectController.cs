@@ -187,7 +187,7 @@ namespace ProjectFirma.Web.Controllers
             var performanceMeasureExpectedsSummaryViewData = new PerformanceMeasureExpectedSummaryViewData(new List<IPerformanceMeasureValue>(subproject.SubprojectPerformanceMeasureExpecteds.OrderBy(x => x.PerformanceMeasure.PerformanceMeasureSortOrder)));
             var performanceMeasureReportedValuesGroupedViewData = BuildPerformanceMeasureReportedValuesGroupedViewData(subproject);
             var editPerformanceMeasureExpectedsUrl = SitkaRoute<SubprojectPerformanceMeasureExpectedController>.BuildUrlFromExpression(c => c.EditPerformanceMeasureExpectedsForSubproject(subproject));
-            bool userHasEditSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
+            bool userHasManageSubprojectPermissions = new SubprojectManageFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
 
             bool performanceMeasureActualFromSubprojectManageFeature = new PerformanceMeasureActualFromSubprojectManageFeature().HasPermission(CurrentFirmaSession, subproject).HasPermission;
 
@@ -199,18 +199,18 @@ namespace ProjectFirma.Web.Controllers
                 EntityNote.CreateFromEntityNote(subproject.SubprojectNotes),
                 SitkaRoute<SubprojectNoteController>.BuildUrlFromExpression(x => x.New(subprojectPrimaryKey)),
                 subproject.GetDisplayName(),
-                userHasEditSubprojectPermissions);
+                userHasManageSubprojectPermissions);
             var internalNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(subproject.SubprojectInternalNotes),
                 SitkaRoute<SubprojectInternalNoteController>.BuildUrlFromExpression(x => x.New(subprojectPrimaryKey)),  //TODO: clone the ProjectNoteController to the ProjectInternalNoteController
                 subproject.GetDisplayName(),
-                userHasEditSubprojectPermissions);
+                userHasManageSubprojectPermissions);
 
             var viewData = new DetailViewData(CurrentFirmaSession,
                 subproject,
                 subprojectStages,
                 subprojectBasicsViewData,
-                userHasEditSubprojectPermissions,
+                userHasManageSubprojectPermissions,
                 editPerformanceMeasureExpectedsUrl,
                 editPerformanceMeasureActualsUrl,
                 performanceMeasureExpectedsSummaryViewData,

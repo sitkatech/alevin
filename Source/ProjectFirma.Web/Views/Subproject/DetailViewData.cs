@@ -41,7 +41,7 @@ namespace ProjectFirma.Web.Views.Subproject
 {
     public class DetailViewData : SubprojectViewData
     {
-        public bool UserHasEditSubprojectPermissions { get; }
+        public bool UserHasManageSubprojectPermissions { get; }
 
         public bool PerformanceMeasureActualFromSubprojectManageFeature { get; }
 
@@ -67,10 +67,11 @@ namespace ProjectFirma.Web.Views.Subproject
 
 
         public string UpdateStatusUrl { get; set; }
+
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Subproject subproject,
             List<ProjectStage> subprojectStages,
             SubprojectBasicsViewData subprojectBasicsViewData,
-            bool userHasEditSubprojectPermissions,
+            bool userHasManageSubprojectPermissions,
             string editPerformanceMeasureExpectedsUrl,
             string editPerformanceMeasureActualsUrl,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
@@ -84,7 +85,7 @@ namespace ProjectFirma.Web.Views.Subproject
                 SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(subproject.PrimaryKey));
 
             SubprojectStages = subprojectStages;
-            UserHasEditSubprojectPermissions = userHasEditSubprojectPermissions;
+            UserHasManageSubprojectPermissions = userHasManageSubprojectPermissions;
             var proposedSubprojectListUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.Detail(Subproject.Project.PrimaryKey)) + "#subprojects";
             SubprojectListUrl = proposedSubprojectListUrl;
             SubprojectBasicsViewData = subprojectBasicsViewData;

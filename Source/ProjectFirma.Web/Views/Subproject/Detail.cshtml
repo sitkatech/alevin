@@ -111,7 +111,7 @@
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
         <h3 class="subproject-detail-heading">
-            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubprojectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Subproject.SubprojectName), 950, ViewDataTyped.UserHasEditSubprojectPermissions)
+            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubprojectUrl, string.Format("Edit Basics for {0}", ViewDataTyped.Subproject.SubprojectName), 950, ViewDataTyped.UserHasManageSubprojectPermissions)
             Basics
         </h3>
     </div>
@@ -123,7 +123,7 @@
 
 <div class="panel panelFirma">
     <div class="panel-heading panelTitle">
-        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubprojectPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasEditSubprojectPermissions)
+        @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditSubprojectPerformanceMeasureExpectedsUrl, "Edit Expected " + MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), 1000, ViewDataTyped.UserHasManageSubprojectPermissions)
         <h3 class="project-detail-heading">
             Expected @MultiTenantHelpers.GetPerformanceMeasureNamePluralized()
         </h3>
@@ -160,12 +160,12 @@
         <h3>Notes</h3>
     </div>
     <div class="panel-body">
-        @if (ViewDataTyped.UserHasEditSubprojectPermissions)
+        @if (ViewDataTyped.UserHasManageSubprojectPermissions)
         {
             <strong>Public Notes</strong>
         }
         @{ EntityNotes.RenderPartialView(Html, ViewDataTyped.SubprojectNotesViewData); }
-        @if (ViewDataTyped.UserHasEditSubprojectPermissions)
+        @if (ViewDataTyped.UserHasManageSubprojectPermissions)
         {
             <hr />
             <strong>Internal Notes</strong>
@@ -173,3 +173,18 @@
         }
     </div>
 </div>
+
+@if (ViewDataTyped.UserHasManageSubprojectPermissions && MultiTenantHelpers.GetTenantAttributeFromCache().UseProjectTimeline)
+{
+    <h2 class="sectionHeader">Timeline</h2>
+    <div class="panel panelFirma">
+        <div class="panel-heading panelTitle">
+            <h3 class="project-detail-heading">
+                @FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel() History
+            </h3>
+        </div>
+        <div class="panel-body">
+            @*@{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }*@
+        </div>
+    </div>
+}
