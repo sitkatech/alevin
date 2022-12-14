@@ -17,14 +17,14 @@ namespace ProjectFirma.Web.Models
     {
         public Subproject Subproject { get; }
 
-        private List<IProjectTimelineEvent> TimelineEvents { get; }
+        private List<ITimelineEvent> TimelineEvents { get; }
         public const string DisplayClass = "open";
         public bool UsesFiscalYears { get; }
 
         public SubprojectTimeline(Subproject subproject, bool canEditSubprojectProjectStatus, bool canEditFinalStatusReport)
         {
             Subproject = subproject;
-            TimelineEvents = new List<IProjectTimelineEvent>();
+            TimelineEvents = new List<ITimelineEvent>();
             TimelineEvents.AddRange(GetTimelineProjectStatusChangeEvents(Subproject, canEditSubprojectProjectStatus, canEditFinalStatusReport));
             UsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
         }
 
         // this hopefully return some sort of grouped list for display
-        public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
+        public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, ITimelineEvent>>>> GetGroupedTimelineEvents()
         {
             var startDate = MultiTenantHelpers.GetStartDayOfFiscalYear();
             var startMonth = startDate.Month;
@@ -48,7 +48,7 @@ namespace ProjectFirma.Web.Models
             if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
             {
                 // do not show the right side (Status Update) events
-                timelineEvents = timelineEvents.Where(x => x.ProjectTimelineSide != ProjectTimelineSide.Right).ToList();
+                timelineEvents = timelineEvents.Where(x => x.ProjectTimelineSide != TimelineSide.Right).ToList();
             }
             var timelineEventsGrouped = timelineEvents
                 .OrderByDescending(a => a.Date)
@@ -148,17 +148,17 @@ namespace ProjectFirma.Web.Models
 
 
 
-    public class SubprojectTimelineProjectStatusChangeEvent : IProjectTimelineEvent
+    public class SubprojectTimelineProjectStatusChangeEvent : ITimelineEvent
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
         public int? FiscalYear { get; }
         public Quarter Quarter { get; }
-        public ProjectTimelineEventType ProjectTimelineEventType { get; }
+        public TimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public ProjectTimelineSide ProjectTimelineSide { get; }
+        public TimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString DeleteButton { get; }
@@ -173,10 +173,10 @@ namespace ProjectFirma.Web.Models
             DateDisplay = Date.ToString("MMM dd, yyyy");
             FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
             Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
-            ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
+            ProjectTimelineEventType = TimelineEventType.ProjectStatusChange;
             TimelineEventTypeDisplayName = subprojectProjectStatus.IsFinalStatusUpdate ? "Final Status Update" : "Status Updated";
             TimelineEventPersonDisplayName = new HtmlString(subprojectProjectStatus.SubprojectProjectStatusCreatePerson.GetFullNameFirstLast());
-            ProjectTimelineSide = ProjectTimelineSide.Right;
+            ProjectTimelineSide = TimelineSide.Right;
             EditButton = SubprojectTimeline.MakeProjectStatusEditLinkButton(subprojectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             DeleteButton = SubprojectTimeline.MakeProjectStatusDeleteLinkButton(subprojectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             Color = subprojectProjectStatus.ProjectStatus.ProjectStatusColor;

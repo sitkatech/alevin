@@ -17,14 +17,14 @@ namespace ProjectFirma.Web.Models
     {
         public Project Project { get; }
 
-        private List<IProjectTimelineEvent> TimelineEvents { get; }
+        private List<ITimelineEvent> TimelineEvents { get; }
         public const string DisplayClass = "open";
         public bool UsesFiscalYears { get; }
 
         public ProjectTimeline(Project project, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
         {
             Project = project;
-            TimelineEvents = new List<IProjectTimelineEvent>();
+            TimelineEvents = new List<ITimelineEvent>();
             AddProjectCreateEventToTimelineIfExists();
             AddProjectApprovalEventToTimelineIfExists();
             TimelineEvents.AddRange(GetTimelineUpdateEvents(Project));
@@ -77,7 +77,7 @@ namespace ProjectFirma.Web.Models
         }
 
         // this hopefully return some sort of grouped list for display
-        public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, IProjectTimelineEvent>>>> GetGroupedTimelineEvents()
+        public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, ITimelineEvent>>>> GetGroupedTimelineEvents()
         {
             var startDate = MultiTenantHelpers.GetStartDayOfFiscalYear();
             var startMonth = startDate.Month;
@@ -85,7 +85,7 @@ namespace ProjectFirma.Web.Models
             if (!MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
             {
                 // do not show the right side (Status Update) events
-                timelineEvents = timelineEvents.Where(x => x.ProjectTimelineSide != ProjectTimelineSide.Right).ToList();
+                timelineEvents = timelineEvents.Where(x => x.ProjectTimelineSide != TimelineSide.Right).ToList();
             }
             var timelineEventsGrouped = timelineEvents
                 .OrderByDescending(a => a.Date)
@@ -183,18 +183,18 @@ namespace ProjectFirma.Web.Models
     }
 
 
-    public class ProjectTimelineCreateEvent : IProjectTimelineEvent
+    public class ProjectTimelineCreateEvent : ITimelineEvent
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
         public int? FiscalYear { get; }
         public Quarter Quarter { get; }
      
-        public ProjectTimelineEventType ProjectTimelineEventType { get; }
+        public TimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public ProjectTimelineSide ProjectTimelineSide { get; }
+        public TimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString DeleteButton { get; }
@@ -213,10 +213,10 @@ namespace ProjectFirma.Web.Models
             DateDisplay = Date.ToString("MMM dd, yyyy");
             FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
             Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
-            ProjectTimelineEventType = ProjectTimelineEventType.Create;
+            ProjectTimelineEventType = TimelineEventType.Create;
             TimelineEventTypeDisplayName = "Created";
             TimelineEventPersonDisplayName = project.ProposingPerson.GetPersonDisplayNameWithContactTypesListForProject(project);
-            ProjectTimelineSide = ProjectTimelineSide.Left;
+            ProjectTimelineSide = TimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
@@ -226,17 +226,17 @@ namespace ProjectFirma.Web.Models
     }
 
 
-    public class ProjectTimelineProjectStatusChangeEvent : IProjectTimelineEvent
+    public class ProjectTimelineProjectStatusChangeEvent : ITimelineEvent
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
         public int? FiscalYear { get; }
         public Quarter Quarter { get; }
-        public ProjectTimelineEventType ProjectTimelineEventType { get; }
+        public TimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public ProjectTimelineSide ProjectTimelineSide { get; }
+        public TimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString DeleteButton { get; }
@@ -251,10 +251,10 @@ namespace ProjectFirma.Web.Models
             DateDisplay = Date.ToString("MMM dd, yyyy");
             FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
             Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
-            ProjectTimelineEventType = ProjectTimelineEventType.ProjectStatusChange;
+            ProjectTimelineEventType = TimelineEventType.ProjectStatusChange;
             TimelineEventTypeDisplayName = projectProjectStatus.IsFinalStatusUpdate ? "Final Status Update" : "Status Updated";
             TimelineEventPersonDisplayName = projectProjectStatus.ProjectProjectStatusCreatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectProjectStatus.Project);
-            ProjectTimelineSide = ProjectTimelineSide.Right;
+            ProjectTimelineSide = TimelineSide.Right;
             EditButton = ProjectTimeline.MakeProjectStatusEditLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             DeleteButton = ProjectTimeline.MakeProjectStatusDeleteLinkButton(projectProjectStatus, canEditProjectProjectStatus, canEditFinalStatusReport);
             Color = projectProjectStatus.ProjectStatus.ProjectStatusColor;
@@ -265,17 +265,17 @@ namespace ProjectFirma.Web.Models
         }
     }
 
-    public class ProjectTimelineApprovalEvent : IProjectTimelineEvent
+    public class ProjectTimelineApprovalEvent : ITimelineEvent
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
         public Quarter Quarter { get; }
         public int? FiscalYear { get; }
-        public ProjectTimelineEventType ProjectTimelineEventType { get; }
+        public TimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public ProjectTimelineSide ProjectTimelineSide { get; }
+        public TimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString DeleteButton { get; }
@@ -293,10 +293,10 @@ namespace ProjectFirma.Web.Models
             DateDisplay = Date.ToString("MMM dd, yyyy");
             FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
             Quarter = (Quarter)FirmaDateUtilities.CalculateQuarterForTenant(Date);
-            ProjectTimelineEventType = ProjectTimelineEventType.Approve;
+            ProjectTimelineEventType = TimelineEventType.Approve;
             TimelineEventTypeDisplayName = "Approved";
             TimelineEventPersonDisplayName = project.ReviewedByPerson?.GetPersonDisplayNameWithContactTypesListForProject(project);
-            ProjectTimelineSide = ProjectTimelineSide.Left;
+            ProjectTimelineSide = TimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = new HtmlString(string.Empty);
@@ -306,17 +306,17 @@ namespace ProjectFirma.Web.Models
 
     }
 
-    public class ProjectTimelineUpdateEvent : IProjectTimelineEvent
+    public class ProjectTimelineUpdateEvent : ITimelineEvent
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
         public int? FiscalYear { get; }
         public Quarter Quarter { get; }
-        public ProjectTimelineEventType ProjectTimelineEventType { get; }
+        public TimelineEventType ProjectTimelineEventType { get; }
         public string TimelineEventTypeDisplayName { get; }
         public HtmlString TimelineEventPersonDisplayName { get; }
         public string TimelineDetailsLink { get; }
-        public ProjectTimelineSide ProjectTimelineSide { get; }
+        public TimelineSide ProjectTimelineSide { get; }
         public string Color { get; }
         public HtmlString EditButton { get; }
         public HtmlString DeleteButton { get; }
@@ -332,10 +332,10 @@ namespace ProjectFirma.Web.Models
             DateDisplay = Date.ToString("MMM dd, yyyy");
             FiscalYear = FirmaDateUtilities.CalculateFiscalYearForTenant(Date);
             Quarter = (Quarter) FirmaDateUtilities.CalculateQuarterForTenant(Date);
-            ProjectTimelineEventType = ProjectTimelineEventType.Update;
+            ProjectTimelineEventType = TimelineEventType.Update;
             TimelineEventTypeDisplayName = "Update";
             TimelineEventPersonDisplayName = approvedProjectUpdateHistory.UpdatePerson.GetPersonDisplayNameWithContactTypesListForProject(projectUpdateBatch.Project);
-            ProjectTimelineSide = ProjectTimelineSide.Left;
+            ProjectTimelineSide = TimelineSide.Left;
             EditButton = new HtmlString(string.Empty);
             DeleteButton = new HtmlString(string.Empty);
             ShowDetailsLinkHtmlString = ProjectTimeline.MakeProjectUpdateDetailsLinkButton(projectUpdateBatch);
@@ -346,17 +346,17 @@ namespace ProjectFirma.Web.Models
 
 
 
-    public interface IProjectTimelineEvent
+    public interface ITimelineEvent
     {
         DateTime Date { get; }
         string DateDisplay { get; }
         int? FiscalYear { get; }
         Quarter Quarter { get; }
-        ProjectTimelineEventType ProjectTimelineEventType { get; }
+        TimelineEventType ProjectTimelineEventType { get; }
         string TimelineEventTypeDisplayName { get; }
         HtmlString TimelineEventPersonDisplayName { get; }
         string TimelineDetailsLink { get; }
-        ProjectTimelineSide ProjectTimelineSide { get; }
+        TimelineSide ProjectTimelineSide { get; }
         string Color { get; }
         HtmlString EditButton { get; }
         HtmlString DeleteButton { get; }
@@ -365,7 +365,7 @@ namespace ProjectFirma.Web.Models
         HtmlString AddActionItemLinkHtmlString { get; }
     }
 
-    public enum ProjectTimelineEventType
+    public enum TimelineEventType
     {
         Create,
         Approve,
@@ -373,7 +373,7 @@ namespace ProjectFirma.Web.Models
         ProjectStatusChange
     }
 
-    public enum ProjectTimelineSide
+    public enum TimelineSide
     {
         Left,
         Right
