@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="ProjectTimelineDisplayViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="SubprojectTimelineDisplayViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -23,12 +23,13 @@ using System.Web;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectTimeline
+namespace ProjectFirma.Web.Views.Shared.SubprojectTimeline
 {
-    public class ProjectTimelineDisplayViewData : FirmaUserControlViewData
+    public class SubprojectTimelineDisplayViewData : FirmaUserControlViewData
     {
-        public Models.ProjectTimeline ProjectTimeline { get; }
+        public Models.SubprojectTimeline SubprojectTimeline { get; }
 
         public HtmlString AddProjectProjectStatusButton { get; }
         public bool UserHasProjectStatusUpdatePermissions { get; }
@@ -36,11 +37,11 @@ namespace ProjectFirma.Web.Views.Shared.ProjectTimeline
         public ProjectStatusLegendDisplayViewData ProjectStatusLegendDisplayViewData { get; }
         public ProjectFirmaModels.Models.ProjectStatus CurrentProjectStatus { get; }
 
-        public ProjectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,
-            Models.ProjectTimeline projectTimeline, bool userHasProjectStatusUpdatePermissions,
+        public SubprojectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,
+            Models.SubprojectTimeline projectTimeline, bool userHasProjectStatusUpdatePermissions,
             ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData)
         {
-            ProjectTimeline = projectTimeline;
+            SubprojectTimeline = projectTimeline;
             UserHasProjectStatusUpdatePermissions = userHasProjectStatusUpdatePermissions && MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates;
             var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
             AddProjectProjectStatusButton =
