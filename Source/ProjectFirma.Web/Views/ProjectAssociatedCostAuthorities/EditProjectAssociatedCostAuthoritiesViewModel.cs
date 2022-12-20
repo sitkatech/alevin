@@ -23,8 +23,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Data.Entity;
 using System.Linq;
+using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 
@@ -67,6 +69,9 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
                 {
                     project.OverrideTaxonomyLeafID = null;
                 }
+            }else if (SelectedCostAuthorityIDs == null && !project.OverrideTaxonomyLeafID.HasValue)
+            {
+                project.OverrideTaxonomyLeafID = 2680; // 12/12/2022 TK - need to set the Taxonomy Leaf ID override to a value otherwise the project pages will crash. 2680 = unknown
             }
 
             // Awkward hack: To get around the only-one-primary-CAWBS constraint, we need to clear any
@@ -98,7 +103,14 @@ namespace ProjectFirma.Web.Views.ProjectAssociatedCostAuthorities
         public IEnumerable<ValidationResult> GetValidationResults()
         {
             var errors = new List<ValidationResult>();
-            
+
+            if (SelectedCostAuthorityIDs != null && SelectedCostAuthorityIDs.Any() && !PrimaryCostAuthorityID.HasValue)
+            {
+                errors.Add(new SitkaValidationResult<EditProjectAssociatedCostAuthoritiesViewModel, int?>(
+                    $"You must select a {FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().FieldDefinitionDisplayName}.",
+                    x => x.PrimaryCostAuthorityID));
+            }
+
             return errors;
         }
     }
