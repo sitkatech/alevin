@@ -1,0 +1,299 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="EditSubprojectProjectStatus.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Web.Mvc.Html
+@using LtInfo.Common.HtmlHelperExtensions
+@using Newtonsoft.Json
+@using Newtonsoft.Json.Linq
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.SubprojectProjectStatus.EditSubprojectProjectStatus
+
+<style>
+    .deleteSubprojectProjectStatusRow .btn-firma .glyphicon {
+        color: white;
+    }
+    .deleteSubprojectProjectStatusRow .btn-firma {
+        margin-left: 15px;
+    }
+</style>
+
+<script type="text/javascript">
+    angular.module("ProjectFirmaApp").controller('timepickerController', function ($scope, $log) {
+
+        @{ string mytime = Model.ProjectStatusUpdateDate.HasValue ? string.Format("$scope.mytime = new Date({0}, {1}, {2}, {3}, {4}, {5});", Model.ProjectStatusUpdateDate.Value.Year, Model.ProjectStatusUpdateDate.Value.Month, Model.ProjectStatusUpdateDate.Value.Day, Model.ProjectStatusUpdateDate.Value.Hour, Model.ProjectStatusUpdateDate.Value.Minute, Model.ProjectStatusUpdateDate.Value.Second) : "$scope.mytime = new Date();"; }
+
+        @mytime
+        
+        $scope.hstep = 1;
+        $scope.mstep = 1;
+
+        $scope.options = {
+            hstep: [1, 2, 3],
+            mstep: [1, 5, 10, 15, 25, 30]
+        };
+
+        $scope.ismeridian = true;
+        $scope.toggleMode = function() {
+            $scope.ismeridian = ! $scope.ismeridian;
+        };
+
+        $scope.update = function() {
+            var d = new Date();
+            d.setHours( 14 );
+            d.setMinutes( 0 );
+            $scope.mytime = d;
+        };
+
+        $scope.changed = function () {
+            $log.log('Time changed to: ' + $scope.mytime);
+        };
+
+        $scope.clear = function() {
+            $scope.mytime = null;
+        };
+    });
+</script>
+
+<div class="validationError">
+    @Html.ValidationSummary()
+</div>
+
+@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ProjectStatusFirmaPage); }
+@using (Html.BeginForm())
+{
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        <label>
+                            @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusUpdateCreatedBy.ToType())
+                        </label>
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.CreatedByPerson
+                    </div>
+                </div>
+
+                <div class="form-group" style="display: flex;">
+                    <div class="col-sm-4 control-label" style="display: flex; flex-direction: column; justify-content: center;">
+                        @Html.LabelWithSugarFor(x => x.ProjectStatusUpdateDate)
+                    </div>
+                    <div class="col-sm-8">
+                        @if (ViewDataTyped.AllowEditUpdateDate)
+                        {
+                            <div class="row" style="display: flex;">
+                                <div class="col-sm-6" style="display: flex; flex-direction: column; justify-content: center;">
+                                    @Html.EditorFor(m => m.ProjectStatusUpdateDate, new { @class = "form-control" })
+                                </div>
+                                <div class="col-sm-6" style="display: flex; flex-direction: column; justify-content: center;">
+                                    
+                                    <div ng-app="ProjectFirmaApp" ng-controller="timepickerController" id="TimePicker">
+                                        <timepicker ng-model="mytime" ng-change="changed()" hour-step="hstep" minute-step="mstep" show-meridian="ismeridian"></timepicker>
+                                        <input type="hidden" name="ProjectStatusUpdateTime" ng-value="mytime | date:'HH:mm:ss a'" />
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            @Html.HiddenFor(m => m.ProjectStatusUpdateDate)
+                            <input type="text" class="form-control" value="@DateTime.Now.ToString()" readonly/>
+                        }
+                        @Html.ValidationMessageFor(m => m.ProjectStatusUpdateDate)
+                    </div>
+                </div>
+
+                @if (ViewDataTyped.AllowEditFinal)
+                {
+                    <div class="form-group" id="finalStatusUpdateSection">
+                        <div class="col-sm-4 control-label">
+                            @Html.LabelWithSugarFor(x => x.IsFinalStatusUpdate)
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="col-xs-12 col-sm-9">
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusUpdate, true) Yes
+                                    </label>
+                                </div>
+                                <div class="radio-inline">
+                                    <label>
+                                        @Html.RadioButtonFor(m => m.IsFinalStatusUpdate, false) No
+                                    </label>
+                                </div>
+                            </div>
+                            @Html.ValidationMessageFor(m => m.IsFinalStatusUpdate)
+                        </div>
+                    </div>
+                }
+                @if (!ViewDataTyped.AllowEditFinal)
+                {
+                    @Html.HiddenFor(m => m.IsFinalStatusUpdate);
+                }
+
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(m => m.ProjectStatusID)
+                    </div>
+                    <div class="col-sm-8">
+                        @Html.DropDownListFor(m => m.ProjectStatusID, ViewDataTyped.ProjectStatuses, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(m => m.ProjectStatusID)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SubprojectProjectStatusRecentActivities)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.SubprojectProjectStatusRecentActivities, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.SubprojectProjectStatusRecentActivities)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SubprojectProjectStatusUpcomingActivities)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.SubprojectProjectStatusUpcomingActivities, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.SubprojectProjectStatusUpcomingActivities)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SubprojectProjectStatusRisksOrIssues)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.SubprojectProjectStatusRisksOrIssues, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.SubprojectProjectStatusRisksOrIssues)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.SubprojectProjectStatusComment)</div>
+                    <div class="col-sm-8">
+                        @Html.TextAreaWithMaxLengthFor(m => m.SubprojectProjectStatusComment, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                        @Html.ValidationMessageFor(m => m.SubprojectProjectStatusComment)
+                    </div>
+                </div>
+
+
+                @if (ViewDataTyped.AllowEditFinal)
+                {
+                    <div class="form-group" id="lessonsLearnedDiv">
+                        <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(m => m.LessonsLearned, true)</div>
+                        <div class="col-sm-8">
+                            @Html.TextAreaWithMaxLengthFor(m => m.LessonsLearned, new TextAreaForExtensions.TextAreaDimensions(null, 4), null, new List<string> { "form-control" })
+                            @Html.ValidationMessageFor(m => m.LessonsLearned)
+                        </div>
+                    </div>
+                }
+                @if (!ViewDataTyped.AllowEditFinal)
+                {
+                    @Html.HiddenFor(m => m.LessonsLearned);
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<script type="text/javascript">
+    jQuery(document).ready(function() {
+        var projectStatuses = @Html.Raw(JObject.FromObject(ViewDataTyped.ProjectStatusJsonList.ProjectStatusJsons).ToString(Formatting.None));
+        var projectStatusInput = jQuery("#@Html.IdFor(m => m.ProjectStatusID)");
+        var projectStatusInputElement = document.getElementById("@Html.IdFor(m => m.ProjectStatusID)");
+        var defaultColorOfDropdownText = window.getComputedStyle(projectStatusInputElement, null).getPropertyValue("color");
+
+        function mapOptionToColor(optionVal) {
+            return projectStatuses[optionVal].Color;
+        }
+
+        jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]').change(function () {
+            var value = false;
+
+            if (this.value == 'True') {
+                value = true;
+            }
+
+            if (value) {
+                jQuery('#lessonsLearnedDiv').show();
+                jQuery('#lessonsLearnedDiv :input').attr("required", true);
+            } else {
+                jQuery('#lessonsLearnedDiv').hide();
+                jQuery('#lessonsLearnedDiv :input').attr("required", false);
+            }
+
+        });
+
+        var radio = jQuery('input[type=radio][name=@Html.NameFor(m => m.IsFinalStatusUpdate)]');
+        //console.log(radio);
+        var value = false;
+        radio.each(function () {
+            var textVal = jQuery(this).val();
+            if ( textVal== 'True' && jQuery(this).prop('checked')) {
+                value = true;
+            }
+        });
+        //console.log(value);
+
+        if (value) {
+            jQuery('#lessonsLearnedDiv').show();
+            jQuery('#lessonsLearnedDiv :input').attr("required", true);
+        } else {
+            jQuery('#lessonsLearnedDiv').hide();
+            jQuery('#lessonsLearnedDiv :input').attr("required", false);
+        }
+
+        jQuery('select#@Html.IdFor(m => m.ProjectStatusID) option').each(function () {
+            var option = jQuery(this);
+            if (projectStatuses[option.val()] !== undefined) {
+                option.css(
+                    'color',
+                    mapOptionToColor(option.val())
+                );
+            }
+            else {
+                option.css('color', defaultColorOfDropdownText);
+
+            }
+        });
+
+        function setColorOfStatusDropdown() {
+            var projectStatusId = projectStatusInput.val();
+            if (projectStatusId !== undefined && projectStatusId != '' && projectStatusId != null) {
+                projectStatusInput.css('color', mapOptionToColor(projectStatusId));
+            }
+            else {
+                projectStatusInput.css('color', defaultColorOfDropdownText);
+            }
+        }
+
+        projectStatusInput.change(function() {
+            setColorOfStatusDropdown();
+        });
+
+        setColorOfStatusDropdown();
+
+        angular.bootstrap(jQuery("#TimePicker"), ["ProjectFirmaApp"]);
+
+    });
+</script>

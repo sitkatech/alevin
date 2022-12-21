@@ -31,23 +31,23 @@ namespace ProjectFirma.Web.Views.Shared.SubprojectTimeline
     {
         public Models.SubprojectTimeline SubprojectTimeline { get; }
 
-        public HtmlString AddProjectProjectStatusButton { get; }
+        public HtmlString AddSubprojectProjectStatusButton { get; }
         public bool UserHasProjectStatusUpdatePermissions { get; }
 
         public ProjectStatusLegendDisplayViewData ProjectStatusLegendDisplayViewData { get; }
         public ProjectFirmaModels.Models.ProjectStatus CurrentProjectStatus { get; }
 
-        public SubprojectTimelineDisplayViewData(ProjectFirmaModels.Models.Project project,
-            Models.SubprojectTimeline projectTimeline, bool userHasProjectStatusUpdatePermissions,
+        public SubprojectTimelineDisplayViewData(ProjectFirmaModels.Models.Subproject subproject,
+            Models.SubprojectTimeline subprojectTimeline, bool userHasProjectStatusUpdatePermissions,
             ProjectStatusLegendDisplayViewData projectStatusLegendDisplayViewData)
         {
-            SubprojectTimeline = projectTimeline;
+            SubprojectTimeline = subprojectTimeline;
             UserHasProjectStatusUpdatePermissions = userHasProjectStatusUpdatePermissions && MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates;
-            var updateStatusUrl = SitkaRoute<ProjectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(project));
-            AddProjectProjectStatusButton =
+            var updateStatusUrl = SitkaRoute<SubprojectProjectStatusController>.BuildUrlFromExpression(tc => tc.New(subproject));
+            AddSubprojectProjectStatusButton =
                 ModalDialogFormHelper.MakeNewIconButton(updateStatusUrl, "Update Status", true);
             ProjectStatusLegendDisplayViewData = projectStatusLegendDisplayViewData;
-            CurrentProjectStatus = project.GetCurrentProjectStatus();
+            CurrentProjectStatus = subproject.GetCurrentSubprojectStatus();
         }
     }
 }

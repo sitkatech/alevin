@@ -80,6 +80,7 @@
     <Compile Include="Controllers\ObligationRequestSubmissionNotesController.cs" />
     <Compile Include="Controllers\PnBudgetController.cs" />
     <Compile Include="Controllers\SubprojectPerformanceMeasureExpectedController.cs" />
+    <Compile Include="Controllers\SubprojectProjectStatusController.cs" />
     <Compile Include="Controllers\VendorController.cs" />
     <Compile Include="Controllers\ProjectAssociatedCostAuthoritiesController.cs" />
     <Compile Include="Controllers\CostAuthorityController.cs" />
@@ -355,6 +356,12 @@
     <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\SubprojectProjectStatus\EditSubprojectProjectStatus.cs" />
+    <Compile Include="Views\SubprojectProjectStatus\EditProjectProjectStatusViewData.cs" />
+    <Compile Include="Views\SubprojectProjectStatus\EditSubprojectProjectStatusViewModel.cs" />
+    <Compile Include="Views\SubprojectProjectStatus\EditSubprojectProjectStatusViewData.cs" />
+    <Compile Include="Views\SubprojectProjectStatus\SubprojectProjectStatusDetails.cs" />
+    <Compile Include="Views\SubprojectProjectStatus\SubprojectProjectStatusDetailsViewData.cs" />
     <Compile Include="Views\Shared\SubprojectTimeline\SubprojectTimelineDisplay.cs" />
     <Compile Include="Views\Shared\SubprojectTimeline\SubprojectTimelineDisplayViewData.cs" />
     <Compile Include="Views\Subproject\Detail.cs" />
@@ -1243,6 +1250,8 @@
     <Content Include="Views\ProjectFinder\ProjectFinderOrganization.cshtml" />
     <Content Include="Views\ProjectUpdate\EditProposalClassifications.cshtml" />
     <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeContainer.cshtml" />
+    <Content Include="Views\SubprojectProjectStatus\EditSubprojectProjectStatus.cshtml" />
+    <Content Include="Views\SubprojectProjectStatus\SubprojectProjectStatusDetails.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewModel.cs" />

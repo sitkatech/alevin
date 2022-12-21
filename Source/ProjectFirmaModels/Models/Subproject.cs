@@ -1,4 +1,6 @@
-﻿namespace ProjectFirmaModels.Models
+﻿using System.Linq;
+
+namespace ProjectFirmaModels.Models
 {
     public partial class Subproject : IAuditableEntity
     {
@@ -10,6 +12,11 @@
         public bool IsProposal()
         {
             return SubprojectStage == ProjectStage.Proposal;
+        }
+
+        public ProjectStatus GetCurrentSubprojectStatus()
+        {
+            return SubprojectProjectStatuses.OrderBy(x => x.SubprojectProjectStatusUpdateDate).ThenBy(x => x.SubprojectProjectStatusID).LastOrDefault()?.ProjectStatus;
         }
     }
 }

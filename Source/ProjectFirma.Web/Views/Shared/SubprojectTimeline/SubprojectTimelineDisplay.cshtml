@@ -54,7 +54,7 @@
         <div class="col-md-12">
             @if (ViewDataTyped.UserHasProjectStatusUpdatePermissions)
             {
-                <span class="pull-right"> @ViewDataTyped.AddProjectProjectStatusButton</span>
+                <span class="pull-right"> @ViewDataTyped.AddSubprojectProjectStatusButton</span>
                 if (ViewDataTyped.CurrentProjectStatus != null)
                 {
                     <span class="pull-left"><h4 style="border-right:20px solid @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor; padding-right: 10px;">Current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Status: <span style="color: @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor;"> @ViewDataTyped.CurrentProjectStatus.ProjectStatusDisplayName</span></h4> </span>

@@ -18,11 +18,11 @@ namespace ProjectFirma.Web.Models
         //    return EditSubprojectProjectStatusUrlTemplate.ParameterReplace(subprojectProjectStatus.SubprojectID, subprojectProjectStatus.SubprojectProjectStatusID);
         //}
 
-        //public static readonly UrlTemplate<int, int> DeleteSubprojectProjectStatusUrlTemplate = new UrlTemplate<int, int>(SitkaRoute<SubprojectProjectStatusController>.BuildUrlFromExpression(t => t.DeleteSubprojectProjectStatus(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int)));
-        //public static string GetDeleteSubprojectProjectStatusUrl(this SubprojectProjectStatus subprojectProjectStatus)
-        //{
-        //    return DeleteSubprojectProjectStatusUrlTemplate.ParameterReplace(subprojectProjectStatus.SubprojectID, subprojectProjectStatus.SubprojectProjectStatusID);
-        //}
+        public static readonly UrlTemplate<int, int> DeleteSubprojectProjectStatusUrlTemplate = new UrlTemplate<int, int>(SitkaRoute<SubprojectProjectStatusController>.BuildUrlFromExpression(t => t.DeleteSubprojectProjectStatus(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int)));
+        public static string GetDeleteSubprojectProjectStatusUrl(this SubprojectProjectStatus subprojectProjectStatus)
+        {
+            return DeleteSubprojectProjectStatusUrlTemplate.ParameterReplace(subprojectProjectStatus.SubprojectID, subprojectProjectStatus.SubprojectProjectStatusID);
+        }
 
         //public static readonly UrlTemplate<int, int> SubprojectProjectStatusDetailsUrlTemplate = new UrlTemplate<int, int>(SitkaRoute<SubprojectProjectStatusController>.BuildUrlFromExpression(t => t.Details(UrlTemplate.Parameter1Int, UrlTemplate.Parameter2Int)));
         //public static string GetSubprojectProjectStatusDetailsUrl(this SubprojectProjectStatus subprojectProjectStatus)

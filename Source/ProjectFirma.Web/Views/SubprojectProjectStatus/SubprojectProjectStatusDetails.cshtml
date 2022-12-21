@@ -1,0 +1,125 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="SubprojectProjectStatusDetails.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using LtInfo.Common
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirmaModels.Models
+@inherits ProjectFirma.Web.Views.SubprojectProjectStatus.SubprojectProjectStatusDetails
+<div class="row">
+    <div class="col-xs-12">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusUpdateCreatedBy.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusCreatePerson.GetFullNameFirstLast()
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusUpdateDate.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusUpdateDate.ToStringDate()
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.Status.ToType())
+                </div>
+                <div class="col-sm-8" style="color: @(ViewDataTyped.SubprojectProjectStatus.ProjectStatus.ProjectStatusColor);">
+                    @ViewDataTyped.SubprojectProjectStatus.ProjectStatus.ProjectStatusDisplayName
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusRecentActivities.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusRecentActivities
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusUpcomingActivities.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusUpcomingActivities
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusRisksOrIssues.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusRisksOrIssues
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusComments.ToType())
+                </div>
+                <div class="col-sm-8">
+                    @ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusComment
+                </div>
+            </div>
+
+            @if (ViewDataTyped.SubprojectProjectStatus.IsFinalStatusUpdate)
+            {
+                <div class="form-group">
+                    <div class="col-sm-4 control-label">
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusLessonsLearned.ToType())
+                    </div>
+                    <div class="col-sm-8">
+                        @ViewDataTyped.SubprojectProjectStatus.LessonsLearned
+                    </div>
+                </div>
+            }
+
+            <div class="form-group" style="@(ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusLastEditedPerson != null ? string.Empty : "display: none;")">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelForModel(FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited By")
+                </div>
+                <div class="col-sm-8">
+                    @(ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusLastEditedPerson != null ? ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusLastEditedPerson.GetFullNameFirstLast() : string.Empty)
+                </div>
+            </div>
+
+            <div class="form-group" style="@(ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusLastEditedDate.HasValue ? string.Empty : "display: none;")">
+                <div class="col-sm-4 control-label">
+                    @Html.LabelForModel(FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel() + " Edited on")
+                </div>
+                <div class="col-sm-8">
+                    @(ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusLastEditedDate.HasValue ? ViewDataTyped.SubprojectProjectStatus.SubprojectProjectStatusLastEditedDate.ToStringDate() : string.Empty)
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

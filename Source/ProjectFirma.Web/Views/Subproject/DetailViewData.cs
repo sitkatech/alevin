@@ -102,7 +102,7 @@ namespace ProjectFirma.Web.Views.Subproject
             PerformanceMeasureActualFromSubprojectManageFeature = performanceMeasureActualFromSubprojectManageFeature;
             var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
             var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
-            SubprojectTimelineDisplayViewData = new SubprojectTimelineDisplayViewData(subproject.Project,
+            SubprojectTimelineDisplayViewData = new SubprojectTimelineDisplayViewData(subproject,
                 new SubprojectTimeline(subproject, userHasManageSubprojectPermissions,
                     userHasManageSubprojectPermissions), userHasManageSubprojectPermissions,
                 projectStatusLegendDisplayViewData);
