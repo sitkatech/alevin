@@ -31,6 +31,7 @@
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.Shared.PerformanceMeasureControls
+@using ProjectFirma.Web.Views.Shared.SubprojectTimeline
 @using ProjectFirma.Web.Views.Shared.TextControls
 @using ProjectFirma.Web.Views.Subproject
 @inherits ProjectFirma.Web.Views.Subproject.Detail
@@ -184,7 +185,7 @@
             </h3>
         </div>
         <div class="panel-body">
-            @{ ProjectTimeline.RenderPartialView(Html, ViewDataTyped.ProjectTimelineDisplayViewData); }
+            @{ SubprojectTimelineDisplay.RenderPartialView(Html, ViewDataTyped.SubprojectTimelineDisplayViewData); }
         </div>
     </div>
 }

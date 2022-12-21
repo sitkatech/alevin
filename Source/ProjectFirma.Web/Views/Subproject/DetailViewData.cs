@@ -35,6 +35,8 @@ using System.Linq;
 using System.Web;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
+using ProjectFirma.Web.Views.Shared.SubprojectTimeline;
 
 
 namespace ProjectFirma.Web.Views.Subproject
@@ -64,6 +66,8 @@ namespace ProjectFirma.Web.Views.Subproject
         public List<ProjectStage> SubprojectStages { get; }
 
         public string SubprojectListUrl { get; }
+
+        public SubprojectTimelineDisplayViewData SubprojectTimelineDisplayViewData { get; }
 
 
         public string UpdateStatusUrl { get; set; }
@@ -96,6 +100,12 @@ namespace ProjectFirma.Web.Views.Subproject
             SubprojectNotesViewData = subprojectNotesViewData;
             InternalNotesViewData = internalNotesViewData;
             PerformanceMeasureActualFromSubprojectManageFeature = performanceMeasureActualFromSubprojectManageFeature;
+            var projectStatusesForLegend = HttpRequestStorage.DatabaseEntities.ProjectStatuses.OrderBy(ps => ps.ProjectStatusSortOrder).ToList();
+            var projectStatusLegendDisplayViewData = new ProjectStatusLegendDisplayViewData(projectStatusesForLegend);
+            SubprojectTimelineDisplayViewData = new SubprojectTimelineDisplayViewData(subproject.Project,
+                new SubprojectTimeline(subproject, userHasManageSubprojectPermissions,
+                    userHasManageSubprojectPermissions), userHasManageSubprojectPermissions,
+                projectStatusLegendDisplayViewData);
 
         }
     }
