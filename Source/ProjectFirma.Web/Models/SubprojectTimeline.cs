@@ -17,14 +17,14 @@ namespace ProjectFirma.Web.Models
     {
         public Subproject Subproject { get; }
 
-        private List<ITimelineEvent> TimelineEvents { get; }
+        private List<ISubprojectTimelineEvent> TimelineEvents { get; }
         public const string DisplayClass = "open";
         public bool UsesFiscalYears { get; }
 
         public SubprojectTimeline(Subproject subproject, bool canEditSubprojectProjectStatus, bool canEditFinalStatusReport)
         {
             Subproject = subproject;
-            TimelineEvents = new List<ITimelineEvent>();
+            TimelineEvents = new List<ISubprojectTimelineEvent>();
             TimelineEvents.AddRange(GetTimelineProjectStatusChangeEvents(Subproject, canEditSubprojectProjectStatus, canEditFinalStatusReport));
             UsesFiscalYears = MultiTenantHelpers.UseFiscalYears();
         }
@@ -40,7 +40,7 @@ namespace ProjectFirma.Web.Models
         }
 
         // this hopefully return some sort of grouped list for display
-        public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, ITimelineEvent>>>> GetGroupedTimelineEvents()
+        public List<IGrouping<YearGroup, IGrouping<QuarterGroup, IGrouping<DayGroup, ISubprojectTimelineEvent>>>> GetGroupedTimelineEvents()
         {
             var startDate = MultiTenantHelpers.GetStartDayOfFiscalYear();
             var startMonth = startDate.Month;
@@ -148,7 +148,7 @@ namespace ProjectFirma.Web.Models
 
 
 
-    public class SubprojectTimelineProjectStatusChangeEvent : ITimelineEvent
+    public class SubprojectTimelineProjectStatusChangeEvent : ISubprojectTimelineEvent
     {
         public DateTime Date { get; }
         public string DateDisplay { get; }
@@ -164,7 +164,7 @@ namespace ProjectFirma.Web.Models
         public HtmlString DeleteButton { get; }
         public HtmlString ShowDetailsLinkHtmlString { get; }
         public SubprojectProjectStatus SubprojectProjectStatus { get; }
-        public List<ActionItem> ActionItems { get; }
+        public List<SubprojectActionItem> ActionItems { get; }
         public HtmlString AddActionItemLinkHtmlString { get; }
 
         public SubprojectTimelineProjectStatusChangeEvent(SubprojectProjectStatus subprojectProjectStatus, bool canEditProjectProjectStatus, bool canEditFinalStatusReport)
@@ -182,9 +182,29 @@ namespace ProjectFirma.Web.Models
             Color = subprojectProjectStatus.ProjectStatus.ProjectStatusColor;
             ShowDetailsLinkHtmlString = SubprojectTimeline.MakeProjectStatusDetailsLinkButton(subprojectProjectStatus);
             SubprojectProjectStatus = subprojectProjectStatus;
-            //SubprojectActionItems = subprojectProjectStatus.SubprojectActionItems.ToList();
+            ActionItems = subprojectProjectStatus.SubprojectActionItems.ToList();
             //AddActionItemLinkHtmlString = ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus' style='margin-right: 3px'></span>Add {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.NewForSubprojectStatus(subprojectProjectStatus.Subproject, subprojectProjectStatus)), string.Format("Add New {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), 700, "Add", "Cancel", new List<string> { }, null, null);
         }
+    }
+
+
+    public interface ISubprojectTimelineEvent
+    {
+        DateTime Date { get; }
+        string DateDisplay { get; }
+        int? FiscalYear { get; }
+        Quarter Quarter { get; }
+        TimelineEventType ProjectTimelineEventType { get; }
+        string TimelineEventTypeDisplayName { get; }
+        HtmlString TimelineEventPersonDisplayName { get; }
+        string TimelineDetailsLink { get; }
+        TimelineSide ProjectTimelineSide { get; }
+        string Color { get; }
+        HtmlString EditButton { get; }
+        HtmlString DeleteButton { get; }
+        HtmlString ShowDetailsLinkHtmlString { get; }
+        List<SubprojectActionItem> ActionItems { get; }
+        HtmlString AddActionItemLinkHtmlString { get; }
     }
 
 

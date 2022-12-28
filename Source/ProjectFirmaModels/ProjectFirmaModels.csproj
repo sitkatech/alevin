@@ -1035,7 +1035,6 @@
     <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
-    <Compile Include="Models\IActionItem.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\SubprojectActionItem.cs" />
     <Compile Include="Models\SubprojectNote.cs" />

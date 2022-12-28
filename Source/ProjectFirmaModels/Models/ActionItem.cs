@@ -1,6 +1,6 @@
 ﻿namespace ProjectFirmaModels.Models
 {
-    public partial class ActionItem : IAuditableEntity, IActionItem
+    public partial class ActionItem : IAuditableEntity
     {
         public string GetAuditDescriptionString()
         {

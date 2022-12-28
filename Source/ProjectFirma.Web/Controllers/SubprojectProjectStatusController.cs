@@ -15,7 +15,7 @@ namespace ProjectFirma.Web.Controllers
     public class SubprojectProjectStatusController : FirmaBaseController
     {
         [HttpGet]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         public PartialViewResult NewFromGrid(SubprojectPrimaryKey subprojectPrimaryKey)
         {
             var viewModel = new EditSubprojectProjectStatusViewModel(DateTime.Now);
@@ -54,7 +54,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult NewFromGrid(SubprojectPrimaryKey subprojectPrimaryKey, EditSubprojectProjectStatusViewModel viewModel)
         {
@@ -68,7 +68,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         public PartialViewResult New(SubprojectPrimaryKey subprojectPrimaryKey)
         {
             var viewModel = new EditSubprojectProjectStatusViewModel();
@@ -79,7 +79,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult New(SubprojectPrimaryKey subprojectPrimaryKey, EditSubprojectProjectStatusViewModel viewModel)
         {
@@ -104,7 +104,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         public PartialViewResult Edit(SubprojectPrimaryKey subprojectPrimaryKey, SubprojectProjectStatusPrimaryKey subprojectProjectStatusPrimaryKey)
         {
             var subprojectProjectStatus = subprojectProjectStatusPrimaryKey.EntityObject;
@@ -114,7 +114,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult Edit(SubprojectPrimaryKey subprojectPrimaryKey, SubprojectProjectStatusPrimaryKey subprojectProjectStatusPrimaryKey, EditSubprojectProjectStatusViewModel viewModel)
         {
@@ -140,7 +140,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpGet]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         public PartialViewResult DeleteSubprojectProjectStatus(SubprojectPrimaryKey subprojectPrimaryKey, SubprojectProjectStatusPrimaryKey subprojectProjectStatusPrimaryKey)
         {
             var subprojectProjectStatus = subprojectProjectStatusPrimaryKey.EntityObject;
@@ -159,7 +159,7 @@ namespace ProjectFirma.Web.Controllers
         }
 
         [HttpPost]
-        [ProjectStatusUpdateFeature]
+        [SubprojectManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
         public ActionResult DeleteSubprojectProjectStatus(SubprojectPrimaryKey subprojectPrimaryKey, SubprojectProjectStatusPrimaryKey subprojectProjectStatusPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
@@ -174,7 +174,7 @@ namespace ProjectFirma.Web.Controllers
 
 
         [HttpGet]
-        [ProjectViewFeature]
+        [SubprojectViewFeature]
         public PartialViewResult Details(SubprojectPrimaryKey subprojectPrimaryKey, SubprojectProjectStatusPrimaryKey subprojectProjectStatusPrimaryKey)
         {
             var subprojectProjectStatus = subprojectProjectStatusPrimaryKey.EntityObject;

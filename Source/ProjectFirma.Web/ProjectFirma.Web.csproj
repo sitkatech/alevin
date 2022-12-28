@@ -145,6 +145,7 @@
     <Compile Include="Models\PersonModelExtensionsTests.cs" />
     <Compile Include="Models\MatchmakerTaxonomyTier.cs" />
     <Compile Include="Models\ProjectClassificationsUpdateModelExtensions.cs" />
+    <Compile Include="Models\SubprojectActionItemModelExtensions.cs" />
     <Compile Include="Models\SubprojectNoteModelExtensions.cs" />
     <Compile Include="Models\SubprojectInternalNoteModelExtensions.cs" />
     <Compile Include="Models\RestApiClient.cs" />
