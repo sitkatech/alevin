@@ -269,4 +269,12 @@ VALUES
 (10061, N'SubprojectName', N'Subproject Name'),
 (10062, N'SubprojectDescription', N'Subproject Description'),
 (10063, N'SubprojectStage', N'Subproject Stage'),
-(10064, N'SubprojectNote', N'Subproject Note')
+(10064, N'SubprojectNote', N'Subproject Note'),
+(10065, N'SubprojectActionItem', N'Subproject Action Item'),
+(10066, N'SubprojectActionItemState', N'Subproject Action Item State'),
+(10067, N'SubprojectActionItemAssignedToPerson', N'Assigned To'),
+(10068, N'SubprojectActionItemAssignedOnDate', N'Assigned On'),
+(10069, N'SubprojectActionItemDueByDate', N'Due By'),
+(10070, N'SubprojectActionItemCompletedOnDate', N'Completed On'),
+(10071, N'SubprojectActionItemSubprojectStatus', N'Related Subproject Status Update'),
+(10072, N'SubprojectActionItemText', N'Subproject Action Item Text')
