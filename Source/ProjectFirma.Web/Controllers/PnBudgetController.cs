@@ -29,7 +29,7 @@ namespace ProjectFirma.Web.Controllers
         public GridJsonNetJObjectResult<WbsElementPnBudget> PnBudgetNumberGridJsonData()
         {
             var gridSpec = new PnBudgetGridSpec(CurrentFirmaSession);
-            var pnBudgets = HttpRequestStorage.DatabaseEntities.WbsElementPnBudgets.ToList().OrderBy(x => x.WbsElementPnBudgetID).ToList();
+            var pnBudgets = HttpRequestStorage.DatabaseEntities.WbsElementPnBudgets.OrderByDescending(x => x.FiscalYear).Take(5000).ToList();
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementPnBudget>(pnBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
