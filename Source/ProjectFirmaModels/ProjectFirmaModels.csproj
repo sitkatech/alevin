@@ -809,6 +809,10 @@
     <Compile Include="Models\Generated\ProjectUpdate.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatch.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatchClassificationSystem.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatchClassificationSystem.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatchClassificationSystemConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\ProjectUpdateBatchClassificationSystemPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatchConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateBatchPrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\ProjectUpdateConfiguration.Binding.cs" />
@@ -1125,6 +1129,7 @@
     <Compile Include="Models\MatchmakerOrganizationTaxonomyTrunk.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyBranch.cs" />
     <Compile Include="Models\MatchmakerOrganizationTaxonomyLeaf.cs" />
+    <Compile Include="Models\TrainingVideo.cs" />
     <Compile Include="Models\PerformanceMeasureGroup.cs" />
     <Compile Include="Models\PersonLoginAccount.DatabaseContextExtensions.cs" />
     <Compile Include="Models\OrganizationMatchmakerKeyword.cs" />

@@ -160,7 +160,7 @@ namespace ProjectFirma.Web.Models
             ProjectCustomAttributeUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
 
             //Classifications
-            ProjectClassificationsUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
+            ProjectClassificationsUpdateModelExtensions.CreateFromProject(projectUpdateBatch, HttpRequestStorage.DatabaseEntities.ClassificationSystems.ToList());
 
             // Technical Assistance Requests - for Idaho
             TechnicalAssistanceRequestUpdateModelExtensions.CreateFromProject(projectUpdateBatch);
@@ -323,9 +323,9 @@ namespace ProjectFirma.Web.Models
             }
         }
 
-        public static void DeleteProjectClassificationUpdates(this ProjectUpdateBatch projectUpdateBatch)
+        public static void DeleteProjectClassificationUpdates(this ProjectUpdateBatch projectUpdateBatch, ClassificationSystem classificationSystem)
         {
-            var projectClassificationUpdates = projectUpdateBatch.ProjectClassificationUpdates.ToList();
+            var projectClassificationUpdates = projectUpdateBatch.ProjectClassificationUpdates.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList();
             foreach (var projectClassificationUpdate in projectClassificationUpdates)
             {
                 projectClassificationUpdate.DeleteFull(HttpRequestStorage.DatabaseEntities);
@@ -600,13 +600,13 @@ namespace ProjectFirma.Web.Models
                 .ToList());
         }
 
-        public static ClassificationsValidationResult ValidateClassifications(this ProjectUpdateBatch projectUpdateBatch)
+        public static ClassificationsValidationResult ValidateClassifications(this ProjectUpdateBatch projectUpdateBatch, int classificationSystemID)
         {
-            var projectClassificationSimples = ProjectUpdateController.GetProjectClassificationSimples(projectUpdateBatch);
+            var projectClassificationSimples = ProjectUpdateController.GetProjectClassificationSimples(projectUpdateBatch, classificationSystemID);
             var classificationLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
             var classificationSystemsLabel = FieldDefinitionEnum.Classification.ToType().GetFieldDefinitionLabel();
             var isAdminProject = projectUpdateBatch.Project.ProjectCategory == ProjectCategory.Administrative;
-            return new ClassificationsValidationResult(projectClassificationSimples, classificationLabel, classificationSystemsLabel, isAdminProject);
+            return new ClassificationsValidationResult(projectClassificationSimples, classificationLabel, classificationSystemsLabel, classificationSystemID, isAdminProject);
         }
 
         public static LocationSimpleValidationResult ValidateProjectLocationSimple(this ProjectUpdateBatch projectUpdateBatch)

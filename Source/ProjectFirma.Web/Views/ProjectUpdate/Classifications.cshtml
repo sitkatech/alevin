@@ -1,5 +1,5 @@
 ﻿@*-----------------------------------------------------------------------
-    <copyright file="EditProposalClassifications.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    <copyright file="Classifications.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
     Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
     <author>Environmental Science Associates</author>
     </copyright>
@@ -25,7 +25,7 @@
 @using MoreLinq
 @using ProjectFirma.Web.Common
 @using ProjectFirmaModels.Models
-@inherits ProjectFirma.Web.Views.ProjectUpdate.EditProposalClassifications
+@inherits ProjectFirma.Web.Views.ProjectUpdate.Classifications
 
 <style>
     .charactersRemainingText {
@@ -37,7 +37,7 @@
     }
 </style>
 
-@if (!ViewDataTyped.ClassificationSystems.Any())
+@if (ViewDataTyped.ClassificationSystem == null)
 {
     <div class="alert alert-danger" role="alert">
         <p>
@@ -54,16 +54,16 @@
         </p>
     </div>
 }
-@if (!ViewDataTyped.IsEditable)
+else
 {
-    <div class="row" style="margin-bottom: 5px">
-        @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
-        {
+    if (!ViewDataTyped.IsEditable)
+    {
+        <div class="row" style="margin-bottom: 5px">
             <h4>
-                @Html.LabelWithSugarFor(classificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)
+                @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem, LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(ViewDataTyped.ClassificationSystem)
             </h4>
             <div class="">
-                @{ var projectClassifications = ViewDataTyped.ProjectUpdateBatch.ProjectClassificationUpdates.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
+                @{ var projectClassifications = ViewDataTyped.ProjectUpdateBatch.ProjectClassificationUpdates.Where(x => x.Classification.ClassificationSystemID == ViewDataTyped.ClassificationSystem.ClassificationSystemID).ToList(); }
                 @if (projectClassifications.Count > 0)
                 {
                     // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
@@ -83,30 +83,22 @@
                 }
                 else
                 {
-                    <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                    <p class="systemText">No @ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(ViewDataTyped.ClassificationSystem) set for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
                 }
             </div>
-        }
-    </div>
 
-}
-else
-{
-    using (Html.BeginForm())
-    {
-        <div>
-            Click the checkboxes below to associate this
-            @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @(Html.LabelWithSugarFor(ViewDataTyped.FieldDefinitionForClassification, ViewDataTyped.FieldDefinitionForClassification.GetFieldDefinitionLabelPluralized())).
         </div>
-        <div>
-
-            @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
-            {
-                <h4>
-                    @Html.LabelWithSugarFor(classificationSystem)
-                    <sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>
-                </h4>
-                foreach (var classification in classificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
+    }
+    else
+    {
+        using (Html.BeginForm())
+        {
+            <div>
+                Click the checkboxes below to associate this
+                @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel() with one or more @Html.LabelWithSugarFor(ViewDataTyped.ClassificationSystem)<sup><span class="requiredFieldIcon glyphicon glyphicon-flash" style="color: #800020; font-size: 8px; "></span></sup>.
+            </div>
+            <div>
+                @foreach (var classification in ViewDataTyped.ClassificationSystem.Classifications.OrderBy(x => x.ClassificationSortOrder).ThenBy(x => x.DisplayName).ToList())
                 {
                     var projectClassificationSimple = Model.ProjectClassificationSimples.Single(x => x.ClassificationID == classification.ClassificationID);
                     var classificationIndex = Model.ProjectClassificationSimples.IndexOf(projectClassificationSimple);
@@ -122,29 +114,48 @@ else
                         </div>
                         <div class="col-xs-12 col-sm-8">
                             <div>
-                                @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", classificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
+                                @Html.TextAreaWithMaxLengthFor(x => x.ProjectClassificationSimples[classificationIndex].ProjectClassificationNotesForBinding, new TextAreaForExtensions.TextAreaDimensions(null, 4), string.Format("Select the {0} and describe how it applies to the {1}.", ViewDataTyped.ClassificationSystem.ClassificationSystemName, ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()), new List<string> { "form-control" })
                             </div>
                             @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationID)
                             @Html.HiddenFor(x => x.ProjectClassificationSimples[classificationIndex].ClassificationSystemID)
                         </div>
                     </div>
                 }
-                <hr />
-            }
-        </div>
+            </div>
 
-        if (ViewDataTyped.ShowApproveAndReturnButton)
-        {
-            <div id="commentsSection">
-                <hr />
-                <div class="row form-group">
-                    <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
-                    <div class="col-sm-8">
-                        @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> { { "style", "width: 100%" }, { "class", "form-control" } })
+            if (ViewDataTyped.ShowApproveAndReturnButton)
+            {
+                <div id="commentsSection">
+                    <hr />
+                    <div class="row form-group">
+                        <div class="col-sm-4 control-label">@Html.LabelWithSugarFor(x => x.Comments)</div>
+                        <div class="col-sm-8">
+                            @Html.TextAreaFor(x => x.Comments, new Dictionary<string, object> { { "style", "width: 100%" }, { "class", "form-control" } })
+                        </div>
                     </div>
                 </div>
+                <hr />
+            }
+
+
+            <div>
+                <table class="summaryLayout" style="width: 100%">
+                    <tr>
+                        <td>
+                            @ModalDialogFormHelper.ModalDialogFormLink("revert-button", "Revert Current Page", ViewDataTyped.RefreshUrl, "Refresh this section", 500, "Continue", "Continue", "Cancel", new List<string> { "btn btn-xs btn-firma" }, null, null, null, "Undo all changes on this page")
+                            @if (ViewDataTyped.ProjectUpdateStatus.ClassificationSystemIsUpdated[ViewDataTyped.ClassificationSystem.ClassificationSystemID])
+                            {
+                                @ModalDialogFormHelper.ModalDialogFormLink("diff-link-id", "Show Changes", ViewDataTyped.DiffUrl, string.Format("Changes to {0} Classifications", FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()), 800, "hidden-save-button", string.Empty, "Close", new List<string> { "btn btn-xs btn-firma" }, null, null, null)
+                            }
+                        </td>
+                        <td style="text-align: right; white-space: nowrap">
+                            <button type="submit" class="btn btn-xs btn-firma" title="Save changes made on this page" onclick="saveForm(false)">Save</button>
+                            <button type="submit" class="btn btn-xs btn-firma" title="Save changes and continue to next page" onclick="saveForm(true)">Save &amp; Continue<span class='glyphicon glyphicon-chevron-right'></span></button>
+                        </td>
+                    </tr>
+                </table>
             </div>
-            <hr />
+
         }
         <div>
             <table class="summaryLayout" style="width: 100%">
@@ -165,8 +176,8 @@ else
         </div>
 
     }
-
 }
+
 
 
 <script type="text/javascript">
@@ -174,49 +185,52 @@ else
 
     jQuery(document).ready(function () {
         // This is fragile- depends on the ViewData ClassificationSystems and Classifications being ordered in the same way
-        @for (var i = 0; i < ViewDataTyped.ClassificationSystems.OrderBy(x => x.ClassificationSystemName).SelectMany(x => x.Classifications.OrderBy(y => y.DisplayName)).ToList().Count; i++)
+        @if (ViewDataTyped.ClassificationSystem != null)
         {
-            <text>
-        var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
-        var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
-        var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+            for (var i = 0; i < ViewDataTyped.ClassificationSystem.Classifications.OrderBy(y => y.DisplayName).ToList().Count; i++)
+            {
+                <text>
+            var checkBox = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].Selected)");
+            var notesTextArea = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+            var charactersRemaining = jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
 
-        //Set default display
-        if (checkBox.prop("checked")) {
-            notesTextArea.css("background-color", "");
-            notesTextArea.attr("disabled", false);
-            notesTextArea.attr("disabled", false);
-            charactersRemaining.css("display", "");
-        }
-        else {
-            notesTextArea.css("background-color", "#EEEEEE");
-            notesTextArea.attr("disabled", "disabled");
-            charactersRemaining.css("display", "none");
-        }
-
-        //Create on-change event
-        jQuery(checkBox).change(function () {
-            var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
-            var charactersRemainingFunction =
-                jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
-
-            if (this.checked) {
-                notesTextAreaForCheckboxFunction.css("background-color", "");
-                notesTextAreaForCheckboxFunction.attr("disabled", false);
-                charactersRemainingFunction.css("display", "");
+            //Set default display
+            if (checkBox.prop("checked")) {
+                notesTextArea.css("background-color", "");
+                notesTextArea.attr("disabled", false);
+                notesTextArea.attr("disabled", false);
+                charactersRemaining.css("display", "");
             }
             else {
-                notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
-                notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
-                charactersRemainingFunction.css("display", "none");
+                notesTextArea.css("background-color", "#EEEEEE");
+                notesTextArea.attr("disabled", "disabled");
+                charactersRemaining.css("display", "none");
             }
-        });
-        </text>
+
+            //Create on-change event
+            jQuery(checkBox).change(function () {
+                var notesTextAreaForCheckboxFunction = jQuery("#@Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding)");
+                var charactersRemainingFunction =
+                    jQuery("#CharactersRemaining_@(Html.IdFor(x => x.ProjectClassificationSimples[i].ProjectClassificationNotesForBinding))");
+
+                if (this.checked) {
+                    notesTextAreaForCheckboxFunction.css("background-color", "");
+                    notesTextAreaForCheckboxFunction.attr("disabled", false);
+                    charactersRemainingFunction.css("display", "");
+                }
+                else {
+                    notesTextAreaForCheckboxFunction.css("background-color", "#EEEEEE");
+                    notesTextAreaForCheckboxFunction.attr("disabled", "disabled");
+                    charactersRemainingFunction.css("display", "none");
+                }
+            });
+            </text>
+            }
         }
 
         HookupCheckIfFormIsDirty(undefined, ".submitProject");
 
-        var hasClassificationSetupData = @ViewDataTyped.ClassificationSystems.Any().ToString().ToLower();
+        var hasClassificationSetupData = @((ViewDataTyped.ClassificationSystem != null).ToString().ToLower());
         if (!hasClassificationSetupData) {
             jQuery('form button[type="button"]').attr('disabled','disabled');
         }
