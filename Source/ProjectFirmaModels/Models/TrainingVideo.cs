@@ -1,6 +1,6 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="EditProposalClassifications.cs" company="Tahoe Regional Planning Agency">
-Copyright (c) Tahoe Regional Planning Agency. All rights reserved.
+<copyright file="PerformanceMeasure.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
 
@@ -19,10 +19,16 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-namespace ProjectFirma.Web.Views.ProjectUpdate
+namespace ProjectFirmaModels.Models
 {
-    public abstract class EditProposalClassifications :
-        LtInfo.Common.Mvc.TypedWebViewPage<EditProposalClassificationsViewData, EditProposalClassificationsViewModel>
+    public partial class TrainingVideo : IAuditableEntity, IHaveASortOrder
     {
+        public string GetAuditDescriptionString() => VideoName;
+
+        public string GetDisplayName() => VideoName;
+        public void SetSortOrder(int? value) => SortOrder = value;
+        public int? GetSortOrder() => SortOrder;
+        public int GetID() => TrainingVideoID;
+
     }
 }

@@ -104,6 +104,18 @@ Source code is available upon request via <support@sitkatech.com>.
                                 </a>
                             </div>
                         }
+                        else if (ViewDataTyped.TenantName == "SSMPProjectTracker")
+                        {
+                            <div style="display: flex; align-items: center; flex-wrap: wrap">
+                                <a href="@FirmaWebConfiguration.SSMPHomeUrl">
+                                    <img class="headerLogo" src="@ViewDataTyped.TenantBannerLogoUrl" alt="@ViewDataTyped.TenantToolDisplayName" />
+                                </a>
+                                <div class="menuDivider"></div>
+                                <a href="@ViewDataTyped.FirmaHomeUrl" class="firmaHomeHeaderLink">
+                                    <span class="headerLogoContainer"></span><span id="headerTenantShortDisplayName">@ViewDataTyped.TenantShortDisplayName</span>
+                                </a>
+                            </div>
+                        }
                         else
                         {
                             <a href="@ViewDataTyped.FirmaHomeUrl">
@@ -140,7 +152,7 @@ Source code is available upon request via <support@sitkatech.com>.
                                 <ul class="dropdown-menu dropdown-menu-right" aria-labelledby="tenantDropdownMenu">
                                     @foreach (var tenant in ViewDataTyped.TenantSimples)
                                     {
-                                        if (tenant.TenantID == Tenant.NCRPProjectTracker.TenantID)
+                                        if (tenant.TenantID == Tenant.SSMPProjectTracker.TenantID)
                                         {
                                             // don't show the tenant logo when the Http Authentication popup is being used
                                             <li><a href="@tenant.GetRelativeCanonicalUrlForTenantEnvironment(FirmaWebConfiguration.FirmaEnvironment.FirmaEnvironmentType, ViewDataTyped.CurrentUrl)"><span style="text-align: center; width: 40px; margin-right: 5px; display: inline-block;"></span> @tenant.TenantName</a></li>

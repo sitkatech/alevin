@@ -48,6 +48,7 @@ using System.Web.UI.WebControls;
 using log4net;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Mvc;
+using MoreLinq;
 using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.ActionItem;
 using ProjectFirma.Web.Views.Obligation;
