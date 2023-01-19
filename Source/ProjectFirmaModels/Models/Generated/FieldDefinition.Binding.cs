@@ -389,6 +389,14 @@ namespace ProjectFirmaModels.Models
         SubprojectName = 10061,
         SubprojectDescription = 10062,
         SubprojectStage = 10063,
-        SubprojectNote = 10064
+        SubprojectNote = 10064,
+        SubprojectActionItem = 10065,
+        SubprojectActionItemState = 10066,
+        SubprojectActionItemAssignedToPerson = 10067,
+        SubprojectActionItemAssignedOnDate = 10068,
+        SubprojectActionItemDueByDate = 10069,
+        SubprojectActionItemCompletedOnDate = 10070,
+        SubprojectActionItemSubprojectStatus = 10071,
+        SubprojectActionItemText = 10072
     }
 }
