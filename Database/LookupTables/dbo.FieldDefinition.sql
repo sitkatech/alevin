@@ -38,7 +38,7 @@ VALUES
 (50, N'PerformanceMeasureSubcategoryOption', N'Performance Measure Subcategory Option'),
 (56, N'FundedAmount', N'Funded Amount'),
 (57, N'ProjectLocation', N'Project Location'),
-(64, N'ExcludeFromFactSheet', N'Exclude from Fact Sheet'),
+(64, N'IncludeInFactSheet', N'Include in Fact Sheet'),
 (73, N'FundingType', N'Funding Type'),
 (74, N'ProjectCostInYearOfExpenditure', N'Cost in Year of Expenditure'),
 (75, N'GlobalInflationRate', N'Global Inflation Rate'),
@@ -198,9 +198,9 @@ VALUES
 (374, N'Solicitation', N'Solicitation'),
 (375, N'EnableSolicitations', N'Enable Solicitations'),
 (376, N'OtherPartners', N'Other Partners'),
-(377, N'PerformanceMeasureGroup', N'Performance Measure Group')
-
-
+(377, N'PerformanceMeasureGroup', N'Performance Measure Group'),
+(378, N'TrainingVideoUploadDate', N'Video Upload Date'),
+(379, N'TrainingVideoUrl', N'Video URL')
 
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 

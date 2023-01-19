@@ -89,12 +89,14 @@
     <Compile Include="Controllers\EvaluationController.cs" />
     <Compile Include="Controllers\FileResourceController.cs" />
     <Compile Include="Controllers\GeospatialAreaPerformanceMeasureTargetController.cs" />
+    <Compile Include="Controllers\TrainingVideoController.cs" />
     <Compile Include="Controllers\LocalAuthenticationController.cs" />
     <Compile Include="Controllers\KeywordController.cs" />
     <Compile Include="Controllers\PerformanceMeasureGroupController.cs" />
     <Compile Include="Controllers\ProjectFinderController.cs" />
     <Compile Include="Controllers\SolicitationController.cs" />
     <Compile Include="HealthMonitor\Ogr2OgrIExeIsCorrectVersion.cs" />
+    <Compile Include="Models\TrainingVideoModelExtensions.cs" />
     <Compile Include="Models\GridSettingsViewModel.cs" />
     <Compile Include="Models\GridTable.cs" />
     <Compile Include="Models\GridColumn.cs" />
@@ -560,9 +562,9 @@
     <Compile Include="Views\ProjectFinder\ProjectFinderOrganizationViewData.cs" />
     <Compile Include="Views\ProjectFinder\ProjectFinderGridSpec.cs" />
     <Compile Include="Views\ProjectUpdate\ClassificationsValidationResult.cs" />
-    <Compile Include="Views\ProjectUpdate\EditProposalClassifications.cs" />
-    <Compile Include="Views\ProjectUpdate\EditProposalClassificationsViewData.cs" />
-    <Compile Include="Views\ProjectUpdate\EditProposalClassificationsViewModel.cs" />
+    <Compile Include="Views\ProjectUpdate\Classifications.cs" />
+    <Compile Include="Views\ProjectUpdate\ClassificationsViewData.cs" />
+    <Compile Include="Views\ProjectUpdate\ClassificationsViewModel.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewData.cs" />
     <Compile Include="Views\ProjectUpdate\PartnerFinderProjectUpdateViewModel.cs" />
@@ -831,6 +833,12 @@
     <Content Include="Content\Bootstrap\firma\ncrp.theme.min.css">
       <DependentUpon>ncrp.theme.css</DependentUpon>
     </Content>
+    <Content Include="Content\Bootstrap\firma\ssmp.theme.css">
+      <DependentUpon>ssmp.theme.less</DependentUpon>
+    </Content>
+    <Content Include="Content\Bootstrap\firma\ssmp.theme.min.css">
+      <DependentUpon>ssmp.theme.css</DependentUpon>
+    </Content>
     <Content Include="Content\combo-tree\style.css" />
     <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\suite.css" />
     <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\suite.js" />
@@ -915,6 +923,9 @@
     <Content Include="Content\img\SSMPProjectTracker\apple-icon-60x60.png" />
     <Content Include="Content\img\SSMPProjectTracker\apple-icon-72x72.png" />
     <Content Include="Content\img\SSMPProjectTracker\apple-icon-76x76.png" />
+    <Content Include="Content\img\SSMPProjectTracker\header-gears-dark-grey.png" />
+    <Content Include="Content\img\SSMPProjectTracker\header-gears-hover.png" />
+    <Content Include="Content\img\SSMPProjectTracker\header-gears.png" />
     <Content Include="Content\img\SSMPProjectTracker\favicon-16x16.png" />
     <Content Include="Content\img\SSMPProjectTracker\favicon-32x32.png" />
     <Content Include="Content\img\SSMPProjectTracker\favicon-96x96.png" />
@@ -973,14 +984,7 @@
     <Content Include="Content\Training\ProjectFirma_CustomizationGuide_2020.pdf" />
     <Content Include="Content\Training\ProjectFirma-Example.gdb.zip" />
     <Content Include="Content\Bootstrap\firma\ncrp.theme.less" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\package.json" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\fonts\roboto-bold-webfont.woff" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\fonts\roboto-bold-webfont.woff2" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\fonts\roboto-medium-webfont.woff" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\fonts\roboto-medium-webfont.woff2" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\fonts\roboto-regular-webfont.woff" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\codebase\fonts\roboto-regular-webfont.woff2" />
-    <Content Include="Content\DHTMLX_Enterprise_v6_5_1\samples\treegrid\common\dataset.json" />
+    <Content Include="Content\Bootstrap\firma\ssmp.theme.less" />
     <None Include="Scripts\jquery-1.11.0.intellisense.js" />
     <Content Include="Content\whatsnew.txt" />
     <Content Include="phantomjs-license.txt">
@@ -1237,7 +1241,7 @@
     <Content Include="Views\ProjectUpdate\PartnerFinderProjectUpdate.cshtml" />
     <Content Include="Views\ProjectCreate\PartnerFinderProjectCreate.cshtml" />
     <Content Include="Views\ProjectFinder\ProjectFinderOrganization.cshtml" />
-    <Content Include="Views\ProjectUpdate\EditProposalClassifications.cshtml" />
+    <Content Include="Views\ProjectUpdate\Classifications.cshtml" />
     <Content Include="Views\ProjectFundingSourceBudget\EditProjectFundingSourceBudgetByCostTypeContainer.cshtml" />
     <None Include="Views\ProjectUpdate\GeospatialArea.cshtml" />
     <Compile Include="Views\ProjectUpdate\GeospatialAreaViewData.cs" />
@@ -1313,12 +1317,15 @@
     <Compile Include="Views\TechnicalAssistanceRequest\EditTechnicalAssistanceRequestsViewData.cs" />
     <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceReportViewData.cs" />
     <Compile Include="Views\TechnicalAssistanceRequest\TechnicalAssistanceRequestsDetailViewData.cs" />
-    <Compile Include="Views\Tenant\EditTenantLogo.cs" />
+    <Compile Include="Views\TrainingVideo\ManageTrainingVideos.cs" />
+    <Compile Include="Views\TrainingVideo\ManageTrainingVideosGridSpec.cs" />
+    <Compile Include="Views\TrainingVideo\ManageTrainingVideosViewData.cs" />
+    <Compile Include="Views\TrainingVideo\Edit.cs" />
+    <Compile Include="Views\TrainingVideo\EditViewModel.cs" />
+    <Compile Include="Views\TrainingVideo\EditViewData.cs" />
+    <Compile Include="Views\Tenant\EditTenantLogoAndStylesheet.cs" />
     <Compile Include="Views\Tenant\EditTenantLogoViewData.cs" />
-    <Compile Include="Views\Tenant\EditTenantLogoViewModel.cs" />
-    <Compile Include="Views\Tenant\EditStylesheet.cs" />
-    <Compile Include="Views\Tenant\EditStylesheetViewData.cs" />
-    <Compile Include="Views\Tenant\EditStylesheetViewModel.cs" />
+    <Compile Include="Views\Tenant\EditTenantLogoAndStylesheetViewModel.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystems.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystemsViewData.cs" />
     <Compile Include="Views\Tenant\EditClassificationSystemsViewModel.cs" />
@@ -2095,9 +2102,6 @@
     <Compile Include="Views\User\ChangePassword.cs" />
     <Compile Include="Views\User\ChangePasswordViewData.cs" />
     <Compile Include="Views\User\ChangePasswordViewModel.cs" />
-    <Compile Include="Views\User\CreateAccount.cs" />
-    <Compile Include="Views\User\CreateAccountViewData.cs" />
-    <Compile Include="Views\User\CreateAccountViewModel.cs" />
     <Compile Include="Views\User\EditUser.cs" />
     <Compile Include="Views\User\EditUserViewData.cs" />
     <Compile Include="Views\User\EditUserViewModel.cs" />
@@ -2206,8 +2210,7 @@
     <Content Include="Views\Shared\EditorTemplates\ProjectCustomAttributes.cshtml" />
     <Content Include="Views\ProjectUpdate\EditProjectUpdateConfiguration.cshtml" />
     <Content Include="Views\Tenant\EditBudgetTypeController.js" />
-    <Content Include="Views\Tenant\EditStylesheet.cshtml" />
-    <Content Include="Views\Tenant\EditTenantLogo.cshtml" />
+    <Content Include="Views\Tenant\EditTenantLogoAndStylesheet.cshtml" />
     <Content Include="Views\PerformanceMeasure\TechnicalAssistanceParameters.cshtml" />
     <Content Include="Views\Shared\EditorTemplates\MoneyWithCents.cshtml" />
     <Content Include="Views\Home\StyleGuide.cshtml" />
@@ -2243,6 +2246,8 @@
     <Content Include="Views\Solicitation\Edit.cshtml" />
     <Content Include="Views\Results\SimpleAccomplishmentsDashboard.cshtml" />
     <Content Include="Views\Results\FundingSummary.cshtml" />
+    <Content Include="Views\TrainingVideo\ManageTrainingVideos.cshtml" />
+    <Content Include="Views\TrainingVideo\Edit.cshtml" />
     <Content Include="Views\Subproject\Detail.cshtml" />
     <Content Include="Views\Subproject\SubprojectBasics.cshtml" />
     <None Include="Views\User\ImpersonateUserButton.cshtml" />
