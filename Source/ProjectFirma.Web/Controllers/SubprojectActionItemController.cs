@@ -45,19 +45,7 @@ namespace ProjectFirma.Web.Controllers
             return gridJsonNetJObjectResult;
         }
 
-        [SubprojectActionItemAdminFeature]
-        public ViewResult Index()
-        {
-            return ViewIndex(SitkaRoute<SubprojectActionItemController>.BuildUrlFromExpression(x => x.SubprojectActionItemsIndexGridJsonData()));
-        }
 
-        [SubprojectActionItemAdminFeature]
-        public ViewResult ViewIndex(string gridDataUrl)
-        {
-            var firmaPage = FirmaPageTypeEnum.SubprojectActionItemIndexList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl);
-            return RazorView<Index, IndexViewData>(viewData);
-        }
         
         [HttpGet]
         [SubprojectActionItemCreateFeature]

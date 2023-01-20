@@ -51,8 +51,8 @@ namespace ProjectFirma.Web.Views.SubprojectActionItem
     {
         public SubprojectActionItemsUserGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), new ActionItemManageFeature().HasPermission(currentFirmaSession, x).HasPermission), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}", true, new SubprojectActionItemManageFeature().HasPermission(currentFirmaSession, x).HasPermission), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), new SubprojectActionItemManageFeature().HasPermissionByFirmaSession(currentFirmaSession)), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}", true, new SubprojectActionItemManageFeature().HasPermissionByFirmaSession(currentFirmaSession)), 30, DhtmlxGridColumnFilterType.None);
             Add($"{FieldDefinitionEnum.SubprojectActionItemText.ToType().GetFieldDefinitionLabel()}", x => x.SubprojectActionItemText, 200, DhtmlxGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()}", x => x.Subproject.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.Html);
             Add($"{FieldDefinitionEnum.SubprojectActionItemState.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemState.ActionItemStateDisplayName, 120, DhtmlxGridColumnFilterType.SelectFilterStrict);
