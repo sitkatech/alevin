@@ -92,9 +92,9 @@ namespace ProjectFirma.Web.Models
             var editIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
             if ((canEditProjectStatus && !subprojectProjectStatus.IsFinalStatusUpdate) || (canEditFinalStatusReport && subprojectProjectStatus.IsFinalStatusUpdate))
             {
-                //editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
-                //    subprojectProjectStatus.GetEditSubprojectProjectStatusUrl()
-                //    , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
+                editIconAsModalDialogLinkBootstrap = DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(
+                    subprojectProjectStatus.GetEditSubprojectProjectStatusUrl()
+                    , $"Add {FieldDefinitionEnum.StatusUpdate.ToType().GetFieldDefinitionLabel()} Details:");
             }
             return editIconAsModalDialogLinkBootstrap;
         }
@@ -103,10 +103,10 @@ namespace ProjectFirma.Web.Models
             var deleteIconAsModalDialogLinkBootstrap = new HtmlString(string.Empty);
             if ((canEditProjectStatus && !subprojectProjectStatus.IsFinalStatusUpdate) || (canEditFinalStatusReport && subprojectProjectStatus.IsFinalStatusUpdate))
             {
-                //deleteIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.MakeDeleteLink(
-                //    BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-trash",
-                //        "Delete status report").ToString(),
-                //    subprojectProjectStatus.GetDeleteSubprojectProjectStatusUrl(), new List<string> { }, true);
+                deleteIconAsModalDialogLinkBootstrap = ModalDialogFormHelper.MakeDeleteLink(
+                    BootstrapHtmlHelpers.MakeGlyphIconWithScreenReaderOnlyText("glyphicon-trash",
+                        "Delete status report").ToString(),
+                    subprojectProjectStatus.GetDeleteSubprojectProjectStatusUrl(), new List<string> { }, true);
             }
             return deleteIconAsModalDialogLinkBootstrap;
         }
@@ -120,7 +120,7 @@ namespace ProjectFirma.Web.Models
             var detailsLink = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
                 null,
                 "Show Details",
-                string.Empty //subprojectProjectStatus.GetSubprojectProjectStatusDetailsUrl()
+                subprojectProjectStatus.GetSubprojectProjectStatusDetailsUrl()
                 , $"{dialogTitle} Details"
                 , 900
                 ,"Close"
@@ -128,19 +128,6 @@ namespace ProjectFirma.Web.Models
             return detailsLink;
         }
 
-        public static HtmlString MakeProjectUpdateDetailsLinkButton(ProjectUpdateBatch projectUpdateBatch)
-        {
-            var url = SitkaRoute<ProjectUpdateController>.BuildUrlFromExpression(c => c.ProjectUpdateBatchDiff(projectUpdateBatch));
-            var detailsLink = ModalDialogFormHelper.ModalDialogFormLinkHiddenSave(
-                "diff-link-id",
-                "Show Details",
-                url
-                , $"{FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()} Update Change Log"
-                , 1000
-                , "Close"
-                , new List<string>());
-            return detailsLink;
-        }
 
 
     }
@@ -183,7 +170,7 @@ namespace ProjectFirma.Web.Models
             ShowDetailsLinkHtmlString = SubprojectTimeline.MakeProjectStatusDetailsLinkButton(subprojectProjectStatus);
             SubprojectProjectStatus = subprojectProjectStatus;
             ActionItems = subprojectProjectStatus.SubprojectActionItems.ToList();
-            //AddActionItemLinkHtmlString = ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus' style='margin-right: 3px'></span>Add {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), SitkaRoute<ActionItemController>.BuildUrlFromExpression(c => c.NewForSubprojectStatus(subprojectProjectStatus.Subproject, subprojectProjectStatus)), string.Format("Add New {0}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()), 700, "Add", "Cancel", new List<string> { }, null, null);
+            AddActionItemLinkHtmlString = ModalDialogFormHelper.ModalDialogFormLink(string.Format("<span class='glyphicon glyphicon-plus' style='margin-right: 3px'></span>Add {0}", FieldDefinitionEnum.SubprojectActionItem.ToType().GetFieldDefinitionLabel()), SitkaRoute<SubprojectActionItemController>.BuildUrlFromExpression(c => c.NewForSubprojectStatus(subprojectProjectStatus.Subproject, subprojectProjectStatus)), string.Format("Add New {0}", FieldDefinitionEnum.SubprojectActionItem.ToType().GetFieldDefinitionLabel()), 700, "Add", "Cancel", new List<string> { }, null, null);
         }
     }
 

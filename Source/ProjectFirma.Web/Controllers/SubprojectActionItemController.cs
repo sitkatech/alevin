@@ -247,9 +247,9 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SubprojectActionItemManageFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult Delete(SubprojectActionItemPrimaryKey actionItemPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        public ActionResult Delete(SubprojectActionItemPrimaryKey subprojectActionItemPrimaryKey, ConfirmDialogFormViewModel viewModel)
         {
-            var actionItem = actionItemPrimaryKey.EntityObject;
+            var actionItem = subprojectActionItemPrimaryKey.EntityObject;
             if (!ModelState.IsValid)
             {
                 return ViewDelete(actionItem, viewModel);
