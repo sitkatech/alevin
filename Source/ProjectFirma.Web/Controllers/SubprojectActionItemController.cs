@@ -110,7 +110,7 @@ namespace ProjectFirma.Web.Controllers
         [HttpPost]
         [SubprojectActionItemCreateFeature]
         [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
-        public ActionResult NewForProjectStatus(SubprojectPrimaryKey subprojectPrimaryKey, SubprojectProjectStatusPrimaryKey subprojectProjectStatusPrimaryKey, EditViewModel viewModel)
+        public ActionResult NewForSubprojectStatus(SubprojectPrimaryKey subprojectPrimaryKey, SubprojectProjectStatusPrimaryKey subprojectProjectStatusPrimaryKey, EditViewModel viewModel)
         {
             if (!ModelState.IsValid)
             {
