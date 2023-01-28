@@ -19,8 +19,10 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common.DhtmlWrappers
+@using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
+@using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.ActionItem.Index
 @section JavascriptAndStylesContent
 {
@@ -38,6 +40,12 @@
 </div>
 
 
+<h2>Manage @FieldDefinitionEnum.SubprojectActionItem.ToType().GetFieldDefinitionLabelPluralized()</h2>
+<div style="margin-top: 10px">
+    @Html.DhtmlxGrid(ViewDataTyped.SubprojectActionItemGridSpec, ViewDataTyped.SubprojectActionItemGridName, ViewDataTyped.SubprojectActionItemGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+</div>
+
+
 <script type="text/javascript">
 
 
@@ -50,11 +58,17 @@
         dhtmlxGrid.attachEvent("onXLE", function () {
 
             jQuery(dhtmlxGrid.getFilterElement(6)).selectpicker("val", "@ViewDataTyped.ActionItemStateToBeSelectedOnLoad");
-
             dhtmlxGrid.filterByAll();
         });
 
+        var subprojectActionItemSitkaGridContainer = Sitka.@ViewDataTyped.SubprojectActionItemGridName;
+        var subprojectActionItemDhtmlxGrid = subprojectActionItemSitkaGridContainer.grid;
 
+        subprojectActionItemDhtmlxGrid.attachEvent("onXLE", function () {
+
+            jQuery(subprojectActionItemDhtmlxGrid.getFilterElement(6)).selectpicker("val", "@ViewDataTyped.ActionItemStateToBeSelectedOnLoad");
+            subprojectActionItemDhtmlxGrid.filterByAll();
+        });
 
     });
 

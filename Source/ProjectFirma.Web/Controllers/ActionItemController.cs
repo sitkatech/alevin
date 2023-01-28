@@ -48,14 +48,16 @@ namespace ProjectFirma.Web.Controllers
         [ActionItemAdminFeature]
         public ViewResult Index()
         {
-            return ViewIndex(SitkaRoute<ActionItemController>.BuildUrlFromExpression(x => x.ActionItemsIndexGridJsonData()));
+            var actionItemsGridDataUrl = SitkaRoute<ActionItemController>.BuildUrlFromExpression(x => x.ActionItemsIndexGridJsonData());
+            var subprojectActionItemGridDataUrl = SitkaRoute<SubprojectActionItemController>.BuildUrlFromExpression(x => x.SubprojectActionItemsIndexGridJsonData());
+            return ViewIndex(actionItemsGridDataUrl, subprojectActionItemGridDataUrl);
         }
 
         [ActionItemAdminFeature]
-        public ViewResult ViewIndex(string gridDataUrl)
+        public ViewResult ViewIndex(string gridDataUrl, string subprojectActionItemGridDataUrl)
         {
             var firmaPage = FirmaPageTypeEnum.ActionItemIndexList.GetFirmaPage();
-            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl);
+            var viewData = new IndexViewData(CurrentFirmaSession, firmaPage, gridDataUrl, subprojectActionItemGridDataUrl);
             return RazorView<Index, IndexViewData>(viewData);
         }
         
