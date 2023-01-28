@@ -264,6 +264,8 @@ namespace ProjectFirma.Web.Models
             return new HtmlString($"{person.GetFullNameFirstLast()} <span class=\"small\">({string.Join(", ", personContactTypesList)})</span>");
         }
 
+
+
         public static string GetPersonInformationStringForLogging(this Person person)
         {
             return $"PersonID {person.PersonID} {person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()} ({person.Email})";
@@ -291,6 +293,8 @@ namespace ProjectFirma.Web.Models
 
             return personContactTypesList;
         }
+
+
 
         public static bool CanDeletePerson(this Person personToDelete, Person currentPerson)
         {

@@ -1,0 +1,176 @@
+﻿@*-----------------------------------------------------------------------
+    <copyright file="SubprojectTimelineDisplay.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
+
+    <license>
+    This program is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+
+    Source code is available upon request via <support@sitkatech.com>.
+    </license>
+    -----------------------------------------------------------------------*@
+@using System.Globalization
+@using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.ModalDialog
+@using ProjectFirmaModels.Models
+@using ProjectFirma.Web.Common
+@using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views.Shared.ProjectTimeline
+@using ProjectFirma.Web.Views.Shared.SubprojectTimeline
+@inherits ProjectFirma.Web.Views.Shared.SubprojectTimeline.SubprojectTimelineDisplay
+
+<script>
+    jQuery(document).ready(function() {
+        // register click handlers
+        jQuery('.timeline-button').click(function() {
+            jQuery(this).toggleClass('open');
+            var childGroup = jQuery(this).siblings('div');
+            childGroup.toggleClass('open');
+        });
+        jQuery('.action-items-toggle-button').click(function () {
+            jQuery(this).toggleClass('open');
+            var childGroup = jQuery(this).siblings('div');
+            childGroup.toggleClass('open');
+        });
+    });
+</script>
+<h1>TOMS TEST</h1>
+
+@if (ViewDataTyped.SubprojectTimeline != null)
+{
+    var groupedTimelineEvents = ViewDataTyped.SubprojectTimeline.GetGroupedTimelineEvents();
+    var yearDisplayCount = 0;
+    <div class="row">
+        <div class="col-md-12">
+            @if (ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+            {
+                <span class="pull-right"> @ViewDataTyped.AddSubprojectProjectStatusButton</span>
+                if (ViewDataTyped.CurrentProjectStatus != null)
+                {
+                    <span class="pull-left"><h4 style="border-right:20px solid @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor; padding-right: 10px;">Current @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Status: <span style="color: @ViewDataTyped.CurrentProjectStatus.ProjectStatusColor;"> @ViewDataTyped.CurrentProjectStatus.ProjectStatusDisplayName</span></h4> </span>
+                }
+            }
+
+            @if (!groupedTimelineEvents.Any())
+            {
+                <p>There are no history events to display for this @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel().</p>
+            }
+        </div>
+    </div>
+
+    if (groupedTimelineEvents.Any())
+    {
+        <div class="row project-timeline-header">
+            <div class="col-md-6">
+                <h4>
+                    @Html.LabelWithSugarFor(FieldDefinitionEnum.UpdateHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.UpdateHistory.ToType().GetFieldDefinitionLabel()
+                </h4>
+            </div>
+            @if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
+            {
+                <div class="col-md-6">
+                    <h4>
+                        @Html.LabelWithSugarFor(FieldDefinitionEnum.StatusHistory.ToType(), LabelWithSugarForExtensions.DisplayStyle.HelpIconOnly) @FieldDefinitionEnum.StatusHistory.ToType().GetFieldDefinitionLabel()
+                    </h4>
+                </div>
+            }
+            
+        </div>
+        <div class="project-timeline-wrapper">
+            @foreach (var yearGroup in groupedTimelineEvents)
+            {
+                yearDisplayCount++;
+                var yeardisplay = ViewDataTyped.SubprojectTimeline.UsesFiscalYears ? string.Format("FY{0}", yearGroup.Key.Year) : yearGroup.Key.Year.ToString();
+                var quarterDisplayCount = 0;
+                <div class="timeline-year-group">
+                    <button class="timeline-button @(yearDisplayCount == 1 ? SubprojectTimeline.DisplayClass : String.Empty)"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@yeardisplay</button>
+                    <div class="timeline-year-group-wrapper  @(yearDisplayCount == 1 ? SubprojectTimeline.DisplayClass : String.Empty)">
+                        @foreach (var quarterGroup in yearGroup)
+                        {
+                            quarterDisplayCount++;
+                            <div class="timeline-quarter-group">
+                                <button class="timeline-button @(quarterDisplayCount == 1 ? SubprojectTimeline.DisplayClass : String.Empty)"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>@quarterGroup.Key.Quarter Quarter</button>
+                                <div class="timeline-quarter-group-wrapper  @(quarterDisplayCount == 1 ? SubprojectTimeline.DisplayClass : String.Empty)">
+                                    @foreach (var dayGroup in quarterGroup)
+                                    {
+                                        var dayGroupDateTime = new DateTime(dayGroup.Key.Year, dayGroup.Key.Month, dayGroup.Key.Day);
+                                        <div class="timeline-day-group">
+                                            <div class="timeline-day-group-label">
+                                                <span class="timeline-day-group-label-day">@dayGroupDateTime.Day</span>
+                                                <span class="timeline-day-group-label-month">@dayGroupDateTime.ToString("MMM", CultureInfo.InvariantCulture)</span>
+                                            </div>
+                                            @foreach (var subprojectTimelineEvent in dayGroup)
+                                            {
+                                                <div class="timeline-event-wrapper">
+                                                    <div class="timeline-event @(subprojectTimelineEvent.ProjectTimelineSide == TimelineSide.Left ? "timeline-event-left" : "timeline-event-right")" style="border-color: @subprojectTimelineEvent.Color;">
+                                                        <div class="timeline-event-header">
+                                                            @if (!string.IsNullOrEmpty(subprojectTimelineEvent.EditButton.ToString()) && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+                                                            {
+                                                                <span class="timeline-event-edit-link">@subprojectTimelineEvent.EditButton</span>
+                                                            }
+                                                            @if (!string.IsNullOrEmpty(subprojectTimelineEvent.DeleteButton.ToString()) && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+                                                            {
+                                                                <span class="timeline-event-edit-link">@subprojectTimelineEvent.DeleteButton</span>
+                                                            }
+                                                            <span class="timeline-event-type">@subprojectTimelineEvent.TimelineEventTypeDisplayName</span>
+                                                            <span class="timeline-event-date" title="@subprojectTimelineEvent.Date.ToString()">@subprojectTimelineEvent.DateDisplay</span>
+                                                        </div>
+
+                                                        @if (subprojectTimelineEvent.TimelineEventPersonDisplayName != null && !string.IsNullOrWhiteSpace(subprojectTimelineEvent.TimelineEventPersonDisplayName.ToString()))
+                                                        {
+                                                            <span>By @subprojectTimelineEvent.TimelineEventPersonDisplayName</span>
+                                                        }
+                                                        <div class="timeline-event-footer">
+                                                            <span class="timeline-event-details-link pull-right">@subprojectTimelineEvent.ShowDetailsLinkHtmlString</span>
+                                                            @if (subprojectTimelineEvent.ProjectTimelineEventType == TimelineEventType.ProjectStatusChange && ViewDataTyped.UserHasProjectStatusUpdatePermissions)
+                                                            {
+                                                                <span class="timeline-event-details-link pull-right" style="margin-right:15px">@subprojectTimelineEvent.AddActionItemLinkHtmlString</span>
+                                                            }
+                                                        </div>
+                                                        @if (subprojectTimelineEvent.ActionItems.Any())
+                                                        {
+                                                        <div class="action-items-wrapper">
+                                                            <button class="action-items-toggle-button pull-left"><span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> @FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized() (@subprojectTimelineEvent.ActionItems.Count)</button>
+                                                            <div class="action-items">
+                                                                <h5>@FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized()</h5>
+                                                                <ul>
+                                                                    @foreach (var actionItem in subprojectTimelineEvent.ActionItems)
+                                                                    {
+                                                                        <li>
+                                                                            <p>@actionItem.GetDisplayHeaderHtmlString(ViewDataTyped.UserHasProjectStatusUpdatePermissions)</p>
+                                                                            <p class="small">@actionItem.GetDisplayFooterHtmlString()</p>
+                                                                        </li>
+                                                                    }
+                                                                </ul>
+                                                            </div>
+                                                        </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    }
+
+    if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableStatusUpdates)
+    {
+        { ProjectStatusLegendDisplay.RenderPartialView(Html, ViewDataTyped.ProjectStatusLegendDisplayViewData); }
+    }
+}

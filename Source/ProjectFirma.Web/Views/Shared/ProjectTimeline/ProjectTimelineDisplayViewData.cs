@@ -23,9 +23,8 @@ using System.Web;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 
-namespace ProjectFirma.Web.Views.Shared.ProjectContact
+namespace ProjectFirma.Web.Views.Shared.ProjectTimeline
 {
     public class ProjectTimelineDisplayViewData : FirmaUserControlViewData
     {

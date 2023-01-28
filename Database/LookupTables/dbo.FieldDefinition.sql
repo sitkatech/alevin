@@ -202,6 +202,7 @@ VALUES
 (378, N'TrainingVideoUploadDate', N'Video Upload Date'),
 (379, N'TrainingVideoUrl', N'Video URL')
 
+
 -- Alevin only field definitions always start after ProjectFirma field defitions and begin at 10000
 INSERT [dbo].[FieldDefinition] ([FieldDefinitionID], [FieldDefinitionName], [FieldDefinitionDisplayName]) 
 VALUES 
@@ -269,4 +270,13 @@ VALUES
 (10061, N'SubprojectName', N'Subproject Name'),
 (10062, N'SubprojectDescription', N'Subproject Description'),
 (10063, N'SubprojectStage', N'Subproject Stage'),
-(10064, N'SubprojectNote', N'Subproject Note')
+(10064, N'SubprojectNote', N'Subproject Note'),
+(10065, N'SubprojectActionItem', N'Subproject Action Item'),
+(10066, N'SubprojectActionItemState', N'Subproject Action Item State'),
+(10067, N'SubprojectActionItemAssignedToPerson', N'Subproject Action Item Assigned To Person'),
+(10068, N'SubprojectActionItemAssignedOnDate', N'Subproject Action Item Assigned On Date'),
+(10069, N'SubprojectActionItemDueByDate', N'Subproject Action Item Due By Date'),
+(10070, N'SubprojectActionItemCompletedOnDate', N'Subproject Action Item Completed On'),
+(10071, N'SubprojectActionItemSubprojectStatus', N'Subproject Action Item Related Subproject Status Update'),
+(10072, N'SubprojectActionItemText', N'Subproject Action Item Text')
+

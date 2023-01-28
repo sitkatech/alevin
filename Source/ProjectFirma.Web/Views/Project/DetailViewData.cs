@@ -45,6 +45,7 @@ using ProjectFirma.Web.Views.Shared.ProjectPotentialPartner;
 using ProjectFirma.Web.Views.ProjectFunding;
 using ProjectFirma.Web.Views.Shared.ProjectBalanceBurnUp;
 using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures;
+using ProjectFirma.Web.Views.Shared.ProjectTimeline;
 
 namespace ProjectFirma.Web.Views.Project
 {
