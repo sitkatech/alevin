@@ -151,6 +151,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.TrackAccomplishments)]
         public bool TrackAccomplishments { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.SetTargetsByGeospatialArea)]
+        public bool SetTargetsByGeospatialArea { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -185,6 +188,7 @@ namespace ProjectFirma.Web.Views.Tenant
             EnableMatchmaker = tenantAttribute.EnableMatchmaker;
             TrackAccomplishments = tenantAttribute.TrackAccomplishments;
             EnableSolicitations = tenantAttribute.EnableSolicitations;
+            SetTargetsByGeospatialArea = tenantAttribute.SetTargetsByGeospatialArea;
         }
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
@@ -225,6 +229,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.EnableMatchmaker = EnableMatchmaker;
             tenantAttribute.TrackAccomplishments = TrackAccomplishments;
             tenantAttribute.EnableSolicitations = EnableSolicitations;
+            tenantAttribute.SetTargetsByGeospatialArea = SetTargetsByGeospatialArea;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

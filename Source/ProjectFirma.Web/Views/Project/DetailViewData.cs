@@ -155,6 +155,8 @@ namespace ProjectFirma.Web.Views.Project
 
         public string UpdateStatusUrl { get; set; }
 
+        public ProjectFirmaModels.Models.ProjectAttachment QuickAccessAttachment { get; }
+
         public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.Project project,
             List<ProjectStage> projectStages,
             ProjectBasicsViewData projectBasicsViewData, ProjectLocationSummaryViewData projectLocationSummaryViewData,
@@ -443,6 +445,9 @@ namespace ProjectFirma.Web.Views.Project
             ProjectEvaluationsUserHasAccessTo = projectEvaluationsUserHasAccessTo;
 
             ShowFactSheetButton = OfferProjectFactSheetLinkFeature.OfferProjectFactSheetLink(currentFirmaSession, project);
+
+            QuickAccessAttachment =
+                project.ProjectAttachments.SingleOrDefault(x => x.AttachmentType.IsQuickAccessAttachment);
 
             ActionItemsDisplayViewData = actionItemsDisplayViewData;
             UserCanViewActionItems = userCanViewActionItems;
