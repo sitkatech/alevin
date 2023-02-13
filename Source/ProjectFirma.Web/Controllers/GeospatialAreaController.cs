@@ -109,8 +109,40 @@ namespace ProjectFirma.Web.Controllers
 
             var projectCustomDefaultGridConfigurations = HttpRequestStorage.DatabaseEntities.ProjectCustomGridConfigurations.Where(x => x.IsEnabled && x.ProjectCustomGridTypeID == ProjectCustomGridType.Default.ProjectCustomGridTypeID).OrderBy(x => x.SortOrder).ToList();
 
-            var viewData = new DetailViewData(CurrentFirmaSession, geospatialArea, mapInitJson, projectLayerGeoJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations);
+            FinancialDataByProjectAndCawbsForGeospatialAreaGridSpec financialGridSpec = new FinancialDataByProjectAndCawbsForGeospatialAreaGridSpec(CurrentFirmaSession);
+            string financialGridDataUrl = SitkaRoute<GeospatialAreaController>.BuildUrlFromExpression(x =>
+                x.FinancialDataByProjectAndCawbsForGeospatialAreaGridJsonData(geospatialArea));
+            string financialGridName = "financialDataByProjectAndCawbsForGeospatialAreaGrid";
+
+            var viewData = new DetailViewData(CurrentFirmaSession, geospatialArea, mapInitJson, projectLayerGeoJson, viewGoogleChartViewData, performanceMeasures, projectCustomDefaultGridConfigurations, financialGridSpec, financialGridName, financialGridDataUrl);
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        [GeospatialAreaManageFeature]
+        public GridJsonNetJObjectResult<FinancialDataByProjectAndCawbsForGeospatialArea> FinancialDataByProjectAndCawbsForGeospatialAreaGridJsonData(GeospatialAreaPrimaryKey geospatialAreaPrimaryKey)
+        {
+            var geospatialArea = geospatialAreaPrimaryKey.EntityObject;
+            var gridSpec = new FinancialDataByProjectAndCawbsForGeospatialAreaGridSpec(CurrentFirmaSession);
+            var projectsViewableByUser = geospatialArea.ProjectGeospatialAreas.Select(x => x.Project).ToList().GetActiveProjectsAndProposals(CurrentFirmaSession.CanViewProposals(), CurrentFirmaSession).ToList();
+
+            var financialData = new List<FinancialDataByProjectAndCawbsForGeospatialArea>();
+
+            foreach (var project in projectsViewableByUser)
+            {
+                var costAuthorities = project.CostAuthorityProjects.Select(x => x.CostAuthority).ToList();
+                foreach (var costAuthority in costAuthorities)
+                {
+                    var wbsElementPnBudgets = costAuthority.WbsElementPnBudgets.ToList();
+                    foreach (var wbsElement in wbsElementPnBudgets)
+                    {
+                        var dataToAdd = new FinancialDataByProjectAndCawbsForGeospatialArea(project, costAuthority, wbsElement);
+                        financialData.Add(dataToAdd);
+                    }
+                }
+            }
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<FinancialDataByProjectAndCawbsForGeospatialArea>(financialData, gridSpec);
+            return gridJsonNetJObjectResult;
         }
 
         [HttpGet]

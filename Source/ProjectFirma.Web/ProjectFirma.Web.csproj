@@ -371,6 +371,8 @@
     <Compile Include="Security\UserAdminFeature.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectSimpleLocationCoordinates.cs" />
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
+    <Compile Include="Views\GeospatialArea\FinancialDataByProjectAndCawbsForGeospatialArea.cs" />
+    <Compile Include="Views\GeospatialArea\FinancialDataByProjectAndCawbsForGeospatialAreaGridSpec.cs" />
     <Compile Include="Views\SubprojectActionItem\SubprojectActionItemsDisplay.cs" />
     <Compile Include="Views\SubprojectActionItem\SubprojectActionItemsDisplayViewData.cs" />
     <Compile Include="Views\SubprojectActionItem\SubprojectActionItemsGridSpec.cs" />

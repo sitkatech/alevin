@@ -54,10 +54,21 @@ namespace ProjectFirma.Web.Views.GeospatialArea
         public int ColumnIndexForFilterOnLoad { get; }
         public List<string> ProjectStagesToBeSelectedOnLoad { get; }
 
-        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.GeospatialArea geospatialArea, 
-                            MapInitJson mapInitJson, LayerGeoJson projectLocationsLayerGeoJson, ViewGoogleChartViewData viewGoogleChartViewData, 
-                            List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures,
-                            List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations) : base(currentFirmaSession)
+        public FinancialDataByProjectAndCawbsForGeospatialAreaGridSpec FinancialGridSpec { get; }
+        public string FinancialGridName { get; }
+        public string FinancialGridDataUrl { get; }
+
+        public DetailViewData(FirmaSession currentFirmaSession, 
+                              ProjectFirmaModels.Models.GeospatialArea geospatialArea, 
+                              MapInitJson mapInitJson, 
+                              LayerGeoJson projectLocationsLayerGeoJson, 
+                              ViewGoogleChartViewData viewGoogleChartViewData, 
+                              List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures, 
+                              List<ProjectCustomGridConfiguration> projectCustomDefaultGridConfigurations, 
+                              FinancialDataByProjectAndCawbsForGeospatialAreaGridSpec financialGridSpec, 
+                              string financialGridName, 
+                              string financialGridDataUrl
+                              ) : base(currentFirmaSession)
         {
             GeospatialArea = geospatialArea;
             MapInitJson = mapInitJson;
@@ -75,15 +86,17 @@ namespace ProjectFirma.Web.Views.GeospatialArea
             ProjectCustomDefaultGridName = "geospatialAreaProjectListGrid";
             ProjectCustomDefaultGridDataUrl = SitkaRoute<ProjectCustomGridController>.BuildUrlFromExpression(tc => tc.GeospatialAreaProjectsGridJsonData(geospatialArea));
 
-            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x=>geospatialArea.GetPerformanceMeasureChartViewData(x, currentFirmaSession)).ToList();
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => geospatialArea.GetPerformanceMeasureChartViewData(x, currentFirmaSession)).ToList();
 
             GeospatialAreaDescriptionViewPageContentViewData = new ViewPageContentViewData(geospatialArea, currentFirmaSession);
 
             ColumnIndexForFilterOnLoad = 6;
             ProjectStagesToBeSelectedOnLoad = new List<string>() { ProjectStage.Proposal.ProjectStageDisplayName, ProjectStage.PlanningDesign.ProjectStageDisplayName, ProjectStage.Implementation.ProjectStageDisplayName, ProjectStage.PostImplementation.ProjectStageDisplayName };
-
+            FinancialGridSpec = financialGridSpec;
+            FinancialGridName = financialGridName;
+            FinancialGridDataUrl = financialGridDataUrl;
         }
 
-        
+
     }
 }
