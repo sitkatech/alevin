@@ -192,6 +192,18 @@ Source code is available upon request via <support@sitkatech.com>.
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h2>@FieldDefinitionEnum.Obligation.ToType().GetFieldDefinitionLabelPluralized() and @FieldDefinitionEnum.TotalExpenditures.ToType().GetFieldDefinitionLabelPluralized() by @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() and @FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()</h2>
+                            </div>
+                            <div class="panel-body">
+                                @Html.DhtmlxGrid(ViewDataTyped.FinancialGridSpec, ViewDataTyped.FinancialGridName, ViewDataTyped.FinancialGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             @if (MultiTenantHelpers.TrackAccomplishments())
             {
