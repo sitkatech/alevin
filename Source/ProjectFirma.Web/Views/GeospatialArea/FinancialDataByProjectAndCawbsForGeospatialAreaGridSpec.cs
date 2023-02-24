@@ -20,8 +20,11 @@ namespace ProjectFirma.Web.Views.GeospatialArea
                 DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
             Add("Fiscal Year", x => x.WbsElementPnBudget.FiscalYear.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
 
-            Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), x => x.WbsElementPnBudget.TotalObligations, 100, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.TotalExpenditures.ToType().ToGridHeaderString(), x => x.WbsElementPnBudget.TotalExpenditures, 100, DhtmlxGridColumnFormatType.Decimal, DhtmlxGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), x => x.WbsElementPnBudget.TotalObligations, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.TotalExpenditures.ToType().ToGridHeaderString(), x => x.WbsElementPnBudget.TotalExpenditures, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+
+            Add("FI Doc Number", x => x.WbsElementPnBudget.FIDocNumber, 100);
+
         }
     }
 }
