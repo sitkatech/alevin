@@ -25,6 +25,8 @@ namespace ProjectFirma.Web.Views.GeospatialArea
 
             Add("FI Doc Number", x => x.WbsElementPnBudget.FIDocNumber, 100);
 
+            Add("Budget Object Code", x => x.WbsElementPnBudget.BudgetObjectCode?.BudgetObjectCodeName, 100, DhtmlxGridColumnFilterType.Text);
+
         }
     }
 }
