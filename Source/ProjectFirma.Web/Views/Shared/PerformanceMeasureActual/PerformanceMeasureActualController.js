@@ -119,6 +119,7 @@ angular.module("ProjectFirmaApp").controller("PerformanceMeasureActualController
 
     $scope.createNewRow = function (performanceMeasure) {
         $scope.PerformanceMeasureActualIDNew += -1;
+        $scope.PerformanceMeasureActualIDNew += -1;
         var newPerformanceMeasureActual = {
             ProjectID: $scope.AngularViewData.ProjectID,
             PerformanceMeasureID: performanceMeasure.PerformanceMeasureID,

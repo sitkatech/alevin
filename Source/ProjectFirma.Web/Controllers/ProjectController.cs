@@ -1177,5 +1177,44 @@ Continue with a new {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabe
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<WbsElementObligationItemBudget>(obligationItemBudgets, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        [HttpGet]
+        [FirmaAdminFeature]
+        public PartialViewResult RevertProjectToPendingApproval(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var viewModel = new ConfirmDialogFormViewModel();
+
+            var viewData = new ConfirmDialogFormViewData($@"
+<div>
+Are you sure you want to revert this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()}, {project.GetDisplayName()}, to a Draft?
+</div>");
+            return RazorPartialView<ConfirmDialogForm, ConfirmDialogFormViewData, ConfirmDialogFormViewModel>(viewData, viewModel);
+        }
+
+        [HttpPost]
+        [FirmaAdminFeature]
+        public ActionResult RevertProjectToPendingApproval(ProjectPrimaryKey projectPrimaryKey, ConfirmDialogFormViewModel viewModel)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            Check.Assert(project.ProjectApprovalStatus == ProjectApprovalStatus.Approved,
+                $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is not in Approved state and cannot be returned to a Draft. Actual state is: " + project.ProjectApprovalStatus.ProjectApprovalStatusDisplayName);
+
+            project.ProjectApprovalStatusID = ProjectApprovalStatus.Draft.ProjectApprovalStatusID;
+            project.ApprovalDate = null;
+            project.ReviewedByPersonID = null;
+
+            var auditLog = new AuditLog(CurrentPerson, DateTime.Now, AuditLogEventType.Added, "Project", project.ProjectID, "ProjectID", project.ProjectID.ToString(), true)
+            {
+                ProjectID = project.ProjectID,
+                AuditDescription = $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} {project.GetDisplayName()} reverted from Approved to Draft."
+            };
+
+            HttpRequestStorage.DatabaseEntities.AllAuditLogs.Add(auditLog);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+
+            SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName())}\" successfully reverted to Pending Approval.");
+            return new ModalDialogFormJsonResult(project.GetDetailUrl());
+        }
     }
 }
