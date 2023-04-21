@@ -66,8 +66,14 @@ namespace ProjectFirma.Web.Models
 
         public static string GetFullNameFirstLastAndOrg(this Person person) => $"{person.FirstName} {person.LastName} - {person.Organization.GetDisplayName()}";
 
-        public static string GetFullNameFirstLastAndOrgShortName(this Person person) =>
-            $"{person.FirstName} {person.LastName} ({person.Organization.GetOrganizationShortNameIfAvailable()})";
+        public static string GetFullNameFirstLastAndOrgShortName(this Person person)
+        {
+            if (person == null)
+            {
+                return string.Empty;
+            }
+            return $"{person.FirstName} {person.LastName} ({person.Organization.GetOrganizationShortNameIfAvailable()})";
+        }
 
         public static string GetOrganizationDescriptor(this Person person)
         {
