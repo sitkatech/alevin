@@ -80,4 +80,32 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         }
 
     }
+
+    public class ProjectRunningBalanceGroupedRecord
+    {
+        public int FiscalYear { get; set; }
+        public int FiscalMonthPeriod { get; set; }
+        public FiscalQuarter FiscalQuarter { get; set; }
+        public double Commitments { get; set; }
+        public double Obligations { get; set; }
+        public double Expenditures { get; set; }
+        public double UndeliveredOrders { get; set; }
+        public ProjectFirmaModels.Models.BudgetObjectCode BudgetObjectCode { get; set; }
+
+        public ProjectRunningBalanceGroupedRecord(IGrouping<object, ProjectRunningBalanceObligationsAndExpendituresRecord> prbGroup)
+        {
+
+            var samplePrbRecord = prbGroup.First();
+
+            BudgetObjectCode = samplePrbRecord.BudgetObjectCode;
+            FiscalYear = samplePrbRecord.FiscalYear;
+            FiscalQuarter = samplePrbRecord.FiscalQuarter;
+            FiscalMonthPeriod = samplePrbRecord.FiscalMonthPeriod;
+
+            Commitments = prbGroup.Sum(pg => pg.Commitments);
+            Obligations = prbGroup.Sum(pg => pg.Obligations);
+            Expenditures = prbGroup.Sum(pg => pg.Expenditures);
+            UndeliveredOrders = prbGroup.Sum(pg => pg.UndeliveredOrders);
+        }
+    }
 }
