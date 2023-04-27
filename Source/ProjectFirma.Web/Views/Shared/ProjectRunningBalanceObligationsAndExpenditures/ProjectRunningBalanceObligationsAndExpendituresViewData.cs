@@ -1,45 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 
 namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 {
     public class ProjectRunningBalanceObligationsAndExpendituresViewData : FirmaUserControlViewData
     {
         public List<ProjectRunningBalanceObligationsAndExpendituresRecord> ProjectRunningBalanceObligationsAndExpendituresRecords { get; set; }
-        public List<ProjectRunningBalanceGroupedRecord> ProjectRunningBalanceGroupedRecords { get; set; }
+        public ProjectRunningBalanceGroupedRecordsGridSpec ProjectRunningBalanceGroupedRecordsGridSpec { get; }
+        public string ProjectRunningBalanceGroupedRecordsGridName { get; }
+        public string ProjectRunningBalanceGroupedRecordsGridDataUrl { get; }
 
-        public ProjectRunningBalanceObligationsAndExpendituresViewData(List<ProjectRunningBalanceObligationsAndExpendituresRecord> projectRunningBalanceObligationsAndExpendituresRecords)
+        public ProjectRunningBalanceObligationsAndExpendituresViewData(List<ProjectRunningBalanceObligationsAndExpendituresRecord> projectRunningBalanceObligationsAndExpendituresRecords, string projectRunningBalanceGroupedRecordsGridDataUrl)
         {
             ProjectRunningBalanceObligationsAndExpendituresRecords =  projectRunningBalanceObligationsAndExpendituresRecords;
 
-
-
-
-            var projectRunningBalanceObligationsAndExpendituresRecordsTemp = projectRunningBalanceObligationsAndExpendituresRecords.GroupBy(
-                prb =>
-                    new
-                    {
-                        prb.FiscalYear,
-                        prb.FiscalQuarter.FiscalQuarterNumber,
-                        prb.FiscalMonthPeriod,
-                        BudgetObjectCodeName = prb.BudgetObjectCode != null ? prb.BudgetObjectCode.BudgetObjectCodeName : string.Empty
-                    }
-                ).ToList();
-
-           var projectRunningBalanceObligationsAndExpendituresRecordsGrouped =
-                projectRunningBalanceObligationsAndExpendituresRecordsTemp.
-                    OrderBy(g => g.Key.FiscalYear)
-                    .ThenBy(g => g.Key.FiscalMonthPeriod)
-                    .ThenBy(g => g.Key.BudgetObjectCodeName)
-                    .ToList();
-
-           ProjectRunningBalanceGroupedRecords = new List<ProjectRunningBalanceGroupedRecord>();
-
-           foreach (var prbGroup in projectRunningBalanceObligationsAndExpendituresRecordsGrouped)
-           {
-                ProjectRunningBalanceGroupedRecords.Add(new ProjectRunningBalanceGroupedRecord(prbGroup));
-           }
-
+            ProjectRunningBalanceGroupedRecordsGridSpec = new ProjectRunningBalanceGroupedRecordsGridSpec();
+            ProjectRunningBalanceGroupedRecordsGridName = "projectRunningBalanceGroupedRecordsGrid";
+            ProjectRunningBalanceGroupedRecordsGridDataUrl = projectRunningBalanceGroupedRecordsGridDataUrl;
 
 
         }

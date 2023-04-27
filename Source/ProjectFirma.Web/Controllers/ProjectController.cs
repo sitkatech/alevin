@@ -309,7 +309,10 @@ namespace ProjectFirma.Web.Controllers
             // Project Running Balance - All Contracts Version
             // -----------------------------------------------
             var prbacs = ProjectRunningBalanceObligationsAndExpendituresRecord.GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(project);
-            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceObligationsAndExpendituresViewData(prbacs);
+
+
+            var projectRunningBalanceGroupedRecordsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectRunningBalanceGroupedRecordsGridJsonData(project));
+            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceObligationsAndExpendituresViewData(prbacs, projectRunningBalanceGroupedRecordsGridDataUrl);
             var projectBalanceBurnUpViewData = new ProjectBalanceBurnUpViewData(prbacs, project);
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
@@ -371,6 +374,41 @@ namespace ProjectFirma.Web.Controllers
                 projectRunningBalanceAllContractViewData,
                 projectBalanceBurnUpViewData);
             return RazorView<Detail, DetailViewData>(viewData);
+        }
+
+        [ProjectViewFeature]
+        public GridJsonNetJObjectResult<ProjectRunningBalanceGroupedRecord> ProjectRunningBalanceGroupedRecordsGridJsonData(ProjectPrimaryKey projectPrimaryKey)
+        {
+            var project = projectPrimaryKey.EntityObject;
+            var gridSpec = new ProjectRunningBalanceGroupedRecordsGridSpec();
+            var prbacs = ProjectRunningBalanceObligationsAndExpendituresRecord.GetProjectRunningBalanceObligationsAndExpendituresRecordsForProject(project);
+            var projectRunningBalanceObligationsAndExpendituresRecordsTemp = prbacs.GroupBy(
+                prb =>
+                    new
+                    {
+                        prb.FiscalYear,
+                        prb.FiscalQuarter.FiscalQuarterNumber,
+                        prb.FiscalMonthPeriod,
+                        BudgetObjectCodeName = prb.BudgetObjectCode != null ? prb.BudgetObjectCode.BudgetObjectCodeName : string.Empty
+                    }
+            ).ToList();
+
+            var projectRunningBalanceObligationsAndExpendituresRecordsGrouped =
+                projectRunningBalanceObligationsAndExpendituresRecordsTemp.
+                    OrderBy(g => g.Key.FiscalYear)
+                    .ThenBy(g => g.Key.FiscalMonthPeriod)
+                    .ThenBy(g => g.Key.BudgetObjectCodeName)
+                    .ToList();
+
+            var projectRunningBalanceGroupedRecords = new List<ProjectRunningBalanceGroupedRecord>();
+
+            foreach (var prbGroup in projectRunningBalanceObligationsAndExpendituresRecordsGrouped)
+            {
+                projectRunningBalanceGroupedRecords.Add(new ProjectRunningBalanceGroupedRecord(prbGroup));
+            }
+
+            var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<ProjectRunningBalanceGroupedRecord>(projectRunningBalanceGroupedRecords, gridSpec);
+            return gridJsonNetJObjectResult;
         }
 
         private void AddWarningForSubmittingFinalStatusReportIfNeeded(Project project, HtmlString addProjectProjectStatusButton)
