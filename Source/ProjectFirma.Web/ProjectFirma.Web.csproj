@@ -374,6 +374,7 @@
     <Compile Include="Service\ServiceModels\WebServiceProjectGeometry.cs" />
     <Compile Include="Views\GeospatialArea\FinancialDataByProjectAndCawbsForGeospatialArea.cs" />
     <Compile Include="Views\GeospatialArea\FinancialDataByProjectAndCawbsForGeospatialAreaGridSpec.cs" />
+    <Compile Include="Views\Shared\ProjectRunningBalanceObligationsAndExpenditures\ProjectRunningBalanceGroupedRecordsGridSpec.cs" />
     <Compile Include="Views\SubprojectActionItem\SubprojectActionItemsDisplay.cs" />
     <Compile Include="Views\SubprojectActionItem\SubprojectActionItemsDisplayViewData.cs" />
     <Compile Include="Views\SubprojectActionItem\SubprojectActionItemsGridSpec.cs" />

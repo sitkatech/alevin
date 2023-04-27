@@ -19,7 +19,9 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
+@using LtInfo.Common.DhtmlWrappers
 @using ProjectFirma.Web.Models
+@using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
 @using ProjectFirmaModels.Models
 @inherits ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures.ProjectRunningBalanceObligationsAndExpenditures
@@ -146,10 +148,15 @@
         </table>
     </div>
 
+<hr />
+
+<div>
+
+    @Html.DhtmlxGrid(ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridSpec, ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridName, ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+
+
+</div>
 
 
 
 
-
-
-@*  *@
