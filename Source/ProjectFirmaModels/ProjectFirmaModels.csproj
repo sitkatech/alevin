@@ -1184,6 +1184,7 @@
     <Compile Include="Models\ProjectCustomGridConfigurationSimple.cs" />
     <Compile Include="Models\ProjectStageSimple.cs" />
     <Compile Include="Models\ProjectStatus.cs" />
+    <Compile Include="Models\ProjectUpdateBatchClassificationSystem.cs" />
     <Compile Include="Models\ProjectTaxonomyLeafTest.cs" />
     <Compile Include="Models\ReportTemplate.cs" />
     <Compile Include="Models\ReportTemplateModel.cs" />
