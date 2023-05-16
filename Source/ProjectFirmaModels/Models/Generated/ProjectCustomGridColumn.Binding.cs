@@ -34,7 +34,8 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnNumberOfReportedExpenditures NumberOfReportedExpenditures = ProjectCustomGridColumnNumberOfReportedExpenditures.Instance;
         public static readonly ProjectCustomGridColumnFundingType FundingType = ProjectCustomGridColumnFundingType.Instance;
         public static readonly ProjectCustomGridColumnEstimatedTotalCost EstimatedTotalCost = ProjectCustomGridColumnEstimatedTotalCost.Instance;
-        public static readonly ProjectCustomGridColumnProjectedFunding ProjectedFunding = ProjectCustomGridColumnProjectedFunding.Instance;
+        public static readonly ProjectCustomGridColumnSecuredFunding SecuredFunding = ProjectCustomGridColumnSecuredFunding.Instance;
+        public static readonly ProjectCustomGridColumnTargetedFunding TargetedFunding = ProjectCustomGridColumnTargetedFunding.Instance;
         public static readonly ProjectCustomGridColumnNoFundingSourceIdentified NoFundingSourceIdentified = ProjectCustomGridColumnNoFundingSourceIdentified.Instance;
         public static readonly ProjectCustomGridColumnProjectDescription ProjectDescription = ProjectCustomGridColumnProjectDescription.Instance;
         public static readonly ProjectCustomGridColumnNumberOfPhotos NumberOfPhotos = ProjectCustomGridColumnNumberOfPhotos.Instance;
@@ -59,7 +60,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectCustomGridColumn()
         {
-            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, ProjectedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory, NumberOfExpectedPerformanceMeasureRecords, Solicitation, FundingSources, Organizations, NPCCProvince };
+            All = new List<ProjectCustomGridColumn> { ProjectName, PrimaryContactOrganization, ProjectStage, NumberOfReportedPerformanceMeasures, ProjectsStewardOrganizationRelationshipToProject, ProjectPrimaryContact, ProjectPrimaryContactEmail, PlanningDesignStartYear, ImplementationStartYear, CompletionYear, PrimaryTaxonomyLeaf, SecondaryTaxonomyLeaf, NumberOfReportedExpenditures, FundingType, EstimatedTotalCost, SecuredFunding, TargetedFunding, NoFundingSourceIdentified, ProjectDescription, NumberOfPhotos, GeospatialAreaName, CustomAttribute, ProjectID, ProjectLastUpdated, ProjectStatus, FinalStatusUpdateStatus, ProjectCategory, NumberOfExpectedPerformanceMeasureRecords, Solicitation, FundingSources, Organizations, NPCCProvince };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectCustomGridColumn>(All.ToDictionary(x => x.ProjectCustomGridColumnID));
         }
 
@@ -171,8 +172,6 @@ namespace ProjectFirmaModels.Models
                     return ProjectCategory;
                 case ProjectCustomGridColumnEnum.ProjectDescription:
                     return ProjectDescription;
-                case ProjectCustomGridColumnEnum.ProjectedFunding:
-                    return ProjectedFunding;
                 case ProjectCustomGridColumnEnum.ProjectID:
                     return ProjectID;
                 case ProjectCustomGridColumnEnum.ProjectLastUpdated:
@@ -191,8 +190,12 @@ namespace ProjectFirmaModels.Models
                     return ProjectStatus;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     return SecondaryTaxonomyLeaf;
+                case ProjectCustomGridColumnEnum.SecuredFunding:
+                    return SecuredFunding;
                 case ProjectCustomGridColumnEnum.Solicitation:
                     return Solicitation;
+                case ProjectCustomGridColumnEnum.TargetedFunding:
+                    return TargetedFunding;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -216,7 +219,8 @@ namespace ProjectFirmaModels.Models
         NumberOfReportedExpenditures = 13,
         FundingType = 14,
         EstimatedTotalCost = 15,
-        ProjectedFunding = 17,
+        SecuredFunding = 16,
+        TargetedFunding = 17,
         NoFundingSourceIdentified = 18,
         ProjectDescription = 19,
         NumberOfPhotos = 20,
@@ -324,10 +328,16 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectCustomGridColumnEstimatedTotalCost Instance = new ProjectCustomGridColumnEstimatedTotalCost(15, @"EstimatedTotalCost", @"Estimated Total Cost", true);
     }
 
-    public partial class ProjectCustomGridColumnProjectedFunding : ProjectCustomGridColumn
+    public partial class ProjectCustomGridColumnSecuredFunding : ProjectCustomGridColumn
     {
-        private ProjectCustomGridColumnProjectedFunding(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
-        public static readonly ProjectCustomGridColumnProjectedFunding Instance = new ProjectCustomGridColumnProjectedFunding(17, @"ProjectedFunding", @"Projected Funding", true);
+        private ProjectCustomGridColumnSecuredFunding(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnSecuredFunding Instance = new ProjectCustomGridColumnSecuredFunding(16, @"SecuredFunding", @"Secured Funding", true);
+    }
+
+    public partial class ProjectCustomGridColumnTargetedFunding : ProjectCustomGridColumn
+    {
+        private ProjectCustomGridColumnTargetedFunding(int projectCustomGridColumnID, string projectCustomGridColumnName, string projectCustomGridColumnDisplayName, bool isOptional) : base(projectCustomGridColumnID, projectCustomGridColumnName, projectCustomGridColumnDisplayName, isOptional) {}
+        public static readonly ProjectCustomGridColumnTargetedFunding Instance = new ProjectCustomGridColumnTargetedFunding(17, @"TargetedFunding", @"Targeted Funding", true);
     }
 
     public partial class ProjectCustomGridColumnNoFundingSourceIdentified : ProjectCustomGridColumn
