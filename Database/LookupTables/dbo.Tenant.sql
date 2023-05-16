@@ -14,5 +14,5 @@ values
 (9, 'IdahoAssociatonOfSoilConservationDistricts', 'swcdemo.localhost.projectfirma.com', 'swcdemo.qa.projectfirma.com', 'conservation.idaho.gov', '7/1/1990', 1, 1, 0, 0, 0, 1),
 (11, 'ActionAgendaForPugetSound', 'actionagendatracker.localhost.projectfirma.com', 'qa-actionagendatracker.pugetsoundinfo.wa.gov', 'actionagendatracker.pugetsoundinfo.wa.gov', '1/1/1990', 0, 0, 1, 1, 1, 0),
 -- This will work until the inevitable vanity URLs arrive:
-(12, 'BureauOfReclamation', 'bor.localhost.projectfirma.com', 'bor.qa.projectfirma.com', 'ibr1pnrwb160.bor.doi.net', '1990-10-01 00:00:00.000', 1, 0, 0, 0, 0, 1),
+(12, 'BureauOfReclamation', 'bor.localhost.projectfirma.com', 'bor.qa.projectfirma.com', 'ibrmazap001.bor.doi.net', '1990-10-01 00:00:00.000', 1, 0, 0, 0, 0, 1),
 (13, 'SSMPProjectTracker', 'SaltonSeaProjects.localhost.projectfirma.com', 'SaltonSeaProjects.qa.projectfirma.com', 'SaltonSeaProjects.projectfirma.com', '1/1/1990', 0, 0, 0, 0, 0, 1)
