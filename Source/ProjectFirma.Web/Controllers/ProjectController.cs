@@ -312,7 +312,7 @@ namespace ProjectFirma.Web.Controllers
 
 
             var projectRunningBalanceGroupedRecordsGridDataUrl = SitkaRoute<ProjectController>.BuildUrlFromExpression(c => c.ProjectRunningBalanceGroupedRecordsGridJsonData(project));
-            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceObligationsAndExpendituresViewData(prbacs, projectRunningBalanceGroupedRecordsGridDataUrl);
+            var projectRunningBalanceAllContractViewData = new ProjectRunningBalanceObligationsAndExpendituresViewData(projectRunningBalanceGroupedRecordsGridDataUrl);
             var projectBalanceBurnUpViewData = new ProjectBalanceBurnUpViewData(prbacs, project);
             var viewData = new DetailViewData(CurrentFirmaSession,
                 project,
