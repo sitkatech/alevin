@@ -618,6 +618,8 @@
     <Compile Include="Views\Reports\ReportTemplateGridSpec.cs" />
     <Compile Include="Views\Reports\Index.cs" />
     <Compile Include="Views\Reports\IndexViewData.cs" />
+    <Compile Include="Views\Results\ProgressDashboard.cs" />
+    <Compile Include="Views\Results\ProgressDashboardViewData.cs" />
     <Compile Include="Views\Results\FundingSummary.cs" />
     <Compile Include="Views\Results\FundingSummaryViewData.cs" />
     <Compile Include="Views\Results\SimpleAccomplishmentsDashboard.cs" />
@@ -966,6 +968,13 @@
     <Content Include="Content\img\SSMPProjectTracker\favicon-96x96.png" />
     <Content Include="Content\img\SSMPProjectTracker\favicon.ico" />
     <Content Include="Content\img\SSMPProjectTracker\favicon.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-checklist.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-community-icon.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-funds-icon.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-group.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-money-tree.png" />
+    <Content Include="Content\img\SSMPProjectTracker\progress-dashboard-partnerships-icon.png" />
+    <Content Include="Content\img\SSMPProjectTracker\project-dashboard-projects-icon.png" />
     <Content Include="Content\jquery.fancybox-buttons.css" />
     <Content Include="Content\jquery.fancybox-thumbs.css" />
     <Content Include="Content\jquery.fancybox.css" />
@@ -2286,6 +2295,7 @@
     <Content Include="Views\Results\FundingSummary.cshtml" />
     <Content Include="Views\TrainingVideo\ManageTrainingVideos.cshtml" />
     <Content Include="Views\TrainingVideo\Edit.cshtml" />
+    <Content Include="Views\Results\ProgressDashboard.cshtml" />
     <Content Include="Views\Subproject\Detail.cshtml" />
     <Content Include="Views\Subproject\SubprojectBasics.cshtml" />
     <Content Include="Views\Shared\SubprojectTimeline\SubprojectTimelineDisplay.cshtml" />

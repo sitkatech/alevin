@@ -154,6 +154,9 @@ namespace ProjectFirma.Web.Views.Tenant
         [FieldDefinitionDisplay(FieldDefinitionEnum.SetTargetsByGeospatialArea)]
         public bool SetTargetsByGeospatialArea { get; set; }
 
+        [DisplayName("Report Financials at project level")]
+        public bool ReportFinancialsAtProjectLevel { get; set; }
+
         /// <summary>
         /// Needed by ModelBinder
         /// </summary>
@@ -189,6 +192,7 @@ namespace ProjectFirma.Web.Views.Tenant
             TrackAccomplishments = tenantAttribute.TrackAccomplishments;
             EnableSolicitations = tenantAttribute.EnableSolicitations;
             SetTargetsByGeospatialArea = tenantAttribute.SetTargetsByGeospatialArea;
+            ReportFinancialsAtProjectLevel = tenantAttribute.ReportFinancialsAtProjectLevel;
         }
 
         public void UpdateModel(TenantAttribute tenantAttribute, FirmaSession currentFirmaSession)
@@ -230,6 +234,7 @@ namespace ProjectFirma.Web.Views.Tenant
             tenantAttribute.TrackAccomplishments = TrackAccomplishments;
             tenantAttribute.EnableSolicitations = EnableSolicitations;
             tenantAttribute.SetTargetsByGeospatialArea = SetTargetsByGeospatialArea;
+            tenantAttribute.ReportFinancialsAtProjectLevel = ReportFinancialsAtProjectLevel;
         }
 
         public void UpdateCostTypes(List<CostType> existingCostTypes, IList<CostType> allCostTypes)

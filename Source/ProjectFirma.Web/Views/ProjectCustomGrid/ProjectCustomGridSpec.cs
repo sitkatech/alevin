@@ -140,19 +140,31 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.NumberOfReportedExpenditures:
-                    Add($"# Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => projectDetailsDictionary[x.ProjectID].ProjectFundingSourceExpenditureCount, 100, DhtmlxGridColumnFormatType.Integer);
+                    if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        Add($"# Of {FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabel()} Records", x => projectDetailsDictionary[x.ProjectID].ProjectFundingSourceExpenditureCount, 100, DhtmlxGridColumnFormatType.Integer);
+                    }
                     break;
                 case ProjectCustomGridColumnEnum.FundingType:
-                    Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(), x => x.FundingType != null ? x.FundingType.FundingTypeDisplayName : "", 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    }
                     break;
                 case ProjectCustomGridColumnEnum.EstimatedTotalCost:
-                    Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    }
                     break;
                 case ProjectCustomGridColumnEnum.ProjectedFunding:
                     Add(FieldDefinitionEnum.ProjectedFunding.ToType().ToGridHeaderString(), x => x.GetProjectedFunding(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
                     break;
                 case ProjectCustomGridColumnEnum.NoFundingSourceIdentified:
-                    Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 110, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    }
                     break;
                 case ProjectCustomGridColumnEnum.ProjectDescription:
                     Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 200);
@@ -203,7 +215,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.FundingSources:
-                    Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => y.GetDisplayNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);
+                    if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => y.GetDisplayNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);
+                    }
                     break;
                 case ProjectCustomGridColumnEnum.Organizations:
                     Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetAssociatedOrganizations().OrderBy(y => y.OrganizationShortName).Select(y => y.GetShortNameAsUrl()))), 300, DhtmlxGridColumnFilterType.Html);

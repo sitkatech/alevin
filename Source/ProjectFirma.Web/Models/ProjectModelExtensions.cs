@@ -344,6 +344,10 @@ namespace ProjectFirma.Web.Models
             {
                 projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
             }
+            if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Financials).ToList();
+            }
             return projectWorkflowSectionGroupings.SelectMany(x => x.GetProjectCreateSections(project, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
 
@@ -571,8 +575,8 @@ namespace ProjectFirma.Web.Models
             FirmaSession firmaSession)
         {
             var activeProjects = projects.GetActiveProjects();
-            var activeProposals = projects.GetActiveProposals(showProposals, firmaSession);
-            return activeProjects.Union(activeProposals, new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.GetDisplayName()).ToList();
+            var activeProposalsAndPendingProjects = projects.GetActiveProposalsAndPendingProjects(showProposals, firmaSession);
+            return activeProjects.Union(activeProposalsAndPendingProjects, new HavePrimaryKeyComparer<Project>()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
         public static List<Project> GetActiveProjects(this IList<Project> projects)
@@ -580,7 +584,7 @@ namespace ProjectFirma.Web.Models
             return projects.Where(x => x.IsActiveProject()).OrderBy(x => x.GetDisplayName()).ToList();
         }
 
-        public static List<Project> GetActiveProposals(this IList<Project> projects, bool showProposals,
+        public static List<Project> GetActiveProposalsAndPendingProjects(this IList<Project> projects, bool showProposals,
             FirmaSession firmaSession)
         {
             if (!showProposals)
@@ -588,7 +592,10 @@ namespace ProjectFirma.Web.Models
                 return new List<Project>();
             }
 
-            return projects.GetProposalsVisibleToUser(firmaSession).Where(x => x.IsActiveProposal()).OrderBy(x => x.GetDisplayName()).ToList();
+            var proposalsAndPendingProjects = projects.GetProposalsVisibleToUser(firmaSession).Where(x => x.IsActiveProposal()).ToList();
+            proposalsAndPendingProjects.AddRange(projects.GetPendingProjectsVisibleToUser(firmaSession).Where(x => x.IsActivePendingProject()));
+
+            return proposalsAndPendingProjects.OrderBy(x => x.GetDisplayName()).ToList();
         }
 
 
@@ -597,9 +604,9 @@ namespace ProjectFirma.Web.Models
             return projects.Where(x => x.IsProposal() && new ProjectViewFeature().HasPermission(firmaSession, x).HasPermission).ToList();
         }
 
-        public static List<Project> GetPendingProjects(this IList<Project> projects, bool showPendingProjects)
+        public static List<Project> GetPendingProjectsVisibleToUser(this IList<Project> projects, FirmaSession firmaSession)
         {
-            return showPendingProjects ? projects.Where(x => x.IsPendingProject()).OrderBy(x => x.GetDisplayName()).ToList() : new List<Project>();
+            return projects.Where(x => x.IsPendingProject() && new ProjectViewFeature().HasPermission(firmaSession, x).HasPermission).ToList();
         }
 
         public static List<Project> GetUpdatableProjectsThatHaveNotBeenSubmittedForBackgroundJob(this IQueryable<Project> projects, int tenantID)

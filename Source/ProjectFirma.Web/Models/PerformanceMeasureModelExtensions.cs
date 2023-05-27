@@ -166,21 +166,21 @@ namespace ProjectFirma.Web.Models
                             reportedValuesGroup.Sum(x => x.GetReportedValue()))).ToList();
         }
 
-        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<Project> projects, string chartUniqueName)
+        public static List<GoogleChartJson> GetGoogleChartJsonDictionary(this PerformanceMeasure performanceMeasure, GeospatialArea geospatialArea, List<Project> projects, string chartUniqueName, bool projectsIntentionallyEmpty)
         {
-            var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects);
+            var reportedValues = performanceMeasure.GetProjectPerformanceMeasureSubcategoryOptionReportedValues(projects, projectsIntentionallyEmpty);
             return PerformanceMeasureSubcategoryModelExtensions.MakeGoogleChartJsons(performanceMeasure, geospatialArea, reportedValues);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, FirmaSession currentFirmaSession)
         {
             var projects = performanceMeasure.GetAssociatedProjectsWithReportedValues(currentFirmaSession);
-            return performanceMeasure.GetReportedPerformanceMeasureValues(projects);
+            return performanceMeasure.GetReportedPerformanceMeasureValues(projects, false);
         }
 
         public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, Project project)
         {
-            return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Project> { project });
+            return performanceMeasure.GetReportedPerformanceMeasureValues(new List<Project> { project }, false);
         }
 
         public static List<SubprojectPerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, Subproject subproject)
@@ -193,9 +193,9 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.GetReportedPerformanceMeasureValues(new List<ProjectUpdateBatch> { projectUpdateBatch });
         }
 
-        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
+        public static List<PerformanceMeasureReportedValue> GetReportedPerformanceMeasureValues(this PerformanceMeasure performanceMeasure, List<Project> projects, bool projectsIntentionallyEmpty)
         {
-            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
+            var performanceMeasureReportedValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects, projectsIntentionallyEmpty);
             return performanceMeasureReportedValues;
         }
 
@@ -217,9 +217,9 @@ namespace ProjectFirma.Web.Models
             return performanceMeasure.PerformanceMeasureExpecteds.Where(x => projectIDs.Contains(x.ProjectID)).ToList();
         }
 
-        public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects)
+        public static List<ProjectPerformanceMeasureReportingPeriodValue> GetProjectPerformanceMeasureSubcategoryOptionReportedValues(this PerformanceMeasure performanceMeasure, List<Project> projects, bool projectsIntentionallyEmpty)
         {
-            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects);
+            var performanceMeasureValues = performanceMeasure.PerformanceMeasureDataSourceType.GetReportedPerformanceMeasureValues(performanceMeasure, projects, projectsIntentionallyEmpty);
 
             var performanceMeasureActualsFiltered = projects?.Any() == true
                 ? performanceMeasureValues.Where(pmav => projects.Contains(pmav.Project)).ToList()
@@ -397,5 +397,165 @@ namespace ProjectFirma.Web.Models
             bool hasTargets = performanceMeasure.GeospatialAreaPerformanceMeasureReportingPeriodTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID) || performanceMeasure.GeospatialAreaPerformanceMeasureFixedTargets.Any(x => x.GeospatialAreaID == geospatialArea.GeospatialAreaID);
             return hasTargets;
         }
+
+        public static List<GooglePieChartSlice> GetProgressDashboardPieChartSlices(this PerformanceMeasure performanceMeasure, List<double> progressDashboardPieChartValues)
+        {
+            var sortOrder = 0;
+            var googlePieChartSlices = new List<GooglePieChartSlice>();
+
+            var blues = new List<string> { "#0075A4", "#72ADCF", "#BFE8FF" };
+            var teals = new List<string> { "#00849C", "#30ACBB", "#A3D6D7" };
+            var multi = new List<string> { "#5D69B1", "#009FB4", "#FEC51A" };
+
+            var colorsToUse = teals;
+
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres Completed", progressDashboardPieChartValues[0], sortOrder++, colorsToUse[0]));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres In Construction", progressDashboardPieChartValues[1], sortOrder++, colorsToUse[1]));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres Planned", progressDashboardPieChartValues[2], sortOrder, colorsToUse[2]));
+            return googlePieChartSlices;
+        }
+
+        public static List<double> GetProgressDashboardPieChartValues(this PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID, int acresInConstructionSubcategoryOptionID)
+        {
+            var acresCompleted = GetTotalActualsForPerformanceMeasureSubcategoryOption(performanceMeasure, acresCompletedSubcategoryOptionID);
+            var acresInConstruction = GetTotalActualsForPerformanceMeasureSubcategoryOption(performanceMeasure, acresInConstructionSubcategoryOptionID);
+            var acresPlanned = GetTotalExpectedsForPerformanceMeasureSubcategoryOption(performanceMeasure) - (acresCompleted + acresInConstruction);
+            acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
+            return new List<double> {acresCompleted, acresInConstruction, acresPlanned};
+        }
+
+        private static double GetTotalActualsForPerformanceMeasureSubcategoryOption(PerformanceMeasure performanceMeasure, int subcategoryOptionID)
+        {
+            return performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x =>
+                x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID)
+                ? performanceMeasure.PerformanceMeasureActualSubcategoryOptions
+                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID)
+                    .Sum(x => x.PerformanceMeasureActual.ActualValue)
+                : 0;
+        }
+
+        private static double GetTotalExpectedsForPerformanceMeasureSubcategoryOption(PerformanceMeasure performanceMeasure)
+        {
+            return performanceMeasure.PerformanceMeasureExpecteds.Any()
+                ? performanceMeasure.PerformanceMeasureExpecteds.Sum(x => x.ExpectedValue ?? 0)
+                : 0;
+        }
+
+        public static GoogleChartDataTable GetProgressDashboardPieChartDataTable(List<GooglePieChartSlice> googlePieChartSlices)
+        {
+            var googleChartColumns = new List<GoogleChartColumn>
+            {
+                new GoogleChartColumn($"Completion Status", GoogleChartColumnDataType.String, GoogleChartType.PieChart),
+                new GoogleChartColumn($"Amount", GoogleChartColumnDataType.Number, GoogleChartType.PieChart)
+
+            };
+
+            var chartRowCs = googlePieChartSlices.Select(x =>
+            {
+                var fundingTypeRowV = new GoogleChartRowV(x.Label);
+                var formattedValue = x.Value.ToGroupedNumeric();
+                var amountRowV = new GoogleChartRowV(x.Value, formattedValue);
+                return new GoogleChartRowC(new List<GoogleChartRowV> { fundingTypeRowV, amountRowV });
+            });
+            var googleChartRowCs = new List<GoogleChartRowC>(chartRowCs);
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return googleChartDataTable;
+        }
+
+        public static Tuple<GoogleChartDataTable, Dictionary<string, string>> GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(this PerformanceMeasure performanceMeasure,
+                                          ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
+                                          List<IGrouping<Project, PerformanceMeasureActualSubcategoryOption>> groupedByProject,
+                                          List<string> chartColumns,
+                                          bool showCumulativeResults)
+        {
+            var googleChartRowCs = new List<GoogleChartRowC>();
+
+            foreach (var performanceMeasureReportingPeriod in performanceMeasureReportingPeriods.OrderBy(x => x.PerformanceMeasureReportingPeriodCalendarYear))
+            {
+                var googleChartRowVs = new List<GoogleChartRowV> { new GoogleChartRowV(performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodLabel) };
+
+                googleChartRowVs.AddRange(groupedByProject.OrderBy(x => x.Key.ProjectName).Select(x =>
+                {
+                    double calendarYearReportedValue;
+                    if (showCumulativeResults)
+                    {
+                        calendarYearReportedValue = x.Any(pmsorv =>
+                            pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
+                            performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear) ?
+                            x.Where(pmsorv =>
+                                pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
+                                performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                            .Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue) : 0;
+                    }
+                    else
+                    {
+                        calendarYearReportedValue = x.Where(pmsorv =>
+                                pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear ==
+                                performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
+                            .Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue);
+                    }
+
+                    return new GoogleChartRowV(calendarYearReportedValue, GoogleChartJson.GetFormattedValue(calendarYearReportedValue, performanceMeasure.MeasurementUnitType));
+                }));
+
+                googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));
+            }
+
+            // reporting period is going to be the first column and it will be our horizontal axis
+            var googleChartColumns = new List<GoogleChartColumn> { new GoogleChartColumn("Reporting Period", GoogleChartColumnDataType.String) };
+
+            // all the project values are individual columns and series and they will be on the vertical axis
+            var projectToColorDictionary = new Dictionary<string, string>();
+            for (int i = 0; i < chartColumns.Count; i++)
+            {
+                projectToColorDictionary.Add(chartColumns[i], ColorSeriesForProgressDashboard[i % 36]);
+                googleChartColumns.Add(new GoogleChartColumn(chartColumns[i], chartColumns[i], GoogleChartColumnDataType.Number.ToString(), new GoogleChartSeries(GoogleChartType.ColumnChart, GoogleChartAxisType.Primary, ColorSeriesForProgressDashboard[i % 36], null, null)));
+            }
+
+            var googleChartDataTable = new GoogleChartDataTable(googleChartColumns, googleChartRowCs);
+            return new Tuple<GoogleChartDataTable, Dictionary<string, string>>(googleChartDataTable, projectToColorDictionary) ;
+        }
+        public static List<string> ColorSeriesForProgressDashboard = new List<string>()
+        {
+            "#3366CC",
+            "#DC3912",
+            "#FF9900",
+            "#109618",
+            "#990099",
+            "#0099C6",
+            "#DD4477",
+            "#66AA00",
+            "#B82E2E",
+            "#316395",
+            "#994499",
+            "#22AA99",
+            "#AAAA11",
+            "#6633CC",
+            "#E67300",
+            "#8B0707",
+            "#651067",
+            "#329262",
+            "#5574A6",
+            "#3B3EAC",
+            "#B77322",
+            "#16D620",
+            "#B91383",
+            "#F4359E",
+            "#9C5935",
+            "#A9C413",
+            "#2A778D",
+            "#668D1C",
+            "#BEA413",
+            "#0C5922",
+            "#743411",
+            "#B322F7",
+            "#59E59A",
+            "#E582B5",
+            "#8080FC",
+            "#FF8282"
+        };
     }
+
+
 }
