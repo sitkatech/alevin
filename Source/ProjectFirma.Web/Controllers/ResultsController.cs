@@ -33,6 +33,7 @@ using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.DesignByContract;
 using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Models;
@@ -198,7 +199,7 @@ namespace ProjectFirma.Web.Controllers
             var projectIDs = projects.Select(x => x.ProjectID).Distinct().ToList();
             var primaryPerformanceMeasuresForTaxonomyTier = taxonomyTier.TaxonomyTierPerformanceMeasures.Select(x => x.Key).ToList();
             var performanceMeasures = primaryPerformanceMeasuresForTaxonomyTier.SelectMany(x => x.PerformanceMeasureActuals.Where(y => projectIDs.Contains(y.ProjectID))).Select(x => x.PerformanceMeasure).Distinct(new HavePrimaryKeyComparer<PerformanceMeasure>()).OrderBy(x => x.PerformanceMeasureDisplayName).ToList();
-            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, projects)).ToList();
+            var performanceMeasureChartViewDatas = performanceMeasures.Select(x => new PerformanceMeasureChartViewData(x, CurrentFirmaSession, false, projects, false)).ToList();
 
             var viewData = new OrganizationAccomplishmentsViewData(performanceMeasureChartViewDatas, taxonomyTier, associatePerformanceMeasureTaxonomyLevel);
             return RazorPartialView<OrganizationAccomplishments, OrganizationAccomplishmentsViewData>(viewData);
@@ -362,8 +363,14 @@ namespace ProjectFirma.Web.Controllers
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.TaxonomyLeaf),
                 taxonomyLeafsAsSelectListItems);
 
-            var classificationsAsSelectList = MultiTenantHelpers.GetClassificationSystems().SelectMany(x => x.Classifications).ToSelectList(x => x.ClassificationID.ToString(CultureInfo.InvariantCulture), x => MultiTenantHelpers.GetClassificationSystems().Count > 1 ? $"{x.ClassificationSystem.ClassificationSystemName} - {x.GetDisplayName()}" : x.GetDisplayName());
-            projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.Classification, string.Join(" & ", MultiTenantHelpers.GetClassificationSystems().Select(x => x.ClassificationSystemName).ToList())), classificationsAsSelectList);
+            foreach (var classificationSystem in MultiTenantHelpers.GetClassificationSystems())
+            {
+                var classificationsAsSelectList = classificationSystem.Classifications.OrderBy(x => x.GetSortOrder()).ThenBy(x => x.GetDisplayName()).ToSelectList(
+                    x => x.ClassificationID.ToString(CultureInfo.InvariantCulture),
+                    x => x.GetDisplayName());
+
+                projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.Classification, classificationSystem.ClassificationSystemName, $"_{classificationSystem.ClassificationSystemID}"), classificationsAsSelectList);
+            }
 
             var projectStagesAsSelectListItems = ProjectMapCustomization.GetProjectStagesForMap(showProposals).ToSelectList(x => x.ProjectStageID.ToString(CultureInfo.InvariantCulture), x => x.ProjectStageDisplayName);
             projectLocationFilterTypesAndValues.Add(new ProjectLocationFilterTypeSimple(ProjectLocationFilterType.ProjectStage), projectStagesAsSelectListItems);
@@ -484,7 +491,7 @@ namespace ProjectFirma.Web.Controllers
                 ? performanceMeasures.Single(x => x.PerformanceMeasureID == performanceMeasureID)
                 : performanceMeasures.First();
             var accomplishmentsChartViewData =
-                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, CurrentFirmaSession, false, new List<Project>());
+                new PerformanceMeasureChartViewData(selectedPerformanceMeasure, CurrentFirmaSession, false, new List<Project>(), true); 
 
             var viewData = new SpendingByPerformanceMeasureByProjectViewData(CurrentFirmaSession, firmaPage,
                 performanceMeasures, selectedPerformanceMeasure, accomplishmentsChartViewData);
@@ -555,6 +562,7 @@ namespace ProjectFirma.Web.Controllers
         [AnonymousUnclassifiedFeature]
         public ViewResult FundingStatus()
         {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomFundingStatusPage(CurrentFirmaSession), "This page is not available for this tenant.");
             var firmaPage = FirmaPageTypeEnum.FundingStatusHeader.GetFirmaPage();
             var firmaPageFooter = FirmaPageTypeEnum.FundingStatusFooter.GetFirmaPage();
             
@@ -587,6 +595,175 @@ namespace ProjectFirma.Web.Controllers
 
             var viewData = new FundingStatusViewData(CurrentFirmaSession, firmaPage, firmaPageFooter, summaryGoogleChart, orgTypeGoogleChart);
             return RazorView<FundingStatus, FundingStatusViewData>(viewData);
+        }
+
+        [AnonymousUnclassifiedFeature]
+        public ViewResult ProgressDashboard()
+        {
+            Check.RequireTrueThrowNotFound(MultiTenantHelpers.UsesCustomProgressDashboardPage(CurrentFirmaSession), "This page is not available for this tenant.");
+            var firmaPage = FirmaPageTypeEnum.ProgressDashboardIntro.GetFirmaPage();
+
+            var activeProjects = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Where(x => x.ProjectStageID != ProjectStage.Terminated.ProjectStageID && x.ProjectStageID != ProjectStage.Deferred.ProjectStageID).ToList();
+
+            /* Progress Overview section numbers*/
+            var projectCount = HttpRequestStorage.DatabaseEntities.Projects.ToList().GetActiveProjects().Count(x => x.ProjectStageID != ProjectStage.Terminated.ProjectStageID && x.ProjectStageID != ProjectStage.Deferred.ProjectStageID);
+            var fundsCommittedToProgramDecimal = HttpRequestStorage.DatabaseEntities.FundingSources.Sum(x => x.FundingSourceAmount);
+            var fundsCommittedToProgram = fundsCommittedToProgramDecimal.HasValue ? Math.Round(fundsCommittedToProgramDecimal.Value / 1000000) : 0;
+            var partnershipCount = activeProjects.SelectMany(x => x.GetAssociatedOrganizations()).Distinct().Count();
+            // PerformanceMeasureID = 3733 is the Outcome "Community Engagement Meetings Held"
+            var communityEngagementCount = GetPerformanceMeasureActualsSumForPerformanceMeasure(3733);
+
+            /* Acres Controlled | By The Numbers section numbers*/
+            // PerformanceMeasureID = 3757 is the Outcome "Total Acres Controlled"
+            var totalAcresControlled = GetPerformanceMeasureActualsSumForPerformanceMeasure(3757);
+            // PerformanceMeasureID = 3731 is the Outcome "Area Treated for Dust Suppression"
+            var dustSuppressionPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3731);
+            // PerformanceMeasureID = 3736 is "Area Treated for Vegetation Enhancement"
+            var vegetationEnhancementPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3736);
+            // PerformanceMeasureID = 3737 "Area of Aquatic Habitat Created"
+            var aquaticHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3737);
+            // PerformanceMeasureID = 3750 is "Area of Endangered & Special Status Species Habitat Created"
+            var endangeredSpeciesHabitatCreatedPerformanceMeasure = HttpRequestStorage.DatabaseEntities.PerformanceMeasures.Single(x => x.PerformanceMeasureID == 3750);
+            var acresControlledByTheNumbersFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledByTheNumbers.GetFirmaPage();
+
+            /* Acres Controlled pie charts */
+            var acresControlledPieChartFirmaPage = FirmaPageTypeEnum.ProgressDashboardAcresControlledPieCharts.GetFirmaPage();
+            var areaTreatedForDustSuppressionPieChartTitle = "Area Treated for Dust Suppression";
+            var dustSuppressionValues = dustSuppressionPerformanceMeasure.GetProgressDashboardPieChartValues(6114, 6254);
+            var areaTreatedForDustSuppressionPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(dustSuppressionPerformanceMeasure, areaTreatedForDustSuppressionPieChartTitle, dustSuppressionValues);
+
+            var areaTreatedForVegetationEnhancementChartTitle = "Area Treated for Vegetation Enhancement";
+            var vegetationEnhancementValues = vegetationEnhancementPerformanceMeasure.GetProgressDashboardPieChartValues(6122, 6253);
+            var areaTreatedForVegetationEnhancementGoogleChart = MakeGoogleChartJsonForProgressDashboardPieChart(vegetationEnhancementPerformanceMeasure, areaTreatedForVegetationEnhancementChartTitle, vegetationEnhancementValues);
+
+            var aquaticHabitatCreatedPieChartTitle = "Aquatic Habitat Created";
+            var aquaticHabitatCreatedValues = aquaticHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6123, 6189);
+            var aquaticHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(aquaticHabitatCreatedPerformanceMeasure, aquaticHabitatCreatedPieChartTitle, aquaticHabitatCreatedValues);
+
+
+            var endangeredSpeciesHabitatCreatedPieChartTitle = "Endangered & Special Status Species Habitat Created";
+            var endangeredSpeciesHabitatCreatedValues = endangeredSpeciesHabitatCreatedPerformanceMeasure.GetProgressDashboardPieChartValues(6255, 6256);
+            var endangeredSpeciesHabitatCreatedPieChart = MakeGoogleChartJsonForProgressDashboardPieChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, endangeredSpeciesHabitatCreatedPieChartTitle, endangeredSpeciesHabitatCreatedValues);
+
+
+            var dustSuppressionChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(dustSuppressionPerformanceMeasure, 6114);
+            var vegetationEnhancementChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(vegetationEnhancementPerformanceMeasure, 6122);
+            var aquaticHabitatCreatedChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(aquaticHabitatCreatedPerformanceMeasure, 6123);
+            var endangeredSpeciesHabitatChartJsonsAndProjectColors = MakeGoogleChartJsonsForProgressDashboardBarChart(endangeredSpeciesHabitatCreatedPerformanceMeasure, 6255);
+
+
+            var viewData = new ProgressDashboardViewData(CurrentFirmaSession, firmaPage, projectCount, fundsCommittedToProgram, partnershipCount, communityEngagementCount,
+                totalAcresControlled, acresControlledByTheNumbersFirmaPage, acresControlledPieChartFirmaPage,
+                areaTreatedForDustSuppressionPieChart, areaTreatedForVegetationEnhancementGoogleChart, aquaticHabitatCreatedPieChart, endangeredSpeciesHabitatCreatedPieChart,
+                dustSuppressionValues, vegetationEnhancementValues, aquaticHabitatCreatedValues, endangeredSpeciesHabitatCreatedValues,
+                dustSuppressionChartJsonsAndProjectColors.Item1, dustSuppressionChartJsonsAndProjectColors.Item2,
+                vegetationEnhancementChartJsonsAndProjectColors.Item1, vegetationEnhancementChartJsonsAndProjectColors.Item2,
+                aquaticHabitatCreatedChartJsonsAndProjectColors.Item1, aquaticHabitatCreatedChartJsonsAndProjectColors.Item2,
+                endangeredSpeciesHabitatChartJsonsAndProjectColors.Item1, endangeredSpeciesHabitatChartJsonsAndProjectColors.Item2);
+            return RazorView<ProgressDashboard, ProgressDashboardViewData>(viewData);
+        }
+
+        private double GetPerformanceMeasureActualsSumForPerformanceMeasure(int performanceMeasureID)
+        {
+            return HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Any(x => x.PerformanceMeasureID == performanceMeasureID)
+                ? HttpRequestStorage.DatabaseEntities.PerformanceMeasureActuals.Where(x => x.PerformanceMeasureID == performanceMeasureID).Sum(x => x.ActualValue)
+                : 0;
+        }
+
+        private GoogleChartJson MakeGoogleChartJsonForProgressDashboardPieChart(PerformanceMeasure performanceMeasure, string chartTitle, List<double> values)
+        {
+            var pieSliceTextStyle = new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+
+            // 80% will give space to show google charts legend
+            //var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "80%", 10, 10);
+
+            // 90% is enough space for our custom legend
+            var googleChartConfigurationArea = new GoogleChartConfigurationArea("100%", "90%", 10, 10);
+
+            var googleChartContainerID = chartTitle.Replace(" ", "").Replace("&", "");
+            var googlePieChartSlices = performanceMeasure.GetProgressDashboardPieChartSlices(values);
+            var googleChartDataTable = PerformanceMeasureModelExtensions.GetProgressDashboardPieChartDataTable(googlePieChartSlices);
+            var googlePieChartConfiguration = new GooglePieChartConfiguration(
+                    chartTitle, MeasurementUnitTypeEnum.Acres, googlePieChartSlices,
+                    GoogleChartType.PieChart, googleChartDataTable, pieSliceTextStyle, googleChartConfigurationArea)
+                { PieSliceText = "value", PieHole = 0.4 };
+            googlePieChartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+            return new GoogleChartJson(chartTitle, googleChartContainerID, googlePieChartConfiguration, GoogleChartType.PieChart, googleChartDataTable, null);
+
+        }
+
+        private Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>> MakeGoogleChartJsonsForProgressDashboardBarChart(PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID)
+        {
+            var googleChartJsons = new List<GoogleChartJson>();
+            var projectToColorAndValue = new Dictionary<Project, Tuple<string, double>>();
+            var performanceMeasureReportingPeriods = performanceMeasure.GetPerformanceMeasureReportingPeriodsFromActuals();
+
+            var groupedByProject = new List<IGrouping<Project, PerformanceMeasureActualSubcategoryOption>>();
+            var chartColumns = new List<string>();
+            if (performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x => x.PerformanceMeasureSubcategoryOptionID == acresCompletedSubcategoryOptionID))
+            {
+                groupedByProject = performanceMeasure.PerformanceMeasureActualSubcategoryOptions
+                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == acresCompletedSubcategoryOptionID).GroupBy(x => x.PerformanceMeasureActual.Project).ToList();
+                chartColumns = groupedByProject.Select(x => x.Key.ProjectName).OrderBy(x => x).ToList();
+
+                var chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, false);
+                var googleChartDataTable = chartAndProjectToColorDictionary.Item1;
+
+                var chartName = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcres";
+
+                var googleChartAxisHorizontal = new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                var googleChartAxis = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
+                var googleChartAxisVerticals = new List<GoogleChartAxis> { googleChartAxis };
+
+                var chartConfiguration = new GoogleChartConfiguration(chartName, true, GoogleChartType.ColumnChart,
+                    googleChartDataTable, googleChartAxisHorizontal, googleChartAxisVerticals);
+
+                chartConfiguration.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+                chartConfiguration.SetSeriesIgnoringNullGoogleChartSeries(googleChartDataTable);
+
+                var googleChartJson = new GoogleChartJson("Completed Acres", chartName, chartConfiguration,
+                    GoogleChartType.ColumnChart, googleChartDataTable,
+                    chartColumns, null, null, false);
+                googleChartJson.CanConfigureChart = false;
+
+                googleChartJsons.Add(googleChartJson);
+
+                chartAndProjectToColorDictionary = performanceMeasure.GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(performanceMeasureReportingPeriods, groupedByProject, chartColumns, true);
+                var googleChartDataTableCumulative = chartAndProjectToColorDictionary.Item1;
+
+                var chartNameCumulative = $"{performanceMeasure.GetJavascriptSafeChartUniqueName()}CompletedAcresCumulative";
+
+                var googleChartAxisHorizontalCumulative = new GoogleChartAxis("Year", null, null) { Gridlines = new GoogleChartGridlinesOptions(-1, "transparent") };
+                var googleChartAxisCumulative = new GoogleChartAxis("Completed Acres", MeasurementUnitTypeEnum.Acres, GoogleChartAxisLabelFormat.Short);
+                var googleChartAxisVerticalsCumulative = new List<GoogleChartAxis> { googleChartAxisCumulative };
+
+                var chartConfigurationCumulative = new GoogleChartConfiguration(chartNameCumulative, true, GoogleChartType.ColumnChart,
+                    googleChartDataTableCumulative, googleChartAxisHorizontalCumulative, googleChartAxisVerticalsCumulative);
+
+                chartConfigurationCumulative.Legend.SetLegendPosition(GoogleChartLegendPosition.None);
+                chartConfigurationCumulative.SetSeriesIgnoringNullGoogleChartSeries(googleChartDataTableCumulative);
+
+                var googleChartJsonCumulative = new GoogleChartJson("Completed Acres", chartNameCumulative, chartConfigurationCumulative,
+                    GoogleChartType.ColumnChart, googleChartDataTableCumulative,
+                    chartColumns, null, null, true);
+                googleChartJsonCumulative.CanConfigureChart = false;
+
+                googleChartJsons.Add(googleChartJsonCumulative);
+
+
+                groupedByProject.OrderBy(x => x.Key.ProjectName).Select(x =>
+                {
+                    var calendarYearReportedValue = x.Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue);
+                    return calendarYearReportedValue;
+                });
+
+                var projectToColor = chartAndProjectToColorDictionary.Item2;
+
+                projectToColorAndValue = groupedByProject.OrderBy(x => x.Key.ProjectName).ToDictionary(x => x.Key,
+                    x => new Tuple<string, double>(projectToColor[x.Key.ProjectName], x.Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue)) );
+            }
+
+            return new Tuple<List<GoogleChartJson>, Dictionary<Project, Tuple<string, double>>>(googleChartJsons, projectToColorAndValue) ;
         }
 
         [FirmaAdminFeature]

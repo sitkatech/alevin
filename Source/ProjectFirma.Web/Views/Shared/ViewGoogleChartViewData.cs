@@ -77,6 +77,32 @@ namespace ProjectFirma.Web.Views.Shared
             }
         }
 
+        public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, int chartHeight,
+            bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively) : this(googleChartJsons, chartTitle,
+            chartTitle.Replace(" ", ""), chartHeight, showChartTitle, isPieChart, canConfigureChart, canBeChartedCumulatively)
+        {
+        }
+
+        public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons, string chartTitle, string chartUniqueName, int chartHeight, bool showChartTitle, bool isPieChart, bool canConfigureChart, bool canBeChartedCumulatively) : this(googleChartJsons,
+            chartTitle,
+            chartHeight,
+            null,
+            chartUniqueName,
+            canConfigureChart,
+            SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.DownloadChartData()),
+            showChartTitle,
+            true,
+            null,
+            false)
+        {
+            if (isPieChart)
+            {
+                ChartPopupUrl = SitkaRoute<GoogleChartController>.BuildUrlFromExpression(c => c.GooglePieChartPopup());
+            }
+
+            CanBeChartedCumulatively = canBeChartedCumulatively;
+        }
+
         public ViewGoogleChartViewData(List<GoogleChartJson> googleChartJsons,
             string chartTitle,
             int chartHeight,

@@ -68,10 +68,19 @@ namespace ProjectFirma.Web.Views.Project
                 AddColumn(FieldDefinitionEnum.SecondaryProjectTaxonomyLeaf.ToType().GetFieldDefinitionLabelPluralized(), x => string.Join(", ", x.SecondaryProjectTaxonomyLeafs.Select(y => y.TaxonomyLeaf.GetDisplayName())));
             }
             AddColumn(FieldDefinitionEnum.ProjectDescription.ToType().GetFieldDefinitionLabel(), x => x.ProjectDescription);
-            AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType?.FundingTypeName);
+            
+            if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                AddColumn(FieldDefinitionEnum.FundingType.ToType().GetFieldDefinitionLabel(), x => x.FundingType?.FundingTypeName);
             AddColumn(FieldDefinitionEnum.EstimatedTotalCost.ToType().GetFieldDefinitionLabel(), x => x.GetEstimatedTotalRegardlessOfFundingType());
             AddColumn(FieldDefinitionEnum.ProjectedFunding.ToType().GetFieldDefinitionLabel(), x => x.GetProjectedFunding());
             AddColumn(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().GetFieldDefinitionLabel(), x => x.GetNoFundingSourceIdentifiedAmount());
+
+
+
+
+            }
+
             AddColumn("State", a => a.GetProjectLocationStateProvince());
             AddColumn($"{FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()} Notes", a => a.ProjectLocationNotes);
             AddColumn("Latitude", x => x.GetProjectLocationPoint(false)?.YCoordinate);

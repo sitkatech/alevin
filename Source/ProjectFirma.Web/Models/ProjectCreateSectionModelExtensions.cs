@@ -50,14 +50,22 @@ namespace ProjectFirma.Web.Models
                     }.GetValidationResults();
                     return !pmValidationResults.Any();
                 case ProjectCreateSectionEnum.Budget:
+                    if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    {
+                        return true;
+                    }
                     // todo: more complicated than that.
                     return ProjectCreateSection.Basics.IsComplete(project);
                 //case ProjectCreateSectionEnum.ReportedExpenditures:
-                //    if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
-                //    {
-                //        var expectedYears =
-                //            project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
-                //        var missingYears = expectedYears.GetMissingYears(project.ProjectFundingSourceExpenditures.Select(x => x.CalendarYear)).ToList();
+                  //  if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+                    //{
+                  //      return true;
+                  //  }
+                  //  if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
+                  //  {
+                  //      var expectedYears =
+                  //          project.CalculateCalendarYearRangeForExpendituresWithoutAccountingForExistingYears();
+                  //      var missingYears = expectedYears.GetMissingYears(project.ProjectFundingSourceExpenditures.Select(x => x.CalendarYear)).ToList();
 
                 //        // for expenditures by cost type, we are just validating that either they have any expenditures for the required year range or they have no expenditures but have an explanation
                 //        return (project.ProjectFundingSourceExpenditures.Any() && !missingYears.Any() &&

@@ -72,10 +72,10 @@ values
 (87, 'ManagePerformanceMeasures', 'ManagePerformanceMeasures', 1),
 (88, 'PerformanceMeasureExpectedAccomplishments', 'Performance Measure Expected Accomplishments', 2),
 (89, 'PerformanceMeasureReportedAccomplishments', 'Performance Measure Reported Accomplishments', 2),
-(90, 'PerformanceMeasureTargetsTabIntro', 'Performance Measure Targets Tab Intro', 1)
-
-
-
+(90, 'PerformanceMeasureTargetsTabIntro', 'Performance Measure Targets Tab Intro', 1),
+(91, 'ProgressDashboardIntro', 'Progress Dashboard Intro', 1),
+(92, 'ProgressDashboardAcresControlledByTheNumbers', 'Acres Controlled By The Numbers', 1),
+(93, 'ProgressDashboardAcresControlledPieCharts', 'Acres Controlled Pie Charts', 1)
 
 
 

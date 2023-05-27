@@ -61,7 +61,10 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
             
             Add(FieldDefinitionEnum.FundingSourceAmount.ToType().ToGridHeaderString(), a => a.FundingSourceAmount, 80, DhtmlxGridColumnFormatType.Currency);
-            Add($"{FieldDefinitionEnum.NumberOfProjectsWithExpendedFunds.ToType().ToGridHeaderString()}", a => a.GetAssociatedProjects(currentFirmaSession, a.GetProjectFundingSourceExpendituresFromDictionary(projectFundingSourceExpenditureDictionary)).Count, 90);
+
+            if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                 Add($"{FieldDefinitionEnum.NumberOfProjectsWithExpendedFunds.ToType().ToGridHeaderString()}", a => a.GetAssociatedProjects(currentFirmaSession, a.GetProjectFundingSourceExpendituresFromDictionary(projectFundingSourceExpenditureDictionary)).Count, 90);
             // Keeping below intact to hopefully aid merges from PF Mainline. -- SLG 11/24/2020
             //Add($"{FieldDefinitionEnum.TotalExpenditures.ToType().ToGridHeaderString()}", a => a.GetProjectFundingSourceExpendituresFromDictionary(projectFundingSourceExpenditureDictionary).Sum(x => x.ExpenditureAmount), 100, DhtmlxGridColumnFormatType.Currency);
             //Add($"{FieldDefinitionEnum.NumberOfProjectsWithSecuredFunds.ToType().ToGridHeaderString()}"
@@ -73,6 +76,8 @@ namespace ProjectFirma.Web.Views.FundingSource
             Add($"{FieldDefinitionEnum.TotalExpenditures.ToType().ToGridHeaderString()}", a => a.ProjectFundingSourceExpenditures.Sum(x => x.ExpenditureAmount), 100, DhtmlxGridColumnFormatType.Currency);
 
             Add($"{FieldDefinitionEnum.TotalProjectTargetedFunds.ToType().ToGridHeaderString()}", a => a.ProjectFundingSourceBudgets.Sum(x => x.ProjectedAmount), 80, DhtmlxGridColumnFormatType.Currency);
+            }
+
             foreach (var fundingSourceCustomAttributeType in fundingSourceCustomAttributeTypes.OrderBy(x => x.FundingSourceCustomAttributeTypeName))
             {
                 if (fundingSourceCustomAttributeType.IncludeInFundingSourceGrid && fundingSourceCustomAttributeType.HasViewPermission(currentFirmaSession))

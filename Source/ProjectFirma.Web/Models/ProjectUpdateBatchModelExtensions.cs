@@ -475,11 +475,15 @@ namespace ProjectFirma.Web.Models
 
         public static List<string> ValidateExpendituresAndForceValidation(this ProjectUpdateBatch projectUpdateBatch)
         {
-            if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
+            if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
             {
-                return projectUpdateBatch.ValidateExpendituresByCostType();
+                if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
+                {
+                    return projectUpdateBatch.ValidateExpendituresByCostType();
+                }
+                return projectUpdateBatch.ValidateExpenditures();
             }
-            return projectUpdateBatch.ValidateExpenditures();
+            return new List<string>();
         }
 
         public static EditProjectFundingSourceBudgetByCostTypeValidationResult ValidateExpectedFunding(this ProjectUpdateBatch projectUpdateBatch, List<ProjectFundingSourceBudgetSimple> newProjectFundingSourceBudgets)
@@ -571,11 +575,16 @@ namespace ProjectFirma.Web.Models
 
         public static bool AreExpendituresValid(this ProjectUpdateBatch projectUpdateBatch)
         {
-            if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
+            if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
             {
-                return projectUpdateBatch.ValidateExpendituresByCostType().Count == 0;
+                if (MultiTenantHelpers.GetTenantAttributeFromCache().BudgetType == BudgetType.AnnualBudgetByCostType)
+                {
+                    return projectUpdateBatch.ValidateExpendituresByCostType().Count == 0;
+                }
+                return projectUpdateBatch.ValidateExpenditures().Count == 0;
             }
-            return projectUpdateBatch.ValidateExpenditures().Count == 0;
+
+            return true;
         }
 
         public static OrganizationsValidationResult ValidateOrganizations(this ProjectUpdateBatch projectUpdateBatch)
@@ -785,6 +794,10 @@ namespace ProjectFirma.Web.Models
             if (!MultiTenantHelpers.TrackAccomplishments())
             {
                 projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Accomplishments).ToList();
+            }
+            if (!MultiTenantHelpers.ReportFinancialsAtProjectLevel())
+            {
+                projectWorkflowSectionGroupings = projectWorkflowSectionGroupings.Where(x => x != ProjectWorkflowSectionGrouping.Financials).ToList();
             }
             return projectWorkflowSectionGroupings.SelectMany(x => x.GetProjectUpdateSections(currentFirmaSession, projectUpdateBatch, null, ignoreStatus, hasEditableCustomAttributes)).OrderBy(x => x.ProjectWorkflowSectionGrouping.SortOrder).ThenBy(x => x.SortOrder).ToList();
         }
