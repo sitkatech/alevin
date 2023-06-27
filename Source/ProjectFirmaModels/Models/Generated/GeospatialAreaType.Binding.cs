@@ -38,7 +38,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool onByDefaultOnProjectMap, bool isPopulation, int? esuDpsGeospatialAreaTypeID, int? mPGGeospatialAreaTypeID, int? populationGeospatialAreaTypeID, bool includeInBiOpAnnualReport, bool onByDefaultOnOtherMaps, string serviceUrl) : this()
+        public GeospatialAreaType(int geospatialAreaTypeID, string geospatialAreaTypeName, string geospatialAreaTypeNamePluralized, string geospatialAreaIntroContent, string geospatialAreaTypeDefinition, string geospatialAreaLayerName, bool displayOnAllProjectMaps, bool onByDefaultOnProjectMap, bool isPopulation, int? esuDpsGeospatialAreaTypeID, int? mPGGeospatialAreaTypeID, int? populationGeospatialAreaTypeID, bool includeInBiOpAnnualReport, bool onByDefaultOnOtherMaps, string serviceUrl, int? mapLegendImageFileResourceInfoID) : this()
         {
             this.GeospatialAreaTypeID = geospatialAreaTypeID;
             this.GeospatialAreaTypeName = geospatialAreaTypeName;
@@ -55,6 +55,7 @@ namespace ProjectFirmaModels.Models
             this.IncludeInBiOpAnnualReport = includeInBiOpAnnualReport;
             this.OnByDefaultOnOtherMaps = onByDefaultOnOtherMaps;
             this.ServiceUrl = serviceUrl;
+            this.MapLegendImageFileResourceInfoID = mapLegendImageFileResourceInfoID;
         }
 
         /// <summary>
@@ -240,6 +241,7 @@ namespace ProjectFirmaModels.Models
         public bool IncludeInBiOpAnnualReport { get; set; }
         public bool OnByDefaultOnOtherMaps { get; set; }
         public string ServiceUrl { get; set; }
+        public int? MapLegendImageFileResourceInfoID { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return GeospatialAreaTypeID; } set { GeospatialAreaTypeID = value; } }
 
@@ -255,6 +257,7 @@ namespace ProjectFirmaModels.Models
         public virtual ICollection<ProjectGeospatialAreaTypeNote> ProjectGeospatialAreaTypeNotes { get; set; }
         public virtual ICollection<ProjectGeospatialAreaTypeNoteUpdate> ProjectGeospatialAreaTypeNoteUpdates { get; set; }
         public Tenant Tenant { get { return Tenant.AllLookupDictionary[TenantID]; } }
+        public virtual FileResourceInfo MapLegendImageFileResourceInfo { get; set; }
 
         public static class FieldLengths
         {

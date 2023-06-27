@@ -37,7 +37,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System;
 using System.Collections.Generic;
@@ -234,9 +233,6 @@ namespace ProjectFirma.Web.Controllers
             // NEW view data
             var projectAgreementDetailViewData = new ProjectAgreementDetailViewData(CurrentFirmaSession, project, false);
 
-            var canViewNotes = new TechnicalAssistanceRequestsViewFeature().HasPermissionByFirmaSession(CurrentFirmaSession);
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
-            var technicalAssistanceRequestViewData = new TechnicalAssistanceRequestsDetailViewData(CurrentFirmaSession, project, canViewNotes, technicalAssistanceParameters);
             var imageGalleryViewData = BuildImageGalleryViewData(project, CurrentFirmaSession);
             var projectNotesViewData = new EntityNotesViewData(
                 EntityNote.CreateFromEntityNote(project.ProjectNotes),
@@ -323,7 +319,6 @@ namespace ProjectFirma.Web.Controllers
                 projectBudgetsAnnualViewData,
                 projectBudgetsAnnualByCostTypeViewData,
                 projectAgreementDetailViewData,
-                technicalAssistanceRequestViewData,
                 performanceMeasureExpectedsSummaryViewData,
                 performanceMeasureReportedValuesGroupedViewData,
                 projectExpendituresSummaryViewData,
@@ -596,9 +591,8 @@ namespace ProjectFirma.Web.Controllers
             var googleChartJson = new GoogleChartJson(string.Empty, chartName, googleChartConfiguration,
                 googleChartType, googleChartDataTable, null);
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
             var viewData = new BackwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
-                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes, factSheetPdfEnum);
+                googleChartJson, expenditureGooglePieChartSlices, FirmaHelpers.DefaultColorRange, firmaPageFactSheetCustomText, withCustomAttributes, factSheetPdfEnum);
             return RazorView<BackwardLookingFactSheet, BackwardLookingFactSheetViewData>(viewData);
         }
 
@@ -623,10 +617,9 @@ namespace ProjectFirma.Web.Controllers
                 googleChartType,
                 googleChartDataTable, null);
             var firmaPageFactSheetCustomText = FirmaPageTypeEnum.FactSheetCustomText.GetFirmaPage();
-            var technicalAssistanceParameters = HttpRequestStorage.DatabaseEntities.TechnicalAssistanceParameters.ToList();
 
             var viewData = new ForwardLookingFactSheetViewData(CurrentFirmaSession, project, projectLocationDetailMapInitJson,
-                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, technicalAssistanceParameters, withCustomAttributes, factSheetPdfEnum);
+                googleChartJson, fundingSourceRequestAmountGooglePieChartSlices, firmaPageFactSheetCustomText, withCustomAttributes, factSheetPdfEnum);
             return RazorView<ForwardLookingFactSheet, ForwardLookingFactSheetViewData>(viewData);
         }
 

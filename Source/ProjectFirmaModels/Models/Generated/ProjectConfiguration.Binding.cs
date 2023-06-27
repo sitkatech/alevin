@@ -63,6 +63,7 @@ namespace ProjectFirmaModels.Models
             Property(x => x.LocationIsPrivate).HasColumnName(@"LocationIsPrivate").HasColumnType("bit").IsRequired();
             Property(x => x.SolicitationID).HasColumnName(@"SolicitationID").HasColumnType("int").IsOptional();
             Property(x => x.OtherPartners).HasColumnName(@"OtherPartners").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(500);
+            Property(x => x.ExternalLinksComment).HasColumnName(@"ExternalLinksComment").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
 
             // Foreign keys
             HasOptional(a => a.OverrideTaxonomyLeaf).WithMany(b => b.ProjectsWhereYouAreTheOverrideTaxonomyLeaf).HasForeignKey(c => c.OverrideTaxonomyLeafID).WillCascadeOnDelete(false); // FK_Project_TaxonomyLeaf_OverrideTaxonomyLeafID_TaxonomyLeafID

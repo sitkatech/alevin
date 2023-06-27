@@ -192,7 +192,6 @@ namespace ProjectFirma.Web.Views
             {
                 resultsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ResultsController>(c => c.AccomplishmentsDashboard()), firmaSession, "Accomplishments Dashboard"));
             }
-            MultiTenantHelpers.AddTechnicalAssistanceReportMenuItem(resultsMenu, firmaSession);
             MultiTenantHelpers.AddFundingStatusMenuItem(resultsMenu, firmaSession);
             MultiTenantHelpers.AddProgressDashboardMenuItem(resultsMenu, firmaSession);
 
@@ -264,7 +263,6 @@ namespace ProjectFirma.Web.Views
                 manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<PerformanceMeasureController>(c => c.Manage()), currentFirmaSession, MultiTenantHelpers.GetPerformanceMeasureNamePluralized(), "Group1"));
             }
 
-            MultiTenantHelpers.AddTechnicalAssistanceParametersMenuItem(manageMenu, currentFirmaSession, "Group1");
             MultiTenantHelpers.AddEvaluationsMenuItem(manageMenu, currentFirmaSession, "Group1");
 
             if (MultiTenantHelpers.HasSolicitations())
