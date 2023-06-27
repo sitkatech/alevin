@@ -92,6 +92,10 @@ namespace ProjectFirmaModels.Models
         {
             return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.Organization;
         }
+        public String GetPrimaryContactOrganizationRelationShipType()
+        {
+            return ProjectOrganizations.SingleOrDefault(x => x.OrganizationRelationshipType.IsPrimaryContact)?.OrganizationRelationshipType.OrganizationRelationshipTypeName;
+        }
 
         public FileResourceInfo GetPrimaryContactOrganizationLogo()
         {

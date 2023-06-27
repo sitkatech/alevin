@@ -25,10 +25,10 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionLocationDetailed LocationDetailed = ProjectUpdateSectionLocationDetailed.Instance;
         public static readonly ProjectUpdateSectionReportedAccomplishments ReportedAccomplishments = ProjectUpdateSectionReportedAccomplishments.Instance;
         public static readonly ProjectUpdateSectionBudget Budget = ProjectUpdateSectionBudget.Instance;
+        public static readonly ProjectUpdateSectionExpenditures Expenditures = ProjectUpdateSectionExpenditures.Instance;
         public static readonly ProjectUpdateSectionPhotos Photos = ProjectUpdateSectionPhotos.Instance;
         public static readonly ProjectUpdateSectionExternalLinks ExternalLinks = ProjectUpdateSectionExternalLinks.Instance;
         public static readonly ProjectUpdateSectionExpectedAccomplishments ExpectedAccomplishments = ProjectUpdateSectionExpectedAccomplishments.Instance;
-        public static readonly ProjectUpdateSectionTechnicalAssistanceRequests TechnicalAssistanceRequests = ProjectUpdateSectionTechnicalAssistanceRequests.Instance;
         public static readonly ProjectUpdateSectionContacts Contacts = ProjectUpdateSectionContacts.Instance;
         public static readonly ProjectUpdateSectionAttachmentsAndNotes AttachmentsAndNotes = ProjectUpdateSectionAttachmentsAndNotes.Instance;
         public static readonly ProjectUpdateSectionCustomAttributes CustomAttributes = ProjectUpdateSectionCustomAttributes.Instance;
@@ -44,7 +44,7 @@ namespace ProjectFirmaModels.Models
         /// </summary>
         static ProjectUpdateSection()
         {
-            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Photos, ExternalLinks, ExpectedAccomplishments, TechnicalAssistanceRequests, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation, PartnerFinder, Classifications };
+            All = new List<ProjectUpdateSection> { Basics, LocationSimple, Organizations, LocationDetailed, ReportedAccomplishments, Budget, Expenditures, Photos, ExternalLinks, ExpectedAccomplishments, Contacts, AttachmentsAndNotes, CustomAttributes, BulkSetSpatialInformation, PartnerFinder, Classifications };
             AllLookupDictionary = new ReadOnlyDictionary<int, ProjectUpdateSection>(All.ToDictionary(x => x.ProjectUpdateSectionID));
         }
 
@@ -136,6 +136,8 @@ namespace ProjectFirmaModels.Models
                     return CustomAttributes;
                 case ProjectUpdateSectionEnum.ExpectedAccomplishments:
                     return ExpectedAccomplishments;
+                case ProjectUpdateSectionEnum.Expenditures:
+                    return Expenditures;
                 case ProjectUpdateSectionEnum.ExternalLinks:
                     return ExternalLinks;
                 case ProjectUpdateSectionEnum.LocationDetailed:
@@ -150,8 +152,6 @@ namespace ProjectFirmaModels.Models
                     return Photos;
                 case ProjectUpdateSectionEnum.ReportedAccomplishments:
                     return ReportedAccomplishments;
-                case ProjectUpdateSectionEnum.TechnicalAssistanceRequests:
-                    return TechnicalAssistanceRequests;
                 default:
                     throw new ArgumentException(string.Format("Unable to map Enum: {0}", enumValue));
             }
@@ -166,10 +166,10 @@ namespace ProjectFirmaModels.Models
         LocationDetailed = 5,
         ReportedAccomplishments = 6,
         Budget = 7,
+        Expenditures = 8,
         Photos = 9,
         ExternalLinks = 10,
         ExpectedAccomplishments = 12,
-        TechnicalAssistanceRequests = 13,
         Contacts = 14,
         AttachmentsAndNotes = 15,
         CustomAttributes = 16,
@@ -214,6 +214,12 @@ namespace ProjectFirmaModels.Models
         public static readonly ProjectUpdateSectionBudget Instance = new ProjectUpdateSectionBudget(7, @"Budget", @"Budget", 90, false, 4);
     }
 
+    public partial class ProjectUpdateSectionExpenditures : ProjectUpdateSection
+    {
+        private ProjectUpdateSectionExpenditures(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
+        public static readonly ProjectUpdateSectionExpenditures Instance = new ProjectUpdateSectionExpenditures(8, @"Expenditures", @"Expenditures", 100, true, 4);
+    }
+
     public partial class ProjectUpdateSectionPhotos : ProjectUpdateSection
     {
         private ProjectUpdateSectionPhotos(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
@@ -230,12 +236,6 @@ namespace ProjectFirmaModels.Models
     {
         private ProjectUpdateSectionExpectedAccomplishments(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
         public static readonly ProjectUpdateSectionExpectedAccomplishments Instance = new ProjectUpdateSectionExpectedAccomplishments(12, @"ExpectedAccomplishments", @"Expected Accomplishments", 70, true, 3);
-    }
-
-    public partial class ProjectUpdateSectionTechnicalAssistanceRequests : ProjectUpdateSection
-    {
-        private ProjectUpdateSectionTechnicalAssistanceRequests(int projectUpdateSectionID, string projectUpdateSectionName, string projectUpdateSectionDisplayName, int sortOrder, bool hasCompletionStatus, int projectWorkflowSectionGroupingID) : base(projectUpdateSectionID, projectUpdateSectionName, projectUpdateSectionDisplayName, sortOrder, hasCompletionStatus, projectWorkflowSectionGroupingID) {}
-        public static readonly ProjectUpdateSectionTechnicalAssistanceRequests Instance = new ProjectUpdateSectionTechnicalAssistanceRequests(13, @"TechnicalAssistanceRequests", @"Technical Assistance Requests", 110, false, 5);
     }
 
     public partial class ProjectUpdateSectionContacts : ProjectUpdateSection

@@ -24,18 +24,12 @@ namespace ProjectFirmaModels.Models
             Property(x => x.GeospatialAreaLayerName).HasColumnName(@"GeospatialAreaLayerName").HasColumnType("varchar").IsRequired().IsUnicode(false).HasMaxLength(255);
             Property(x => x.DisplayOnAllProjectMaps).HasColumnName(@"DisplayOnAllProjectMaps").HasColumnType("bit").IsRequired();
             Property(x => x.OnByDefaultOnProjectMap).HasColumnName(@"OnByDefaultOnProjectMap").HasColumnType("bit").IsRequired();
-            Property(x => x.IsPopulation).HasColumnName(@"IsPopulation").HasColumnType("bit").IsRequired();
-            Property(x => x.EsuDpsGeospatialAreaTypeID).HasColumnName(@"EsuDpsGeospatialAreaTypeID").HasColumnType("int").IsOptional();
-            Property(x => x.MPGGeospatialAreaTypeID).HasColumnName(@"MPGGeospatialAreaTypeID").HasColumnType("int").IsOptional();
-            Property(x => x.PopulationGeospatialAreaTypeID).HasColumnName(@"PopulationGeospatialAreaTypeID").HasColumnType("int").IsOptional();
-            Property(x => x.IncludeInBiOpAnnualReport).HasColumnName(@"IncludeInBiOpAnnualReport").HasColumnType("bit").IsRequired();
             Property(x => x.OnByDefaultOnOtherMaps).HasColumnName(@"OnByDefaultOnOtherMaps").HasColumnType("bit").IsRequired();
             Property(x => x.ServiceUrl).HasColumnName(@"ServiceUrl").HasColumnType("varchar").IsOptional().IsUnicode(false).HasMaxLength(1000);
+            Property(x => x.MapLegendImageFileResourceInfoID).HasColumnName(@"MapLegendImageFileResourceInfoID").HasColumnType("int").IsOptional();
 
             // Foreign keys
-            HasOptional(a => a.EsuDpsGeospatialAreaType).WithMany(b => b.GeospatialAreaTypesWhereYouAreTheEsuDpsGeospatialAreaType).HasForeignKey(c => c.EsuDpsGeospatialAreaTypeID).WillCascadeOnDelete(false); // FK_GeospatialAreaType_GeospatialAreaType_EsuDpsGeospatialAreaTypeID_GeospatialAreaTypeID
-            HasOptional(a => a.MPGGeospatialAreaType).WithMany(b => b.GeospatialAreaTypesWhereYouAreTheMPGGeospatialAreaType).HasForeignKey(c => c.MPGGeospatialAreaTypeID).WillCascadeOnDelete(false); // FK_GeospatialAreaType_GeospatialAreaType_MPGGeospatialAreaTypeID_GeospatialAreaTypeID
-            HasOptional(a => a.PopulationGeospatialAreaType).WithMany(b => b.GeospatialAreaTypesWhereYouAreThePopulationGeospatialAreaType).HasForeignKey(c => c.PopulationGeospatialAreaTypeID).WillCascadeOnDelete(false); // FK_GeospatialAreaType_GeospatialAreaType_PopulationGeospatialAreaTypeID_GeospatialAreaTypeID
+            HasOptional(a => a.MapLegendImageFileResourceInfo).WithMany(b => b.GeospatialAreaTypesWhereYouAreTheMapLegendImageFileResourceInfo).HasForeignKey(c => c.MapLegendImageFileResourceInfoID).WillCascadeOnDelete(false); // FK_GeospatialAreaType_FileResourceInfo_MapLegendImageFileResourceInfoID_FileResourceInfoID
         }
     }
 }

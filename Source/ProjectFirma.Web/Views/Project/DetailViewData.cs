@@ -32,7 +32,6 @@ using ProjectFirma.Web.Views.Shared.ProjectControls;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.Shared.ProjectOrganization;
 using ProjectFirma.Web.Views.Shared.TextControls;
-using ProjectFirma.Web.Views.TechnicalAssistanceRequest;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
 using System.Linq;
@@ -113,8 +112,6 @@ namespace ProjectFirma.Web.Views.Project
         public ProjectBudgetsAnnualViewData ProjectBudgetsAnnualViewData { get; }
         public ProjectBudgetsAnnualByCostTypeViewData ProjectBudgetsAnnualByCostTypeViewData { get; }
         public ProjectAgreementDetailViewData ProjectAgreementDetailViewData { get; }
-        public string EditTechnicalAssistanceRequestsUrl { get; }
-        public TechnicalAssistanceRequestsDetailViewData TechnicalAssistanceRequestDetailViewData { get; }
 
 
         public string ProjectUpdateButtonText { get; }
@@ -166,7 +163,6 @@ namespace ProjectFirma.Web.Views.Project
             ProjectBudgetsAnnualViewData projectBudgetsAnnualViewData,
             ProjectBudgetsAnnualByCostTypeViewData projectBudgetsAnnualByCostTypeViewData,
             ProjectAgreementDetailViewData projectAgreementDetailViewData,
-            TechnicalAssistanceRequestsDetailViewData technicalAssistanceRequestDetailViewData,
             PerformanceMeasureExpectedSummaryViewData performanceMeasureExpectedSummaryViewData,
             PerformanceMeasureReportedValuesGroupedViewData performanceMeasureReportedValuesGroupedViewData,
             ProjectExpendituresDetailViewData projectExpendituresDetailViewData,
@@ -376,8 +372,6 @@ namespace ProjectFirma.Web.Views.Project
             ProjectBudgetsAnnualViewData = projectBudgetsAnnualViewData;
             ProjectBudgetsAnnualByCostTypeViewData = projectBudgetsAnnualByCostTypeViewData;
             ProjectAgreementDetailViewData = projectAgreementDetailViewData;
-            EditTechnicalAssistanceRequestsUrl = SitkaRoute<TechnicalAssistanceRequestController>.BuildUrlFromExpression(c => c.EditTechnicalAssistanceRequestsForProject(project));
-            TechnicalAssistanceRequestDetailViewData = technicalAssistanceRequestDetailViewData;
             EditExpectedFundingUrl = editExpectedFundingUrl;
 
             // TODO: Set to something real

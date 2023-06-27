@@ -62,8 +62,6 @@ namespace ProjectFirma.Web.Views.Project
         public string TaxonomyLeafDisplayName { get; }
         public Person PrimaryContactPerson { get; }
         public ViewPageContentViewData CustomFactSheetPageTextViewData { get; }
-        public List<TechnicalAssistanceParameter> TechnicalAssistanceParameters { get; }
-        public List<ProjectFirmaModels.Models.TechnicalAssistanceRequest> TechnicalAssistanceRequests { get; }
         public List<ProjectCustomAttribute> ViewableProjectCustomAttributes { get; }
         public List<ProjectFirmaModels.Models.ProjectCustomAttributeType> ViewableProjectCustomAttributeTypes { get; }
         public DateTime LastUpdated { get; }
@@ -77,7 +75,6 @@ namespace ProjectFirma.Web.Views.Project
             GoogleChartJson projectFactSheetGoogleChart,
             List<GooglePieChartSlice> expenditureGooglePieChartSlices, List<string> chartColorRange,
             ProjectFirmaModels.Models.FirmaPage firmaPageFactSheet,
-            List<TechnicalAssistanceParameter> technicalAssistanceParameters,
             bool withCustomAttributes,
             ProjectController.FactSheetPdfEnum factSheetPdfEnum) : base(currentFirmaSession, project)
         {
@@ -136,8 +133,6 @@ namespace ProjectFirma.Web.Views.Project
             TaxonomyLeafDisplayName = FieldDefinitionEnum.TaxonomyLeaf.ToType().GetFieldDefinitionLabel();
             PrimaryContactPerson = project.GetPrimaryContact();
             CustomFactSheetPageTextViewData = new ViewPageContentViewData(firmaPageFactSheet, false);
-            TechnicalAssistanceParameters = technicalAssistanceParameters;
-            TechnicalAssistanceRequests = project.TechnicalAssistanceRequests.ToList();
 
             ViewableProjectCustomAttributeTypes = HttpRequestStorage.DatabaseEntities.ProjectCustomAttributeTypes.ToList().Where(x => x.HasViewPermission(currentFirmaSession) && x.IsViewableOnFactSheet).ToList();
             ViewableProjectCustomAttributes = project.ProjectCustomAttributes.Where(x => x.ProjectCustomAttributeType.HasViewPermission(currentFirmaSession) && ViewableProjectCustomAttributeTypes.Contains(x.ProjectCustomAttributeType)).ToList();

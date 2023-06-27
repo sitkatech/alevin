@@ -31,5 +31,6 @@
 # /Database/Utilities/
 /Database/Utilities/.idea/*
 /Database/Utilities/venv/*
+*.vshistory
 
 /Source/*.user
