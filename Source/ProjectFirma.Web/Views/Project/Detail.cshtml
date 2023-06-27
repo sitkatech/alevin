@@ -305,21 +305,7 @@
                         }
                     </div>
                 </div>
-                @* Technical Assistance Panel for Idaho *@
-                @if (MultiTenantHelpers.UsesTechnicalAssistanceParameters())
-                {
-                    <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditTechnicalAssistanceRequestsUrl, "Edit Technical Assistance Requests", 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                            <h3 class="project-detail-heading">
-                                Engineering and Technical Assistance
-                            </h3>
-                        </div>
-                        <div class="panel-body">
-                            @{ TechnicalAssistanceRequestsDetail.RenderPartialView(Html, ViewDataTyped.TechnicalAssistanceRequestDetailViewData); }
-                        </div>
-                    </div>
-                }
+
                 
             <h2 class="sectionHeader">Subprojects</h2>
             @* Reclamation Agreements and Reclamation Cost Authority Work Breakdown Structures *@

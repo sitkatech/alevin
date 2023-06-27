@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Shared.ProjectLocationControls
             PrimaryContactOrganization = project.GetPrimaryContactOrganization();
             PrimaryContactOrganizationRelationshipType = project.GetPrimaryContactOrganizationRelationShipType();
 
-            TaxonomyLeaf = project.TaxonomyLeaf;
+            TaxonomyLeaf = project.GetTaxonomyLeaf();
             EstimatedTotalCost = project.GetEstimatedTotalRegardlessOfFundingType().HasValue ? project.GetEstimatedTotalRegardlessOfFundingType().ToStringCurrency() : "Unknown";
             
             var dict = new Dictionary<ProjectFirmaModels.Models.ClassificationSystem, string>();

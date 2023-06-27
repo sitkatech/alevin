@@ -235,7 +235,7 @@ namespace ProjectFirmaModels.Models
     public partial class TenantBureauOfReclamation : Tenant
     {
         private TenantBureauOfReclamation(int tenantID, string tenantName, string canonicalHostNameLocal, string canonicalHostNameQa, string canonicalHostNameProd, DateTime fiscalYearStartDate, bool useFiscalYears, bool arePerformanceMeasuresExternallySourced, bool areOrganizationsExternallySourced, bool areFundingSourcesExternallySourced, bool tenantEnabled) : base(tenantID, tenantName, canonicalHostNameLocal, canonicalHostNameQa, canonicalHostNameProd, fiscalYearStartDate, useFiscalYears, arePerformanceMeasuresExternallySourced, areOrganizationsExternallySourced, areFundingSourcesExternallySourced, tenantEnabled) {}
-        public static readonly TenantBureauOfReclamation Instance = new TenantBureauOfReclamation(12, @"BureauOfReclamation", @"OBSOLETE_HOSTED_INDEPENDENTLY_bor.localhost.projectfirma.com", @"OBSOLETE_HOSTED_INDEPENDENTLY_bor.qa.projectfirma.com", @"OBSOLETE_HOSTED_INDEPENDENTLY_bor.projectfirma.com", DateTime.Parse("01/01/1990"), false, false, false, false, false);
+        public static readonly TenantBureauOfReclamation Instance = new TenantBureauOfReclamation(12, @"BureauOfReclamation", @"bor.localhost.projectfirma.com", @"bor.qa.projectfirma.com", @"ibrmazap001.bor.doi.net", DateTime.Parse("10/01/1990"), true, false, false, false, true);
     }
 
     public partial class TenantSSMPProjectTracker : Tenant
