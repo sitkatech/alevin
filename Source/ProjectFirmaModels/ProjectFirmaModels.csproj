@@ -986,6 +986,10 @@
     <Compile Include="Models\Generated\TrainingVideo.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\TrainingVideoConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\TrainingVideoPrimaryKey.Binding.cs" />
+    <Compile Include="Models\Generated\TrainingVideoRole.Binding.cs" />
+    <Compile Include="Models\Generated\TrainingVideoRole.DatabaseContextExtensions.cs" />
+    <Compile Include="Models\Generated\TrainingVideoRoleConfiguration.Binding.cs" />
+    <Compile Include="Models\Generated\TrainingVideoRolePrimaryKey.Binding.cs" />
     <Compile Include="Models\Generated\Vendor.Binding.cs" />
     <Compile Include="Models\Generated\Vendor.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\VendorConfiguration.Binding.cs" />
@@ -1028,6 +1032,7 @@
     <Compile Include="Models\Generated\WorkOrder.DatabaseContextExtensions.cs" />
     <Compile Include="Models\Generated\WorkOrderConfiguration.Binding.cs" />
     <Compile Include="Models\Generated\WorkOrderPrimaryKey.Binding.cs" />
+    <Compile Include="Models\TrainingVideoRole.cs" />
     <Compile Include="Models\PerformanceMeasureReportedValue.cs" />
     <Compile Include="Models\SubprojectActionItem.cs" />
     <Compile Include="Models\SubprojectNote.cs" />

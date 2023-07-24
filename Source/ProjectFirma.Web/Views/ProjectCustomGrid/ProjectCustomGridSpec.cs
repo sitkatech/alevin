@@ -202,6 +202,8 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     break;
                 case ProjectCustomGridColumnEnum.CustomAttribute:
                     break;
+                case ProjectCustomGridColumnEnum.ClassificationSystem:
+                    break;
                 case ProjectCustomGridColumnEnum.ProjectCategory:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableProjectCategories)
                     {
@@ -269,6 +271,12 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}", a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType, geospatialAreas, projectGeospatialAreaDictionary), 350, DhtmlxGridColumnFilterType.Html);
         }
 
+        private void AddProjectCustomGridClassificationSystemField(ProjectCustomGridConfiguration projectCustomGridConfiguration, Dictionary<int, ProjectFirmaModels.Models.Classification> classificationsDictionary, Dictionary<int, List<ProjectClassification>> projectClassificationsDictionary)
+        {
+            var classificationSystem = projectCustomGridConfiguration.ClassificationSystem;
+            Add($"{classificationSystem.ClassificationSystemNamePluralized}", a => a.GetProjectClassificationsAsHyperlinks(classificationSystem, classificationsDictionary, projectClassificationsDictionary), 350, DhtmlxGridColumnFilterType.Html);
+        }
+
         public ProjectCustomGridSpec(FirmaSession currentFirmaSession,
             List<ProjectCustomGridConfiguration> projectCustomGridConfigurations,
             ProjectCustomGridTypeEnum projectCustomGridTypeEnum,
@@ -291,8 +299,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             var projectCustomAttributes = HttpRequestStorage.DatabaseEntities.vProjectCustomAttributeValues.Where(x => x.TenantID == tenant.TenantID)
                 .GroupBy(x => x.ProjectID)
                 .ToDictionary(grp => grp.Key, y => y.ToList());
+            var classifications = HttpRequestStorage.DatabaseEntities.Classifications.ToDictionary(x => x.ClassificationID);
 
             var projectGeospatialAreas = HttpRequestStorage.DatabaseEntities.ProjectGeospatialAreas
+                .GroupBy(x => x.ProjectID).ToDictionary(grp => grp.Key, y => y.ToList());
+            var projectClassifications = HttpRequestStorage.DatabaseEntities.ProjectClassifications
                 .GroupBy(x => x.ProjectID).ToDictionary(grp => grp.Key, y => y.ToList());
             var taxonomyLeafs = HttpRequestStorage.DatabaseEntities.TaxonomyLeafs.ToDictionary(x => x.TaxonomyLeafID);
             var projectLabel = FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel();
@@ -312,9 +323,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 , userHasEditProjectAsAdminPermissions
                 , projectDetailsDictionary
                 , geospatialAreas
+                , classifications
                 , taxonomyLeafs
                 , projectGeospatialAreas
                 , projectCustomAttributes
+                , projectClassifications
                 , projectLabel
                 , hasProjectApprovalPermissionBySession
                 , statusUpdateLabel
@@ -329,9 +342,11 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
             , bool userHasEditProjectAsAdminPermissions
             , Dictionary<int, vProjectDetail> projectDetailsDictionary
             , Dictionary<int, ProjectFirmaModels.Models.vGeospatialArea> geospatialAreaDictionary
+            , Dictionary<int, ProjectFirmaModels.Models.Classification> classificationDictionary
             , Dictionary<int, ProjectFirmaModels.Models.TaxonomyLeaf> taxonomyLeafDictionary
             , Dictionary<int, List<ProjectFirmaModels.Models.ProjectGeospatialArea>> projectGeospatialAreaDictionary
             , Dictionary<int, List<ProjectFirmaModels.Models.vProjectCustomAttributeValue>> projectCustomAttributeDictionary
+            , Dictionary<int, List<ProjectFirmaModels.Models.ProjectClassification>> projectClassificationDictionary
             , string projectLabel
             , bool hasProjectApprovalPermissionBySession
             , string statusUpdateLabel
@@ -349,6 +364,10 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                 else if (projectCustomGridConfiguration.GeospatialAreaType != null)
                 {
                     AddProjectCustomGridGeospatialAreaField(projectCustomGridConfiguration, geospatialAreaDictionary, projectGeospatialAreaDictionary);
+                }
+                else if (projectCustomGridConfiguration.ClassificationSystem != null)
+                {
+                    AddProjectCustomGridClassificationSystemField(projectCustomGridConfiguration, classificationDictionary, projectClassificationDictionary);
                 }
                 else
                 {
