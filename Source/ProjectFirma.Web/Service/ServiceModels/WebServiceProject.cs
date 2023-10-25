@@ -24,7 +24,7 @@ using System.Runtime.Serialization;
 using LtInfo.Common;
 using ProjectFirma.Web.Common;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Models;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
@@ -46,7 +46,7 @@ namespace ProjectFirma.Web.Service.ServiceModels
             PlanningStartDate = project.PlanningDesignStartYear;
             ImplementationStartDate = project.ImplementationStartYear;
             EndDate = project.CompletionYear;
-            Stage = project.ProjectStage.ProjectStageDisplayName;
+            Stage = project.ProjectStage.GetProjectStageDisplayName();
 
             var projectLocationPoint = project.GetProjectLocationPoint(false);
             Latitude = projectLocationPoint?.YCoordinate;

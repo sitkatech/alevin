@@ -40,6 +40,9 @@ namespace ProjectFirma.Web.ReportTemplates.Models
         public string CurrentProjectStatus { get; set; }
         public string CurrentProjectStatusColor { get; set; }
         public string FinalStatusUpdateStatus { get; set; }
+        public decimal EstimatedTotalCostDecimal { get; set; }
+        public decimal TotalExpendituresDecimal { get; set; }
+        public string TotalExpenditures { get; set; }
        
         
         public ReportTemplateProjectModel(Project project)
@@ -54,7 +57,7 @@ namespace ProjectFirma.Web.ReportTemplates.Models
             ProjectName = Project.ProjectName;
             ProjectUrl = GetProjectUrlForReport(project);
             PrimaryContactOrganization = Project.GetPrimaryContactOrganization() != null ? new ReportTemplateOrganizationModel(Project.GetPrimaryContactOrganization()) : null;
-            ProjectStage = Project.ProjectStage.ProjectStageDisplayName;
+            ProjectStage = Project.ProjectStage.GetProjectStageDisplayName();
             NumberOfReportedPerformanceMeasures = Project.PerformanceMeasureActuals.Count;
             ProjectPrimaryContact = Project.GetPrimaryContact() != null ? new ReportTemplatePersonModel(Project.GetPrimaryContact()) : null;
             PlanningDesignStartYear = ProjectModelExtensions.GetPlanningDesignStartYear(Project);
@@ -83,6 +86,9 @@ namespace ProjectFirma.Web.ReportTemplates.Models
                 FinalStatusUpdateStatus = finalProjectStatus;
             }
 
+            EstimatedTotalCostDecimal = Project.GetEstimatedTotalRegardlessOfFundingType() ?? 0;
+            TotalExpendituresDecimal = Project.TotalExpenditures ?? 0;
+            TotalExpenditures = Project.TotalExpenditures?.ToStringCurrency();
         }
 
         /// <summary>
