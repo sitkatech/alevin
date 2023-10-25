@@ -336,6 +336,8 @@ namespace ProjectFirmaModels.Models
         ReportsMenu = 386,
         EnableSimpleAccomplishmentsDashboard = 387,
         TrainingVideoViewableBy = 388,
+        AttachmentTypeViewableBy = 389,
+        AccomplishmentDashboardMenu = 390,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,
