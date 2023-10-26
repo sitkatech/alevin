@@ -22,7 +22,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.ObligationItem.ObligationItemDetail
 
@@ -30,7 +30,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 
     <style>
         th {
@@ -105,7 +105,7 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>

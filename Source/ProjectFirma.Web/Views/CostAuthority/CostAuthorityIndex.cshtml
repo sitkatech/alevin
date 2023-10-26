@@ -20,12 +20,12 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @inherits ProjectFirma.Web.Views.CostAuthority.CostAuthorityIndex
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 
@@ -40,7 +40,7 @@ Source code is available upon request via <support@sitkatech.com>.
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AgrementIndexViewPageContentViewData); }
     </div>
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.CostAuthorityGridSpec, ViewDataTyped.CostAuthorityGridName, ViewDataTyped.CostAuthorityGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.CostAuthorityGridSpec, ViewDataTyped.CostAuthorityGridName, ViewDataTyped.CostAuthorityGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>
 

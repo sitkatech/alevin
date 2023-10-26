@@ -24,7 +24,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.MvcResults;
 using LtInfo.Common.Views;
 
@@ -67,13 +67,13 @@ namespace LtInfo.Common.Models
             }
         }
 
-        public static DhtmlxGridJsonRow ToDhtmlxGridJsonRow<T>(this T thingToRead, int rowID, GridSpec<T> gridSpec)
+        public static AgGridJsonRow ToAgGridJsonRow<T>(this T thingToRead, int rowID, GridSpec<T> gridSpec)
         {
-            var columnValues = gridSpec.Select(columnSpec => thingToRead.ToDhtmlxGridJsonCellData(columnSpec)).ToList();
-            return new DhtmlxGridJsonRow(rowID, columnValues);
+            var columnValues = gridSpec.Select(columnSpec => thingToRead.ToAgGridJsonCellData(columnSpec)).ToList();
+            return new AgGridJsonRow(rowID, columnValues);
         }
 
-        public static string ToDhtmlxGridJsonCellData<T>(this T dataObject, ColumnSpec<T> columnSpec)
+        public static string ToAgGridJsonCellData<T>(this T dataObject, ColumnSpec<T> columnSpec)
         {
             var cellAttributes = new Dictionary<string, string>();
             cellAttributes.Add("value", columnSpec.CalculateStringValue(dataObject));
@@ -97,5 +97,6 @@ namespace LtInfo.Common.Models
             }
             return string.Format("{{{0}}}", string.Join(",", cellAttributes.Select(x => string.Format("\"{0}\":\"{1}\"", x.Key, x.Value))));
         }
+
     }
 }

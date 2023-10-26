@@ -20,7 +20,7 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirmaModels.Models
@@ -28,7 +28,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 @section RightOfPageTitle
@@ -46,6 +46,6 @@
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AgreementIndexViewPageContentViewData); }
     </div>
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.AgreementGridSpec, ViewDataTyped.AgreementGridName, ViewDataTyped.AgreementGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.AgreementGridSpec, ViewDataTyped.AgreementGridName, ViewDataTyped.AgreementGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>

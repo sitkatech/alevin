@@ -22,7 +22,7 @@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -33,7 +33,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 
     @*<script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>*@
 
@@ -172,7 +172,7 @@
             @if (ViewDataTyped.MatchStatus == ObligationRequestMatchStatus.UnmatchedMatchesAvailable)
             {
                <div class="panel-body">
-                  @Html.DhtmlxGrid(ViewDataTyped.PotentialMatchesGridSpec, ViewDataTyped.PotentialMatchesGridName, ViewDataTyped.PotentialMatchesGridDataUrl, "height:268px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                  @Html.AgGrid(ViewDataTyped.PotentialMatchesGridSpec, ViewDataTyped.PotentialMatchesGridName, ViewDataTyped.PotentialMatchesGridDataUrl, "height:268px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                </div>
             }
 
@@ -228,7 +228,7 @@
     <br/>
     <br/>
     <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.CostAuthorityObligationRequestGridSpec, ViewDataTyped.CostAuthorityObligationRequestGridName, ViewDataTyped.CostAuthorityObligationRequestGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.CostAuthorityObligationRequestGridSpec, ViewDataTyped.CostAuthorityObligationRequestGridName, ViewDataTyped.CostAuthorityObligationRequestGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 

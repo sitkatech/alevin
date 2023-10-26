@@ -20,12 +20,12 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @inherits ProjectFirma.Web.Views.PnBudget.PnBudgetIndex
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 
@@ -41,6 +41,6 @@
     </div>
     <div class="col-xs-12">
         <p>Due to the quantity of records in the database, this grid is limited to the latest 5000 records. </p>
-        @Html.DhtmlxGrid(ViewDataTyped.PnBudgetGridSpec, ViewDataTyped.PnBudgetGridName, ViewDataTyped.PnBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.PnBudgetGridSpec, ViewDataTyped.PnBudgetGridName, ViewDataTyped.PnBudgetGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>

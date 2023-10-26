@@ -21,7 +21,7 @@
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -30,7 +30,7 @@
 @inherits ProjectFirma.Web.Views.Results.BiOpAnnualReport
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 
 }
 
@@ -48,7 +48,7 @@
 
 <div class="row">
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.BiOpAnnualReportGridSpec, ViewDataTyped.BiOpAnnualReportGridName, ViewDataTyped.BiOpAnnualReportGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.BiOpAnnualReportGridSpec, ViewDataTyped.BiOpAnnualReportGridName, ViewDataTyped.BiOpAnnualReportGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>
 

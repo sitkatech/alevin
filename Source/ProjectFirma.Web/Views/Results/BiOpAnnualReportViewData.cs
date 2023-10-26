@@ -25,7 +25,7 @@ using System.Web.Mvc;
 using ProjectFirma.Web.Controllers;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Mvc;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;

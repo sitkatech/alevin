@@ -20,7 +20,7 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views.ObligationRequest
@@ -30,7 +30,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 
@@ -45,6 +45,6 @@
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ObligationItemIndexViewPageContentViewData); }
     </div>
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.ObligationItemGridSpec, ViewDataTyped.ObligationItemGridName, ViewDataTyped.ObligationItemGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.ObligationItemGridSpec, ViewDataTyped.ObligationItemGridName, ViewDataTyped.ObligationItemGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>

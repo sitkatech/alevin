@@ -164,7 +164,7 @@ namespace LtInfo.Common
         /// </summary>
         /// <param name="value"></param>
         /// <returns>String with the commas replaced by the HTML entity</returns>
-        public static string HtmlEncodeCommasForDhtmlxGrid(this string value)
+        public static string HtmlEncodeCommasForAgGrid(this string value)
         {
             if(String.IsNullOrEmpty(value))
             {

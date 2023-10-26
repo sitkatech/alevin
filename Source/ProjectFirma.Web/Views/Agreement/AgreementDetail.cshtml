@@ -23,7 +23,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
@@ -45,7 +45,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 
     @*<script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>*@
 
@@ -151,7 +151,7 @@
         </h2>
     </div>
     <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoProjectGridName, ViewDataTyped.BasicProjectInfoProjectGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.BasicProjectInfoGridSpec, ViewDataTyped.BasicProjectInfoProjectGridName, ViewDataTyped.BasicProjectInfoProjectGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 
@@ -163,7 +163,7 @@
         </h2>
     </div>
     <div class="panel-body">
-        @Html.DhtmlxGrid(ViewDataTyped.BasicCostAuthorityGridSpec, ViewDataTyped.BasicCostAuthorityGridName, ViewDataTyped.BasicCostAuthorityGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.BasicCostAuthorityGridSpec, ViewDataTyped.BasicCostAuthorityGridName, ViewDataTyped.BasicCostAuthorityGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
     </div>
 </div>
 
@@ -173,7 +173,7 @@
             <h2>Reported @ViewDataTyped.FieldDefinitionForPerformanceMeasure.GetFieldDefinitionLabel() Results per @ViewDataTyped.FieldDefinitionForProject.GetFieldDefinitionLabel()</h2>
         </div>
         <div class="panel-body">
-            @Html.DhtmlxGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+            @Html.AgGrid(ViewDataTyped.PerformanceMeasureReportedValuesGridSpec, ViewDataTyped.PerformanceMeasureReportedValuesGridName, ViewDataTyped.PerformanceMeasureReportedValuesGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
         </div>
     </div>*@
 

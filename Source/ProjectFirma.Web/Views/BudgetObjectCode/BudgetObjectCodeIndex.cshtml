@@ -20,7 +20,7 @@
    -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Views.BudgetObjectCode
 @inherits ProjectFirma.Web.Views.BudgetObjectCode.BudgetObjectCodeIndex
 
@@ -31,12 +31,12 @@
 
 @section JavascriptAndStylesContent
 {
-   @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+   @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 <div class="row">
    <div class="col-xs-12">
-      @Html.DhtmlxGrid(ViewDataTyped.BudgetObjectCodeGridSpec, ViewDataTyped.BudgetObjectCodeGridName, ViewDataTyped.BudgetObjectCodeGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+      @Html.AgGrid(ViewDataTyped.BudgetObjectCodeGridSpec, ViewDataTyped.BudgetObjectCodeGridName, ViewDataTyped.BudgetObjectCodeGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
    </div>
 </div>
 

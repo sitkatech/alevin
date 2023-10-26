@@ -24,7 +24,7 @@ using System.Web;
 using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -41,15 +41,15 @@ namespace ProjectFirma.Web.Views.ObligationRequest
                     : costAuthorityIDListOnObligation.Contains(x.CostAuthorityID) ? new HtmlString("<span style='cursor: not-allowed;' class='glyphicon glyphicon-trash blue disabled' title='You cannot delete this because it is on the Obligation'><span class='sr-only'>You cannot delete this because it is on the Obligation</span></span>")
                     : ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete This Projected Obligation", true)
                 , 30
-                , DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditUrl(), "Edit Projected Obligation", true), 30, DhtmlxGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 300, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.AccountStructureDescription.ToType().ToGridHeaderString(), x => x.CostAuthority.AccountStructureDescription, 300, DhtmlxGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 300, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add(FieldDefinitionEnum.BudgetObjectCode.ToType().ToGridHeaderString(), a => a.BudgetObjectCode?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.RecipientOrganization.ToType().ToGridHeaderString(), a => a.RecipientOrganization?.GetDisplayName(), 120, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.TechnicalRepresentative.ToType().ToGridHeaderString(), a => a.TechnicalRepresentativePerson?.GetFullNameFirstLast(), 120, DhtmlxGridColumnFilterType.Text);
-            Add(FieldDefinitionEnum.CostAuthorityObligationRequestNote.ToType().ToGridHeaderString("Notes"), x => x.CostAuthorityObligationRequestNote, 300, DhtmlxGridColumnFilterType.Text);
+                , AgGridColumnFilterType.None);
+            Add(string.Empty, x => ModalDialogFormHelper.MakeEditIconLink(x.GetEditUrl(), "Edit Projected Obligation", true), 30, AgGridColumnFilterType.None);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString("CAWBS"), x => x.CostAuthority.CostAuthorityWorkBreakdownStructure, 300, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.AccountStructureDescription.ToType().ToGridHeaderString(), x => x.CostAuthority.AccountStructureDescription, 300, AgGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.ProjectedObligation.ToType().ToGridHeaderString(), x => x.ProjectedObligation, 300, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.BudgetObjectCode.ToType().ToGridHeaderString(), a => a.BudgetObjectCode?.GetDisplayName(), 120, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.RecipientOrganization.ToType().ToGridHeaderString(), a => a.RecipientOrganization?.GetDisplayName(), 120, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.TechnicalRepresentative.ToType().ToGridHeaderString(), a => a.TechnicalRepresentativePerson?.GetFullNameFirstLast(), 120, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.CostAuthorityObligationRequestNote.ToType().ToGridHeaderString("Notes"), x => x.CostAuthorityObligationRequestNote, 300, AgGridColumnFilterType.Text);
             
         }
     }

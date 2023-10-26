@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -37,47 +37,47 @@ namespace ProjectFirma.Web.Views.ObligationRequest
     {
         public ObligationRequestGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete Obligation Request", true), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete Obligation Request", true), 30, AgGridColumnFilterType.None);
 
             // More Human readable version of ObligationRequestID ("OBREQ-XXX")
             // ObligationRequestNumber
             Add(FieldDefinitionEnum.ObligationRequestNumber.ToType().ToGridHeaderString()
                 , a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetObligationRequestNumber())
                 , 100
-                , DhtmlxGridColumnFilterType.Html);
+                , AgGridColumnFilterType.Html);
 
             // Status
-            Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString(), a => a.ObligationRequestStatus.ObligationRequestStatusDisplayName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.Status.ToType().ToGridHeaderString(), a => a.ObligationRequestStatus.ObligationRequestStatusDisplayName, 100, AgGridColumnFilterType.SelectFilterStrict);
 
             //IsMod
-            Add(FieldDefinitionEnum.IsModification.ToType().ToGridHeaderString("Is Modification?"), a => a.IsModification.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.IsModification.ToType().ToGridHeaderString("Is Modification?"), a => a.IsModification.ToYesNo(), 80, AgGridColumnFilterType.SelectFilterStrict);
 
             // ContractType
-            Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, AgGridColumnFilterType.SelectFilterStrict);
 
             // AgreementNumber
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => a.AgreementID.HasValue ? UrlTemplate.MakeHrefString(a.Agreement.GetDetailUrl(), a.Agreement.GetDisplayName()) : null, 100, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => a.AgreementID.HasValue ? UrlTemplate.MakeHrefString(a.Agreement.GetDetailUrl(), a.Agreement.GetDisplayName()) : null, 100, AgGridColumnFilterType.Html);
 
             // Description of Need
-            Add(FieldDefinitionEnum.DescriptionOfNeed.ToType().ToGridHeaderString(), a => a.DescriptionOfNeed, 100, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.DescriptionOfNeed.ToType().ToGridHeaderString(), a => a.DescriptionOfNeed, 100, AgGridColumnFilterType.Text);
 
             // Funding Priority
-            Add(FieldDefinitionEnum.FundingPriority.ToType().ToGridHeaderString(), a => a.ReclamationObligationRequestFundingPriority?.ObligationRequestFundingPriorityDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.FundingPriority.ToType().ToGridHeaderString(), a => a.ReclamationObligationRequestFundingPriority?.ObligationRequestFundingPriorityDisplayName, 80, AgGridColumnFilterType.SelectFilterStrict);
 
             // Total Projected Obligation
-            Add(FieldDefinitionEnum.TotalProjectedObligation.ToType().ToGridHeaderString(), a => a.TotalProjectedObligation, 100, DhtmlxGridColumnFormatType.Currency);
+            Add(FieldDefinitionEnum.TotalProjectedObligation.ToType().ToGridHeaderString(), a => a.TotalProjectedObligation, 100, AgGridColumnFormatType.Currency);
 
             // Target Award Date
             Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetAwardDate, 120);
 
             // Palt
-            Add(FieldDefinitionEnum.PALT.ToType().ToGridHeaderString(), a => a.PALT?.ToString(), 120, DhtmlxGridColumnFilterType.Numeric);
+            Add(FieldDefinitionEnum.PALT.ToType().ToGridHeaderString(), a => a.PALT?.ToString(), 120, AgGridColumnFilterType.Numeric);
 
             // Target Submittal Date
             Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetSubmittalDate, 120);
           
             // Mod number
-            Add(FieldDefinitionEnum.ModNumber.ToType().ToGridHeaderString(), a => a.ModNumber?.ToString(), 60, DhtmlxGridColumnFilterType.Numeric);
+            Add(FieldDefinitionEnum.ModNumber.ToType().ToGridHeaderString(), a => a.ModNumber?.ToString(), 60, AgGridColumnFilterType.Numeric);
         }
     }
 }

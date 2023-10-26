@@ -22,13 +22,13 @@ Source code is available upon request via <support@sitkatech.com>.
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.FieldDefinition.Index
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 <p>
@@ -69,6 +69,11 @@ Source code is available upon request via <support@sitkatech.com>.
     </div>
 }
 
-<div class="container-fluid">
-    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+<div >
+    @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, "", AgGridResizeType.VerticalFillHorizontalAutoFit)
+    
+
+</div>
+<div style="margin-top: 40px">
+    @Html.AgGrid(ViewDataTyped.ProjectStageGridSpec, ViewDataTyped.ProjectStageGridName, ViewDataTyped.ProjectStageGridDataUrl, "", AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>

@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridJsonRow.cs" company="Environmental Science Associates">
+<copyright file="AgGridJsonRow.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -23,9 +23,9 @@ using Newtonsoft.Json;
 
 namespace LtInfo.Common.MvcResults
 {
-    public class DhtmlxGridJsonRow
+    public class AgGridJsonRow
     {
-        public DhtmlxGridJsonRow(int rowID, List<string> data)
+        public AgGridJsonRow(int rowID, List<string> data)
         {
             ID = rowID;
             Data = data;

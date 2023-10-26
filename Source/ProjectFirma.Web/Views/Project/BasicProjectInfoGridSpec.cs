@@ -26,7 +26,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Security;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -68,9 +68,9 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             Add(string.Empty,
-                x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaDhtmlxGridHtmlHelpers.FactSheetIcon.ToString()), 30,
-                DhtmlxGridColumnFilterType.None);
-            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, DhtmlxGridColumnFilterType.Html);
+                x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaAgGridHtmlHelpers.FactSheetIcon.ToString()), 30,
+                AgGridColumnFilterType.None);
+            Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(x.GetDetailUrl(), x.ProjectName), 300, AgGridColumnFilterType.Html);
             if (costAuthorityWorkBreakdownStructure != null)
             {
                 Add($"Is {costAuthorityWorkBreakdownStructure.GetDisplayName()} Primary or Secondary CAWBS for this project?",
@@ -78,48 +78,48 @@ namespace ProjectFirma.Web.Views.Project
                         rcap.IsPrimaryProjectCawbs && rcap.CostAuthorityID ==
                         costAuthorityWorkBreakdownStructure.CostAuthorityID)
                         ? "Primary"
-                        : "Secondary", 70, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                        : "Secondary", 70, AgGridColumnFilterType.SelectFilterStrict);
             }
 
             if (agreement != null)
             {
-                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.CostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, DhtmlxGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.PrimaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), x => x.CostAuthorityProjects.SingleOrDefault(rcap => rcap.IsPrimaryProjectCawbs)?.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 120, AgGridColumnFilterType.Html);
 
-                Add(FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), x => GetSecondaryCostAuthorityAsCommaDelimitedList(x), 200, DhtmlxGridColumnFilterType.Text);
+                Add(FieldDefinitionEnum.SecondaryCostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderStringPlural(), x => GetSecondaryCostAuthorityAsCommaDelimitedList(x), 200, AgGridColumnFilterType.Text);
             }
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
                 Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(),
                     x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
-                    DhtmlxGridColumnFilterType.Html);
+                    AgGridColumnFilterType.Html);
             }
 
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(),
-                x => x.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, DhtmlxGridColumnFilterType.Html);
+                x => x.GetPrimaryContactOrganization().GetShortNameAsUrl(), 150, AgGridColumnFilterType.Html);
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.ProjectStageDisplayName, 90,
-                DhtmlxGridColumnFilterType.SelectFilterStrict);
+                AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => x.GetPlanningDesignStartYear(),
-                90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                90, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.GetImplementationStartYear(),
-                115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                115, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.GetCompletionYear(), 90,
-                DhtmlxGridColumnFilterType.SelectFilterStrict);
+                AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.FundingType.ToType().ToGridHeaderString(),
-                x => x.FundingType?.FundingTypeDisplayName ?? string.Empty, 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                x => x.FundingType?.FundingTypeDisplayName ?? string.Empty, 300, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(),
-                x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, DhtmlxGridColumnFormatType.Currency,
-                DhtmlxGridColumnAggregationType.Total);
+                x => x.GetEstimatedTotalRegardlessOfFundingType(), 110, AgGridColumnFormatType.Currency,
+                AgGridColumnAggregationType.Total);
 
             Add(FieldDefinitionEnum.ProjectedFunding.ToType().ToGridHeaderString(), x => x.GetProjectedFunding(), 100,
-                DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(),
-                x => x.GetNoFundingSourceIdentifiedAmount(), 110, DhtmlxGridColumnFormatType.Currency,
-                DhtmlxGridColumnAggregationType.Total);
+                x => x.GetNoFundingSourceIdentifiedAmount(), 110, AgGridColumnFormatType.Currency,
+                AgGridColumnAggregationType.Total);
             foreach (var geospatialAreaType in new List<GeospatialAreaType>())
             {
                 Add($"{geospatialAreaType.GeospatialAreaTypeNamePluralized}",
-                    a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, DhtmlxGridColumnFilterType.Html);
+                    a => a.GetProjectGeospatialAreaNamesAsHyperlinks(geospatialAreaType), 350, AgGridColumnFilterType.Html);
             }
 
             Add(FieldDefinitionEnum.ProjectDescription.ToType().ToGridHeaderString(), x => x.ProjectDescription, 300);
@@ -129,7 +129,7 @@ namespace ProjectFirma.Web.Views.Project
                     x => new HtmlString(!x.ProjectTags.Any()
                         ? string.Empty
                         : string.Join(", ", x.ProjectTags.Select(pt => pt.Tag.GetDisplayNameAsUrl()))), 100,
-                    DhtmlxGridColumnFilterType.Html);
+                    AgGridColumnFilterType.Html);
             }
         }
 

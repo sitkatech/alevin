@@ -209,6 +209,7 @@ namespace ProjectFirmaModels.Models
         ProgressDashboardAcresConstructedByTheNumbers = 92,
         ProgressDashboardAcresConstructedPieCharts = 93,
         ProjectAttachmentList = 94,
+        NCRPProjectDashboard = 95,
         AgreementList = 10000,
         CostAuthorityList = 10001,
         ObligationRequestList = 10002,

@@ -20,12 +20,12 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @inherits ProjectFirma.Web.Views.Obligation.ContractualInvoiceIndex
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 
@@ -34,6 +34,6 @@
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ObligationIndexViewPageContentViewData); }
     </div>*@
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>

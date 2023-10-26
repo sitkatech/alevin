@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -40,15 +40,15 @@ namespace ProjectFirma.Web.Views.Obligation
             ObjectNamePlural = "Contractual Invoices";
             SaveFiltersInCookie = true;
 
-            Add("Obligation Number Key", ci => UrlTemplate.MakeHrefString(ci.ObligationItem.ObligationNumber.GetDetailUrl(), ci.ObligationItem.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
-            Add("Obligation Item Key", ci => UrlTemplate.MakeHrefString(ci.ObligationItem.GetDetailUrl(), ci.ObligationItem.ObligationItemKey), 80, DhtmlxGridColumnFilterType.Numeric);
-            Add("Vendor", ci => ci.ObligationItem.Vendor.GetDisplayNameAsUrl(), 200, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Cost Authority", ci => ci.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, DhtmlxGridColumnFilterType.Html);
-            Add("Budget Object Code", ci => MakeBudgetObjectCodeHrefString(ci.BudgetObjectCode), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Budget Object Code FBMS Year", ci => GetBudgetObjectCodeFmsYearAsString(ci.BudgetObjectCode), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), ci => UrlTemplate.MakeHrefString(ci.FundingSource.GetDetailUrl(), ci.FundingSource.FundingSourceName), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
-            Add("Unexpended Balance", ci => ci.UnexpendedBalance, 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
-            Add("Posting Date", ob => ob.PostingDatePerSplKey, 80, DhtmlxGridColumnFormatType.Date);
+            Add("Obligation Number Key", ci => UrlTemplate.MakeHrefString(ci.ObligationItem.ObligationNumber.GetDetailUrl(), ci.ObligationItem.ObligationNumber.ObligationNumberKey), 150, AgGridColumnFilterType.Text);
+            Add("Obligation Item Key", ci => UrlTemplate.MakeHrefString(ci.ObligationItem.GetDetailUrl(), ci.ObligationItem.ObligationItemKey), 80, AgGridColumnFilterType.Numeric);
+            Add("Vendor", ci => ci.ObligationItem.Vendor.GetDisplayNameAsUrl(), 200, AgGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Cost Authority", ci => ci.CostAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 150, AgGridColumnFilterType.Html);
+            Add("Budget Object Code", ci => MakeBudgetObjectCodeHrefString(ci.BudgetObjectCode), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Budget Object Code FBMS Year", ci => GetBudgetObjectCodeFmsYearAsString(ci.BudgetObjectCode), 100, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderString(), ci => UrlTemplate.MakeHrefString(ci.FundingSource.GetDetailUrl(), ci.FundingSource.FundingSourceName), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Unexpended Balance", ci => ci.UnexpendedBalance, 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
+            Add("Posting Date", ob => ob.PostingDatePerSplKey, 80, AgGridColumnFormatType.Date);
 
             
 

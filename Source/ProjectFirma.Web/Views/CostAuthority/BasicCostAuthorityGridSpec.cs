@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -37,15 +37,15 @@ namespace ProjectFirma.Web.Views.CostAuthority
         public BasicCostAuthorityGridSpec(Person currentPerson)
         {
             // Cost Authority Work Breakdown Structure
-            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => a.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 125, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().ToGridHeaderString(), a => a.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure(), 125, AgGridColumnFilterType.Text);
             // Cost Authority Number
-            Add("Cost Authority Number", a => a.CostAuthorityNumber, 125, DhtmlxGridColumnFilterType.Text);
+            Add("Cost Authority Number", a => a.CostAuthorityNumber, 125, AgGridColumnFilterType.Text);
             // Description
-            Add("Account Structure Description", ca => ca.AccountStructureDescription, 200, DhtmlxGridColumnFilterType.Text);
+            Add("Account Structure Description", ca => ca.AccountStructureDescription, 200, AgGridColumnFilterType.Text);
             // Job Number
-            Add("Job Number", ca => ca.JobNumber, 100, DhtmlxGridColumnFilterType.Text);
+            Add("Job Number", ca => ca.JobNumber, 100, AgGridColumnFilterType.Text);
             // Authority
-            Add("Authority", ca => ca.Authority, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Authority", ca => ca.Authority, 100, AgGridColumnFilterType.SelectFilterStrict);
         }
     }
 }
