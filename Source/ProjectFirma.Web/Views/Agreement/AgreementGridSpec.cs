@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -39,25 +39,25 @@ namespace ProjectFirma.Web.Views.Agreement
             var hasAgreementDeletePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasAgreementDeletePermission)
             {
-                Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteAgreementUrl(), x.AgreementCanBeDeleted()), 30);
+                Add(string.Empty, x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteAgreementUrl(), x.AgreementCanBeDeleted()), 30);
             }
 
             // AgreementNumber
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.GetDetailUrl(), a.GetDisplayName()), 100, AgGridColumnFilterType.Html);
             // Projects
-            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Project.ToType().ToGridHeaderStringPlural(), a => GetProjectHrefsString(a), 300, AgGridColumnFilterType.Html);
 
             if (new ObligationViewFeature().HasPermissionByFirmaSession(currentFirmaSession))
             {
                 // Obligations
-                Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderStringPlural(), a => GetObligationHrefsString(a), 300, DhtmlxGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderStringPlural(), a => GetObligationHrefsString(a), 300, AgGridColumnFilterType.Html);
             }
 
             // Organization info
             Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderString(), a => UrlTemplate.MakeHrefString(a.Organization?.GetDetailUrl(), a.Organization?.GetDisplayName()), 300);
-            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization?.OrganizationType?.OrganizationTypeName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.Organization?.OrganizationType?.OrganizationTypeName, 80, AgGridColumnFilterType.SelectFilterStrict);
             // Contract Type
-            Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ContractType.ToType().ToGridHeaderString(), a => a.ContractType.ContractTypeDisplayName, 80, AgGridColumnFilterType.SelectFilterStrict);
 
             Add($"# of {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabelPluralized()}", a => a.AgreementCostAuthorities.Count, 80);
 

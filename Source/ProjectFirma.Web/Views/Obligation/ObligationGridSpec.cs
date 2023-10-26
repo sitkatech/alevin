@@ -20,7 +20,7 @@ Source code is available upon request via <support@sitkatech.com>.
 -----------------------------------------------------------------------*/
 
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -39,11 +39,11 @@ namespace ProjectFirma.Web.Views.Obligation
             SaveFiltersInCookie = true;
 
             // ObligationNumber as link
-            Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), ob => UrlTemplate.MakeHrefString(ob?.GetDetailUrl(), ob?.ObligationNumberKey), 100, DhtmlxGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), ob => UrlTemplate.MakeHrefString(ob?.GetDetailUrl(), ob?.ObligationNumberKey), 100, AgGridColumnFilterType.Text);
             // Agreement (AgreementNumber)
-            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.GetDetailUrl(), ra.ReclamationAgreement?.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.AgreementNumber.ToType().ToGridHeaderString(), ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.GetDetailUrl(), ra.ReclamationAgreement?.GetDisplayName()), 100, AgGridColumnFilterType.Html);
             // Organization for Agreement
-            Add("Agreement Organization", ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.Organization?.GetDetailUrl(), ra.ReclamationAgreement?.Organization?.GetDisplayName()), 300, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Agreement Organization", ra => UrlTemplate.MakeHrefString(ra.ReclamationAgreement?.Organization?.GetDetailUrl(), ra.ReclamationAgreement?.Organization?.GetDisplayName()), 300, AgGridColumnFilterType.SelectFilterHtmlStrict);
 
         }
     }

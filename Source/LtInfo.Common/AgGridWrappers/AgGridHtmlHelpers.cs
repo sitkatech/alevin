@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="DhtmlxGridHtmlHelpers.cs" company="Environmental Science Associates">
+<copyright file="AgGridHtmlHelpers.cs" company="Environmental Science Associates">
 Copyright (c) Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -31,7 +31,7 @@ using LtInfo.Common.ModalDialog;
 namespace LtInfo.Common.AgGridWrappers
 {
     /// <summary>
-    ///     Helper class for DhtmlxGrid expects following content to be set up in local project
+    ///     Helper class for AgGrid expects following content to be set up in local project
     ///     /Content/css/dhtmlxgrid_skin.css
     ///     /Content/img/bg-edit-single.png
     ///     /Content/img/bg-delete-single.png
@@ -43,6 +43,7 @@ namespace LtInfo.Common.AgGridWrappers
         public static readonly HtmlString EditIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x blue");
         public static readonly HtmlString DeleteIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-trash gi-1x blue");
         public static readonly HtmlString OkCircleIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIconWithHiddenText("glyphicon-ok-circle gi-1x blue", "Yes");
+        public static readonly HtmlString EmailIconBootstrap = BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-envelope gi-1x blue");
 
         public const string EditIcon = "<img src=\"/Content/img/bg-edit-single.png\" />";
         public const string DeleteIcon = "<img src=\"/Content/img/bg-delete-single.png\" />";
@@ -308,6 +309,7 @@ namespace LtInfo.Common.AgGridWrappers
                 switch (columnSpec.AgGridColumnFormatType)
                 {
                     case AgGridColumnFormatType.Currency:
+                    case AgGridColumnFormatType.CurrencyWithCents:
                         columnDefinitionStringBuilder.Append(", \"valueFormatter\": currencyFormatter");
                         break;
                     case AgGridColumnFormatType.Integer:
@@ -465,6 +467,25 @@ namespace LtInfo.Common.AgGridWrappers
             var editIcon = editPossibleForObject ? $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>"
                 : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x disabled").ToString();
             return MakeModalDialogLink(editIcon, editDialogUrl, ModalDialogFormHelper.DefaultDialogWidth, formTitle, null);
+        }
+
+        /// <summary>
+        /// For making an edit icon on the grid with an edit jquery ui dialog confirm.
+        /// Will not display an edit icon if the user does not have permission
+        /// </summary>
+        /// <param name="editDialogUrl"></param>
+        /// <param name="formTitle"></param>
+        /// <param name="editPossibleForObject">Is an edit possible for the given object?</param>
+        /// <param name="userHasPermission">Does the user have permission to edit this object?</param>
+        /// <returns></returns>
+        public static HtmlString MakeEditIconAsModalDialogLinkBootstrap(string editDialogUrl, string formTitle, bool editPossibleForObject, bool userHasPermission)
+        {
+            var editIcon = editPossibleForObject ? $"{EditIconBootstrap}<span style=\"display:none\">Edit</span>"
+                : BootstrapHtmlHelpers.MakeGlyphIcon("glyphicon-edit gi-1x disabled").ToString();
+
+            return userHasPermission
+                ? MakeModalDialogLink(editIcon, editDialogUrl, ModalDialogFormHelper.DefaultDialogWidth, formTitle, null)
+                : new HtmlString(string.Empty);
         }
 
         /// <summary>

@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using LtInfo.Common.ModalDialog
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Models
@@ -35,7 +35,7 @@
         </div>
     }
 
-    @Html.DhtmlxGrid(ViewDataTyped.ActionItemsGridSpec, ViewDataTyped.ActionItemsGridName, ViewDataTyped.ActionItemsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ActionItemsGridSpec, ViewDataTyped.ActionItemsGridName, ViewDataTyped.ActionItemsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
 </div>
 
 

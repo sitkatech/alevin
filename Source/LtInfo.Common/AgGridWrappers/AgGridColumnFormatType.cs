@@ -25,6 +25,7 @@ namespace LtInfo.Common.AgGridWrappers
         Decimal,
         Integer,
         Currency,
+        CurrencyWithCents,
         Percent,
         None,
         DateTime,

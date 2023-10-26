@@ -20,14 +20,14 @@
     -----------------------------------------------------------------------*@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Views.ObligationRequest
 @inherits ProjectFirma.Web.Views.ObligationRequest.ObligationRequestIndex
 
 @section JavascriptAndStylesContent
 
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 @section RightOfPageTitle
@@ -49,7 +49,7 @@
         @{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.AgrementRequestIndexViewPageContentViewData); }
     </div>
     <div class="col-xs-12">
-        @Html.DhtmlxGrid(ViewDataTyped.ObligationRequestGridSpec, ViewDataTyped.ObligationRequestGridName, ViewDataTyped.ObligationRequestGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+        @Html.AgGrid(ViewDataTyped.ObligationRequestGridSpec, ViewDataTyped.ObligationRequestGridName, ViewDataTyped.ObligationRequestGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
     </div>
 </div>
 

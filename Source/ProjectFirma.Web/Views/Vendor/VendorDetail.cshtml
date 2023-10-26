@@ -21,14 +21,14 @@
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @inherits ProjectFirma.Web.Views.Vendor.VendorDetail
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 
     <script type="text/javascript">
     </script>
@@ -67,7 +67,7 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>
@@ -82,7 +82,7 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ObligationItemBudgetGridSpec, ViewDataTyped.ObligationItemBudgetGridName, ViewDataTyped.ObligationItemBudgetGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>

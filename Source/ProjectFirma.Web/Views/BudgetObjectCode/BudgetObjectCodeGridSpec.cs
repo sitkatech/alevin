@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using System.Linq;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -39,16 +39,16 @@ namespace ProjectFirma.Web.Views.BudgetObjectCode
             ObjectNamePlural = "Budget Object Codes";
             SaveFiltersInCookie = true;
 
-            Add("Budget Object Code", boc => UrlTemplate.MakeHrefString(boc.GetDetailUrl(), boc.GetDisplayName()), 100, DhtmlxGridColumnFilterType.Html);
-            Add("Budget Object Code Description" , boc => boc.BudgetObjectCodeItemDescription, 300, DhtmlxGridColumnFilterType.Text);
-            Add("Budget Object Code Definition", boc => boc.BudgetObjectCodeDefinition, 300, DhtmlxGridColumnFilterType.Text);
-            Add("Parent BOC Group", boc =>   boc.BudgetObjectCodeGroup.GetDisplayName(), 150, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("FBMS Year", boc => boc.FbmsYear.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Expired or Deleted", boc => boc.IsExpiredOrDeleted.ToYesNo(), 60, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Budget Object Code", boc => UrlTemplate.MakeHrefString(boc.GetDetailUrl(), boc.GetDisplayName()), 100, AgGridColumnFilterType.Html);
+            Add("Budget Object Code Description" , boc => boc.BudgetObjectCodeItemDescription, 300, AgGridColumnFilterType.Text);
+            Add("Budget Object Code Definition", boc => boc.BudgetObjectCodeDefinition, 300, AgGridColumnFilterType.Text);
+            Add("Parent BOC Group", boc =>   boc.BudgetObjectCodeGroup.GetDisplayName(), 150, AgGridColumnFilterType.SelectFilterStrict);
+            Add("FBMS Year", boc => boc.FbmsYear.ToString(), 80, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Expired or Deleted", boc => boc.IsExpiredOrDeleted.ToYesNo(), 60, AgGridColumnFilterType.SelectFilterStrict);
             Add(FieldDefinitionEnum.CostType.ToType().ToGridHeaderString(), x => x.GetEffectiveCostType().CostTypeName,
-                80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Reportable 1099", boc => boc.Reportable1099?.ToString(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Explanation 1099", boc => boc.Explanation1099?.ToString(), 300, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                80, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Reportable 1099", boc => boc.Reportable1099?.ToString(), 80, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Explanation 1099", boc => boc.Explanation1099?.ToString(), 300, AgGridColumnFilterType.SelectFilterStrict);
         }
 
         private static int GetWbsElementObligationItemBudgetsCount(ProjectFirmaModels.Models.BudgetObjectCode boc)

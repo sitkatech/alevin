@@ -22,7 +22,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @inherits ProjectFirma.Web.Views.BudgetObjectCode.BudgetObjectCodeDetail
 
 @functions 
@@ -43,7 +43,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 <div>
@@ -111,7 +111,7 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualItemInvoiceGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>
@@ -126,7 +126,7 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualItemInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualItemInvoiceGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>

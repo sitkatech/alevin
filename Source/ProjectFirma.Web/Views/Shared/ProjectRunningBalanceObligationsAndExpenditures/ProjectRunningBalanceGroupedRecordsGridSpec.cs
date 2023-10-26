@@ -23,7 +23,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -38,19 +38,19 @@ namespace ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpen
         {
 
             
-            Add("Fiscal Year", a => a.FiscalYear, 90, DhtmlxGridColumnFormatType.Date, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Fiscal Month Period", a => a.FiscalMonthPeriod, 90, DhtmlxGridColumnFormatType.Integer, DhtmlxGridColumnFilterType.SelectFilterStrict);
-            Add("Fiscal Quarter", a => a.FiscalQuarter.FiscalQuarterDisplayName, 180, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Fiscal Year", a => a.FiscalYear, 90, AgGridColumnFormatType.Date, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Fiscal Month Period", a => a.FiscalMonthPeriod, 90, AgGridColumnFormatType.Integer, AgGridColumnFilterType.SelectFilterStrict);
+            Add("Fiscal Quarter", a => a.FiscalQuarter.FiscalQuarterDisplayName, 180, AgGridColumnFilterType.SelectFilterStrict);
 
-            Add("Commitments", a => a.Commitments, 100, DhtmlxGridColumnFormatType.CurrencyWithCents, DhtmlxGridColumnAggregationType.Total);
+            Add("Commitments", a => a.Commitments, 100, AgGridColumnFormatType.CurrencyWithCents, AgGridColumnAggregationType.Total);
 
-            Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), a => a.Obligations, 100, DhtmlxGridColumnFormatType.CurrencyWithCents, DhtmlxGridColumnAggregationType.Total);
-            Add("Expenditures", a => a.Expenditures, 100, DhtmlxGridColumnFormatType.CurrencyWithCents, DhtmlxGridColumnAggregationType.Total);
+            Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), a => a.Obligations, 100, AgGridColumnFormatType.CurrencyWithCents, AgGridColumnAggregationType.Total);
+            Add("Expenditures", a => a.Expenditures, 100, AgGridColumnFormatType.CurrencyWithCents, AgGridColumnAggregationType.Total);
 
-            Add("Undelivered Orders", a => a.UndeliveredOrders, 100, DhtmlxGridColumnFormatType.CurrencyWithCents, DhtmlxGridColumnAggregationType.Total);
+            Add("Undelivered Orders", a => a.UndeliveredOrders, 100, AgGridColumnFormatType.CurrencyWithCents, AgGridColumnAggregationType.Total);
 
 
-            Add(FieldDefinitionEnum.BudgetObjectCode.ToType().ToGridHeaderStringPlural(), a => (a.BudgetObjectCode != null) ? a.BudgetObjectCode.GetDisplayNameAsLinkToDetail() : new HtmlString(string.Empty), 100, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add(FieldDefinitionEnum.BudgetObjectCode.ToType().ToGridHeaderStringPlural(), a => (a.BudgetObjectCode != null) ? a.BudgetObjectCode.GetDisplayNameAsLinkToDetail() : new HtmlString(string.Empty), 100, AgGridColumnFilterType.SelectFilterHtmlStrict);
 
 
 

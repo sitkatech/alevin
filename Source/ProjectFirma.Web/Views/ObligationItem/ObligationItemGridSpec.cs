@@ -1,5 +1,5 @@
 ﻿using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Models;
 using ProjectFirmaModels.Models;
@@ -15,9 +15,9 @@ namespace ProjectFirma.Web.Views.ObligationItem
             ObjectNamePlural = FieldDefinitionEnum.ObligationItem.ToType().GetFieldDefinitionLabelPluralized();
             SaveFiltersInCookie = true;
 
-            Add("Obligation Number", oi => UrlTemplate.MakeHrefString(oi.ObligationNumber.GetDetailUrl(), oi.ObligationNumber.ObligationNumberKey), 150, DhtmlxGridColumnFilterType.Text);
-            Add($"{FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName} Key", oi => UrlTemplate.MakeHrefString(oi.GetDetailUrl() ,oi.ObligationItemKey), 80, DhtmlxGridColumnFilterType.Numeric);
-            Add("Vendor", oi => oi.Vendor.GetDisplayNameAsUrl(), 500, DhtmlxGridColumnFilterType.SelectFilterHtmlStrict);
+            Add("Obligation Number", oi => UrlTemplate.MakeHrefString(oi.ObligationNumber.GetDetailUrl(), oi.ObligationNumber.ObligationNumberKey), 150, AgGridColumnFilterType.Text);
+            Add($"{FieldDefinitionEnum.ObligationItem.ToType().FieldDefinitionDisplayName} Key", oi => UrlTemplate.MakeHrefString(oi.GetDetailUrl() ,oi.ObligationItemKey), 80, AgGridColumnFilterType.Numeric);
+            Add("Vendor", oi => oi.Vendor.GetDisplayNameAsUrl(), 500, AgGridColumnFilterType.SelectFilterHtmlStrict);
         }
     }
 }

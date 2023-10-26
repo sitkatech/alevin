@@ -34,8 +34,8 @@ using ProjectFirma.Web.Views.Results;
 using ProjectFirma.Web.Views.Shared.ProjectLocationControls;
 using ProjectFirma.Web.Views.PerformanceMeasure;
 using LtInfo.Common;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.DesignByContract;
-using LtInfo.Common.DhtmlWrappers;
 using LtInfo.Common.ExcelWorkbookUtilities;
 using LtInfo.Common.Models;
 using LtInfo.Common.Mvc;
@@ -902,8 +902,8 @@ namespace ProjectFirma.Web.Controllers
                         fundingSourceCustomAttributeDictionary, fundingSourceCustomAttributeValueDictionary).Equals("No")).Select(x => x.FundingSourceID).ToList();
 
 
-                var totalAwarded = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0));
-                var totalMatched = Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
+                var totalAwarded = 0;//Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(awardFundingSourceIDs) ?? 0));
+                var totalMatched = 0;//Math.Round(projects.Sum(x => x.GetSecuredFundingForFundingSources(matchedFundingSourceIDs) ?? 0));
                 totalInvestment = totalAwarded + totalMatched;
             }
         }

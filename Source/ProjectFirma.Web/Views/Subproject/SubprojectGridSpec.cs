@@ -21,7 +21,7 @@ Source code is available upon request via <support@sitkatech.com>.
 
 using LtInfo.Common;
 using ProjectFirmaModels.Models;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
@@ -48,8 +48,8 @@ namespace ProjectFirma.Web.Views.Subproject
 
             }
 
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Delete(x.PrimaryKey)), hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
-            Add(string.Empty, x => DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), $"Edit {ObjectNameSingular}", true, hasSubprojectManagePermission), 30, DhtmlxGridColumnFilterType.None);
+            Add(string.Empty, x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Delete(x.PrimaryKey)), hasSubprojectManagePermission), 30, AgGridColumnFilterType.None);
+            Add(string.Empty, x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(SitkaRoute<SubprojectController>.BuildUrlFromExpression(c => c.Edit(x.PrimaryKey)), $"Edit {ObjectNameSingular}", true, hasSubprojectManagePermission), 30, AgGridColumnFilterType.None);
             Add(FieldDefinitionEnum.SubprojectName.ToType().ToGridHeaderString(), x => UrlTemplate.MakeHrefString(SitkaRoute<SubprojectController>.BuildUrlFromExpression(t => t.Detail(x.PrimaryKey)), x.SubprojectName), 120);
             Add(FieldDefinitionEnum.SubprojectDescription.ToType().ToGridHeaderString(), x => x.SubprojectDescription, 320);
             Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.ImplementationStartYear.DisplayValue(), 120);

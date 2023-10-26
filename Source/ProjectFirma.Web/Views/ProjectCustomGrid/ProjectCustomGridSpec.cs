@@ -117,20 +117,20 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.PlanningDesignStartYear:
-                    Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => x.GetPlanningDesignStartYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => x.GetPlanningDesignStartYear(), 90, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.ImplementationStartYear:
-                    Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.GetImplementationStartYear(), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.GetImplementationStartYear(), 115, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.CompletionYear:
-                    Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.GetCompletionYear(), 90, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.GetCompletionYear(), 90, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 case ProjectCustomGridColumnEnum.PrimaryTaxonomyLeaf:
                     var gridHeaderString = MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf
                         ? FieldDefinitionEnum.TaxonomyLeafDisplayNameForProject.ToType().ToGridHeaderString()
                         : FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString();
-                    Add(gridHeaderString, x => UrlTemplate.MakeHrefString(TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID ?? 0), projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName), 240, DhtmlxGridColumnFilterType.Html);
-                    Add(gridHeaderString, x => x.GetTaxonomyLeaf().GetDisplayNameAsUrl(), 240, DhtmlxGridColumnFilterType.Html);
+                    Add(gridHeaderString, x => UrlTemplate.MakeHrefString(TaxonomyLeafModelExtensions.DetailUrlTemplate.ParameterReplace(projectDetailsDictionary[x.ProjectID].TaxonomyLeafID ?? 0), projectDetailsDictionary[x.ProjectID].TaxonomyLeafDisplayName), 240, AgGridColumnFilterType.Html);
+                    Add(gridHeaderString, x => x.GetTaxonomyLeaf().GetDisplayNameAsUrl(), 240, AgGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.SecondaryTaxonomyLeaf:
                     if (MultiTenantHelpers.GetTenantAttributeFromCache().EnableSecondaryProjectTaxonomyLeaf)
@@ -158,7 +158,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     }
                     break;
                 case ProjectCustomGridColumnEnum.ProjectedFunding:
-                    Add(FieldDefinitionEnum.ProjectedFunding.ToType().ToGridHeaderString(), x => x.GetProjectedFunding(), 100, DhtmlxGridColumnFormatType.Currency, DhtmlxGridColumnAggregationType.Total);
+                    Add(FieldDefinitionEnum.ProjectedFunding.ToType().ToGridHeaderString(), x => x.GetProjectedFunding(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
                     break;
                 case ProjectCustomGridColumnEnum.NoFundingSourceIdentified:
                     if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
@@ -226,7 +226,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     Add(FieldDefinitionEnum.Organization.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetAssociatedOrganizations().OrderBy(y => y.OrganizationShortName).Select(y => y.GetShortNameAsUrl()))), 300, AgGridColumnFilterType.Html);
                     break;
                 case ProjectCustomGridColumnEnum.NPCCProvince:
-                    Add("NPCC Province", x => x.GetNPCCProvince(), 115, DhtmlxGridColumnFilterType.SelectFilterStrict);
+                    Add("NPCC Province", x => x.GetNPCCProvince(), 115, AgGridColumnFilterType.SelectFilterStrict);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -439,7 +439,7 @@ namespace ProjectFirma.Web.Views.ProjectCustomGrid
                     AgGridColumnFilterType.Html);
             }
 
-            Add("Is Pending Project", x => x.IsPendingProject().ToYesNo(), 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            Add("Is Pending Project", x => x.IsPendingProject().ToYesNo(), 100, AgGridColumnFilterType.SelectFilterStrict);
         }
     }
 }

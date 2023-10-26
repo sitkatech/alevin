@@ -347,7 +347,7 @@
                                     </h3>
                                 </div>
                                 <div class="panel-body">
-                                    @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                                    @Html.AgGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
                                 </div>
                             </div>
                         </div>
@@ -628,7 +628,7 @@
                             <h3>@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Update History</h3>
                         </div>
                         <div class="panel-body">
-                            @Html.DhtmlxGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            @Html.AgGrid(ViewDataTyped.ProjectUpdateBatchGridSpec, ViewDataTyped.ProjectUpdateBatchGridName, ViewDataTyped.ProjectUpdateBatchGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
                     <div class="panel panelFirma">
@@ -636,7 +636,7 @@
                             <h3>System Communications</h3>
                         </div>
                         <div class="panel-body">
-                            @Html.DhtmlxGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                            @Html.AgGrid(ViewDataTyped.ProjectNotificationGridSpec, ViewDataTyped.ProjectNotificationGridName, ViewDataTyped.ProjectNotificationGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
                         </div>
                     </div>
 

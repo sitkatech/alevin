@@ -1,6 +1,6 @@
 ﻿using System.Web;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.ModalDialog;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Controllers;
@@ -45,7 +45,7 @@ namespace ProjectFirma.Web.Models
         public static HtmlString GetEditButtonHtmlString(this SubprojectActionItem actionItem, bool userHasEditPermissions)
         {
             var buttonString = userHasEditPermissions 
-                ? $"{DhtmlxGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(actionItem.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.SubprojectActionItem.ToType().FieldDefinitionDisplayName}"))}" 
+                ? $"{AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(actionItem.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, $"Edit {FieldDefinitionEnum.SubprojectActionItem.ToType().FieldDefinitionDisplayName}"))}" 
                 : string.Empty;
             return new HtmlString(buttonString);
         }
@@ -72,7 +72,7 @@ namespace ProjectFirma.Web.Models
             body += $"Assigned On Date: {actionItem.AssignedOnDate.ToShortDateString()}\r\n";
             body += $"Related Habitat Coordination Call Update: {actionItem.SubprojectProjectStatus.GetDropdownDisplayName()}\r\n\r\n";
             body += $"Thank You, \r\n\r\n";
-            var mailToLink = new HtmlString($"<a href=\"mailto:{mailTo}?subject={subjectText}&body={HttpUtility.UrlPathEncode(body)}\">{DhtmlxGridHtmlHelpers.EmailIconBootstrap}</a>");
+            var mailToLink = new HtmlString($"<a href=\"mailto:{mailTo}?subject={subjectText}&body={HttpUtility.UrlPathEncode(body)}\">{AgGridHtmlHelpers.EmailIconBootstrap}</a>");
 
             return mailToLink;
         }

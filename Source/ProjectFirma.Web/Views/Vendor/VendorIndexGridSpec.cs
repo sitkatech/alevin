@@ -22,7 +22,7 @@ Source code is available upon request via <support@sitkatech.com>.
 using System.Web;
 using ProjectFirmaModels.Models;
 using LtInfo.Common;
-using LtInfo.Common.DhtmlWrappers;
+using LtInfo.Common.AgGridWrappers;
 using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
@@ -33,9 +33,9 @@ namespace ProjectFirma.Web.Views.Vendor
     {
         public VendorIndexGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(FieldDefinitionEnum.Vendor.ToType().ToGridHeaderString(), MakeVendorDetailHrefString, 400, DhtmlxGridColumnFilterType.Html);
+            Add(FieldDefinitionEnum.Vendor.ToType().ToGridHeaderString(), MakeVendorDetailHrefString, 400, AgGridColumnFilterType.Html);
             //Add("Vendor Name", v => v.VendorText, 100);
-            //Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.OrganizationType?.OrganizationTypeName, 100, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            //Add(FieldDefinitionEnum.OrganizationType.ToType().ToGridHeaderString(), a => a.OrganizationType?.OrganizationTypeName, 100, AgGridColumnFilterType.SelectFilterStrict);
             //Add(FieldDefinitionEnum.OrganizationPrimaryContact.ToType().ToGridHeaderString(), a => userViewFeature.HasPermission(currentFirmaSession, a.PrimaryContactPerson).HasPermission ? a.GetPrimaryContactPersonAsUrl() : new HtmlString(a.GetPrimaryContactPersonAsString()), 120);
             //Add($"# of {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()} associated with this {FieldDefinitionEnum.Organization.ToType().GetFieldDefinitionLabel()}", a => a.GetAllActiveProjects(currentFirmaSession.Person).Count, 90);
             //if (currentFirmaSession.Person.CanViewProposals())
@@ -44,7 +44,7 @@ namespace ProjectFirma.Web.Views.Vendor
             //}
             //Add($"# of {FieldDefinitionEnum.FundingSource.ToType().GetFieldDefinitionLabelPluralized()}", a => a.FundingSources.Count, 90);
             //Add("# of Users", a => a.People.Count, 90);
-            //Add("Is Active", a => a.IsActive.ToYesNo(), 80, DhtmlxGridColumnFilterType.SelectFilterStrict);
+            //Add("Is Active", a => a.IsActive.ToYesNo(), 80, AgGridColumnFilterType.SelectFilterStrict);
             //Add("Has Spatial Boundary", x => (x.OrganizationBoundary != null).ToCheckboxImageOrEmpty(), 70);
         }
 

@@ -19,7 +19,7 @@
     </license>
     -----------------------------------------------------------------------*@
 @using LtInfo.Common
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared.ProjectRunningBalanceObligationsAndExpenditures
@@ -31,7 +31,7 @@
 
 <div>
 
-    @Html.DhtmlxGrid(ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridSpec, ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridName, ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridSpec, ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridName, ViewDataTyped.ProjectRunningBalanceGroupedRecordsGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 
 
 </div>

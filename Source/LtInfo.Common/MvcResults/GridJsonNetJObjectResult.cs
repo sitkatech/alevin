@@ -97,7 +97,7 @@ namespace LtInfo.Common.MvcResults
 
             //var anonymousObject = new
             //{
-            //    rows = list.Select((t, i) => t.ToDhtmlxGridJsonRow(uniqueIDFunc?.Compile()(t) ?? i + 1, _gridSpec)).ToList()
+            //    rows = list.Select((t, i) => t.ToAgGridJsonRow(uniqueIDFunc?.Compile()(t) ?? i + 1, _gridSpec)).ToList()
 
             //};
 

@@ -256,7 +256,7 @@ Source code is available upon request via <support@sitkatech.com>.
                 @string.Format("{0} assigned to {1}", FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabelPluralized(), ViewDataTyped.Person.GetFullNameFirstLast())
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ActionItemsUserGridSpec, ViewDataTyped.ActionItemsGridName, ViewDataTyped.ActionItemsGridDataUrl, "height:300px", DhtmlxGridResizeType.VerticalResizableHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ActionItemsUserGridSpec, ViewDataTyped.ActionItemsGridName, ViewDataTyped.ActionItemsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
             </div>
         </div>
     </div>

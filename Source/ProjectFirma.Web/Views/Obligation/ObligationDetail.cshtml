@@ -23,7 +23,7 @@
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
 @using LtInfo.Common.BootstrapWrappers
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Common
 @using ProjectFirma.Web.Models
 @inherits ProjectFirma.Web.Views.Obligation.ObligationDetail
@@ -44,7 +44,7 @@
 
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 
     @*<script type="text/javascript" src="@Url.Content("~/Views/PerformanceMeasure/EditSubcategoriesAndOptionsController.js")"></script>*@
 
@@ -122,7 +122,7 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ContractualInvoiceGridSpec, ViewDataTyped.ContractualInvoiceGridName, ViewDataTyped.ContractualInvoiceGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>
@@ -138,7 +138,7 @@
                 </h2>
             </div>
             <div class="panel-body">
-                @Html.DhtmlxGrid(ViewDataTyped.ObligationItemGridSpec, ViewDataTyped.ObligationItemGridName, ViewDataTyped.ObligationItemGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+                @Html.AgGrid(ViewDataTyped.ObligationItemGridSpec, ViewDataTyped.ObligationItemGridName, ViewDataTyped.ObligationItemGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
             </div>
         </div>
     </div>

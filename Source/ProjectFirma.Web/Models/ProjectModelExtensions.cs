@@ -1381,7 +1381,7 @@ namespace ProjectFirma.Web.Models
         public static Dictionary<Organization, Tuple<int, decimal>> GetProjectCountAndFundingAmountFundingOrganization(List<Project> projects, List<int> fundingSourceIDsToExclude)
         {
             var fundingOrgAndSecuredFunding =
-                projects.SelectMany(x => x.ProjectFundingSourceBudgets).Where(x => !fundingSourceIDsToExclude.Contains(x.FundingSourceID) && x.SecuredAmount > 0).GroupBy(x => x.FundingSource.Organization).OrderBy(x => x.Key.OrganizationShortName).ToList();
+                projects.SelectMany(x => x.ProjectFundingSourceBudgets).Where(x => !fundingSourceIDsToExclude.Contains(x.FundingSourceID) && x.ProjectedAmount > 0).GroupBy(x => x.FundingSource.Organization).OrderBy(x => x.Key.OrganizationShortName).ToList();
 
 
             var orgTypeToAmounts = new Dictionary<Organization, Tuple<int, decimal>>();
@@ -1391,7 +1391,7 @@ namespace ProjectFirma.Web.Models
                 List<int> uniqueProjectIDs = new List<int>();
                 orgToSecuredFunding.ForEach(x =>
                 {
-                    securedFunding += x.SecuredAmount.GetValueOrDefault();
+                    securedFunding += x.ProjectedAmount.GetValueOrDefault();
                     uniqueProjectIDs.Add(x.Project.ProjectID);
                 });
                 var projectCount = uniqueProjectIDs.Distinct().Count();

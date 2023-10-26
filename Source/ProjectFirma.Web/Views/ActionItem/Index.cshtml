@@ -18,7 +18,7 @@
     Source code is available upon request via <support@sitkatech.com>.
     </license>
     -----------------------------------------------------------------------*@
-@using LtInfo.Common.DhtmlWrappers
+@using LtInfo.Common.AgGridWrappers
 @using ProjectFirma.Web.Models
 @using ProjectFirma.Web.Views
 @using ProjectFirma.Web.Views.Shared
@@ -26,7 +26,7 @@
 @inherits ProjectFirma.Web.Views.ActionItem.Index
 @section JavascriptAndStylesContent
 {
-    @{ DhtmlxGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
 }
 
 <div class="row">
@@ -36,13 +36,13 @@
 </div>
 
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.GridSpec, ViewDataTyped.GridName, ViewDataTyped.GridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
 
 <h2>Manage @FieldDefinitionEnum.SubprojectActionItem.ToType().GetFieldDefinitionLabelPluralized()</h2>
 <div style="margin-top: 10px">
-    @Html.DhtmlxGrid(ViewDataTyped.SubprojectActionItemGridSpec, ViewDataTyped.SubprojectActionItemGridName, ViewDataTyped.SubprojectActionItemGridDataUrl, null, DhtmlxGridResizeType.VerticalFillHorizontalAutoFit)
+    @Html.AgGrid(ViewDataTyped.SubprojectActionItemGridSpec, ViewDataTyped.SubprojectActionItemGridName, ViewDataTyped.SubprojectActionItemGridDataUrl, null, AgGridResizeType.VerticalFillHorizontalAutoFit)
 </div>
 
 
@@ -62,12 +62,12 @@
         });
 
         var subprojectActionItemSitkaGridContainer = Sitka.@ViewDataTyped.SubprojectActionItemGridName;
-        var subprojectActionItemDhtmlxGrid = subprojectActionItemSitkaGridContainer.grid;
+        var subprojectActionItemAgGrid = subprojectActionItemSitkaGridContainer.grid;
 
-        subprojectActionItemDhtmlxGrid.attachEvent("onXLE", function () {
+        subprojectActionItemAgGrid.attachEvent("onXLE", function () {
 
-            jQuery(subprojectActionItemDhtmlxGrid.getFilterElement(6)).selectpicker("val", "@ViewDataTyped.ActionItemStateToBeSelectedOnLoad");
-            subprojectActionItemDhtmlxGrid.filterByAll();
+            jQuery(subprojectActionItemAgGrid.getFilterElement(6)).selectpicker("val", "@ViewDataTyped.ActionItemStateToBeSelectedOnLoad");
+            subprojectActionItemAgGrid.filterByAll();
         });
 
     });

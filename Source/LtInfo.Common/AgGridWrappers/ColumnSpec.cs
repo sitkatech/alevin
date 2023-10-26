@@ -146,7 +146,7 @@ namespace LtInfo.Common.AgGridWrappers
             AgGridColumnSortType = agGridColumnSortType;
             AgGridColumnFilterType = agGridColumnFilterType;
             GridColumnAggregationType = agGridColumnAggregationType;
-            AgGridColumnFormatType = agGridColumnFormatType;// ?? DhtmlxGridColumnFormatType.None;
+            AgGridColumnFormatType = agGridColumnFormatType;// ?? AgGridColumnFormatType.None;
             AgGridColumnAlignType = agGridColumnAlignType;
             _cssClassFunction = cssClassFunction;
             _titleFunction = titleFunction;
