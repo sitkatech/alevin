@@ -1,5 +1,5 @@
 ﻿/*-----------------------------------------------------------------------
-<copyright file="CostAuthorityDetail.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+<copyright file="CostAuthorityEditViewData.cs" company="Tahoe Regional Planning Agency and Environmental Science Associates">
 Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
 <author>Environmental Science Associates</author>
 </copyright>
@@ -18,11 +18,18 @@ GNU Affero General Public License <http://www.gnu.org/licenses/> for more detail
 Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
-
+using System.Collections.Generic;
+using System.Web.Mvc;
 
 namespace ProjectFirma.Web.Views.CostAuthority
 {
-    public abstract class CostAuthorityDetail : LtInfo.Common.Mvc.TypedWebViewPage<CostAuthorityDetailViewData>
+    public class CostAuthorityEditViewData : FirmaUserControlViewData
     {
+
+
+        public CostAuthorityEditViewData()
+        {
+
+        }
     }
 }

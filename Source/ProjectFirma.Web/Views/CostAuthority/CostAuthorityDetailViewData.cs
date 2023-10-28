@@ -19,18 +19,19 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using ProjectFirma.Web.Controllers;
-using ProjectFirma.Web.Security;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
+using ProjectFirma.Web.Views.Agreement;
 using ProjectFirma.Web.Views.Obligation;
 using ProjectFirma.Web.Views.PnBudget;
 using ProjectFirma.Web.Views.Project;
+using ProjectFirmaModels.Models;
 
 //using ProjectFirma.Web.Views.Project;
 
-namespace ProjectFirma.Web.Views.Agreement
+namespace ProjectFirma.Web.Views.CostAuthority
 {
     public class CostAuthorityDetailViewData : FirmaViewData
     {
@@ -40,6 +41,7 @@ namespace ProjectFirma.Web.Views.Agreement
         public string IndexUrl { get; }
         public string AgreementIndexUrl { get; }
         public bool UserHasCostAuthorityManagePermissions { get; }
+        public string EditCostAuthorityUrl { get; }
         public string BasicProjectInfoProjectGridName { get; }
         public BasicProjectInfoGridSpec BasicProjectInfoGridSpec { get; }
         public string BasicProjectInfoProjectGridDataUrl { get; }
@@ -79,6 +81,8 @@ namespace ProjectFirma.Web.Views.Agreement
 
             UserHasCostAuthorityManagePermissions = new CostAuthorityManageFeature().HasPermissionByPerson(CurrentPerson);
             IsAdmin = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
+
+            EditCostAuthorityUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(ca => ca.CostAuthorityEdit(costAuthority));
 
             IndexUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(ca => ca.CostAuthorityIndex());
             AgreementIndexUrl = SitkaRoute<AgreementController>.BuildUrlFromExpression(ac => ac.AgreementIndex());

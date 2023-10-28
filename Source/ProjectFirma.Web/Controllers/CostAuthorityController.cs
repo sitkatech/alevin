@@ -103,5 +103,38 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        [HttpGet]
+        [CostAuthorityManageFeature]
+        public PartialViewResult CostAuthorityEdit(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
+        {
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            var viewModel = new CostAuthorityEditViewModel(costAuthority);
+            return ViewCostAuthorityEdit(viewModel);
+        }
+
+        [HttpPost]
+        [CostAuthorityManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult CostAuthorityEdit(CostAuthorityPrimaryKey costAuthorityPrimaryKey, CostAuthorityEditViewModel viewModel)
+        {
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewCostAuthorityEdit(viewModel);
+            }
+
+            viewModel.UpdateModel(costAuthority, CurrentFirmaSession);
+
+
+            return new ModalDialogFormJsonResult(costAuthority.GetDetailUrl());
+        }
+
+        private PartialViewResult ViewCostAuthorityEdit(CostAuthorityEditViewModel viewModel)
+        {
+            var viewData = new CostAuthorityEditViewData();
+            return RazorPartialView<CostAuthorityEdit, CostAuthorityEditViewData, CostAuthorityEditViewModel>(viewData, viewModel);
+        }
+
     }
 }
