@@ -81,5 +81,6 @@ namespace ProjectFirmaModels.Models
             var allRelevantProjects = projectsViaCostAuthorities.Union(projectsViaOverrides).Distinct().ToList();
             return allRelevantProjects;
         }
+
     }
 }

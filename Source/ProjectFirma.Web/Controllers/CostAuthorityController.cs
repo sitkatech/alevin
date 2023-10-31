@@ -103,5 +103,72 @@ namespace ProjectFirma.Web.Controllers
             var gridJsonNetJObjectResult = new GridJsonNetJObjectResult<Agreement>(projectReclamationAgreements, gridSpec);
             return gridJsonNetJObjectResult;
         }
+
+        [HttpGet]
+        [CostAuthorityManageFeature]
+        public PartialViewResult CostAuthorityEdit(CostAuthorityPrimaryKey costAuthorityPrimaryKey)
+        {
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            var viewModel = new CostAuthorityEditViewModel(costAuthority);
+            return ViewCostAuthorityEdit(viewModel);
+        }
+
+        [HttpPost]
+        [CostAuthorityManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult CostAuthorityEdit(CostAuthorityPrimaryKey costAuthorityPrimaryKey, CostAuthorityEditViewModel viewModel)
+        {
+            var costAuthority = costAuthorityPrimaryKey.EntityObject;
+            if (!ModelState.IsValid)
+            {
+                return ViewCostAuthorityEdit(viewModel);
+            }
+
+            viewModel.UpdateModel(costAuthority, CurrentFirmaSession);
+
+
+            return new ModalDialogFormJsonResult(costAuthority.GetDetailUrl());
+        }
+
+        private PartialViewResult ViewCostAuthorityEdit(CostAuthorityEditViewModel viewModel)
+        {
+            var viewData = new CostAuthorityEditViewData();
+            return RazorPartialView<CostAuthorityEdit, CostAuthorityEditViewData, CostAuthorityEditViewModel>(viewData, viewModel);
+        }
+
+
+        [HttpGet]
+        [CostAuthorityManageFeature]
+        public PartialViewResult NewCostAuthority()
+        {
+            var viewModel = new CostAuthorityEditViewModel();
+            return ViewCostAuthorityEdit(viewModel);
+        }
+
+        [HttpPost]
+        [CostAuthorityManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult NewCostAuthority(CostAuthorityEditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewCostAuthorityEdit(viewModel);
+            }
+
+            // unknown TaxonomyLeafID 2680
+            var costAuthority = new CostAuthority(2680);
+            viewModel.UpdateModel(costAuthority, CurrentFirmaSession);
+
+            
+            HttpRequestStorage.DatabaseEntities.CostAuthorities.Add(costAuthority);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"New {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} '{costAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()}' successfully created!");
+            return new ModalDialogFormJsonResult(costAuthority.GetDetailUrl());
+        }
+
+
+
+
+
     }
 }
