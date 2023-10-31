@@ -136,5 +136,39 @@ namespace ProjectFirma.Web.Controllers
             return RazorPartialView<CostAuthorityEdit, CostAuthorityEditViewData, CostAuthorityEditViewModel>(viewData, viewModel);
         }
 
+
+        [HttpGet]
+        [CostAuthorityManageFeature]
+        public PartialViewResult NewCostAuthority()
+        {
+            var viewModel = new CostAuthorityEditViewModel();
+            return ViewCostAuthorityEdit(viewModel);
+        }
+
+        [HttpPost]
+        [CostAuthorityManageFeature]
+        [AutomaticallyCallEntityFrameworkSaveChangesWhenModelValid]
+        public ActionResult NewCostAuthority(CostAuthorityEditViewModel viewModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return ViewCostAuthorityEdit(viewModel);
+            }
+
+            // unknown TaxonomyLeafID 2680
+            var costAuthority = new CostAuthority(2680);
+            viewModel.UpdateModel(costAuthority, CurrentFirmaSession);
+
+            
+            HttpRequestStorage.DatabaseEntities.CostAuthorities.Add(costAuthority);
+            HttpRequestStorage.DatabaseEntities.SaveChanges();
+            SetMessageForDisplay($"New {FieldDefinitionEnum.CostAuthorityWorkBreakdownStructure.ToType().GetFieldDefinitionLabel()} '{costAuthority.GetDetailLinkUsingCostAuthorityWorkBreakdownStructure()}' successfully created!");
+            return new ModalDialogFormJsonResult(costAuthority.GetDetailUrl());
+        }
+
+
+
+
+
     }
 }

@@ -33,7 +33,6 @@ namespace ProjectFirma.Web.Views.CostAuthority
         public CostAuthorityGridSpec CostAuthorityGridSpec { get; }
         public string CostAuthorityGridName { get; }
         public string CostAuthorityGridDataUrl { get; }
-        public string EditSortOrderUrl { get; }
         public bool HasCostAuthorityManagePermissions { get; }
         public string NewUrl { get; }
 
@@ -49,13 +48,11 @@ namespace ProjectFirma.Web.Views.CostAuthority
                 SaveFiltersInCookie = true
             };
 
-            //CostAuthorityGridSpec.CustomExcelDownloadLinkText = $"Download with {FieldDefinitionEnum.CostAuthoritySubcategory.ToType().GetFieldDefinitionLabelPluralized()}";
-            //CostAuthorityGridSpec.CustomExcelDownloadUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(tc => tc.IndexExcelDownload());
+            NewUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(c => c.NewCostAuthority());
 
             CostAuthorityGridName = "CostAuthoritiesGrid";
             CostAuthorityGridDataUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(c => c.CostAuthorityGridJsonData());
-            // Is this needed??
-            //EditSortOrderUrl = SitkaRoute<CostAuthorityController>.BuildUrlFromExpression(x => x.EditSortOrder());
+
             AgrementIndexViewPageContentViewData = new ViewPageContentViewData(firmaPage, true);
         }
     }
