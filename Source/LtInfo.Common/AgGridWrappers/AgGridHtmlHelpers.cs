@@ -79,7 +79,7 @@ namespace LtInfo.Common.AgGridWrappers
     <!-- The grid will be the size that this element is given. -->
     <div class=""row"">
         <div class=""col-md-6""><span id=""{0}RowCountText""></span> <a id=""{0}ClearFilters"" style=""display: none"" href=""javascript: void(0);"" onclick=""{0}ClearFilters()"">(clear filters)</a></div>
-        <div class=""col-md-6 text-right gridDownloadContainer"">{9}<a class=""excelbutton"" href=""javascript: void(0);""  onclick=""onBtnExport()"">Download Table</a>{8}</div>
+        <div class=""col-md-6 text-right gridDownloadContainer"">{9}<a class=""excelbutton"" href=""javascript: void(0);""  onclick=""{0}OnBtnExport()"">Download Table</a>{8}</div>
     </div>
     <div id=""{0}DivID"" class=""ag-theme-alpine"" style=""{6}""></div>
     <script type=""text/javascript"">
@@ -89,7 +89,7 @@ namespace LtInfo.Common.AgGridWrappers
                 document.getElementById(""{0}ClearFilters"").style.display = ""none"";
             }}
 
-            function onBtnExport() {{
+            function {0}OnBtnExport() {{
                 {0}GridOptions.api.exportDataAsCsv({{ processCellCallback: removeHtmlFromColumnForCVSDownload, fileName: '{0}' + 'Export' }});
             }}
 
@@ -136,16 +136,13 @@ namespace LtInfo.Common.AgGridWrappers
                     {0}GridOptions.api.forEachNodeAfterFilter((rowNode) => {{
                         if (rowNode.data[element]){{
                             if(target[element]){{
-                                target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element])).toFixed(2);
+                                target[element] = (Number.parseFloat(target[element]) + Number.parseFloat(rowNode.data[element]));
                             }}else{{
-                                target[element] = Number.parseFloat(rowNode.data[element]).toFixed(2);
+                                target[element] = Number.parseFloat(rowNode.data[element]);
                             }}
                             
                         }}
                     }});
-                    if (target[element]){{
-                        target[element] = target[element];//.toFixed(2);
-                    }}
                 }})
 
                 return target;
@@ -153,10 +150,26 @@ namespace LtInfo.Common.AgGridWrappers
 
 
         // Function to demonstrate calling grid's API
-        function deselect(){{
+        function {0}Deselect(){{
             {0}GridOptions.api.deselectAll()
         }}
 
+        function {0}LoadGridData(url){{
+                    // Fetch data from server
+            fetch(url)
+            .then(response => response.json())
+            .then(data => {{
+                // load fetched data into grid
+                {0}GridOptions.api.setRowData(data);
+                {0}TotalRowCount = data.length;
+                document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
+                {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
+                var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
+                if({0}PinnedBottomData){{
+                    {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
+                }}
+            }});
+        }}
 
         // Grid Options are properties passed to the grid
         const {0}GridOptions = {{
@@ -196,20 +209,7 @@ namespace LtInfo.Common.AgGridWrappers
         // new grid instance, passing in the hosting DIV and Grid Options
         new agGrid.Grid({0}GridDiv, {0}GridOptions);
         var {0}TotalRowCount = 0;
-        // Fetch data from server
-        fetch(""{1}"")
-        .then(response => response.json())
-        .then(data => {{
-            // load fetched data into grid
-            {0}GridOptions.api.setRowData(data);
-            {0}TotalRowCount = data.length;
-            document.getElementById(""{0}RowCountText"").innerText=""Currently Viewing ""+{0}GridOptions.api.getDisplayedRowCount()+ "" out of "" + {0}TotalRowCount + "" {3}""; 
-            {4}; // insert method to resize grid vertically if grid resize type is VerticalResizableHorizontalAutoFit
-            var {0}PinnedBottomData = {0}GeneratePinnedBottomData();
-            if({0}PinnedBottomData){{
-                {0}GridOptions.api.setPinnedBottomRowData([{0}PinnedBottomData]);
-            }}
-        }});
+        {0}LoadGridData(""{1}"");
     </script>";
 
 
@@ -301,9 +301,8 @@ namespace LtInfo.Common.AgGridWrappers
                         // columnDefinitionStringBuilder.Append(", \"cellDataType\": \"dateString\"");
                         break;
                     case AgGridColumnFilterType.Html:
-                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponent\": HtmlFloatingFilterComponent");
-                        columnDefinitionStringBuilder.Append(", \"floatingFilterComponentParams\": {suppressFilterButton: true,}");
-                        columnDefinitionStringBuilder.Append(", \"filter\": HtmlFilterComponent");
+                        columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
+                        columnDefinitionStringBuilder.Append(", \"filterParams\": { \"textMatcher\": ({ filterOption, value, filterText }) => htmlFilterTextMatcher( filterOption, value, filterText)  }");
                         break;
                     case AgGridColumnFilterType.Text:
                         columnDefinitionStringBuilder.Append(", \"filter\": \"agTextColumnFilter\"");
