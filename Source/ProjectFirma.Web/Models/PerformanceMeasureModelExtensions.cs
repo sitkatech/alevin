@@ -405,23 +405,33 @@ namespace ProjectFirma.Web.Models
 
             var blues = new List<string> { "#0075A4", "#72ADCF", "#BFE8FF" };
             var teals = new List<string> { "#00849C", "#30ACBB", "#A3D6D7" };
-            var multi = new List<string> { "#5D69B1", "#009FB4", "#FEC51A" };
+            var multi = new List<string> { "#0E3F77", "#FEC51F", "#666FAF" };
 
-            var colorsToUse = teals;
-
-            googlePieChartSlices.Add(new GooglePieChartSlice("Acres Completed", progressDashboardPieChartValues[0], sortOrder++, colorsToUse[0]));
-            googlePieChartSlices.Add(new GooglePieChartSlice("Acres In Construction", progressDashboardPieChartValues[1], sortOrder++, colorsToUse[1]));
-            googlePieChartSlices.Add(new GooglePieChartSlice("Acres Planned", progressDashboardPieChartValues[2], sortOrder, colorsToUse[2]));
+            var colorsToUse = multi;
+            var pieSliceTextStyleAcresInConstruction= new GoogleChartTextStyle("#1c2329") { IsBold = true, FontSize = 20 };
+            // PerformanceMeasureID = 3731 is the Outcome "Dust Suppression Acres Counted Towards SWRCB WR 2017-0134 Target"
+            var completedLabel = performanceMeasure.PerformanceMeasureID == 3731 ? "Acres Interim & Completed" : "Acres Completed";
+            googlePieChartSlices.Add(new GooglePieChartSlice(completedLabel, progressDashboardPieChartValues[0], sortOrder++, colorsToUse[0]));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres In Construction", progressDashboardPieChartValues[1], sortOrder++, colorsToUse[1], pieSliceTextStyleAcresInConstruction));
+            googlePieChartSlices.Add(new GooglePieChartSlice("Acres In Planning", progressDashboardPieChartValues[2], sortOrder, colorsToUse[2]));
             return googlePieChartSlices;
         }
 
-        public static List<double> GetProgressDashboardPieChartValues(this PerformanceMeasure performanceMeasure, int acresCompletedSubcategoryOptionID, int acresInConstructionSubcategoryOptionID)
+        public static List<double> GetProgressDashboardValues(this PerformanceMeasure performanceMeasure, double? convertedAcresToRemoveFromCompleted = null, double?  acresConvertedForInConstructionCalculation = null)
         {
-            var acresCompleted = performanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(acresCompletedSubcategoryOptionID);
-            var acresInConstruction = performanceMeasure.GetTotalActualsForPerformanceMeasureSubcategoryOption(acresInConstructionSubcategoryOptionID);
-            var acresPlanned = GetTotalExpectedsForPerformanceMeasureSubcategoryOption(performanceMeasure) - (acresCompleted + acresInConstruction);
-            acresPlanned = acresPlanned < 0 ? 0 : acresPlanned;
-            return new List<double> {acresCompleted, acresInConstruction, acresPlanned};
+            var acresCompleted = performanceMeasure.GetTotalActualsForActiveProjectsForPerformanceMeasure();
+            acresCompleted = convertedAcresToRemoveFromCompleted.HasValue ? acresCompleted - convertedAcresToRemoveFromCompleted.Value : acresCompleted;
+            // in construction calculation
+            var plannedImplementationOnly = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
+            var reportedImplementationOnly = GetTotalActualsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.Implementation);
+            var convertedImplementationOnly = acresConvertedForInConstructionCalculation ?? 0;
+            var acresProjectsInConstruction = plannedImplementationOnly - (reportedImplementationOnly - convertedImplementationOnly);
+            
+            var acresProjectsInDesign = GetTotalExpectedsForActiveProjectsForPerformanceMeasure(performanceMeasure, ProjectStage.PlanningDesign);
+            acresProjectsInDesign = acresProjectsInDesign < 0 ? 0 : acresProjectsInDesign;
+            acresProjectsInConstruction = acresProjectsInConstruction < 0 ? 0 : acresProjectsInConstruction;
+            acresCompleted = acresCompleted < 0 ? 0 : acresCompleted;
+            return new List<double> { acresCompleted, acresProjectsInConstruction, acresProjectsInDesign };
         }
 
         public static double GetTotalActualsForPerformanceMeasureSubcategoryOption(this PerformanceMeasure performanceMeasure, int subcategoryOptionID)
@@ -434,10 +444,34 @@ namespace ProjectFirma.Web.Models
                 : 0;
         }
 
-        private static double GetTotalExpectedsForPerformanceMeasureSubcategoryOption(PerformanceMeasure performanceMeasure)
+        public static double GetTotalActualsForActiveProjectsForPerformanceMeasureSubcategoryOption(this PerformanceMeasure performanceMeasure, int subcategoryOptionID)
         {
-            return performanceMeasure.PerformanceMeasureExpecteds.Any()
-                ? performanceMeasure.PerformanceMeasureExpecteds.Sum(x => x.ExpectedValue ?? 0)
+            return performanceMeasure.PerformanceMeasureActualSubcategoryOptions.Any(x =>
+                x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject())
+                ? performanceMeasure.PerformanceMeasureActualSubcategoryOptions
+                    .Where(x => x.PerformanceMeasureSubcategoryOptionID == subcategoryOptionID && x.PerformanceMeasureActual.Project.IsActiveProject())
+                    .Sum(x => x.PerformanceMeasureActual.ActualValue)
+                : 0;
+        }
+
+        private static double GetTotalActualsForActiveProjectsForPerformanceMeasure(this PerformanceMeasure performanceMeasure)
+        {
+            return performanceMeasure.PerformanceMeasureActuals.Any(x => x.Project.IsActiveProject())
+                ? performanceMeasure.PerformanceMeasureActuals.Where(x => x.Project.IsActiveProject()).Sum(x => x.ActualValue)
+                : 0;
+        }
+
+        private static double GetTotalExpectedsForActiveProjectsForPerformanceMeasure(PerformanceMeasure performanceMeasure, ProjectStage projectStage)
+        {
+            return performanceMeasure.PerformanceMeasureExpecteds.Any(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID)
+                ? performanceMeasure.PerformanceMeasureExpecteds.Where(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID).Sum(x => x.ExpectedValue ?? 0)
+                : 0;
+        }
+
+        private static double GetTotalActualsForActiveProjectsForPerformanceMeasure(PerformanceMeasure performanceMeasure, ProjectStage projectStage)
+        {
+            return performanceMeasure.PerformanceMeasureActuals.Any(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID)
+                ? performanceMeasure.PerformanceMeasureActuals.Where(x => x.Project.IsActiveProject() && x.Project.ProjectStageID == projectStage.ProjectStageID).Sum(x => x.ActualValue)
                 : 0;
         }
 
@@ -465,9 +499,10 @@ namespace ProjectFirma.Web.Models
 
         public static Tuple<GoogleChartDataTable, Dictionary<string, string>> GetProgressDashboardGoogleChartDataTableWithReportingPeriodsAsHorizontalAxis(this PerformanceMeasure performanceMeasure,
                                           ICollection<PerformanceMeasureReportingPeriod> performanceMeasureReportingPeriods,
-                                          List<IGrouping<Project, PerformanceMeasureActualSubcategoryOption>> groupedByProject,
+                                          List<IGrouping<Project, PerformanceMeasureActual>> groupedByProject,
                                           List<string> chartColumns,
-                                          bool showCumulativeResults)
+                                          bool showCumulativeResults,
+                                          int convertedAcresPerformanceMeasureSubcategoryOptionID)
         {
             var googleChartRowCs = new List<GoogleChartRowC>();
 
@@ -480,23 +515,29 @@ namespace ProjectFirma.Web.Models
                     double calendarYearReportedValue;
                     if (showCumulativeResults)
                     {
-                        calendarYearReportedValue = x.Any(pmsorv =>
-                            pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
+                        calendarYearReportedValue = x.Any(pmrv =>
+                            pmrv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
                             performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear) ?
-                            x.Where(pmsorv =>
-                                pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
+                            x.Where(pmrv =>
+                                pmrv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear <=
                                 performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                            .Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue) : 0;
+                            .Sum(pmrv => pmrv.ActualValue) : 0;
                     }
                     else
                     {
                         calendarYearReportedValue = x.Where(pmsorv =>
-                                pmsorv.PerformanceMeasureActual.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear ==
+                                pmsorv.PerformanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear ==
                                 performanceMeasureReportingPeriod.PerformanceMeasureReportingPeriodCalendarYear)
-                            .Sum(pmsorv => pmsorv.PerformanceMeasureActual.ActualValue);
+                            .Sum(pmrv => pmrv.ActualValue);
                     }
 
-                    return new GoogleChartRowV(calendarYearReportedValue, GoogleChartJson.GetFormattedValue(calendarYearReportedValue, performanceMeasure.MeasurementUnitType));
+                    var projectHasConvertedAcresForSubcategoryOption = x.Key.PerformanceMeasureActuals.Any(pmrv =>
+                        pmrv.PerformanceMeasureActualSubcategoryOptions.Any(z =>
+                            z.PerformanceMeasureSubcategoryOptionID ==
+                            convertedAcresPerformanceMeasureSubcategoryOptionID));
+
+                    var formattedValue = $"{GoogleChartJson.GetFormattedValue(calendarYearReportedValue, performanceMeasure.MeasurementUnitType)}{(projectHasConvertedAcresForSubcategoryOption ? " *" : string.Empty)}";
+                    return new GoogleChartRowV(calendarYearReportedValue, formattedValue);
                 }));
 
                 googleChartRowCs.Add(new GoogleChartRowC(googleChartRowVs));

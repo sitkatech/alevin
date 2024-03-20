@@ -84,13 +84,15 @@ namespace ProjectFirma.Web.Common
         public static string GeoServerUrl = SitkaConfiguration.GetRequiredAppSetting("GeoServerUrl");
         public static bool TenantDropdownEnabled = Boolean.Parse(SitkaConfiguration.GetRequiredAppSetting("TenantDropdownEnabled"));
 
-        public static readonly string HttpAuthenticationUrlHost = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUrlHost");
-        public static readonly string HttpAuthenticationUsername = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUsername");
-        public static readonly string HttpAuthenticationPassword = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationPassword");
+        // public static readonly string HttpAuthenticationUrlHost = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUrlHost");
+        // public static readonly string HttpAuthenticationUsername = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationUsername");
+        // public static readonly string HttpAuthenticationPassword = SitkaConfiguration.GetRequiredAppSetting("HttpAuthenticationPassword");
 
         public static readonly string NCRPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("NCRPHomeUrl");
         public static readonly string SSMPHomeUrl = SitkaConfiguration.GetRequiredAppSetting("SSMPHomeUrl");
         public static readonly int SSMPAcresConstructedTarget = Int32.Parse(SitkaConfiguration.GetRequiredAppSetting("SSMPAcresConstructedTarget"));
+
+        public static readonly string MapBoxApiKey = SitkaConfiguration.GetRequiredAppSetting("MapBoxApiKey");
 
         // Feature Flag Settings
         // FeatureMatchMakerEnabled now has shipped, but leaving this in place so we can see readily how to set up the next Feature.

@@ -24,6 +24,7 @@ using ProjectFirma.Web.Controllers;
 using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Security;
 using ProjectFirma.Web.Views.FundingSourceCustomAttributes;
+using ProjectFirma.Web.Views.PerformanceMeasure;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 using System.Collections.Generic;
@@ -53,6 +54,10 @@ namespace ProjectFirma.Web.Views.FundingSource
         public string ProjectFundingSourceBudgetGridName { get; }
         public string ProjectFundingSourceBudgetGridDataUrl { get; }
         public DisplayFundingSourceCustomAttributesViewData DisplayFundingSourceCustomAttributeTypesViewData { get; private set; }
+        public List<PerformanceMeasureChartViewData> PerformanceMeasureChartViewDatas { get; }
+        public readonly MapInitJson MapInitJson;
+        public readonly LayerGeoJson ProjectLocationsLayerGeoJson;
+        public readonly bool HasSpatialData;
 
         public ContractualInvoiceGridSpec ContractualInvoiceGridSpec { get; }
         public string ContractualInvoiceGridName { get; }
@@ -62,8 +67,19 @@ namespace ProjectFirma.Web.Views.FundingSource
         //public string ObligationItemBudgetGridName { get; }
         //public string ObligationItemBudgetGridDataUrl { get; }
 
+        //new DetailViewData(CurrentFirmaSession, fundingSource, viewGoogleChartViewData,
+        //projectFundingSourceBudgetGridSpec, projectCustomAttributeTypesViewData, mapInitJson,
+        //projectLocationsLayerGeoJson, hasSpatialData, performanceMeasures);
 
-        public DetailViewData(FirmaSession currentFirmaSession, ProjectFirmaModels.Models.FundingSource fundingSource, ViewGoogleChartViewData viewGoogleChartViewData, GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgetGridSpec, DisplayFundingSourceCustomAttributesViewData displayFundingSourceCustomAttributeTypesViewData) 
+        public DetailViewData(FirmaSession currentFirmaSession, 
+                              ProjectFirmaModels.Models.FundingSource fundingSource, 
+                              ViewGoogleChartViewData viewGoogleChartViewData, 
+                              GridSpec<ProjectFirmaModels.Models.ProjectFundingSourceBudget> projectFundingSourceBudgetGridSpec, 
+                              DisplayFundingSourceCustomAttributesViewData displayFundingSourceCustomAttributeTypesViewData,
+                              MapInitJson mapInitJson,
+                              LayerGeoJson projectLocationsLayerGeoJson,
+                              bool hasSpatialData,
+                              List<ProjectFirmaModels.Models.PerformanceMeasure> performanceMeasures) 
             : base(currentFirmaSession)
         {
             ViewGoogleChartViewData = viewGoogleChartViewData;
@@ -96,6 +112,13 @@ namespace ProjectFirma.Web.Views.FundingSource
             ProjectFundingSourceBudgetGridDataUrl = SitkaRoute<FundingSourceController>.BuildUrlFromExpression(tc => tc.ProjectFundingSourceBudgetGridJsonData(fundingSource));
 
             DisplayFundingSourceCustomAttributeTypesViewData = displayFundingSourceCustomAttributeTypesViewData;
+
+            MapInitJson = mapInitJson;
+            ProjectLocationsLayerGeoJson = projectLocationsLayerGeoJson;
+            HasSpatialData = hasSpatialData;
+
+            PerformanceMeasureChartViewDatas = performanceMeasures.Select(x => fundingSource.GetPerformanceMeasureChartViewData(x, currentFirmaSession)).ToList();
+
 
             ContractualInvoiceGridName = "fundingSourceContractualInvoicesGrid";
             ContractualInvoiceGridSpec = new ContractualInvoiceGridSpec(currentFirmaSession);

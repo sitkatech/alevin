@@ -23,6 +23,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using ProjectFirma.Web.Common;
+using ProjectFirma.Web.Models;
 using ProjectFirma.Web.Views.Shared;
 using ProjectFirmaModels.Models;
 
@@ -33,70 +34,84 @@ namespace ProjectFirma.Web.Views.Results
         public int ProjectCount { get; }
         public decimal FundsCommittedToProgram { get; }
         public int PartnershipCount { get; }
-        public double TotalAcresConstructed { get; }
-        public double TotalAcresConstructedInConstruction { get; }
-        public double TotalAcresConstructedCompleted { get; }
-        public int AcresConstructedTarget { get; }
-        public double AcresConstructedInConstructionPercent { get; }
-        public double AcresConstructedCompletedPercent { get; }
+        public double TotalAcres { get; }
+        public double TotalAcresInPlanning { get; }
+        public double TotalAcresProjectsInDesign { get; }
+        public double TotalAcresInConstruction { get; }
+        public double TotalAcresCompleted { get; }
+        public int AcresTarget { get; }
+        public int DustSuppressionAcresTarget { get; }
+        public double DustSuppressionAcresInPlanning { get; }
+        public int FishAndWildlifeHabitatAcresTarget { get; }
+        public double FishAndWildlifeHabitatAcresInPlanning { get; }
+        public double AcresInPlanningPercent { get; }
+        public double AcresProjectsInDesignPercent { get; }
+        public double AcresInConstructionPercent { get; }
+        public double AcresCompletedPercent { get; }
         public double AreaTreatedForDustSuppression { get; }
-        public double AreaTreatedForVegetationEnhancement { get; }
-        public double AquaticHabitatCreated { get; }
-        public double EndangeredSpeciesHabitatCreated { get; }
+        public double FishAndWildlifeHabitatAcresCounted { get; }
+        
         public ViewPageContentViewData AcresConstructedByTheNumbersViewPageContentViewData { get; }
-        public ViewPageContentViewData AcresConstructedPieChartViewPageContentViewData { get; }
+        public ViewPageContentViewData DustSuppressionViewPageContentViewData { get; }
+        public ViewPageContentViewData FishAndWildlifeHabitatViewPageContentViewData { get; }
+        public ViewPageContentViewData DustSuppressionConvertedAcresNoteViewPageContentViewData { get; }
+        public ViewPageContentViewData FishAndWildlifeHabitatConvertedAcresNoteViewPageContentViewData { get; }
         public ViewGoogleChartViewData DustSuppressionPieChart { get; }
-        public ViewGoogleChartViewData VegetationEnhancementPieChart { get; }
-        public ViewGoogleChartViewData AquaticHabitatCreatedPieChart { get; }
-        public ViewGoogleChartViewData EndangeredSpeciesHabitatCreatedPieChart { get; }
+        public ViewGoogleChartViewData FishAndWildlifeHabitatAcresCountedPieChart { get; }
         public List<double> DustSuppressionValues { get; }
-        public List<double> VegetationEnhancementValues { get; }
-        public List<double> AquaticHabitatCreatedValues { get; }
-        public List<double> EndangeredSpeciesHabitatCreatedValues { get; }
+        public List<double> FishAndWildlifeHabitatAcresCountedValues { get; }
         public bool DustSuppressionHasData { get; }
-        public bool VegetationEnhancementHasData { get; }
-        public bool AquaticHabitatCreatedHasData { get; }
-        public bool EndangeredSpeciesHabitatCreatedHasData { get; }
+        public bool FishAndWildlifeHabitatAcresCountedHasData { get; }
         public ViewGoogleChartViewData DustSuppressionColumnChart { get; }
-        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> DustSuppressionProjectToColorAndValue { get; }
-        public ViewGoogleChartViewData VegetationEnhancementColumnChart { get; }
-        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> VegetationEnhancementProjectToColorAndValue { get; }
-        public ViewGoogleChartViewData AquaticHabitatCreatedColumnChart { get; }
-        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> AquaticHabitatCreatedProjectToColorAndValue { get; }
-        public ViewGoogleChartViewData EndangeredSpeciesHabitatCreatedColumnChart { get; }
-        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> EndangeredSpeciesHabitatCreatedProjectToColorAndValue { get; }
-        public string DustSuppressionDisplayName { get; }
-        public string VegetationEnhancementDisplayName { get; }
-        public string AquaticHabitatDisplayName { get; }
-        public string EndangeredSpeciesHabitatDisplayName { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> DustSuppressionProjectToColorAndValue { get; }
+        public ViewGoogleChartViewData FishAndWildlifeHabitatAcresCountedColumnChart { get; }
+        public Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> FishAndWildlifeHabitatAcresCountedProjectToColorAndValue { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure DustSuppressionPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure FishAndWildlifeHabitatAcresCountedPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure EndangeredSpeciesHabitatPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure PublicAmenitiesAndRecreationAccessPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure SurfaceRougheningConductedPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure VegetationEnhancementConductedPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure AquaticHabitatCreatedPerformanceMeasure { get; }
+        public ProjectFirmaModels.Models.PerformanceMeasure WetlandHabitatCreatedPerformanceMeasure { get; }
+        public double EndangeredSpeciesHabitatCreatedCount { get; }
+        public double PublicAmenitiesAndRecreationAccessCount { get; }
+        public double SurfaceRougheningConductedCount { get; }
+        public double VegetationEnhancementConductedCount { get; }
+        public double AquaticHabitatCreatedCount { get; }
+        public double WetlandHabitatCreatedCount { get; }
 
         public ProgressDashboardViewData(FirmaSession currentFirmaSession,
             ProjectFirmaModels.Models.FirmaPage firmaPage,
             int projectCount, decimal fundsCommittedToProgram, int partnershipCount,
-            double totalAcresConstructedInConstruction, double totalAcresConstructedCompleted,
             ProjectFirmaModels.Models.FirmaPage acresConstructedByTheNumbersFirmaPage,
-            ProjectFirmaModels.Models.FirmaPage acresConstructedPieChartFirmaPage,
+            ProjectFirmaModels.Models.FirmaPage dustSuppressionFirmaPage,
+            ProjectFirmaModels.Models.FirmaPage fishAndWildlifeHabitatFirmaPage,
             GoogleChartJson dustSuppressionPieChart,
-            GoogleChartJson vegetationEnhancementPieChart,
-            GoogleChartJson aquaticHabitatCreatedPieChart,
-            GoogleChartJson endangeredSpeciesHabitatCreatedPieChart,
+            GoogleChartJson fishAndWildlifeHabitatAcresCountedPieChart,
             List<double> dustSuppressionValues,
-            List<double> vegetationEnhancementValues,
-            List<double> aquaticHabitatCreatedValues,
-            List<double> endangeredSpeciesHabitatCreatedValues,
+            List<double> fishAndWildlifeHabitatAcresCountedValues,
             List<GoogleChartJson> dustSuppressionColumnCharts,
-            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> dustSuppressionProjectToColorAndValue,
-            List<GoogleChartJson> vegetationEnhancementColumnCharts,
-            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> vegetationEnhancementProjectToColorAndValue,
-            List<GoogleChartJson> aquaticHabitatCreatedColumnCharts,
-            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> aquaticHabitatCreatedProjectToColorAndValue,
-            List<GoogleChartJson> endangeredSpeciesHabitatCreatedColumnCharts,
-            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double>> endangeredSpeciesHabitatCreatedProjectToColorAndValue,
-            string dustSuppressionDisplayName,
-            string vegetationEnhancementDisplayName,
-            string aquaticHabitatDisplayName,
-            string endangeredSpeciesHabitatDisplayName) : base(currentFirmaSession, firmaPage)
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> dustSuppressionProjectToColorAndValue,
+            List<GoogleChartJson> fishAndWildlifeHabitatAcresCountedColumnCharts,
+            Dictionary<ProjectFirmaModels.Models.Project, Tuple<string, double, bool>> fishAndWildlifeHabitatAcresCountedProjectToColorAndValue,
+            ProjectFirmaModels.Models.PerformanceMeasure dustSuppressionPerformanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure fishAndWildlifeHabitatAcresCountedPerformanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure endangeredSpeciesHabitatPerformanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure publicAmenitiesAndRecreationAccessPerformanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure surfaceRougheningConductedPerformanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure vegetationEnhancementConductedPerformanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure aquaticHabitatCreatedPerformanceMeasure,
+            ProjectFirmaModels.Models.PerformanceMeasure wetlandHabitatCreatedPerformanceMeasure,
+            double endangeredSpeciesHabitatCreatedCount,
+            double publicAmenitiesAndRecreationAccessCount,
+            double surfaceRougheningConductedCount,
+            double vegetationEnhancementConductedCount,
+            double aquaticHabitatCreatedCount,
+            double wetlandHabitatCreatedCount
+            ) : base(currentFirmaSession, firmaPage)
         {
+            BreadCrumbTitle = "Progress Dashboard";
             ContainerFluid = true;
             // progress overview
             ProjectCount = projectCount;
@@ -104,64 +119,68 @@ namespace ProjectFirma.Web.Views.Results
             PartnershipCount = partnershipCount;
             
             // acres controlled
-            TotalAcresConstructed = totalAcresConstructedInConstruction + totalAcresConstructedCompleted;
-            TotalAcresConstructedInConstruction = totalAcresConstructedInConstruction;
-            TotalAcresConstructedCompleted = totalAcresConstructedCompleted;
-            AcresConstructedTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget;
-            AcresConstructedInConstructionPercent = totalAcresConstructedInConstruction / AcresConstructedTarget * 100;
-            AcresConstructedCompletedPercent = totalAcresConstructedCompleted / AcresConstructedTarget * 100;
+            TotalAcres = dustSuppressionValues.Sum() + fishAndWildlifeHabitatAcresCountedValues.Sum();
+            TotalAcresProjectsInDesign = dustSuppressionValues[2] + fishAndWildlifeHabitatAcresCountedValues[2];
+            TotalAcresInConstruction = dustSuppressionValues[1] + fishAndWildlifeHabitatAcresCountedValues[1];
+            TotalAcresCompleted = dustSuppressionValues[0] + fishAndWildlifeHabitatAcresCountedValues[0];
+            AcresTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget;
+            TotalAcresInPlanning =
+                AcresTarget - (TotalAcresCompleted + TotalAcresInConstruction + TotalAcresProjectsInDesign);
+            DustSuppressionAcresTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget / 2;
+            DustSuppressionAcresInPlanning = DustSuppressionAcresTarget - dustSuppressionValues.Sum();
+            FishAndWildlifeHabitatAcresTarget = FirmaWebConfiguration.SSMPAcresConstructedTarget / 2;
+            FishAndWildlifeHabitatAcresInPlanning = FishAndWildlifeHabitatAcresTarget - fishAndWildlifeHabitatAcresCountedValues.Sum();
+            AcresProjectsInDesignPercent = TotalAcresProjectsInDesign / AcresTarget * 100;
+            AcresInConstructionPercent = TotalAcresInConstruction / AcresTarget * 100;
+            AcresCompletedPercent = TotalAcresCompleted / AcresTarget * 100;
+            AcresInPlanningPercent = TotalAcresInPlanning / AcresTarget * 100;
 
             AreaTreatedForDustSuppression = dustSuppressionValues[0];
-            AreaTreatedForVegetationEnhancement = vegetationEnhancementValues[0];
-            AquaticHabitatCreated = aquaticHabitatCreatedValues[0];
-            EndangeredSpeciesHabitatCreated = endangeredSpeciesHabitatCreatedValues[0];
+            FishAndWildlifeHabitatAcresCounted = fishAndWildlifeHabitatAcresCountedValues[0];
 
             AcresConstructedByTheNumbersViewPageContentViewData = new ViewPageContentViewData(acresConstructedByTheNumbersFirmaPage, currentFirmaSession);
-            AcresConstructedPieChartViewPageContentViewData = new ViewPageContentViewData(acresConstructedPieChartFirmaPage, currentFirmaSession);
+            DustSuppressionViewPageContentViewData = new ViewPageContentViewData(dustSuppressionFirmaPage, currentFirmaSession);
+            FishAndWildlifeHabitatViewPageContentViewData = new ViewPageContentViewData(fishAndWildlifeHabitatFirmaPage, currentFirmaSession);
+            DustSuppressionConvertedAcresNoteViewPageContentViewData = new ViewPageContentViewData(FirmaPageTypeEnum.ProgressDashboardDusSuppressionConvertedAcresNote.GetFirmaPage(), currentFirmaSession);
+            FishAndWildlifeHabitatConvertedAcresNoteViewPageContentViewData = new ViewPageContentViewData(FirmaPageTypeEnum.ProgressDashboardFishAndWildlifeHabitatConvertedAcresNote.GetFirmaPage(), currentFirmaSession);
 
             DustSuppressionPieChart = new ViewGoogleChartViewData(
                 new List<GoogleChartJson> {dustSuppressionPieChart},
                 dustSuppressionPieChart.GoogleChartConfiguration.Title, 366, true, true, true, false);
-            VegetationEnhancementPieChart = new ViewGoogleChartViewData(
-                new List<GoogleChartJson> {vegetationEnhancementPieChart},
-                vegetationEnhancementPieChart.GoogleChartConfiguration.Title, 366, true, true, true,
-                false);
-            AquaticHabitatCreatedPieChart = new ViewGoogleChartViewData(
-                new List<GoogleChartJson> {aquaticHabitatCreatedPieChart},
-                aquaticHabitatCreatedPieChart.GoogleChartConfiguration.Title, 366, true, true, true, false);
-            EndangeredSpeciesHabitatCreatedPieChart = new ViewGoogleChartViewData(
-                new List<GoogleChartJson> { endangeredSpeciesHabitatCreatedPieChart },
-                endangeredSpeciesHabitatCreatedPieChart.GoogleChartConfiguration.Title,
-                endangeredSpeciesHabitatCreatedPieChart.ChartContainerID, 366, true, true, true, false);
 
+            FishAndWildlifeHabitatAcresCountedPieChart = new ViewGoogleChartViewData(
+                new List<GoogleChartJson> {fishAndWildlifeHabitatAcresCountedPieChart},
+                fishAndWildlifeHabitatAcresCountedPieChart.GoogleChartConfiguration.Title, 366, true, true, true, false);
+         
 
             DustSuppressionValues = dustSuppressionValues;
-            VegetationEnhancementValues = vegetationEnhancementValues;
-            AquaticHabitatCreatedValues = aquaticHabitatCreatedValues;
-            EndangeredSpeciesHabitatCreatedValues = endangeredSpeciesHabitatCreatedValues;
+            FishAndWildlifeHabitatAcresCountedValues = fishAndWildlifeHabitatAcresCountedValues;
 
             DustSuppressionHasData = dustSuppressionValues.Any(x => x > 0);
-            VegetationEnhancementHasData = vegetationEnhancementValues.Any(x => x > 0);
-            AquaticHabitatCreatedHasData = aquaticHabitatCreatedValues.Any(x => x > 0);
-            EndangeredSpeciesHabitatCreatedHasData = endangeredSpeciesHabitatCreatedValues.Any(x => x > 0);
+            FishAndWildlifeHabitatAcresCountedHasData = fishAndWildlifeHabitatAcresCountedValues.Any(x => x > 0);
 
-
-            DustSuppressionColumnChart = new ViewGoogleChartViewData(dustSuppressionColumnCharts, "Completed Acres", "dustSuppressionAcresCompleted", 366, true, true, true, true);
+            DustSuppressionColumnChart = new ViewGoogleChartViewData(dustSuppressionColumnCharts, "Acres by Year", "dustSuppressionAcresCompleted", 366, true, true, true, true, "Chart cumulative acres");
             DustSuppressionProjectToColorAndValue = dustSuppressionProjectToColorAndValue;
 
-            VegetationEnhancementColumnChart = new ViewGoogleChartViewData(vegetationEnhancementColumnCharts, "Completed Acres", "vegetationEnhancementAcresCompleted", 366, true, true, true, true);
-            VegetationEnhancementProjectToColorAndValue = vegetationEnhancementProjectToColorAndValue;
+            FishAndWildlifeHabitatAcresCountedColumnChart = new ViewGoogleChartViewData(fishAndWildlifeHabitatAcresCountedColumnCharts, "Acres by Year", "fishAndWildlifeHabitatAcresCountedAcresCompleted", 366, true, true, true, true, "Chart cumulative acres");
+            FishAndWildlifeHabitatAcresCountedProjectToColorAndValue = fishAndWildlifeHabitatAcresCountedProjectToColorAndValue;
 
-            AquaticHabitatCreatedColumnChart = new ViewGoogleChartViewData(aquaticHabitatCreatedColumnCharts, "Completed Acres", "aquaticHabitatCreatedAcresCompleted", 366, true, true, true, true);
-            AquaticHabitatCreatedProjectToColorAndValue = aquaticHabitatCreatedProjectToColorAndValue;
+            DustSuppressionPerformanceMeasure = dustSuppressionPerformanceMeasure;
+            FishAndWildlifeHabitatAcresCountedPerformanceMeasure = fishAndWildlifeHabitatAcresCountedPerformanceMeasure;
+            EndangeredSpeciesHabitatPerformanceMeasure = endangeredSpeciesHabitatPerformanceMeasure;
+            PublicAmenitiesAndRecreationAccessPerformanceMeasure = publicAmenitiesAndRecreationAccessPerformanceMeasure;
+            SurfaceRougheningConductedPerformanceMeasure = surfaceRougheningConductedPerformanceMeasure;
+            VegetationEnhancementConductedPerformanceMeasure = vegetationEnhancementConductedPerformanceMeasure;
+            AquaticHabitatCreatedPerformanceMeasure = aquaticHabitatCreatedPerformanceMeasure;
+            WetlandHabitatCreatedPerformanceMeasure = wetlandHabitatCreatedPerformanceMeasure;
 
-            EndangeredSpeciesHabitatCreatedColumnChart = new ViewGoogleChartViewData(endangeredSpeciesHabitatCreatedColumnCharts, "Completed Acres", "endangeredSpeciesHabitatCreatedAcresCompleted", 366, true, true, true, true);
-            EndangeredSpeciesHabitatCreatedProjectToColorAndValue = endangeredSpeciesHabitatCreatedProjectToColorAndValue;
+            EndangeredSpeciesHabitatCreatedCount = endangeredSpeciesHabitatCreatedCount;
+            PublicAmenitiesAndRecreationAccessCount = publicAmenitiesAndRecreationAccessCount;
+            SurfaceRougheningConductedCount = surfaceRougheningConductedCount;
+            VegetationEnhancementConductedCount = vegetationEnhancementConductedCount;
+            AquaticHabitatCreatedCount = aquaticHabitatCreatedCount;
+            WetlandHabitatCreatedCount = wetlandHabitatCreatedCount;
 
-            DustSuppressionDisplayName = dustSuppressionDisplayName;
-            VegetationEnhancementDisplayName = vegetationEnhancementDisplayName;
-            AquaticHabitatDisplayName = aquaticHabitatDisplayName;
-            EndangeredSpeciesHabitatDisplayName = endangeredSpeciesHabitatDisplayName;
         }
     }
 }

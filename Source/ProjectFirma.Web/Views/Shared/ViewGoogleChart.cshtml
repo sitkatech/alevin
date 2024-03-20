@@ -112,8 +112,8 @@
     @if (ViewDataTyped.CanBeChartedCumulatively && ViewDataTyped.HasData)
     {
         <div class="cumulativeToggleSelector col-md-5" id="cumulativeToggleSelectorFor@(ViewDataTyped.ChartUniqueName)" style="margin-top: 5px; font-size: 12px; font-weight: 700;">
-            <strong>Cumulative: </strong>
-            <input id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" @*data-toggle="toggle" data-size="mini"*@ />
+            <strong>@(string.IsNullOrWhiteSpace(ViewDataTyped.CumulativeCheckboxLabel) ? "Cumulative" : ViewDataTyped.CumulativeCheckboxLabel): </strong>
+            <input id="cumulativeToggleFor@(ViewDataTyped.ChartUniqueName)" class="cumulativeToggle" type="checkbox" @*data-toggle="toggle" data-size="mini"*@ style="vertical-align: middle; margin-top: 0;"/>
         </div>
     }
 </div>
