@@ -213,6 +213,7 @@ namespace ProjectFirmaModels.Models
         ProgressDashboardFishAndWildlifeHabitat = 96,
         ProgressDashboardDusSuppressionConvertedAcresNote = 97,
         ProgressDashboardFishAndWildlifeHabitatConvertedAcresNote = 98,
+        BulkUploadProjects = 99,
         AgreementList = 10000,
         CostAuthorityList = 10001,
         ObligationRequestList = 10002,

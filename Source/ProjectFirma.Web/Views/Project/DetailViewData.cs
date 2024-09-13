@@ -258,7 +258,7 @@ namespace ProjectFirma.Web.Views.Project
                 if ((projectApprovalStatus == ProjectApprovalStatus.Draft || projectApprovalStatus == ProjectApprovalStatus.Returned) && (userHasProjectAdminPermissions || userHasStartUpdateWorkflowPermission))
                 {
                     projectAlerts.Add(
-                        $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
+                        $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is in the Proposal stage. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made by clicking the Edit {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabel()} button.");
                 }
                 else if (projectApprovalStatus == ProjectApprovalStatus.PendingApproval)
                 {
@@ -288,7 +288,7 @@ namespace ProjectFirma.Web.Views.Project
                 if ((projectApprovalStatus == ProjectApprovalStatus.Draft || projectApprovalStatus == ProjectApprovalStatus.Returned) && (userHasProjectAdminPermissions || userHasStartUpdateWorkflowPermission))
                 {
                     projectAlerts.Add(
-                        $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is pending. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made using the Add New {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} workflow.");
+                        $"This {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} is pending. Any edits to this {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} must be made by clicking the Edit Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} button.");
                 }
                 else if (projectApprovalStatus == ProjectApprovalStatus.PendingApproval)
                 {
@@ -307,6 +307,10 @@ namespace ProjectFirma.Web.Views.Project
             }
             else
             {
+                if (project.ExternalID != null)
+                {
+                    CanLaunchProjectOrProposalWizard = false;
+                }
                 var latestUpdateState = project.GetLatestUpdateStateResilientToDuplicateUpdateBatches();
                 ProjectUpdateButtonText =
                     latestUpdateState == ProjectUpdateState.Submitted ||

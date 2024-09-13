@@ -1696,7 +1696,7 @@ namespace ProjectFirma.Web.Controllers
             project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
             project.SubmissionDate = DateTime.Now;
             project.SubmittedByPerson = CurrentPerson;
-            NotificationProjectModelExtensions.SendSubmittedMessage(project);
+            //NotificationProjectModelExtensions.SendSubmittedMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully submitted for review.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
@@ -1738,7 +1738,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             GenerateApprovalAuditLogEntries(project);
-            NotificationProjectModelExtensions.SendApprovalMessage(project);
+            //NotificationProjectModelExtensions.SendApprovalMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName())}\" successfully approved.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }

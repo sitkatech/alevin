@@ -1,23 +1,23 @@
 ﻿@*-----------------------------------------------------------------------
-   <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
-   Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
-   <author>Environmental Science Associates</author>
-   </copyright>
+    <copyright file="Detail.cshtml" company="Tahoe Regional Planning Agency and Environmental Science Associates">
+    Copyright (c) Tahoe Regional Planning Agency and Environmental Science Associates. All rights reserved.
+    <author>Environmental Science Associates</author>
+    </copyright>
 
-    <license>
-    This program is free software: you can redistribute it and/or modify
-    it under the terms of the GNU Affero General Public License as published by
-    the Free Software Foundation, either version 3 of the License, or
-    (at your option) any later version.
+     <license>
+     This program is free software: you can redistribute it and/or modify
+     it under the terms of the GNU Affero General Public License as published by
+     the Free Software Foundation, either version 3 of the License, or
+     (at your option) any later version.
 
-    This program is distributed in the hope that it will be useful,
-    but WITHOUT ANY WARRANTY; without even the implied warranty of
-    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-    GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
+     This program is distributed in the hope that it will be useful,
+     but WITHOUT ANY WARRANTY; without even the implied warranty of
+     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+     GNU Affero General Public License <http://www.gnu.org/licenses/> for more details.
 
-    Source code is available upon request via <support@sitkatech.com>.
-    </license>
-    -----------------------------------------------------------------------*@
+     Source code is available upon request via <support@sitkatech.com>.
+     </license>
+     -----------------------------------------------------------------------*@
 @using LtInfo.Common
 @using ProjectFirmaModels.Models
 @using ProjectFirma.Web.Views.Shared.ExpenditureAndBudgetControls
@@ -49,7 +49,7 @@
 
 @section JavascriptAndStylesContent
 {
-   @{ AgGridIncludes.RenderPartialView(Html); }
+    @{ AgGridIncludes.RenderPartialView(Html); }
     @{ MapJavascriptIncludes.RenderPartialView(Html); }
     <script src="@Url.Content("~/Views/Shared/PerformanceMeasureControls/PerformanceMeasureExpectedController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/Shared/PerformanceMeasureActual/PerformanceMeasureActualController.js")" type="text/javascript"></script>
@@ -61,12 +61,12 @@
     <script src="@Url.Content("~/Views/Shared/ProjectOrganization/ProjectOrganizationController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/Shared/ProjectContact/ProjectContactController.js")" type="text/javascript"></script>
     <script src="@Url.Content("~/Views/ProjectExternalLink/ProjectExternalLinkController.js")" type="text/javascript"></script>
-   <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
-   <link href="~/Content/bootstrap-tags/bootstrap-tags.min.css" rel="stylesheet" type="text/css" />
-   <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
-   <script src="@Url.Content("~/Content/bootstrap-toc/bootstrap-toc.min.js")" type="text/javascript"></script>
-   <script src="@Url.Content("~/Content/angular/angular-messages.min.js")"></script>
-   <script src="@Url.Content("~/Views/Shared/ProjectAttachment/NewProjectAttachmentController.js")" type="text/javascript"></script>
+    <script type="text/javascript" src="/Content/Bootstrap-select/bootstrap-select.min.js"></script>
+    <link href="~/Content/bootstrap-tags/bootstrap-tags.min.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/Content/Bootstrap-select/bootstrap-select.min.css" type="text/css" />
+    <script src="@Url.Content("~/Content/bootstrap-toc/bootstrap-toc.min.js")" type="text/javascript"></script>
+    <script src="@Url.Content("~/Content/angular/angular-messages.min.js")"></script>
+    <script src="@Url.Content("~/Views/Shared/ProjectAttachment/NewProjectAttachmentController.js")" type="text/javascript"></script>
 }
 
 <style type="text/css">
@@ -89,21 +89,28 @@
     }
 </style>
 
+@if (ViewDataTyped.Project.ExternalID != null)
+{
+    <div class="alert alert-info " role="alert">
+        This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() is sourced from <a href="@(MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalSourceOfRecordUrl + "/Project/FactSheet/" + ViewDataTyped.Project.ExternalID)">@MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalSourceOfRecordName</a>
+    </div>
+}
+
 @section RightOfPageTitle
 {
-   @if (ViewDataTyped.CanLaunchProjectOrProposalWizard)
-   {
-      <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@AgGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
-   }
-   else if (ViewDataTyped.ShowWithdrawProjectButton)
-   {
-      @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> { "btn btn-firma" }, null, null)
-   }
+    @if (ViewDataTyped.CanLaunchProjectOrProposalWizard)
+    {
+        <a class="btn btn-firma" href="@ViewDataTyped.ProjectWizardUrl" title="@ViewDataTyped.ProjectUpdateButtonText">@AgGridHtmlHelpers.EditIconBootstrap @ViewDataTyped.ProjectUpdateButtonText</a>
+    }
+    else if (ViewDataTyped.ShowWithdrawProjectButton)
+    {
+        @ModalDialogFormHelper.ModalDialogFormLink("Withdraw this Proposal", ViewDataTyped.WithdrawUrl, "Withdraw Proposal", 500, "Withdraw", "Cancel", new List<string> { "btn btn-firma" }, null, null)
+    }
 
-   @if (ViewDataTyped.ShowFactSheetButton)
-   {
-      <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaAgGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
-   }
+    @if (ViewDataTyped.ShowFactSheetButton)
+    {
+        <a class="btn btn-firma" href="@ViewDataTyped.Project.GetFactSheetUrl()" title="View Fact Sheet">@FirmaAgGridHtmlHelpers.FactSheetIcon View Fact Sheet</a>
+    }
 }
 
 
@@ -156,7 +163,7 @@
                 arrowClass = "singleArrow";
             }
 
-         <div class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.GetProjectStageDisplayName()</div>
+            <div class="breadcrumbTitle breadcrumbArrow @Html.Raw(stateName) @Html.Raw(arrowClass)">@stage.GetProjectStageDisplayName()</div>
         }
     </div>
 </div>
@@ -306,21 +313,21 @@
                     </div>
                 </div>
 
-                
-            <h2 class="sectionHeader">Subprojects</h2>
-            @* Reclamation Agreements and Reclamation Cost Authority Work Breakdown Structures *@
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h3 class="project-detail-heading">
-                        Subprojects
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    @{ SubprojectDisplay.RenderPartialView(Html, ViewDataTyped.SubprojectDisplayViewData); }
-                </div>
-            </div>
 
-            <h2 class="sectionHeader">Financials</h2>
+                <h2 class="sectionHeader">Subprojects</h2>
+                @* Reclamation Agreements and Reclamation Cost Authority Work Breakdown Structures *@
+                <div class="panel panelFirma">
+                    <div class="panel-heading panelTitle">
+                        <h3 class="project-detail-heading">
+                            Subprojects
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                        @{ SubprojectDisplay.RenderPartialView(Html, ViewDataTyped.SubprojectDisplayViewData); }
+                    </div>
+                </div>
+
+                <h2 class="sectionHeader">Financials</h2>
                 @* Reclamation Agreements and Reclamation Cost Authority Work Breakdown Structures *@
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
@@ -367,9 +374,9 @@
                         {
                             <div class="pull-right">
                                 <a href="@ViewDataTyped.EditExpectedFundingUrl" class="btn btn-firma">Edit Projected Funding</a>
-                            </div>    
+                            </div>
                         }
-                        
+
                         @{
                             ProjectBudgetSummary.RenderPartialView(Html, ViewDataTyped.ProjectBudgetSummaryViewData);
                         }
@@ -385,58 +392,58 @@
                     </div>
                 </div>
 
-            @*<div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
-                    <h3 class="project-detail-heading">
-                        @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    @if (ViewDataTyped.Project.IsProposal())
-                    {
-                      <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
-                    }
-                    else if (ViewDataTyped.ReportFinancialsByCostType)
-                    {
-                        ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
-                    }
-                    else
-                    {
-                        ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
-                    }
-                </div>
-            </div>*@
+                @*<div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            @ModalDialogFormHelper.MakeEditIconLink(ViewDataTyped.EditReportedExpendituresUrl, string.Format("Edit {0}", FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()), 1000, ViewDataTyped.UserHasEditProjectPermissions)
+                            <h3 class="project-detail-heading">
+                                @FieldDefinitionEnum.ReportedExpenditure.ToType().GetFieldDefinitionLabelPluralized()
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            @if (ViewDataTyped.Project.IsProposal())
+                            {
+                              <p>Reported Expenditures are not relevant for @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized() in the @ProjectStage.Proposal.GetProjectStageDisplayName() stage.</p>
+                            }
+                            else if (ViewDataTyped.ReportFinancialsByCostType)
+                            {
+                                ProjectExpendituresByCostTypeDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresByCostTypeDetailViewData);
+                            }
+                            else
+                            {
+                                ProjectExpendituresDetail.RenderPartialView(Html, ViewDataTyped.ProjectExpendituresDetailViewData);
+                            }
+                        </div>
+                    </div>*@
 
 
-            @*New attempt at Project Running Balance Report (improved)*@
-            <div class="panel panelFirma">
-                <div class="panel-heading panelTitle">
-                    <h3 class="project-detail-heading">
-                        Project Running Balance - Obligations and Expenditures
-                    </h3>
-                </div>
-                <div class="panel-body">
-                    @{ ProjectRunningBalanceObligationsAndExpenditures.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresViewData); }
-                </div>
-            </div>
-            
-            @if (ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectRunningBalanceObligationsAndExpendituresRecords.Any() || ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectBurnUpChartData.Projections.Any())
-            {
+                @*New attempt at Project Running Balance Report (improved)*@
                 <div class="panel panelFirma">
                     <div class="panel-heading panelTitle">
                         <h3 class="project-detail-heading">
-                            Project Balance Burn Up
+                            Project Running Balance - Obligations and Expenditures
                         </h3>
                     </div>
                     <div class="panel-body">
-                        @{ ProjectBalanceBurnUp.RenderPartialView(Html, ViewDataTyped.ProjectBalanceBurnUpViewData); }
+                        @{ ProjectRunningBalanceObligationsAndExpenditures.RenderPartialView(Html, ViewDataTyped.ProjectRunningBalanceObligationsAndExpendituresViewData); }
                     </div>
                 </div>
-            }
+
+                @if (ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectRunningBalanceObligationsAndExpendituresRecords.Any() || ViewDataTyped.ProjectBalanceBurnUpViewData.ProjectBurnUpChartData.Projections.Any())
+                {
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3 class="project-detail-heading">
+                                Project Balance Burn Up
+                            </h3>
+                        </div>
+                        <div class="panel-body">
+                            @{ ProjectBalanceBurnUp.RenderPartialView(Html, ViewDataTyped.ProjectBalanceBurnUpViewData); }
+                        </div>
+                    </div>
+                }
 
 
-            @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
+                @foreach (var classificationSystem in ViewDataTyped.ClassificationSystems)
                 {
                     <h2 data-toc-skip class="sectionHeader">@ClassificationSystemModelExtensions.GetClassificationSystemNamePluralized(classificationSystem)</h2>
                     <div class="panel panelFirma">
@@ -450,7 +457,7 @@
                             @{ var projectClassifications = ViewDataTyped.Project.ProjectClassifications.Where(x => x.Classification.ClassificationSystemID == classificationSystem.ClassificationSystemID).ToList(); }
                             @if (projectClassifications.Count > 0)
                             {
-                        // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
+                                // Watch out here!! Resharper doesn't seem to know .Batch() is coming from @using MoreLinq, so if you remove that using, this will break! -- SLG 8/4/2020
                                 foreach (var projectClassificationBatch in projectClassifications.OrderBy(x => x.Classification.ClassificationSortOrder).ThenBy(x => x.Classification.GetDisplayName()).Batch(3))
                                 {
                                     <div class="row" style="padding-top: 10px;">
@@ -474,21 +481,21 @@
 
                 }
 
-            @*Partner Finder Panel*@
-            @if (ViewDataTyped.ProjectPotentialPartnerDetailViewData.ShouldShowMatchMakerPotentialPartnerPanel)
-            {
-               <h2 class="sectionHeader">Partner Finder</h2>
-               <div class="panel panelFirma">
-                  <div class="panel-heading panelTitle">
-                     <h3 data-toc-skip>Partner Finder</h3>
-                  </div>
-                  <div class="panel-body">
-                     <div>
-                        @{ ProjectPotentialPartnerDetail.RenderPartialView(Html, ViewDataTyped.ProjectPotentialPartnerDetailViewData); }
-                     </div>
-                  </div>
-               </div>
-            }
+                @*Partner Finder Panel*@
+                @if (ViewDataTyped.ProjectPotentialPartnerDetailViewData.ShouldShowMatchMakerPotentialPartnerPanel)
+                {
+                    <h2 class="sectionHeader">Partner Finder</h2>
+                    <div class="panel panelFirma">
+                        <div class="panel-heading panelTitle">
+                            <h3 data-toc-skip>Partner Finder</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div>
+                                @{ ProjectPotentialPartnerDetail.RenderPartialView(Html, ViewDataTyped.ProjectPotentialPartnerDetailViewData); }
+                            </div>
+                        </div>
+                    </div>
+                }
 
                 <h2 class="sectionHeader">@FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() Details</h2>
 
@@ -573,54 +580,56 @@
                 {
                     <h2 class="sectionHeader">Administrative</h2>
 
-
-                    <div class="panel panelFirma">
-                        <div class="panel-heading panelTitle">
-                            <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
-                        </div>
-                        <div class="panel-body">
-                            @if (ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
-                            {
-                                <table class="summaryLayout table table-condensed table-striped">
-                                    <tbody>
-                                        <tr>
-                                            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationName.ToType())</th>
-                                            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStatus.ToType())</th>
-                                            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStartDate.ToType())</th>
-                                            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationEndDate.ToType())</th>
-                                            <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationCriteria.ToType())</th>
-                                            <th scope="col">Comments</th>
-                                        </tr>
-                                        @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
-                                        {
-                                            <tr>
-                                                <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
-                                                <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
-                                                <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
-                                                <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
-                                                <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
-                                                <td>@projectEvaluation.Comments</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-
-                                if (ViewDataTyped.Project.ProjectEvaluations.Count > ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Count)
+                    if (MultiTenantHelpers.UsesEvaluations())
+                    {
+                        <div class="panel panelFirma">
+                            <div class="panel-heading panelTitle">
+                                <h3>@FieldDefinitionEnum.ProjectEvaluation.ToType().GetFieldDefinitionLabelPluralized()</h3>
+                            </div>
+                            <div class="panel-body">
+                                @if (ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
                                 {
-                                    <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has additional @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() that you do not have permission to view.</p>
-                                }
+                                    <table class="summaryLayout table table-condensed table-striped">
+                                        <tbody>
+                                            <tr>
+                                                <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationName.ToType())</th>
+                                                <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStatus.ToType())</th>
+                                                <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationStartDate.ToType())</th>
+                                                <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationEndDate.ToType())</th>
+                                                <th scope="col">@Html.LabelWithSugarFor(FieldDefinitionEnum.EvaluationCriteria.ToType())</th>
+                                                <th scope="col">Comments</th>
+                                            </tr>
+                                            @foreach (var projectEvaluation in ViewDataTyped.ProjectEvaluationsUserHasAccessTo)
+                                            {
+                                                <tr>
+                                                    <th scope="row">@UrlTemplate.MakeHrefString(projectEvaluation.Evaluation.GetDetailUrl(), projectEvaluation.Evaluation.EvaluationName)</th>
+                                                    <td>@projectEvaluation.Evaluation.GetEvaluationStatusDisplayName()</td>
+                                                    <td>@(projectEvaluation.Evaluation.EvaluationStartDate.HasValue ? projectEvaluation.Evaluation.EvaluationStartDate.Value.ToShortDateString() : "not set")</td>
+                                                    <td>@(projectEvaluation.Evaluation.EvaluationEndDate.HasValue ? projectEvaluation.Evaluation.EvaluationEndDate.Value.ToShortDateString() : "not set")</td>
+                                                    <td>@projectEvaluation.Evaluation.GetEvaluationCriteriaNamesAsCommaDelimitedString()</td>
+                                                    <td>@projectEvaluation.Comments</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
 
-                            }
-                            else if (ViewDataTyped.Project.ProjectEvaluations.Any() && !ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
-                            {
-                                <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), but you do not have permission to view any of them.</p>
-                            }
-                            else
-                            {
-                                <p class="systemText">There are no @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
-                            }
+                                    if (ViewDataTyped.Project.ProjectEvaluations.Count > ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Count)
+                                    {
+                                        <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has additional @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() that you do not have permission to view.</p>
+                                    }
+
+                                }
+                                else if (ViewDataTyped.Project.ProjectEvaluations.Any() && !ViewDataTyped.ProjectEvaluationsUserHasAccessTo.Any())
+                                {
+                                    <p class="systemText">This @FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel() has @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized(), but you do not have permission to view any of them.</p>
+                                }
+                                else
+                                {
+                                    <p class="systemText">There are no @FieldDefinitionEnum.Evaluation.ToType().GetFieldDefinitionLabelPluralized() for this @(FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()).</p>
+                                }
+                            </div>
                         </div>
-                    </div>
+                    }
 
 
                     <div class="panel panelFirma">
@@ -646,20 +655,20 @@
                         </div>
                         <div class="panel-body">
 
-@if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
-                       {
-                           <div style="text-align: right; margin-bottom: 10px;">
-                               @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.RevertApprovedProjectButtonText, ViewDataTyped.RevertApprovedProjectUrl, ViewDataTyped.RevertApprovedProjectButtonText, 500, "Confirm", "Cancel", new List<string>{"btn", "btn-firma"}, null,null)
+                            @if (ViewDataTyped.Project.ProjectApprovalStatus == ProjectApprovalStatus.Approved)
+                            {
+                                <div style="text-align: right; margin-bottom: 10px;">
+                                    @ModalDialogFormHelper.ModalDialogFormLink(ViewDataTyped.RevertApprovedProjectButtonText, ViewDataTyped.RevertApprovedProjectUrl, ViewDataTyped.RevertApprovedProjectButtonText, 500, "Confirm", "Cancel", new List<string> { "btn", "btn-firma" }, null, null)
 
-                           </div>
-                       }
-                       @Html.AgGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
-                   </div>
-               </div>
-            }
-         </div>
-      </div>
-   </div>
+                                </div>
+                            }
+                            @Html.AgGrid(ViewDataTyped.AuditLogsGridSpec, ViewDataTyped.AuditLogsGridName, ViewDataTyped.AuditLogsGridDataUrl, "height:300px", AgGridResizeType.VerticalResizableHorizontalAutoFit)
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
 </div>
 
 <script type="text/javascript">
