@@ -36,7 +36,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Web;
-//using DetailViewData = ProjectFirma.Web.Views.Organization.OrganizationDetailViewData;
+using LtInfo.Common.AgGridWrappers;
 
 namespace ProjectFirma.Web.Models
 {
@@ -54,6 +54,19 @@ namespace ProjectFirma.Web.Models
             return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.GetDisplayName()) : new HtmlString(null);
         }
 
+        public static string GetDisplayNameAsUrlForAgGrid(this Organization organization)
+        {
+
+            if (organization != null)
+            {
+                var displayNameAsUrlForAgGrid = new HtmlLinkObject(organization.GetDisplayName(), organization.GetDetailUrl());
+                return displayNameAsUrlForAgGrid.ToJsonObjectForAgGrid();
+            }
+
+            return string.Empty;
+
+        }
+
         public static HtmlString GetDisplayNameWithoutAbbreviationAsUrl(this Organization organization)
         {
             return organization != null
@@ -64,6 +77,11 @@ namespace ProjectFirma.Web.Models
         public static HtmlString GetShortNameAsUrl(this Organization organization)
         {          
             return organization != null ? UrlTemplate.MakeHrefString(organization.GetDetailUrl(), organization.OrganizationShortName ?? organization.OrganizationName) : new HtmlString(null);
+        }
+
+        public static string GetShortNameAsUrlForAgGrid(this Organization organization)
+        {          
+            return organization != null ? new HtmlLinkObject(organization.OrganizationShortName ?? organization.OrganizationName, organization.GetDetailUrl()).ToJsonObjectForAgGrid() : string.Empty;
         }
 
         public static HtmlString GetShortNameAsUrl(int? organizationID, string organizationDisplayName)

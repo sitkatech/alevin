@@ -34,4 +34,17 @@ values
 (29, 'Solicitation', 'Solicitation', 1),
 (30, 'FundingSources', 'Funding Sources', 1),
 (31, 'Organizations', 'Organizations', 1),
-(32, 'ClassificationSystem', 'Classification System', 1),(3000, 'NPCCProvince', 'NPCC Province', 1)
+(32, 'ClassificationSystem', 'Classification System', 1),
+(33, 'SourceOfRecord', 'Source of Record', 1)
+
+
+
+
+
+
+
+
+--Alevin specific options:
+insert into dbo.ProjectCustomGridColumn(ProjectCustomGridColumnID, ProjectCustomGridColumnName, ProjectCustomGridColumnDisplayName, IsOptional)
+values
+(3000, 'NPCCProvince', 'NPCC Province', 1)

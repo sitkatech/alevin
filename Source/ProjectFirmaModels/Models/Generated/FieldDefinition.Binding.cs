@@ -339,6 +339,7 @@ namespace ProjectFirmaModels.Models
         AttachmentTypeViewableBy = 389,
         AccomplishmentDashboardMenu = 390,
         IsClassificationSystemRequired = 391,
+        ProjectExternalID = 392,
         Agreement = 10001,
         AgreementNumber = 10002,
         CostAuthorityWorkBreakdownStructure = 10003,

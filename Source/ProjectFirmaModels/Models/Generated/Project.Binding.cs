@@ -60,7 +60,7 @@ namespace ProjectFirmaModels.Models
         /// <summary>
         /// Constructor for building a new object with MaximalConstructor required fields in preparation for insert into database
         /// </summary>
-        public Project(int projectID, int? overrideTaxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID, string bpaProjectNumber, bool locationIsPrivate, int? solicitationID, string otherPartners, string externalLinksComment) : this()
+        public Project(int projectID, int? overrideTaxonomyLeafID, int projectStageID, string projectName, string projectDescription, int? implementationStartYear, int? completionYear, decimal? estimatedTotalCostDeprecated, DbGeometry projectLocationPoint, string performanceMeasureActualYearsExemptionExplanation, bool isFeatured, string projectLocationNotes, int? planningDesignStartYear, int projectLocationSimpleTypeID, decimal? estimatedAnnualOperatingCostDeprecated, int? fundingTypeID, int? primaryContactPersonID, int projectApprovalStatusID, int? proposingPersonID, DateTime? proposingDate, string performanceMeasureNotes, DateTime? submissionDate, DateTime? approvalDate, int? reviewedByPersonID, DbGeometry defaultBoundingBox, string expendituresNote, string expectedFundingUpdateNote, DateTime lastUpdatedDate, int projectCategoryID, string basicsComment, string customAttributesComment, string locationSimpleComment, string locationDetailedComment, string organizationsComment, string contactsComment, string expectedAccomplishmentsComment, string reportedAccomplishmentsComment, string budgetComment, string expendituresComment, string proposalClassificationsComment, string attachmentsNotesComment, string photosComment, int? submittedByPersonID, string bpaProjectNumber, bool locationIsPrivate, int? solicitationID, string otherPartners, string externalLinksComment, int? externalID, string primaryContactPersonFullName) : this()
         {
             this.ProjectID = projectID;
             this.OverrideTaxonomyLeafID = overrideTaxonomyLeafID;
@@ -110,6 +110,8 @@ namespace ProjectFirmaModels.Models
             this.SolicitationID = solicitationID;
             this.OtherPartners = otherPartners;
             this.ExternalLinksComment = externalLinksComment;
+            this.ExternalID = externalID;
+            this.PrimaryContactPersonFullName = primaryContactPersonFullName;
         }
 
         /// <summary>
@@ -554,6 +556,8 @@ namespace ProjectFirmaModels.Models
         public int? SolicitationID { get; set; }
         public string OtherPartners { get; set; }
         public string ExternalLinksComment { get; set; }
+        public int? ExternalID { get; set; }
+        public string PrimaryContactPersonFullName { get; set; }
         [NotMapped]
         public int PrimaryKey { get { return ProjectID; } set { ProjectID = value; } }
 
@@ -624,6 +628,7 @@ namespace ProjectFirmaModels.Models
             public const int BpaProjectNumber = 15;
             public const int OtherPartners = 500;
             public const int ExternalLinksComment = 1000;
+            public const int PrimaryContactPersonFullName = 201;
         }
     }
 }

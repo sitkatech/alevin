@@ -23,6 +23,7 @@ using LtInfo.Common;
 using LtInfo.Common.Models;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
+using ProjectFirma.Web.Security;
 using ProjectFirmaModels;
 using ProjectFirmaModels.Models;
 using System;
@@ -80,6 +81,9 @@ namespace ProjectFirma.Web.Views.ProjectCreate
         [FieldDefinitionDisplay(FieldDefinitionEnum.Solicitation)]
         public int? SolicitationID { get; set; }
 
+        [FieldDefinitionDisplay(FieldDefinitionEnum.ProjectExternalID)]
+        public int? ExternalID { get; set; }
+
         [FieldDefinitionDisplay(FieldDefinitionEnum.BpaProjectNumber)]
         [MaxLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
         [StringLength(ProjectFirmaModels.Models.Project.FieldLengths.BpaProjectNumber)]
@@ -111,6 +115,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             Comments = project.BasicsComment;
             SolicitationID = project.SolicitationID;
             BpaProjectNumber = project.BpaProjectNumber;
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalDataSourceEnabled)
+            {
+                ExternalID = project.ExternalID;
+
+        	}
         }
 
         public void UpdateModel(ProjectFirmaModels.Models.Project project, FirmaSession currentFirmaSession)
@@ -144,6 +153,11 @@ namespace ProjectFirma.Web.Views.ProjectCreate
             if (project.ProjectApprovalStatus == ProjectApprovalStatus.PendingApproval)
             {
                 project.BasicsComment = Comments;
+            }
+
+            if (MultiTenantHelpers.GetTenantAttributeFromCache().ProjectExternalDataSourceEnabled)
+            {
+                project.ExternalID = ExternalID;
             }
 
             var secondaryProjectTaxonomyLeavesToUpdate = SecondaryProjectTaxonomyLeafIDs
