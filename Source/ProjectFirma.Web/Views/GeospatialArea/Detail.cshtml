@@ -333,14 +333,14 @@ Source code is available upon request via <support@sitkatech.com>.
         });
 
 
-        var sitkaGridContainer = Sitka.@ViewDataTyped.ProjectCustomDefaultGridName;
+        @*var sitkaGridContainer = Sitka.@ViewDataTyped.ProjectCustomDefaultGridName;
         var dhtmlxGrid = sitkaGridContainer.grid;
 
         dhtmlxGrid.attachEvent("onXLE", function () {
 
             jQuery(dhtmlxGrid.getFilterElement(6)).selectpicker("val", ["@Html.Raw(string.Join("\", \"", ViewDataTyped.ProjectStagesToBeSelectedOnLoad))"]);
             dhtmlxGrid.filterByAll();
-        });
+        });*@
 
 
 
