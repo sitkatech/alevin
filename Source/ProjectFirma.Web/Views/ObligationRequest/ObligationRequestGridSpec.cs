@@ -74,7 +74,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
             Add(FieldDefinitionEnum.PALT.ToType().ToGridHeaderString(), a => a.PALT?.ToString(), 120, AgGridColumnFilterType.Numeric);
 
             // Target Submittal Date
-            Add(FieldDefinitionEnum.TargetAwardDate.ToType().ToGridHeaderString(), a => a.TargetSubmittalDate, 120);
+            Add(FieldDefinitionEnum.TargetSubmittalDate.ToType().ToGridHeaderString(), a => a.TargetSubmittalDate, 120);
           
             // Mod number
             Add(FieldDefinitionEnum.ModNumber.ToType().ToGridHeaderString(), a => a.ModNumber?.ToString(), 60, AgGridColumnFilterType.Numeric);
