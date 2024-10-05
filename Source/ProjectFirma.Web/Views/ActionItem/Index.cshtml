@@ -49,26 +49,31 @@
 <script type="text/javascript">
 
 
+    function setProjectActionStateFilterHandler(params) {
+
+        const hardcodedFilter = { filter: ["@Html.Raw(string.Join("\", \"", ViewDataTyped.ActionItemStateToBeSelectedOnLoad))"] };
+        @(ViewDataTyped.GridName)GridOptionsApi.setColumnFilterModel("ActionItemState", hardcodedFilter).then(() => {
+            @(ViewDataTyped.GridName)GridOptionsApi.onFilterChanged();
+        });
+
+    }
+
+    function setSubprojectActionStateFilterHandler(params) {
+
+        const hardcodedFilter = { filter: ["@Html.Raw(string.Join("\", \"", ViewDataTyped.ActionItemStateToBeSelectedOnLoad))"] };
+        @(ViewDataTyped.SubprojectActionItemGridName)GridOptionsApi.setColumnFilterModel("ActionItemState", hardcodedFilter).then(() => {
+            @(ViewDataTyped.SubprojectActionItemGridName)GridOptionsApi.onFilterChanged();
+        });
+
+    }
+
     jQuery(document).ready(function()
     {
 
-        var sitkaGridContainer = Sitka.@ViewDataTyped.GridName;
-        var dhtmlxGrid = sitkaGridContainer.grid;
 
-        dhtmlxGrid.attachEvent("onXLE", function () {
+        @(ViewDataTyped.GridName)GridOptionsApi.addEventListener("firstDataRendered", setProjectActionStateFilterHandler);
 
-            jQuery(dhtmlxGrid.getFilterElement(6)).selectpicker("val", "@ViewDataTyped.ActionItemStateToBeSelectedOnLoad");
-            dhtmlxGrid.filterByAll();
-        });
-
-        var subprojectActionItemSitkaGridContainer = Sitka.@ViewDataTyped.SubprojectActionItemGridName;
-        var subprojectActionItemAgGrid = subprojectActionItemSitkaGridContainer.grid;
-
-        subprojectActionItemAgGrid.attachEvent("onXLE", function () {
-
-            jQuery(subprojectActionItemAgGrid.getFilterElement(6)).selectpicker("val", "@ViewDataTyped.ActionItemStateToBeSelectedOnLoad");
-            subprojectActionItemAgGrid.filterByAll();
-        });
+        @(ViewDataTyped.SubprojectActionItemGridName)GridOptionsApi.addEventListener("firstDataRendered", setSubprojectActionStateFilterHandler);
 
     });
 

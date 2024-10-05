@@ -10,7 +10,7 @@
         this.selectedValues = [];
         this.dropdowns = [];
         this.field = null;
-        console.log(params);
+        //console.log(params);
         if (params.colDef) {
             this.field = params.colDef.field;
             this.columnContainsMultipleValues = params.colDef.columnContainsMultipleValues;
@@ -181,8 +181,14 @@
                 dropdown.checked = false;
             });
         }
-        this.selectedValues = model;
-        this.extractFilterValues();
+        
+        this.selectedValues = model.filter;
+        this.dropdowns.forEach(dropdown => {
+            if (this.selectedValues.includes(dropdown.name)) {
+                dropdown.checked = true;
+            }
+        });
+        
     }
 
     destroy() {
