@@ -33,9 +33,9 @@ namespace ProjectFirma.Web.Views.SubprojectActionItem
         public int IndexOfActionItemStateColumn = 7;
         public SubprojectActionItemsAdminGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
-            Add(string.Empty, x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, AgGridColumnFilterType.None);
-            Add(string.Empty, x => x.CreateNotificationMailToLink(), 30, AgGridColumnFilterType.None);
+            Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+            Add("Edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, AgGridColumnFilterType.None);
+            Add("Notification",x => x.CreateNotificationMailToLink(), 30, AgGridColumnFilterType.None);
             Add($"{FieldDefinitionEnum.SubprojectActionItemText.ToType().GetFieldDefinitionLabel()}", x => x.SubprojectActionItemText, 200, AgGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()}", x => x.Subproject.GetDisplayNameAsUrl(), 150, AgGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.SubprojectActionItemAssignedToPerson.ToType().GetFieldDefinitionLabel()}", x => x.AssignedToPerson.GetFullNameFirstLastAsUrl(currentFirmaSession), 150, AgGridColumnFilterType.SelectFilterHtmlStrict);
@@ -51,8 +51,8 @@ namespace ProjectFirma.Web.Views.SubprojectActionItem
     {
         public SubprojectActionItemsUserGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), new SubprojectActionItemManageFeature().HasPermissionByFirmaSession(currentFirmaSession)), 30, AgGridColumnFilterType.None);
-            Add(string.Empty, x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}", true, new SubprojectActionItemManageFeature().HasPermissionByFirmaSession(currentFirmaSession)), 30, AgGridColumnFilterType.None);
+            Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), new SubprojectActionItemManageFeature().HasPermissionByFirmaSession(currentFirmaSession)), 30, AgGridColumnFilterType.None);
+            Add("Edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(x.GetEditUrl(), $"Edit {FieldDefinitionEnum.ActionItem.ToType().GetFieldDefinitionLabel()}", true, new SubprojectActionItemManageFeature().HasPermissionByFirmaSession(currentFirmaSession)), 30, AgGridColumnFilterType.None);
             Add($"{FieldDefinitionEnum.SubprojectActionItemText.ToType().GetFieldDefinitionLabel()}", x => x.SubprojectActionItemText, 200, AgGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.Subproject.ToType().GetFieldDefinitionLabel()}", x => x.Subproject.GetDisplayNameAsUrl(), 200, AgGridColumnFilterType.Html);
             Add($"{FieldDefinitionEnum.SubprojectActionItemState.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemState.ActionItemStateDisplayName, 120, AgGridColumnFilterType.SelectFilterStrict);
@@ -67,8 +67,8 @@ namespace ProjectFirma.Web.Views.SubprojectActionItem
     {
         public SubprojectActionItemsGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
-            Add(string.Empty, x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, AgGridColumnFilterType.None);
+            Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteUrl(), true), 30, AgGridColumnFilterType.None);
+            Add("Edit", x => AgGridHtmlHelpers.MakeEditIconAsModalDialogLinkBootstrap(new ModalDialogForm(x.GetEditUrl(), ModalDialogFormHelper.DefaultDialogWidth, "Edit Status")), 30, AgGridColumnFilterType.None);
             Add($"{FieldDefinitionEnum.SubprojectActionItemText.ToType().GetFieldDefinitionLabel()}", x => x.SubprojectActionItemText, 200, AgGridColumnFilterType.Text);
             Add($"{FieldDefinitionEnum.SubprojectActionItemAssignedToPerson.ToType().GetFieldDefinitionLabel()}", x => x.AssignedToPerson.GetFullNameFirstLastAsUrl(currentFirmaSession), 150, AgGridColumnFilterType.SelectFilterHtmlStrict);
             Add($"{FieldDefinitionEnum.SubprojectActionItemState.ToType().GetFieldDefinitionLabel()}", x => x.ActionItemState.ActionItemStateDisplayName, 120, AgGridColumnFilterType.SelectFilterStrict);
