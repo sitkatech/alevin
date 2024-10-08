@@ -39,7 +39,7 @@ namespace ProjectFirma.Web.Views.Agreement
             var hasAgreementDeletePermission = new FirmaAdminFeature().HasPermissionByFirmaSession(currentFirmaSession);
             if (hasAgreementDeletePermission)
             {
-                Add(string.Empty, x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteAgreementUrl(), x.AgreementCanBeDeleted()), 30);
+                Add("Delete", x => AgGridHtmlHelpers.MakeDeleteIconAndLinkBootstrap(x.GetDeleteAgreementUrl(), x.AgreementCanBeDeleted()), 30);
             }
 
             // AgreementNumber

@@ -67,7 +67,7 @@ namespace ProjectFirma.Web.Views.Project
                 Add("ProjectID", x => x.ProjectID, 0);
             }
 
-            Add(string.Empty,
+            Add("Fact Sheer",
                 x => UrlTemplate.MakeHrefString(x.GetFactSheetUrl(), FirmaAgGridHtmlHelpers.FactSheetIcon.ToString()), 30,
                 AgGridColumnFilterType.None);
             Add(FieldDefinitionEnum.ProjectName.ToType().ToGridHeaderString(), x => new HtmlLinkObject(x.ProjectName,x.GetDetailUrl()).ToJsonObjectForAgGrid() , 300, AgGridColumnFilterType.HtmlLinkJson);

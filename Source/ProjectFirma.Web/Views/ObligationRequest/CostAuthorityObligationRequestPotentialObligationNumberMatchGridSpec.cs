@@ -14,7 +14,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
     {
         public CostAuthorityObligationRequestPotentialObligationNumberMatchGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => ModalDialogFormHelper.MakeInfoIconLink(x.GetPotentialMatchDetailUrl(), "View Details of Potential Match", true), 30, AgGridColumnFilterType.None);
+            Add("Info", x => ModalDialogFormHelper.MakeInfoIconLink(x.GetPotentialMatchDetailUrl(), "View Details of Potential Match", true), 30, AgGridColumnFilterType.None);
 
             Add(FieldDefinitionEnum.Obligation.ToType().ToGridHeaderString(), pm => UrlTemplate.MakeHrefString(pm.ObligationNumber.GetDetailUrl(), pm.ObligationNumber.ObligationNumberKey), 100, AgGridColumnFilterType.Text);
             Add("Total of All Obligation Item Budgets", pm => pm.ObligationNumber.GetWbsElementObligationItemBudgets().Sum(y => y.UnexpendedBalance).ToStringCurrency(), 100, AgGridColumnFilterType.Numeric);

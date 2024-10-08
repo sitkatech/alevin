@@ -37,7 +37,7 @@ namespace ProjectFirma.Web.Views.ObligationRequest
     {
         public ObligationRequestGridSpec(FirmaSession currentFirmaSession)
         {
-            Add(string.Empty, x => ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete Obligation Request", true), 30, AgGridColumnFilterType.None);
+            Add("Delete", x => ModalDialogFormHelper.MakeDeleteIconLink(x.GetDeleteUrl(), "Delete Obligation Request", true), 30, AgGridColumnFilterType.None);
 
             // More Human readable version of ObligationRequestID ("OBREQ-XXX")
             // ObligationRequestNumber
