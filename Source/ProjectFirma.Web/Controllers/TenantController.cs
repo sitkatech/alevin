@@ -63,7 +63,8 @@ namespace ProjectFirma.Web.Controllers
                 10,
                 layers,
                 MapInitJson.GetExternalMapLayerSimples(),
-                BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
+                new BoundingBox(tenantAttribute.DefaultBoundingBox));
+            //BoundingBox.MakeBoundingBoxFromLayerGeoJsonList(new List<LayerGeoJson> {boundingBoxLayer}));
             var gridSpec = new DetailGridSpec { ObjectNameSingular = "Tenant", ObjectNamePlural = "Tenants", SaveFiltersInCookie = true };
             var gridName = "Tenants";
             var gridDataUrl = new SitkaRoute<TenantController>(c => c.DetailGridJsonData()).BuildUrlFromExpression();
