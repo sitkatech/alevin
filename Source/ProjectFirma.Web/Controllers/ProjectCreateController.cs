@@ -881,7 +881,7 @@ namespace ProjectFirma.Web.Controllers
 
         private ViewResult ViewEditLocationSimple(Project project, LocationSimpleViewModel viewModel)
         {
-            var layerGeoJsons = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
+            var layerGeoJsons = MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer();
             var mapInitJson = new MapInitJson($"project_{project.ProjectID}_EditMap", 10, layerGeoJsons, MapInitJson.GetExternalMapLayerSimples(), BoundingBox.MakeNewDefaultBoundingBox(), false) {AllowFullScreen = false, DisablePopups = true };
             var mapPostUrl = SitkaRoute<ProjectCreateController>.BuildUrlFromExpression(c => c.EditLocationSimple(project, null));
             var mapFormID = GenerateEditProjectLocationSimpleFormID(project);
@@ -935,7 +935,7 @@ namespace ProjectFirma.Web.Controllers
                 $"Proposed {FieldDefinitionEnum.ProjectLocation.ToType().GetFieldDefinitionLabel()}- Detail", 
                 detailedLocationGeoJsonFeatureCollection, "red", 1, LayerInitialVisibility.LayerInitialVisibilityEnum.Show);
             var boundingBox = ProjectLocationSummaryMapInitJson.GetProjectBoundingBox(project, userCanViewPrivateLocations);
-            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayers();
+            var layers = MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer();
             layers.AddRange(MapInitJson.GetProjectLocationSimpleMapLayer(project, userCanViewPrivateLocations));
             var mapInitJson = new MapInitJson(mapDivID, 10, layers, MapInitJson.GetExternalMapLayerSimples(), boundingBox) { AllowFullScreen = false, DisablePopups = true};
             var mapFormID = GenerateEditProjectLocationFormID(project.ProjectID);
@@ -1696,7 +1696,7 @@ namespace ProjectFirma.Web.Controllers
             project.ProjectApprovalStatusID = ProjectApprovalStatus.PendingApproval.ProjectApprovalStatusID;
             project.SubmissionDate = DateTime.Now;
             project.SubmittedByPerson = CurrentPerson;
-            //NotificationProjectModelExtensions.SendSubmittedMessage(project);
+            NotificationProjectModelExtensions.SendSubmittedMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} successfully submitted for review.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }
@@ -1738,7 +1738,7 @@ namespace ProjectFirma.Web.Controllers
             }
 
             GenerateApprovalAuditLogEntries(project);
-            //NotificationProjectModelExtensions.SendApprovalMessage(project);
+            NotificationProjectModelExtensions.SendApprovalMessage(project);
             SetMessageForDisplay($"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} \"{UrlTemplate.MakeHrefString(project.GetDetailUrl(), project.GetDisplayName())}\" successfully approved.");
             return new ModalDialogFormJsonResult(project.GetDetailUrl());
         }

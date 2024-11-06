@@ -291,7 +291,7 @@ namespace ProjectFirma.Web.Views
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectFactSheetController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Fact Sheets", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<TagController>(c => c.Index()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Tags", "Group3"));
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectUpdateController>(c => c.Manage()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Updates", "Group3"));
-            //manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectBulkUploadController>(c => c.Manage()), currentFirmaSession, $"Bulk Upload Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
+            manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectBulkUploadController>(c => c.Manage()), currentFirmaSession, $"Bulk Upload {FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()} and Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
             
             // Group 4
             manageMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<UserController>(c => c.Index()), currentFirmaSession, "Users", "Group4"));
@@ -400,7 +400,10 @@ namespace ProjectFirma.Web.Views
 
             // Group 3 - Proposals and pending projects
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Proposed()), currentFirmaSession, $"{FieldDefinitionEnum.Proposal.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
-            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Pending()), currentFirmaSession, $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}", "Group3"));
+            var pendingProjectsLabel = MultiTenantHelpers.GetTenantName() == "TCSProjectTracker"
+                ? $"Existing {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}"
+                : $"Pending {FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabelPluralized()}";
+            projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectController>(c => c.Pending()), currentFirmaSession, pendingProjectsLabel, "Group3"));
 
             // Group 4 - Attachments
             projectsMenu.AddMenuItem(LtInfoMenuItem.MakeItem(new SitkaRoute<ProjectAttachmentController>(c => c.ProjectAttachmentIndex()), currentFirmaSession, $"{FieldDefinitionEnum.Project.ToType().GetFieldDefinitionLabel()} Attachments", "Group4"));

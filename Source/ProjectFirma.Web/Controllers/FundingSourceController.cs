@@ -220,7 +220,7 @@ namespace ProjectFirma.Web.Controllers
             var layers = new List<LayerGeoJson>();
             var dbGeometries = new List<DbGeometry>();
 
-            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayers());
+            layers.AddRange(MapInitJson.GetConfiguredGeospatialAreaMapLayersAndProjectDetailedLocationsLayer());
 
             var allActiveProjectsAndProposals = fundingSource.GetAssociatedProjects(currentFirmaSession).Where(x => x.ProjectStage.ShouldShowOnMap()).ToList();
 

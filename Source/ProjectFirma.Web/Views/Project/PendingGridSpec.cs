@@ -19,17 +19,12 @@ Source code is available upon request via <support@sitkatech.com>.
 </license>
 -----------------------------------------------------------------------*/
 
-using System;
-using System.Linq;
-using System.Web;
-using System.Web.UI.HtmlControls;
-using LtInfo.Common;
 using LtInfo.Common.AgGridWrappers;
-using LtInfo.Common.Views;
 using ProjectFirma.Web.Common;
 using ProjectFirma.Web.Models;
-using ProjectFirmaModels.Models;
 using ProjectFirma.Web.Security;
+using ProjectFirmaModels.Models;
+using System.Web;
 
 namespace ProjectFirma.Web.Views.Project
 {
@@ -50,8 +45,8 @@ namespace ProjectFirma.Web.Views.Project
             Add(FieldDefinitionEnum.ProjectStage.ToType().ToGridHeaderString(), x => x.ProjectStage.GetProjectStageDisplayName(), 90, AgGridColumnFilterType.SelectFilterStrict);
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrl(), 150,
-                    AgGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrlForAgGrid(), 150,
+                    AgGridColumnFilterType.HtmlLinkJson);
             }
 
             if (MultiTenantHelpers.HasSolicitations())
@@ -61,16 +56,16 @@ namespace ProjectFirma.Web.Views.Project
             }
 
             Add(FieldDefinitionEnum.IsPrimaryContactOrganization.ToType().ToGridHeaderString(), x => x.GetPrimaryContactOrganization().GetShortNameAsUrlForAgGrid(), 150, AgGridColumnFilterType.HtmlLinkJson);
-            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), x => x.GetTaxonomyLeaf() == null ? string.Empty : x.GetTaxonomyLeaf().GetDisplayName(), 300, AgGridColumnFilterType.Html);
-            Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => x.GetPlanningDesignStartYear(), 90, AgGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => x.GetImplementationStartYear(), 115, AgGridColumnFilterType.SelectFilterStrict);
-            Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => x.GetCompletionYear(), 90, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.TaxonomyLeaf.ToType().ToGridHeaderString(), x => x.GetTaxonomyLeaf() == null ? string.Empty : x.GetTaxonomyLeaf().GetDisplayName(), 300, AgGridColumnFilterType.Text);
+            Add(FieldDefinitionEnum.PlanningDesignStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetPlanningDesignStartYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.ImplementationStartYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetImplementationStartYear(x), 115, AgGridColumnFilterType.SelectFilterStrict);
+            Add(FieldDefinitionEnum.CompletionYear.ToType().ToGridHeaderString(), x => ProjectModelExtensions.GetCompletionYear(x), 90, AgGridColumnFilterType.SelectFilterStrict);
             if (MultiTenantHelpers.ReportFinancialsAtProjectLevel())
             {
                 Add(FieldDefinitionEnum.EstimatedTotalCost.ToType().ToGridHeaderString(), x => x.GetEstimatedTotalRegardlessOfFundingType(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.ProjectedFunding.ToType().ToGridHeaderString(), x => x.GetProjectedFunding(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
             Add(FieldDefinitionEnum.NoFundingSourceIdentified.ToType().ToGridHeaderString(), x => x.GetNoFundingSourceIdentifiedAmount(), 100, AgGridColumnFormatType.Currency, AgGridColumnAggregationType.Total);
-                Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => new HtmlString(string.Join(", ", x.GetFundingSources(false).Select(y => y.GetDisplayNameAsUrl()))), 300, AgGridColumnFilterType.Html);
+                Add(FieldDefinitionEnum.FundingSource.ToType().ToGridHeaderStringPlural(), x => x.GetFundingSourcesAsLinksForAgGrid(false), 300, AgGridColumnFilterType.HtmlLinkListJson);
             }
             Add("Submitted By", a => a.SubmittedByPerson != null ? a.SubmittedByPerson.GetFullNameFirstLastAndOrgShortNameAsUrl(currentFirmaSession) : new HtmlString(null), 200);
             Add("Submitted Date", a => a.SubmissionDate, 120);

@@ -92,7 +92,7 @@ namespace ProjectFirma.Web.Models
         {
             var layerName = geospatialAreaType.MapLegendImageFileResourceInfoID.HasValue ? $"<span>{geospatialAreaType.GeospatialAreaTypeNamePluralized} <img src='{geospatialAreaType.MapLegendImageFileResourceInfo.GetFileResourceUrl()}' height='20px' /></span>" : geospatialAreaType.GeospatialAreaTypeNamePluralized;
             return new LayerGeoJson(layerName,
-                geospatialAreaType.MapServiceUrl(),
+                MultiTenantHelpers.MapServiceUrl(),
                 geospatialAreaType.GeospatialAreaLayerName, MapTooltipUrlTemplate.UrlTemplateString, layerColor,
                 layerOpacity,
                 layerInitialVisibility);
@@ -113,7 +113,8 @@ namespace ProjectFirma.Web.Models
             {
                 geospatialAreaLayerGeoJson,
                 geospatialArea.GeospatialAreaType.GetGeospatialAreaWmsLayerGeoJson("#59ACFF", 0.6m,
-                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show)
+                    LayerInitialVisibility.LayerInitialVisibilityEnum.Show),
+                MapInitJson.GetProjectDetailedLocationsLayer()
             };
 
             return layerGeoJsons;

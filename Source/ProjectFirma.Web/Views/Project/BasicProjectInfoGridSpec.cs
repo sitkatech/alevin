@@ -90,7 +90,7 @@ namespace ProjectFirma.Web.Views.Project
 
             if (MultiTenantHelpers.HasCanStewardProjectsOrganizationRelationship())
             {
-                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization().GetShortNameAsUrlForAgGrid(), 150,
+                Add(FieldDefinitionEnum.ProjectsStewardOrganizationRelationshipToProject.ToType().ToGridHeaderString(), x => x.GetCanStewardProjectsOrganization()?.GetShortNameAsUrlForAgGrid() ?? string.Empty, 150,
                     AgGridColumnFilterType.HtmlLinkJson);
             }
 
