@@ -51,11 +51,17 @@ end
 -- Right now we know of 2 rows with bum dates. Make sure these are there. If they disappear, we'd want to know and
 -- consciously fix this check, so we can be sure it indicates we fixed something, and to make sure it doesn't 
 -- mean something worse/unintended. If they grow, that's likely a bad sign, and something we'd also want to look at. -- SLG 6/24/2020
+-- TK 12/04/2024 - The 2 expected records is now up to 4. Going to check in with client about this
+--ImportFinancialImpPayRecUnexpendedV3ID	BusinessArea	FABudgetActivity	FunctionalArea	ObligationNumber	ObligationItem	Fund	WBSElement	WBSElementDescription	BudgetObjectClass	Vendor	VendorName	PostingDatePerSpl	UnexpendedBalance
+--414877	R000	R1678	R16780000.000000	R1024F0032	10	18XR0680G3	RX.16786911.9000100	COORD CRS BIOP  TRIB-HAB STEERNG COMMITT	252A	70427047	INTER-FLUVE, INC.	NULL	0
+--414879	R000	R1678	R16780000.000000	R1024F0032	10	22XR0680G3	RX.16786911.9000100	COORD CRS BIOP  TRIB-HAB STEERNG COMMITT	252A	70427047	INTER-FLUVE, INC.	NULL	0
+--414881	R000	R1678	R16780000.000000	R1024F0032	10	23XR0680G3	RX.16786911.9000100	COORD CRS BIOP  TRIB-HAB STEERNG COMMITT	252A	70427047	INTER-FLUVE, INC.	NULL	0
+--414883	R000	R1678	R16780000.000000	R1024F0032	10	24XR0680G3	RX.16786911.1000000	CAUC & COORD    CAUCUS COORD ACTIVITY	252A	70427047	INTER-FLUVE, INC.	NULL	0
 declare @nullSplDateCount int
 set @nullSplDateCount = (select count(*) from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr where PostingDatePerSpl is null)
-if (@nullSplDateCount != 2)
+if (@nullSplDateCount != 4)
 begin
-   raiserror('Expected exactly two PostingDatePerSpl in ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 with null values.', 16,1)
+   raiserror('Expected exactly 4 PostingDatePerSpl in ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 with null values.', 16,1)
    return -1
 end
 
