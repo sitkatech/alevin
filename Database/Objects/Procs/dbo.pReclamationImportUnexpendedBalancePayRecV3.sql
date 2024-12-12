@@ -58,11 +58,12 @@ end
 --414881	R000	R1678	R16780000.000000	R1024F0032	10	23XR0680G3	RX.16786911.9000100	COORD CRS BIOP  TRIB-HAB STEERNG COMMITT	252A	70427047	INTER-FLUVE, INC.	NULL	0
 --414883	R000	R1678	R16780000.000000	R1024F0032	10	24XR0680G3	RX.16786911.1000000	CAUC & COORD    CAUCUS COORD ACTIVITY	252A	70427047	INTER-FLUVE, INC.	NULL	0
 -- TK 12/05/2024 - After talking with Noah and Jeremy at Reclamation, it sounds like there may be 2 more records coming in January 2025 and a couple of these are of no concern, but they thought it was a good idea to leave this check in place in case there are 8 or more with this issue.
+-- TK 12/12/2024 - After more discussion, we have changed this to check to allow a null posting date if the UnexpendedBalance is 0.
 declare @nullSplDateCount int
 set @nullSplDateCount = (select count(*) from ImportFinancial.ImportFinancialImpPayRecUnexpendedV3 as pr where PostingDatePerSpl is null and UnexpendedBalance > 0)
 if (@nullSplDateCount > 0)
 begin
-   raiserror('Expected no records with a null PostingDatePerSpl and a value greater than 0 in UexpendedBalance in ImportFinancial.ImportFinancialImpPayRecUnexpendedV3. But found some.', 16,1)
+   raiserror('Expected no records with a null PostingDatePerSpl and a value greater than 0 in UnexpendedBalance in ImportFinancial.ImportFinancialImpPayRecUnexpendedV3. But found some.', 16,1)
    return -1
 end
 
