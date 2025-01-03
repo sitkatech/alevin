@@ -108,7 +108,7 @@ namespace ProjectFirmaModels.Models.ExcelUpload
         public const string FundType = "Fund Type";
         public const string Fund = "Fund";
         public const string FundsCenter = "Funds Center";
-        public const string FiscalYearPeriod = "Fiscal year/period";
+        public const string FiscalYearPeriod = "Fiscal year / period";
         public const string CommitmentItem = "Commitment item";
         public const string FiDocNumber = "FI doc:doc.number";
         public const string Recoveries = "Recoveries";

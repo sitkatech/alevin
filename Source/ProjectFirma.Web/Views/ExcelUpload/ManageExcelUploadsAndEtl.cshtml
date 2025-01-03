@@ -27,37 +27,18 @@
 }
 
 <div>
-   @*@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }*@
+    @*@{ ViewPageContent.RenderPartialView(Html, ViewDataTyped.ViewPageContentViewData); }*@
 </div>
 
 <div>
-   <div><span style="font-weight: bold">Last upload for FBMS:</span> @(ViewDataTyped.GetLastFbmsUploadedDateAndPersonString())</div>
-   <div><span style="font-weight: bold">Last upload for PNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetUploadedDateAndPersonString())</div>
-   <br />
+    <div><span style="font-weight: bold">Last upload for CPNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetUploadedDateAndPersonString())</div>
+    <div><span style="font-weight: bold">Last upload for FBMS:</span> @(ViewDataTyped.GetLastFbmsUploadedDateAndPersonString())</div>
+    <br />
 </div>
-
-@* FBMS Excel File Upload Button *@
-<p>
-    <span style="margin-right:10px">Upload an FBMS Excel file to update the data in the application</span>
-    @ModalDialogFormHelper.ModalDialogFormLink(null,
-        "Upload FBMS Spreadsheet File",
-        ViewDataTyped.UploadFbmsSpreadSheetUrl,
-        "Upload FBMS Spreadsheet File",
-        1000,
-        ModalDialogFormHelper.SaveButtonID,
-        "Approve Upload",
-        "Cancel",
-        new List<string>(){"btn", "btn-sm", "btn-firma"},
-        null,
-        null,
-        ViewDataTyped.UploadFbmsFormID,
-        null,
-        ModalDialogFormHelper.DisabledState.NotDisabled)
-</p>
 
 @*PNBudget Excel File Upload Button*@
 <p>
-    <span style="margin-right:10px">Upload a PnBudgets Excel file to update the data in the application</span>
+    <span style="margin-right:10px">Upload a CPNBudgets Excel file to update the data in the application</span>
     @ModalDialogFormHelper.ModalDialogFormLink(null,
         "Upload PnBudgets Spreadsheet File",
         ViewDataTyped.UploadPnBudgetsSpreadSheetUrl,
@@ -75,30 +56,53 @@
 </p>
 
 
+@* FBMS Excel File Upload Button *@
+<p>
+    <span style="margin-right:10px">Upload an FBMS Excel file to update the data in the application</span>
+    @ModalDialogFormHelper.ModalDialogFormLink(null,
+        "Upload FBMS Spreadsheet File",
+        ViewDataTyped.UploadFbmsSpreadSheetUrl,
+        "Upload FBMS Spreadsheet File",
+        1000,
+        ModalDialogFormHelper.SaveButtonID,
+        "Approve Upload",
+        "Cancel",
+        new List<string>() { "btn", "btn-sm", "btn-firma" },
+        null,
+        null,
+        ViewDataTyped.UploadFbmsFormID,
+        null,
+        ModalDialogFormHelper.DisabledState.NotDisabled)
+</p>
+
+
+
+
 <div>
-   <div><span style="font-weight: bold">Latest Publishing Processing for FBMS:</span> @(ViewDataTyped.GetLastFbmsLastProcessedDateAndPersonString())</div>
-   <div><span style="font-weight: bold">Latest Publishing Processing for PNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetProcessedDateAndPersonAndFiscalYearsString())</div>
-   <br />
-   @if (ViewDataTyped.PublishingProcessingIsNeeded)
-   {
-      <div>
-         <div><span style="font-weight: bold">** Publishing Processing is needed **</span></div>
-         <div><span style="font-weight: bold">Uploaded PNBudgets Fiscal Years to be processed: @ViewDataTyped.GetLastPnBudgetFiscalYearsUploadedString()</span></div>
-      </div>
-      <br />
-   }
-   else
-   {
-      <div>
-         <div><span style="font-weight: bold">Publishing Processing appears to be up-to-date</span></div>
-      </div>
-      <br />
-   }
+    <div><span style="font-weight: bold">Latest Publishing Processing for CPNBudgets:</span> @(ViewDataTyped.GetLastPnBudgetProcessedDateAndPersonAndFiscalYearsString())</div>
+    <div><span style="font-weight: bold">Latest Publishing Processing for FBMS:</span> @(ViewDataTyped.GetLastFbmsLastProcessedDateAndPersonString())</div>
+
+    <br />
+    @if (ViewDataTyped.PublishingProcessingIsNeeded)
+    {
+        <div>
+            <div><span style="font-weight: bold">** Publishing Processing is needed **</span></div>
+            <div><span style="font-weight: bold">Uploaded PNBudgets Fiscal Years to be processed: @ViewDataTyped.GetLastPnBudgetFiscalYearsUploadedString()</span></div>
+        </div>
+        <br />
+    }
+    else
+    {
+        <div>
+            <div><span style="font-weight: bold">Publishing Processing appears to be up-to-date</span></div>
+        </div>
+        <br />
+    }
 </div>
 
 <div>
-   <form action="@ViewDataTyped.DoPublishingProcessingPostUrl" method="post">
-      @Html.HiddenFor(x => x.FakeDataToMakeFormPost)
-      <button type="submit" class="btn btn-xs btn-firma" title="Do Publishing Processing" value="false">Do Publishing Processing</button>
-   </form>
+    <form action="@ViewDataTyped.DoPublishingProcessingPostUrl" method="post">
+        @Html.HiddenFor(x => x.FakeDataToMakeFormPost)
+        <button type="submit" class="btn btn-xs btn-firma" title="Do Publishing Processing" value="false">Do Publishing Processing</button>
+    </form>
 </div>
